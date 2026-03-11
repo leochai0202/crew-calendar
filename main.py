@@ -487,16 +487,11 @@ def split_day_block_into_cards(day_block: str):
     for i in range(len(lines)):
         line = lines[i]
 
-        # 新版结构：
-        # 9C8946
-        # B32EFA321
         if i + 1 < len(lines):
             if is_flight_line(line) and is_reg_model_line(lines[i + 1]):
                 starts.append(i)
                 continue
 
-        # 旧版结构：
-        # 9C6721 B8591 A320
         if extract_old_style_header(line):
             starts.append(i)
             continue
@@ -512,7 +507,6 @@ def split_day_block_into_cards(day_block: str):
 
         filtered = []
         for line in chunk_lines:
-            # 顶部汇总行：9C6721 9C6722 9C7367
             if re.fullmatch(r"(9C\d{3,4}[A-Z]?\s*){2,}", line):
                 continue
             filtered.append(line)
@@ -582,12 +576,10 @@ def extract_reg_and_model(card_text: str):
 
 
 def extract_checkin(card_text: str):
-    # 新版
     m = re.search(r'(\d{2}:\d{2})\s*([^\s]+)\s*航班动态', card_text)
     if m:
         return m.group(1), m.group(2)
 
-    # 旧版：常见 “06:45 上海虹桥”
     lines = [normalize_text(x) for x in card_text.splitlines() if normalize_text(x)]
     for line in lines:
         m_old = re.search(r'(\d{2}:\d{2})\s+([^\s]{2,20})', line)
@@ -679,11 +671,24 @@ def split_people_from_line(line: str):
         if m and m not in results:
             results.append(m)
 
-    # 有结构化名字，就返回
+    # 如果已经识别到结构化名字，再尝试补抓剩余部分里“空格分隔”的中文名字
     if results:
+        remaining = line
+        for m in results:
+            remaining = remaining.replace(m, " ")
+
+        remaining = re.sub(r"\s+", " ", remaining).strip()
+
+        if remaining:
+            for token in remaining.split(" "):
+                token = token.strip()
+                if re.fullmatch(r"[\u4e00-\u9fff]{2,4}", token):
+                    if token not in results:
+                        results.append(token)
+
         return results
 
-    # 无括号中文长串整行保留，避免错误切分
+    # 没有结构化名字时，整行保留，避免乱拆长串中文
     return [line]
 
 
