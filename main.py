@@ -35,6 +35,8 @@ AIRPORT_CN_TO_ICAO = {
     "呼和浩特白塔": "ZBHH",
     "长春龙嘉": "ZYCC",
     "兰州中川": "ZLLL",
+    "广州白云": "ZGGG",
+    "揭阳潮汕": "ZGOW",
 }
 
 AIRPORT_NAMES = sorted(AIRPORT_CN_TO_ICAO.keys(), key=len, reverse=True)
@@ -50,9 +52,10 @@ TIME_RANGE_RE = re.compile(r"(\d{2}:\d{2})\s*-\s*(\d{2}:\d{2})")
 PAGE_YEAR_MONTH_RE = re.compile(r"(\d{4})年(\d{1,2})月")
 PURE_DATE_PREFIX_RE = re.compile(r"^\d{4}-\d{2}-\d{2}")
 
-# 人员名单兼容：中文姓名 + 括号；英文/外籍大写姓名 + 括号
+# 人员名单兼容
 CHINESE_PERSON_RE = re.compile(r"[\u4e00-\u9fff]{2,4}\([^)]*\)")
 LATIN_PERSON_RE = re.compile(r"[A-Z][A-Z\s\.\-']{1,80}\([^)]*\)")
+PLAIN_CHINESE_NAME_RE = re.compile(r"[\u4e00-\u9fff]{2,4}")
 
 
 # =========================
@@ -602,6 +605,16 @@ def split_people_from_line(line: str):
     for m in en_matches:
         m = re.sub(r"\s+", " ", m).strip()
         if m and m not in results:
+            results.append(m)
+
+    remaining = line
+    for m in results:
+        remaining = remaining.replace(m, " ")
+
+    plain_zh = PLAIN_CHINESE_NAME_RE.findall(remaining)
+    for m in plain_zh:
+        m = m.strip()
+        if len(m) >= 2 and m not in results:
             results.append(m)
 
     if ("(" in line and ")" in line) and not results:
