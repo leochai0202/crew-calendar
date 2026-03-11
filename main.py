@@ -50,6 +50,10 @@ TIME_RANGE_RE = re.compile(r"(\d{2}:\d{2})\s*-\s*(\d{2}:\d{2})")
 PAGE_YEAR_MONTH_RE = re.compile(r"(\d{4})年(\d{1,2})月")
 PURE_DATE_PREFIX_RE = re.compile(r"^\d{4}-\d{2}-\d{2}")
 
+# 人员名单兼容：中文姓名 + 括号；英文/外籍大写姓名 + 括号
+CHINESE_PERSON_RE = re.compile(r"[\u4e00-\u9fff]{2,4}\([^)]*\)")
+LATIN_PERSON_RE = re.compile(r"[A-Z][A-Z\s\.\-']{1,80}\([^)]*\)")
+
 
 # =========================
 # 基础工具
@@ -586,10 +590,25 @@ def split_people_from_line(line: str):
     if any(x in line for x in ["查看更多", "航班动态"]):
         return []
 
-    if "(" in line and ")" in line:
-        matches = re.findall(r"[\u4e00-\u9fff]{2,4}\([^)]*\)", line)
-        if matches:
-            return [m.strip() for m in matches if m.strip()]
+    results = []
+
+    zh_matches = CHINESE_PERSON_RE.findall(line)
+    for m in zh_matches:
+        m = m.strip()
+        if m and m not in results:
+            results.append(m)
+
+    en_matches = LATIN_PERSON_RE.findall(line)
+    for m in en_matches:
+        m = re.sub(r"\s+", " ", m).strip()
+        if m and m not in results:
+            results.append(m)
+
+    if ("(" in line and ")" in line) and not results:
+        return [line]
+
+    if results:
+        return results
 
     return [line]
 
@@ -622,6 +641,7 @@ def extract_people_lines(card_text: str):
 
         pieces = split_people_from_line(line)
         for p in pieces:
+            p = re.sub(r"\s+", " ", p).strip()
             if p and p not in out:
                 out.append(p)
 
