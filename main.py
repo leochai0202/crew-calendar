@@ -671,7 +671,7 @@ def split_people_from_line(line: str):
         if m and m not in results:
             results.append(m)
 
-    # 如果已经识别到结构化名字，再尝试补抓剩余部分里“空格分隔”的中文名字
+    # 如果已经识别到结构化名字，再补抓剩余部分里“空格分隔”的纯中文名字
     if results:
         remaining = line
         for m in results:
@@ -694,17 +694,27 @@ def split_people_from_line(line: str):
 
 def extract_people_lines(card_text: str):
     lines = [normalize_text(x) for x in card_text.splitlines() if normalize_text(x)]
+
     out = []
-    capture = False
+    current_group = None  # captain / fo / ignore
 
     for line in lines:
-        if line in ["随机人员", "乘务长", "副驾驶", "机长"]:
-            capture = True
+        # 分组标题
+        if line == "机长":
+            current_group = "captain"
+            continue
+        if line == "副驾驶":
+            current_group = "fo"
+            continue
+        if line in ["乘务长", "随机人员", "加机组人员"]:
+            current_group = "ignore"
             continue
 
-        if not capture:
+        # 还没进入机长/副驾驶组时，不抓
+        if current_group not in ["captain", "fo"]:
             continue
 
+        # 过滤明显不是人名的行
         if "航班动态" in line:
             continue
         if is_flight_line(line):
@@ -713,11 +723,15 @@ def extract_people_lines(card_text: str):
             continue
         if is_old_style_header_line(line):
             continue
-        if re.search(r'\d{2}:\d{2}', line) and ("签到" not in line):
-            continue
         if "查看更多" in line:
             continue
         if PURE_DATE_PREFIX_RE.match(line):
+            continue
+
+        # 纯时间/时间范围行不抓
+        if TIME_RANGE_RE.search(line):
+            continue
+        if re.fullmatch(r"\d{2}:\d{2}", line):
             continue
 
         pieces = split_people_from_line(line)
