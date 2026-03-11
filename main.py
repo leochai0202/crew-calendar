@@ -448,6 +448,11 @@ def is_reg_model_line(s: str) -> bool:
     return REG_MODEL_RE.fullmatch(s) is not None
 
 
+def is_old_style_header_line(s: str) -> bool:
+    s = normalize_text(s)
+    return re.fullmatch(r"9C\d{3,4}[A-Z]?\s+B[0-9A-Z]{4,5}\s+A(?:319|320|321)", s) is not None
+
+
 def clean_tail_noise(lines: list[str]) -> list[str]:
     cleaned = []
     for line in lines:
@@ -468,11 +473,18 @@ def split_day_block_into_cards(day_block: str):
         return []
 
     starts = []
-    for i in range(len(lines) - 1):
-        line1 = lines[i]
-        line2 = lines[i + 1]
-        if is_flight_line(line1) and is_reg_model_line(line2):
+    for i in range(len(lines)):
+        line = lines[i]
+
+        if i + 1 < len(lines):
+            if is_flight_line(line) and is_reg_model_line(lines[i + 1]):
+                starts.append(i)
+                continue
+
+        if is_old_style_header_line(line):
             starts.append(i)
+
+    starts = sorted(set(starts))
 
     cards = []
     for idx, start_i in enumerate(starts):
@@ -480,7 +492,7 @@ def split_day_block_into_cards(day_block: str):
         chunk_lines = clean_tail_noise(lines[start_i:end_i])
         chunk = "\n".join(chunk_lines).strip()
 
-        if "航班动态" not in chunk:
+        if "航班动态" not in chunk and not TIME_RANGE_RE.search(chunk):
             continue
         if not TIME_RANGE_RE.search(chunk):
             continue
@@ -503,9 +515,15 @@ def split_day_block_into_cards(day_block: str):
 
 def extract_flight_no(card_text: str) -> str:
     lines = [normalize_text(x) for x in card_text.splitlines() if normalize_text(x)]
+
     for line in lines:
         if is_flight_line(line):
             return line
+
+        m = re.match(r"(9C\d{3,4}[A-Z]?)\s+B[0-9A-Z]{4,5}\s+A(?:319|320|321)", line)
+        if m:
+            return m.group(1)
+
     m = FLIGHT_NO_RE.search(card_text)
     return m.group(0) if m else ""
 
@@ -514,6 +532,10 @@ def extract_reg_and_model(card_text: str):
     m = REG_AND_MODEL_RE.search(card_text)
     if m:
         return m.group(1), m.group(2)
+
+    m_old = re.search(r"9C\d{3,4}[A-Z]?\s+(B[0-9A-Z]{4,5})\s+(A319|A320|A321)", card_text)
+    if m_old:
+        return m_old.group(1), m_old.group(2)
 
     reg = ""
     model = ""
@@ -533,6 +555,11 @@ def extract_checkin(card_text: str):
     m = re.search(r'(\d{2}:\d{2})\s*([^\s]+)\s*航班动态', card_text)
     if m:
         return m.group(1), m.group(2)
+
+    m_old = re.search(r'签到[:：]?\s*(\d{2}:\d{2})\s*([^\s]+)?', card_text)
+    if m_old:
+        return m_old.group(1), (m_old.group(2) or "").strip()
+
     return "", ""
 
 
@@ -645,7 +672,9 @@ def extract_people_lines(card_text: str):
             continue
         if is_reg_model_line(line):
             continue
-        if re.search(r'\d{2}:\d{2}', line):
+        if is_old_style_header_line(line):
+            continue
+        if re.search(r'\d{2}:\d{2}', line) and ("签到" not in line):
             continue
         if "查看更多" in line:
             continue
