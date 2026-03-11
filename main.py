@@ -657,18 +657,21 @@ def split_people_from_line(line: str):
 
     results = []
 
+    # 先抓带括号的中文名字
     zh_matches = CHINESE_PERSON_RE.findall(line)
     for m in zh_matches:
         m = m.strip()
         if m and m not in results:
             results.append(m)
 
+    # 再抓带括号的英文/外籍名字
     en_matches = LATIN_PERSON_RE.findall(line)
     for m in en_matches:
         m = re.sub(r"\s+", " ", m).strip()
         if m and m not in results:
             results.append(m)
 
+    # 已经抓到结构化名字后，再从剩余文本里补抓“空格分隔”的纯中文名字
     if results:
         remaining = line
         for m in results:
@@ -685,47 +688,51 @@ def split_people_from_line(line: str):
 
         return results
 
+    # 没抓到括号名字时，如果这一行本身是空格分隔的中文名字，也拆出来
+    parts = [x.strip() for x in re.split(r"\s+", line) if x.strip()]
+    pure_names = []
+    for p in parts:
+        if re.fullmatch(r"[\u4e00-\u9fff]{2,4}", p):
+            pure_names.append(p)
+
+    if pure_names:
+        return pure_names
+
+    # 其他情况整行保留，避免误拆
     return [line]
 
 
-def extract_people_groups(card_text: str):
+def extract_people_lines(card_text: str):
     lines = [normalize_text(x) for x in card_text.splitlines() if normalize_text(x)]
 
-    flight_crew = []
-    cabin_lead = []
-    extra_crew = []
+    out = []
+    capture = False
 
-    current_group = None  # flight / cabin / extra / ignore
-    has_group = any(
-        line in ["机长", "副驾驶", "乘务长", "随机人员", "加机组人员"]
-        for line in lines
-    )
+    people_markers = {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员"}
 
     for line in lines:
-        if line == "机长":
-            current_group = "flight"
-            continue
-        if line == "副驾驶":
-            current_group = "flight"
-            continue
-        if line == "乘务长":
-            current_group = "cabin"
-            continue
-        if line in ["随机人员", "加机组人员"]:
-            current_group = "extra"
+        # 看到人员区标题后开始抓
+        if line in people_markers:
+            capture = True
             continue
 
+        if not capture:
+            continue
+
+        # 遇到下一张卡/结构行时停止
+        if is_flight_line(line):
+            break
+        if is_reg_model_line(line):
+            break
+        if is_old_style_header_line(line):
+            break
+        if PURE_DATE_PREFIX_RE.match(line):
+            break
+
+        # 跳过明显不是人名的行
         if "航班动态" in line:
             continue
-        if is_flight_line(line):
-            continue
-        if is_reg_model_line(line):
-            continue
-        if is_old_style_header_line(line):
-            continue
         if "查看更多" in line:
-            continue
-        if PURE_DATE_PREFIX_RE.match(line):
             continue
         if TIME_RANGE_RE.search(line):
             continue
@@ -733,36 +740,12 @@ def extract_people_groups(card_text: str):
             continue
 
         pieces = split_people_from_line(line)
+        for p in pieces:
+            p = re.sub(r"\s+", " ", p).strip()
+            if p and p not in out:
+                out.append(p)
 
-        if has_group:
-            if current_group == "flight":
-                for p in pieces:
-                    p = re.sub(r"\s+", " ", p).strip()
-                    if p and p not in flight_crew:
-                        flight_crew.append(p)
-
-            elif current_group == "cabin":
-                for p in pieces:
-                    p = re.sub(r"\s+", " ", p).strip()
-                    if p and p not in cabin_lead:
-                        cabin_lead.append(p)
-
-            elif current_group == "extra":
-                for p in pieces:
-                    p = re.sub(r"\s+", " ", p).strip()
-                    if p and p not in extra_crew:
-                        extra_crew.append(p)
-        else:
-            for p in pieces:
-                p = re.sub(r"\s+", " ", p).strip()
-                if p and p not in flight_crew:
-                    flight_crew.append(p)
-
-    return {
-        "flight_crew_lines": flight_crew,
-        "cabin_lead_lines": cabin_lead,
-        "extra_crew_lines": extra_crew,
-    }
+    return out
 
 
 # =========================
@@ -825,22 +808,10 @@ def build_description(item: dict) -> str:
     elif item["reg"]:
         lines.append(f"注册号：{item['reg']}")
 
-    if item["flight_crew_lines"]:
+    if item["people_lines"]:
         lines.append("")
-        lines.append("机长/副驾驶：")
-        for p in item["flight_crew_lines"]:
-            lines.append(f"• {p}")
-
-    if item["cabin_lead_lines"]:
-        lines.append("")
-        lines.append("乘务长：")
-        for p in item["cabin_lead_lines"]:
-            lines.append(f"• {p}")
-
-    if item["extra_crew_lines"]:
-        lines.append("")
-        lines.append("加机组人员：")
-        for p in item["extra_crew_lines"]:
+        lines.append("人员名单：")
+        for p in item["people_lines"]:
             lines.append(f"• {p}")
 
     return "\n".join(lines)
@@ -900,7 +871,7 @@ def event_quality(item: dict) -> int:
         score += 10
     if item["checkin_place"]:
         score += 10
-    if item["flight_crew_lines"] or item["cabin_lead_lines"] or item["extra_crew_lines"]:
+    if item["people_lines"]:
         score += 10
     return score
 
@@ -964,7 +935,7 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
             start_time, end_time = extract_start_end_time(card_text)
             checkin_time, checkin_place = extract_checkin(card_text)
             dep, arr, dep_cn, arr_cn = extract_airports(card_text)
-            people_groups = extract_people_groups(card_text)
+            people_lines = extract_people_lines(card_text)
 
             if not flight_no or not start_time or not end_time:
                 continue
@@ -988,9 +959,7 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
                 "checkin_place": checkin_place,
                 "model": model,
                 "reg": reg,
-                "flight_crew_lines": people_groups["flight_crew_lines"],
-                "cabin_lead_lines": people_groups["cabin_lead_lines"],
-                "extra_crew_lines": people_groups["extra_crew_lines"],
+                "people_lines": people_lines,
                 "start_dt": start_dt,
                 "end_dt": end_dt,
             }
