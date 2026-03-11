@@ -6,7 +6,7 @@ UID:置位-9C8947-20260313T142500-20260313T171500@crew-calendar
 SUMMARY:📍 9C8947 上海虹桥→西安咸阳
 DTSTART;TZID=Asia/Shanghai:20260313T142500
 DTEND;TZID=Asia/Shanghai:20260313T171500
-DESCRIPTION:03月13日 周五\n类型：置位\n航班：9C8947\n航线：上海虹桥 → 西安咸阳\n签到：12:40｜上海虹桥\n任务：14:25 - 17:15\n机型：A321｜注册号：B321F
+DESCRIPTION:03月13日 周五\n类型：置位\n航班：9C8947\n航线：上海虹桥 → 西安咸阳\n签到：12:40｜上海虹桥\n任务：14:25 - 17:15\n机型：A321｜注册号：B321F\n\n加机组人员：\n• 杨刚(T\,R)\n• 钱俊(R)\n• 鲍国际(R)\n• 许晓君(B)\n• 李嘉臣段洋硕陈佳琪
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C8947 签到提醒

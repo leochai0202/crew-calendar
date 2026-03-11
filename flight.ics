@@ -6,7 +6,7 @@ UID:航班-9C8946-20260314T090500-20260314T111000@crew-calendar
 SUMMARY:✈️ 9C8946 西安咸阳→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260314T090500
 DTEND;TZID=Asia/Shanghai:20260314T111000
-DESCRIPTION:03月14日 周六\n航班：9C8946\n航线：西安咸阳 → 上海虹桥\n签到：07:10｜西安咸阳\n任务：09:05 - 11:10\n机型：A321｜注册号：B32EF\n\n人员名单：\n• 杨刚(T\,RT)\n• 段洋硕(R*)\n• 鲍国际(R)\n• 宋昕鸿(B)
+DESCRIPTION:03月14日 周六\n航班：9C8946\n航线：西安咸阳 → 上海虹桥\n签到：07:10｜西安咸阳\n任务：09:05 - 11:10\n机型：A321｜注册号：B32EF\n\n机长/副驾驶：\n• 杨刚(T\,RT)\n• 段洋硕(R*)\n• 鲍国际(R)\n• 宋昕鸿(B)
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C8946 签到提醒
@@ -18,7 +18,7 @@ UID:航班-9C8995-20260314T160500-20260314T190500@crew-calendar
 SUMMARY:✈️ 9C8995 上海虹桥→重庆江北
 DTSTART;TZID=Asia/Shanghai:20260314T160500
 DTEND;TZID=Asia/Shanghai:20260314T190500
-DESCRIPTION:03月14日 周六\n航班：9C8995\n航线：上海虹桥 → 重庆江北\n签到：14:20｜上海虹桥\n任务：16:05 - 19:05\n机型：A321｜注册号：B324Y\n\n人员名单：\n• 杨刚(T\,RT)\n• 鲍国际(R)\n• 段洋硕(R*)\n• 龚婷(B)\n• 兰力牛琨彭高庆得
+DESCRIPTION:03月14日 周六\n航班：9C8995\n航线：上海虹桥 → 重庆江北\n签到：14:20｜上海虹桥\n任务：16:05 - 19:05\n机型：A321｜注册号：B324Y\n\n机长/副驾驶：\n• 杨刚(T\,RT)\n• 鲍国际(R)\n• 段洋硕(R*)\n• 龚婷(B)\n• 兰力牛琨彭高庆得
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C8995 签到提醒
@@ -30,7 +30,7 @@ UID:航班-9C8996-20260314T201500-20260314T224000@crew-calendar
 SUMMARY:✈️ 9C8996 重庆江北→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260314T201500
 DTEND;TZID=Asia/Shanghai:20260314T224000
-DESCRIPTION:03月14日 周六\n航班：9C8996\n航线：重庆江北 → 上海虹桥\n签到：18:35｜重庆江北\n任务：20:15 - 22:40\n机型：A321｜注册号：B324Y\n\n人员名单：\n• 杨刚(T\,RT)\n• 鲍国际(R)\n• 段洋硕(R*)\n• 龚婷(B)
+DESCRIPTION:03月14日 周六\n航班：9C8996\n航线：重庆江北 → 上海虹桥\n签到：18:35｜重庆江北\n任务：20:15 - 22:40\n机型：A321｜注册号：B324Y\n\n机长/副驾驶：\n• 杨刚(T\,RT)\n• 鲍国际(R)\n• 段洋硕(R*)\n• 龚婷(B)
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C8996 签到提醒
