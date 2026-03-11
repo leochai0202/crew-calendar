@@ -39,6 +39,12 @@ jobs:
         run: |
           python main.py
 
+      - name: Upload debug artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug_output
+          path: debug_output
+
       - name: Commit calendars
         run: |
           git config user.name "github-actions[bot]"
@@ -46,3 +52,6 @@ jobs:
           git add *.ics debug_output/* || true
           git diff --cached --quiet || git commit -m "Update crew calendars"
           git push
+
+      - name: Post Install Python
+        run: echo "Done"
