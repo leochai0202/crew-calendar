@@ -43,10 +43,17 @@ AIRPORT_CN_TO_ICAO = {
     "揭阳潮汕": "ZGOW",
     "札幌新千岁": "RJCC",
     "新千岁": "RJCC",
+    "南宁吴圩": "ZGNN",
+    "曼谷素旺那普": "VTBS",
+    "曼谷素万那普": "VTBS",
 }
 
 # ICAO -> 中文名
-AIRPORT_ICAO_TO_CN = {v: k for k, v in AIRPORT_CN_TO_ICAO.items()}
+AIRPORT_ICAO_TO_CN = {}
+for k, v in AIRPORT_CN_TO_ICAO.items():
+    if v not in AIRPORT_ICAO_TO_CN:
+        AIRPORT_ICAO_TO_CN[v] = k
+
 AIRPORT_NAMES = sorted(AIRPORT_CN_TO_ICAO.keys(), key=len, reverse=True)
 
 # =========================
@@ -633,6 +640,7 @@ def extract_airports(card_text: str):
 
     lines = [x.strip() for x in card_text.splitlines() if x.strip()]
 
+    # 1. 先看中文航线行
     candidate_lines = []
     for line in lines:
         if TIME_RANGE_RE.search(line) and "航班动态" not in line:
@@ -643,18 +651,18 @@ def extract_airports(card_text: str):
         dep = AIRPORT_CN_TO_ICAO.get(dep_cn, "")
         arr = AIRPORT_CN_TO_ICAO.get(arr_cn, "")
 
-    if not (dep and arr):
-        codes = ICAO_RE.findall(card_text)
-        uniq = []
-        for c in codes:
-            if c not in uniq:
-                uniq.append(c)
+    # 2. 用 ICAO 代码兜底
+    codes = ICAO_RE.findall(card_text)
+    uniq = []
+    for c in codes:
+        if c not in uniq:
+            uniq.append(c)
 
-        if len(uniq) >= 2:
-            dep = dep or uniq[0]
-            arr = arr or uniq[1]
-            dep_cn = dep_cn or AIRPORT_ICAO_TO_CN.get(dep, "")
-            arr_cn = arr_cn or AIRPORT_ICAO_TO_CN.get(arr, "")
+    if len(uniq) >= 2:
+        dep = dep or uniq[0]
+        arr = arr or uniq[1]
+        dep_cn = dep_cn or AIRPORT_ICAO_TO_CN.get(dep, "")
+        arr_cn = arr_cn or AIRPORT_ICAO_TO_CN.get(arr, "")
 
     return dep, arr, dep_cn, arr_cn
 
@@ -802,10 +810,20 @@ def title_icon(task_type: str) -> str:
 def build_title(task_type, flight_no, dep, arr, dep_cn, arr_cn):
     icon = title_icon(task_type)
 
+    # 1. 中文优先
     if flight_no and dep_cn and arr_cn:
         return f"{icon} {flight_no} {dep_cn}→{arr_cn}"
+
+    # 2. 代码兜底
     if flight_no and dep and arr:
         return f"{icon} {flight_no} {dep}→{arr}"
+
+    # 3. 单边尽量展示
+    if flight_no and dep_cn and arr:
+        return f"{icon} {flight_no} {dep_cn}→{arr}"
+    if flight_no and dep and arr_cn:
+        return f"{icon} {flight_no} {dep}→{arr_cn}"
+
     if flight_no:
         return f"{icon} {flight_no}"
     return f"{icon} {task_type}"
@@ -820,10 +838,15 @@ def build_description(item: dict) -> str:
 
     lines.append(f"航班：{item['flight_no']}")
 
-    if item["dep_cn"] or item["arr_cn"]:
+    # 航线同样按 中文 > 代码 > 混合 兜底
+    if item["dep_cn"] and item["arr_cn"]:
         lines.append(f"航线：{item['dep_cn']} → {item['arr_cn']}")
-    elif item["dep"] or item["arr"]:
+    elif item["dep"] and item["arr"]:
         lines.append(f"航线：{item['dep']} → {item['arr']}")
+    elif item["dep_cn"] and item["arr"]:
+        lines.append(f"航线：{item['dep_cn']} → {item['arr']}")
+    elif item["dep"] and item["arr_cn"]:
+        lines.append(f"航线：{item['dep']} → {item['arr_cn']}")
 
     if item["checkin_time"] and item["checkin_place"]:
         lines.append(f"签到：{item['checkin_time']}｜{item['checkin_place']}")
