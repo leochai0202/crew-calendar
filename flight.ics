@@ -75,10 +75,10 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:航班-9C7486-20260320T124500-20260320T150500@crew-calendar
-SUMMARY:✈️ 9C7486
+SUMMARY:✈️ 9C7486 曼谷素旺那普→南宁吴圩
 DTSTART;TZID=Asia/Shanghai:20260320T124500
 DTEND;TZID=Asia/Shanghai:20260320T150500
-DESCRIPTION:03月20日 周五\n航班：9C7486\n任务：12:45 - 15:05\n机型：A320｜注册号：B1895\n\n人员名单：\n• 刘鑫(RT)\n• 朱良珩(R*)\n• 段洋硕\n• 沈兰花(B)
+DESCRIPTION:03月20日 周五\n航班：9C7486\n航线：曼谷素旺那普 → 南宁吴圩\n任务：12:45 - 15:05\n机型：A320｜注册号：B1895\n\n人员名单：\n• 刘鑫(RT)\n• 朱良珩(R*)\n• 段洋硕\n• 沈兰花(B)
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C7486 签到提醒
