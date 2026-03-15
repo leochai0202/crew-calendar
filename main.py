@@ -490,16 +490,11 @@ def split_day_block_into_cards(day_block: str):
     for i in range(len(lines)):
         line = lines[i]
 
-        # 新版结构：
-        # 9C8946
-        # B32EFA321
         if i + 1 < len(lines):
             if is_flight_line(line) and is_reg_model_line(lines[i + 1]):
                 starts.append(i)
                 continue
 
-        # 旧版结构：
-        # 9C6721 B8591 A320
         if extract_old_style_header(line):
             starts.append(i)
             continue
@@ -596,7 +591,7 @@ def extract_checkin(card_text: str):
         place = m_old.group(2)
         if f"{hhmm}-" in line:
             continue
-        if place in ["A319", "A320", "A321"]:
+        if place in ["A319", "A320", "A321", "航班动态"]:
             continue
         if FLIGHT_NO_RE.fullmatch(place):
             continue
@@ -617,12 +612,10 @@ def parse_route_cn_from_line(line: str):
     line = line.replace("—", "-").replace("－", "-")
     line = re.sub(r"\s+", "", line)
 
-    # 带箭头最稳
     if "→" in line:
         dep_cn, arr_cn = line.split("→", 1)
         return dep_cn.strip(), arr_cn.strip()
 
-    # 如果以已知机场起头，剩余部分整段保留为到达机场名
     for dep_cn in AIRPORT_NAMES:
         if line.startswith(dep_cn):
             remain = line[len(dep_cn):].strip()
@@ -640,7 +633,6 @@ def extract_airports(card_text: str):
 
     lines = [x.strip() for x in card_text.splitlines() if x.strip()]
 
-    # 1) 先尝试中文航线行
     candidate_lines = []
     for line in lines:
         if TIME_RANGE_RE.search(line) and "航班动态" not in line:
@@ -651,7 +643,6 @@ def extract_airports(card_text: str):
         dep = AIRPORT_CN_TO_ICAO.get(dep_cn, "")
         arr = AIRPORT_CN_TO_ICAO.get(arr_cn, "")
 
-    # 2) 如果有 ICAO 代码，再兜底
     if not (dep and arr):
         codes = ICAO_RE.findall(card_text)
         uniq = []
@@ -672,19 +663,11 @@ def extract_airports(card_text: str):
 # 人员名单（最保守模式）
 # =========================
 def extract_chinese_tagged_people(line: str):
-    """
-    处理这种情况：
-    段洋硕白海森(R)
-    期望得到：
-    - 白海森(R)
-    剩下的 段洋硕 由后续逻辑处理
-    """
     results = []
     for m in re.finditer(r"\([^)]*\)", line):
         left = line[:m.start()]
         paren = m.group(0)
 
-        # 找到 '(' 前面连续的中文块
         j = len(left) - 1
         while j >= 0 and "\u4e00" <= left[j] <= "\u9fff":
             j -= 1
@@ -693,9 +676,6 @@ def extract_chinese_tagged_people(line: str):
         if not chinese_block:
             continue
 
-        # 最保守：
-        # 2/3/4 字直接取整块
-        # 更长时只取最后 3 个字，避免把前面的连写名字一起吃进去
         if 2 <= len(chinese_block) <= 4:
             name = chinese_block
         elif len(chinese_block) > 4:
@@ -720,26 +700,22 @@ def split_people_from_line(line: str):
 
     results = []
 
-    # 1) 先抓英文/外籍带括号名字
     en_matches = LATIN_PERSON_RE.findall(line)
     for m in en_matches:
         m = re.sub(r"\s+", " ", m).strip()
         if m and m not in results:
             results.append(m)
 
-    # 2) 再抓中文带括号名字（用保守算法，避免“段洋硕白海森(R)”错切）
     zh_tagged = extract_chinese_tagged_people(line)
     for m in zh_tagged:
         if m and m not in results:
             results.append(m)
 
-    # 3) 已经抓到结构化名字后，再从剩余文本里补抓空格分隔的纯中文名字
     if results:
         remaining = line
         for m in results:
             remaining = remaining.replace(m, " ")
 
-        # 去掉残留括号串
         remaining = re.sub(r"\([^)]*\)", " ", remaining)
         remaining = re.sub(r"\s+", " ", remaining).strip()
 
@@ -752,7 +728,6 @@ def split_people_from_line(line: str):
 
         return results
 
-    # 4) 没抓到括号名字时，如果这一行本身是空格分隔的中文名字，也拆出来
     parts = [x.strip() for x in re.split(r"\s+", line) if x.strip()]
     pure_names = []
     for p in parts:
@@ -762,7 +737,6 @@ def split_people_from_line(line: str):
     if pure_names:
         return pure_names
 
-    # 5) 其他情况整行保留，避免误拆
     return [line]
 
 
@@ -775,7 +749,6 @@ def extract_people_lines(card_text: str):
     people_markers = {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员"}
 
     for line in lines:
-        # 看到人员区标题后开始抓
         if line in people_markers:
             capture = True
             continue
@@ -783,7 +756,6 @@ def extract_people_lines(card_text: str):
         if not capture:
             continue
 
-        # 遇到下一张卡/结构行时停止
         if is_flight_line(line):
             break
         if is_reg_model_line(line):
@@ -793,7 +765,6 @@ def extract_people_lines(card_text: str):
         if PURE_DATE_PREFIX_RE.match(line):
             break
 
-        # 跳过明显不是人名的行
         if "航班动态" in line:
             continue
         if "查看更多" in line:
@@ -849,7 +820,6 @@ def build_description(item: dict) -> str:
 
     lines.append(f"航班：{item['flight_no']}")
 
-    # 优先中文航线，没有中文就显示代码
     if item["dep_cn"] or item["arr_cn"]:
         lines.append(f"航线：{item['dep_cn']} → {item['arr_cn']}")
     elif item["dep"] or item["arr"]:
@@ -1109,7 +1079,7 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
     total_items.sort(key=lambda x: (x["start_dt"], x["flight_no"]))
     write_calendar("crew_schedule.ics", total_items, preserve_existing=True)
 
-    # debug_output：只写本次结果，不混历史
+    # debug_output：只写本次结果
     write_calendar(os.path.join(ARTIFACT_DIR, "flight.ics"), buckets["flight"], preserve_existing=False)
     write_calendar(os.path.join(ARTIFACT_DIR, "positioning.ics"), buckets["positioning"], preserve_existing=False)
     write_calendar(os.path.join(ARTIFACT_DIR, "training.ics"), buckets["training"], preserve_existing=False)
