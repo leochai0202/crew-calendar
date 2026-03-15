@@ -2,8 +2,9 @@ name: Update crew calendar
 
 on:
   schedule:
-    - cron: '0 10 * * *'
-    - cron: '0 11 * * *'
+    - cron: '20 9 * * *'
+    - cron: '20 10 * * *'
+    - cron: '20 11 * * *'
   workflow_dispatch:
 
 jobs:
@@ -52,6 +53,3 @@ jobs:
           git add *.ics debug_output/* || true
           git diff --cached --quiet || git commit -m "Update crew calendars"
           git push
-
-      - name: Post Install Python
-        run: echo "Done"
