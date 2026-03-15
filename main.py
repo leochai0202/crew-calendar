@@ -1,6 +1,7 @@
 import os
 import re
 import io
+import json
 import base64
 import shutil
 from itertools import product
@@ -24,9 +25,12 @@ if os.path.exists(ARTIFACT_DIR):
 os.makedirs(ARTIFACT_DIR, exist_ok=True)
 
 SH_TZ = ZoneInfo("Asia/Shanghai")
+AIRPORT_ALIASES_FILE = "airport_aliases.json"
 
-# 机场中文名 -> ICAO
-AIRPORT_CN_TO_ICAO = {
+# =========================
+# 基础机场表（内置常见机场）
+# =========================
+BASE_AIRPORT_CN_TO_ICAO = {
     "上海虹桥": "ZSSS",
     "上海浦东": "ZSPD",
     "西安咸阳": "ZLXY",
@@ -48,13 +52,10 @@ AIRPORT_CN_TO_ICAO = {
     "曼谷素万那普": "VTBS",
 }
 
-# ICAO -> 中文名
+AIRPORT_CN_TO_ICAO = {}
 AIRPORT_ICAO_TO_CN = {}
-for k, v in AIRPORT_CN_TO_ICAO.items():
-    if v not in AIRPORT_ICAO_TO_CN:
-        AIRPORT_ICAO_TO_CN[v] = k
+AIRPORT_NAMES = []
 
-AIRPORT_NAMES = sorted(AIRPORT_CN_TO_ICAO.keys(), key=len, reverse=True)
 
 # =========================
 # 正则常量
@@ -67,8 +68,6 @@ TIME_RANGE_RE = re.compile(r"(\d{2}:\d{2})\s*-\s*(\d{2}:\d{2})")
 PAGE_YEAR_MONTH_RE = re.compile(r"(\d{4})年(\d{1,2})月")
 PURE_DATE_PREFIX_RE = re.compile(r"^\d{4}-\d{2}-\d{2}")
 ICAO_RE = re.compile(r"\b[A-Z]{4}\b")
-
-# 外籍姓名 + 括号
 LATIN_PERSON_RE = re.compile(r"[A-Z][A-Z\s\.\-']{1,80}\([^)]*\)")
 
 
@@ -112,6 +111,71 @@ def make_datetime(year: int, month: int, day: int, hhmm: str) -> datetime:
 
 def safe_name(s: str) -> str:
     return re.sub(r"[^0-9A-Za-z_\-]+", "_", s).strip("_") or "unnamed"
+
+
+# =========================
+# 机场别名自动积累
+# =========================
+def load_airport_aliases():
+    if not os.path.exists(AIRPORT_ALIASES_FILE):
+        return {}
+
+    try:
+        with open(AIRPORT_ALIASES_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if isinstance(data, dict):
+            return data
+    except Exception:
+        pass
+    return {}
+
+
+def save_airport_aliases(data: dict):
+    try:
+        with open(AIRPORT_ALIASES_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2, sort_keys=True)
+    except Exception:
+        pass
+
+
+def rebuild_airport_indexes():
+    global AIRPORT_CN_TO_ICAO, AIRPORT_ICAO_TO_CN, AIRPORT_NAMES
+
+    AIRPORT_CN_TO_ICAO = dict(BASE_AIRPORT_CN_TO_ICAO)
+    alias_data = load_airport_aliases()
+
+    for icao, aliases in alias_data.items():
+        if not isinstance(aliases, list):
+            continue
+        for alias in aliases:
+            alias = normalize_text(str(alias))
+            if alias:
+                AIRPORT_CN_TO_ICAO[alias] = icao
+
+    AIRPORT_ICAO_TO_CN = {}
+    for name, icao in AIRPORT_CN_TO_ICAO.items():
+        if icao not in AIRPORT_ICAO_TO_CN:
+            AIRPORT_ICAO_TO_CN[icao] = name
+
+    AIRPORT_NAMES = sorted(AIRPORT_CN_TO_ICAO.keys(), key=len, reverse=True)
+
+
+def add_airport_alias(icao: str, alias: str):
+    icao = normalize_text(icao).upper()
+    alias = normalize_text(alias)
+
+    if not re.fullmatch(r"[A-Z]{4}", icao):
+        return
+    if not alias:
+        return
+
+    data = load_airport_aliases()
+    aliases = data.get(icao, [])
+    if alias not in aliases:
+        aliases.append(alias)
+        data[icao] = sorted(set(aliases), key=lambda x: (len(x), x))
+        save_airport_aliases(data)
+        rebuild_airport_indexes()
 
 
 # =========================
@@ -640,7 +704,6 @@ def extract_airports(card_text: str):
 
     lines = [x.strip() for x in card_text.splitlines() if x.strip()]
 
-    # 1. 先看中文航线行
     candidate_lines = []
     for line in lines:
         if TIME_RANGE_RE.search(line) and "航班动态" not in line:
@@ -651,7 +714,6 @@ def extract_airports(card_text: str):
         dep = AIRPORT_CN_TO_ICAO.get(dep_cn, "")
         arr = AIRPORT_CN_TO_ICAO.get(arr_cn, "")
 
-    # 2. 用 ICAO 代码兜底
     codes = ICAO_RE.findall(card_text)
     uniq = []
     for c in codes:
@@ -663,6 +725,11 @@ def extract_airports(card_text: str):
         arr = arr or uniq[1]
         dep_cn = dep_cn or AIRPORT_ICAO_TO_CN.get(dep, "")
         arr_cn = arr_cn or AIRPORT_ICAO_TO_CN.get(arr, "")
+
+        if dep_cn:
+            add_airport_alias(dep, dep_cn)
+        if arr_cn:
+            add_airport_alias(arr, arr_cn)
 
     return dep, arr, dep_cn, arr_cn
 
@@ -810,20 +877,14 @@ def title_icon(task_type: str) -> str:
 def build_title(task_type, flight_no, dep, arr, dep_cn, arr_cn):
     icon = title_icon(task_type)
 
-    # 1. 中文优先
     if flight_no and dep_cn and arr_cn:
         return f"{icon} {flight_no} {dep_cn}→{arr_cn}"
-
-    # 2. 代码兜底
     if flight_no and dep and arr:
         return f"{icon} {flight_no} {dep}→{arr}"
-
-    # 3. 单边尽量展示
     if flight_no and dep_cn and arr:
         return f"{icon} {flight_no} {dep_cn}→{arr}"
     if flight_no and dep and arr_cn:
         return f"{icon} {flight_no} {dep}→{arr_cn}"
-
     if flight_no:
         return f"{icon} {flight_no}"
     return f"{icon} {task_type}"
@@ -838,7 +899,6 @@ def build_description(item: dict) -> str:
 
     lines.append(f"航班：{item['flight_no']}")
 
-    # 航线同样按 中文 > 代码 > 混合 兜底
     if item["dep_cn"] and item["arr_cn"]:
         lines.append(f"航线：{item['dep_cn']} → {item['arr_cn']}")
     elif item["dep"] and item["arr"]:
@@ -1085,7 +1145,6 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
     for key in buckets:
         buckets[key].sort(key=lambda x: (x["start_dt"], x["flight_no"]))
 
-    # 根目录：保留历史
     write_calendar("flight.ics", buckets["flight"], preserve_existing=True)
     write_calendar("positioning.ics", buckets["positioning"], preserve_existing=True)
     write_calendar("training.ics", buckets["training"], preserve_existing=True)
@@ -1102,7 +1161,6 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
     total_items.sort(key=lambda x: (x["start_dt"], x["flight_no"]))
     write_calendar("crew_schedule.ics", total_items, preserve_existing=True)
 
-    # debug_output：只写本次结果
     write_calendar(os.path.join(ARTIFACT_DIR, "flight.ics"), buckets["flight"], preserve_existing=False)
     write_calendar(os.path.join(ARTIFACT_DIR, "positioning.ics"), buckets["positioning"], preserve_existing=False)
     write_calendar(os.path.join(ARTIFACT_DIR, "training.ics"), buckets["training"], preserve_existing=False)
@@ -1112,6 +1170,8 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
 
 
 def run():
+    rebuild_airport_indexes()
+
     with sync_playwright() as p:
         browser = p.chromium.launch()
         context = browser.new_context(
