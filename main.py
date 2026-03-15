@@ -2,6 +2,7 @@ import os
 import re
 import io
 import base64
+import shutil
 from itertools import product
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
@@ -18,10 +19,13 @@ USERNAME = os.environ["USERNAME"]
 PASSWORD = os.environ["PASSWORD"]
 
 ARTIFACT_DIR = "debug_output"
+if os.path.exists(ARTIFACT_DIR):
+    shutil.rmtree(ARTIFACT_DIR)
 os.makedirs(ARTIFACT_DIR, exist_ok=True)
 
 SH_TZ = ZoneInfo("Asia/Shanghai")
 
+# 机场中文名 -> ICAO
 AIRPORT_CN_TO_ICAO = {
     "上海虹桥": "ZSSS",
     "上海浦东": "ZSPD",
@@ -37,8 +41,12 @@ AIRPORT_CN_TO_ICAO = {
     "兰州中川": "ZLLL",
     "广州白云": "ZGGG",
     "揭阳潮汕": "ZGOW",
+    "札幌新千岁": "RJCC",
+    "新千岁": "RJCC",
 }
 
+# ICAO -> 中文名
+AIRPORT_ICAO_TO_CN = {v: k for k, v in AIRPORT_CN_TO_ICAO.items()}
 AIRPORT_NAMES = sorted(AIRPORT_CN_TO_ICAO.keys(), key=len, reverse=True)
 
 # =========================
@@ -51,16 +59,15 @@ REG_ONLY_RE = re.compile(r"\bB[0-9A-Z]{4,5}\b")
 TIME_RANGE_RE = re.compile(r"(\d{2}:\d{2})\s*-\s*(\d{2}:\d{2})")
 PAGE_YEAR_MONTH_RE = re.compile(r"(\d{4})年(\d{1,2})月")
 PURE_DATE_PREFIX_RE = re.compile(r"^\d{4}-\d{2}-\d{2}")
+ICAO_RE = re.compile(r"\b[A-Z]{4}\b")
 
-# 人员名单兼容
-CHINESE_PERSON_RE = re.compile(r"[\u4e00-\u9fff]{2,4}\([^)]*\)")
+# 外籍姓名 + 括号
 LATIN_PERSON_RE = re.compile(r"[A-Z][A-Z\s\.\-']{1,80}\([^)]*\)")
 
 
 # =========================
 # 基础工具
 # =========================
-
 def normalize_text(text: str) -> str:
     text = text.replace("\u00a0", " ")
     text = text.replace("\r", "")
@@ -103,7 +110,6 @@ def safe_name(s: str) -> str:
 # =========================
 # 验证码
 # =========================
-
 def normalize_candidate(text: str) -> str:
     text = text.upper()
     text = re.sub(r"[^A-Z0-9]", "", text)
@@ -229,7 +235,6 @@ def solve_captcha(page, attempt_no: int = 0) -> str:
 # =========================
 # 登录
 # =========================
-
 def fill_login_form(page, code: str):
     inputs = page.locator("input")
     if inputs.count() < 3:
@@ -307,7 +312,6 @@ def login(page, max_retries: int = 10):
 # =========================
 # 页面操作
 # =========================
-
 def open_mission_page(page):
     for i in range(3):
         try:
@@ -413,7 +417,6 @@ def detect_page_year(page) -> int:
 # =========================
 # 任务识别
 # =========================
-
 def detect_task_type(text: str) -> str:
     for t in ["置位", "航班", "训练", "摆渡", "备份", "待命", "考勤"]:
         if t in text:
@@ -487,11 +490,16 @@ def split_day_block_into_cards(day_block: str):
     for i in range(len(lines)):
         line = lines[i]
 
+        # 新版结构：
+        # 9C8946
+        # B32EFA321
         if i + 1 < len(lines):
             if is_flight_line(line) and is_reg_model_line(lines[i + 1]):
                 starts.append(i)
                 continue
 
+        # 旧版结构：
+        # 9C6721 B8591 A320
         if extract_old_style_header(line):
             starts.append(i)
             continue
@@ -536,7 +544,6 @@ def split_day_block_into_cards(day_block: str):
 # =========================
 # 解析卡片
 # =========================
-
 def extract_flight_no(card_text: str) -> str:
     lines = [normalize_text(x) for x in card_text.splitlines() if normalize_text(x)]
 
@@ -607,21 +614,33 @@ def extract_start_end_time(card_text: str):
 
 def parse_route_cn_from_line(line: str):
     line = TIME_RANGE_RE.sub("", line).strip()
-    line = line.replace("→", "").replace("-", "").replace("—", "").replace(" ", "")
+    line = line.replace("—", "-").replace("－", "-")
+    line = re.sub(r"\s+", "", line)
+
+    # 带箭头最稳
+    if "→" in line:
+        dep_cn, arr_cn = line.split("→", 1)
+        return dep_cn.strip(), arr_cn.strip()
+
+    # 如果以已知机场起头，剩余部分整段保留为到达机场名
     for dep_cn in AIRPORT_NAMES:
         if line.startswith(dep_cn):
             remain = line[len(dep_cn):].strip()
-            for arr_cn in AIRPORT_NAMES:
-                if remain == arr_cn:
-                    return dep_cn, arr_cn
+            if remain:
+                return dep_cn, remain
+
     return "", ""
 
 
 def extract_airports(card_text: str):
     dep_cn = ""
     arr_cn = ""
+    dep = ""
+    arr = ""
 
     lines = [x.strip() for x in card_text.splitlines() if x.strip()]
+
+    # 1) 先尝试中文航线行
     candidate_lines = []
     for line in lines:
         if TIME_RANGE_RE.search(line) and "航班动态" not in line:
@@ -629,22 +648,66 @@ def extract_airports(card_text: str):
 
     if candidate_lines:
         dep_cn, arr_cn = parse_route_cn_from_line(candidate_lines[-1])
+        dep = AIRPORT_CN_TO_ICAO.get(dep_cn, "")
+        arr = AIRPORT_CN_TO_ICAO.get(arr_cn, "")
 
-    dep = AIRPORT_CN_TO_ICAO.get(dep_cn, "")
-    arr = AIRPORT_CN_TO_ICAO.get(arr_cn, "")
+    # 2) 如果有 ICAO 代码，再兜底
+    if not (dep and arr):
+        codes = ICAO_RE.findall(card_text)
+        uniq = []
+        for c in codes:
+            if c not in uniq:
+                uniq.append(c)
 
-    if dep and arr:
-        return dep, arr, dep_cn, arr_cn
+        if len(uniq) >= 2:
+            dep = dep or uniq[0]
+            arr = arr or uniq[1]
+            dep_cn = dep_cn or AIRPORT_ICAO_TO_CN.get(dep, "")
+            arr_cn = arr_cn or AIRPORT_ICAO_TO_CN.get(arr, "")
 
-    codes = re.findall(r'\b[A-Z]{4}\b', card_text)
-    uniq = []
-    for c in codes:
-        if c not in uniq:
-            uniq.append(c)
-    if len(uniq) >= 2:
-        return uniq[0], uniq[1], dep_cn, arr_cn
+    return dep, arr, dep_cn, arr_cn
 
-    return "", "", dep_cn, arr_cn
+
+# =========================
+# 人员名单（最保守模式）
+# =========================
+def extract_chinese_tagged_people(line: str):
+    """
+    处理这种情况：
+    段洋硕白海森(R)
+    期望得到：
+    - 白海森(R)
+    剩下的 段洋硕 由后续逻辑处理
+    """
+    results = []
+    for m in re.finditer(r"\([^)]*\)", line):
+        left = line[:m.start()]
+        paren = m.group(0)
+
+        # 找到 '(' 前面连续的中文块
+        j = len(left) - 1
+        while j >= 0 and "\u4e00" <= left[j] <= "\u9fff":
+            j -= 1
+        chinese_block = left[j + 1:]
+
+        if not chinese_block:
+            continue
+
+        # 最保守：
+        # 2/3/4 字直接取整块
+        # 更长时只取最后 3 个字，避免把前面的连写名字一起吃进去
+        if 2 <= len(chinese_block) <= 4:
+            name = chinese_block
+        elif len(chinese_block) > 4:
+            name = chinese_block[-3:]
+        else:
+            continue
+
+        person = f"{name}{paren}"
+        if person not in results:
+            results.append(person)
+
+    return results
 
 
 def split_people_from_line(line: str):
@@ -657,26 +720,27 @@ def split_people_from_line(line: str):
 
     results = []
 
-    # 先抓带括号的中文名字
-    zh_matches = CHINESE_PERSON_RE.findall(line)
-    for m in zh_matches:
-        m = m.strip()
-        if m and m not in results:
-            results.append(m)
-
-    # 再抓带括号的英文/外籍名字
+    # 1) 先抓英文/外籍带括号名字
     en_matches = LATIN_PERSON_RE.findall(line)
     for m in en_matches:
         m = re.sub(r"\s+", " ", m).strip()
         if m and m not in results:
             results.append(m)
 
-    # 已经抓到结构化名字后，再从剩余文本里补抓“空格分隔”的纯中文名字
+    # 2) 再抓中文带括号名字（用保守算法，避免“段洋硕白海森(R)”错切）
+    zh_tagged = extract_chinese_tagged_people(line)
+    for m in zh_tagged:
+        if m and m not in results:
+            results.append(m)
+
+    # 3) 已经抓到结构化名字后，再从剩余文本里补抓空格分隔的纯中文名字
     if results:
         remaining = line
         for m in results:
             remaining = remaining.replace(m, " ")
 
+        # 去掉残留括号串
+        remaining = re.sub(r"\([^)]*\)", " ", remaining)
         remaining = re.sub(r"\s+", " ", remaining).strip()
 
         if remaining:
@@ -688,7 +752,7 @@ def split_people_from_line(line: str):
 
         return results
 
-    # 没抓到括号名字时，如果这一行本身是空格分隔的中文名字，也拆出来
+    # 4) 没抓到括号名字时，如果这一行本身是空格分隔的中文名字，也拆出来
     parts = [x.strip() for x in re.split(r"\s+", line) if x.strip()]
     pure_names = []
     for p in parts:
@@ -698,7 +762,7 @@ def split_people_from_line(line: str):
     if pure_names:
         return pure_names
 
-    # 其他情况整行保留，避免误拆
+    # 5) 其他情况整行保留，避免误拆
     return [line]
 
 
@@ -751,7 +815,6 @@ def extract_people_lines(card_text: str):
 # =========================
 # ICS 输出
 # =========================
-
 def title_icon(task_type: str) -> str:
     return {
         "航班": "✈️",
@@ -786,6 +849,7 @@ def build_description(item: dict) -> str:
 
     lines.append(f"航班：{item['flight_no']}")
 
+    # 优先中文航线，没有中文就显示代码
     if item["dep_cn"] or item["arr_cn"]:
         lines.append(f"航线：{item['dep_cn']} → {item['arr_cn']}")
     elif item["dep"] or item["arr"]:
@@ -841,14 +905,60 @@ def build_vevent(item: dict) -> str:
     ])
 
 
-def write_calendar(filename: str, items: list[dict]):
+def extract_uid_from_vevent(vevent: str) -> str:
+    m = re.search(r"^UID:(.+)$", vevent, flags=re.M)
+    return m.group(1).strip() if m else ""
+
+
+def extract_dtstart_from_vevent(vevent: str) -> str:
+    m = re.search(r"^DTSTART(?:;[^:]+)?:([0-9T]+)$", vevent, flags=re.M)
+    return m.group(1).strip() if m else "99999999T999999"
+
+
+def load_existing_vevents(filename: str):
+    if not os.path.exists(filename):
+        return {}
+
+    try:
+        with open(filename, "r", encoding="utf-8") as f:
+            content = f.read()
+    except Exception:
+        return {}
+
+    events = {}
+    matches = re.findall(r"BEGIN:VEVENT\s.*?END:VEVENT", content, flags=re.S)
+    for block in matches:
+        block = block.strip()
+        uid = extract_uid_from_vevent(block)
+        if uid:
+            events[uid] = block
+    return events
+
+
+def write_calendar(filename: str, items: list[dict], preserve_existing: bool = True):
+    new_events = {}
+    for item in items:
+        vevent = build_vevent(item)
+        uid = extract_uid_from_vevent(vevent)
+        if uid:
+            new_events[uid] = vevent
+
+    merged_events = {}
+    if preserve_existing:
+        merged_events.update(load_existing_vevents(filename))
+    merged_events.update(new_events)
+
+    ordered = sorted(
+        merged_events.values(),
+        key=lambda x: (extract_dtstart_from_vevent(x), extract_uid_from_vevent(x))
+    )
+
     content = [
         "BEGIN:VCALENDAR",
         "VERSION:2.0",
         "PRODID:-//Crew Calendar//CN",
     ]
-    for item in items:
-        content.append(build_vevent(item))
+    content.extend(ordered)
     content.append("END:VCALENDAR")
 
     with open(filename, "w", encoding="utf-8") as f:
@@ -879,7 +989,6 @@ def event_quality(item: dict) -> int:
 # =========================
 # 主流程
 # =========================
-
 def collect_day_blocks(page):
     day_headers = get_day_headers(page)
     save_text("day_headers.txt", "\n".join(day_headers))
@@ -983,17 +1092,30 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
     for key in buckets:
         buckets[key].sort(key=lambda x: (x["start_dt"], x["flight_no"]))
 
-    write_calendar("flight.ics", buckets["flight"])
-    write_calendar("positioning.ics", buckets["positioning"])
-    write_calendar("training.ics", buckets["training"])
-    write_calendar("ferry.ics", buckets["ferry"])
-    write_calendar("other.ics", buckets["other"])
+    # 根目录：保留历史
+    write_calendar("flight.ics", buckets["flight"], preserve_existing=True)
+    write_calendar("positioning.ics", buckets["positioning"], preserve_existing=True)
+    write_calendar("training.ics", buckets["training"], preserve_existing=True)
+    write_calendar("ferry.ics", buckets["ferry"], preserve_existing=True)
+    write_calendar("other.ics", buckets["other"], preserve_existing=True)
 
-    write_calendar(os.path.join(ARTIFACT_DIR, "flight.ics"), buckets["flight"])
-    write_calendar(os.path.join(ARTIFACT_DIR, "positioning.ics"), buckets["positioning"])
-    write_calendar(os.path.join(ARTIFACT_DIR, "training.ics"), buckets["training"])
-    write_calendar(os.path.join(ARTIFACT_DIR, "ferry.ics"), buckets["ferry"])
-    write_calendar(os.path.join(ARTIFACT_DIR, "other.ics"), buckets["other"])
+    total_items = (
+        buckets["flight"]
+        + buckets["positioning"]
+        + buckets["training"]
+        + buckets["ferry"]
+        + buckets["other"]
+    )
+    total_items.sort(key=lambda x: (x["start_dt"], x["flight_no"]))
+    write_calendar("crew_schedule.ics", total_items, preserve_existing=True)
+
+    # debug_output：只写本次结果，不混历史
+    write_calendar(os.path.join(ARTIFACT_DIR, "flight.ics"), buckets["flight"], preserve_existing=False)
+    write_calendar(os.path.join(ARTIFACT_DIR, "positioning.ics"), buckets["positioning"], preserve_existing=False)
+    write_calendar(os.path.join(ARTIFACT_DIR, "training.ics"), buckets["training"], preserve_existing=False)
+    write_calendar(os.path.join(ARTIFACT_DIR, "ferry.ics"), buckets["ferry"], preserve_existing=False)
+    write_calendar(os.path.join(ARTIFACT_DIR, "other.ics"), buckets["other"], preserve_existing=False)
+    write_calendar(os.path.join(ARTIFACT_DIR, "crew_schedule.ics"), total_items, preserve_existing=False)
 
 
 def run():
