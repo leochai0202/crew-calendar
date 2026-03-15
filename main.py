@@ -4,6 +4,7 @@ import io
 import json
 import base64
 import shutil
+import hashlib
 from itertools import product
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
@@ -55,7 +56,6 @@ BASE_AIRPORT_CN_TO_ICAO = {
 AIRPORT_CN_TO_ICAO = {}
 AIRPORT_ICAO_TO_CN = {}
 AIRPORT_NAMES = []
-
 
 # =========================
 # 正则常量
@@ -113,6 +113,10 @@ def safe_name(s: str) -> str:
     return re.sub(r"[^0-9A-Za-z_\-]+", "_", s).strip("_") or "unnamed"
 
 
+def stable_hash(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
 # =========================
 # 机场别名自动积累
 # =========================
@@ -167,6 +171,10 @@ def add_airport_alias(icao: str, alias: str):
     if not re.fullmatch(r"[A-Z]{4}", icao):
         return
     if not alias:
+        return
+    if len(alias) < 2:
+        return
+    if re.fullmatch(r"[A-Z]{4}", alias):
         return
 
     data = load_airport_aliases()
@@ -859,7 +867,7 @@ def extract_people_lines(card_text: str):
 
 
 # =========================
-# ICS 输出
+# ICS 输出 / 增量更新
 # =========================
 def title_icon(task_type: str) -> str:
     return {
@@ -968,6 +976,11 @@ def extract_dtstart_from_vevent(vevent: str) -> str:
     return m.group(1).strip() if m else "99999999T999999"
 
 
+def normalize_vevent_for_compare(vevent: str) -> str:
+    lines = [x.strip() for x in vevent.strip().splitlines() if x.strip()]
+    return "\n".join(lines)
+
+
 def load_existing_vevents(filename: str):
     if not os.path.exists(filename):
         return {}
@@ -988,6 +1001,34 @@ def load_existing_vevents(filename: str):
     return events
 
 
+def merge_events_incremental(existing_events: dict, new_events: dict):
+    merged = dict(existing_events)
+
+    changed = False
+    added = 0
+    updated = 0
+    unchanged = 0
+
+    for uid, new_block in new_events.items():
+        old_block = existing_events.get(uid)
+
+        if old_block is None:
+            merged[uid] = new_block
+            changed = True
+            added += 1
+            continue
+
+        if normalize_vevent_for_compare(old_block) == normalize_vevent_for_compare(new_block):
+            unchanged += 1
+            continue
+
+        merged[uid] = new_block
+        changed = True
+        updated += 1
+
+    return merged, changed, added, updated, unchanged
+
+
 def write_calendar(filename: str, items: list[dict], preserve_existing: bool = True):
     new_events = {}
     for item in items:
@@ -996,10 +1037,11 @@ def write_calendar(filename: str, items: list[dict], preserve_existing: bool = T
         if uid:
             new_events[uid] = vevent
 
-    merged_events = {}
     if preserve_existing:
-        merged_events.update(load_existing_vevents(filename))
-    merged_events.update(new_events)
+        existing_events = load_existing_vevents(filename)
+        merged_events, _, _, _, _ = merge_events_incremental(existing_events, new_events)
+    else:
+        merged_events = new_events
 
     ordered = sorted(
         merged_events.values(),
@@ -1014,8 +1056,22 @@ def write_calendar(filename: str, items: list[dict], preserve_existing: bool = T
     content.extend(ordered)
     content.append("END:VCALENDAR")
 
+    final_text = "\n".join(content)
+
+    old_text = None
+    if os.path.exists(filename):
+        try:
+            with open(filename, "r", encoding="utf-8") as f:
+                old_text = f.read()
+        except Exception:
+            old_text = None
+
+    if old_text == final_text:
+        return False
+
     with open(filename, "w", encoding="utf-8") as f:
-        f.write("\n".join(content))
+        f.write(final_text)
+    return True
 
 
 def event_quality(item: dict) -> int:
@@ -1145,11 +1201,13 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
     for key in buckets:
         buckets[key].sort(key=lambda x: (x["start_dt"], x["flight_no"]))
 
-    write_calendar("flight.ics", buckets["flight"], preserve_existing=True)
-    write_calendar("positioning.ics", buckets["positioning"], preserve_existing=True)
-    write_calendar("training.ics", buckets["training"], preserve_existing=True)
-    write_calendar("ferry.ics", buckets["ferry"], preserve_existing=True)
-    write_calendar("other.ics", buckets["other"], preserve_existing=True)
+    changed_root = False
+
+    changed_root |= write_calendar("flight.ics", buckets["flight"], preserve_existing=True)
+    changed_root |= write_calendar("positioning.ics", buckets["positioning"], preserve_existing=True)
+    changed_root |= write_calendar("training.ics", buckets["training"], preserve_existing=True)
+    changed_root |= write_calendar("ferry.ics", buckets["ferry"], preserve_existing=True)
+    changed_root |= write_calendar("other.ics", buckets["other"], preserve_existing=True)
 
     total_items = (
         buckets["flight"]
@@ -1159,14 +1217,17 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
         + buckets["other"]
     )
     total_items.sort(key=lambda x: (x["start_dt"], x["flight_no"]))
-    write_calendar("crew_schedule.ics", total_items, preserve_existing=True)
+    changed_root |= write_calendar("crew_schedule.ics", total_items, preserve_existing=True)
 
+    # debug_output 只写本次结果，不保历史
     write_calendar(os.path.join(ARTIFACT_DIR, "flight.ics"), buckets["flight"], preserve_existing=False)
     write_calendar(os.path.join(ARTIFACT_DIR, "positioning.ics"), buckets["positioning"], preserve_existing=False)
     write_calendar(os.path.join(ARTIFACT_DIR, "training.ics"), buckets["training"], preserve_existing=False)
     write_calendar(os.path.join(ARTIFACT_DIR, "ferry.ics"), buckets["ferry"], preserve_existing=False)
     write_calendar(os.path.join(ARTIFACT_DIR, "other.ics"), buckets["other"], preserve_existing=False)
     write_calendar(os.path.join(ARTIFACT_DIR, "crew_schedule.ics"), total_items, preserve_existing=False)
+
+    save_text("changed_root_flag.txt", str(changed_root))
 
 
 def run():
