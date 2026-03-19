@@ -78,7 +78,8 @@ UID:航班-9C8891-20260320T065500-20260320T114500@crew-calendar
 SUMMARY:✈️ 9C8891 上海浦东→曼谷素旺那普
 DTSTART;TZID=Asia/Shanghai:20260320T065500
 DTEND;TZID=Asia/Shanghai:20260320T114500
-DESCRIPTION:03月20日 周五\n航班：9C8891\n航线：上海浦东 → 曼谷素旺那普\n签到：04:50｜上海浦东\n任务：06:55 - 11:45\n机型：A320｜注册号：B6751\n\n人员名单：\n• 刘鑫(RT)\n• 朱良珩(R*)\n• 段洋硕\n• 沈兰花(B)
+DESCRIPTION:03月20日 周五\n类型：航班\n航班：9C8891\n航线：上海浦东 → 曼谷素旺那普\n签到：04:50｜上海浦东\n地点：上海浦东\n任务：06:55 - 11:45\n机型：A320｜注册号：B8371\n\n人员名单：\n• 刘鑫(RT)\n• 朱良珩(R*)\n• 段洋硕\n• 沈兰花(B)
+LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C8891 签到提醒
@@ -90,7 +91,7 @@ UID:航班-9C7486-20260320T124500-20260320T150500@crew-calendar
 SUMMARY:✈️ 9C7486 曼谷素旺那普→南宁吴圩
 DTSTART;TZID=Asia/Shanghai:20260320T124500
 DTEND;TZID=Asia/Shanghai:20260320T150500
-DESCRIPTION:03月20日 周五\n航班：9C7486\n航线：曼谷素旺那普 → 南宁吴圩\n任务：12:45 - 15:05\n机型：A320｜注册号：B6751\n\n人员名单：\n• 刘鑫(RT)\n• 朱良珩(R*)\n• 段洋硕\n• 沈兰花(B)
+DESCRIPTION:03月20日 周五\n类型：航班\n航班：9C7486\n航线：曼谷素旺那普 → 南宁吴圩\n任务：12:45 - 15:05\n机型：A320｜注册号：B8371\n\n人员名单：\n• 刘鑫(RT)\n• 朱良珩(R*)\n• 段洋硕\n• 沈兰花(B)
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C7486 签到提醒
@@ -102,7 +103,8 @@ UID:航班-9C7485-20260321T162000-20260321T185000@crew-calendar
 SUMMARY:✈️ 9C7485 南宁吴圩→曼谷素旺那普
 DTSTART;TZID=Asia/Shanghai:20260321T162000
 DTEND;TZID=Asia/Shanghai:20260321T185000
-DESCRIPTION:03月21日 周六\n航班：9C7485\n航线：南宁吴圩 → 曼谷素旺那普\n签到：14:40｜南宁吴圩\n任务：16:20 - 18:50\n机型：A320｜注册号：B8871\n\n人员名单：\n• 刘鑫(RT)\n• 朱良珩(R*)\n• 段洋硕\n• 沈兰花(B)
+DESCRIPTION:03月21日 周六\n类型：航班\n航班：9C7485\n航线：南宁吴圩 → 曼谷素旺那普\n签到：14:40｜南宁吴圩\n地点：南宁吴圩\n任务：16:20 - 18:50\n机型：A320｜注册号：B6841\n\n人员名单：\n• 刘鑫(RT)\n• 朱良珩(R*)\n• 段洋硕\n• 沈兰花(B)
+LOCATION:南宁吴圩
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C7485 签到提醒
@@ -114,7 +116,8 @@ UID:航班-9C8892-20260321T195000-20260322T003000@crew-calendar
 SUMMARY:✈️ 9C8892 曼谷素旺那普→上海浦东(+1)
 DTSTART;TZID=Asia/Shanghai:20260321T195000
 DTEND;TZID=Asia/Shanghai:20260322T003000
-DESCRIPTION:03月21日 周六\n航班：9C8892\n航线：曼谷素旺那普 → 上海浦东(+1)\n签到：17:40｜曼谷素旺那普\n任务：19:50 - 00:30\n机型：A320｜注册号：B8871\n\n人员名单：\n• 刘鑫(RT)\n• 朱良珩(R*)\n• 段洋硕\n• 沈兰花(B)
+DESCRIPTION:03月21日 周六\n类型：航班\n航班：9C8892\n航线：曼谷素旺那普 → 上海浦东(+1)\n签到：17:40｜曼谷素旺那普\n地点：曼谷素旺那普\n任务：19:50 - 00:30\n机型：A320｜注册号：B6841\n\n人员名单：\n• 刘鑫(RT)\n• 朱良珩(R*)\n• 段洋硕\n• 沈兰花(B)
+LOCATION:曼谷素旺那普
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C8892 签到提醒
