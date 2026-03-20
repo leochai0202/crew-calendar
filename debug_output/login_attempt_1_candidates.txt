@@ -1,2 +1,2 @@
-NE3F
-NEBF
+CURS
+CUR5
