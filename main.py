@@ -756,20 +756,33 @@ def parse_route_cn_from_line(line: str):
         dep_cn, arr_cn = line.split("→", 1)
         return dep_cn.strip(), arr_cn.strip()
 
-    # 优先长名字
+    # 先用“已知机场名 + 已知机场名”拆分
     for dep_name in AIRPORT_NAMES:
         if line.startswith(dep_name):
             remain = line[len(dep_name):].strip()
-            if remain:
-                return dep_name, remain
+            if not remain:
+                continue
 
-    # 字典里没有时，也尽量按中文块拆分
-    zh_blocks = re.findall(r"[\u4e00-\u9fff]{2,8}", line)
-    if len(zh_blocks) >= 2:
-        dep_guess = zh_blocks[0]
-        arr_guess = "".join(zh_blocks[1:])
-        if dep_guess and arr_guess and dep_guess != arr_guess:
-            return dep_guess, arr_guess
+            for arr_name in AIRPORT_NAMES:
+                if remain == arr_name:
+                    return dep_name, arr_name
+
+            return dep_name, remain
+
+    # 再尝试任意位置“两机场拼接”
+    for dep_name in AIRPORT_NAMES:
+        if not line.startswith(dep_name):
+            continue
+        remain = line[len(dep_name):].strip()
+        if remain:
+            return dep_name, remain
+
+    # 最后兜底：纯中文字符串从中间切
+    for i in range(2, len(line) - 1):
+        left = line[:i]
+        right = line[i:]
+        if re.fullmatch(r"[\u4e00-\u9fff]{2,8}", left) and re.fullmatch(r"[\u4e00-\u9fff]{2,8}", right):
+            return left, right
 
     return "", ""
 
@@ -790,7 +803,6 @@ def extract_airports(card_text: str):
     if candidate_lines:
         dep_cn_try, arr_cn_try = parse_route_cn_from_line(candidate_lines[-1])
 
-        # 关键：中文先保留，不要求必须命中字典
         dep_cn = dep_cn_try or dep_cn
         arr_cn = arr_cn_try or arr_cn
 
