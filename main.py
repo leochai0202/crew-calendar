@@ -52,6 +52,7 @@ BASE_AIRPORT_CN_TO_ICAO = {
     "南宁吴圩": "ZGNN",
     "扬州泰州": "ZSYZ",
     "厦门高崎": "ZSAM",
+    "泉州晋江": "ZSQZ",
     "曼谷素旺那普": "VTBS",
     "曼谷素万那普": "VTBS",
 }
