@@ -1,0 +1,8 @@
+统一认证中心
+Username
+Password
+Validcode
+ 
+Login
+Forget the password?
+*验证码验证错误,请重新输入!
