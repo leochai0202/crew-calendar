@@ -165,6 +165,19 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
+UID:训练-b9ec4c09c58808d3-20260330T120000-20260330T180000@crew-calendar
+SUMMARY:🎓 模拟机-RNP 程序训练
+DTSTART;TZID=Asia/Shanghai:20260330T120000
+DTEND;TZID=Asia/Shanghai:20260330T180000
+DESCRIPTION:03月30日 周一\n类型：训练\n事项：模拟机-RNP 程序训练\n地点：春秋航空总部大楼\n任务：12:00 - 18:00\n\n人员名单：\n• 段洋硕丁佳瑞董铭宸范伟龙顾静昊丁敏
+LOCATION:春秋航空总部大楼
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:模拟机-RNP 程序训练 提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
 DESCRIPTION:日期：03月14日 周六 航班 09:05- 22:40\n任务类型：航班\n航班号：9C8995\n机型：A321\n注册号：B326Q\n签到时间：14:20\n签到地点：上海虹桥\n任务时间：14:20 - 19:05\n人员类型：副驾驶\n人员名单：\n杨刚(T\,RT)鲍国际(R)段洋硕(R*)\n龚婷(B)\n兰力牛琨彭高庆得\n\n原始内容：\n9C8995\nB326QA321\n 14:20 上海虹桥 航班动态\n上海虹桥重庆江北 16:05- 19:05\n\n副驾驶\n\n杨刚(T\,RT)鲍国际(R)段洋硕(R*)\n\n龚婷(B)\n\n兰力牛琨彭高庆得
 DTEND:20260314T190500Z
 DTSTART:20260314T142000Z
