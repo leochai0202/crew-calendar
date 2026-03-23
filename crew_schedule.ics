@@ -131,7 +131,7 @@ UID:航班-9C7382-20260326T080000-20260326T095000@crew-calendar
 SUMMARY:✈️ 9C7382 揭阳潮汕→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260326T080000
 DTEND;TZID=Asia/Shanghai:20260326T095000
-DESCRIPTION:03月26日 周四\n类型：航班\n航班：9C7382\n航线：揭阳潮汕 → 上海虹桥\n签到：06:10｜揭阳潮汕\n地点：揭阳潮汕\n任务：08:00 - 09:50\n机型：A320｜注册号：B8591\n\n人员名单：\n• VERTIZ ROBLEDA IGNACIO(R)\n• 陈东亚(RT)\n• 段洋硕(R*)\n• 于青霞(B)\n• 王坤何宇张皓翔
+DESCRIPTION:03月26日 周四\n类型：航班\n航班：9C7382\n航线：揭阳潮汕 → 上海虹桥\n签到：06:10｜揭阳潮汕\n地点：揭阳潮汕\n任务：08:00 - 09:50\n机型：A320｜注册号：B8817\n\n人员名单：\n• VERTIZ ROBLEDA IGNACIO(R)\n• 陈东亚(RT)\n• 段洋硕(R*)\n• 于青霞(B)\n• 王坤何宇张皓翔
 LOCATION:揭阳潮汕
 BEGIN:VALARM
 TRIGGER:-PT90M
