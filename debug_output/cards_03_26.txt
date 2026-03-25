@@ -12,7 +12,7 @@ VERTIZ ROBLEDA IGNACIO(R)陈东亚(RT)段洋硕(R*)
 
 [flight]
 9C8997
-B30ARA320
+B327ZA320
 15:15 上海虹桥 航班动态
 上海虹桥重庆江北 17:00- 19:50
 副驾驶
@@ -23,7 +23,7 @@ VERTIZ ROBLEDA IGNACIO(R)段洋硕(R*)陈东亚(RT)
 
 [flight]
 9C8998
-B30ARA320
+B327ZA320
 19:20 航班动态
 重庆江北上海虹桥 20:55- 23:25
 副驾驶
