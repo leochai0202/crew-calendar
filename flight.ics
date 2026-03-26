@@ -167,7 +167,7 @@ UID:航班-9C7382-20260326T080000-20260326T095000@crew-calendar
 SUMMARY:✈️ 9C7382 揭阳潮汕→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260326T080000
 DTEND;TZID=Asia/Shanghai:20260326T095000
-DESCRIPTION:03月26日 周四\n类型：航班\n航班：9C7382\n航线：揭阳潮汕 → 上海虹桥\n签到：06:10｜揭阳潮汕\n地点：揭阳潮汕\n任务：08:00 - 09:50\n机型：A320｜注册号：B8591\n\n人员名单：\n• VERTIZ ROBLEDA IGNACIO(R)\n• 陈东亚(RT)\n• 段洋硕(R*)\n• 郑云姗(B)\n• 王坤何宇
+DESCRIPTION:03月26日 周四\n类型：航班\n航班：9C7382\n航线：揭阳潮汕 → 上海虹桥\n签到：06:10｜揭阳潮汕\n地点：揭阳潮汕\n任务：08:00 - 09:50\n机型：A320｜注册号：B8591\n\n人员名单：\n• 段洋硕\n• VERTIZ ROBLEDA IGNACIO(R)\n• 陈东亚(RT)\n• 郑云姗(B)\n• 王坤何宇
 LOCATION:揭阳潮汕
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -180,7 +180,7 @@ UID:航班-9C8997-20260326T170000-20260326T195000@crew-calendar
 SUMMARY:✈️ 9C8997 上海虹桥→重庆江北
 DTSTART;TZID=Asia/Shanghai:20260326T170000
 DTEND;TZID=Asia/Shanghai:20260326T195000
-DESCRIPTION:03月26日 周四\n类型：航班\n航班：9C8997\n航线：上海虹桥 → 重庆江北\n签到：15:15｜上海虹桥\n地点：上海虹桥\n任务：17:00 - 19:50\n机型：A320｜注册号：B30AR\n\n人员名单：\n• VERTIZ ROBLEDA IGNACIO(R)\n• 段洋硕(R*)\n• 陈东亚(RT)\n• 吉翔(B)
+DESCRIPTION:03月26日 周四\n类型：航班\n航班：9C8997\n航线：上海虹桥 → 重庆江北\n签到：15:15｜上海虹桥\n地点：上海虹桥\n任务：17:00 - 19:50\n机型：A320｜注册号：B30AR\n\n人员名单：\n• 段洋硕\n• VERTIZ ROBLEDA IGNACIO(R)\n• 陈东亚(RT)\n• 吉翔(B)
 LOCATION:上海虹桥
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -193,7 +193,7 @@ UID:航班-9C8998-20260326T205500-20260326T232500@crew-calendar
 SUMMARY:✈️ 9C8998 重庆江北→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260326T205500
 DTEND;TZID=Asia/Shanghai:20260326T232500
-DESCRIPTION:03月26日 周四\n类型：航班\n航班：9C8998\n航线：重庆江北 → 上海虹桥\n任务：20:55 - 23:25\n机型：A320｜注册号：B30AR\n\n人员名单：\n• VERTIZ ROBLEDA IGNACIO(R)\n• 段洋硕(R*)\n• 陈东亚(RT)\n• 吉翔(B)
+DESCRIPTION:03月26日 周四\n类型：航班\n航班：9C8998\n航线：重庆江北 → 上海虹桥\n任务：20:55 - 23:25\n机型：A320｜注册号：B30AR\n\n人员名单：\n• 段洋硕\n• VERTIZ ROBLEDA IGNACIO(R)\n• 陈东亚(RT)\n• 吉翔(B)
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C8998 签到提醒
@@ -205,7 +205,7 @@ UID:航班-9C8909-20260331T070000-20260331T083500@crew-calendar
 SUMMARY:✈️ 9C8909 上海虹桥→泉州晋江
 DTSTART;TZID=Asia/Shanghai:20260331T070000
 DTEND;TZID=Asia/Shanghai:20260331T083500
-DESCRIPTION:03月31日 周二\n类型：航班\n航班：9C8909\n航线：上海虹桥 → 泉州晋江\n签到：05:15｜上海虹桥\n地点：上海虹桥\n任务：07:00 - 08:35\n机型：A320｜注册号：B8581\n\n人员名单：\n• SUNG KISOOL(R)\n• 硕王闯(R)\n• 段洋
+DESCRIPTION:03月31日 周二\n类型：航班\n航班：9C8909\n航线：上海虹桥 → 泉州晋江\n签到：05:15｜上海虹桥\n地点：上海虹桥\n任务：07:00 - 08:35\n机型：A320｜注册号：B8581\n\n人员名单：\n• 段洋硕\n• SUNG KISOOL(R)\n• 王闯(R)
 LOCATION:上海虹桥
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -218,7 +218,7 @@ UID:航班-9C8910-20260331T092000-20260331T105000@crew-calendar
 SUMMARY:✈️ 9C8910 泉州晋江→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260331T092000
 DTEND;TZID=Asia/Shanghai:20260331T105000
-DESCRIPTION:03月31日 周二\n类型：航班\n航班：9C8910\n航线：泉州晋江 → 上海虹桥\n任务：09:20 - 10:50\n机型：A320｜注册号：B8581\n\n人员名单：\n• SUNG KISOOL(R)\n• 硕王闯(R)\n• 段洋
+DESCRIPTION:03月31日 周二\n类型：航班\n航班：9C8910\n航线：泉州晋江 → 上海虹桥\n任务：09:20 - 10:50\n机型：A320｜注册号：B8581\n\n人员名单：\n• 段洋硕\n• SUNG KISOOL(R)\n• 王闯(R)
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C8910 签到提醒
@@ -230,7 +230,7 @@ UID:航班-9C6891-20260331T134500-20260331T162000@crew-calendar
 SUMMARY:✈️ 9C6891 上海虹桥→广州白云
 DTSTART;TZID=Asia/Shanghai:20260331T134500
 DTEND;TZID=Asia/Shanghai:20260331T162000
-DESCRIPTION:03月31日 周二\n类型：航班\n航班：9C6891\n航线：上海虹桥 → 广州白云\n签到：12:00｜上海虹桥\n地点：上海虹桥\n任务：13:45 - 16:20\n机型：A320｜注册号：B6707\n\n人员名单：\n• SUNG KISOOL(R)\n• 硕王闯(R)\n• 段洋\n• 李幸宗(B)\n• 许磊
+DESCRIPTION:03月31日 周二\n类型：航班\n航班：9C6891\n航线：上海虹桥 → 广州白云\n签到：12:00｜上海虹桥\n地点：上海虹桥\n任务：13:45 - 16:20\n机型：A320｜注册号：B6707\n\n人员名单：\n• 段洋硕\n• SUNG KISOOL(R)\n• 王闯(R)\n• 李幸宗(B)\n• 许磊
 LOCATION:上海虹桥
 BEGIN:VALARM
 TRIGGER:-PT90M
