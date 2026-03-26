@@ -61,6 +61,11 @@ AIRPORT_CN_TO_ICAO = {}
 AIRPORT_ICAO_TO_CN = {}
 AIRPORT_NAMES = []
 
+# 固定优先识别的人名
+KNOWN_PEOPLE = [
+    "段洋硕",
+]
+
 # =========================
 # 正则
 # =========================
@@ -757,7 +762,6 @@ def parse_route_cn_from_line(line: str):
         dep_cn, arr_cn = line.split("→", 1)
         return dep_cn.strip(), arr_cn.strip()
 
-    # 先用“已知机场名 + 已知机场名”拆分
     for dep_name in AIRPORT_NAMES:
         if line.startswith(dep_name):
             remain = line[len(dep_name):].strip()
@@ -770,7 +774,6 @@ def parse_route_cn_from_line(line: str):
 
             return dep_name, remain
 
-    # 再尝试任意位置“两机场拼接”
     for dep_name in AIRPORT_NAMES:
         if not line.startswith(dep_name):
             continue
@@ -778,7 +781,6 @@ def parse_route_cn_from_line(line: str):
         if remain:
             return dep_name, remain
 
-    # 最后兜底：纯中文字符串从中间切
     for i in range(2, len(line) - 1):
         left = line[:i]
         right = line[i:]
@@ -871,45 +873,96 @@ def split_people_from_line(line: str):
         return []
 
     results = []
+    working = line
 
-    en_matches = LATIN_PERSON_RE.findall(line)
+    # 0) 先优先抓固定已知姓名
+    for name in KNOWN_PEOPLE:
+        if name in working:
+            if name not in results:
+                results.append(name)
+            working = working.replace(name, " ")
+
+    # 1) 先抓英文带括号姓名
+    en_matches = LATIN_PERSON_RE.findall(working)
     for m in en_matches:
         m = re.sub(r"\s+", " ", m).strip()
         if m and m not in results:
             results.append(m)
+        working = working.replace(m, " ")
 
-    zh_tagged = extract_chinese_tagged_people(line)
-    for m in zh_tagged:
-        if m and m not in results:
-            results.append(m)
+    # 2) 再抓中文姓名 + 括号
+    zh_tagged_matches = list(re.finditer(r"([\u4e00-\u9fff]{2,4})\(([^)]*)\)", working))
+    consumed_ranges = []
 
-    if results:
-        remaining = line
-        for m in results:
-            remaining = remaining.replace(m, " ")
+    for m in zh_tagged_matches:
+        full = f"{m.group(1)}({m.group(2)})"
+        if full not in results:
+            results.append(full)
+        consumed_ranges.append((m.start(), m.end()))
 
-        remaining = re.sub(r"\([^)]*\)", " ", remaining)
-        remaining = re.sub(r"\s+", " ", remaining).strip()
+    if consumed_ranges:
+        chars = list(working)
+        for s, e in consumed_ranges:
+            for i in range(s, e):
+                chars[i] = " "
+        working = "".join(chars)
 
-        if remaining:
-            for token in remaining.split(" "):
-                token = token.strip()
-                if re.fullmatch(r"[\u4e00-\u9fff]{2,4}", token):
-                    if token not in results:
-                        results.append(token)
+    # 3) 剩下连续中文串再拆
+    working = re.sub(r"\([^)]*\)", " ", working)
+    working = re.sub(r"\s+", " ", working).strip()
 
-        return results
+    if working:
+        zh_blocks = re.findall(r"[\u4e00-\u9fff]+", working)
+        other_parts = re.split(r"[\u4e00-\u9fff]+", working)
 
-    parts = [x.strip() for x in re.split(r"\s+", line) if x.strip()]
-    pure_names = []
-    for p in parts:
-        if re.fullmatch(r"[\u4e00-\u9fff]{2,4}", p):
-            pure_names.append(p)
+        for block in zh_blocks:
+            block = block.strip()
+            if not block:
+                continue
 
-    if pure_names:
-        return pure_names
+            if 2 <= len(block) <= 4:
+                if block not in results:
+                    results.append(block)
+                continue
 
-    return [line]
+            temp = block
+            while len(temp) >= 2:
+                if len(temp) == 2:
+                    piece = temp
+                    temp = ""
+                elif len(temp) == 3:
+                    piece = temp
+                    temp = ""
+                elif len(temp) == 4:
+                    piece = temp[:2]
+                    temp = temp[2:]
+                elif len(temp) == 5:
+                    piece = temp[:3]
+                    temp = temp[3:]
+                else:
+                    piece = temp[:3]
+                    temp = temp[3:]
+
+                piece = piece.strip()
+                if 2 <= len(piece) <= 4 and piece not in results:
+                    results.append(piece)
+
+        for p in other_parts:
+            p = normalize_text(p)
+            if p and p not in results:
+                results.append(p)
+
+    cleaned = []
+    for x in results:
+        x = normalize_text(x)
+        if not x:
+            continue
+        if x in ["查看更多", "航班动态"]:
+            continue
+        if x not in cleaned:
+            cleaned.append(x)
+
+    return cleaned
 
 
 def extract_people_lines_flight(card_text: str):
