@@ -94,8 +94,6 @@ PURE_DATE_PREFIX_RE = re.compile(r"^\d{4}-\d{2}-\d{2}")
 ICAO_RE = re.compile(r"\b[A-Z]{4}\b")
 DAY_HEADER_RE = re.compile(r"^\d{2}月\d{2}日\s*周.")
 GENERIC_TASK_WORDS = ["训练", "考勤", "摆渡", "置位", "航班", "备份", "待命"]
-
-# 更宽松一点，适配英文带括号姓名
 LATIN_PERSON_RE = re.compile(r"[A-Z][A-Z\s\.\-']{1,80}\([^)]*\)")
 
 
@@ -131,11 +129,6 @@ def escape_ics_text(text: str) -> str:
 
 def format_dt_local(dt: datetime) -> str:
     return dt.strftime("%Y%m%dT%H%M%S")
-
-
-def make_datetime(year: int, month: int, day: int, hhmm: str) -> datetime:
-    hh, mm = map(int, hhmm.split(":"))
-    return datetime(year, month, day, hh, mm, tzinfo=SH_TZ)
 
 
 def make_datetime_safe(year: int, month: int, day: int, hhmm: str):
@@ -902,24 +895,20 @@ def split_people_from_line(line: str) -> list:
 
     results = []
 
-    # 先抓固定姓名
     for name in KNOWN_PEOPLE:
         if name in line and name not in results:
             results.append(name)
 
-    # 先抓英文带括号姓名
     for m in LATIN_PERSON_RE.findall(line):
         m = normalize_text(m)
         if m and m not in results:
             results.append(m)
 
-    # 抓中文带括号姓名
     for m in re.finditer(r"([\u4e00-\u9fff]{2,4}\([^)]*\))", line):
         person = normalize_text(m.group(1))
         if person and person not in results:
             results.append(person)
 
-    # 从已知姓名/英文/带括号姓名中移除后，再做剩余中文拆分
     working = line
     for x in results:
         working = working.replace(x, " ")
@@ -1240,7 +1229,6 @@ def build_title(item: dict) -> str:
     arr_cn = item["arr_cn"]
     title_text = item.get("title_text", "").strip()
 
-    # 中文优先
     if flight_no and dep_cn and arr_cn:
         return f"{icon} {flight_no} {dep_cn}→{arr_cn}"
     if flight_no and dep_cn and arr:
@@ -1269,7 +1257,6 @@ def build_description(item: dict) -> str:
     elif item.get("title_text"):
         lines.append(f"事项：{item['title_text']}")
 
-    # 中文优先
     if item["dep_cn"] and item["arr_cn"]:
         lines.append(f"航线：{item['dep_cn']} → {item['arr_cn']}")
     elif item["dep_cn"] and item["arr"]:
@@ -1300,7 +1287,7 @@ def build_description(item: dict) -> str:
         lines.append("")
         lines.append("人员名单：")
         for p in item["people_lines"]:
-            lines.append(p)
+            lines.append(f"• {p}")
 
     if item["flight_no"]:
         fr_flight = re.sub(r"[A-Z]$", "", item["flight_no"])
@@ -1313,47 +1300,53 @@ def build_description(item: dict) -> str:
     return "\n".join(lines)
 
 
-def event_identity(item: dict) -> str:
-    return stable_hash(
-        json.dumps(
-            {
-                "task_type": item["task_type"],
-                "flight_no": item["flight_no"],
-                "title_text": item.get("title_text", ""),
-                "start_dt": item["start_dt"].isoformat(),
-                "end_dt": item["end_dt"].isoformat(),
-            },
-            ensure_ascii=False,
-            sort_keys=True
-        )
-    )[:24]
+def version_identity(item: dict) -> str:
+    """
+    重大变化保留版本：
+    - 时间变化
+    - 地点变化
+    - 航线变化
+    - 任务类型变化
+
+    轻微变化不单独保留版本：
+    - 人员名单变化
+    - 备注小修正
+    """
+    payload = {
+        "task_type": item["task_type"],
+        "flight_no": item["flight_no"],
+        "title_text": item.get("title_text", ""),
+        "start_dt": item["start_dt"].isoformat(),
+        "end_dt": item["end_dt"].isoformat(),
+        "dep": item["dep"],
+        "arr": item["arr"],
+        "dep_cn": item["dep_cn"],
+        "arr_cn": item["arr_cn"],
+        "location": item["location"],
+    }
+    return stable_hash(json.dumps(payload, ensure_ascii=False, sort_keys=True))[:32]
 
 
-def event_content_signature(item: dict) -> str:
-    return stable_hash(
-        json.dumps(
-            {
-                "task_type": item["task_type"],
-                "flight_no": item["flight_no"],
-                "title_text": item.get("title_text", ""),
-                "dep": item["dep"],
-                "arr": item["arr"],
-                "dep_cn": item["dep_cn"],
-                "arr_cn": item["arr_cn"],
-                "start_time": item["start_time"],
-                "end_time": item["end_time"],
-                "checkin_time": item["checkin_time"],
-                "checkin_place": item["checkin_place"],
-                "location": item["location"],
-                "model": item["model"],
-                "reg": item["reg"],
-                "people_lines": item["people_lines"],
-                "extra_lines": item["extra_lines"],
-            },
-            ensure_ascii=False,
-            sort_keys=True
-        )
-    )[:24]
+def exact_content_signature(item: dict) -> str:
+    payload = {
+        "task_type": item["task_type"],
+        "flight_no": item["flight_no"],
+        "title_text": item.get("title_text", ""),
+        "start_dt": item["start_dt"].isoformat(),
+        "end_dt": item["end_dt"].isoformat(),
+        "dep": item["dep"],
+        "arr": item["arr"],
+        "dep_cn": item["dep_cn"],
+        "arr_cn": item["arr_cn"],
+        "location": item["location"],
+        "checkin_time": item["checkin_time"],
+        "checkin_place": item["checkin_place"],
+        "model": item["model"],
+        "reg": item["reg"],
+        "people_lines": item["people_lines"],
+        "extra_lines": item["extra_lines"],
+    }
+    return stable_hash(json.dumps(payload, ensure_ascii=False, sort_keys=True))[:32]
 
 
 def build_vevent(item: dict, version_tag: str = "") -> str:
@@ -1364,12 +1357,7 @@ def build_vevent(item: dict, version_tag: str = "") -> str:
 
     alarm_desc = f"{item['flight_no']} 签到提醒" if item["flight_no"] else f"{item.get('title_text', '任务')} 提醒"
 
-    # UID 只跟“同一事件身份”绑定，不跟内容绑定
-    identity_key = (
-        f"{item['task_type']}|{item['flight_no']}|{item.get('title_text', '')}|"
-        f"{format_dt_local(item['start_dt'])}|{format_dt_local(item['end_dt'])}"
-    )
-    uid_base = stable_hash(identity_key)[:32]
+    uid_base = version_identity(item)
 
     lines = [
         "BEGIN:VEVENT",
@@ -1544,16 +1532,12 @@ def prepare_items(day_blocks, page_year: int) -> list:
 
             raw_items.append(item)
 
-    # 只对完全相同的重复做去重
+    # 仅对“完全相同的内容”去重
     best_map = {}
     for item in raw_items:
-        identity = event_identity(item)
-        content_sig = event_content_signature(item)
-        key = f"{identity}|{content_sig}"
-
+        key = exact_content_signature(item)
         q = event_quality(item)
         item["quality"] = q
-
         if key not in best_map or q > best_map[key]["quality"]:
             best_map[key] = item
 
@@ -1594,7 +1578,8 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
         existing_map = read_existing_events(filename)
         new_blocks = [build_vevent(item, version_tag=version_tag) for item in bucket_items]
 
-        # 同 UID 的新版本覆盖旧版本；旧历史保留
+        # 重大变化：UID 会变，所以旧版保留、新版新增
+        # 轻微变化：UID 不变，所以新版覆盖旧版
         merged_map = dict(existing_map)
         for block in new_blocks:
             uid = extract_uid_from_vevent(block)
@@ -1612,7 +1597,6 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
     changed_root |= write_calendar_from_vevents("other.ics", merge_history("other.ics", buckets["other"]))
     changed_root |= write_calendar_from_vevents("crew_schedule.ics", merge_history("crew_schedule.ics", total_items))
 
-    # debug_output 放本次抓到的新快照
     write_calendar_from_vevents(
         os.path.join(ARTIFACT_DIR, "flight.ics"),
         [build_vevent(item, version_tag=version_tag) for item in buckets["flight"]]
