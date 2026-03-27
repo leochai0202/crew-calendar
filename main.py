@@ -885,6 +885,59 @@ def extract_airports(card_text: str):
     return dep, arr, dep_cn, arr_cn
 
 
+def _split_chinese_block_to_names(block: str) -> list:
+    """
+    连续中文姓名块拆分策略：
+    - 2字 -> 直接一个名字
+    - 3字 -> 直接一个名字
+    - 4字 -> 优先拆成 2+2
+    - 5字 -> 优先拆成 3+2
+    - 6字 -> 优先拆成 3+3
+    - 7字 -> 优先拆成 3+2+2
+    - 8字 -> 优先拆成 2+2+2+2
+    这样对机组名单场景比简单硬切更稳。
+    """
+    block = normalize_text(block)
+    if not block:
+        return []
+
+    n = len(block)
+    if n == 2:
+        return [block]
+    if n == 3:
+        return [block]
+    if n == 4:
+        return [block[:2], block[2:]]
+    if n == 5:
+        return [block[:3], block[3:]]
+    if n == 6:
+        return [block[:3], block[3:]]
+    if n == 7:
+        return [block[:3], block[3:5], block[5:]]
+    if n == 8:
+        return [block[:2], block[2:4], block[4:6], block[6:]]
+
+    pieces = []
+    temp = block
+    while len(temp) > 0:
+        if len(temp) in (2, 3):
+            pieces.append(temp)
+            break
+        if len(temp) == 4:
+            pieces.extend([temp[:2], temp[2:]])
+            break
+        if len(temp) == 5:
+            pieces.extend([temp[:3], temp[3:]])
+            break
+        if len(temp) == 6:
+            pieces.extend([temp[:3], temp[3:]])
+            break
+        pieces.append(temp[:3])
+        temp = temp[3:]
+
+    return [x for x in pieces if 2 <= len(x) <= 3]
+
+
 def split_people_from_line(line: str) -> list:
     line = normalize_text(line)
     if not line:
@@ -893,72 +946,67 @@ def split_people_from_line(line: str) -> list:
     if any(x in line for x in ["查看更多", "航班动态"]):
         return []
 
+    exclude_words = {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员"} | set(GENERIC_TASK_WORDS)
+
     results = []
 
+    # 0) 优先抠出固定名字
+    working = line
     for name in KNOWN_PEOPLE:
-        if name in line and name not in results:
+        if name in working and name not in results:
             results.append(name)
+            working = working.replace(name, " ")
 
-    for m in LATIN_PERSON_RE.findall(line):
+    # 1) 先抠英文带括号姓名
+    for m in LATIN_PERSON_RE.findall(working):
         m = normalize_text(m)
         if m and m not in results:
             results.append(m)
+            working = working.replace(m, " ")
 
-    for m in re.finditer(r"([\u4e00-\u9fff]{2,4}\([^)]*\))", line):
+    # 2) 再抠中文带括号姓名
+    zh_tagged = list(re.finditer(r"([\u4e00-\u9fff]{2,3}\([^)]*\))", working))
+    for m in zh_tagged:
         person = normalize_text(m.group(1))
         if person and person not in results:
             results.append(person)
 
-    working = line
-    for x in results:
-        working = working.replace(x, " ")
+    for m in zh_tagged:
+        working = working.replace(m.group(1), " ")
 
+    # 3) 剩下中文连续块再拆
     zh_blocks = re.findall(r"[\u4e00-\u9fff]+", working)
     for block in zh_blocks:
         block = normalize_text(block)
         if not block:
             continue
 
-        if 2 <= len(block) <= 4:
-            if block not in results and block not in {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员"}:
-                if block not in GENERIC_TASK_WORDS:
-                    results.append(block)
+        if block in exclude_words:
             continue
 
-        temp = block
-        while len(temp) >= 2:
-            if len(temp) == 2:
-                piece = temp
-                temp = ""
-            elif len(temp) == 3:
-                piece = temp
-                temp = ""
-            elif len(temp) == 4:
-                piece = temp[:2]
-                temp = temp[2:]
-            elif len(temp) == 5:
-                piece = temp[:3]
-                temp = temp[3:]
-            else:
-                piece = temp[:3]
-                temp = temp[3:]
+        names = _split_chinese_block_to_names(block)
+        for name in names:
+            if name not in exclude_words and name not in results:
+                results.append(name)
 
-            piece = normalize_text(piece)
-            if 2 <= len(piece) <= 4 and piece not in results:
-                if piece not in {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员"} and piece not in GENERIC_TASK_WORDS:
-                    results.append(piece)
-
+    # 4) 去重清洗
     cleaned = []
+    seen = set()
     for x in results:
         x = normalize_text(x)
         if not x:
+            continue
+        if x in exclude_words:
             continue
         if x in {"查看更多", "航班动态"}:
             continue
         if re.search(r"\d{2}:\d{2}", x):
             continue
-        if x not in cleaned:
+        if len(x) <= 1:
+            continue
+        if x not in seen:
             cleaned.append(x)
+            seen.add(x)
 
     return cleaned
 
@@ -1251,6 +1299,7 @@ def build_title(item: dict) -> str:
 def build_description(item: dict) -> str:
     lines = []
     lines.append(item["day_header"])
+    lines.append(f"类型：{item['task_type']}")
 
     if item["flight_no"]:
         lines.append(f"航班：{item['flight_no']}")
@@ -1289,29 +1338,10 @@ def build_description(item: dict) -> str:
         for p in item["people_lines"]:
             lines.append(f"• {p}")
 
-    if item["flight_no"]:
-        fr_flight = re.sub(r"[A-Z]$", "", item["flight_no"])
-        lines.append("")
-        lines.append(f"航班追踪：https://www.flightradar24.com/data/flights/{fr_flight}")
-
-    if item["reg"]:
-        lines.append(f"机号信息：https://www.flightradar24.com/data/aircraft/{item['reg']}")
-
     return "\n".join(lines)
 
 
 def version_identity(item: dict) -> str:
-    """
-    重大变化保留版本：
-    - 时间变化
-    - 地点变化
-    - 航线变化
-    - 任务类型变化
-
-    轻微变化不单独保留版本：
-    - 人员名单变化
-    - 备注小修正
-    """
     payload = {
         "task_type": item["task_type"],
         "flight_no": item["flight_no"],
@@ -1532,7 +1562,6 @@ def prepare_items(day_blocks, page_year: int) -> list:
 
             raw_items.append(item)
 
-    # 仅对“完全相同的内容”去重
     best_map = {}
     for item in raw_items:
         key = exact_content_signature(item)
@@ -1578,8 +1607,6 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
         existing_map = read_existing_events(filename)
         new_blocks = [build_vevent(item, version_tag=version_tag) for item in bucket_items]
 
-        # 重大变化：UID 会变，所以旧版保留、新版新增
-        # 轻微变化：UID 不变，所以新版覆盖旧版
         merged_map = dict(existing_map)
         for block in new_blocks:
             uid = extract_uid_from_vevent(block)
