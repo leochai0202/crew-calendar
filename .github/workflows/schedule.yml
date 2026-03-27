@@ -36,8 +36,8 @@ jobs:
 
       - name: Run scraper
         env:
-          CREW_USERNAME: ${{ secrets.CREW_USERNAME }}
-          CREW_PASSWORD: ${{ secrets.CREW_PASSWORD }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
           HEADLESS: "1"
         run: |
           python main.py
