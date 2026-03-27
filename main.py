@@ -50,6 +50,7 @@ def setup_logging():
 
 logger = setup_logging()
 
+
 BASE_AIRPORT_CN_TO_ICAO = {
     "上海虹桥": "ZSSS",
     "上海浦东": "ZSPD",
@@ -195,6 +196,7 @@ def split_prefix_time_suffix(line: str):
 def load_airport_aliases():
     if not os.path.exists(AIRPORT_ALIASES_FILE):
         return {}
+
     try:
         with open(AIRPORT_ALIASES_FILE, "r", encoding="utf-8") as f:
             data = json.load(f)
@@ -213,6 +215,7 @@ def load_airport_aliases():
                 pass
     except Exception as e:
         logger.error(f"加载机场别名失败: {e}")
+
     return {}
 
 
@@ -890,6 +893,7 @@ def split_people_from_line(line: str) -> list:
     line = normalize_text(line)
     if not line:
         return []
+
     if any(x in line for x in ["查看更多", "航班动态"]):
         return []
 
@@ -904,14 +908,14 @@ def split_people_from_line(line: str) -> list:
         if person and person not in results:
             results.append(person)
 
-    zh_blocks = re.findall(r"[\u4e00-\u9fff]{2,4}", line)
-    for block in zh_blocks:
-        if block in {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员"}:
+    short_names = re.findall(r"(?<![\u4e00-\u9fff])([\u4e00-\u9fff]{2,4})(?![\u4e00-\u9fff])", line)
+    for name in short_names:
+        if name in {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员"}:
             continue
-        if block in GENERIC_TASK_WORDS:
+        if name in GENERIC_TASK_WORDS:
             continue
-        if block not in results:
-            results.append(block)
+        if name not in results:
+            results.append(name)
 
     cleaned = []
     for x in results:
@@ -1109,7 +1113,6 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
         "extra_lines": extra_lines,
         "start_dt": start_dt,
         "end_dt": end_dt,
-        "uid_seed": stable_hash(f"{task_type}|{title_text}|{start_dt.isoformat()}|{end_dt.isoformat()}")[:16],
     }
 
 
@@ -1164,7 +1167,6 @@ def parse_flight_card(card_text: str, day_header: str, page_year: int, day_task_
         "extra_lines": [],
         "start_dt": start_dt,
         "end_dt": end_dt,
-        "uid_seed": "",
     }
 
 
@@ -1210,7 +1212,7 @@ def build_description(item: dict) -> str:
     lines.append(item["day_header"])
 
     if item["flight_no"]:
-        lines.append(f"航班号：{item['flight_no']}")
+        lines.append(f"航班：{item['flight_no']}")
     elif item.get("title_text"):
         lines.append(f"事项：{item['title_text']}")
 
@@ -1224,16 +1226,17 @@ def build_description(item: dict) -> str:
         lines.append(f"航线：{left} → {right}")
 
     if item["checkin_time"] and item["checkin_place"]:
-        lines.append(f"签到时间：{item['checkin_time']}")
-        lines.append(f"签到地点：{item['checkin_place']}")
+        lines.append(f"签到：{item['checkin_time']}｜{item['checkin_place']}")
     elif item["checkin_time"]:
-        lines.append(f"签到时间：{item['checkin_time']}")
+        lines.append(f"签到：{item['checkin_time']}")
 
-    lines.append(f"任务时间：{item['start_time']} - {item['end_time']}")
+    lines.append(f"任务：{item['start_time']} - {item['end_time']}")
 
-    if item["model"]:
+    if item["model"] and item["reg"]:
+        lines.append(f"机型：{item['model']}｜注册号：{item['reg']}")
+    elif item["model"]:
         lines.append(f"机型：{item['model']}")
-    if item["reg"]:
+    elif item["reg"]:
         lines.append(f"注册号：{item['reg']}")
 
     if item["people_lines"]:
@@ -1253,16 +1256,44 @@ def build_description(item: dict) -> str:
     return "\n".join(lines)
 
 
-def build_vevent(item: dict) -> str:
+def build_vevent(item: dict, version_tag: str = "") -> str:
     title = build_title(item)
     desc = build_description(item)
+    if version_tag:
+        desc = f"{desc}\n\n版本：{version_tag}"
+
     alarm_desc = f"{item['flight_no']} 签到提醒" if item["flight_no"] else f"{item.get('title_text', '任务')} 提醒"
 
-    uid_base = (
-        f"{item['task_type']}-{item['flight_no']}-{format_dt_local(item['start_dt'])}-{format_dt_local(item['end_dt'])}"
-        if item["flight_no"]
-        else f"{item['task_type']}-{item['uid_seed']}-{format_dt_local(item['start_dt'])}-{format_dt_local(item['end_dt'])}"
+    identity_key = (
+        f"{item['task_type']}|{item['flight_no']}|{item.get('title_text', '')}|"
+        f"{format_dt_local(item['start_dt'])}|{format_dt_local(item['end_dt'])}"
     )
+    content_key = stable_hash(
+        json.dumps(
+            {
+                "task_type": item["task_type"],
+                "flight_no": item["flight_no"],
+                "title_text": item.get("title_text", ""),
+                "dep": item["dep"],
+                "arr": item["arr"],
+                "dep_cn": item["dep_cn"],
+                "arr_cn": item["arr_cn"],
+                "start_time": item["start_time"],
+                "end_time": item["end_time"],
+                "checkin_time": item["checkin_time"],
+                "checkin_place": item["checkin_place"],
+                "location": item["location"],
+                "model": item["model"],
+                "reg": item["reg"],
+                "people_lines": item["people_lines"],
+                "extra_lines": item["extra_lines"],
+            },
+            ensure_ascii=False,
+            sort_keys=True
+        )
+    )[:16]
+
+    uid_base = stable_hash(identity_key + "|" + content_key)[:32]
 
     lines = [
         "BEGIN:VEVENT",
@@ -1297,60 +1328,47 @@ def extract_dtstart_from_vevent(vevent: str) -> str:
     return m.group(1).strip() if m else "99999999T999999"
 
 
-def write_calendar(filename: str, items: list, preserve_existing: bool = True) -> bool:
-    new_events = {}
-    for item in items:
-        vevent = build_vevent(item)
-        uid = extract_uid_from_vevent(vevent)
-        if uid:
-            new_events[uid] = vevent
+def event_identity(item: dict) -> str:
+    return stable_hash(
+        json.dumps(
+            {
+                "task_type": item["task_type"],
+                "flight_no": item["flight_no"],
+                "title_text": item.get("title_text", ""),
+                "start_dt": item["start_dt"].isoformat(),
+                "end_dt": item["end_dt"].isoformat(),
+            },
+            ensure_ascii=False,
+            sort_keys=True
+        )
+    )[:24]
 
-    merged_events = {}
-    if preserve_existing and os.path.exists(filename):
-        try:
-            with open(filename, "r", encoding="utf-8") as f:
-                content = f.read()
-            matches = re.findall(r"BEGIN:VEVENT\s.*?END:VEVENT", content, flags=re.S)
-            for block in matches:
-                block = block.strip()
-                uid = extract_uid_from_vevent(block)
-                if uid:
-                    merged_events[uid] = block
-        except Exception as e:
-            logger.warning(f"读取现有日历文件失败: {e}")
 
-    merged_events.update(new_events)
-
-    ordered = sorted(
-        merged_events.values(),
-        key=lambda x: (extract_dtstart_from_vevent(x), extract_uid_from_vevent(x))
-    )
-
-    content = [
-        "BEGIN:VCALENDAR",
-        "VERSION:2.0",
-        "PRODID:-//Crew Calendar//CN",
-    ]
-    content.extend(ordered)
-    content.append("END:VCALENDAR")
-    final_text = "\n".join(content)
-
-    old_text = None
-    if os.path.exists(filename):
-        try:
-            with open(filename, "r", encoding="utf-8") as f:
-                old_text = f.read()
-        except Exception:
-            old_text = None
-
-    if old_text == final_text:
-        logger.info(f"{filename} 内容未变化")
-        return False
-
-    with open(filename, "w", encoding="utf-8") as f:
-        f.write(final_text)
-    logger.info(f"写入 {filename}: {len(merged_events)} 个事件")
-    return True
+def event_content_signature(item: dict) -> str:
+    return stable_hash(
+        json.dumps(
+            {
+                "task_type": item["task_type"],
+                "flight_no": item["flight_no"],
+                "title_text": item.get("title_text", ""),
+                "dep": item["dep"],
+                "arr": item["arr"],
+                "dep_cn": item["dep_cn"],
+                "arr_cn": item["arr_cn"],
+                "start_time": item["start_time"],
+                "end_time": item["end_time"],
+                "checkin_time": item["checkin_time"],
+                "checkin_place": item["checkin_place"],
+                "location": item["location"],
+                "model": item["model"],
+                "reg": item["reg"],
+                "people_lines": item["people_lines"],
+                "extra_lines": item["extra_lines"],
+            },
+            ensure_ascii=False,
+            sort_keys=True
+        )
+    )[:24]
 
 
 def event_quality(item: dict) -> int:
@@ -1378,6 +1396,65 @@ def event_quality(item: dict) -> int:
     if item.get("title_text"):
         score += 10
     return score
+
+
+def read_existing_events(filename: str) -> dict:
+    existing = {}
+    if not os.path.exists(filename):
+        return existing
+
+    try:
+        with open(filename, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        blocks = re.findall(r"BEGIN:VEVENT\s.*?END:VEVENT", content, flags=re.S)
+        for block in blocks:
+            uid = extract_uid_from_vevent(block.strip())
+            if uid:
+                existing[uid] = block.strip()
+    except Exception as e:
+        logger.warning(f"读取现有事件失败: {e}")
+
+    return existing
+
+
+def write_calendar_from_vevents(filename: str, vevents: list) -> bool:
+    unique = {}
+    for block in vevents:
+        uid = extract_uid_from_vevent(block)
+        if uid:
+            unique[uid] = block.strip()
+
+    ordered = sorted(
+        unique.values(),
+        key=lambda x: (extract_dtstart_from_vevent(x), extract_uid_from_vevent(x))
+    )
+
+    content = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//Crew Calendar//CN",
+    ]
+    content.extend(ordered)
+    content.append("END:VCALENDAR")
+    final_text = "\n".join(content)
+
+    old_text = None
+    if os.path.exists(filename):
+        try:
+            with open(filename, "r", encoding="utf-8") as f:
+                old_text = f.read()
+        except Exception:
+            old_text = None
+
+    if old_text == final_text:
+        logger.info(f"{filename} 内容未变化")
+        return False
+
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write(final_text)
+    logger.info(f"写入 {filename}: {len(ordered)} 个事件")
+    return True
 
 
 def collect_day_blocks(page) -> list:
@@ -1416,15 +1493,8 @@ def collect_day_blocks(page) -> list:
     return result
 
 
-def create_multi_calendars_from_blocks(day_blocks, page_year: int):
-    buckets = {
-        "flight": [],
-        "positioning": [],
-        "training": [],
-        "ferry": [],
-        "other": [],
-    }
-    best_events = {}
+def prepare_items(day_blocks, page_year: int) -> list:
+    raw_items = []
 
     for day in day_blocks:
         day_header = day["day_header"]
@@ -1439,39 +1509,44 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
             if not item:
                 continue
 
-            if item["flight_no"]:
-                group_key = (
-                    item["task_type"],
-                    item["flight_no"],
-                    item["start_dt"].isoformat(),
-                    item["end_dt"].isoformat(),
-                )
-            else:
-                group_key = (
-                    item["task_type"],
-                    item.get("title_text", ""),
-                    item["start_dt"].isoformat(),
-                    item["end_dt"].isoformat(),
-                )
+            raw_items.append(item)
 
-            q = event_quality(item)
-            item["quality"] = q
+    # 只对“内容完全相同”的重复做去重选优
+    best_map = {}
+    for item in raw_items:
+        identity = event_identity(item)
+        content_sig = event_content_signature(item)
+        key = f"{identity}|{content_sig}"
 
-            if group_key not in best_events or q > best_events[group_key]["quality"]:
-                best_events[group_key] = item
+        q = event_quality(item)
+        item["quality"] = q
 
-    for item in best_events.values():
+        if key not in best_map or q > best_map[key]["quality"]:
+            best_map[key] = item
+
+    items = list(best_map.values())
+    items.sort(key=lambda x: (x["start_dt"], build_title(x)))
+    return items
+
+
+def build_version_tag() -> str:
+    return datetime.now(SH_TZ).strftime("%Y-%m-%d %H:%M")
+
+
+def create_multi_calendars_from_blocks(day_blocks, page_year: int):
+    items = prepare_items(day_blocks, page_year)
+    version_tag = build_version_tag()
+
+    buckets = {
+        "flight": [],
+        "positioning": [],
+        "training": [],
+        "ferry": [],
+        "other": [],
+    }
+
+    for item in items:
         buckets[task_bucket(item["task_type"])].append(item)
-
-    for key in buckets:
-        buckets[key].sort(key=lambda x: (x["start_dt"], build_title(x)))
-
-    changed_root = False
-    changed_root |= write_calendar("flight.ics", buckets["flight"], preserve_existing=True)
-    changed_root |= write_calendar("positioning.ics", buckets["positioning"], preserve_existing=True)
-    changed_root |= write_calendar("training.ics", buckets["training"], preserve_existing=True)
-    changed_root |= write_calendar("ferry.ics", buckets["ferry"], preserve_existing=True)
-    changed_root |= write_calendar("other.ics", buckets["other"], preserve_existing=True)
 
     total_items = (
         buckets["flight"]
@@ -1481,17 +1556,60 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
         + buckets["other"]
     )
     total_items.sort(key=lambda x: (x["start_dt"], build_title(x)))
-    changed_root |= write_calendar("crew_schedule.ics", total_items, preserve_existing=True)
 
-    write_calendar(os.path.join(ARTIFACT_DIR, "flight.ics"), buckets["flight"], preserve_existing=False)
-    write_calendar(os.path.join(ARTIFACT_DIR, "positioning.ics"), buckets["positioning"], preserve_existing=False)
-    write_calendar(os.path.join(ARTIFACT_DIR, "training.ics"), buckets["training"], preserve_existing=False)
-    write_calendar(os.path.join(ARTIFACT_DIR, "ferry.ics"), buckets["ferry"], preserve_existing=False)
-    write_calendar(os.path.join(ARTIFACT_DIR, "other.ics"), buckets["other"], preserve_existing=False)
-    write_calendar(os.path.join(ARTIFACT_DIR, "crew_schedule.ics"), total_items, preserve_existing=False)
+    def merge_history(filename: str, bucket_items: list):
+        existing_map = read_existing_events(filename)
+        new_blocks = [build_vevent(item, version_tag=version_tag) for item in bucket_items]
+
+        # 历史保留 + 新版本追加；相同 UID 只保留一条
+        merged = list(existing_map.values())
+        seen_uid = set(existing_map.keys())
+
+        for block in new_blocks:
+            uid = extract_uid_from_vevent(block)
+            if uid not in seen_uid:
+                merged.append(block)
+                seen_uid.add(uid)
+
+        return merged
+
+    changed_root = False
+
+    changed_root |= write_calendar_from_vevents("flight.ics", merge_history("flight.ics", buckets["flight"]))
+    changed_root |= write_calendar_from_vevents("positioning.ics", merge_history("positioning.ics", buckets["positioning"]))
+    changed_root |= write_calendar_from_vevents("training.ics", merge_history("training.ics", buckets["training"]))
+    changed_root |= write_calendar_from_vevents("ferry.ics", merge_history("ferry.ics", buckets["ferry"]))
+    changed_root |= write_calendar_from_vevents("other.ics", merge_history("other.ics", buckets["other"]))
+    changed_root |= write_calendar_from_vevents("crew_schedule.ics", merge_history("crew_schedule.ics", total_items))
+
+    # debug_output 里放本次抓到的新版本快照
+    write_calendar_from_vevents(
+        os.path.join(ARTIFACT_DIR, "flight.ics"),
+        [build_vevent(item, version_tag=version_tag) for item in buckets["flight"]]
+    )
+    write_calendar_from_vevents(
+        os.path.join(ARTIFACT_DIR, "positioning.ics"),
+        [build_vevent(item, version_tag=version_tag) for item in buckets["positioning"]]
+    )
+    write_calendar_from_vevents(
+        os.path.join(ARTIFACT_DIR, "training.ics"),
+        [build_vevent(item, version_tag=version_tag) for item in buckets["training"]]
+    )
+    write_calendar_from_vevents(
+        os.path.join(ARTIFACT_DIR, "ferry.ics"),
+        [build_vevent(item, version_tag=version_tag) for item in buckets["ferry"]]
+    )
+    write_calendar_from_vevents(
+        os.path.join(ARTIFACT_DIR, "other.ics"),
+        [build_vevent(item, version_tag=version_tag) for item in buckets["other"]]
+    )
+    write_calendar_from_vevents(
+        os.path.join(ARTIFACT_DIR, "crew_schedule.ics"),
+        [build_vevent(item, version_tag=version_tag) for item in total_items]
+    )
 
     save_text("changed_root_flag.txt", str(changed_root))
-    logger.info(f"生成了 {len(total_items)} 个新抓到的日历事件（并保留历史事件）")
+    logger.info(f"本次抓到 {len(total_items)} 个任务版本；历史任务继续保留")
 
 
 def run():
