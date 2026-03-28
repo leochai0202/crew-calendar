@@ -74,6 +74,7 @@ BASE_AIRPORT_CN_TO_ICAO = {
     "泉州晋江": "ZSQZ",
     "曼谷素旺那普": "VTBS",
     "曼谷素万那普": "VTBS",
+    "金边德崇": "VDTI",
 }
 
 AIRPORT_CN_TO_ICAO = {}
@@ -187,6 +188,14 @@ def split_prefix_time_suffix(line: str):
     prefix = normalize_text(line[:m.start()])
     suffix = normalize_text(line[m.end():])
     return prefix, start_time, end_time, suffix
+
+
+def has_next_day_marker(text: str) -> bool:
+    text = normalize_text(text)
+    markers = [
+        "(+1)", "（+1）", "＋1", "+1", "次日", "第二天", "翌日"
+    ]
+    return any(m in text for m in markers)
 
 
 def load_airport_aliases():
@@ -886,17 +895,6 @@ def extract_airports(card_text: str):
 
 
 def _split_chinese_block_to_names(block: str) -> list:
-    """
-    连续中文姓名块拆分策略：
-    - 2字 -> 直接一个名字
-    - 3字 -> 直接一个名字
-    - 4字 -> 优先拆成 2+2
-    - 5字 -> 优先拆成 3+2
-    - 6字 -> 优先拆成 3+3
-    - 7字 -> 优先拆成 3+2+2
-    - 8字 -> 优先拆成 2+2+2+2
-    这样对机组名单场景比简单硬切更稳。
-    """
     block = normalize_text(block)
     if not block:
         return []
@@ -950,21 +948,18 @@ def split_people_from_line(line: str) -> list:
 
     results = []
 
-    # 0) 优先抠出固定名字
     working = line
     for name in KNOWN_PEOPLE:
         if name in working and name not in results:
             results.append(name)
             working = working.replace(name, " ")
 
-    # 1) 先抠英文带括号姓名
     for m in LATIN_PERSON_RE.findall(working):
         m = normalize_text(m)
         if m and m not in results:
             results.append(m)
             working = working.replace(m, " ")
 
-    # 2) 再抠中文带括号姓名
     zh_tagged = list(re.finditer(r"([\u4e00-\u9fff]{2,3}\([^)]*\))", working))
     for m in zh_tagged:
         person = normalize_text(m.group(1))
@@ -974,7 +969,6 @@ def split_people_from_line(line: str) -> list:
     for m in zh_tagged:
         working = working.replace(m.group(1), " ")
 
-    # 3) 剩下中文连续块再拆
     zh_blocks = re.findall(r"[\u4e00-\u9fff]+", working)
     for block in zh_blocks:
         block = normalize_text(block)
@@ -989,7 +983,6 @@ def split_people_from_line(line: str) -> list:
             if name not in exclude_words and name not in results:
                 results.append(name)
 
-    # 4) 去重清洗
     cleaned = []
     seen = set()
     for x in results:
@@ -1116,6 +1109,7 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
     end_time = ""
     dep = arr = dep_cn = arr_cn = ""
     consumed_idx = set()
+    next_day = has_next_day_marker(card_text)
 
     time_line_idx = None
     for idx, line in enumerate(lines):
@@ -1127,6 +1121,8 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
                 title_text = prefix
             if suffix:
                 location = suffix
+            if has_next_day_marker(line):
+                next_day = True
             consumed_idx.add(idx)
             break
 
@@ -1159,6 +1155,8 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
             prefix, st, et, suffix = split_prefix_time_suffix(line)
             if st and et and suffix:
                 location = suffix
+                if has_next_day_marker(line):
+                    next_day = True
                 consumed_idx.add(idx)
                 break
 
@@ -1173,8 +1171,8 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
         return None
 
     diff_minutes = (end_dt - start_dt).total_seconds() / 60
-    if diff_minutes < -120:
-        return None
+    if next_day:
+        end_dt += timedelta(days=1)
     elif diff_minutes < 0:
         end_dt += timedelta(days=1)
 
@@ -1214,6 +1212,7 @@ def parse_flight_card(card_text: str, day_header: str, page_year: int, day_task_
     dep, arr, dep_cn, arr_cn = extract_airports(card_text)
     people_lines = extract_people_lines_flight(card_text)
     task_type = detect_card_task_type(card_text, day_task_text, "flight")
+    next_day = has_next_day_marker(card_text)
 
     if not flight_no or not start_time or not end_time:
         return None
@@ -1226,9 +1225,9 @@ def parse_flight_card(card_text: str, day_header: str, page_year: int, day_task_
         return None
 
     diff_minutes = (end_dt - start_dt).total_seconds() / 60
-    if diff_minutes < -120:
-        logger.warning(f"时间明显错误，拒绝处理: {flight_no} {start_time}-{end_time}")
-        return None
+
+    if next_day:
+        end_dt += timedelta(days=1)
     elif diff_minutes < 0:
         end_dt += timedelta(days=1)
 
