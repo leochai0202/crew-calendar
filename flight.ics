@@ -205,7 +205,7 @@ UID:3f370820974c26487d59bdfb4a087ad5@crew-calendar
 SUMMARY:✈️ 9C8909 上海虹桥→泉州晋江
 DTSTART;TZID=Asia/Shanghai:20260331T070000
 DTEND;TZID=Asia/Shanghai:20260331T083500
-DESCRIPTION:03月31日 周二\n类型：航班\n航班：9C8909\n航线：上海虹桥 → 泉州晋江\n签到：05:15｜上海虹桥\n地点：上海虹桥\n任务：07:00 - 08:35\n机型：A320｜注册号：B6707\n\n人员名单：\n• 段洋硕\n• SUNG KISOOL(R)\n• 王闯(R)\n• 吴骏(B)\n\n版本：2026-03-29 19:03
+DESCRIPTION:03月31日 周二\n类型：航班\n航班：9C8909\n航线：上海虹桥 → 泉州晋江\n签到：05:15｜上海虹桥\n地点：上海虹桥\n任务：07:00 - 08:35\n机型：A320｜注册号：B6707\n\n人员名单：\n• 段洋硕\n• SUNG KISOOL(R)\n• 王闯(R)\n• 吴骏(B)\n\n版本：2026-03-29 19:46
 LOCATION:上海虹桥
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -218,7 +218,7 @@ UID:a2009517ae9a5a092a1f72c834cacb01@crew-calendar
 SUMMARY:✈️ 9C8910 泉州晋江→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260331T092000
 DTEND;TZID=Asia/Shanghai:20260331T105000
-DESCRIPTION:03月31日 周二\n类型：航班\n航班：9C8910\n航线：泉州晋江 → 上海虹桥\n任务：09:20 - 10:50\n机型：A320｜注册号：B6707\n\n人员名单：\n• 段洋硕\n• SUNG KISOOL(R)\n• 王闯(R)\n• 吴骏(B)\n\n版本：2026-03-29 19:03
+DESCRIPTION:03月31日 周二\n类型：航班\n航班：9C8910\n航线：泉州晋江 → 上海虹桥\n任务：09:20 - 10:50\n机型：A320｜注册号：B6707\n\n人员名单：\n• 段洋硕\n• SUNG KISOOL(R)\n• 王闯(R)\n• 吴骏(B)\n\n版本：2026-03-29 19:46
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C8910 签到提醒
@@ -230,7 +230,7 @@ UID:08cda3e68c8ad053f1dea33cb772f0ed@crew-calendar
 SUMMARY:✈️ 9C6891 上海虹桥→广州白云
 DTSTART;TZID=Asia/Shanghai:20260331T134000
 DTEND;TZID=Asia/Shanghai:20260331T162000
-DESCRIPTION:03月31日 周二\n类型：航班\n航班：9C6891\n航线：上海虹桥 → 广州白云\n签到：11:55｜上海虹桥\n地点：上海虹桥\n任务：13:40 - 16:20\n机型：A320｜注册号：B32KQ\n\n人员名单：\n• 段洋硕\n• SUNG KISOOL(R)\n• 王闯(R)\n• 李幸宗(B)\n• 许磊\n\n版本：2026-03-29 19:03
+DESCRIPTION:03月31日 周二\n类型：航班\n航班：9C6891\n航线：上海虹桥 → 广州白云\n签到：11:55｜上海虹桥\n地点：上海虹桥\n任务：13:40 - 16:20\n机型：A320｜注册号：B32KQ\n\n人员名单：\n• 段洋硕\n• SUNG KISOOL(R)\n• 王闯(R)\n• 李幸宗(B)\n• 许磊\n\n版本：2026-03-29 19:46
 LOCATION:上海虹桥
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -256,7 +256,7 @@ UID:818c195caf751a6219eaf70aeecc9afe@crew-calendar
 SUMMARY:✈️ 9C7007 广州白云→金边德崇
 DTSTART;TZID=Asia/Shanghai:20260401T185500
 DTEND;TZID=Asia/Shanghai:20260401T220500
-DESCRIPTION:04月01日 周三\n类型：航班\n航班：9C7007\n航线：广州白云 → 金边德崇\n签到：16:50｜广州白云\n地点：广州白云\n任务：18:55 - 22:05\n机型：A320｜注册号：B6561\n\n人员名单：\n• 段洋硕\n• SUNG KISOOL(R)\n• 王闯(R)\n• 倪杰(B)\n\n版本：2026-03-29 19:03
+DESCRIPTION:04月01日 周三\n类型：航班\n航班：9C7007\n航线：广州白云 → 金边德崇\n签到：16:50｜广州白云\n地点：广州白云\n任务：18:55 - 22:05\n机型：A320｜注册号：B6561\n\n人员名单：\n• 段洋硕\n• SUNG KISOOL(R)\n• 王闯(R)\n• 倪杰(B)\n\n版本：2026-03-29 19:46
 LOCATION:广州白云
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -282,7 +282,7 @@ UID:05a4c0565b7d9552279c4091e60ade0f@crew-calendar
 SUMMARY:✈️ 9C8534 金边德崇→上海浦东(+1)
 DTSTART;TZID=Asia/Shanghai:20260401T235000
 DTEND;TZID=Asia/Shanghai:20260402T045000
-DESCRIPTION:04月01日 周三\n类型：航班\n航班：9C8534\n航线：金边德崇 → 上海浦东(+1)\n签到：22:00｜金边德崇\n地点：金边德崇\n任务：23:50 - 04:50\n机型：A320｜注册号：B6561\n\n人员名单：\n• 段洋硕\n• SUNG KISOOL(R)\n• 王闯(R)\n• 倪杰(B)\n\n版本：2026-03-29 19:03
+DESCRIPTION:04月01日 周三\n类型：航班\n航班：9C8534\n航线：金边德崇 → 上海浦东(+1)\n签到：22:00｜金边德崇\n地点：金边德崇\n任务：23:50 - 04:50\n机型：A320｜注册号：B6561\n\n人员名单：\n• 段洋硕\n• SUNG KISOOL(R)\n• 王闯(R)\n• 倪杰(B)\n\n版本：2026-03-29 19:46
 LOCATION:金边德崇
 BEGIN:VALARM
 TRIGGER:-PT90M
