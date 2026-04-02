@@ -323,7 +323,7 @@ UID:8d4799c0f33fd9413e6aa388db7f9706@crew-calendar
 SUMMARY:✈️ 9C6565Y 上海浦东→大阪
 DTSTART;TZID=Asia/Shanghai:20260404T124000
 DTEND;TZID=Asia/Shanghai:20260404T150000
-DESCRIPTION:04月04日 周六\n类型：航班\n航班：9C6565Y\n航线：上海浦东 → 大阪\n签到：10:35｜上海浦东\n地点：上海浦东\n任务：12:40 - 15:00\n机型：A320｜注册号：B8370\n\n人员名单：\n• 段洋硕\n• TOMAZELLI LUNARDI GUILHERME(R)\n• 唐晨(R)\n• 唐文娟(B)\n\n版本：2026-04-01 23:58
+DESCRIPTION:04月04日 周六\n类型：航班\n航班：9C6565Y\n航线：上海浦东 → 大阪\n签到：10:35｜上海浦东\n地点：上海浦东\n任务：12:40 - 15:00\n机型：A320｜注册号：B8370\n\n人员名单：\n• 段洋硕\n• TOMAZELLI LUNARDI GUILHERME(R)\n• 唐晨(R)\n• 唐文娟(B)\n\n版本：2026-04-02 19:57
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -336,10 +336,48 @@ UID:4feae29a4e14a86c7e83227a7af6b326@crew-calendar
 SUMMARY:✈️ 9C6566X 大阪→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260404T160000
 DTEND;TZID=Asia/Shanghai:20260404T190000
-DESCRIPTION:04月04日 周六\n类型：航班\n航班：9C6566X\n航线：大阪 → 上海浦东\n任务：16:00 - 19:00\n机型：A320｜注册号：B8370\n\n人员名单：\n• 段洋硕\n• TOMAZELLI LUNARDI GUILHERME(R)\n• 唐晨(R)\n• 唐文娟(B)\n\n版本：2026-04-01 23:58
+DESCRIPTION:04月04日 周六\n类型：航班\n航班：9C6566X\n航线：大阪 → 上海浦东\n任务：16:00 - 19:00\n机型：A320｜注册号：B8370\n\n人员名单：\n• 段洋硕\n• TOMAZELLI LUNARDI GUILHERME(R)\n• 唐晨(R)\n• 唐文娟(B)\n\n版本：2026-04-02 19:57
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C6566X 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:b994196ca3852e5bf70d5f7b92a6b180@crew-calendar
+SUMMARY:✈️ 9C8805 上海浦东→厦门高崎
+DTSTART;TZID=Asia/Shanghai:20260407T070000
+DTEND;TZID=Asia/Shanghai:20260407T085500
+DESCRIPTION:04月07日 周二\n类型：航班\n航班：9C8805\n航线：上海浦东 → 厦门高崎\n签到：05:10｜上海浦东\n地点：上海浦东\n任务：07:00 - 08:55\n机型：A320｜注册号：B1671\n\n人员名单：\n• 段洋硕\n• 曲大鹏(R)\n• 秦磊磊(R)\n\n版本：2026-04-02 19:57
+LOCATION:上海浦东
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C8805 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:7c2eb5edfe7204ad48ce368f7d975321@crew-calendar
+SUMMARY:✈️ 9C8806 厦门高崎→上海浦东
+DTSTART;TZID=Asia/Shanghai:20260407T095500
+DTEND;TZID=Asia/Shanghai:20260407T115000
+DESCRIPTION:04月07日 周二\n类型：航班\n航班：9C8806\n航线：厦门高崎 → 上海浦东\n任务：09:55 - 11:50\n机型：A320｜注册号：B1671\n\n人员名单：\n• 段洋硕\n• 曲大鹏(R)\n• 秦磊磊(R)\n\n版本：2026-04-02 19:57
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C8806 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:b9a25bf412e02a361ab031edfbd56f42@crew-calendar
+SUMMARY:✈️ 9C8853 上海浦东→厦门高崎
+DTSTART;TZID=Asia/Shanghai:20260407T191000
+DTEND;TZID=Asia/Shanghai:20260407T210000
+DESCRIPTION:04月07日 周二\n类型：航班\n航班：9C8853\n航线：上海浦东 → 厦门高崎\n签到：17:20｜上海浦东\n地点：上海浦东\n任务：19:10 - 21:00\n机型：A320｜注册号：B6821\n\n人员名单：\n• 段洋硕\n• 曲大鹏(R)\n• 秦磊磊(R)\n• 李凯\n\n版本：2026-04-02 19:57
+LOCATION:上海浦东
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C8853 签到提醒
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
