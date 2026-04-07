@@ -348,7 +348,7 @@ UID:b994196ca3852e5bf70d5f7b92a6b180@crew-calendar
 SUMMARY:✈️ 9C8805 上海浦东→厦门高崎
 DTSTART;TZID=Asia/Shanghai:20260407T070000
 DTEND;TZID=Asia/Shanghai:20260407T085500
-DESCRIPTION:04月07日 周二\n类型：航班\n航班：9C8805\n航线：上海浦东 → 厦门高崎\n签到：05:10｜上海浦东\n地点：上海浦东\n任务：07:00 - 08:55\n机型：A320｜注册号：B6931\n\n人员名单：\n• 段洋硕\n• 曲大鹏(R)\n• 秦磊磊(R)\n• 朱毅杰(B)\n\n版本：2026-04-07 20:05
+DESCRIPTION:04月07日 周二\n类型：航班\n航班：9C8805\n航线：上海浦东 → 厦门高崎\n签到：05:10｜上海浦东\n地点：上海浦东\n任务：07:00 - 08:55\n机型：A320｜注册号：B6931\n\n人员名单：\n• 段洋硕\n• 曲大鹏(R)\n• 秦磊磊(R)\n• 朱毅杰(B)\n\n版本：2026-04-07 22:56
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -361,7 +361,7 @@ UID:7c2eb5edfe7204ad48ce368f7d975321@crew-calendar
 SUMMARY:✈️ 9C8806 厦门高崎→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260407T095500
 DTEND;TZID=Asia/Shanghai:20260407T115000
-DESCRIPTION:04月07日 周二\n类型：航班\n航班：9C8806\n航线：厦门高崎 → 上海浦东\n任务：09:55 - 11:50\n机型：A320｜注册号：B6931\n\n人员名单：\n• 段洋硕\n• 曲大鹏(R)\n• 秦磊磊(R)\n• 朱毅杰(B)\n\n版本：2026-04-07 20:05
+DESCRIPTION:04月07日 周二\n类型：航班\n航班：9C8806\n航线：厦门高崎 → 上海浦东\n任务：09:55 - 11:50\n机型：A320｜注册号：B6931\n\n人员名单：\n• 段洋硕\n• 曲大鹏(R)\n• 秦磊磊(R)\n• 朱毅杰(B)\n\n版本：2026-04-07 22:56
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C8806 签到提醒
@@ -386,7 +386,7 @@ UID:ea6e035626ab316e0c8fc9b5909f6f63@crew-calendar
 SUMMARY:✈️ 9C6565Y 上海浦东→大阪
 DTSTART;TZID=Asia/Shanghai:20260408T124000
 DTEND;TZID=Asia/Shanghai:20260408T150000
-DESCRIPTION:04月08日 周三\n类型：航班\n航班：9C6565Y\n航线：上海浦东 → 大阪\n签到：10:35｜上海浦东\n地点：上海浦东\n任务：12:40 - 15:00\n机型：A320｜注册号：B6863\n\n人员名单：\n• 段洋硕\n• GARCIA SABIDO JESUS MANUEL(R)\n• 张皓(R)\n• 罗一敏(B)\n\n版本：2026-04-07 20:05
+DESCRIPTION:04月08日 周三\n类型：航班\n航班：9C6565Y\n航线：上海浦东 → 大阪\n签到：10:35｜上海浦东\n地点：上海浦东\n任务：12:40 - 15:00\n机型：A320｜注册号：B6863\n\n人员名单：\n• 段洋硕\n• GARCIA SABIDO JESUS MANUEL(R)\n• 张皓(R)\n• 罗一敏(B)\n\n版本：2026-04-07 22:56
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -399,7 +399,7 @@ UID:c5e1d713f1a724493447ed8fe5ec055e@crew-calendar
 SUMMARY:✈️ 9C6566X 大阪→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260408T160000
 DTEND;TZID=Asia/Shanghai:20260408T190000
-DESCRIPTION:04月08日 周三\n类型：航班\n航班：9C6566X\n航线：大阪 → 上海浦东\n任务：16:00 - 19:00\n机型：A320｜注册号：B6863\n\n人员名单：\n• 段洋硕\n• GARCIA SABIDO JESUS MANUEL(R)\n• 张皓(R)\n• 罗一敏(B)\n\n版本：2026-04-07 20:05
+DESCRIPTION:04月08日 周三\n类型：航班\n航班：9C6566X\n航线：大阪 → 上海浦东\n任务：16:00 - 19:00\n机型：A320｜注册号：B6863\n\n人员名单：\n• 段洋硕\n• GARCIA SABIDO JESUS MANUEL(R)\n• 张皓(R)\n• 罗一敏(B)\n\n版本：2026-04-07 22:56
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C6566X 签到提醒
@@ -411,7 +411,7 @@ UID:c788e3194f733468330a0f19b09c413d@crew-calendar
 SUMMARY:✈️ 9C6833 上海虹桥→西宁曹家堡
 DTSTART;TZID=Asia/Shanghai:20260409T164000
 DTEND;TZID=Asia/Shanghai:20260409T201000
-DESCRIPTION:04月09日 周四\n类型：航班\n航班：9C6833\n航线：上海虹桥 → 西宁曹家堡\n签到：14:55｜上海虹桥\n地点：上海虹桥\n任务：16:40 - 20:10\n机型：A320｜注册号：B30D5\n\n人员名单：\n• 段洋硕\n• 王勇(T2\,R)\n• 徐峥(R)\n• 许晶(B)\n\n版本：2026-04-07 20:05
+DESCRIPTION:04月09日 周四\n类型：航班\n航班：9C6833\n航线：上海虹桥 → 西宁曹家堡\n签到：14:55｜上海虹桥\n地点：上海虹桥\n任务：16:40 - 20:10\n机型：A320｜注册号：B9920\n\n人员名单：\n• 段洋硕\n• 王勇(T2\,R)\n• 徐峥(R)\n• 许晶(B)\n\n版本：2026-04-07 22:56
 LOCATION:上海虹桥
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -424,7 +424,7 @@ UID:fcc1599e415e731db28bd2ccaabb498a@crew-calendar
 SUMMARY:✈️ 9C6834 西宁→曹家堡上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260409T205500
 DTEND;TZID=Asia/Shanghai:20260409T234000
-DESCRIPTION:04月09日 周四\n类型：航班\n航班：9C6834\n航线：西宁 → 曹家堡上海虹桥\n任务：20:55 - 23:40\n机型：A320｜注册号：B30D5\n\n人员名单：\n• 段洋硕\n• 王勇(T2\,R)\n• 徐峥(R)\n• 许晶(B)\n\n版本：2026-04-07 20:05
+DESCRIPTION:04月09日 周四\n类型：航班\n航班：9C6834\n航线：西宁 → 曹家堡上海虹桥\n任务：20:55 - 23:40\n机型：A320｜注册号：B9920\n\n人员名单：\n• 段洋硕\n• 王勇(T2\,R)\n• 徐峥(R)\n• 许晶(B)\n\n版本：2026-04-07 22:56
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C6834 签到提醒
@@ -436,7 +436,7 @@ UID:1e0475e67ef98b6a08c10a6615ad92ea@crew-calendar
 SUMMARY:✈️ 9C7285 上海浦东→曼谷素旺那普
 DTSTART;TZID=Asia/Shanghai:20260412T164500
 DTEND;TZID=Asia/Shanghai:20260412T213000
-DESCRIPTION:04月12日 周日\n类型：航班\n航班：9C7285\n航线：上海浦东 → 曼谷素旺那普\n签到：14:40｜上海浦东\n地点：上海浦东\n任务：16:45 - 21:30\n机型：A320｜注册号：B300Y\n\n人员名单：\n• 段洋硕\n• MADRIGAL CAMPOS MANUEL ALEJANDRO(R)\n• 刘洪鸣(R)\n• 褚铭锋(B)\n\n版本：2026-04-07 20:05
+DESCRIPTION:04月12日 周日\n类型：航班\n航班：9C7285\n航线：上海浦东 → 曼谷素旺那普\n签到：14:40｜上海浦东\n地点：上海浦东\n任务：16:45 - 21:30\n机型：A320｜注册号：B300Y\n\n人员名单：\n• 段洋硕\n• MADRIGAL CAMPOS MANUEL ALEJANDRO(R)\n• 刘洪鸣(R)\n• 褚铭锋(B)\n\n版本：2026-04-07 22:56
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -449,7 +449,7 @@ UID:f7cb9cf03753294517c85475b4d70cdc@crew-calendar
 SUMMARY:✈️ 9C7420 曼谷素旺那普→广州白云(+1)
 DTSTART;TZID=Asia/Shanghai:20260412T223000
 DTEND;TZID=Asia/Shanghai:20260413T012000
-DESCRIPTION:04月12日 周日\n类型：航班\n航班：9C7420\n航线：曼谷素旺那普 → 广州白云(+1)\n签到：20:20｜曼谷素旺那普\n地点：曼谷素旺那普\n任务：22:30 - 01:20\n机型：A320｜注册号：B300Y\n\n人员名单：\n• 段洋硕\n• MADRIGAL CAMPOS MANUEL ALEJANDRO(R)\n• 刘洪鸣(R)\n• 褚铭锋(B)\n\n版本：2026-04-07 20:05
+DESCRIPTION:04月12日 周日\n类型：航班\n航班：9C7420\n航线：曼谷素旺那普 → 广州白云(+1)\n签到：20:20｜曼谷素旺那普\n地点：曼谷素旺那普\n任务：22:30 - 01:20\n机型：A320｜注册号：B300Y\n\n人员名单：\n• 段洋硕\n• MADRIGAL CAMPOS MANUEL ALEJANDRO(R)\n• 刘洪鸣(R)\n• 褚铭锋(B)\n\n版本：2026-04-07 22:56
 LOCATION:曼谷素旺那普
 BEGIN:VALARM
 TRIGGER:-PT90M
