@@ -408,7 +408,7 @@ UID:1e0475e67ef98b6a08c10a6615ad92ea@crew-calendar
 SUMMARY:✈️ 9C7285 上海浦东→曼谷素旺那普
 DTSTART;TZID=Asia/Shanghai:20260412T164500
 DTEND;TZID=Asia/Shanghai:20260412T213000
-DESCRIPTION:04月12日 周日\n类型：航班\n航班：9C7285\n航线：上海浦东 → 曼谷素旺那普\n签到：14:40｜上海浦东\n地点：上海浦东\n任务：16:45 - 21:30\n机型：A320｜注册号：B1896\n\n人员名单：\n• 段洋硕\n• MADRIGAL CAMPOS MANUEL ALEJANDRO(R)\n• 刘洪鸣(R)\n• 褚铭锋(B)\n\n版本：2026-04-11 18:00
+DESCRIPTION:04月12日 周日\n类型：航班\n航班：9C7285\n航线：上海浦东 → 曼谷素旺那普\n签到：14:40｜上海浦东\n地点：上海浦东\n任务：16:45 - 21:30\n机型：A320｜注册号：B1896\n\n人员名单：\n• 段洋硕\n• MADRIGAL CAMPOS MANUEL ALEJANDRO(R)\n• 刘洪鸣(R)\n• 褚铭锋(B)\n\n版本：2026-04-11 18:57
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -421,7 +421,7 @@ UID:f7cb9cf03753294517c85475b4d70cdc@crew-calendar
 SUMMARY:✈️ 9C7420 曼谷素旺那普→广州白云(+1)
 DTSTART;TZID=Asia/Shanghai:20260412T223000
 DTEND;TZID=Asia/Shanghai:20260413T012000
-DESCRIPTION:04月12日 周日\n类型：航班\n航班：9C7420\n航线：曼谷素旺那普 → 广州白云(+1)\n签到：20:20｜曼谷素旺那普\n地点：曼谷素旺那普\n任务：22:30 - 01:20\n机型：A320｜注册号：B1896\n\n人员名单：\n• 段洋硕\n• MADRIGAL CAMPOS MANUEL ALEJANDRO(R)\n• 刘洪鸣(R)\n• 褚铭锋(B)\n\n版本：2026-04-11 18:00
+DESCRIPTION:04月12日 周日\n类型：航班\n航班：9C7420\n航线：曼谷素旺那普 → 广州白云(+1)\n签到：20:20｜曼谷素旺那普\n地点：曼谷素旺那普\n任务：22:30 - 01:20\n机型：A320｜注册号：B1896\n\n人员名单：\n• 段洋硕\n• MADRIGAL CAMPOS MANUEL ALEJANDRO(R)\n• 刘洪鸣(R)\n• 褚铭锋(B)\n\n版本：2026-04-11 18:57
 LOCATION:曼谷素旺那普
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -434,7 +434,7 @@ UID:c45238aab1441afc01872ff0c2ae0478@crew-calendar
 SUMMARY:✈️ 9C7419 广州白云→曼谷素旺那普
 DTSTART;TZID=Asia/Shanghai:20260414T055500
 DTEND;TZID=Asia/Shanghai:20260414T084000
-DESCRIPTION:04月14日 周二\n类型：航班\n航班：9C7419\n航线：广州白云 → 曼谷素旺那普\n签到：03:50｜广州白云\n地点：广州白云\n任务：05:55 - 08:40\n机型：A320｜注册号：B8371\n\n人员名单：\n• 段洋硕\n• MADRIGAL CAMPOS MANUEL ALEJANDRO(R)\n• 刘洪鸣(R)\n• 褚铭锋(B)\n\n版本：2026-04-11 18:00
+DESCRIPTION:04月14日 周二\n类型：航班\n航班：9C7419\n航线：广州白云 → 曼谷素旺那普\n签到：03:50｜广州白云\n地点：广州白云\n任务：05:55 - 08:40\n机型：A320｜注册号：B8371\n\n人员名单：\n• 段洋硕\n• MADRIGAL CAMPOS MANUEL ALEJANDRO(R)\n• 刘洪鸣(R)\n• 褚铭锋(B)\n\n版本：2026-04-11 18:57
 LOCATION:广州白云
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -447,7 +447,7 @@ UID:b0d751ba65f9c170d47f7abef2625910@crew-calendar
 SUMMARY:✈️ 9C7286 曼谷素旺那普→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260414T094000
 DTEND;TZID=Asia/Shanghai:20260414T141000
-DESCRIPTION:04月14日 周二\n类型：航班\n航班：9C7286\n航线：曼谷素旺那普 → 上海浦东\n任务：09:40 - 14:10\n机型：A320｜注册号：B8371\n\n人员名单：\n• 段洋硕\n• MADRIGAL CAMPOS MANUEL ALEJANDRO(R)\n• 刘洪鸣(R)\n• 褚铭锋(B)\n\n版本：2026-04-11 18:00
+DESCRIPTION:04月14日 周二\n类型：航班\n航班：9C7286\n航线：曼谷素旺那普 → 上海浦东\n任务：09:40 - 14:10\n机型：A320｜注册号：B8371\n\n人员名单：\n• 段洋硕\n• MADRIGAL CAMPOS MANUEL ALEJANDRO(R)\n• 刘洪鸣(R)\n• 褚铭锋(B)\n\n版本：2026-04-11 18:57
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C7286 签到提醒
