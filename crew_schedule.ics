@@ -487,7 +487,7 @@ UID:81f1b5ca451cf206198af5a2bead3588@crew-calendar
 SUMMARY:🚐 A320
 DTSTART;TZID=Asia/Shanghai:20260417T120000
 DTEND;TZID=Asia/Shanghai:20260417T134500
-DESCRIPTION:04月17日 周五\n类型：摆渡\n事项：A320\n任务：12:00 - 13:45\n\n人员名单：\n• 上海虹\n• 桥搭乘\n• 火车去\n• 宁波\n• 栎社\n• 段洋硕\n\n版本：2026-04-14 20:13
+DESCRIPTION:04月17日 周五\n类型：摆渡\n事项：A320\n任务：12:00 - 13:45\n\n人员名单：\n• 上海虹\n• 桥搭乘\n• 火车去\n• 宁波\n• 栎社\n• 段洋硕\n\n版本：2026-04-15 18:40
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:A320 提醒
@@ -499,7 +499,7 @@ UID:84844e04bc7504fc027661ccc8e0252d@crew-calendar
 SUMMARY:✈️ 9C6253X 宁波→栎社石家庄正定
 DTSTART;TZID=Asia/Shanghai:20260418T072000
 DTEND;TZID=Asia/Shanghai:20260418T093000
-DESCRIPTION:04月18日 周六\n类型：航班\n航班：9C6253X\n航线：宁波 → 栎社石家庄正定\n签到：05:35｜宁波栎社\n地点：宁波栎社\n任务：07:20 - 09:30\n机型：A320｜注册号：B32CP\n\n人员名单：\n• 段洋硕\n• 刘俊辉\n• 邬少南\n• 任豪(P\,B)\n\n版本：2026-04-14 20:13
+DESCRIPTION:04月18日 周六\n类型：航班\n航班：9C6253X\n航线：宁波 → 栎社石家庄正定\n签到：05:35｜宁波栎社\n地点：宁波栎社\n任务：07:20 - 09:30\n机型：A320｜注册号：B30D6\n\n人员名单：\n• 段洋硕\n• 刘俊辉\n• 邬少南\n• 任豪(P\,B)\n\n版本：2026-04-15 18:40
 LOCATION:宁波栎社
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -512,7 +512,7 @@ UID:57a3ef6fa1934f7d638459c54995126e@crew-calendar
 SUMMARY:✈️ 9C6319 石家→庄正定泉州晋江
 DTSTART;TZID=Asia/Shanghai:20260418T130000
 DTEND;TZID=Asia/Shanghai:20260418T155000
-DESCRIPTION:04月18日 周六\n类型：航班\n航班：9C6319\n航线：石家 → 庄正定泉州晋江\n签到：11:20｜石家庄正定\n地点：石家庄正定\n任务：13:00 - 15:50\n机型：A320｜注册号：B328U\n\n人员名单：\n• 段洋硕\n• 刘俊辉\n• 邬少南\n\n版本：2026-04-14 20:13
+DESCRIPTION:04月18日 周六\n类型：航班\n航班：9C6319\n航线：石家 → 庄正定泉州晋江\n签到：11:20｜石家庄正定\n地点：石家庄正定\n任务：13:00 - 15:50\n机型：A320｜注册号：B30D7\n\n人员名单：\n• 段洋硕\n• 刘俊辉\n• 邬少南\n\n版本：2026-04-15 18:40
 LOCATION:石家庄正定
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -525,7 +525,7 @@ UID:342b7ea9fbee94fb4c5fdf0cdf2fa401@crew-calendar
 SUMMARY:✈️ 9C6320 泉州晋江→石家庄正定
 DTSTART;TZID=Asia/Shanghai:20260418T164000
 DTEND;TZID=Asia/Shanghai:20260418T192000
-DESCRIPTION:04月18日 周六\n类型：航班\n航班：9C6320\n航线：泉州晋江 → 石家庄正定\n任务：16:40 - 19:20\n机型：A320｜注册号：B328U\n\n人员名单：\n• 段洋硕\n• 刘俊辉\n• 邬少南\n\n版本：2026-04-14 20:13
+DESCRIPTION:04月18日 周六\n类型：航班\n航班：9C6320\n航线：泉州晋江 → 石家庄正定\n任务：16:40 - 19:20\n机型：A320｜注册号：B30D7\n\n人员名单：\n• 段洋硕\n• 刘俊辉\n• 邬少南\n\n版本：2026-04-15 18:40
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C6320 签到提醒
@@ -537,7 +537,7 @@ UID:0f072f6879e80c5b08ab9c160e5c612b@crew-calendar
 SUMMARY:✈️ 9C6254Y 石家→庄正定宁波栎社
 DTSTART;TZID=Asia/Shanghai:20260419T142500
 DTEND;TZID=Asia/Shanghai:20260419T164000
-DESCRIPTION:04月19日 周日\n类型：航班\n航班：9C6254Y\n航线：石家 → 庄正定宁波栎社\n签到：12:45｜石家庄正定\n地点：石家庄正定\n任务：14:25 - 16:40\n机型：A320｜注册号：B32CP\n\n人员名单：\n• 段洋硕\n• 刘俊辉\n• 邬少南\n• 任豪(P\,B)\n\n版本：2026-04-14 20:13
+DESCRIPTION:04月19日 周日\n类型：航班\n航班：9C6254Y\n航线：石家 → 庄正定宁波栎社\n签到：12:45｜石家庄正定\n地点：石家庄正定\n任务：14:25 - 16:40\n机型：A320｜注册号：B32HZ\n\n人员名单：\n• 段洋硕\n• 刘俊辉\n• 邬少南\n• 任豪(P\,B)\n\n版本：2026-04-15 18:40
 LOCATION:石家庄正定
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -550,7 +550,7 @@ UID:8fc0133045750db1843609a478c664d3@crew-calendar
 SUMMARY:✈️ 9C8519 宁波→栎社天津滨海
 DTSTART;TZID=Asia/Shanghai:20260419T174000
 DTEND;TZID=Asia/Shanghai:20260419T200000
-DESCRIPTION:04月19日 周日\n类型：航班\n航班：9C8519\n航线：宁波 → 栎社天津滨海\n签到：15:55｜宁波栎社\n地点：宁波栎社\n任务：17:40 - 20:00\n机型：A320｜注册号：B1895\n\n人员名单：\n• 段洋硕\n• 刘俊辉\n• 邬少南\n• 王珊珊(B)\n\n版本：2026-04-14 20:13
+DESCRIPTION:04月19日 周日\n类型：航班\n航班：9C8519\n航线：宁波 → 栎社天津滨海\n签到：15:55｜宁波栎社\n地点：宁波栎社\n任务：17:40 - 20:00\n机型：A320｜注册号：B30DD\n\n人员名单：\n• 段洋硕\n• 刘俊辉\n• 邬少南\n• 王珊珊(B)\n\n版本：2026-04-15 18:40
 LOCATION:宁波栎社
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -563,7 +563,7 @@ UID:9165df9bcdf53d402dc211945627bfe5@crew-calendar
 SUMMARY:✈️ 9C8520 天津→滨海宁波栎社
 DTSTART;TZID=Asia/Shanghai:20260419T210000
 DTEND;TZID=Asia/Shanghai:20260419T230500
-DESCRIPTION:04月19日 周日\n类型：航班\n航班：9C8520\n航线：天津 → 滨海宁波栎社\n任务：21:00 - 23:05\n机型：A320｜注册号：B1895\n\n人员名单：\n• 段洋硕\n• 刘俊辉\n• 邬少南\n• 王珊珊(B)\n\n版本：2026-04-14 20:13
+DESCRIPTION:04月19日 周日\n类型：航班\n航班：9C8520\n航线：天津 → 滨海宁波栎社\n任务：21:00 - 23:05\n机型：A320｜注册号：B30DD\n\n人员名单：\n• 段洋硕\n• 刘俊辉\n• 邬少南\n• 王珊珊(B)\n\n版本：2026-04-15 18:40
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C8520 签到提醒
