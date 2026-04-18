@@ -18,7 +18,7 @@ UID:ee986a355822a1e6dc8047f183fdc954@crew-calendar
 SUMMARY:🚐 A320
 DTSTART;TZID=Asia/Shanghai:20260420T090000
 DTEND;TZID=Asia/Shanghai:20260420T130000
-DESCRIPTION:04月20日 周一\n类型：摆渡\n事项：A320\n任务：09:00 - 13:00\n\n人员名单：\n• 宁波栎\n• 社搭乘\n• 火车去\n• 上海\n• 虹桥\n• 段洋硕\n\n版本：2026-04-17 20:10
+DESCRIPTION:04月20日 周一\n类型：摆渡\n事项：A320\n任务：09:00 - 13:00\n\n人员名单：\n• 宁波栎\n• 社搭乘\n• 火车去\n• 上海\n• 虹桥\n• 段洋硕\n\n版本：2026-04-18 18:04
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:A320 提醒
