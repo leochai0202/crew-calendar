@@ -95,6 +95,7 @@ FLIGHT_NO_RE = re.compile(r"9C\d{3,4}[A-Z]?")
 REG_MODEL_RE = re.compile(r"^B[0-9A-Z]{4,5}A(?:319|320|321)$")
 REG_AND_MODEL_RE = re.compile(r"\b(B[0-9A-Z]{4,5})(A319|A320|A321)\b")
 REG_ONLY_RE = re.compile(r"\bB[0-9A-Z]{4,5}\b")
+MODEL_ONLY_RE = re.compile(r"\bA(?:319|320|321)\b")
 TIME_RANGE_RE = re.compile(r"(\d{2}:\d{2})\s*[-~～—–]+\s*(\d{2}:\d{2})")
 PAGE_YEAR_MONTH_RE = re.compile(r"(\d{4})年(\d{1,2})月")
 PURE_DATE_PREFIX_RE = re.compile(r"^\d{4}-\d{2}-\d{2}")
@@ -102,6 +103,7 @@ ICAO_RE = re.compile(r"\b[A-Z]{4}\b")
 DAY_HEADER_RE = re.compile(r"^\d{2}月\d{2}日\s*周.")
 GENERIC_TASK_WORDS = ["训练", "考勤", "摆渡", "置位", "航班", "备份", "待命"]
 LATIN_PERSON_RE = re.compile(r"[A-Z][A-Z\s\.\-']{1,80}\([^)]*\)")
+TRANSPORT_HINT_WORDS = ["搭乘", "乘坐", "火车", "高铁", "动车", "去", "前往", "至", "返回"]
 
 
 def normalize_text(text: str) -> str:
@@ -849,19 +851,10 @@ def parse_route_cn_from_line(line: str):
                     return dep_name, arr_name
             return dep_name, remain
 
-    # 不再粗暴切中文，避免“石家→庄正定宁波栎社”这种错误
     return "", ""
 
 
 def get_code_pair_from_day_block(day_block: str, flight_no: str):
-    """
-    从日块顶部摘要里提取航段链路：
-    flights: 9C7007, 9C8534
-    codes:   ZGGG, VDTI, ZSPD
-    映射为：
-    9C7007 -> (ZGGG, VDTI)
-    9C8534 -> (VDTI, ZSPD)
-    """
     lines = [normalize_text(x) for x in day_block.splitlines() if normalize_text(x)]
     lines = clean_tail_noise(lines)
 
@@ -937,7 +930,6 @@ def extract_airports(card_text: str, day_block: str, flight_no: str, checkin_pla
 
     route_line = candidate_lines[-1] if candidate_lines else ""
 
-    # 1) 先尝试已有中文词库
     if route_line:
         dep_cn_try, arr_cn_try = parse_route_cn_from_line(route_line)
         dep_cn = dep_cn_try or dep_cn
@@ -945,19 +937,16 @@ def extract_airports(card_text: str, day_block: str, flight_no: str, checkin_pla
         dep = AIRPORT_CN_TO_ICAO.get(dep_cn, dep)
         arr = AIRPORT_CN_TO_ICAO.get(arr_cn, arr)
 
-    # 2) 再用日块顶部 ICAO 顺序补
     if not dep or not arr:
         dep_code, arr_code = get_code_pair_from_day_block(day_block, flight_no)
         dep = dep or dep_code
         arr = arr or arr_code
 
-    # 3) 通过 route_line + code 反推中文名
     if route_line and (dep or arr):
         dep_cn2, arr_cn2 = infer_route_names_from_codes(route_line, dep, arr, checkin_place=checkin_place)
         dep_cn = dep_cn or dep_cn2
         arr_cn = arr_cn or arr_cn2
 
-    # 4) 卡片本身若有 ICAO，再兜底
     codes = ICAO_RE.findall(card_text)
     uniq = []
     for c in codes:
@@ -970,7 +959,6 @@ def extract_airports(card_text: str, day_block: str, flight_no: str, checkin_pla
         dep_cn = dep_cn or AIRPORT_ICAO_TO_CN.get(dep, "")
         arr_cn = arr_cn or AIRPORT_ICAO_TO_CN.get(arr, "")
 
-    # 5) 自动学习
     if dep and dep_cn:
         add_airport_alias(dep, dep_cn)
     if arr and arr_cn:
@@ -1027,6 +1015,9 @@ def split_people_from_line(line: str) -> list:
         return []
 
     if any(x in line for x in ["查看更多", "航班动态"]):
+        return []
+
+    if any(x in line for x in TRANSPORT_HINT_WORDS):
         return []
 
     exclude_words = {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员"} | set(GENERIC_TASK_WORDS)
@@ -1150,6 +1141,12 @@ def extract_people_lines_generic(lines: list, consumed_idx: set):
             continue
         if ICAO_RE.fullmatch(line):
             continue
+        if MODEL_ONLY_RE.fullmatch(line):
+            extra_lines.append(line)
+            continue
+        if any(x in line for x in TRANSPORT_HINT_WORDS):
+            extra_lines.append(line)
+            continue
 
         pieces = split_people_from_line(line)
         if pieces:
@@ -1192,17 +1189,28 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
     start_time = ""
     end_time = ""
     dep = arr = dep_cn = arr_cn = ""
+    reg = ""
+    model = ""
     consumed_idx = set()
     next_day = has_next_day_marker(card_text)
 
+    for line in lines:
+        m_model = MODEL_ONLY_RE.search(line)
+        if m_model and not model:
+            model = m_model.group(0)
+        m_reg = REG_ONLY_RE.search(line)
+        if m_reg and not reg:
+            reg = m_reg.group(0)
+
     time_line_idx = None
+    route_line = ""
+
     for idx, line in enumerate(lines):
         prefix, st, et, suffix = split_prefix_time_suffix(line)
         if st and et:
             time_line_idx = idx
             start_time, end_time = st, et
-            if prefix:
-                title_text = prefix
+            route_line = prefix
             if suffix:
                 location = suffix
             if has_next_day_marker(line):
@@ -1210,41 +1218,66 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
             consumed_idx.add(idx)
             break
 
-    if time_line_idx is not None and time_line_idx > 0:
-        prev = normalize_text(lines[time_line_idx - 1])
-        if prev and not is_day_header(prev) and not time_range_search(prev):
-            if not is_flight_line(prev) and not is_reg_model_line(prev):
-                title_text = prev
-                consumed_idx.add(time_line_idx - 1)
+    # 优先从 route_line 拿路线
+    if route_line:
+        dep_cn_try, arr_cn_try = parse_route_cn_from_line(route_line)
+        dep_cn = dep_cn_try or dep_cn
+        arr_cn = arr_cn_try or arr_cn
+        dep = AIRPORT_CN_TO_ICAO.get(dep_cn, dep)
+        arr = AIRPORT_CN_TO_ICAO.get(arr_cn, arr)
 
-    if not title_text and lines:
-        first = normalize_text(lines[0])
-        if first and not is_day_header(first):
-            title_text = first
-            consumed_idx.add(0)
+    codes = []
+    for line in lines:
+        if ICAO_RE.fullmatch(line):
+            codes.append(line)
 
-    for idx, line in enumerate(lines):
-        if "→" in line and time_range_search(line):
-            dep_cn_try, arr_cn_try = parse_route_cn_from_line(line)
-            if dep_cn_try or arr_cn_try:
-                dep_cn = dep_cn_try
-                arr_cn = arr_cn_try
-                dep = AIRPORT_CN_TO_ICAO.get(dep_cn, "")
-                arr = AIRPORT_CN_TO_ICAO.get(arr_cn, "")
-                consumed_idx.add(idx)
+    if len(codes) >= 2:
+        dep = dep or codes[0]
+        arr = arr or codes[1]
+        dep_cn = dep_cn or AIRPORT_ICAO_TO_CN.get(dep, "")
+        arr_cn = arr_cn or AIRPORT_ICAO_TO_CN.get(arr, "")
+
+    if route_line and (dep or arr):
+        dep_cn2, arr_cn2 = infer_route_names_from_codes(route_line, dep, arr)
+        dep_cn = dep_cn or dep_cn2
+        arr_cn = arr_cn or arr_cn2
+
+    if dep and dep_cn:
+        add_airport_alias(dep, dep_cn)
+    if arr and arr_cn:
+        add_airport_alias(arr, arr_cn)
+
+    if dep_cn and arr_cn:
+        title_text = f"{dep_cn}→{arr_cn}"
+    elif dep and arr:
+        title_text = f"{dep}→{arr}"
+    else:
+        for line in lines:
+            if any(x in line for x in TRANSPORT_HINT_WORDS):
+                title_text = line
                 break
-
-    if not location:
-        for idx, line in enumerate(lines):
-            prefix, st, et, suffix = split_prefix_time_suffix(line)
-            if st and et and suffix:
-                location = suffix
-                if has_next_day_marker(line):
-                    next_day = True
-                consumed_idx.add(idx)
-                break
+        if not title_text and lines:
+            title_text = lines[0]
 
     people_lines, extra_lines = extract_people_lines_generic(lines, consumed_idx)
+
+    # generic 说明文本去重
+    dedup_extra = []
+    seen_extra = set()
+    for line in extra_lines:
+        line = normalize_text(line)
+        if not line:
+            continue
+        if line == title_text:
+            continue
+        if line == route_line:
+            continue
+        if MODEL_ONLY_RE.fullmatch(line):
+            continue
+        if line not in seen_extra:
+            dedup_extra.append(line)
+            seen_extra.add(line)
+    extra_lines = dedup_extra
 
     if not start_time or not end_time:
         return None
@@ -1274,8 +1307,8 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
         "checkin_time": "",
         "checkin_place": "",
         "location": location,
-        "model": "",
-        "reg": "",
+        "model": model,
+        "reg": reg,
         "people_lines": people_lines,
         "extra_lines": extra_lines,
         "start_dt": start_dt,
@@ -1365,7 +1398,6 @@ def build_title(item: dict) -> str:
     arr_cn = item["arr_cn"]
     title_text = item.get("title_text", "").strip()
 
-    # 中文优先
     if flight_no and dep_cn and arr_cn:
         if item["end_dt"].date() > item["start_dt"].date():
             return f"{icon} {flight_no} {dep_cn}→{arr_cn}(+1)"
@@ -1390,9 +1422,9 @@ def build_title(item: dict) -> str:
         return f"{icon} {flight_no}"
 
     if dep_cn and arr_cn:
-        return f"{icon} {item['task_type']} {dep_cn}→{arr_cn}"
+        return f"{icon} {dep_cn}→{arr_cn}"
     if dep and arr:
-        return f"{icon} {item['task_type']} {dep}-{arr}"
+        return f"{icon} {dep}→{arr}"
 
     return f"{icon} {title_text or item['task_type']}"
 
@@ -1444,6 +1476,12 @@ def build_description(item: dict) -> str:
         lines.append(f"机型：{item['model']}")
     elif item["reg"]:
         lines.append(f"注册号：{item['reg']}")
+
+    if item["extra_lines"]:
+        lines.append("")
+        lines.append("说明：")
+        for x in item["extra_lines"]:
+            lines.append(f"• {x}")
 
     if item["people_lines"]:
         lines.append("")
@@ -1530,8 +1568,18 @@ def extract_uid_from_vevent(vevent: str) -> str:
     return m.group(1).strip() if m else ""
 
 
+def extract_summary_from_vevent(vevent: str) -> str:
+    m = re.search(r"^SUMMARY:(.+)$", vevent, flags=re.M)
+    return m.group(1).strip() if m else ""
+
+
 def extract_dtstart_from_vevent(vevent: str) -> str:
     m = re.search(r"^DTSTART(?:;[^:]+)?:([0-9T]+)$", vevent, flags=re.M)
+    return m.group(1).strip() if m else "99999999T999999"
+
+
+def extract_dtend_from_vevent(vevent: str) -> str:
+    m = re.search(r"^DTEND(?:;[^:]+)?:([0-9T]+)$", vevent, flags=re.M)
     return m.group(1).strip() if m else "99999999T999999"
 
 
@@ -1619,6 +1667,60 @@ def write_calendar_from_vevents(filename: str, vevents: list) -> bool:
         f.write(final_text)
     logger.info(f"写入 {filename}: {len(ordered)} 个事件")
     return True
+
+
+def route_text_from_summary(summary: str, flight_no: str) -> str:
+    s = normalize_text(summary)
+    if not s:
+        return ""
+
+    if flight_no and flight_no in s:
+        pos = s.find(flight_no)
+        s = s[pos + len(flight_no):].strip()
+
+    if s.startswith("✈️"):
+        s = s[2:].strip()
+
+    return s.strip()
+
+
+def is_broken_old_summary_for_item(old_summary: str, item: dict) -> bool:
+    """
+    只清理“同航班号、同起止时间”下，机场名被拆碎的旧脏标题。
+    不碰正常历史版本。
+    """
+    flight_no = item["flight_no"]
+    correct_dep = item["dep_cn"]
+    correct_arr = item["arr_cn"]
+
+    if not flight_no or not correct_dep or not correct_arr:
+        return False
+
+    correct_summary = build_title(item)
+    old_summary = normalize_text(old_summary)
+
+    if not old_summary or old_summary == correct_summary:
+        return False
+    if flight_no not in old_summary:
+        return False
+
+    old_route = route_text_from_summary(old_summary, flight_no)
+    if not old_route:
+        return False
+
+    exact1 = f"{correct_dep}→{correct_arr}"
+    exact2 = f"{correct_dep}→{correct_arr}(+1)"
+    if old_route in {exact1, exact2}:
+        return False
+
+    compact_old = old_route.replace("→", "").replace("-", "").replace("(+1)", "").replace(" ", "")
+    compact_correct = f"{correct_dep}{correct_arr}"
+
+    # 旧标题若只是把正确机场名拆碎，但拼起来与正确航线完全一致，则判定为旧错版
+    if compact_old == compact_correct:
+        return True
+
+    return False
 
 
 def collect_day_blocks(page) -> list:
@@ -1725,6 +1827,28 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
             uid = extract_uid_from_vevent(block)
             if uid:
                 merged_map[uid] = block
+
+        # 自动清理旧错误机场标题
+        for item in bucket_items:
+            if not item["flight_no"]:
+                continue
+
+            current_uid = extract_uid_from_vevent(build_vevent(item, version_tag=version_tag))
+            current_dtstart = format_dt_local(item["start_dt"])
+            current_dtend = format_dt_local(item["end_dt"])
+
+            for uid, block in list(merged_map.items()):
+                if uid == current_uid:
+                    continue
+                if extract_dtstart_from_vevent(block) != current_dtstart:
+                    continue
+                if extract_dtend_from_vevent(block) != current_dtend:
+                    continue
+
+                old_summary = extract_summary_from_vevent(block)
+                if is_broken_old_summary_for_item(old_summary, item):
+                    logger.info(f"自动清理旧错误事件: {uid} | {old_summary}")
+                    del merged_map[uid]
 
         return list(merged_map.values())
 
