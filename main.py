@@ -75,6 +75,12 @@ BASE_AIRPORT_CN_TO_ICAO = {
     "曼谷素旺那普": "VTBS",
     "曼谷素万那普": "VTBS",
     "金边德崇": "VDTI",
+    "石家庄正定": "ZBSJ",
+    "正定": "ZBSJ",
+    "宁波栎社": "ZSNB",
+    "栎社": "ZSNB",
+    "天津滨海": "ZBTJ",
+    "滨海": "ZBTJ",
 }
 
 AIRPORT_CN_TO_ICAO = {}
@@ -192,9 +198,7 @@ def split_prefix_time_suffix(line: str):
 
 def has_next_day_marker(text: str) -> bool:
     text = normalize_text(text)
-    markers = [
-        "(+1)", "（+1）", "＋1", "+1", "次日", "第二天", "翌日"
-    ]
+    markers = ["(+1)", "（+1）", "＋1", "+1", "次日", "第二天", "翌日"]
     return any(m in text for m in markers)
 
 
@@ -845,16 +849,80 @@ def parse_route_cn_from_line(line: str):
                     return dep_name, arr_name
             return dep_name, remain
 
-    for i in range(2, len(line) - 1):
-        left = line[:i]
-        right = line[i:]
-        if re.fullmatch(r"[\u4e00-\u9fff]{2,8}", left) and re.fullmatch(r"[\u4e00-\u9fff]{2,8}", right):
-            return left, right
+    # 不再粗暴切中文，避免“石家→庄正定宁波栎社”这种错误
+    return "", ""
+
+
+def get_code_pair_from_day_block(day_block: str, flight_no: str):
+    """
+    从日块顶部摘要里提取航段链路：
+    flights: 9C7007, 9C8534
+    codes:   ZGGG, VDTI, ZSPD
+    映射为：
+    9C7007 -> (ZGGG, VDTI)
+    9C8534 -> (VDTI, ZSPD)
+    """
+    lines = [normalize_text(x) for x in day_block.splitlines() if normalize_text(x)]
+    lines = clean_tail_noise(lines)
+
+    if not lines:
+        return "", ""
+
+    first_detail_idx = None
+    for i in range(len(lines)):
+        if i + 1 < len(lines) and is_flight_line(lines[i]) and is_reg_model_line(lines[i + 1]):
+            first_detail_idx = i
+            break
+        if is_old_style_header_line(lines[i]):
+            first_detail_idx = i
+            break
+
+    prefix_lines = lines[:first_detail_idx] if first_detail_idx is not None else lines
+
+    flight_order = []
+    codes = []
+
+    for line in prefix_lines:
+        if is_flight_line(line):
+            flight_order.append(line)
+        elif ICAO_RE.fullmatch(line):
+            codes.append(line)
+
+    if flight_no not in flight_order:
+        return "", ""
+
+    idx = flight_order.index(flight_no)
+    if len(codes) >= idx + 2:
+        return codes[idx], codes[idx + 1]
 
     return "", ""
 
 
-def extract_airports(card_text: str):
+def infer_route_names_from_codes(route_line: str, dep: str, arr: str, checkin_place: str = ""):
+    route_line = TIME_RANGE_RE.sub("", route_line).strip()
+    route_line = route_line.replace("—", "-").replace("－", "-")
+    route_line = re.sub(r"\s+", "", route_line)
+
+    dep_cn = AIRPORT_ICAO_TO_CN.get(dep, "")
+    arr_cn = AIRPORT_ICAO_TO_CN.get(arr, "")
+
+    if not dep_cn and checkin_place and re.fullmatch(r"[\u4e00-\u9fff]{2,12}", checkin_place):
+        dep_cn = checkin_place
+
+    if dep_cn and route_line.startswith(dep_cn):
+        remain = route_line[len(dep_cn):].strip()
+        if remain and not arr_cn:
+            arr_cn = remain
+
+    if arr_cn and route_line.endswith(arr_cn):
+        remain = route_line[:-len(arr_cn)].strip()
+        if remain and not dep_cn:
+            dep_cn = remain
+
+    return dep_cn, arr_cn
+
+
+def extract_airports(card_text: str, day_block: str, flight_no: str, checkin_place: str = ""):
     dep_cn = ""
     arr_cn = ""
     dep = ""
@@ -867,13 +935,29 @@ def extract_airports(card_text: str):
         if time_range_search(line) and "航班动态" not in line:
             candidate_lines.append(line)
 
-    if candidate_lines:
-        dep_cn_try, arr_cn_try = parse_route_cn_from_line(candidate_lines[-1])
+    route_line = candidate_lines[-1] if candidate_lines else ""
+
+    # 1) 先尝试已有中文词库
+    if route_line:
+        dep_cn_try, arr_cn_try = parse_route_cn_from_line(route_line)
         dep_cn = dep_cn_try or dep_cn
         arr_cn = arr_cn_try or arr_cn
         dep = AIRPORT_CN_TO_ICAO.get(dep_cn, dep)
         arr = AIRPORT_CN_TO_ICAO.get(arr_cn, arr)
 
+    # 2) 再用日块顶部 ICAO 顺序补
+    if not dep or not arr:
+        dep_code, arr_code = get_code_pair_from_day_block(day_block, flight_no)
+        dep = dep or dep_code
+        arr = arr or arr_code
+
+    # 3) 通过 route_line + code 反推中文名
+    if route_line and (dep or arr):
+        dep_cn2, arr_cn2 = infer_route_names_from_codes(route_line, dep, arr, checkin_place=checkin_place)
+        dep_cn = dep_cn or dep_cn2
+        arr_cn = arr_cn or arr_cn2
+
+    # 4) 卡片本身若有 ICAO，再兜底
     codes = ICAO_RE.findall(card_text)
     uniq = []
     for c in codes:
@@ -886,10 +970,11 @@ def extract_airports(card_text: str):
         dep_cn = dep_cn or AIRPORT_ICAO_TO_CN.get(dep, "")
         arr_cn = arr_cn or AIRPORT_ICAO_TO_CN.get(arr, "")
 
-        if dep_cn:
-            add_airport_alias(dep, dep_cn)
-        if arr_cn:
-            add_airport_alias(arr, arr_cn)
+    # 5) 自动学习
+    if dep and dep_cn:
+        add_airport_alias(dep, dep_cn)
+    if arr and arr_cn:
+        add_airport_alias(arr, arr_cn)
 
     return dep, arr, dep_cn, arr_cn
 
@@ -974,7 +1059,6 @@ def split_people_from_line(line: str) -> list:
         block = normalize_text(block)
         if not block:
             continue
-
         if block in exclude_words:
             continue
 
@@ -1209,7 +1293,12 @@ def parse_flight_card(card_text: str, day_header: str, page_year: int, day_task_
     reg, model = extract_reg_and_model(card_text)
     start_time, end_time = extract_start_end_time(card_text)
     checkin_time, checkin_place = extract_checkin(card_text)
-    dep, arr, dep_cn, arr_cn = extract_airports(card_text)
+    dep, arr, dep_cn, arr_cn = extract_airports(
+        card_text,
+        day_task_text,
+        flight_no,
+        checkin_place=checkin_place
+    )
     people_lines = extract_people_lines_flight(card_text)
     task_type = detect_card_task_type(card_text, day_task_text, "flight")
     next_day = has_next_day_marker(card_text)
@@ -1276,14 +1365,27 @@ def build_title(item: dict) -> str:
     arr_cn = item["arr_cn"]
     title_text = item.get("title_text", "").strip()
 
+    # 中文优先
     if flight_no and dep_cn and arr_cn:
+        if item["end_dt"].date() > item["start_dt"].date():
+            return f"{icon} {flight_no} {dep_cn}→{arr_cn}(+1)"
         return f"{icon} {flight_no} {dep_cn}→{arr_cn}"
+
     if flight_no and dep_cn and arr:
+        if item["end_dt"].date() > item["start_dt"].date():
+            return f"{icon} {flight_no} {dep_cn}→{arr}(+1)"
         return f"{icon} {flight_no} {dep_cn}→{arr}"
+
     if flight_no and dep and arr_cn:
+        if item["end_dt"].date() > item["start_dt"].date():
+            return f"{icon} {flight_no} {dep}→{arr_cn}(+1)"
         return f"{icon} {flight_no} {dep}→{arr_cn}"
+
     if flight_no and dep and arr:
+        if item["end_dt"].date() > item["start_dt"].date():
+            return f"{icon} {flight_no} {dep}-{arr}(+1)"
         return f"{icon} {flight_no} {dep}-{arr}"
+
     if flight_no:
         return f"{icon} {flight_no}"
 
@@ -1306,13 +1408,25 @@ def build_description(item: dict) -> str:
         lines.append(f"事项：{item['title_text']}")
 
     if item["dep_cn"] and item["arr_cn"]:
-        lines.append(f"航线：{item['dep_cn']} → {item['arr_cn']}")
+        if item["end_dt"].date() > item["start_dt"].date():
+            lines.append(f"航线：{item['dep_cn']} → {item['arr_cn']}(+1)")
+        else:
+            lines.append(f"航线：{item['dep_cn']} → {item['arr_cn']}")
     elif item["dep_cn"] and item["arr"]:
-        lines.append(f"航线：{item['dep_cn']} → {item['arr']}")
+        if item["end_dt"].date() > item["start_dt"].date():
+            lines.append(f"航线：{item['dep_cn']} → {item['arr']}(+1)")
+        else:
+            lines.append(f"航线：{item['dep_cn']} → {item['arr']}")
     elif item["dep"] and item["arr_cn"]:
-        lines.append(f"航线：{item['dep']} → {item['arr_cn']}")
+        if item["end_dt"].date() > item["start_dt"].date():
+            lines.append(f"航线：{item['dep']} → {item['arr_cn']}(+1)")
+        else:
+            lines.append(f"航线：{item['dep']} → {item['arr_cn']}")
     elif item["dep"] and item["arr"]:
-        lines.append(f"航线：{item['dep']} → {item['arr']}")
+        if item["end_dt"].date() > item["start_dt"].date():
+            lines.append(f"航线：{item['dep']} → {item['arr']}(+1)")
+        else:
+            lines.append(f"航线：{item['dep']} → {item['arr']}")
 
     if item["checkin_time"] and item["checkin_place"]:
         lines.append(f"签到：{item['checkin_time']}｜{item['checkin_place']}")
