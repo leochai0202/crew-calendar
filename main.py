@@ -642,7 +642,7 @@ def is_reg_model_line(s: str) -> bool:
 
 def is_old_style_header_line(s: str) -> bool:
     s = normalize_text(s)
-    return re.fullmatch(r"9C\d{3,4}[A-Z]?\s+B[0-9A-Z]{4,5}\s+A(?:319|320|321)", s) is not None
+    return re.fullmatch(r"9C\d{3,4}[A-Z]?\s+B[0-9A-Z]{4,5}\s+A(?:319|A320|A321)", s) is not None
 
 
 def clean_tail_noise(lines: list) -> list:
@@ -1133,6 +1133,8 @@ def extract_people_lines_generic(lines: list, consumed_idx: set):
             continue
         if line in {"检", "考"}:
             continue
+        if line in {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员"}:
+            continue
         if is_day_header(line):
             continue
         if "查看更多" in line:
@@ -1142,8 +1144,12 @@ def extract_people_lines_generic(lines: list, consumed_idx: set):
         if ICAO_RE.fullmatch(line):
             continue
         if MODEL_ONLY_RE.fullmatch(line):
-            extra_lines.append(line)
             continue
+        if re.fullmatch(r"\d{2}:\d{2}", line):
+            continue
+        if len(line) == 1:
+            continue
+
         if any(x in line for x in TRANSPORT_HINT_WORDS):
             extra_lines.append(line)
             continue
@@ -1218,7 +1224,6 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
             consumed_idx.add(idx)
             break
 
-    # 优先从 route_line 拿路线
     if route_line:
         dep_cn_try, arr_cn_try = parse_route_cn_from_line(route_line)
         dep_cn = dep_cn_try or dep_cn
@@ -1261,7 +1266,6 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
 
     people_lines, extra_lines = extract_people_lines_generic(lines, consumed_idx)
 
-    # generic 说明文本去重
     dedup_extra = []
     seen_extra = set()
     for line in extra_lines:
@@ -1273,6 +1277,12 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
         if line == route_line:
             continue
         if MODEL_ONLY_RE.fullmatch(line):
+            continue
+        if re.fullmatch(r"\d{2}:\d{2}", line):
+            continue
+        if len(line) == 1:
+            continue
+        if line in {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员"}:
             continue
         if line not in seen_extra:
             dedup_extra.append(line)
@@ -1678,47 +1688,47 @@ def route_text_from_summary(summary: str, flight_no: str) -> str:
         pos = s.find(flight_no)
         s = s[pos + len(flight_no):].strip()
 
-    if s.startswith("✈️"):
+    if s.startswith("✈️") or s.startswith("🚐") or s.startswith("📍") or s.startswith("🎓") or s.startswith("🗂") or s.startswith("🕒") or s.startswith("📋"):
         s = s[2:].strip()
 
     return s.strip()
 
 
 def is_broken_old_summary_for_item(old_summary: str, item: dict) -> bool:
-    """
-    只清理“同航班号、同起止时间”下，机场名被拆碎的旧脏标题。
-    不碰正常历史版本。
-    """
-    flight_no = item["flight_no"]
-    correct_dep = item["dep_cn"]
-    correct_arr = item["arr_cn"]
-
-    if not flight_no or not correct_dep or not correct_arr:
-        return False
-
     correct_summary = build_title(item)
     old_summary = normalize_text(old_summary)
 
     if not old_summary or old_summary == correct_summary:
         return False
-    if flight_no not in old_summary:
-        return False
 
-    old_route = route_text_from_summary(old_summary, flight_no)
-    if not old_route:
-        return False
+    # 航班：清理机场拆碎的旧脏标题
+    flight_no = item["flight_no"]
+    correct_dep = item["dep_cn"]
+    correct_arr = item["arr_cn"]
 
-    exact1 = f"{correct_dep}→{correct_arr}"
-    exact2 = f"{correct_dep}→{correct_arr}(+1)"
-    if old_route in {exact1, exact2}:
-        return False
+    if flight_no and correct_dep and correct_arr and flight_no in old_summary:
+        old_route = route_text_from_summary(old_summary, flight_no)
+        if old_route:
+            exact1 = f"{correct_dep}→{correct_arr}"
+            exact2 = f"{correct_dep}→{correct_arr}(+1)"
+            if old_route not in {exact1, exact2}:
+                compact_old = old_route.replace("→", "").replace("-", "").replace("(+1)", "").replace(" ", "")
+                compact_correct = f"{correct_dep}{correct_arr}"
+                if compact_old == compact_correct:
+                    return True
 
-    compact_old = old_route.replace("→", "").replace("-", "").replace("(+1)", "").replace(" ", "")
-    compact_correct = f"{correct_dep}{correct_arr}"
+    # 摆渡/置位/训练等 generic：清理老的“🚐 A320”这种错标题
+    if not flight_no:
+        icon = title_icon(item["task_type"])
+        old_no_icon = old_summary
+        if old_no_icon.startswith(icon):
+            old_no_icon = old_no_icon[len(icon):].strip()
 
-    # 旧标题若只是把正确机场名拆碎，但拼起来与正确航线完全一致，则判定为旧错版
-    if compact_old == compact_correct:
-        return True
+        if MODEL_ONLY_RE.fullmatch(old_no_icon):
+            return True
+
+        if old_no_icon in {"摆渡", "置位", "训练", "其他"} and "→" in correct_summary:
+            return True
 
     return False
 
@@ -1828,11 +1838,8 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
             if uid:
                 merged_map[uid] = block
 
-        # 自动清理旧错误机场标题
+        # 自动清理旧错误标题
         for item in bucket_items:
-            if not item["flight_no"]:
-                continue
-
             current_uid = extract_uid_from_vevent(build_vevent(item, version_tag=version_tag))
             current_dtstart = format_dt_local(item["start_dt"])
             current_dtend = format_dt_local(item["end_dt"])
