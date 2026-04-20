@@ -18,7 +18,7 @@ UID:72acda9a1fbe79df1e7985405e3b8f7b@crew-calendar
 SUMMARY:🚐 宁波栎社→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260420T090000
 DTEND;TZID=Asia/Shanghai:20260420T130000
-DESCRIPTION:04月20日 周一\n类型：摆渡\n事项：宁波栎社→上海虹桥\n航线：宁波栎社 → 上海虹桥\n任务：09:00 - 13:00\n机型：A320\n\n说明：\n• 宁波栎社搭乘火车去上海虹桥\n\n人员名单：\n• 段洋硕\n\n版本：2026-04-20 19:00
+DESCRIPTION:04月20日 周一\n类型：摆渡\n事项：宁波栎社→上海虹桥\n航线：宁波栎社 → 上海虹桥\n任务：09:00 - 13:00\n机型：A320\n\n说明：\n• 宁波栎社搭乘火车去上海虹桥\n\n人员名单：\n• 段洋硕\n\n版本：2026-04-20 19:44
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:宁波栎社→上海虹桥 提醒
