@@ -66,7 +66,7 @@ UID:449500076f21ba07854903955983e370@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260427T000000
 DTEND;TZID=Asia/Shanghai:20260427T235900
-DESCRIPTION:04月27日 周一\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-27 19:23
+DESCRIPTION:04月27日 周一\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-27 20:01
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:停飞Grounding 00:00~ 23:59 提醒
@@ -78,7 +78,7 @@ UID:4b9a39b32068748e27203e7fc0ad9071@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260428T000000
 DTEND;TZID=Asia/Shanghai:20260428T235900
-DESCRIPTION:04月28日 周二\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-27 19:23
+DESCRIPTION:04月28日 周二\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-27 20:01
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:停飞Grounding 00:00~ 23:59 提醒
@@ -90,7 +90,7 @@ UID:5c202c74a573bed2f7389cddab5a42c6@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260429T000000
 DTEND;TZID=Asia/Shanghai:20260429T235900
-DESCRIPTION:04月29日 周三\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-27 19:23
+DESCRIPTION:04月29日 周三\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-27 20:01
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:停飞Grounding 00:00~ 23:59 提醒
@@ -102,7 +102,7 @@ UID:9162b13d3457f7fcdabe4b3be9ee9273@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260430T000000
 DTEND;TZID=Asia/Shanghai:20260430T235900
-DESCRIPTION:04月30日 周四\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-27 19:23
+DESCRIPTION:04月30日 周四\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-27 20:01
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:停飞Grounding 00:00~ 23:59 提醒
@@ -114,7 +114,7 @@ UID:fc39b5922d484315e54428924c74f1ec@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260501T000000
 DTEND;TZID=Asia/Shanghai:20260501T235900
-DESCRIPTION:05月01日 周五\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-27 19:23
+DESCRIPTION:05月01日 周五\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-27 20:01
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:停飞Grounding 00:00~ 23:59 提醒
