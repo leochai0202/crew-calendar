@@ -744,7 +744,7 @@ UID:40a570c17402074db8ac60ec334a5fe6@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260502T000000
 DTEND;TZID=Asia/Shanghai:20260502T235900
-DESCRIPTION:05月02日 周六\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-05-02 18:12
+DESCRIPTION:05月02日 周六\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-05-02 19:09
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:停飞Grounding 00:00~ 23:59 提醒
@@ -768,7 +768,7 @@ UID:827cf1045c447dfc26b93104f80b6a24@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260503T000000
 DTEND;TZID=Asia/Shanghai:20260503T235900
-DESCRIPTION:05月03日 周日\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-05-02 18:12
+DESCRIPTION:05月03日 周日\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-05-02 19:09
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:停飞Grounding 00:00~ 23:59 提醒
@@ -792,7 +792,7 @@ UID:2e223757add51f29c4a407fbda6556e1@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260504T000000
 DTEND;TZID=Asia/Shanghai:20260504T235900
-DESCRIPTION:05月04日 周一\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-05-02 18:12
+DESCRIPTION:05月04日 周一\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-05-02 19:09
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:停飞Grounding 00:00~ 23:59 提醒
@@ -828,7 +828,7 @@ UID:fc212b982610c6b25bdd51890888526a@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 17:30
 DTSTART;TZID=Asia/Shanghai:20260505T000000
 DTEND;TZID=Asia/Shanghai:20260505T173000
-DESCRIPTION:05月05日 周二\n类型：考勤\n事项：停飞Grounding 00:00~ 17:30\n任务：00:00 - 17:30\n\n人员名单：\n• 个起落\n\n版本：2026-05-02 18:12
+DESCRIPTION:05月05日 周二\n类型：考勤\n事项：停飞Grounding 00:00~ 17:30\n任务：00:00 - 17:30\n\n人员名单：\n• 个起落\n\n版本：2026-05-02 19:09
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:停飞Grounding 00:00~ 17:30 提醒
@@ -840,7 +840,7 @@ UID:dbde283876738ab503b2724f1143e8c8@crew-calendar
 SUMMARY:🎓 理论课-应急生存训练复训
 DTSTART;TZID=Asia/Shanghai:20260506T083000
 DTEND;TZID=Asia/Shanghai:20260506T173000
-DESCRIPTION:05月06日 周三\n类型：训练\n事项：理论课-应急生存训练复训\n地点：东海学院匠兴苑C区5楼\n任务：08:30 - 17:30\n\n人员名单：\n• 理论课\n• 应急\n• 生存\n• 复训\n• 段洋硕\n• 徐帆\n• 丁小\n• 磊姚\n• 星宇\n• 赵智勇\n• 牛雪山\n• 顾静昊\n• 曹胜懿\n• 胡凯祥\n• 李树基\n• 金雄\n• 张秀\n• 霞池\n• 清玮\n\n版本：2026-05-02 18:12
+DESCRIPTION:05月06日 周三\n类型：训练\n事项：理论课-应急生存训练复训\n地点：东海学院匠兴苑C区5楼\n任务：08:30 - 17:30\n\n人员名单：\n• 理论课\n• 应急\n• 生存\n• 复训\n• 段洋硕\n• 徐帆\n• 丁小\n• 磊姚\n• 星宇\n• 赵智勇\n• 牛雪山\n• 顾静昊\n• 曹胜懿\n• 胡凯祥\n• 李树基\n• 金雄\n• 张秀\n• 霞池\n• 清玮\n\n版本：2026-05-02 19:09
 LOCATION:东海学院匠兴苑C区5楼
 BEGIN:VALARM
 TRIGGER:-PT90M
