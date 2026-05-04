@@ -747,7 +747,7 @@ def is_reg_model_line(s: str) -> bool:
 
 def is_old_style_header_line(s: str) -> bool:
     s = normalize_text(s)
-    return re.fullmatch(r"9C\d{3,4}[A-Z]?\s+B[0-9A-Z]{4,5}\s+A(?:319|A320|A321)", s) is not None
+    return re.fullmatch(r"9C\d{3,4}[A-Z]?\s+B[0-9A-Z]{4,5}\s+A(?:319|320|321)", s) is not None
 
 
 def clean_tail_noise(lines: list) -> list:
@@ -1017,10 +1017,6 @@ def extract_start_end_time(card_text: str):
     return "", ""
 
 
-# =========================
-# 名单解析底层逻辑（保守）
-# =========================
-
 def standardize_people_text(text: str) -> str:
     text = normalize_text(text)
     if not text:
@@ -1081,11 +1077,9 @@ def normalize_people_output(items: list) -> list:
 
 def contains_suspicious_half_name(token: str) -> bool:
     token = normalize_text(token)
-    role = ""
     m_role = SHORT_ROLE_RE.search(token)
     if m_role:
-        role = m_role.group(0)
-        token = token.replace(role, "")
+        token = token.replace(m_role.group(0), "")
 
     if len(token) <= 1:
         return True
@@ -1196,10 +1190,8 @@ def smart_split_short_compact_people(line: str) -> list:
     line = standardize_people_text(line)
     if not line:
         return []
-
     if len(line) > 16:
         return []
-
     if has_clear_delimiters(line):
         return []
 
@@ -1213,9 +1205,7 @@ def smart_split_short_compact_people(line: str) -> list:
 
     has_anchor = any(SHORT_ROLE_RE.sub("", x) in KNOWN_PEOPLE for x in best)
     has_role = any(SHORT_ROLE_RE.search(x) for x in best)
-    all_normal_zh = all(
-        re.fullmatch(r"[\u4e00-\u9fff]{2,4}(?:\([A-Z]\))?", x) for x in best
-    )
+    all_normal_zh = all(re.fullmatch(r"[\u4e00-\u9fff]{2,4}(?:\([A-Z]\))?", x) for x in best)
 
     if has_anchor or has_role:
         return best
@@ -1373,7 +1363,6 @@ def extract_people_lines_generic(lines: list, consumed_idx: set, title_text: str
     title_text = normalize_text(title_text)
     location = normalize_text(location)
 
-    # 只认尾部连续名单区块，不再整块乱扫
     tail_candidates = []
     for idx in range(len(lines) - 1, -1, -1):
         if idx in consumed_idx:
@@ -1535,7 +1524,6 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
 
     people_lines, extra_lines = extract_people_lines_generic(lines, consumed_idx, title_text=title_text, location=location)
 
-    # 停飞一律不抓名单
     if task_type == "停飞":
         people_lines = []
 
@@ -1725,9 +1713,6 @@ def build_description(item: dict) -> str:
 
 
 def stable_uid_seed(item: dict) -> str:
-    """
-    用原始卡片文本做稳定身份，避免字段修正时 UID 变化。
-    """
     raw_card = normalize_text(item.get("raw_card_text", ""))
     date_key = item["start_dt"].strftime("%Y-%m-%d")
     seed = f"{item['day_header']}|{date_key}|{raw_card}"
@@ -2093,7 +2078,7 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
     )
     write_calendar_from_vevents(
         os.path.join(ARTIFACT_DIR, "crew_schedule.ics"),
-        [build_vevent(item, version_tag=version_tag) for item in total_items]],
+        [build_vevent(item, version_tag=version_tag) for item in total_items],
     )
 
     save_text("changed_root_flag.txt", str(changed_root))
