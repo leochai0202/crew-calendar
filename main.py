@@ -33,8 +33,6 @@ SH_TZ = ZoneInfo("Asia/Shanghai")
 
 HEADLESS = os.environ.get("HEADLESS", "1") != "0"
 ALARM_MINUTES = 90
-
-# 平时适度展开，停飞等特殊情况也能往后翻几轮
 LOAD_MORE_MAX_ROUNDS = 8
 
 
@@ -120,7 +118,7 @@ FLIGHT_NO_RE = re.compile(r"9C\d{3,4}[A-Z]?")
 REG_MODEL_RE = re.compile(r"^B[0-9A-Z]{4,5}A(?:319|320|321)$")
 REG_AND_MODEL_RE = re.compile(r"\b(B[0-9A-Z]{4,5})(A319|A320|A321)\b")
 REG_ONLY_RE = re.compile(r"\bB[0-9A-Z]{4,5}\b")
-MODEL_ONLY_RE = re.compile(r"\bA(?:319|A320|A321)\b")
+MODEL_ONLY_RE = re.compile(r"\bA(?:319|320|321)\b")
 TIME_RANGE_RE = re.compile(r"(\d{2}:\d{2})\s*[-~～—–]+\s*(\d{2}:\d{2})")
 PAGE_YEAR_MONTH_RE = re.compile(r"(\d{4})年(\d{1,2})月")
 PURE_DATE_PREFIX_RE = re.compile(r"^\d{4}-\d{2}-\d{2}")
@@ -697,14 +695,11 @@ def detect_card_task_type(card_text: str, day_text: str, card_kind: str) -> str:
         return "训练"
     if "考勤" in combined:
         return "考勤"
-
     if card_kind == "flight":
         return "航班"
-
     for t in ["备份", "待命", "航班"]:
         if t in combined:
             return t
-
     return "其他"
 
 
@@ -735,7 +730,7 @@ def is_reg_model_line(s: str) -> bool:
 
 def is_old_style_header_line(s: str) -> bool:
     s = normalize_text(s)
-    return re.fullmatch(r"9C\d{3,4}[A-Z]?\s+B[0-9A-Z]{4,5}\s+A(?:319|A320|A321)", s) is not None
+    return re.fullmatch(r"9C\d{3,4}[A-Z]?\s+B[0-9A-Z]{4,5}\s+A(?:319|320|321)", s) is not None
 
 
 def clean_tail_noise(lines: list) -> list:
@@ -936,7 +931,7 @@ def extract_flight_no(card_text: str) -> str:
     for line in lines:
         if is_flight_line(line):
             return line
-        m = re.match(r"(9C\d{3,4}[A-Z]?)\s+B[0-9A-Z]{4,5}\s+A(?:319|A320|A321)", line)
+        m = re.match(r"(9C\d{3,4}[A-Z]?)\s+B[0-9A-Z]{4,5}\s+A(?:319|320|321)", line)
         if m:
             return m.group(1)
     m = FLIGHT_NO_RE.search(card_text)
@@ -1005,57 +1000,128 @@ def extract_start_end_time(card_text: str):
     return "", ""
 
 
+def has_clear_delimiters(text: str) -> bool:
+    text = normalize_text(text)
+    if not text:
+        return False
+    return any(sep in text for sep in [" ", "　", "、", "，", ",", "/", "\n", "\t"])
+
+
+def split_by_clear_delimiters(text: str) -> list:
+    text = normalize_text(text)
+    if not text:
+        return []
+    parts = re.split(r"[\s　、，,/]+", text)
+    return [normalize_text(x) for x in parts if normalize_text(x)]
+
+
+def looks_like_person_token(token: str) -> bool:
+    token = normalize_text(token)
+    if not token:
+        return False
+    if token in ROLE_WORDS or token in TASK_TITLE_WORDS or token in GENERIC_TASK_WORDS:
+        return False
+    if LATIN_PERSON_RE.fullmatch(token):
+        return True
+    if ZH_TAGGED_NAME_RE.fullmatch(token):
+        return True
+    if re.fullmatch(r"[\u4e00-\u9fff]{2,4}", token):
+        return True
+    return False
+
+
+def normalize_people_output(items: list) -> list:
+    out = []
+    seen = set()
+    for x in items:
+        x = normalize_text(x)
+        if not x:
+            continue
+        if x not in seen:
+            out.append(x)
+            seen.add(x)
+    return out
+
+
+def parse_people_line_conservatively(line: str):
+    line = normalize_text(line)
+    if not line:
+        return "skip", []
+
+    if line in ROLE_WORDS:
+        return "skip", []
+
+    if is_day_header(line) or "查看更多" in line:
+        return "skip", []
+
+    if is_flight_line(line) or is_reg_model_line(line) or is_old_style_header_line(line):
+        return "skip", []
+
+    if ICAO_RE.fullmatch(line) or MODEL_ONLY_RE.fullmatch(line):
+        return "skip", []
+
+    if re.fullmatch(r"\d{2}:\d{2}", line):
+        return "skip", []
+
+    if LATIN_PERSON_RE.fullmatch(line) or ZH_TAGGED_NAME_RE.fullmatch(line):
+        return "split", [line]
+
+    if not has_clear_delimiters(line):
+        if re.fullmatch(r"[\u4e00-\u9fff]{4,80}", line):
+            return "keep", [line]
+        if re.fullmatch(r"[\u4e00-\u9fff]{2,4}", line):
+            return "split", [line]
+        return "skip", []
+
+    parts = split_by_clear_delimiters(line)
+    if not parts:
+        return "skip", []
+
+    valid = [p for p in parts if looks_like_person_token(p)]
+    if not valid:
+        return "skip", []
+
+    if len(valid) < len(parts):
+        joined_valid_ratio = len(valid) / max(1, len(parts))
+        if joined_valid_ratio < 0.8:
+            return "keep", [line]
+
+    if len(valid) <= 5:
+        return "split", valid
+
+    return "keep", [line]
+
+
 def extract_people_lines_flight(card_text: str) -> list:
     lines = [normalize_text(x) for x in card_text.splitlines() if normalize_text(x)]
-    out = []
+    people = []
     capture = False
+
     for line in lines:
         if line in ROLE_WORDS:
             capture = True
             continue
+
         if not capture:
             continue
+
         if is_flight_line(line) or is_reg_model_line(line) or is_old_style_header_line(line):
             break
+
         if PURE_DATE_PREFIX_RE.match(line):
             break
+
         if "航班动态" in line or "查看更多" in line or time_range_search(line):
             continue
+
         if re.fullmatch(r"\d{2}:\d{2}", line) or len(line) == 1:
             continue
 
-        for name in KNOWN_PEOPLE:
-            if name in line and name not in out:
-                out.append(name)
+        mode, result = parse_people_line_conservatively(line)
+        if mode in ("split", "keep"):
+            people.extend(result)
 
-        if LATIN_PERSON_RE.fullmatch(line):
-            if line not in out:
-                out.append(line)
-            continue
-
-        if ZH_TAGGED_NAME_RE.fullmatch(line):
-            if line not in out:
-                out.append(line)
-            continue
-
-        parts = re.split(r"[\s　,，、/]+", line)
-        valid_people = []
-        for p in parts:
-            p = normalize_text(p)
-            if not p or p in ROLE_WORDS or p in TASK_TITLE_WORDS:
-                continue
-            if re.fullmatch(r"[\u4e00-\u9fff]{2,6}", p):
-                valid_people.append(p)
-            elif LATIN_PERSON_RE.fullmatch(p):
-                valid_people.append(p)
-            elif ZH_TAGGED_NAME_RE.fullmatch(p):
-                valid_people.append(p)
-
-        for p in valid_people:
-            if p not in out:
-                out.append(p)
-
-    return out
+    return normalize_people_output(people)
 
 
 def _parse_ferry_route_from_description(desc: str):
@@ -1088,25 +1154,33 @@ def _parse_ferry_route_from_description(desc: str):
 def extract_people_lines_generic(lines: list, consumed_idx: set, title_text: str = "", location: str = ""):
     people = []
     extra_lines = []
+
     title_text = normalize_text(title_text)
     location = normalize_text(location)
 
     for idx, line in enumerate(lines):
         if idx in consumed_idx:
             continue
+
         line = normalize_text(line)
         if not line:
             continue
+
         if line in ROLE_WORDS or is_day_header(line) or "查看更多" in line:
             continue
+
         if is_flight_line(line) or is_reg_model_line(line) or is_old_style_header_line(line):
             continue
+
         if ICAO_RE.fullmatch(line) or MODEL_ONLY_RE.fullmatch(line):
             continue
+
         if re.fullmatch(r"\d{2}:\d{2}", line) or len(line) == 1:
             continue
+
         if title_text and line == title_text:
             continue
+
         if location and line == location:
             continue
 
@@ -1114,58 +1188,31 @@ def extract_people_lines_generic(lines: list, consumed_idx: set, title_text: str
             extra_lines.append(line)
             continue
 
-        if LATIN_PERSON_RE.fullmatch(line):
-            if line not in people:
-                people.append(line)
+        if re.search(r"[：:。，、]", line) and not has_clear_delimiters(line):
+            if line not in extra_lines:
+                extra_lines.append(line)
             continue
 
-        if ZH_TAGGED_NAME_RE.fullmatch(line):
-            if line not in people:
-                people.append(line)
+        mode, result = parse_people_line_conservatively(line)
+
+        if mode == "split":
+            people.extend(result)
             continue
 
-        # 长串不好分，整串保留
-        if re.fullmatch(r"[\u4e00-\u9fff]{8,80}", line) and not any(w in line for w in TASK_TITLE_WORDS):
-            if line not in people:
-                people.append(line)
-            continue
-
-        parts = re.split(r"[\s　,，、/]+", line)
-        valid_people = []
-        for part in parts:
-            part = normalize_text(part)
-            if not part:
-                continue
-            if part in TASK_TITLE_WORDS or part in GENERIC_TASK_WORDS:
-                continue
-            if re.fullmatch(r"[\u4e00-\u9fff]{2,6}", part):
-                valid_people.append(part)
-            elif LATIN_PERSON_RE.fullmatch(part):
-                valid_people.append(part)
-            elif ZH_TAGGED_NAME_RE.fullmatch(part):
-                valid_people.append(part)
-
-        if valid_people:
-            # 5人以下、边界明显才分
-            if len(valid_people) <= 5:
-                for p in valid_people:
-                    if p not in people:
-                        people.append(p)
-            else:
-                joined = " ".join(valid_people)
-                if joined not in people:
-                    people.append(joined)
+        if mode == "keep":
+            people.extend(result)
             continue
 
         is_title_like = (
             len(line) > 8
             or any(w in line for w in TASK_TITLE_WORDS)
             or any(w in line for w in GENERIC_TASK_WORDS)
-            or re.search(r"[：:。，、]", line)
         )
         if is_title_like:
             extra_lines.append(line)
 
+    people = normalize_people_output(people)
+    extra_lines = normalize_people_output(extra_lines)
     return people, extra_lines
 
 
@@ -1264,16 +1311,6 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
                 break
 
     people_lines, extra_lines = extract_people_lines_generic(lines, consumed_idx, title_text=title_text, location=location)
-
-    dedup_extra = []
-    seen_extra = set()
-    for line in extra_lines:
-        if not line or line == title_text or line in TASK_TITLE_WORDS:
-            continue
-        if line not in seen_extra:
-            dedup_extra.append(line)
-            seen_extra.add(line)
-    extra_lines = dedup_extra
 
     if not start_time or not end_time:
         return None
@@ -1557,13 +1594,11 @@ def are_high_confidence_duplicates(block_a: str, block_b: str) -> bool:
 
     sa = normalize_similarity_title(extract_summary_from_vevent(block_a))
     sb = normalize_similarity_title(extract_summary_from_vevent(block_b))
-
     if not sa or not sb:
         return False
     if sa == sb:
         return True
 
-    # 航班号一致且时间一致，也认为高度重复
     fa = FLIGHT_NO_RE.search(sa)
     fb = FLIGHT_NO_RE.search(sb)
     if fa and fb and fa.group(0) == fb.group(0):
