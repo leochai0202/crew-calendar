@@ -108,7 +108,7 @@ UID:6535753c3dd5b23356c4974b3f85821b@crew-calendar
 SUMMARY:🎓 模拟机-定期复训结合熟练检查
 DTSTART;TZID=Asia/Shanghai:20260508T101000
 DTEND;TZID=Asia/Shanghai:20260508T161000
-DESCRIPTION:05月08日 周五\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：10:10 - 16:10\n\n人员名单：\n• 段洋\n• 张子\n• 陈员\n• 康铁辉\n\n版本：2026-05-04 16:32
+DESCRIPTION:05月08日 周五\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：10:10 - 16:10\n\n人员名单：\n• 模拟机\n• 定期复\n• 训结合\n• 熟练\n• 检查\n• 段洋硕\n• 张子钦\n• 陈员\n• 康铁辉\n\n版本：2026-05-04 22:10
 LOCATION:春秋飞培
 BEGIN:VALARM
 TRIGGER:-PT90M
