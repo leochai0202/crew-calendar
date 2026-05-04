@@ -112,12 +112,18 @@ AIRPORT_CN_TO_ICAO = {}
 AIRPORT_ICAO_TO_CN = {}
 AIRPORT_NAMES = []
 
-# 已知高置信姓名：用于“短名单微拆分”
+# 已知高置信姓名锚点：用于短名单微拆分，但不是唯一依据
 KNOWN_PEOPLE = [
     "段洋硕",
     "张子钦",
     "陈员",
     "康铁辉",
+    "王闯",
+    "许磊",
+    "李罡",
+    "杨刚",
+    "鲍国际",
+    "许晓君",
 ]
 
 FLIGHT_NO_RE = re.compile(r"9C\d{3,4}[A-Z]?")
@@ -132,6 +138,8 @@ ICAO_RE = re.compile(r"\b[A-Z]{4}\b")
 DAY_HEADER_RE = re.compile(r"^\d{2}月\d{2}日\s*周.")
 LATIN_PERSON_RE = re.compile(r"[A-Z][A-Z\s\.\-']{1,80}\([^)]*\)")
 ZH_TAGGED_NAME_RE = re.compile(r"[\u4e00-\u9fff]{2,4}\([^)]*\)")
+ZH_NAME_WITH_ROLE_RE = re.compile(r"[\u4e00-\u9fff]{2,4}(?:\([A-Z]\))?")
+SHORT_ROLE_RE = re.compile(r"\([A-Z]\)")
 
 ROLE_WORDS = {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员", "观察员"}
 TRANSPORT_HINT_WORDS = ["搭乘", "乘坐", "火车", "高铁", "动车", "去", "前往", "至", "返回"]
@@ -148,6 +156,7 @@ def normalize_text(text: str) -> str:
     if text is None:
         return ""
     text = str(text).replace("\u00a0", " ").replace("\r", "")
+    text = text.replace("（", "(").replace("）", ")")
     text = re.sub(r"[ \t]+", " ", text)
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip()
@@ -1006,15 +1015,32 @@ def extract_start_end_time(card_text: str):
     return "", ""
 
 
-def has_clear_delimiters(text: str) -> bool:
+# =========================
+# 名单解析底层逻辑（统一）
+# =========================
+
+def standardize_people_text(text: str) -> str:
     text = normalize_text(text)
+    if not text:
+        return ""
+    text = text.replace("（", "(").replace("）", ")")
+    text = re.sub(r"\s+", " ", text)
+
+    # 给明显角色括号周围补边界，避免 中文名王闯(R)英文 粘死
+    text = re.sub(r"(\([A-Z]\))", r"\1 ", text)
+    text = re.sub(r"\s{2,}", " ", text)
+    return text.strip()
+
+
+def has_clear_delimiters(text: str) -> bool:
+    text = standardize_people_text(text)
     if not text:
         return False
     return any(sep in text for sep in [" ", "　", "、", "，", ",", "/", "\n", "\t"])
 
 
 def split_by_clear_delimiters(text: str) -> list:
-    text = normalize_text(text)
+    text = standardize_people_text(text)
     if not text:
         return []
     parts = re.split(r"[\s　、，,/]+", text)
@@ -1030,6 +1056,8 @@ def looks_like_person_token(token: str) -> bool:
     if LATIN_PERSON_RE.fullmatch(token):
         return True
     if ZH_TAGGED_NAME_RE.fullmatch(token):
+        return True
+    if ZH_NAME_WITH_ROLE_RE.fullmatch(token):
         return True
     if re.fullmatch(r"[\u4e00-\u9fff]{2,4}", token):
         return True
@@ -1049,81 +1077,200 @@ def normalize_people_output(items: list) -> list:
     return out
 
 
-def smart_split_short_compact_chinese_names(line: str) -> list:
+def contains_suspicious_half_name(token: str) -> bool:
     """
-    只处理“短、纯中文、无分隔符”的名单串。
-    目标：在高置信条件下，把像 段洋硕张子钦陈员康铁辉 这类短名单拆开。
-    拆不稳就返回 []，由上层整串保留。
+    仅用于拦住典型半截名。
+    不求覆盖全部中文姓名，只拦明显危险结果。
     """
-    line = normalize_text(line)
-    if not re.fullmatch(r"[\u4e00-\u9fff]{4,20}", line):
+    token = normalize_text(token)
+    role = ""
+    m_role = SHORT_ROLE_RE.search(token)
+    if m_role:
+        role = m_role.group(0)
+        token = token.replace(role, "")
+
+    # 单字绝对不允许
+    if len(token) <= 1:
+        return True
+
+    # 2字名本身不能一刀切判错，这里只拦典型风险锚点
+    risky_prefixes = {"段洋", "张子"}
+    if token in risky_prefixes:
+        return True
+
+    return False
+
+
+def score_compact_split(tokens: list) -> int:
+    score = 0
+    anchor_count = 0
+    role_count = 0
+    for t in tokens:
+        base = t
+        if SHORT_ROLE_RE.search(t):
+            role_count += 1
+            base = SHORT_ROLE_RE.sub("", t)
+        if base in KNOWN_PEOPLE:
+            anchor_count += 1
+            score += 10
+        if len(base) == 3:
+            score += 4
+        elif len(base) == 2:
+            score += 2
+        elif len(base) == 4:
+            score += 1
+
+    score += role_count * 3
+    score += anchor_count * 5
+    score -= max(0, len(tokens) - 3)
+    return score
+
+
+def compact_people_candidates(text: str) -> list:
+    """
+    给短、无分隔的中文名单串生成候选拆分。
+    只处理高置信短串，不碰长串。
+    """
+    text = standardize_people_text(text)
+    if not text:
         return []
 
-    # 长串不碰，避免回到以前的乱拆
+    # 只处理短串，长串直接不拆
+    if len(text) > 16:
+        return []
+
+    # 仅支持中文+短角色标记
+    if not re.fullmatch(r"[\u4e00-\u9fff()A-Z]+", text):
+        return []
+
+    # 先构造锚点集合
+    anchor_tokens = set(KNOWN_PEOPLE)
+    for name in KNOWN_PEOPLE:
+        anchor_tokens.add(f"{name}(R)")
+
+    memo = {}
+
+    def dfs(idx: int):
+        if idx == len(text):
+            return [[]]
+        if idx in memo:
+            return memo[idx]
+
+        res = []
+
+        # 1) 锚点优先
+        for tok in sorted(anchor_tokens, key=len, reverse=True):
+            if text.startswith(tok, idx):
+                for tail in dfs(idx + len(tok)):
+                    res.append([tok] + tail)
+
+        # 2) 通用中文姓名 2~4 字 + 可选 (R)
+        for ln in [2, 3, 4]:
+            if idx + ln <= len(text):
+                base = text[idx:idx + ln]
+                if re.fullmatch(r"[\u4e00-\u9fff]{2,4}", base):
+                    # 无角色
+                    for tail in dfs(idx + ln):
+                        res.append([base] + tail)
+                    # 带角色
+                    role = "(R)"
+                    if text.startswith(role, idx + ln):
+                        for tail in dfs(idx + ln + len(role)):
+                            res.append([base + role] + tail)
+
+        memo[idx] = res
+        return res
+
+    all_splits = dfs(0)
+    candidates = []
+
+    for tokens in all_splits:
+        if not tokens:
+            continue
+        if len(tokens) > 5:
+            continue
+        if "".join(tokens) != text:
+            continue
+        if not all(looks_like_person_token(x) for x in tokens):
+            continue
+        if any(contains_suspicious_half_name(x) for x in tokens):
+            continue
+
+        score = score_compact_split(tokens)
+        candidates.append((score, tokens))
+
+    # 去重，按分数排序
+    unique = {}
+    for score, tokens in candidates:
+        key = tuple(tokens)
+        if key not in unique or score > unique[key]:
+            unique[key] = score
+
+    ranked = sorted(unique.items(), key=lambda kv: kv[1], reverse=True)
+    return [list(k) for k, _ in ranked]
+
+
+def smart_split_short_compact_people(line: str) -> list:
+    """
+    统一短粘连修复：
+    - 只处理短串
+    - 候选必须全部像正常名字
+    - 候选必须能完整拼回
+    - 必须比“整串保留”更有把握
+    """
+    line = standardize_people_text(line)
+    if not line:
+        return []
+
+    # 长串不碰
     if len(line) > 16:
         return []
 
-    # 先按已知高置信姓名打点
-    spans = []
-    for name in sorted(KNOWN_PEOPLE, key=len, reverse=True):
-        start = 0
-        while True:
-            idx = line.find(name, start)
-            if idx == -1:
-                break
-            spans.append((idx, idx + len(name), name))
-            start = idx + 1
-
-    # 去掉重叠，优先保留长名字
-    spans.sort(key=lambda x: (x[0], -(x[1] - x[0])))
-    chosen = []
-    current_end = -1
-    for s, e, name in spans:
-        if s >= current_end:
-            chosen.append((s, e, name))
-            current_end = e
-
-    # 如果一个高置信名字都没有，不做微拆
-    if not chosen:
+    # 有明确分隔符，不走这个
+    if has_clear_delimiters(line):
         return []
 
-    pieces = []
-    cursor = 0
-    for s, e, name in chosen:
-        if s > cursor:
-            gap = line[cursor:s]
-            # gap 只允许是一个正常中文姓名（2~4字）
-            if re.fullmatch(r"[\u4e00-\u9fff]{2,4}", gap):
-                pieces.append(gap)
-            else:
-                return []
-        pieces.append(name)
-        cursor = e
-
-    if cursor < len(line):
-        tail = line[cursor:]
-        if re.fullmatch(r"[\u4e00-\u9fff]{2,4}", tail):
-            pieces.append(tail)
-        else:
-            return []
-
-    # 总人数只允许 1~5 人
-    if not (1 <= len(pieces) <= 5):
+    candidates = compact_people_candidates(line)
+    if not candidates:
         return []
 
-    # 每段都必须像正常名字
-    if not all(re.fullmatch(r"[\u4e00-\u9fff]{2,4}", x) for x in pieces):
+    best = candidates[0]
+
+    # 只有 1 个 token 没意义
+    if len(best) <= 1:
         return []
 
-    # 拼回去必须完全一致
-    if "".join(pieces) != line:
-        return []
+    # 至少满足以下之一，才算高置信：
+    # 1) 含已知锚点
+    # 2) 含角色标记
+    # 3) 2~4 个 token 且都像正常 2~4 字中文名
+    has_anchor = any(SHORT_ROLE_RE.sub("", x) in KNOWN_PEOPLE for x in best)
+    has_role = any(SHORT_ROLE_RE.search(x) for x in best)
+    all_normal_zh = all(
+        re.fullmatch(r"[\u4e00-\u9fff]{2,4}(?:\([A-Z]\))?", x) for x in best
+    )
 
-    return pieces
+    if has_anchor or has_role:
+        return best
+
+    if 2 <= len(best) <= 4 and all_normal_zh:
+        # 对完全无锚点、无角色的纯中文短串，再严格一点：
+        # 总长度不要太长，避免把长串乱切
+        pure_len = len(SHORT_ROLE_RE.sub("", line))
+        if pure_len <= 10:
+            return best
+
+    return []
 
 
 def parse_people_line_conservatively(line: str):
-    line = normalize_text(line)
+    """
+    返回:
+    - ("split", [names...])   可以安全拆分
+    - ("keep",  [raw_line])   不该硬拆，整串保留
+    - ("skip",  [])           不是名单
+    """
+    line = standardize_people_text(line)
     if not line:
         return "skip", []
 
@@ -1145,37 +1292,43 @@ def parse_people_line_conservatively(line: str):
     if LATIN_PERSON_RE.fullmatch(line) or ZH_TAGGED_NAME_RE.fullmatch(line):
         return "split", [line]
 
-    # 无明确分隔符：先尝试“高置信短名单微拆分”
+    # 无明确分隔符：先尝试高置信短粘连修复
     if not has_clear_delimiters(line):
-        micro = smart_split_short_compact_chinese_names(line)
+        micro = smart_split_short_compact_people(line)
         if micro:
             return "split", micro
 
-        if re.fullmatch(r"[\u4e00-\u9fff]{4,80}", line):
-            return "keep", [line]
-        if re.fullmatch(r"[\u4e00-\u9fff]{2,4}", line):
+        # 单个中文姓名
+        if re.fullmatch(r"[\u4e00-\u9fff]{2,4}(?:\([A-Z]\))?", line):
+            if contains_suspicious_half_name(line):
+                return "keep", [line]
             return "split", [line]
+
+        # 其它中文长串：整串保留
+        if re.fullmatch(r"[\u4e00-\u9fff()A-Z]{4,80}", line):
+            return "keep", [line]
+
         return "skip", []
 
-    # 有明确分隔符才尝试常规拆分
+    # 有明确分隔符，按分隔符拆
     parts = split_by_clear_delimiters(line)
     if not parts:
         return "skip", []
 
-    valid = [p for p in parts if looks_like_person_token(p)]
+    valid = [p for p in parts if looks_like_person_token(p) and not contains_suspicious_half_name(p)]
     if not valid:
         return "skip", []
 
+    # 杂质太多，宁可整串保留
     if len(valid) < len(parts):
-        joined_valid_ratio = len(valid) / max(1, len(parts))
-        if joined_valid_ratio < 0.8:
+        ratio = len(valid) / max(1, len(parts))
+        if ratio < 0.8:
             return "keep", [line]
 
-    # 5人以下、边界清晰，才分开
+    # 5人以下才分开；更多人整串保留
     if len(valid) <= 5:
         return "split", valid
 
-    # 超过5人仍然整串保留
     return "keep", [line]
 
 
