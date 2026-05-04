@@ -2,11 +2,7 @@ name: Update Crew Calendar
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '20 9 * * *'
-    - cron: '20 10 * * *'
-    - cron: '20 11 * * *'
-
+  
 permissions:
   contents: write
 
