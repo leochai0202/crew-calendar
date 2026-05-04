@@ -104,6 +104,11 @@ DAY_HEADER_RE = re.compile(r"^\d{2}月\d{2}日\s*周.")
 GENERIC_TASK_WORDS = ["训练", "考勤", "摆渡", "置位", "航班", "备份", "待命"]
 LATIN_PERSON_RE = re.compile(r"[A-Z][A-Z\s\.\-']{1,80}\([^)]*\)")
 TRANSPORT_HINT_WORDS = ["搭乘", "乘坐", "火车", "高铁", "动车", "去", "前往", "至", "返回"]
+ROLE_WORDS = {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员"}
+GENERIC_SKIP_WORDS = {
+    "理论课", "应急", "生存", "复训", "模拟机", "定期复", "训练结合", "熟练", "检查",
+    "检", "考", "理论", "课程", "复习", "训练课"
+}
 
 
 def normalize_text(text: str) -> str:
@@ -967,7 +972,7 @@ def extract_airports(card_text: str, day_block: str, flight_no: str, checkin_pla
     return dep, arr, dep_cn, arr_cn
 
 
-def _split_chinese_block_to_names(block: str) -> list:
+def _split_chinese_block_to_names_flight(block: str) -> list:
     block = normalize_text(block)
     if not block:
         return []
@@ -1009,7 +1014,7 @@ def _split_chinese_block_to_names(block: str) -> list:
     return [x for x in pieces if 2 <= len(x) <= 3]
 
 
-def split_people_from_line(line: str) -> list:
+def split_people_from_line_flight(line: str) -> list:
     line = normalize_text(line)
     if not line:
         return []
@@ -1017,14 +1022,11 @@ def split_people_from_line(line: str) -> list:
     if any(x in line for x in ["查看更多", "航班动态"]):
         return []
 
-    if any(x in line for x in TRANSPORT_HINT_WORDS):
-        return []
-
-    exclude_words = {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员"} | set(GENERIC_TASK_WORDS)
+    exclude_words = ROLE_WORDS | set(GENERIC_TASK_WORDS)
 
     results = []
-
     working = line
+
     for name in KNOWN_PEOPLE:
         if name in working and name not in results:
             results.append(name)
@@ -1041,19 +1043,15 @@ def split_people_from_line(line: str) -> list:
         person = normalize_text(m.group(1))
         if person and person not in results:
             results.append(person)
-
     for m in zh_tagged:
         working = working.replace(m.group(1), " ")
 
     zh_blocks = re.findall(r"[\u4e00-\u9fff]+", working)
     for block in zh_blocks:
         block = normalize_text(block)
-        if not block:
+        if not block or block in exclude_words:
             continue
-        if block in exclude_words:
-            continue
-
-        names = _split_chinese_block_to_names(block)
+        names = _split_chinese_block_to_names_flight(block)
         for name in names:
             if name not in exclude_words and name not in results:
                 results.append(name)
@@ -1066,8 +1064,6 @@ def split_people_from_line(line: str) -> list:
             continue
         if x in exclude_words:
             continue
-        if x in {"查看更多", "航班动态"}:
-            continue
         if re.search(r"\d{2}:\d{2}", x):
             continue
         if len(x) <= 1:
@@ -1079,15 +1075,71 @@ def split_people_from_line(line: str) -> list:
     return cleaned
 
 
+def split_people_from_line_generic(line: str) -> list:
+    """
+    训练/考勤/摆渡等 generic 任务用保守模式：
+    只按空格/分隔符切，不再把整段中文硬拆成人名。
+    """
+    line = normalize_text(line)
+    if not line:
+        return []
+
+    if any(x in line for x in ["查看更多", "航班动态"]):
+        return []
+    if any(x in line for x in TRANSPORT_HINT_WORDS):
+        return []
+    if "->" in line or "→" in line:
+        return []
+    if MODEL_ONLY_RE.fullmatch(line):
+        return []
+    if re.fullmatch(r"\d{2}:\d{2}", line):
+        return []
+    if time_range_search(line):
+        return []
+
+    results = []
+    seen = set()
+
+    for name in KNOWN_PEOPLE:
+        if name in line and name not in seen:
+            results.append(name)
+            seen.add(name)
+
+    for m in LATIN_PERSON_RE.findall(line):
+        m = normalize_text(m)
+        if m and m not in seen:
+            results.append(m)
+            seen.add(m)
+
+    parts = re.split(r"[\s,，、/]+", line)
+    for part in parts:
+        part = normalize_text(part)
+        if not part:
+            continue
+        if part in ROLE_WORDS or part in GENERIC_TASK_WORDS or part in GENERIC_SKIP_WORDS:
+            continue
+        if re.search(r"\d{2}:\d{2}", part):
+            continue
+        if any(x in part for x in TRANSPORT_HINT_WORDS):
+            continue
+        if MODEL_ONLY_RE.fullmatch(part):
+            continue
+        if 2 <= len(part) <= 4 and re.fullmatch(r"[\u4e00-\u9fff]{2,4}", part):
+            if part not in seen:
+                results.append(part)
+                seen.add(part)
+
+    return results
+
+
 def extract_people_lines_flight(card_text: str) -> list:
     lines = [normalize_text(x) for x in card_text.splitlines() if normalize_text(x)]
 
     out = []
     capture = False
-    people_markers = {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员"}
 
     for line in lines:
-        if line in people_markers:
+        if line in ROLE_WORDS:
             capture = True
             continue
 
@@ -1111,7 +1163,7 @@ def extract_people_lines_flight(card_text: str) -> list:
         if len(line) == 1:
             continue
 
-        pieces = split_people_from_line(line)
+        pieces = split_people_from_line_flight(line)
         for p in pieces:
             p = re.sub(r"\s+", " ", p).strip()
             if p and p not in out and len(p) > 1:
@@ -1120,9 +1172,12 @@ def extract_people_lines_flight(card_text: str) -> list:
     return out
 
 
-def extract_people_lines_generic(lines: list, consumed_idx: set):
+def extract_people_lines_generic(lines: list, consumed_idx: set, title_text: str = "", location: str = ""):
     people = []
     extra_lines = []
+
+    title_text = normalize_text(title_text)
+    location = normalize_text(location)
 
     for idx, line in enumerate(lines):
         if idx in consumed_idx:
@@ -1133,7 +1188,7 @@ def extract_people_lines_generic(lines: list, consumed_idx: set):
             continue
         if line in {"检", "考"}:
             continue
-        if line in {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员"}:
+        if line in ROLE_WORDS:
             continue
         if is_day_header(line):
             continue
@@ -1149,29 +1204,24 @@ def extract_people_lines_generic(lines: list, consumed_idx: set):
             continue
         if len(line) == 1:
             continue
-
+        if title_text and line == title_text:
+            continue
+        if location and line == location:
+            continue
         if any(x in line for x in TRANSPORT_HINT_WORDS):
             extra_lines.append(line)
             continue
+        if "-" in line and len(line) > 4 and not re.fullmatch(r"[\u4e00-\u9fff]{2,4}", line):
+            extra_lines.append(line)
+            continue
 
-        pieces = split_people_from_line(line)
+        pieces = split_people_from_line_generic(line)
         if pieces:
-            good_people = True
             for p in pieces:
-                pp = normalize_text(p)
-                if len(pp) <= 1 or re.search(r"\d{2}:\d{2}", pp) or "→" in pp:
-                    good_people = False
-                    break
-                if pp in {"航班", "训练", "考勤", "摆渡", "置位"}:
-                    good_people = False
-                    break
-
-            if good_people:
-                for p in pieces:
-                    p = normalize_text(p)
-                    if p and p not in people and len(p) > 1:
-                        people.append(p)
-                continue
+                p = normalize_text(p)
+                if p and p not in people:
+                    people.append(p)
+            continue
 
         extra_lines.append(line)
 
@@ -1224,6 +1274,19 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
             consumed_idx.add(idx)
             break
 
+    if time_line_idx is not None and time_line_idx > 0:
+        prev = normalize_text(lines[time_line_idx - 1])
+        if prev and not is_day_header(prev) and not time_range_search(prev):
+            if not is_flight_line(prev) and not is_reg_model_line(prev):
+                title_text = prev
+                consumed_idx.add(time_line_idx - 1)
+
+    if not title_text and lines:
+        first = normalize_text(lines[0])
+        if first and not is_day_header(first):
+            title_text = first
+            consumed_idx.add(0)
+
     if route_line:
         dep_cn_try, arr_cn_try = parse_route_cn_from_line(route_line)
         dep_cn = dep_cn_try or dep_cn
@@ -1256,7 +1319,7 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
         title_text = f"{dep_cn}→{arr_cn}"
     elif dep and arr:
         title_text = f"{dep}→{arr}"
-    else:
+    elif not title_text:
         for line in lines:
             if any(x in line for x in TRANSPORT_HINT_WORDS):
                 title_text = line
@@ -1264,7 +1327,9 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
         if not title_text and lines:
             title_text = lines[0]
 
-    people_lines, extra_lines = extract_people_lines_generic(lines, consumed_idx)
+    people_lines, extra_lines = extract_people_lines_generic(
+        lines, consumed_idx, title_text=title_text, location=location
+    )
 
     dedup_extra = []
     seen_extra = set()
@@ -1282,7 +1347,7 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
             continue
         if len(line) == 1:
             continue
-        if line in {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员"}:
+        if line in ROLE_WORDS:
             continue
         if line not in seen_extra:
             dedup_extra.append(line)
@@ -1701,7 +1766,6 @@ def is_broken_old_summary_for_item(old_summary: str, item: dict) -> bool:
     if not old_summary or old_summary == correct_summary:
         return False
 
-    # 航班：清理机场拆碎的旧脏标题
     flight_no = item["flight_no"]
     correct_dep = item["dep_cn"]
     correct_arr = item["arr_cn"]
@@ -1717,7 +1781,6 @@ def is_broken_old_summary_for_item(old_summary: str, item: dict) -> bool:
                 if compact_old == compact_correct:
                     return True
 
-    # 摆渡/置位/训练等 generic：清理老的“🚐 A320”这种错标题
     if not flight_no:
         icon = title_icon(item["task_type"])
         old_no_icon = old_summary
@@ -1726,7 +1789,6 @@ def is_broken_old_summary_for_item(old_summary: str, item: dict) -> bool:
 
         if MODEL_ONLY_RE.fullmatch(old_no_icon):
             return True
-
         if old_no_icon in {"摆渡", "置位", "训练", "其他"} and "→" in correct_summary:
             return True
 
@@ -1838,7 +1900,6 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
             if uid:
                 merged_map[uid] = block
 
-        # 自动清理旧错误标题
         for item in bucket_items:
             current_uid = extract_uid_from_vevent(build_vevent(item, version_tag=version_tag))
             current_dtstart = format_dt_local(item["start_dt"])
