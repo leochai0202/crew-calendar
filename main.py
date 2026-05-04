@@ -112,7 +112,13 @@ AIRPORT_CN_TO_ICAO = {}
 AIRPORT_ICAO_TO_CN = {}
 AIRPORT_NAMES = []
 
-KNOWN_PEOPLE = ["段洋硕"]
+# 已知高置信姓名：用于“短名单微拆分”
+KNOWN_PEOPLE = [
+    "段洋硕",
+    "张子钦",
+    "陈员",
+    "康铁辉",
+]
 
 FLIGHT_NO_RE = re.compile(r"9C\d{3,4}[A-Z]?")
 REG_MODEL_RE = re.compile(r"^B[0-9A-Z]{4,5}A(?:319|320|321)$")
@@ -1043,6 +1049,79 @@ def normalize_people_output(items: list) -> list:
     return out
 
 
+def smart_split_short_compact_chinese_names(line: str) -> list:
+    """
+    只处理“短、纯中文、无分隔符”的名单串。
+    目标：在高置信条件下，把像 段洋硕张子钦陈员康铁辉 这类短名单拆开。
+    拆不稳就返回 []，由上层整串保留。
+    """
+    line = normalize_text(line)
+    if not re.fullmatch(r"[\u4e00-\u9fff]{4,20}", line):
+        return []
+
+    # 长串不碰，避免回到以前的乱拆
+    if len(line) > 16:
+        return []
+
+    # 先按已知高置信姓名打点
+    spans = []
+    for name in sorted(KNOWN_PEOPLE, key=len, reverse=True):
+        start = 0
+        while True:
+            idx = line.find(name, start)
+            if idx == -1:
+                break
+            spans.append((idx, idx + len(name), name))
+            start = idx + 1
+
+    # 去掉重叠，优先保留长名字
+    spans.sort(key=lambda x: (x[0], -(x[1] - x[0])))
+    chosen = []
+    current_end = -1
+    for s, e, name in spans:
+        if s >= current_end:
+            chosen.append((s, e, name))
+            current_end = e
+
+    # 如果一个高置信名字都没有，不做微拆
+    if not chosen:
+        return []
+
+    pieces = []
+    cursor = 0
+    for s, e, name in chosen:
+        if s > cursor:
+            gap = line[cursor:s]
+            # gap 只允许是一个正常中文姓名（2~4字）
+            if re.fullmatch(r"[\u4e00-\u9fff]{2,4}", gap):
+                pieces.append(gap)
+            else:
+                return []
+        pieces.append(name)
+        cursor = e
+
+    if cursor < len(line):
+        tail = line[cursor:]
+        if re.fullmatch(r"[\u4e00-\u9fff]{2,4}", tail):
+            pieces.append(tail)
+        else:
+            return []
+
+    # 总人数只允许 1~5 人
+    if not (1 <= len(pieces) <= 5):
+        return []
+
+    # 每段都必须像正常名字
+    if not all(re.fullmatch(r"[\u4e00-\u9fff]{2,4}", x) for x in pieces):
+        return []
+
+    # 拼回去必须完全一致
+    if "".join(pieces) != line:
+        return []
+
+    return pieces
+
+
 def parse_people_line_conservatively(line: str):
     line = normalize_text(line)
     if not line:
@@ -1066,13 +1145,19 @@ def parse_people_line_conservatively(line: str):
     if LATIN_PERSON_RE.fullmatch(line) or ZH_TAGGED_NAME_RE.fullmatch(line):
         return "split", [line]
 
+    # 无明确分隔符：先尝试“高置信短名单微拆分”
     if not has_clear_delimiters(line):
+        micro = smart_split_short_compact_chinese_names(line)
+        if micro:
+            return "split", micro
+
         if re.fullmatch(r"[\u4e00-\u9fff]{4,80}", line):
             return "keep", [line]
         if re.fullmatch(r"[\u4e00-\u9fff]{2,4}", line):
             return "split", [line]
         return "skip", []
 
+    # 有明确分隔符才尝试常规拆分
     parts = split_by_clear_delimiters(line)
     if not parts:
         return "skip", []
@@ -1086,9 +1171,11 @@ def parse_people_line_conservatively(line: str):
         if joined_valid_ratio < 0.8:
             return "keep", [line]
 
+    # 5人以下、边界清晰，才分开
     if len(valid) <= 5:
         return "split", valid
 
+    # 超过5人仍然整串保留
     return "keep", [line]
 
 
