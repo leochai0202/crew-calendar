@@ -14,7 +14,6 @@ from PIL import Image, ImageOps, ImageFilter
 import pytesseract
 from playwright.sync_api import sync_playwright
 
-# 可选：如果安装了 ddddocr，就优先用它识别验证码
 try:
     import ddddocr  # type: ignore
     HAS_DDDDOCR = True
@@ -160,246 +159,177 @@ TASK_TITLE_WORDS = {
 }
 
 
-def normalize_text(text: str) -> str:
-    if text is None:
-        return ""
-    text = str(text)
-    text = text.replace("\u00a0", " ")
-    text = text.replace("\r", "")
-    text = re.sub(r"[ \t]+", " ", text)
-    text = re.sub(r"\n{3,}", "\n\n", text)
-    return text.strip()
+def choose_better_name_path(a, b):
+    if a is None:
+        return b
+    if b is None:
+        return a
+    # (score, parts, names)
+    if b[0] > a[0]:
+        return b
+    if b[0] < a[0]:
+        return a
+    if b[1] < a[1]:
+        return b
+    return a
 
 
-def save_text(filename: str, text: str):
-    with open(os.path.join(ARTIFACT_DIR, filename), "w", encoding="utf-8") as f:
-        f.write(text)
+def dp_split_names_strict(block: str) -> list:
+    """
+    连续中文姓名串全局切分：
+    - 优先已知姓名
+    - 再尝试 3 字姓名
+    - 再尝试 2 字姓名
+    - 必须完整覆盖整串，否则失败
+    """
+    block = normalize_text(block)
+    if not block or not re.fullmatch(r"[\u4e00-\u9fff]{2,80}", block):
+        return []
+
+    known_sorted = sorted(set(KNOWN_PEOPLE), key=len, reverse=True)
+    memo = {}
+
+    def dfs(i: int):
+        if i == len(block):
+            return (0, 0, [])
+        if i in memo:
+            return memo[i]
+
+        best = None
+
+        for name in known_sorted:
+            if block.startswith(name, i):
+                tail = dfs(i + len(name))
+                if tail is not None:
+                    cand = (tail[0] + 100, tail[1] + 1, [name] + tail[2])
+                    best = choose_better_name_path(best, cand)
+
+        if i + 3 <= len(block):
+            piece = block[i:i + 3]
+            if piece[0] in COMMON_SURNAMES:
+                tail = dfs(i + 3)
+                if tail is not None:
+                    cand = (tail[0] + 10, tail[1] + 1, [piece] + tail[2])
+                    best = choose_better_name_path(best, cand)
+
+        if i + 2 <= len(block):
+            piece = block[i:i + 2]
+            if piece[0] in COMMON_SURNAMES:
+                tail = dfs(i + 2)
+                if tail is not None:
+                    cand = (tail[0] + 6, tail[1] + 1, [piece] + tail[2])
+                    best = choose_better_name_path(best, cand)
+
+        memo[i] = best
+        return best
+
+    result = dfs(0)
+    if not result:
+        return []
+
+    names = result[2]
+    if "".join(names) != block:
+        return []
+
+    if any(name in TASK_TITLE_WORDS or name in GENERIC_TASK_WORDS for name in names):
+        return []
+    return names
 
 
-def save_bytes(filename: str, content: bytes):
-    with open(os.path.join(ARTIFACT_DIR, filename), "wb") as f:
-        f.write(content)
+def split_mixed_name_line(line: str) -> list:
+    """
+    支持一行里出现：
+    徐帆丁小磊姚星宇段洋硕赵智勇牛雪山顾静昊曹胜懿胡凯祥李树基
+    或者已知姓名夹在中间的情况。
+    思路：先按 KNOWN_PEOPLE 切段，再对每段做严格 DP 切分。
+    """
+    line = normalize_text(line)
+    if not line or not re.fullmatch(r"[\u4e00-\u9fff]{2,120}", line):
+        return []
+    if any(w in line for w in TASK_TITLE_WORDS):
+        return []
+
+    known_sorted = sorted(set(KNOWN_PEOPLE), key=len, reverse=True)
+    spans = []
+    for name in known_sorted:
+        start = 0
+        while True:
+            idx = line.find(name, start)
+            if idx == -1:
+                break
+            spans.append((idx, idx + len(name), name))
+            start = idx + len(name)
+
+    if not spans:
+        return dp_split_names_strict(line)
+
+    spans.sort(key=lambda x: (x[0], -(x[1] - x[0])))
+    merged = []
+    cursor = -1
+    for s, e, name in spans:
+        if s >= cursor:
+            merged.append((s, e, name))
+            cursor = e
+
+    parts = []
+    pos = 0
+    for s, e, name in merged:
+        if pos < s:
+            prefix = line[pos:s]
+            split_prefix = dp_split_names_strict(prefix)
+            if not split_prefix or "".join(split_prefix) != prefix:
+                return []
+            parts.extend(split_prefix)
+        parts.append(name)
+        pos = e
+
+    if pos < len(line):
+        suffix = line[pos:]
+        split_suffix = dp_split_names_strict(suffix)
+        if not split_suffix or "".join(split_suffix) != suffix:
+            return []
+        parts.extend(split_suffix)
+
+    if "".join(parts) != line:
+        return []
+    return parts
 
 
-def escape_ics_text(text: str) -> str:
-    text = text or ""
-    text = text.replace("\\", "\\\\")
-    text = text.replace(";", r"\;")
-    text = text.replace(",", r"\,")
-    text = text.replace("\n", r"\n")
-    return text
-
-
-def format_dt_local(dt: datetime) -> str:
-    return dt.strftime("%Y%m%dT%H%M%S")
-
-
-def make_datetime_safe(year: int, month: int, day: int, hhmm: str):
+def load_bad_event_signatures(filename: str) -> set:
+    """
+    从现有日历里提取明显坏事件的稳定特征，供后续自动清理。
+    只用于训练/摆渡这类旧错版清理。
+    """
+    bad = set()
+    if not os.path.exists(filename):
+        return bad
     try:
-        if not hhmm or not isinstance(hhmm, str):
-            return None, False
-        parts = hhmm.split(":")
-        if len(parts) != 2:
-            return None, False
-        hh, mm = int(parts[0]), int(parts[1])
-        if not (0 <= hh <= 23 and 0 <= mm <= 59):
-            return None, False
-        dt = datetime(year, month, day, hh, mm, tzinfo=SH_TZ)
-        return dt, True
+        with open(filename, "r", encoding="utf-8") as f:
+            content = f.read()
+        blocks = re.findall(r"BEGIN:VEVENT\s.*?END:VEVENT", content, flags=re.S)
+        for block in blocks:
+            summary = extract_summary_from_vevent(block)
+            desc = extract_description_from_vevent(block).replace(r"\n", "\n")
+            dtstart = extract_dtstart_from_vevent(block)
+            dtend = extract_dtend_from_vevent(block)
+            key = f"{dtstart}|{dtend}|{summary}"
+            if is_bad_training_event_block(block):
+                bad.add(key)
+                continue
+            if re.search(r"人员名单：.*• .*丁$", desc, flags=re.S):
+                bad.add(key)
+                continue
+            if re.search(r"人员名单：.*• .*张$", desc, flags=re.S):
+                bad.add(key)
+                continue
+            if re.search(r"人员名单：.*• 段洋\b", desc, flags=re.S):
+                bad.add(key)
+                continue
+            if summary in {"🚐 A320", "🚐 摆渡", "🎓 训练", "🗂 其他"}:
+                bad.add(key)
     except Exception:
-        return None, False
-
-
-def safe_name(s: str) -> str:
-    return re.sub(r"[^0-9A-Za-z_-]+", "_", s).strip("_") or "unnamed"
-
-
-def stable_hash(text: str) -> str:
-    return hashlib.sha256(text.encode("utf-8")).hexdigest()
-
-
-def page_text(page) -> str:
-    try:
-        return page.locator("body").inner_text(timeout=8000)
-    except Exception as e:
-        error_type = type(e).__name__
-        error_msg = str(e)[:200]
-        logger.warning(f"页面文本读取失败: {error_type}: {error_msg}")
-        try:
-            with open(os.path.join(ARTIFACT_DIR, "page_text_errors.log"), "a", encoding="utf-8") as f:
-                f.write(f"[{datetime.now(SH_TZ).isoformat()}] {error_type}: {error_msg}\n")
-        except Exception:
-            pass
-        return ""
-
-
-def is_day_header(line: str) -> bool:
-    return DAY_HEADER_RE.match(line) is not None
-
-
-def time_range_search(text: str):
-    return TIME_RANGE_RE.search(text)
-
-
-def split_prefix_time_suffix(line: str):
-    m = TIME_RANGE_RE.search(line)
-    if not m:
-        return "", "", "", ""
-    start_time = m.group(1)
-    end_time = m.group(2)
-    prefix = normalize_text(line[:m.start()])
-    suffix = normalize_text(line[m.end():])
-    return prefix, start_time, end_time, suffix
-
-
-def has_next_day_marker(text: str) -> bool:
-    text = normalize_text(text)
-    markers = ["(+1)", "（+1）", "＋1", "+1", "次日", "第二天", "翌日"]
-    return any(m in text for m in markers)
-
-
-def strip_time_from_title(title: str) -> str:
-    title = TIME_RANGE_RE.sub("", title).strip()
-    title = re.sub(r"[\s~～\-–—]+$", "", title).strip()
-    return title
-
-
-def load_airport_aliases():
-    if not os.path.exists(AIRPORT_ALIASES_FILE):
-        return {}
-    try:
-        with open(AIRPORT_ALIASES_FILE, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        if isinstance(data, dict):
-            return data
-    except json.JSONDecodeError:
-        backup_file = AIRPORT_ALIASES_FILE + ".backup"
-        if os.path.exists(backup_file):
-            try:
-                with open(backup_file, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                if isinstance(data, dict):
-                    logger.info("从备份文件恢复机场别名")
-                    return data
-            except Exception:
-                pass
-    except Exception as e:
-        logger.error(f"加载机场别名失败: {e}")
-    return {}
-
-
-def save_airport_aliases(data: dict):
-    try:
-        temp_file = AIRPORT_ALIASES_FILE + ".tmp"
-        with open(temp_file, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2, sort_keys=True)
-
-        if os.path.exists(AIRPORT_ALIASES_FILE):
-            backup_file = AIRPORT_ALIASES_FILE + ".backup"
-            try:
-                shutil.copy(AIRPORT_ALIASES_FILE, backup_file)
-            except Exception:
-                pass
-
-        if os.path.exists(AIRPORT_ALIASES_FILE):
-            os.remove(AIRPORT_ALIASES_FILE)
-        os.rename(temp_file, AIRPORT_ALIASES_FILE)
-    except Exception as e:
-        logger.error(f"保存机场别名失败: {e}")
-
-
-def rebuild_airport_indexes():
-    global AIRPORT_CN_TO_ICAO, AIRPORT_ICAO_TO_CN, AIRPORT_NAMES
-
-    AIRPORT_CN_TO_ICAO = dict(BASE_AIRPORT_CN_TO_ICAO)
-    alias_data = load_airport_aliases()
-
-    for icao, aliases in alias_data.items():
-        if not isinstance(aliases, list):
-            continue
-        for alias in aliases:
-            alias = normalize_text(str(alias))
-            if alias:
-                AIRPORT_CN_TO_ICAO[alias] = icao
-
-    AIRPORT_ICAO_TO_CN = {}
-    for name, icao in AIRPORT_CN_TO_ICAO.items():
-        if icao not in AIRPORT_ICAO_TO_CN or len(name) > len(AIRPORT_ICAO_TO_CN[icao]):
-            AIRPORT_ICAO_TO_CN[icao] = name
-
-    AIRPORT_NAMES = sorted(AIRPORT_CN_TO_ICAO.keys(), key=len, reverse=True)
-
-
-def add_airport_alias(icao: str, alias: str):
-    icao = normalize_text(icao).upper()
-    alias = normalize_text(alias)
-
-    if not re.fullmatch(r"[A-Z]{4}", icao):
-        return
-    if not alias or len(alias) < 2:
-        return
-    if re.fullmatch(r"[A-Z]{4}", alias):
-        return
-
-    data = load_airport_aliases()
-    aliases = data.get(icao, [])
-    if alias not in aliases:
-        aliases.append(alias)
-        data[icao] = sorted(set(aliases), key=lambda x: (len(x), x))
-        save_airport_aliases(data)
-        rebuild_airport_indexes()
-
-
-def normalize_candidate(text: str) -> str:
-    text = text.upper()
-    text = re.sub(r"[^A-Z0-9]", "", text)
-    if len(text) == 5:
-        text = text[:4]
-    return text
-
-
-def score_candidate(text: str) -> int:
-    if not text:
-        return 0
-    score = 0
-    if len(text) == 4:
-        score += 100
-    elif len(text) == 5:
-        score += 60
-    elif len(text) == 3:
-        score += 40
-    else:
-        score += 10
-    score += sum(ch.isalnum() for ch in text)
-    return score
-
-
-def expand_char_options(ch: str) -> list:
-    mapping = {
-        "0": ["0", "O"], "O": ["O", "0"],
-        "1": ["1", "I", "L"], "I": ["I", "1", "L"], "L": ["L", "1", "I"],
-        "5": ["5", "S"], "S": ["S", "5"],
-        "8": ["8", "B"], "B": ["B", "8", "3"],
-        "2": ["2", "Z"], "Z": ["Z", "2"],
-        "6": ["6", "G"], "G": ["G", "6"],
-        "3": ["3", "B"],
-        "7": ["7", "T"], "T": ["T", "7"],
-        "9": ["9", "G"],
-        "4": ["4", "A"], "A": ["A", "4"],
-    }
-    return mapping.get(ch, [ch])
-
-
-def generate_code_candidates(code: str, limit: int = 20) -> list:
-    pools = [expand_char_options(ch) for ch in code]
-    all_codes = []
-    for combo in product(*pools):
-        cand = "".join(combo)
-        if cand not in all_codes:
-            all_codes.append(cand)
-        if len(all_codes) >= limit:
-            break
-    return all_codes
+        pass
+    return bad
 
 
 def extract_captcha_bytes(page) -> bytes:
@@ -451,6 +381,14 @@ def solve_captcha_with_ddddocr(img_bytes: bytes) -> str:
     except Exception as e:
         logger.warning(f"ddddocr 识别失败，回退 pytesseract: {e}")
         return ""
+
+
+def normalize_candidate(text: str) -> str:
+    text = text.upper()
+    text = re.sub(r"[^A-Z0-9]", "", text)
+    if len(text) == 5:
+        text = text[:4]
+    return text
 
 
 def solve_captcha_with_tesseract(img_bytes: bytes, attempt_no: int = 0) -> str:
@@ -685,429 +623,6 @@ def get_day_block(page, header: str, next_header: str | None) -> str:
             break
         result_lines.append(line)
     return "\n".join(result_lines).strip()
-
-
-def extract_icao_pairs_from_card(card_text: str):
-    lines = [normalize_text(x) for x in card_text.splitlines() if normalize_text(x)]
-
-    icao_sequence = []
-    for line in lines:
-        if ICAO_RE.fullmatch(line):
-            icao_sequence.append(line)
-        elif icao_sequence:
-            break
-
-    if len(icao_sequence) >= 2:
-        return icao_sequence[0], icao_sequence[-1]
-
-    all_icao = []
-    for m in ICAO_RE.finditer(card_text):
-        code = m.group(0)
-        if code not in all_icao:
-            all_icao.append(code)
-
-    if len(all_icao) >= 2:
-        return all_icao[0], all_icao[-1]
-
-    return "", ""
-
-
-def _extract_cn_route_from_card(card_text: str, dep_icao: str, arr_icao: str):
-    dep_cn = ""
-    arr_cn = ""
-
-    lines = [normalize_text(x) for x in card_text.splitlines() if normalize_text(x)]
-    for line in lines:
-        if "航班动态" in line:
-            continue
-        if MODEL_ONLY_RE.fullmatch(line):
-            continue
-
-        for sep in ["→", "——", "-", "─"]:
-            if sep not in line:
-                continue
-
-            parts = line.split(sep, 1)
-            if len(parts) != 2:
-                continue
-
-            left = normalize_text(parts[0])
-            right = normalize_text(parts[1])
-
-            left = TIME_RANGE_RE.sub("", left).strip()
-            right = TIME_RANGE_RE.sub("", right).strip()
-
-            left = REG_AND_MODEL_RE.sub("", left).strip()
-            right = REG_AND_MODEL_RE.sub("", right).strip()
-            left = REG_ONLY_RE.sub("", left).strip()
-            right = REG_ONLY_RE.sub("", right).strip()
-            left = MODEL_ONLY_RE.sub("", left).strip()
-            right = MODEL_ONLY_RE.sub("", right).strip()
-
-            left_ok = re.fullmatch(r"[\u4e00-\u9fff]{2,8}", left)
-            right_ok = re.fullmatch(r"[\u4e00-\u9fff]{2,8}", right)
-
-            if left_ok and right_ok:
-                left_icao = AIRPORT_CN_TO_ICAO.get(left, "")
-                right_icao = AIRPORT_CN_TO_ICAO.get(right, "")
-
-                if dep_icao and left_icao == dep_icao:
-                    dep_cn = left
-                if arr_icao and right_icao == arr_icao:
-                    arr_cn = right
-
-                if not dep_cn and not left_icao:
-                    dep_cn = left
-                if not arr_cn and not right_icao:
-                    arr_cn = right
-
-            if dep_cn or arr_cn:
-                break
-        if dep_cn and arr_cn:
-            break
-
-    return dep_cn, arr_cn
-
-
-def resolve_airport_names(dep_icao: str, arr_icao: str, card_text: str, checkin_place: str = ""):
-    dep_cn = AIRPORT_ICAO_TO_CN.get(dep_icao, "")
-    arr_cn = AIRPORT_ICAO_TO_CN.get(arr_icao, "")
-
-    if not dep_cn and checkin_place and re.fullmatch(r"[\u4e00-\u9fff]{2,12}", checkin_place):
-        dep_cn = checkin_place
-
-    if not dep_cn or not arr_cn:
-        dep_cn2, arr_cn2 = _extract_cn_route_from_card(card_text, dep_icao, arr_icao)
-        dep_cn = dep_cn or dep_cn2
-        arr_cn = arr_cn or arr_cn2
-
-    if dep_icao and dep_cn:
-        add_airport_alias(dep_icao, dep_cn)
-    if arr_icao and arr_cn:
-        add_airport_alias(arr_icao, arr_cn)
-
-    return dep_cn, arr_cn
-
-
-def get_code_pair_from_day_block(day_block: str, flight_no: str):
-    lines = [normalize_text(x) for x in day_block.splitlines() if normalize_text(x)]
-    lines = clean_tail_noise(lines)
-
-    if not lines:
-        return "", ""
-
-    first_detail_idx = None
-    for i in range(len(lines)):
-        if i + 1 < len(lines) and is_flight_line(lines[i]) and is_reg_model_line(lines[i + 1]):
-            first_detail_idx = i
-            break
-        if is_old_style_header_line(lines[i]):
-            first_detail_idx = i
-            break
-
-    prefix_lines = lines[:first_detail_idx] if first_detail_idx is not None else lines
-
-    flight_order = []
-    codes = []
-
-    for line in prefix_lines:
-        if is_flight_line(line):
-            flight_order.append(line)
-        elif ICAO_RE.fullmatch(line):
-            codes.append(line)
-
-    if flight_no not in flight_order:
-        return "", ""
-
-    idx = flight_order.index(flight_no)
-    if len(codes) >= idx + 2:
-        return codes[idx], codes[idx + 1]
-
-    return "", ""
-
-
-def extract_airports(card_text: str, day_block: str, flight_no: str, checkin_place: str = ""):
-    dep, arr = extract_icao_pairs_from_card(card_text)
-
-    if not dep or not arr:
-        dep2, arr2 = get_code_pair_from_day_block(day_block, flight_no)
-        dep = dep or dep2
-        arr = arr or arr2
-
-    dep_cn, arr_cn = resolve_airport_names(dep, arr, card_text, checkin_place=checkin_place)
-    return dep, arr, dep_cn, arr_cn
-
-
-def _dp_split_names(block: str) -> list:
-    """
-    连续中文姓名串动态规划切分：
-    1) 优先命中 KNOWN_PEOPLE
-    2) 其次 3 字姓名（姓+两字名）
-    3) 再其次 2 字姓名（姓+一字名）
-    评分：
-    - 已知姓名奖励最高
-    - 3字姓名次之
-    - 2字姓名再次
-    - 片段数越少越好
-    """
-    block = normalize_text(block)
-    if not block or not re.fullmatch(r"[\u4e00-\u9fff]{2,80}", block):
-        return []
-
-    known_sorted = sorted(set(KNOWN_PEOPLE), key=len, reverse=True)
-    memo = {}
-
-    def better(a, b):
-        if a is None:
-            return b
-        if b is None:
-            return a
-        # tuple: (score, count, names)
-        if b[0] > a[0]:
-            return b
-        if b[0] < a[0]:
-            return a
-        if b[1] < a[1]:
-            return b
-        return a
-
-    def dfs(i):
-        if i == len(block):
-            return (0, 0, [])
-        if i in memo:
-            return memo[i]
-
-        best = None
-
-        for name in known_sorted:
-            if block.startswith(name, i):
-                tail = dfs(i + len(name))
-                if tail is not None:
-                    cand = (tail[0] + 100, tail[1] + 1, [name] + tail[2])
-                    best = better(best, cand)
-
-        if i + 3 <= len(block):
-            piece = block[i:i + 3]
-            if piece[0] in COMMON_SURNAMES:
-                tail = dfs(i + 3)
-                if tail is not None:
-                    cand = (tail[0] + 10, tail[1] + 1, [piece] + tail[2])
-                    best = better(best, cand)
-
-        if i + 2 <= len(block):
-            piece = block[i:i + 2]
-            if piece[0] in COMMON_SURNAMES:
-                tail = dfs(i + 2)
-                if tail is not None:
-                    cand = (tail[0] + 6, tail[1] + 1, [piece] + tail[2])
-                    best = better(best, cand)
-
-        memo[i] = best
-        return best
-
-    result = dfs(0)
-    if not result:
-        return []
-
-    names = result[2]
-    if "".join(names) != block:
-        return []
-
-    cleaned = []
-    for name in names:
-        if not (2 <= len(name) <= 4):
-            return []
-        if name in TASK_TITLE_WORDS or name in GENERIC_TASK_WORDS:
-            return []
-        cleaned.append(name)
-    return cleaned
-
-
-def split_people_from_line(line: str, conservative: bool = False) -> list:
-    line = normalize_text(line)
-    if not line:
-        return []
-
-    if any(x in line for x in ["查看更多", "航班动态"]):
-        return []
-    if any(x in line for x in TRANSPORT_HINT_WORDS):
-        return []
-
-    exclude_words = ROLE_WORDS | set(GENERIC_TASK_WORDS) | TASK_TITLE_WORDS
-
-    results = []
-    working = line
-
-    for name in KNOWN_PEOPLE:
-        if name in working and name not in results:
-            results.append(name)
-            working = working.replace(name, " ")
-
-    for m in LATIN_PERSON_RE.findall(working):
-        m = normalize_text(m)
-        if m and m not in results:
-            results.append(m)
-            working = working.replace(m, " ")
-
-    zh_tagged = list(re.finditer(r"([\u4e00-\u9fff]{2,4}\([^)]*\))", working))
-    for m in zh_tagged:
-        person = normalize_text(m.group(1))
-        if person and person not in results:
-            results.append(person)
-    for m in zh_tagged:
-        working = working.replace(m.group(1), " ")
-
-    parts = re.split(r"[\s　,，、/]+", working)
-    for part in parts:
-        part = normalize_text(part)
-        if not part:
-            continue
-        if part in exclude_words:
-            continue
-        if re.search(r"\d{2}:\d{2}", part):
-            continue
-
-        if re.fullmatch(r"[\u4e00-\u9fff]{2,4}", part):
-            if part not in results:
-                results.append(part)
-            continue
-
-        if re.fullmatch(r"[\u4e00-\u9fff]{5,80}", part):
-            if conservative:
-                split_names = _dp_split_names(part)
-                if split_names:
-                    for name in split_names:
-                        if name not in exclude_words and name not in results:
-                            results.append(name)
-            else:
-                split_names = _dp_split_names(part)
-                if split_names:
-                    for name in split_names:
-                        if name not in exclude_words and name not in results:
-                            results.append(name)
-
-    cleaned = []
-    seen = set()
-    for x in results:
-        x = normalize_text(x)
-        if not x:
-            continue
-        if x in exclude_words:
-            continue
-        if x in {"查看更多", "航班动态"}:
-            continue
-        if re.search(r"\d{2}:\d{2}", x):
-            continue
-        if len(x) <= 1:
-            continue
-        if x not in seen:
-            cleaned.append(x)
-            seen.add(x)
-
-    return cleaned
-
-
-def extract_people_lines_flight(card_text: str) -> list:
-    lines = [normalize_text(x) for x in card_text.splitlines() if normalize_text(x)]
-
-    out = []
-    capture = False
-
-    for line in lines:
-        if line in ROLE_WORDS:
-            capture = True
-            continue
-
-        if not capture:
-            continue
-
-        if is_flight_line(line):
-            break
-        if is_reg_model_line(line):
-            break
-        if is_old_style_header_line(line):
-            break
-        if PURE_DATE_PREFIX_RE.match(line):
-            break
-        if "航班动态" in line or "查看更多" in line:
-            continue
-        if time_range_search(line):
-            continue
-        if re.fullmatch(r"\d{2}:\d{2}", line):
-            continue
-        if len(line) == 1:
-            continue
-
-        pieces = split_people_from_line(line, conservative=False)
-        for p in pieces:
-            p = re.sub(r"\s+", " ", p).strip()
-            if p and p not in out and len(p) > 1:
-                out.append(p)
-
-    return out
-
-
-def extract_people_lines_generic(lines: list, consumed_idx: set, title_text: str = "", location: str = ""):
-    people = []
-    extra_lines = []
-
-    title_text = normalize_text(title_text)
-    location = normalize_text(location)
-
-    for idx, line in enumerate(lines):
-        if idx in consumed_idx:
-            continue
-
-        line = normalize_text(line)
-        if not line:
-            continue
-        if line in {"检", "考"}:
-            continue
-        if line in ROLE_WORDS:
-            continue
-        if is_day_header(line):
-            continue
-        if "查看更多" in line:
-            continue
-        if is_flight_line(line) or is_reg_model_line(line) or is_old_style_header_line(line):
-            continue
-        if ICAO_RE.fullmatch(line):
-            continue
-        if MODEL_ONLY_RE.fullmatch(line):
-            continue
-        if re.fullmatch(r"\d{2}:\d{2}", line):
-            continue
-        if len(line) == 1:
-            continue
-        if title_text and line == title_text:
-            continue
-        if location and line == location:
-            continue
-
-        if any(x in line for x in TRANSPORT_HINT_WORDS):
-            extra_lines.append(line)
-            continue
-
-        if line in TASK_TITLE_WORDS:
-            continue
-
-        pieces = split_people_from_line(line, conservative=True)
-        if pieces:
-            for p in pieces:
-                if p not in people:
-                    people.append(p)
-            continue
-
-        is_title_like = (
-            len(line) > 8 or
-            any(w in line for w in TASK_TITLE_WORDS) or
-            any(w in line for w in GENERIC_TASK_WORDS) or
-            re.search(r"[：:。，、]", line)
-        )
-        if is_title_like:
-            extra_lines.append(line)
-
-    return people, extra_lines
 
 
 def detect_page_year(page) -> int:
@@ -1717,12 +1232,6 @@ def build_description(item: dict) -> str:
 
 
 def stable_uid_seed(item: dict) -> str:
-    """
-    稳定 UID 种子：
-    - 航班：航班号 + 日期 + 任务类型 + 航段
-    - 非航班：任务类型 + 标题 + 日期
-    这样小改动会覆盖，减少重复。
-    """
     date_key = item["start_dt"].strftime("%Y-%m-%d")
 
     if item["flight_no"]:
@@ -1870,10 +1379,7 @@ def write_calendar_from_vevents(filename: str, vevents: list) -> bool:
         if uid:
             unique[uid] = block.strip()
 
-    ordered = sorted(
-        unique.values(),
-        key=lambda x: (extract_dtstart_from_vevent(x), extract_uid_from_vevent(x))
-    )
+    ordered = sorted(unique.values(), key=lambda x: (extract_dtstart_from_vevent(x), extract_uid_from_vevent(x)))
 
     content = [
         "BEGIN:VCALENDAR",
@@ -1930,6 +1436,9 @@ def is_bad_training_event_block(block: str) -> bool:
         "• 检查",
         "• 定期复",
         "• 训练结合",
+        "• 段洋",
+        "• 金雄张",
+        "• 徐帆丁",
     ]
     return any(token in desc for token in bad_tokens)
 
@@ -2069,18 +1578,18 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
     )
     total_items.sort(key=lambda x: (x["start_dt"], build_title(x)))
 
+    bad_training_keys = load_bad_event_signatures("training.ics")
+
     def merge_history(filename: str, bucket_items: list):
         existing_map = read_existing_events(filename)
         new_blocks = [build_vevent(item, version_tag=version_tag) for item in bucket_items]
 
-        # 稳定 UID：同一任务直接覆盖
         merged_map = dict(existing_map)
         for block in new_blocks:
             uid = extract_uid_from_vevent(block)
             if uid:
                 merged_map[uid] = block
 
-        # 额外清理旧错误事件
         for item in bucket_items:
             current_dtstart = format_dt_local(item["start_dt"])
             current_dtend = format_dt_local(item["end_dt"])
@@ -2092,6 +1601,12 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
                     continue
 
                 old_summary = extract_summary_from_vevent(block)
+                bad_key = f"{current_dtstart}|{current_dtend}|{old_summary}"
+                if bad_key in bad_training_keys:
+                    logger.info(f"自动清理已知旧坏事件: {uid} | {old_summary}")
+                    del merged_map[uid]
+                    continue
+
                 if is_broken_old_summary_for_item(old_summary, item, old_block=block):
                     logger.info(f"自动清理旧错误事件: {uid} | {old_summary}")
                     del merged_map[uid]
