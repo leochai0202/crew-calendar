@@ -792,7 +792,7 @@ UID:2e223757add51f29c4a407fbda6556e1@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260504T000000
 DTEND;TZID=Asia/Shanghai:20260504T235900
-DESCRIPTION:05月04日 周一\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n说明：\n• 90天3个起落\n\n版本：2026-05-04 15:35
+DESCRIPTION:05月04日 周一\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n说明：\n• 90天3个起落\n\n版本：2026-05-04 16:04
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:停飞Grounding 00:00~ 23:59 提醒
@@ -828,7 +828,7 @@ UID:fc212b982610c6b25bdd51890888526a@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 17:30
 DTSTART;TZID=Asia/Shanghai:20260505T000000
 DTEND;TZID=Asia/Shanghai:20260505T173000
-DESCRIPTION:05月05日 周二\n类型：考勤\n事项：停飞Grounding 00:00~ 17:30\n任务：00:00 - 17:30\n\n说明：\n• 90天3个起落\n\n版本：2026-05-04 15:35
+DESCRIPTION:05月05日 周二\n类型：考勤\n事项：停飞Grounding 00:00~ 17:30\n任务：00:00 - 17:30\n\n说明：\n• 90天3个起落\n\n版本：2026-05-04 16:04
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:停飞Grounding 00:00~ 17:30 提醒
@@ -840,7 +840,7 @@ UID:dbde283876738ab503b2724f1143e8c8@crew-calendar
 SUMMARY:🎓 理论课-应急生存训练复训
 DTSTART;TZID=Asia/Shanghai:20260506T083000
 DTEND;TZID=Asia/Shanghai:20260506T173000
-DESCRIPTION:05月06日 周三\n类型：训练\n事项：理论课-应急生存训练复训\n地点：东海学院匠兴苑C区5楼\n任务：08:30 - 17:30\n\n人员名单：\n• 理论课\n• 应急\n• 生存\n• 复训\n• 段洋硕\n• 徐帆\n• 丁小\n• 磊姚\n• 星宇\n• 赵智勇\n• 牛雪山\n• 顾静昊\n• 曹胜懿\n• 胡凯祥\n• 李树基\n• 金雄\n• 张秀\n• 霞池\n• 清玮\n\n版本：2026-05-02 20:03
+DESCRIPTION:05月06日 周三\n类型：训练\n事项：理论课-应急生存训练复训\n地点：东海学院匠兴苑C区5楼\n任务：08:30 - 17:30\n\n说明：\n• 金雄张秀霞池清玮\n\n人员名单：\n• 段洋硕\n\n版本：2026-05-04 16:04
 LOCATION:东海学院匠兴苑C区5楼
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -853,7 +853,7 @@ UID:bf2a121fb6ae2512b225ebe2ad86029d@crew-calendar
 SUMMARY:🎓 模拟机-定期复训结合熟练检查
 DTSTART;TZID=Asia/Shanghai:20260507T060000
 DTEND;TZID=Asia/Shanghai:20260507T120000
-DESCRIPTION:05月07日 周四\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：06:00 - 12:00\n\n人员名单：\n• 模拟机\n• 定期复\n• 训结合\n• 熟练\n• 检查\n• 段洋硕\n• 张子钦\n• 陈员\n• 康铁辉\n\n版本：2026-05-03 20:02
+DESCRIPTION:05月07日 周四\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：06:00 - 12:00\n\n人员名单：\n• 段洋硕\n• 康铁辉\n\n版本：2026-05-04 16:04
 LOCATION:春秋飞培
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -866,11 +866,37 @@ UID:6535753c3dd5b23356c4974b3f85821b@crew-calendar
 SUMMARY:🎓 模拟机-定期复训结合熟练检查
 DTSTART;TZID=Asia/Shanghai:20260508T101000
 DTEND;TZID=Asia/Shanghai:20260508T161000
-DESCRIPTION:05月08日 周五\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：10:10 - 16:10\n\n人员名单：\n• 段洋硕\n• 康铁辉\n\n版本：2026-05-04 15:35
+DESCRIPTION:05月08日 周五\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：10:10 - 16:10\n\n人员名单：\n• 段洋硕\n• 康铁辉\n\n版本：2026-05-04 16:04
 LOCATION:春秋飞培
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:模拟机-定期复训结合熟练检查 提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:0c1c4cb6cc5f89f57bcbe803cd508aa1@crew-calendar
+SUMMARY:🎓 模拟机-定期复训结合熟练检查
+DTSTART;TZID=Asia/Shanghai:20260509T142000
+DTEND;TZID=Asia/Shanghai:20260509T202000
+DESCRIPTION:05月09日 周六\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：14:20 - 20:20\n\n人员名单：\n• 段洋硕\n\n版本：2026-05-04 16:04
+LOCATION:春秋飞培
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:模拟机-定期复训结合熟练检查 提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:f845acb6d9683cab8fa24911405f82f3@crew-calendar
+SUMMARY:🎓 理论课-安保理论（复训）
+DTSTART;TZID=Asia/Shanghai:20260510T090000
+DTEND;TZID=Asia/Shanghai:20260510T173000
+DESCRIPTION:05月10日 周日\n类型：训练\n事项：理论课-安保理论（复训）\n地点：春秋飞培2号楼教室2\n任务：09:00 - 17:30\n\n人员名单：\n• 段洋硕\n• 张晨昕\n\n版本：2026-05-04 16:04
+LOCATION:春秋飞培2号楼教室2
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:理论课-安保理论（复训） 提醒
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
