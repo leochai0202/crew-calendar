@@ -25,7 +25,7 @@ ARTIFACT_DIR = "debug_output"
 AIRPORT_ALIASES_FILE = "airport_aliases.json"
 SH_TZ = ZoneInfo("Asia/Shanghai")
 
-MAX_DAYS = 5
+MAX_DAYS = 7
 HEADLESS = os.environ.get("HEADLESS", "1") != "0"
 
 
@@ -107,7 +107,7 @@ TRANSPORT_HINT_WORDS = ["搭乘", "乘坐", "火车", "高铁", "动车", "去",
 ROLE_WORDS = {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员"}
 GENERIC_SKIP_WORDS = {
     "理论课", "应急", "生存", "复训", "模拟机", "定期复", "训练结合", "熟练", "检查",
-    "检", "考", "理论", "课程", "复习", "训练课"
+    "检", "考", "理论", "课程", "复习", "训练课", "定期", "结合"
 }
 
 
@@ -647,7 +647,7 @@ def is_reg_model_line(s: str) -> bool:
 
 def is_old_style_header_line(s: str) -> bool:
     s = normalize_text(s)
-    return re.fullmatch(r"9C\d{3,4}[A-Z]?\s+B[0-9A-Z]{4,5}\s+A(?:319|A320|A321)", s) is not None
+    return re.fullmatch(r"9C\d{3,4}[A-Z]?\s+B[0-9A-Z]{4,5}\s+A(?:319|320|321)", s) is not None
 
 
 def clean_tail_noise(lines: list) -> list:
@@ -661,6 +661,19 @@ def clean_tail_noise(lines: list) -> list:
             continue
         cleaned.append(line)
     return cleaned
+
+
+def looks_like_generic_time_line(line: str) -> bool:
+    line = normalize_text(line)
+    if not line:
+        return False
+    if not TIME_RANGE_RE.search(line):
+        return False
+    if FLIGHT_NO_RE.search(line):
+        return False
+    if "航班动态" in line:
+        return False
+    return True
 
 
 def looks_like_generic_chunk(lines: list) -> bool:
@@ -680,11 +693,27 @@ def looks_like_generic_chunk(lines: list) -> bool:
             if is_flight_line(line) and is_reg_model_line(lines[i + 1]):
                 return False
 
+    # 旧规则：标题和时间同一行
     for line in lines:
         prefix, st, et, suffix = split_prefix_time_suffix(line)
-        if st and et and prefix:
-            if not FLIGHT_NO_RE.search(prefix):
-                return True
+        if st and et and prefix and not FLIGHT_NO_RE.search(prefix):
+            return True
+
+    # 新规则：上一行是标题，下一行是时间地点
+    for i in range(len(lines) - 1):
+        title_line = normalize_text(lines[i])
+        time_line = normalize_text(lines[i + 1])
+
+        if not title_line or not time_line:
+            continue
+        if is_day_header(title_line):
+            continue
+        if is_flight_line(title_line):
+            continue
+        if is_old_style_header_line(title_line):
+            continue
+        if looks_like_generic_time_line(time_line):
+            return True
 
     return False
 
@@ -741,6 +770,16 @@ def split_day_block_into_cards(day_header: str, day_block: str) -> list:
             continue
 
         cards.append({"kind": "flight", "text": chunk})
+
+    # 如果 flight 分完后尾部还存在 generic，也补抓
+    if flight_starts:
+        last_start = flight_starts[-1]
+        tail_lines = clean_tail_noise(lines[last_start + 1:])
+        if tail_lines and looks_like_generic_chunk(tail_lines):
+            tail_text = "\n".join(tail_lines).strip()
+            exists_same = any(c["kind"] == "generic" and c["text"] == tail_text for c in cards)
+            if not exists_same:
+                cards.append({"kind": "generic", "text": tail_text})
 
     return cards
 
@@ -1076,10 +1115,6 @@ def split_people_from_line_flight(line: str) -> list:
 
 
 def split_people_from_line_generic(line: str) -> list:
-    """
-    训练/考勤/摆渡等 generic 任务用保守模式：
-    只按空格/分隔符切，不再把整段中文硬拆成人名。
-    """
     line = normalize_text(line)
     if not line:
         return []
@@ -1261,6 +1296,7 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
     time_line_idx = None
     route_line = ""
 
+    # 先找“标题和时间同一行”的情况
     for idx, line in enumerate(lines):
         prefix, st, et, suffix = split_prefix_time_suffix(line)
         if st and et:
@@ -1274,7 +1310,26 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
             consumed_idx.add(idx)
             break
 
-    if time_line_idx is not None and time_line_idx > 0:
+    # 再支持“上一行标题，下一行时间地点”
+    if time_line_idx is None:
+        for idx in range(1, len(lines)):
+            prev_line = normalize_text(lines[idx - 1])
+            line = normalize_text(lines[idx])
+            prefix, st, et, suffix = split_prefix_time_suffix(line)
+            if st and et:
+                time_line_idx = idx
+                start_time, end_time = st, et
+                route_line = prefix
+                if suffix:
+                    location = suffix
+                title_text = prev_line
+                consumed_idx.add(idx)
+                consumed_idx.add(idx - 1)
+                if has_next_day_marker(line):
+                    next_day = True
+                break
+
+    if time_line_idx is not None and not title_text and time_line_idx > 0:
         prev = normalize_text(lines[time_line_idx - 1])
         if prev and not is_day_header(prev) and not time_range_search(prev):
             if not is_flight_line(prev) and not is_reg_model_line(prev):
@@ -1648,6 +1703,11 @@ def extract_summary_from_vevent(vevent: str) -> str:
     return m.group(1).strip() if m else ""
 
 
+def extract_description_from_vevent(vevent: str) -> str:
+    m = re.search(r"^DESCRIPTION:(.+)$", vevent, flags=re.M)
+    return m.group(1).strip() if m else ""
+
+
 def extract_dtstart_from_vevent(vevent: str) -> str:
     m = re.search(r"^DTSTART(?:;[^:]+)?:([0-9T]+)$", vevent, flags=re.M)
     return m.group(1).strip() if m else "99999999T999999"
@@ -1753,13 +1813,30 @@ def route_text_from_summary(summary: str, flight_no: str) -> str:
         pos = s.find(flight_no)
         s = s[pos + len(flight_no):].strip()
 
-    if s.startswith("✈️") or s.startswith("🚐") or s.startswith("📍") or s.startswith("🎓") or s.startswith("🗂") or s.startswith("🕒") or s.startswith("📋"):
+    if s.startswith(("✈️", "🚐", "📍", "🎓", "🗂", "🕒", "📋")):
         s = s[2:].strip()
 
     return s.strip()
 
 
-def is_broken_old_summary_for_item(old_summary: str, item: dict) -> bool:
+def is_bad_training_event_block(block: str) -> bool:
+    desc = extract_description_from_vevent(block)
+    desc = desc.replace(r"\n", "\n")
+    bad_tokens = [
+        "人员名单：\n• 理论课",
+        "人员名单：\n• 模拟机",
+        "• 应急",
+        "• 生存",
+        "• 复训",
+        "• 熟练",
+        "• 检查",
+        "• 定期复",
+        "• 训练结合",
+    ]
+    return any(token in desc for token in bad_tokens)
+
+
+def is_broken_old_summary_for_item(old_summary: str, item: dict, old_block: str = "") -> bool:
     correct_summary = build_title(item)
     old_summary = normalize_text(old_summary)
 
@@ -1790,6 +1867,10 @@ def is_broken_old_summary_for_item(old_summary: str, item: dict) -> bool:
         if MODEL_ONLY_RE.fullmatch(old_no_icon):
             return True
         if old_no_icon in {"摆渡", "置位", "训练", "其他"} and "→" in correct_summary:
+            return True
+
+        # 训练旧坏版本自动清理
+        if item["task_type"] == "训练" and old_block and is_bad_training_event_block(old_block):
             return True
 
     return False
@@ -1914,7 +1995,7 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
                     continue
 
                 old_summary = extract_summary_from_vevent(block)
-                if is_broken_old_summary_for_item(old_summary, item):
+                if is_broken_old_summary_for_item(old_summary, item, old_block=block):
                     logger.info(f"自动清理旧错误事件: {uid} | {old_summary}")
                     del merged_map[uid]
 
