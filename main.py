@@ -322,6 +322,58 @@ def build_variants(img_bytes: bytes) -> list:
     return variants
 
 
+def normalize_candidate(text: str) -> str:
+    text = text.upper()
+    text = re.sub(r"[^A-Z0-9]", "", text)
+    if len(text) == 5:
+        text = text[:4]
+    return text
+
+
+def score_candidate(text: str) -> int:
+    if not text:
+        return 0
+    score = 0
+    if len(text) == 4:
+        score += 100
+    elif len(text) == 5:
+        score += 60
+    elif len(text) == 3:
+        score += 40
+    else:
+        score += 10
+    score += sum(ch.isalnum() for ch in text)
+    return score
+
+
+def expand_char_options(ch: str) -> list:
+    mapping = {
+        "0": ["0", "O"], "O": ["O", "0"],
+        "1": ["1", "I", "L"], "I": ["I", "1", "L"], "L": ["L", "1", "I"],
+        "5": ["5", "S"], "S": ["S", "5"],
+        "8": ["8", "B"], "B": ["B", "8", "3"],
+        "2": ["2", "Z"], "Z": ["Z", "2"],
+        "6": ["6", "G"], "G": ["G", "6"],
+        "3": ["3", "B"],
+        "7": ["7", "T"], "T": ["T", "7"],
+        "9": ["9", "G"],
+        "4": ["4", "A"], "A": ["A", "4"],
+    }
+    return mapping.get(ch, [ch])
+
+
+def generate_code_candidates(code: str, limit: int = 20) -> list:
+    pools = [expand_char_options(ch) for ch in code]
+    all_codes = []
+    for combo in product(*pools):
+        cand = "".join(combo)
+        if cand not in all_codes:
+            all_codes.append(cand)
+        if len(all_codes) >= limit:
+            break
+    return all_codes
+
+
 def solve_captcha_with_ddddocr(img_bytes: bytes) -> str:
     if not HAS_DDDDOCR:
         return ""
