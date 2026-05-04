@@ -34,9 +34,8 @@ SH_TZ = ZoneInfo("Asia/Shanghai")
 HEADLESS = os.environ.get("HEADLESS", "1") != "0"
 ALARM_MINUTES = 90
 
-# 正常情况下只需要适度往后展开，停飞等特殊情况也能继续往后抓
+# 平时适度展开，停飞等特殊情况也能往后翻几轮
 LOAD_MORE_MAX_ROUNDS = 8
-SCROLL_PASSES_PER_ROUND = 5
 
 
 if os.path.exists(ARTIFACT_DIR):
@@ -59,7 +58,6 @@ def setup_logging():
 
 
 logger = setup_logging()
-
 
 BASE_AIRPORT_CN_TO_ICAO = {
     "上海虹桥": "ZSSS",
@@ -122,7 +120,7 @@ FLIGHT_NO_RE = re.compile(r"9C\d{3,4}[A-Z]?")
 REG_MODEL_RE = re.compile(r"^B[0-9A-Z]{4,5}A(?:319|320|321)$")
 REG_AND_MODEL_RE = re.compile(r"\b(B[0-9A-Z]{4,5})(A319|A320|A321)\b")
 REG_ONLY_RE = re.compile(r"\bB[0-9A-Z]{4,5}\b")
-MODEL_ONLY_RE = re.compile(r"\bA(?:319|320|321)\b")
+MODEL_ONLY_RE = re.compile(r"\bA(?:319|A320|A321)\b")
 TIME_RANGE_RE = re.compile(r"(\d{2}:\d{2})\s*[-~～—–]+\s*(\d{2}:\d{2})")
 PAGE_YEAR_MONTH_RE = re.compile(r"(\d{4})年(\d{1,2})月")
 PURE_DATE_PREFIX_RE = re.compile(r"^\d{4}-\d{2}-\d{2}")
@@ -512,82 +510,12 @@ def get_load_more_labels(page) -> list:
     return labels
 
 
-def smart_scroll_task_area(page, passes: int = SCROLL_PASSES_PER_ROUND):
-    js = """
-    () => {
-      const nodes = Array.from(document.querySelectorAll('*'));
-      const candidates = nodes.filter(el => {
-        try {
-          const style = window.getComputedStyle(el);
-          const overflowY = style.overflowY;
-          const overflow = style.overflow;
-          const scrollable = (
-            ['auto','scroll','overlay'].includes(overflowY) ||
-            ['auto','scroll','overlay'].includes(overflow)
-          );
-          return scrollable && el.scrollHeight > el.clientHeight + 100;
-        } catch(e) {
-          return false;
-        }
-      });
-      return candidates.map((el, idx) => ({
-        idx,
-        tag: el.tagName,
-        cls: el.className ? String(el.className).slice(0, 120) : '',
-        scrollHeight: el.scrollHeight,
-        clientHeight: el.clientHeight,
-        top: el.getBoundingClientRect().top
-      }));
-    }
-    """
-    try:
-        containers = page.evaluate(js)
-        save_text("scrollable_containers.json", json.dumps(containers, ensure_ascii=False, indent=2))
-    except Exception:
-        containers = []
-
-    for pass_no in range(1, passes + 1):
-        try:
-            page.mouse.wheel(0, 2500)
-        except Exception:
-            pass
-        random_like_wait(page, 700, 300)
-
-        try:
-            page.evaluate(
-                """
-                () => {
-                  const nodes = Array.from(document.querySelectorAll('*'));
-                  for (const el of nodes) {
-                    try {
-                      const style = window.getComputedStyle(el);
-                      const overflowY = style.overflowY;
-                      const overflow = style.overflow;
-                      const scrollable =
-                        ['auto','scroll','overlay'].includes(overflowY) ||
-                        ['auto','scroll','overlay'].includes(overflow);
-                      if (scrollable && el.scrollHeight > el.clientHeight + 100) {
-                        el.scrollTop = el.scrollHeight;
-                      }
-                    } catch(e) {}
-                  }
-                  window.scrollTo(0, document.body.scrollHeight);
-                }
-                """
-            )
-        except Exception:
-            pass
-        random_like_wait(page, 900, 400)
-        logger.info(f"滚动任务区域 pass {pass_no}/{passes}")
-
-
 def click_load_more(page) -> bool:
     try:
         loc = page.locator("text=查看更多")
         count = loc.count()
         if count == 0:
             return False
-
         target = loc.nth(count - 1)
         try:
             target.scroll_into_view_if_needed(timeout=3000)
@@ -595,8 +523,7 @@ def click_load_more(page) -> bool:
             pass
         random_like_wait(page, 500, 300)
         target.click(timeout=4000)
-        random_like_wait(page, 1500, 800)
-        smart_scroll_task_area(page, passes=3)
+        random_like_wait(page, 1800, 900)
         return True
     except Exception as e:
         logger.info(f"点击查看更多失败: {e}")
@@ -604,60 +531,44 @@ def click_load_more(page) -> bool:
 
 
 def load_all_visible_tasks(page, max_rounds: int = LOAD_MORE_MAX_ROUNDS):
-    previous_signature = None
+    prev_signature = None
     for round_no in range(1, max_rounds + 1):
         headers_before = get_day_headers(page)
-        load_more_before = get_load_more_labels(page)
+        more_before = get_load_more_labels(page)
+        save_text(f"load_round_{round_no}_headers_before.txt", "\n".join(headers_before))
+        save_text(f"load_round_{round_no}_more_before.txt", "\n".join(more_before))
+        logger.info(f"第 {round_no} 轮加载前: 日期头 {len(headers_before)} 个, 查看更多 {len(more_before)} 个")
 
-        save_text(f"load_more_round_{round_no}_headers_before.txt", "\n".join(headers_before))
-        save_text(f"load_more_round_{round_no}_more_before.txt", "\n".join(load_more_before))
-        logger.info(f"第 {round_no} 轮加载前: 日期头 {len(headers_before)} 个, 查看更多 {len(load_more_before)} 个")
-
-        smart_scroll_task_area(page, passes=SCROLL_PASSES_PER_ROUND)
-
-        headers_mid = get_day_headers(page)
-        load_more_mid = get_load_more_labels(page)
-        signature = (
-            len(headers_mid),
-            tuple(headers_mid[-10:]),
-            len(load_more_mid),
-            tuple(load_more_mid[-5:]),
+        signature_before = (
+            len(headers_before),
+            tuple(headers_before[-10:]),
+            len(more_before),
+            tuple(more_before[-5:]),
         )
-
-        if previous_signature is not None and signature == previous_signature:
-            logger.info("滚动后页面签名未变化，尝试点查看更多")
-        previous_signature = signature
-
-        if not load_more_mid:
-            logger.info("页面已无查看更多，停止扩展加载")
+        if not more_before:
+            logger.info("没有查看更多了")
             return
 
-        clicked = click_load_more(page)
-        if not clicked:
-            logger.info("无法继续点击查看更多，停止扩展加载")
+        if not click_load_more(page):
+            logger.info("查看更多无法继续点击")
             return
 
         headers_after = get_day_headers(page)
-        load_more_after = get_load_more_labels(page)
-
-        save_text(f"load_more_round_{round_no}_headers_after.txt", "\n".join(headers_after))
-        save_text(f"load_more_round_{round_no}_more_after.txt", "\n".join(load_more_after))
-        logger.info(f"第 {round_no} 轮加载后: 日期头 {len(headers_after)} 个, 查看更多 {len(load_more_after)} 个")
+        more_after = get_load_more_labels(page)
+        save_text(f"load_round_{round_no}_headers_after.txt", "\n".join(headers_after))
+        save_text(f"load_round_{round_no}_more_after.txt", "\n".join(more_after))
+        logger.info(f"第 {round_no} 轮加载后: 日期头 {len(headers_after)} 个, 查看更多 {len(more_after)} 个")
 
         signature_after = (
             len(headers_after),
             tuple(headers_after[-10:]),
-            len(load_more_after),
-            tuple(load_more_after[-5:]),
+            len(more_after),
+            tuple(more_after[-5:]),
         )
-
-        if signature_after == signature:
-            logger.info("点击查看更多后签名仍未变化，停止扩展加载")
+        if signature_after == signature_before or signature_after == prev_signature:
+            logger.info("点了查看更多但页面签名没继续变化，停止扩展")
             return
-
-        previous_signature = signature_after
-
-    logger.info("达到最大查看更多轮数，停止扩展加载")
+        prev_signature = signature_after
 
 
 def click_day_toggle(page, header: str) -> bool:
@@ -674,7 +585,7 @@ def click_day_toggle(page, header: str) -> bool:
 def expand_day(page, header: str) -> bool:
     ok = click_day_toggle(page, header)
     if ok:
-        random_like_wait(page, 1600, 600)
+        random_like_wait(page, 1500, 700)
     return ok
 
 
@@ -687,16 +598,41 @@ def collapse_day(page, header: str):
         pass
 
 
+def is_day_expanded(page, header: str) -> bool:
+    body = page_text(page)
+    start = body.find(header)
+    if start == -1:
+        return False
+    after = body[start:start + 1200]
+    if "航班动态" in after:
+        return True
+    if len(re.findall(r"\d{2}:\d{2}\s*[-~～—–]+\s*\d{2}:\d{2}", after)) >= 1:
+        return True
+    if FLIGHT_NO_RE.search(after):
+        return True
+    return False
+
+
+def expand_day_with_retry(page, header: str, retries: int = 3) -> bool:
+    for _ in range(retries):
+        if expand_day(page, header):
+            if is_day_expanded(page, header):
+                return True
+        random_like_wait(page, 600, 300)
+    return False
+
+
 def get_day_block(page, header: str, next_header: str | None) -> str:
-    body_text = normalize_text(page.locator("body").inner_text())
-    start = body_text.find(header)
+    body_text_all = normalize_text(page.locator("body").inner_text())
+    start = body_text_all.find(header)
     if start == -1:
         return ""
     if next_header:
-        end = body_text.find(next_header, start + len(header))
+        end = body_text_all.find(next_header, start + len(header))
         if end != -1:
-            return body_text[start:end].strip()
-    remaining = body_text[start:]
+            return body_text_all[start:end].strip()
+
+    remaining = body_text_all[start:]
     lines = remaining.splitlines()
     result_lines = []
     for line in lines:
@@ -717,15 +653,115 @@ def detect_page_year(page) -> int:
     return datetime.now(SH_TZ).year
 
 
+def is_day_header(line: str) -> bool:
+    return DAY_HEADER_RE.match(line) is not None
+
+
+def time_range_search(text: str):
+    return TIME_RANGE_RE.search(text)
+
+
+def split_prefix_time_suffix(line: str):
+    m = TIME_RANGE_RE.search(line)
+    if not m:
+        return "", "", "", ""
+    return (
+        normalize_text(line[:m.start()]),
+        m.group(1),
+        m.group(2),
+        normalize_text(line[m.end():]),
+    )
+
+
+def has_next_day_marker(text: str) -> bool:
+    text = normalize_text(text)
+    return any(x in text for x in ["(+1)", "（+1）", "＋1", "+1", "次日", "第二天", "翌日"])
+
+
+def strip_time_from_title(title: str) -> str:
+    title = TIME_RANGE_RE.sub("", title).strip()
+    title = re.sub(r"[\s~～\-–—]+$", "", title).strip()
+    return title
+
+
+def detect_card_task_type(card_text: str, day_text: str, card_kind: str) -> str:
+    combined = card_text + "\n" + day_text
+
+    if "置位" in combined:
+        return "置位"
+    if "摆渡" in combined:
+        return "摆渡"
+    if "停飞" in combined or "Grounding" in combined:
+        return "停飞"
+    if "训练" in combined:
+        return "训练"
+    if "考勤" in combined:
+        return "考勤"
+
+    if card_kind == "flight":
+        return "航班"
+
+    for t in ["备份", "待命", "航班"]:
+        if t in combined:
+            return t
+
+    return "其他"
+
+
+def task_bucket(task_type: str) -> str:
+    return {
+        "航班": "flight",
+        "置位": "positioning",
+        "训练": "training",
+        "摆渡": "ferry",
+        "停飞": "other",
+    }.get(task_type, "other")
+
+
+def extract_date(text: str, page_year: int):
+    m = re.search(r"(\d{2})月(\d{2})日", text)
+    if not m:
+        return None
+    return page_year, int(m.group(1)), int(m.group(2))
+
+
+def is_flight_line(s: str) -> bool:
+    return FLIGHT_NO_RE.fullmatch(s) is not None
+
+
+def is_reg_model_line(s: str) -> bool:
+    return REG_MODEL_RE.fullmatch(s) is not None
+
+
+def is_old_style_header_line(s: str) -> bool:
+    s = normalize_text(s)
+    return re.fullmatch(r"9C\d{3,4}[A-Z]?\s+B[0-9A-Z]{4,5}\s+A(?:319|A320|A321)", s) is not None
+
+
+def clean_tail_noise(lines: list) -> list:
+    cleaned = []
+    for line in lines:
+        if not line:
+            continue
+        if "查看更多" in line:
+            continue
+        if PURE_DATE_PREFIX_RE.match(line):
+            continue
+        cleaned.append(line)
+    return cleaned
+
+
 def looks_like_flight_chunk(chunk_lines: list) -> bool:
     chunk = "\n".join(chunk_lines)
     if not TIME_RANGE_RE.search(chunk):
         return False
     if FLIGHT_NO_RE.search(chunk):
         return True
-    if any(ICAO_RE.fullmatch(x) for x in chunk_lines) and any("航班动态" in x for x in chunk_lines):
+    if "航班动态" in chunk:
         return True
-    if any(REG_AND_MODEL_RE.search(x) for x in chunk_lines):
+    if REG_AND_MODEL_RE.search(chunk):
+        return True
+    if len(re.findall(r"\b[A-Z]{4}\b", chunk)) >= 2:
         return True
     return False
 
@@ -756,14 +792,15 @@ def split_day_block_into_cards(day_header: str, day_block: str) -> list:
 
     for i, line in enumerate(lines):
         is_start = False
-        if is_old_style_header_line(line):
+
+        if is_old_style_header_line(line) or is_flight_line(line):
             is_start = True
-        elif is_flight_line(line):
+        elif TIME_RANGE_RE.search(line) and any(k in line for k in ["置位", "摆渡", "训练", "考勤", "停飞", "Grounding"]):
             is_start = True
-        elif i + 1 < len(lines) and TIME_RANGE_RE.search(line) and ("置位" in line or "摆渡" in line or "训练" in line or "考勤" in line or "停飞" in line):
-            is_start = True
-        elif TIME_RANGE_RE.search(line) and i > 0 and any(k in lines[i - 1] for k in ["理论课", "模拟机", "停飞", "Grounding", "训练", "考勤"]):
-            is_start = True
+        elif i > 0 and TIME_RANGE_RE.search(line):
+            prev = lines[i - 1]
+            if any(k in prev for k in ["理论课", "模拟机", "训练", "考勤", "停飞", "Grounding"]):
+                is_start = True
 
         if is_start and current:
             flush_current()
@@ -866,6 +903,7 @@ def get_code_pair_from_day_block(day_block: str, flight_no: str):
         if is_old_style_header_line(lines[i]):
             first_detail_idx = i
             break
+
     prefix_lines = lines[:first_detail_idx] if first_detail_idx is not None else lines
     flight_order = []
     codes = []
@@ -874,6 +912,7 @@ def get_code_pair_from_day_block(day_block: str, flight_no: str):
             flight_order.append(line)
         elif ICAO_RE.fullmatch(line):
             codes.append(line)
+
     if flight_no not in flight_order:
         return "", ""
     idx = flight_order.index(flight_no)
@@ -897,7 +936,7 @@ def extract_flight_no(card_text: str) -> str:
     for line in lines:
         if is_flight_line(line):
             return line
-        m = re.match(r"(9C\d{3,4}[A-Z]?)\s+B[0-9A-Z]{4,5}\s+A(?:319|320|321)", line)
+        m = re.match(r"(9C\d{3,4}[A-Z]?)\s+B[0-9A-Z]{4,5}\s+A(?:319|A320|A321)", line)
         if m:
             return m.group(1)
     m = FLIGHT_NO_RE.search(card_text)
@@ -926,6 +965,7 @@ def extract_checkin(card_text: str):
     m = re.search(r"(\d{2}:\d{2})\s*([^\s]{2,30})\s*航班动态", card_text)
     if m:
         return m.group(1), m.group(2)
+
     lines = [normalize_text(x) for x in card_text.splitlines() if normalize_text(x)]
     for line in lines:
         if "航班动态" not in line:
@@ -1084,7 +1124,7 @@ def extract_people_lines_generic(lines: list, consumed_idx: set, title_text: str
                 people.append(line)
             continue
 
-        # 长串不好分的人名，不强拆，整串保留
+        # 长串不好分，整串保留
         if re.fullmatch(r"[\u4e00-\u9fff]{8,80}", line) and not any(w in line for w in TASK_TITLE_WORDS):
             if line not in people:
                 people.append(line)
@@ -1106,9 +1146,15 @@ def extract_people_lines_generic(lines: list, consumed_idx: set, title_text: str
                 valid_people.append(part)
 
         if valid_people:
-            for p in valid_people:
-                if p not in people:
-                    people.append(p)
+            # 5人以下、边界明显才分
+            if len(valid_people) <= 5:
+                for p in valid_people:
+                    if p not in people:
+                        people.append(p)
+            else:
+                joined = " ".join(valid_people)
+                if joined not in people:
+                    people.append(joined)
             continue
 
         is_title_like = (
@@ -1217,12 +1263,7 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
                 title_text = line_clean
                 break
 
-    people_lines, extra_lines = extract_people_lines_generic(
-        lines,
-        consumed_idx,
-        title_text=title_text,
-        location=location,
-    )
+    people_lines, extra_lines = extract_people_lines_generic(lines, consumed_idx, title_text=title_text, location=location)
 
     dedup_extra = []
     seen_extra = set()
@@ -1486,9 +1527,101 @@ def extract_uid_from_vevent(vevent: str) -> str:
     return m.group(1).strip() if m else ""
 
 
+def extract_summary_from_vevent(vevent: str) -> str:
+    m = re.search(r"^SUMMARY:(.+)$", vevent, flags=re.M)
+    return m.group(1).strip() if m else ""
+
+
 def extract_dtstart_from_vevent(vevent: str) -> str:
     m = re.search(r"^DTSTART(?:;[^:]+)?:([0-9T]+)$", vevent, flags=re.M)
     return m.group(1).strip() if m else "99999999T999999"
+
+
+def extract_dtend_from_vevent(vevent: str) -> str:
+    m = re.search(r"^DTEND(?:;[^:]+)?:([0-9T]+)$", vevent, flags=re.M)
+    return m.group(1).strip() if m else "99999999T999999"
+
+
+def normalize_similarity_title(text: str) -> str:
+    text = normalize_text(text)
+    text = re.sub(r"\s*00:00\s*[~～\-–—]\s*(17:30|23:59)", "", text)
+    text = text.replace(" ", "")
+    return text
+
+
+def are_high_confidence_duplicates(block_a: str, block_b: str) -> bool:
+    if extract_dtstart_from_vevent(block_a) != extract_dtstart_from_vevent(block_b):
+        return False
+    if extract_dtend_from_vevent(block_a) != extract_dtend_from_vevent(block_b):
+        return False
+
+    sa = normalize_similarity_title(extract_summary_from_vevent(block_a))
+    sb = normalize_similarity_title(extract_summary_from_vevent(block_b))
+
+    if not sa or not sb:
+        return False
+    if sa == sb:
+        return True
+
+    # 航班号一致且时间一致，也认为高度重复
+    fa = FLIGHT_NO_RE.search(sa)
+    fb = FLIGHT_NO_RE.search(sb)
+    if fa and fb and fa.group(0) == fb.group(0):
+        return True
+
+    return False
+
+
+def block_quality(block: str) -> int:
+    score = 0
+    summary = normalize_text(extract_summary_from_vevent(block))
+    score += len(summary)
+    if "航班" in block:
+        score += 10
+    if "地点：" in block:
+        score += 10
+    if "航线：" in block:
+        score += 10
+    if "签到：" in block:
+        score += 10
+    if "机型：" in block:
+        score += 10
+    if "人员名单：" in block:
+        score += 10
+    return score
+
+
+def cleanup_duplicate_blocks(blocks: list) -> list:
+    groups = {}
+    for block in blocks:
+        key = (extract_dtstart_from_vevent(block), extract_dtend_from_vevent(block))
+        groups.setdefault(key, []).append(block)
+
+    final_blocks = []
+    for _, group in groups.items():
+        if len(group) == 1:
+            final_blocks.extend(group)
+            continue
+
+        used = set()
+        for i, a in enumerate(group):
+            if i in used:
+                continue
+            cluster = [a]
+            used.add(i)
+            for j in range(i + 1, len(group)):
+                if j in used:
+                    continue
+                b = group[j]
+                if are_high_confidence_duplicates(a, b):
+                    cluster.append(b)
+                    used.add(j)
+
+            best = max(cluster, key=block_quality)
+            final_blocks.append(best)
+
+    final_blocks.sort(key=lambda x: (extract_dtstart_from_vevent(x), extract_uid_from_vevent(x)))
+    return final_blocks
 
 
 def event_quality(item: dict) -> int:
@@ -1627,12 +1760,14 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
     def merge_history(filename: str, bucket_items: list):
         existing_map = read_existing_events(filename)
         new_blocks = [build_vevent(item, version_tag=version_tag) for item in bucket_items]
+
         merged_map = dict(existing_map)
         for block in new_blocks:
             uid = extract_uid_from_vevent(block)
             if uid:
                 merged_map[uid] = block
-        return list(merged_map.values())
+
+        return cleanup_duplicate_blocks(list(merged_map.values()))
 
     changed_root = False
 
@@ -1681,8 +1816,11 @@ def collect_day_blocks(page) -> list:
     result = []
     for idx, header in enumerate(day_headers):
         next_header = day_headers[idx + 1] if idx + 1 < len(day_headers) else None
-        if not expand_day(page, header):
+
+        if not expand_day_with_retry(page, header):
+            logger.warning(f"日期 {header} 展开失败")
             continue
+
         try:
             day_block = get_day_block(page, header, next_header)
             cards = split_day_block_into_cards(header, day_block)
