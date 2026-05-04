@@ -31,9 +31,12 @@ ARTIFACT_DIR = "debug_output"
 AIRPORT_ALIASES_FILE = "airport_aliases.json"
 SH_TZ = ZoneInfo("Asia/Shanghai")
 
-MAX_DAYS = 0  # 0 = 不限制，配合“查看更多”抓全量
 HEADLESS = os.environ.get("HEADLESS", "1") != "0"
 ALARM_MINUTES = 90
+
+# 正常情况下只需要适度往后展开，停飞等特殊情况也能继续往后抓
+LOAD_MORE_MAX_ROUNDS = 8
+SCROLL_PASSES_PER_ROUND = 5
 
 
 if os.path.exists(ARTIFACT_DIR):
@@ -126,6 +129,7 @@ PURE_DATE_PREFIX_RE = re.compile(r"^\d{4}-\d{2}-\d{2}")
 ICAO_RE = re.compile(r"\b[A-Z]{4}\b")
 DAY_HEADER_RE = re.compile(r"^\d{2}月\d{2}日\s*周.")
 LATIN_PERSON_RE = re.compile(r"[A-Z][A-Z\s\.\-']{1,80}\([^)]*\)")
+ZH_TAGGED_NAME_RE = re.compile(r"[\u4e00-\u9fff]{2,4}\([^)]*\)")
 
 ROLE_WORDS = {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员", "观察员"}
 TRANSPORT_HINT_WORDS = ["搭乘", "乘坐", "火车", "高铁", "动车", "去", "前往", "至", "返回"]
@@ -489,18 +493,12 @@ def get_day_headers(page) -> list:
         m = re.match(r"^(\d{2}月\d{2}日\s*周.)", line)
         if m:
             headers.append(m.group(1))
-
     seen = set()
     out = []
     for h in headers:
         if h not in seen:
             seen.add(h)
             out.append(h)
-
-    if MAX_DAYS > 0:
-        out = out[:MAX_DAYS]
-
-    logger.info(f"找到 {len(out)} 个日期头")
     return out
 
 
@@ -509,76 +507,155 @@ def get_load_more_labels(page) -> list:
     labels = []
     for line in text.splitlines():
         line = normalize_text(line)
-        if "查看更多" in line and re.search(r"\d{4}-\d{2}-\d{2}", line):
+        if "查看更多" in line:
             labels.append(line)
     return labels
 
 
+def smart_scroll_task_area(page, passes: int = SCROLL_PASSES_PER_ROUND):
+    js = """
+    () => {
+      const nodes = Array.from(document.querySelectorAll('*'));
+      const candidates = nodes.filter(el => {
+        try {
+          const style = window.getComputedStyle(el);
+          const overflowY = style.overflowY;
+          const overflow = style.overflow;
+          const scrollable = (
+            ['auto','scroll','overlay'].includes(overflowY) ||
+            ['auto','scroll','overlay'].includes(overflow)
+          );
+          return scrollable && el.scrollHeight > el.clientHeight + 100;
+        } catch(e) {
+          return false;
+        }
+      });
+      return candidates.map((el, idx) => ({
+        idx,
+        tag: el.tagName,
+        cls: el.className ? String(el.className).slice(0, 120) : '',
+        scrollHeight: el.scrollHeight,
+        clientHeight: el.clientHeight,
+        top: el.getBoundingClientRect().top
+      }));
+    }
+    """
+    try:
+        containers = page.evaluate(js)
+        save_text("scrollable_containers.json", json.dumps(containers, ensure_ascii=False, indent=2))
+    except Exception:
+        containers = []
+
+    for pass_no in range(1, passes + 1):
+        try:
+            page.mouse.wheel(0, 2500)
+        except Exception:
+            pass
+        random_like_wait(page, 700, 300)
+
+        try:
+            page.evaluate(
+                """
+                () => {
+                  const nodes = Array.from(document.querySelectorAll('*'));
+                  for (const el of nodes) {
+                    try {
+                      const style = window.getComputedStyle(el);
+                      const overflowY = style.overflowY;
+                      const overflow = style.overflow;
+                      const scrollable =
+                        ['auto','scroll','overlay'].includes(overflowY) ||
+                        ['auto','scroll','overlay'].includes(overflow);
+                      if (scrollable && el.scrollHeight > el.clientHeight + 100) {
+                        el.scrollTop = el.scrollHeight;
+                      }
+                    } catch(e) {}
+                  }
+                  window.scrollTo(0, document.body.scrollHeight);
+                }
+                """
+            )
+        except Exception:
+            pass
+        random_like_wait(page, 900, 400)
+        logger.info(f"滚动任务区域 pass {pass_no}/{passes}")
+
+
 def click_load_more(page) -> bool:
-    labels = get_load_more_labels(page)
-    if not labels:
+    try:
+        loc = page.locator("text=查看更多")
+        count = loc.count()
+        if count == 0:
+            return False
+
+        target = loc.nth(count - 1)
+        try:
+            target.scroll_into_view_if_needed(timeout=3000)
+        except Exception:
+            pass
+        random_like_wait(page, 500, 300)
+        target.click(timeout=4000)
+        random_like_wait(page, 1500, 800)
+        smart_scroll_task_area(page, passes=3)
+        return True
+    except Exception as e:
+        logger.info(f"点击查看更多失败: {e}")
         return False
 
-    last_label = labels[-1]
-    logger.info(f"尝试点击查看更多: {last_label}")
 
-    try:
-        locator = page.locator(f"text={last_label}").first
-        locator.scroll_into_view_if_needed(timeout=3000)
-        random_like_wait(page, 600, 300)
-        locator.click(timeout=4000)
-        random_like_wait(page, 2200, 1200)
-        return True
-    except Exception:
-        pass
-
-    try:
-        locator = page.locator("text=查看更多").last
-        locator.scroll_into_view_if_needed(timeout=3000)
-        random_like_wait(page, 600, 300)
-        locator.click(timeout=4000)
-        random_like_wait(page, 2200, 1200)
-        return True
-    except Exception:
-        pass
-
-    return False
-
-
-def load_all_visible_tasks(page, max_rounds: int = 30):
-    seen_header_counts = []
+def load_all_visible_tasks(page, max_rounds: int = LOAD_MORE_MAX_ROUNDS):
+    previous_signature = None
     for round_no in range(1, max_rounds + 1):
         headers_before = get_day_headers(page)
         load_more_before = get_load_more_labels(page)
-        save_text(f"load_more_round_{round_no}_before.txt", "\n".join(load_more_before))
+
+        save_text(f"load_more_round_{round_no}_headers_before.txt", "\n".join(headers_before))
+        save_text(f"load_more_round_{round_no}_more_before.txt", "\n".join(load_more_before))
         logger.info(f"第 {round_no} 轮加载前: 日期头 {len(headers_before)} 个, 查看更多 {len(load_more_before)} 个")
 
-        signature_before = (len(headers_before), tuple(headers_before[-5:]), tuple(load_more_before[-3:]))
+        smart_scroll_task_area(page, passes=SCROLL_PASSES_PER_ROUND)
 
-        if not load_more_before:
+        headers_mid = get_day_headers(page)
+        load_more_mid = get_load_more_labels(page)
+        signature = (
+            len(headers_mid),
+            tuple(headers_mid[-10:]),
+            len(load_more_mid),
+            tuple(load_more_mid[-5:]),
+        )
+
+        if previous_signature is not None and signature == previous_signature:
+            logger.info("滚动后页面签名未变化，尝试点查看更多")
+        previous_signature = signature
+
+        if not load_more_mid:
             logger.info("页面已无查看更多，停止扩展加载")
             return
 
         clicked = click_load_more(page)
         if not clicked:
-            logger.info("未能点击查看更多，停止扩展加载")
+            logger.info("无法继续点击查看更多，停止扩展加载")
             return
 
         headers_after = get_day_headers(page)
         load_more_after = get_load_more_labels(page)
-        save_text(f"load_more_round_{round_no}_after.txt", "\n".join(load_more_after))
+
+        save_text(f"load_more_round_{round_no}_headers_after.txt", "\n".join(headers_after))
+        save_text(f"load_more_round_{round_no}_more_after.txt", "\n".join(load_more_after))
         logger.info(f"第 {round_no} 轮加载后: 日期头 {len(headers_after)} 个, 查看更多 {len(load_more_after)} 个")
 
-        signature_after = (len(headers_after), tuple(headers_after[-5:]), tuple(load_more_after[-3:]))
-        seen_header_counts.append(signature_after)
+        signature_after = (
+            len(headers_after),
+            tuple(headers_after[-10:]),
+            len(load_more_after),
+            tuple(load_more_after[-5:]),
+        )
 
-        if signature_after == signature_before:
-            logger.info("点击查看更多后没有新增内容，停止扩展加载")
+        if signature_after == signature:
+            logger.info("点击查看更多后签名仍未变化，停止扩展加载")
             return
 
-        if len(seen_header_counts) >= 2 and seen_header_counts[-1] == seen_header_counts[-2]:
-            logger.info("页面内容连续两轮未变化，停止扩展加载")
-            return
+        previous_signature = signature_after
 
     logger.info("达到最大查看更多轮数，停止扩展加载")
 
@@ -615,12 +692,10 @@ def get_day_block(page, header: str, next_header: str | None) -> str:
     start = body_text.find(header)
     if start == -1:
         return ""
-
     if next_header:
         end = body_text.find(next_header, start + len(header))
         if end != -1:
             return body_text[start:end].strip()
-
     remaining = body_text[start:]
     lines = remaining.splitlines()
     result_lines = []
@@ -642,154 +717,71 @@ def detect_page_year(page) -> int:
     return datetime.now(SH_TZ).year
 
 
-def is_day_header(line: str) -> bool:
-    return DAY_HEADER_RE.match(line) is not None
-
-
-def time_range_search(text: str):
-    return TIME_RANGE_RE.search(text)
-
-
-def split_prefix_time_suffix(line: str):
-    m = TIME_RANGE_RE.search(line)
-    if not m:
-        return "", "", "", ""
-    return (
-        normalize_text(line[:m.start()]),
-        m.group(1),
-        m.group(2),
-        normalize_text(line[m.end():]),
-    )
-
-
-def has_next_day_marker(text: str) -> bool:
-    text = normalize_text(text)
-    return any(x in text for x in ["(+1)", "（+1）", "＋1", "+1", "次日", "第二天", "翌日"])
-
-
-def strip_time_from_title(title: str) -> str:
-    title = TIME_RANGE_RE.sub("", title).strip()
-    title = re.sub(r"[\s~～\-–—]+$", "", title).strip()
-    return title
-
-
-def detect_card_task_type(card_text: str, day_text: str, card_kind: str) -> str:
-    combined = card_text + "\n" + day_text
-    if "置位" in combined:
-        return "置位"
-    if "停飞" in combined or "Grounding" in combined:
-        return "停飞"
-    if card_kind == "flight":
-        for t in ["摆渡", "航班"]:
-            if t in combined:
-                return t
-        return "航班"
-    for t in ["训练", "考勤", "摆渡", "备份", "待命", "航班", "停飞"]:
-        if t in combined:
-            return t
-    return "其他"
-
-
-def task_bucket(task_type: str) -> str:
-    return {
-        "航班": "flight",
-        "置位": "positioning",
-        "训练": "training",
-        "摆渡": "ferry",
-        "停飞": "other",
-    }.get(task_type, "other")
-
-
-def extract_date(text: str, page_year: int):
-    m = re.search(r"(\d{2})月(\d{2})日", text)
-    if not m:
-        return None
-    return page_year, int(m.group(1)), int(m.group(2))
-
-
-def is_flight_line(s: str) -> bool:
-    return FLIGHT_NO_RE.fullmatch(s) is not None
-
-
-def is_reg_model_line(s: str) -> bool:
-    return REG_MODEL_RE.fullmatch(s) is not None
-
-
-def is_old_style_header_line(s: str) -> bool:
-    s = normalize_text(s)
-    return re.fullmatch(r"9C\d{3,4}[A-Z]?\s+B[0-9A-Z]{4,5}\s+A(?:319|320|321)", s) is not None
-
-
-def clean_tail_noise(lines: list) -> list:
-    cleaned = []
-    for line in lines:
-        if not line:
-            continue
-        if "查看更多" in line:
-            continue
-        if PURE_DATE_PREFIX_RE.match(line):
-            continue
-        cleaned.append(line)
-    return cleaned
-
-
-def looks_like_generic_chunk(lines: list) -> bool:
-    if not lines:
+def looks_like_flight_chunk(chunk_lines: list) -> bool:
+    chunk = "\n".join(chunk_lines)
+    if not TIME_RANGE_RE.search(chunk):
         return False
-    joined = "\n".join(lines)
-    if not time_range_search(joined):
-        return False
-    for i, line in enumerate(lines):
-        if is_flight_line(line) or is_old_style_header_line(line):
-            return False
-        if i + 1 < len(lines) and is_flight_line(line) and is_reg_model_line(lines[i + 1]):
-            return False
-    return True
+    if FLIGHT_NO_RE.search(chunk):
+        return True
+    if any(ICAO_RE.fullmatch(x) for x in chunk_lines) and any("航班动态" in x for x in chunk_lines):
+        return True
+    if any(REG_AND_MODEL_RE.search(x) for x in chunk_lines):
+        return True
+    return False
 
 
 def split_day_block_into_cards(day_header: str, day_block: str) -> list:
     lines = [normalize_text(x) for x in day_block.splitlines() if normalize_text(x)]
     lines = clean_tail_noise(lines)
+
     if lines and day_header in lines[0]:
         lines = lines[1:]
     if not lines:
         return []
 
-    flight_starts = []
-    for i in range(len(lines)):
-        line = lines[i]
-        if i + 1 < len(lines) and is_flight_line(line) and is_reg_model_line(lines[i + 1]):
-            flight_starts.append(i)
-            continue
-        if is_old_style_header_line(line):
-            flight_starts.append(i)
-
-    flight_starts = sorted(set(flight_starts))
     cards = []
+    current = []
 
-    if not flight_starts:
-        if looks_like_generic_chunk(lines):
-            cards.append({"kind": "generic", "text": "\n".join(lines).strip()})
-        return cards
+    def flush_current():
+        nonlocal current, cards
+        if not current:
+            return
+        chunk = clean_tail_noise(current)
+        if not chunk:
+            current = []
+            return
+        kind = "flight" if looks_like_flight_chunk(chunk) else "generic"
+        cards.append({"kind": kind, "text": "\n".join(chunk).strip()})
+        current = []
 
-    first_start = flight_starts[0]
-    pre_lines = clean_tail_noise(lines[:first_start])
-    if looks_like_generic_chunk(pre_lines):
-        cards.append({"kind": "generic", "text": "\n".join(pre_lines).strip()})
+    for i, line in enumerate(lines):
+        is_start = False
+        if is_old_style_header_line(line):
+            is_start = True
+        elif is_flight_line(line):
+            is_start = True
+        elif i + 1 < len(lines) and TIME_RANGE_RE.search(line) and ("置位" in line or "摆渡" in line or "训练" in line or "考勤" in line or "停飞" in line):
+            is_start = True
+        elif TIME_RANGE_RE.search(line) and i > 0 and any(k in lines[i - 1] for k in ["理论课", "模拟机", "停飞", "Grounding", "训练", "考勤"]):
+            is_start = True
 
-    for idx, start_i in enumerate(flight_starts):
-        end_i = flight_starts[idx + 1] if idx + 1 < len(flight_starts) else len(lines)
-        chunk_lines = clean_tail_noise(lines[start_i:end_i])
-        filtered = []
-        for line in chunk_lines:
-            if re.fullmatch(r"(9C\d{3,4}[A-Z]?\s*){2,}", line):
-                continue
-            filtered.append(line)
-        chunk = "\n".join(filtered).strip()
-        if chunk and time_range_search(chunk) and FLIGHT_NO_RE.search(chunk):
-            cards.append({"kind": "flight", "text": chunk})
+        if is_start and current:
+            flush_current()
 
-    return cards
+        current.append(line)
+
+    flush_current()
+
+    merged = []
+    for c in cards:
+        if not c["text"]:
+            continue
+        if merged and merged[-1]["kind"] == "generic" and c["kind"] == "generic":
+            merged[-1]["text"] += "\n" + c["text"]
+        else:
+            merged.append(c)
+
+    return merged
 
 
 def extract_icao_pairs_from_card(card_text: str):
@@ -905,7 +897,7 @@ def extract_flight_no(card_text: str) -> str:
     for line in lines:
         if is_flight_line(line):
             return line
-        m = re.match(r"(9C\d{3,4}[A-Z]?)\s+B[0-9A-Z]{4,5}\s+A(?:319|A320|A321)", line)
+        m = re.match(r"(9C\d{3,4}[A-Z]?)\s+B[0-9A-Z]{4,5}\s+A(?:319|320|321)", line)
         if m:
             return m.group(1)
     m = FLIGHT_NO_RE.search(card_text)
@@ -996,13 +988,32 @@ def extract_people_lines_flight(card_text: str) -> list:
             if name in line and name not in out:
                 out.append(name)
 
-        for p in re.split(r"[\s　,，、/]+", line):
+        if LATIN_PERSON_RE.fullmatch(line):
+            if line not in out:
+                out.append(line)
+            continue
+
+        if ZH_TAGGED_NAME_RE.fullmatch(line):
+            if line not in out:
+                out.append(line)
+            continue
+
+        parts = re.split(r"[\s　,，、/]+", line)
+        valid_people = []
+        for p in parts:
             p = normalize_text(p)
             if not p or p in ROLE_WORDS or p in TASK_TITLE_WORDS:
                 continue
-            if re.fullmatch(r"[\u4e00-\u9fff]{2,6}", p) or LATIN_PERSON_RE.fullmatch(p) or re.fullmatch(r"[\u4e00-\u9fff]{2,4}\([^)]*\)", p):
-                if p not in out:
-                    out.append(p)
+            if re.fullmatch(r"[\u4e00-\u9fff]{2,6}", p):
+                valid_people.append(p)
+            elif LATIN_PERSON_RE.fullmatch(p):
+                valid_people.append(p)
+            elif ZH_TAGGED_NAME_RE.fullmatch(p):
+                valid_people.append(p)
+
+        for p in valid_people:
+            if p not in out:
+                out.append(p)
 
     return out
 
@@ -1063,6 +1074,16 @@ def extract_people_lines_generic(lines: list, consumed_idx: set, title_text: str
             extra_lines.append(line)
             continue
 
+        if LATIN_PERSON_RE.fullmatch(line):
+            if line not in people:
+                people.append(line)
+            continue
+
+        if ZH_TAGGED_NAME_RE.fullmatch(line):
+            if line not in people:
+                people.append(line)
+            continue
+
         # 长串不好分的人名，不强拆，整串保留
         if re.fullmatch(r"[\u4e00-\u9fff]{8,80}", line) and not any(w in line for w in TASK_TITLE_WORDS):
             if line not in people:
@@ -1081,7 +1102,7 @@ def extract_people_lines_generic(lines: list, consumed_idx: set, title_text: str
                 valid_people.append(part)
             elif LATIN_PERSON_RE.fullmatch(part):
                 valid_people.append(part)
-            elif re.fullmatch(r"[\u4e00-\u9fff]{2,4}\([^)]*\)", part):
+            elif ZH_TAGGED_NAME_RE.fullmatch(part):
                 valid_people.append(part)
 
         if valid_people:
@@ -1336,7 +1357,9 @@ def build_title(item: dict) -> str:
 
     if item["task_type"] == "停飞":
         clean_title = re.sub(r"\s*00:00\s*[~～\-–—]\s*(17:30|23:59)\s*$", "", title_text).strip()
-        return f"{icon} {clean_title or '停飞 Grounding'}"
+        if clean_title:
+            return f"{icon} {clean_title}"
+        return f"{icon} 停飞 Grounding"
 
     if dep_cn and arr_cn:
         return f"{icon} {dep_cn}→{arr_cn}{suffix}"
