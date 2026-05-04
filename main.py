@@ -112,7 +112,6 @@ AIRPORT_CN_TO_ICAO = {}
 AIRPORT_ICAO_TO_CN = {}
 AIRPORT_NAMES = []
 
-# 只作为高置信锚点，不作为强制拆分名单的唯一依据
 KNOWN_PEOPLE = [
     "段洋硕",
     "张子钦",
@@ -148,6 +147,7 @@ TASK_TITLE_WORDS = {
     "定期", "熟练", "结合", "晋级", "考试", "安保", "程序",
     "停飞", "开会", "英语", "副驾驶", "机长", "乘务长", "随机人员",
     "加机组人员", "观察员", "检", "考", "协同", "签到", "劳动节", "立夏",
+    "个起落",
 }
 GENERIC_TASK_WORDS = ["训练", "考勤", "摆渡", "置位", "航班", "备份", "待命", "停飞"]
 
@@ -437,7 +437,6 @@ def login(page, max_retries: int = 10):
 
         candidates = generate_code_candidates(best_code, limit=20)
         save_text(f"login_attempt_{attempt}_candidates.txt", "\n".join(candidates))
-
         for idx, cand in enumerate(candidates, start=1):
             try:
                 fill_login_form(page, cand)
@@ -701,7 +700,6 @@ def strip_time_from_title(title: str) -> str:
 def detect_card_task_type(card_text: str, day_text: str, card_kind: str) -> str:
     combined = card_text + "\n" + day_text
 
-    # 强优先级：先把最容易污染分桶的几类写死
     if "置位" in combined:
         return "置位"
     if "摆渡" in combined:
@@ -749,7 +747,7 @@ def is_reg_model_line(s: str) -> bool:
 
 def is_old_style_header_line(s: str) -> bool:
     s = normalize_text(s)
-    return re.fullmatch(r"9C\d{3,4}[A-Z]?\s+B[0-9A-Z]{4,5}\s+A(?:319|320|321)", s) is not None
+    return re.fullmatch(r"9C\d{3,4}[A-Z]?\s+B[0-9A-Z]{4,5}\s+A(?:319|A320|A321)", s) is not None
 
 
 def clean_tail_noise(lines: list) -> list:
@@ -1020,7 +1018,7 @@ def extract_start_end_time(card_text: str):
 
 
 # =========================
-# 名单解析底层逻辑（保守、稳定）
+# 名单解析底层逻辑（保守）
 # =========================
 
 def standardize_people_text(text: str) -> str:
@@ -1054,6 +1052,8 @@ def looks_like_person_token(token: str) -> bool:
     if not token:
         return False
     if token in ROLE_WORDS or token in TASK_TITLE_WORDS or token in GENERIC_TASK_WORDS:
+        return False
+    if token == "个起落":
         return False
     if LATIN_PERSON_RE.fullmatch(token):
         return True
@@ -1126,11 +1126,8 @@ def compact_people_candidates(text: str) -> list:
     text = standardize_people_text(text)
     if not text:
         return []
-
-    # 长串不拆
     if len(text) > 16:
         return []
-
     if not re.fullmatch(r"[\u4e00-\u9fff()A-Z]+", text):
         return []
 
@@ -1148,13 +1145,11 @@ def compact_people_candidates(text: str) -> list:
 
         res = []
 
-        # 锚点优先
         for tok in sorted(anchor_tokens, key=len, reverse=True):
             if text.startswith(tok, idx):
                 for tail in dfs(idx + len(tok)):
                     res.append([tok] + tail)
 
-        # 通用 2~4 字中文姓名 + 可选 (R)
         for ln in [2, 3, 4]:
             if idx + ln <= len(text):
                 base = text[idx:idx + ln]
@@ -1218,7 +1213,9 @@ def smart_split_short_compact_people(line: str) -> list:
 
     has_anchor = any(SHORT_ROLE_RE.sub("", x) in KNOWN_PEOPLE for x in best)
     has_role = any(SHORT_ROLE_RE.search(x) for x in best)
-    all_normal_zh = all(re.fullmatch(r"[\u4e00-\u9fff]{2,4}(?:\([A-Z]\))?", x) for x in best)
+    all_normal_zh = all(
+        re.fullmatch(r"[\u4e00-\u9fff]{2,4}(?:\([A-Z]\))?", x) for x in best
+    )
 
     if has_anchor or has_role:
         return best
@@ -1232,12 +1229,6 @@ def smart_split_short_compact_people(line: str) -> list:
 
 
 def parse_people_line_conservatively(line: str):
-    """
-    返回:
-    - ("split", [names...]) 可以安全拆分
-    - ("keep",  [raw_line]) 不该硬拆，整串保留
-    - ("skip",  [])        不是名单
-    """
     line = standardize_people_text(line)
     if not line:
         return "skip", []
@@ -1257,10 +1248,12 @@ def parse_people_line_conservatively(line: str):
     if re.fullmatch(r"\d{2}:\d{2}", line):
         return "skip", []
 
+    if line == "个起落":
+        return "skip", []
+
     if LATIN_PERSON_RE.fullmatch(line) or ZH_TAGGED_NAME_RE.fullmatch(line):
         return "split", [line]
 
-    # 无明确分隔符：只做高置信短串修复
     if not has_clear_delimiters(line):
         micro = smart_split_short_compact_people(line)
         if micro:
@@ -1276,7 +1269,6 @@ def parse_people_line_conservatively(line: str):
 
         return "skip", []
 
-    # 有分隔符才拆
     parts = split_by_clear_delimiters(line)
     if not parts:
         return "skip", []
@@ -1290,7 +1282,6 @@ def parse_people_line_conservatively(line: str):
         if ratio < 0.8:
             return "keep", [line]
 
-    # 5人以下才分开；更多整串保留
     if len(valid) <= 5:
         return "split", valid
 
@@ -1360,6 +1351,8 @@ def is_probably_people_zone(line: str) -> bool:
     line = standardize_people_text(line)
     if not line:
         return False
+    if line == "个起落":
+        return False
     if any(w in line for w in TRANSPORT_HINT_WORDS):
         return False
     if any(w in line for w in TASK_TITLE_WORDS):
@@ -1380,7 +1373,7 @@ def extract_people_lines_generic(lines: list, consumed_idx: set, title_text: str
     title_text = normalize_text(title_text)
     location = normalize_text(location)
 
-    # 先尝试找“人员区块”：从后往前收集连续的看起来像名单的行
+    # 只认尾部连续名单区块，不再整块乱扫
     tail_candidates = []
     for idx in range(len(lines) - 1, -1, -1):
         if idx in consumed_idx:
@@ -1433,7 +1426,6 @@ def extract_people_lines_generic(lines: list, consumed_idx: set, title_text: str
             extra_lines.append(line)
             continue
 
-        # 不是明确名单区的内容，不再强行扫中文串做人名
         is_title_like = (
             len(line) > 8
             or any(w in line for w in TASK_TITLE_WORDS)
@@ -1542,6 +1534,10 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
                 break
 
     people_lines, extra_lines = extract_people_lines_generic(lines, consumed_idx, title_text=title_text, location=location)
+
+    # 停飞一律不抓名单
+    if task_type == "停飞":
+        people_lines = []
 
     if not start_time or not end_time:
         return None
@@ -1730,8 +1726,7 @@ def build_description(item: dict) -> str:
 
 def stable_uid_seed(item: dict) -> str:
     """
-    改成基于原始卡片文本 + 日期。
-    这样同一条原始业务事件后续字段修正时，UID 更稳定，不会乱生新事件。
+    用原始卡片文本做稳定身份，避免字段修正时 UID 变化。
     """
     raw_card = normalize_text(item.get("raw_card_text", ""))
     date_key = item["start_dt"].strftime("%Y-%m-%d")
@@ -2006,14 +2001,8 @@ def build_version_tag() -> str:
 
 
 def merge_history_replace_scraped_dates(filename: str, bucket_items: list) -> list:
-    """
-    根治今天这个问题的关键：
-    对于这次已经抓到的日期，旧事件同 bucket、同日期全部替换掉。
-    这样旧脏事件不会长期残留。
-    """
     existing_map = read_existing_events(filename)
     existing_blocks = list(existing_map.values())
-
     new_blocks = [build_vevent(item, version_tag=build_version_tag()) for item in bucket_items]
 
     scraped_dates = set()
@@ -2024,7 +2013,6 @@ def merge_history_replace_scraped_dates(filename: str, bucket_items: list) -> li
     for block in existing_blocks:
         event_date = extract_event_date_from_block(block)
         if event_date in scraped_dates:
-            # 这次已抓到的日期，整天重建，不保留旧块
             continue
         kept_old_blocks.append(block)
 
@@ -2056,9 +2044,6 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
     )
     total_items.sort(key=lambda x: (x["start_dt"], build_title(x)))
 
-    def build_bucket_blocks(bucket_items: list):
-        return [build_vevent(item, version_tag=version_tag) for item in bucket_items]
-
     changed_root = False
 
     changed_root |= write_calendar_from_vevents(
@@ -2088,27 +2073,27 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
 
     write_calendar_from_vevents(
         os.path.join(ARTIFACT_DIR, "flight.ics"),
-        build_bucket_blocks(buckets["flight"]),
+        [build_vevent(item, version_tag=version_tag) for item in buckets["flight"]],
     )
     write_calendar_from_vevents(
         os.path.join(ARTIFACT_DIR, "positioning.ics"),
-        build_bucket_blocks(buckets["positioning"]),
+        [build_vevent(item, version_tag=version_tag) for item in buckets["positioning"]],
     )
     write_calendar_from_vevents(
         os.path.join(ARTIFACT_DIR, "training.ics"),
-        build_bucket_blocks(buckets["training"]),
+        [build_vevent(item, version_tag=version_tag) for item in buckets["training"]],
     )
     write_calendar_from_vevents(
         os.path.join(ARTIFACT_DIR, "ferry.ics"),
-        build_bucket_blocks(buckets["ferry"]),
+        [build_vevent(item, version_tag=version_tag) for item in buckets["ferry"]],
     )
     write_calendar_from_vevents(
         os.path.join(ARTIFACT_DIR, "other.ics"),
-        build_bucket_blocks(buckets["other"]),
+        [build_vevent(item, version_tag=version_tag) for item in buckets["other"]],
     )
     write_calendar_from_vevents(
         os.path.join(ARTIFACT_DIR, "crew_schedule.ics"),
-        build_bucket_blocks(total_items),
+        [build_vevent(item, version_tag=version_tag) for item in total_items]],
     )
 
     save_text("changed_root_flag.txt", str(changed_root))
