@@ -35,6 +35,7 @@ MAX_DAYS = 7
 HEADLESS = os.environ.get("HEADLESS", "1") != "0"
 ALARM_MINUTES = 90
 
+
 if os.path.exists(ARTIFACT_DIR):
     shutil.rmtree(ARTIFACT_DIR)
 os.makedirs(ARTIFACT_DIR, exist_ok=True)
@@ -48,8 +49,8 @@ def setup_logging():
         datefmt="%Y-%m-%d %H:%M:%S",
         handlers=[
             logging.FileHandler(log_file, encoding="utf-8"),
-            logging.StreamHandler()
-        ]
+            logging.StreamHandler(),
+        ],
     )
     return logging.getLogger(__name__)
 
@@ -125,13 +126,14 @@ PURE_DATE_PREFIX_RE = re.compile(r"^\d{4}-\d{2}-\d{2}")
 ICAO_RE = re.compile(r"\b[A-Z]{4}\b")
 DAY_HEADER_RE = re.compile(r"^\d{2}月\d{2}日\s*周.")
 LATIN_PERSON_RE = re.compile(r"[A-Z][A-Z\s\.\-']{1,80}\([^)]*\)")
+
 ROLE_WORDS = {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员", "观察员"}
 TRANSPORT_HINT_WORDS = ["搭乘", "乘坐", "火车", "高铁", "动车", "去", "前往", "至", "返回"]
 TASK_TITLE_WORDS = {
     "理论课", "模拟机", "应急", "生存", "复训", "训练", "考勤", "检查",
     "定期", "熟练", "结合", "晋级", "考试", "安保", "程序",
     "停飞", "开会", "英语", "副驾驶", "机长", "乘务长", "随机人员",
-    "加机组人员", "观察员", "检", "考", "协同", "签到", "劳动节", "立夏"
+    "加机组人员", "观察员", "检", "考", "协同", "签到", "劳动节", "立夏",
 }
 GENERIC_TASK_WORDS = ["训练", "考勤", "摆渡", "置位", "航班", "备份", "待命", "停飞"]
 
@@ -265,63 +267,6 @@ def add_airport_alias(icao: str, alias: str):
         rebuild_airport_indexes()
 
 
-def is_day_header(line: str) -> bool:
-    return DAY_HEADER_RE.match(line) is not None
-
-
-def time_range_search(text: str):
-    return TIME_RANGE_RE.search(text)
-
-
-def split_prefix_time_suffix(line: str):
-    m = TIME_RANGE_RE.search(line)
-    if not m:
-        return "", "", "", ""
-    return (
-        normalize_text(line[:m.start()]),
-        m.group(1),
-        m.group(2),
-        normalize_text(line[m.end():]),
-    )
-
-
-def has_next_day_marker(text: str) -> bool:
-    text = normalize_text(text)
-    return any(x in text for x in ["(+1)", "（+1）", "＋1", "+1", "次日", "第二天", "翌日"])
-
-
-def strip_time_from_title(title: str) -> str:
-    title = TIME_RANGE_RE.sub("", title).strip()
-    title = re.sub(r"[\s~～\-–—]+$", "", title).strip()
-    return title
-
-
-def extract_captcha_bytes(page) -> bytes:
-    imgs = page.locator("img")
-    for i in range(imgs.count()):
-        try:
-            src = imgs.nth(i).get_attribute("src", timeout=1000)
-            if src and src.startswith("data:image"):
-                return base64.b64decode(src.split(",", 1)[1])
-        except Exception:
-            pass
-    raise RuntimeError("未找到验证码图片")
-
-
-def build_variants(img_bytes: bytes) -> list:
-    img = Image.open(io.BytesIO(img_bytes)).convert("L")
-    img = ImageOps.autocontrast(img)
-    variants = [("base_x3", img.resize((img.width * 3, img.height * 3))), ("base_x4", img.resize((img.width * 4, img.height * 4)))]
-    for threshold in [135, 145, 155, 165, 175, 185]:
-        bw = img.point(lambda x, t=threshold: 255 if x > t else 0, mode="1")
-        bw = bw.resize((bw.width * 3, bw.height * 3))
-        variants.append((f"bw_{threshold}", bw))
-    variants.append(("invert_x3", ImageOps.invert(img).resize((img.width * 3, img.height * 3))))
-    variants.append(("sharp_x3", img.filter(ImageFilter.SHARPEN).resize((img.width * 3, img.height * 3))))
-    variants.append(("median_x3", img.filter(ImageFilter.MedianFilter(size=3)).resize((img.width * 3, img.height * 3))))
-    return variants
-
-
 def normalize_candidate(text: str) -> str:
     text = text.upper()
     text = re.sub(r"[^A-Z0-9]", "", text)
@@ -372,6 +317,35 @@ def generate_code_candidates(code: str, limit: int = 20) -> list:
         if len(all_codes) >= limit:
             break
     return all_codes
+
+
+def extract_captcha_bytes(page) -> bytes:
+    imgs = page.locator("img")
+    for i in range(imgs.count()):
+        try:
+            src = imgs.nth(i).get_attribute("src", timeout=1000)
+            if src and src.startswith("data:image"):
+                return base64.b64decode(src.split(",", 1)[1])
+        except Exception:
+            pass
+    raise RuntimeError("未找到验证码图片")
+
+
+def build_variants(img_bytes: bytes) -> list:
+    img = Image.open(io.BytesIO(img_bytes)).convert("L")
+    img = ImageOps.autocontrast(img)
+    variants = [
+        ("base_x3", img.resize((img.width * 3, img.height * 3))),
+        ("base_x4", img.resize((img.width * 4, img.height * 4))),
+    ]
+    for threshold in [135, 145, 155, 165, 175, 185]:
+        bw = img.point(lambda x, t=threshold: 255 if x > t else 0, mode="1")
+        bw = bw.resize((bw.width * 3, bw.height * 3))
+        variants.append((f"bw_{threshold}", bw))
+    variants.append(("invert_x3", ImageOps.invert(img).resize((img.width * 3, img.height * 3))))
+    variants.append(("sharp_x3", img.filter(ImageFilter.SHARPEN).resize((img.width * 3, img.height * 3))))
+    variants.append(("median_x3", img.filter(ImageFilter.MedianFilter(size=3)).resize((img.width * 3, img.height * 3))))
+    return variants
 
 
 def solve_captcha_with_ddddocr(img_bytes: bytes) -> str:
@@ -445,6 +419,7 @@ def login(page, max_retries: int = 10):
         best_code = solve_captcha(page, attempt_no=attempt)
         if len(best_code) != 4:
             continue
+
         candidates = generate_code_candidates(best_code, limit=20)
         save_text(f"login_attempt_{attempt}_candidates.txt", "\n".join(candidates))
         for idx, cand in enumerate(candidates, start=1):
@@ -457,13 +432,19 @@ def login(page, max_retries: int = 10):
                         page.locator("button").first.click(timeout=3000)
                     except Exception:
                         page.keyboard.press("Enter")
+
                 random_like_wait(page, 4200, 900)
                 body_text = page_text(page)
-                page.screenshot(path=os.path.join(ARTIFACT_DIR, f"login_attempt_{attempt}_{idx}_{cand}.png"), full_page=True)
+                page.screenshot(
+                    path=os.path.join(ARTIFACT_DIR, f"login_attempt_{attempt}_{idx}_{cand}.png"),
+                    full_page=True,
+                )
                 save_text(f"login_attempt_{attempt}_{idx}_{cand}.txt", body_text)
+
                 if ("统一认证中心" not in body_text) and ("Login" not in body_text):
                     logger.info(f"登录成功 (验证码: {cand})")
                     return
+
                 try:
                     page.goto(LOGIN_URL, wait_until="domcontentloaded", timeout=90000)
                     random_like_wait(page, 2200, 700)
@@ -471,6 +452,7 @@ def login(page, max_retries: int = 10):
                     pass
             except Exception as e:
                 logger.error(f"验证码 {cand} 尝试失败: {e}")
+
     raise RuntimeError("多次尝试后仍无法登录")
 
 
@@ -480,11 +462,13 @@ def open_mission_page(page):
             logger.info(f"打开任务页面 (尝试 {i + 1}/3)")
             page.goto(MISSION_URL, wait_until="domcontentloaded", timeout=90000)
             random_like_wait(page, 4500, 1200)
+
             try:
                 page.locator("text=我的任务").first.click(timeout=5000)
                 random_like_wait(page, 2600, 900)
             except Exception:
                 pass
+
             body_text = page_text(page)
             if re.search(r"\d{2}月\d{2}日\s*周.", body_text):
                 logger.info("任务页面已加载")
@@ -493,6 +477,7 @@ def open_mission_page(page):
             logger.error(f"打开任务页面失败: {e}")
             if i == 2:
                 raise
+
     raise RuntimeError("未能进入任务列表页")
 
 
@@ -504,14 +489,17 @@ def get_day_headers(page) -> list:
         m = re.match(r"^(\d{2}月\d{2}日\s*周.)", line)
         if m:
             headers.append(m.group(1))
+
     seen = set()
     out = []
     for h in headers:
         if h not in seen:
             seen.add(h)
             out.append(h)
+
     if MAX_DAYS > 0:
         out = out[:MAX_DAYS]
+
     logger.info(f"找到 {len(out)} 个日期头")
     return out
 
@@ -548,10 +536,12 @@ def get_day_block(page, header: str, next_header: str | None) -> str:
     start = body_text.find(header)
     if start == -1:
         return ""
+
     if next_header:
         end = body_text.find(next_header, start + len(header))
         if end != -1:
             return body_text[start:end].strip()
+
     remaining = body_text[start:]
     lines = remaining.splitlines()
     result_lines = []
@@ -571,6 +561,37 @@ def detect_page_year(page) -> int:
     if m:
         return int(m.group(1))
     return datetime.now(SH_TZ).year
+
+
+def is_day_header(line: str) -> bool:
+    return DAY_HEADER_RE.match(line) is not None
+
+
+def time_range_search(text: str):
+    return TIME_RANGE_RE.search(text)
+
+
+def split_prefix_time_suffix(line: str):
+    m = TIME_RANGE_RE.search(line)
+    if not m:
+        return "", "", "", ""
+    return (
+        normalize_text(line[:m.start()]),
+        m.group(1),
+        m.group(2),
+        normalize_text(line[m.end():]),
+    )
+
+
+def has_next_day_marker(text: str) -> bool:
+    text = normalize_text(text)
+    return any(x in text for x in ["(+1)", "（+1）", "＋1", "+1", "次日", "第二天", "翌日"])
+
+
+def strip_time_from_title(title: str) -> str:
+    title = TIME_RANGE_RE.sub("", title).strip()
+    title = re.sub(r"[\s~～\-–—]+$", "", title).strip()
+    return title
 
 
 def detect_card_task_type(card_text: str, day_text: str, card_kind: str) -> str:
@@ -700,6 +721,7 @@ def extract_icao_pairs_from_card(card_text: str):
             break
     if len(seq) >= 2:
         return seq[0], seq[-1]
+
     all_icao = []
     for m in ICAO_RE.finditer(card_text):
         code = m.group(0)
@@ -932,6 +954,7 @@ def extract_people_lines_generic(lines: list, consumed_idx: set, title_text: str
     extra_lines = []
     title_text = normalize_text(title_text)
     location = normalize_text(location)
+
     for idx, line in enumerate(lines):
         if idx in consumed_idx:
             continue
@@ -950,14 +973,17 @@ def extract_people_lines_generic(lines: list, consumed_idx: set, title_text: str
             continue
         if location and line == location:
             continue
+
         if any(x in line for x in TRANSPORT_HINT_WORDS):
             extra_lines.append(line)
             continue
-        # 长中文串不强拆，直接整串保留
+
+        # 长串不好分的人名，不强拆，整串保留
         if re.fullmatch(r"[\u4e00-\u9fff]{8,80}", line) and not any(w in line for w in TASK_TITLE_WORDS):
             if line not in people:
                 people.append(line)
             continue
+
         parts = re.split(r"[\s　,，、/]+", line)
         valid_people = []
         for part in parts:
@@ -972,14 +998,22 @@ def extract_people_lines_generic(lines: list, consumed_idx: set, title_text: str
                 valid_people.append(part)
             elif re.fullmatch(r"[\u4e00-\u9fff]{2,4}\([^)]*\)", part):
                 valid_people.append(part)
+
         if valid_people:
             for p in valid_people:
                 if p not in people:
                     people.append(p)
             continue
-        is_title_like = len(line) > 8 or any(w in line for w in TASK_TITLE_WORDS) or any(w in line for w in GENERIC_TASK_WORDS) or re.search(r"[：:。，、]", line)
+
+        is_title_like = (
+            len(line) > 8
+            or any(w in line for w in TASK_TITLE_WORDS)
+            or any(w in line for w in GENERIC_TASK_WORDS)
+            or re.search(r"[：:。，、]", line)
+        )
         if is_title_like:
             extra_lines.append(line)
+
     return people, extra_lines
 
 
@@ -987,10 +1021,12 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
     lines = [normalize_text(x) for x in card_text.splitlines() if normalize_text(x)]
     if not lines:
         return None
+
     date_info = extract_date(day_header, page_year)
     if not date_info:
         return None
     year, month, day_num = date_info
+
     task_type = detect_card_task_type(card_text, day_task_text, "generic")
     title_text = ""
     location = ""
@@ -1075,7 +1111,13 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
                 title_text = line_clean
                 break
 
-    people_lines, extra_lines = extract_people_lines_generic(lines, consumed_idx, title_text=title_text, location=location)
+    people_lines, extra_lines = extract_people_lines_generic(
+        lines,
+        consumed_idx,
+        title_text=title_text,
+        location=location,
+    )
+
     dedup_extra = []
     seen_extra = set()
     for line in extra_lines:
@@ -1088,10 +1130,12 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
 
     if not start_time or not end_time:
         return None
+
     start_dt, valid_start = make_datetime_safe(year, month, day_num, start_time)
     end_dt, valid_end = make_datetime_safe(year, month, day_num, end_time)
     if not valid_start or not valid_end:
         return None
+
     diff_minutes = (end_dt - start_dt).total_seconds() / 60
     if next_day or diff_minutes < 0:
         end_dt += timedelta(days=1)
@@ -1124,6 +1168,7 @@ def parse_flight_card(card_text: str, day_header: str, page_year: int, day_task_
     if not date_info:
         return None
     year, month, day_num = date_info
+
     flight_no = extract_flight_no(card_text)
     reg, model = extract_reg_and_model(card_text)
     start_time, end_time = extract_start_end_time(card_text)
@@ -1132,15 +1177,19 @@ def parse_flight_card(card_text: str, day_header: str, page_year: int, day_task_
     people_lines = extract_people_lines_flight(card_text)
     task_type = detect_card_task_type(card_text, day_task_text, "flight")
     next_day = has_next_day_marker(card_text)
+
     if not flight_no or not start_time or not end_time:
         return None
+
     start_dt, valid_start = make_datetime_safe(year, month, day_num, start_time)
     end_dt, valid_end = make_datetime_safe(year, month, day_num, end_time)
     if not valid_start or not valid_end:
         return None
+
     diff_minutes = (end_dt - start_dt).total_seconds() / 60
     if next_day or diff_minutes < 0:
         end_dt += timedelta(days=1)
+
     return {
         "day_header": day_header,
         "task_type": task_type,
@@ -1188,6 +1237,7 @@ def build_title(item: dict) -> str:
     title_text = item.get("title_text", "").strip()
     cross_day = item["end_dt"].date() > item["start_dt"].date()
     suffix = "(+1)" if cross_day else ""
+
     if flight_no:
         if dep_cn and arr_cn:
             return f"{icon} {flight_no} {dep_cn}→{arr_cn}{suffix}"
@@ -1198,9 +1248,11 @@ def build_title(item: dict) -> str:
         if dep and arr:
             return f"{icon} {flight_no} {dep}-{arr}{suffix}"
         return f"{icon} {flight_no}"
+
     if item["task_type"] == "停飞":
         clean_title = re.sub(r"\s*00:00\s*[~～\-–—]\s*(17:30|23:59)\s*$", "", title_text).strip()
         return f"{icon} {clean_title or '停飞 Grounding'}"
+
     if dep_cn and arr_cn:
         return f"{icon} {dep_cn}→{arr_cn}{suffix}"
     if dep and arr:
@@ -1212,39 +1264,48 @@ def build_title(item: dict) -> str:
 
 def build_description(item: dict) -> str:
     lines = [item["day_header"], f"类型：{item['task_type']}"]
+
     if item["flight_no"]:
         lines.append(f"航班：{item['flight_no']}")
     elif item.get("title_text"):
         lines.append(f"事项：{item['title_text']}")
+
     if item["dep_cn"] and item["arr_cn"]:
         cross = "(+1)" if item["end_dt"].date() > item["start_dt"].date() else ""
         lines.append(f"航线：{item['dep_cn']} → {item['arr_cn']}{cross}")
     elif item["dep"] and item["arr"]:
         cross = "(+1)" if item["end_dt"].date() > item["start_dt"].date() else ""
         lines.append(f"航线：{item['dep']} → {item['arr']}{cross}")
+
     if item["location"]:
         lines.append(f"地点：{item['location']}")
+
     if item["checkin_time"] and item["checkin_place"]:
         lines.append(f"签到：{item['checkin_time']}｜{item['checkin_place']}")
     elif item["checkin_time"]:
         lines.append(f"签到：{item['checkin_time']}")
+
     lines.append(f"任务：{item['start_time']} - {item['end_time']}")
+
     if item["model"] and item["reg"]:
         lines.append(f"机型：{item['model']}｜注册号：{item['reg']}")
     elif item["model"]:
         lines.append(f"机型：{item['model']}")
     elif item["reg"]:
         lines.append(f"注册号：{item['reg']}")
+
     if item["extra_lines"]:
         lines.append("")
         lines.append("说明：")
         for x in item["extra_lines"]:
             lines.append(f"• {x}")
+
     if item["people_lines"]:
         lines.append("")
         lines.append("人员名单：")
         for p in item["people_lines"]:
             lines.append(f"• {p}")
+
     return "\n".join(lines)
 
 
@@ -1287,6 +1348,7 @@ def build_vevent(item: dict, version_tag: str = "") -> str:
     desc = build_description(item)
     if version_tag:
         desc = f"{desc}\n\n版本：{version_tag}"
+
     alarm_desc = f"{item['flight_no']} 签到提醒" if item["flight_no"] else f"{item.get('title_text', '任务')} 提醒"
     uid_base = stable_uid_seed(item)
     lines = [
@@ -1316,23 +1378,8 @@ def extract_uid_from_vevent(vevent: str) -> str:
     return m.group(1).strip() if m else ""
 
 
-def extract_summary_from_vevent(vevent: str) -> str:
-    m = re.search(r"^SUMMARY:(.+)$", vevent, flags=re.M)
-    return m.group(1).strip() if m else ""
-
-
-def extract_description_from_vevent(vevent: str) -> str:
-    m = re.search(r"^DESCRIPTION:(.+)$", vevent, flags=re.M)
-    return m.group(1).strip() if m else ""
-
-
 def extract_dtstart_from_vevent(vevent: str) -> str:
     m = re.search(r"^DTSTART(?:;[^:]+)?:([0-9T]+)$", vevent, flags=re.M)
-    return m.group(1).strip() if m else "99999999T999999"
-
-
-def extract_dtend_from_vevent(vevent: str) -> str:
-    m = re.search(r"^DTEND(?:;[^:]+)?:([0-9T]+)$", vevent, flags=re.M)
     return m.group(1).strip() if m else "99999999T999999"
 
 
@@ -1360,9 +1407,6 @@ def event_quality(item: dict) -> int:
         score += 10
     if item.get("title_text"):
         score += 10
-    title = normalize_text(item.get("title_text", ""))
-    if title:
-        score -= max(0, len(title) - 18)
     return score
 
 
@@ -1389,11 +1433,17 @@ def write_calendar_from_vevents(filename: str, vevents: list) -> bool:
         uid = extract_uid_from_vevent(block)
         if uid:
             unique[uid] = block.strip()
-    ordered = sorted(unique.values(), key=lambda x: (extract_dtstart_from_vevent(x), extract_uid_from_vevent(x)))
+
+    ordered = sorted(
+        unique.values(),
+        key=lambda x: (extract_dtstart_from_vevent(x), extract_uid_from_vevent(x)),
+    )
+
     content = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Crew Calendar//CN"]
     content.extend(ordered)
     content.append("END:VCALENDAR")
     final_text = "\n".join(content)
+
     old_text = None
     if os.path.exists(filename):
         try:
@@ -1401,67 +1451,15 @@ def write_calendar_from_vevents(filename: str, vevents: list) -> bool:
                 old_text = f.read()
         except Exception:
             pass
+
     if old_text == final_text:
         logger.info(f"{filename} 内容未变化")
         return False
+
     with open(filename, "w", encoding="utf-8") as f:
         f.write(final_text)
     logger.info(f"写入 {filename}: {len(ordered)} 个事件")
     return True
-
-
-def normalize_similarity_title(text: str) -> str:
-    text = normalize_text(text)
-    text = re.sub(r"\s*00:00\s*[~～\-–—]\s*(17:30|23:59)", "", text)
-    text = text.replace(" ", "")
-    return text
-
-
-def is_training_bad_block(block: str) -> bool:
-    desc = extract_description_from_vevent(block).replace(r"\n", "\n")
-    bad_tokens = [
-        "人员名单：\n• 段洋",
-        "人员名单：\n• 张子",
-        "人员名单：\n• 徐帆丁",
-        "人员名单：\n• 金雄张",
-        "个起落",
-    ]
-    return any(token in desc for token in bad_tokens)
-
-
-def is_obviously_bad_old_block(block: str) -> bool:
-    summary = extract_summary_from_vevent(block)
-    desc = extract_description_from_vevent(block).replace(r"\n", "\n")
-    bad_patterns = ["段洋", "张子", "徐帆丁", "金雄张", "个起落"]
-    return any(x in summary for x in bad_patterns) or any(x in desc for x in bad_patterns)
-
-
-def are_high_confidence_duplicates(block_a: str, block_b: str) -> bool:
-    if extract_dtstart_from_vevent(block_a) != extract_dtstart_from_vevent(block_b):
-        return False
-    if extract_dtend_from_vevent(block_a) != extract_dtend_from_vevent(block_b):
-        return False
-    sum_a = normalize_similarity_title(extract_summary_from_vevent(block_a))
-    sum_b = normalize_similarity_title(extract_summary_from_vevent(block_b))
-    if not sum_a or not sum_b:
-        return False
-    if sum_a == sum_b:
-        return True
-    if ("停飞" in sum_a and "停飞" in sum_b) and ("grounding" in sum_a.lower() and "grounding" in sum_b.lower()):
-        return True
-    return False
-
-
-def block_quality(block: str) -> int:
-    summary = normalize_text(extract_summary_from_vevent(block))
-    desc = extract_description_from_vevent(block).replace(r"\n", "\n")
-    score = len(summary) + min(80, len(desc) // 8)
-    for token in ["地点：", "人员名单：", "航线：", "签到：", "机型：", "注册号："]:
-        if token in desc:
-            score += 10
-    if is_obviously_bad_old_block(block) or is_training_bad_block(block):
-        score -= 100
-    return score
 
 
 def prepare_items(day_blocks, page_year: int) -> list:
@@ -1476,6 +1474,7 @@ def prepare_items(day_blocks, page_year: int) -> list:
                 item = parse_generic_card(card["text"], day_header, page_year, day_block)
             if item:
                 raw_items.append(item)
+
     best_map = {}
     for item in raw_items:
         key = exact_content_signature(item)
@@ -1483,6 +1482,7 @@ def prepare_items(day_blocks, page_year: int) -> list:
         item["quality"] = q
         if key not in best_map or q > best_map[key]["quality"]:
             best_map[key] = item
+
     items = list(best_map.values())
     items.sort(key=lambda x: (x["start_dt"], build_title(x)))
     return items
@@ -1492,59 +1492,44 @@ def build_version_tag() -> str:
     return datetime.now(SH_TZ).strftime("%Y-%m-%d %H:%M")
 
 
-def conservative_cleanup_blocks(blocks: list) -> list:
-    filtered = [b for b in blocks if not is_obviously_bad_old_block(b)]
-    groups = {}
-    for block in filtered:
-        key = (extract_dtstart_from_vevent(block), extract_dtend_from_vevent(block))
-        groups.setdefault(key, []).append(block)
-    final_blocks = []
-    for _, group in groups.items():
-        if len(group) == 1:
-            final_blocks.extend(group)
-            continue
-        used = set()
-        for i, a in enumerate(group):
-            if i in used:
-                continue
-            dup_cluster = [a]
-            used.add(i)
-            for j in range(i + 1, len(group)):
-                if j in used:
-                    continue
-                b = group[j]
-                if are_high_confidence_duplicates(a, b):
-                    dup_cluster.append(b)
-                    used.add(j)
-            if len(dup_cluster) == 1:
-                final_blocks.append(a)
-            else:
-                best = max(dup_cluster, key=block_quality)
-                final_blocks.append(best)
-    final_blocks.sort(key=lambda x: (extract_dtstart_from_vevent(x), extract_uid_from_vevent(x)))
-    return final_blocks
-
-
 def create_multi_calendars_from_blocks(day_blocks, page_year: int):
     items = prepare_items(day_blocks, page_year)
     version_tag = build_version_tag()
-    buckets = {"flight": [], "positioning": [], "training": [], "ferry": [], "other": []}
+
+    buckets = {
+        "flight": [],
+        "positioning": [],
+        "training": [],
+        "ferry": [],
+        "other": [],
+    }
+
     for item in items:
         buckets[task_bucket(item["task_type"])].append(item)
-    total_items = buckets["flight"] + buckets["positioning"] + buckets["training"] + buckets["ferry"] + buckets["other"]
+
+    total_items = (
+        buckets["flight"]
+        + buckets["positioning"]
+        + buckets["training"]
+        + buckets["ferry"]
+        + buckets["other"]
+    )
     total_items.sort(key=lambda x: (x["start_dt"], build_title(x)))
 
     def merge_history(filename: str, bucket_items: list):
         existing_map = read_existing_events(filename)
         new_blocks = [build_vevent(item, version_tag=version_tag) for item in bucket_items]
+
         merged_map = dict(existing_map)
         for block in new_blocks:
             uid = extract_uid_from_vevent(block)
             if uid:
                 merged_map[uid] = block
-        return conservative_cleanup_blocks(list(merged_map.values()))
+
+        return list(merged_map.values())
 
     changed_root = False
+
     changed_root |= write_calendar_from_vevents("flight.ics", merge_history("flight.ics", buckets["flight"]))
     changed_root |= write_calendar_from_vevents("positioning.ics", merge_history("positioning.ics", buckets["positioning"]))
     changed_root |= write_calendar_from_vevents("training.ics", merge_history("training.ics", buckets["training"]))
@@ -1552,15 +1537,33 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
     changed_root |= write_calendar_from_vevents("other.ics", merge_history("other.ics", buckets["other"]))
     changed_root |= write_calendar_from_vevents("crew_schedule.ics", merge_history("crew_schedule.ics", total_items))
 
-    write_calendar_from_vevents(os.path.join(ARTIFACT_DIR, "flight.ics"), [build_vevent(item, version_tag=version_tag) for item in buckets["flight"]])
-    write_calendar_from_vevents(os.path.join(ARTIFACT_DIR, "positioning.ics"), [build_vevent(item, version_tag=version_tag) for item in buckets["positioning"]])
-    write_calendar_from_vevents(os.path.join(ARTIFACT_DIR, "training.ics"), [build_vevent(item, version_tag=version_tag) for item in buckets["training"]])
-    write_calendar_from_vevents(os.path.join(ARTIFACT_DIR, "ferry.ics"), [build_vevent(item, version_tag=version_tag) for item in buckets["ferry"]])
-    write_calendar_from_vevents(os.path.join(ARTIFACT_DIR, "other.ics"), [build_vevent(item, version_tag=version_tag) for item in buckets["other"]])
-    write_calendar_from_vevents(os.path.join(ARTIFACT_DIR, "crew_schedule.ics"), [build_vevent(item, version_tag=version_tag) for item in total_items])
+    write_calendar_from_vevents(
+        os.path.join(ARTIFACT_DIR, "flight.ics"),
+        [build_vevent(item, version_tag=version_tag) for item in buckets["flight"]],
+    )
+    write_calendar_from_vevents(
+        os.path.join(ARTIFACT_DIR, "positioning.ics"),
+        [build_vevent(item, version_tag=version_tag) for item in buckets["positioning"]],
+    )
+    write_calendar_from_vevents(
+        os.path.join(ARTIFACT_DIR, "training.ics"),
+        [build_vevent(item, version_tag=version_tag) for item in buckets["training"]],
+    )
+    write_calendar_from_vevents(
+        os.path.join(ARTIFACT_DIR, "ferry.ics"),
+        [build_vevent(item, version_tag=version_tag) for item in buckets["ferry"]],
+    )
+    write_calendar_from_vevents(
+        os.path.join(ARTIFACT_DIR, "other.ics"),
+        [build_vevent(item, version_tag=version_tag) for item in buckets["other"]],
+    )
+    write_calendar_from_vevents(
+        os.path.join(ARTIFACT_DIR, "crew_schedule.ics"),
+        [build_vevent(item, version_tag=version_tag) for item in total_items],
+    )
 
     save_text("changed_root_flag.txt", str(changed_root))
-    logger.info(f"本次抓到 {len(total_items)} 个任务；历史任务继续保留（仅清理高置信重复/旧坏条目）")
+    logger.info(f"本次抓到 {len(total_items)} 个任务；历史任务继续保留（不自动乱删旧事件）")
 
 
 def collect_day_blocks(page) -> list:
@@ -1576,7 +1579,10 @@ def collect_day_blocks(page) -> list:
             cards = split_day_block_into_cards(header, day_block)
             key = safe_name(header)
             save_text(f"block_{key}.txt", day_block)
-            save_text(f"cards_{key}.txt", "\n\n==========\n\n".join([f"[{c['kind']}]\n{c['text']}" for c in cards]))
+            save_text(
+                f"cards_{key}.txt",
+                "\n\n==========\n\n".join([f"[{c['kind']}]\n{c['text']}" for c in cards]),
+            )
             result.append({"day_header": header, "day_block": day_block, "cards": cards})
         except Exception as e:
             logger.error(f"处理日期 {header} 失败: {e}")
@@ -1600,6 +1606,7 @@ def run():
     logger.info("=" * 60)
     logger.info("开始执行航班日历爬虫")
     logger.info("=" * 60)
+
     if not USERNAME or not PASSWORD:
         raise RuntimeError("缺少环境变量：CREW_USERNAME / CREW_PASSWORD")
 
@@ -1614,28 +1621,37 @@ def run():
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                 "AppleWebKit/537.36 (KHTML, like Gecko) "
                 "Chrome/122.0.0.0 Safari/537.36"
-            )
+            ),
         )
         page = context.new_page()
         page.set_default_timeout(90000)
         page.set_default_navigation_timeout(90000)
+
         try:
             login(page, max_retries=10)
+
             page.screenshot(path=os.path.join(ARTIFACT_DIR, "after_login.png"), full_page=True)
             save_text("after_login.txt", page_text(page))
+
             open_mission_page(page)
+
             page.screenshot(path=os.path.join(ARTIFACT_DIR, "mission_page_ready.png"), full_page=True)
             save_text("mission_body_text.txt", page_text(page))
+
             page_year = detect_page_year(page)
             save_text("page_year.txt", str(page_year))
             logger.info(f"页面年份: {page_year}")
+
             day_blocks = collect_day_blocks(page)
             if not day_blocks:
                 raise RuntimeError("未抓到任何任务块，停止写入，保护现有 ICS")
+
             create_multi_calendars_from_blocks(day_blocks, page_year)
+
             logger.info("=" * 60)
             logger.info("执行完成！")
             logger.info("=" * 60)
+
         except Exception as e:
             logger.error(f"执行出错: {e}", exc_info=True)
             raise
