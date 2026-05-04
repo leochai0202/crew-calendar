@@ -91,6 +91,27 @@ KNOWN_PEOPLE = [
     "段洋硕",
 ]
 
+COMMON_SURNAMES = {
+    "赵", "钱", "孙", "李", "周", "吴", "郑", "王", "冯", "陈", "褚", "卫", "蒋", "沈", "韩", "杨",
+    "朱", "秦", "尤", "许", "何", "吕", "施", "张", "孔", "曹", "严", "华", "金", "魏", "陶", "姜",
+    "戚", "谢", "邹", "喻", "柏", "水", "窦", "章", "云", "苏", "潘", "葛", "奚", "范", "彭", "郎",
+    "鲁", "韦", "昌", "马", "苗", "凤", "花", "方", "俞", "任", "袁", "柳", "酆", "鲍", "史", "唐",
+    "费", "廉", "岑", "薛", "雷", "贺", "倪", "汤", "滕", "殷", "罗", "毕", "郝", "邬", "安", "常",
+    "乐", "于", "时", "傅", "皮", "卞", "齐", "康", "伍", "余", "元", "卜", "顾", "孟", "平", "黄",
+    "和", "穆", "萧", "尹", "姚", "邵", "湛", "汪", "祁", "毛", "禹", "狄", "米", "贝", "明", "臧",
+    "计", "伏", "成", "戴", "谈", "宋", "茅", "庞", "熊", "纪", "舒", "屈", "项", "祝", "董", "梁",
+    "杜", "阮", "蓝", "闵", "席", "季", "麻", "强", "贾", "路", "娄", "危", "江", "童", "颜", "郭",
+    "梅", "盛", "林", "刁", "钟", "徐", "丘", "骆", "高", "夏", "蔡", "田", "樊", "胡", "凌", "霍",
+    "虞", "万", "支", "柯", "昝", "管", "卢", "莫", "经", "房", "裘", "缪", "干", "解", "应", "宗",
+    "丁", "宣", "贲", "邓", "郁", "单", "杭", "洪", "包", "诸", "左", "石", "崔", "吉", "钮", "龚",
+    "程", "嵇", "邢", "滑", "裴", "陆", "荣", "翁", "荀", "羊", "於", "惠", "甄", "曲", "家", "封",
+    "芮", "羿", "储", "靳", "汲", "邴", "糜", "松", "井", "段", "富", "巫", "乌", "焦", "巴", "弓",
+    "牧", "隗", "山", "谷", "车", "侯", "宓", "蓬", "全", "郗", "班", "仰", "秋", "仲", "伊", "宫",
+    "宁", "仇", "栾", "暴", "甘", "钭", "厉", "戎", "祖", "武", "符", "刘", "景", "詹", "束", "龙",
+    "叶", "幸", "司", "韶", "郜", "黎", "蓟", "薄", "印", "宿", "白", "怀", "蒲", "台", "从", "鄂",
+    "索", "咸", "籍", "赖", "卓", "蔺", "屠", "蒙", "池", "乔", "阴", "郁", "胥", "能", "苍", "双"
+}
+
 FLIGHT_NO_RE = re.compile(r"9C\d{3,4}[A-Z]?")
 REG_MODEL_RE = re.compile(r"^B[0-9A-Z]{4,5}A(?:319|320|321)$")
 REG_AND_MODEL_RE = re.compile(r"\b(B[0-9A-Z]{4,5})(A319|A320|A321)\b")
@@ -693,13 +714,11 @@ def looks_like_generic_chunk(lines: list) -> bool:
             if is_flight_line(line) and is_reg_model_line(lines[i + 1]):
                 return False
 
-    # 旧规则：标题和时间同一行
     for line in lines:
         prefix, st, et, suffix = split_prefix_time_suffix(line)
         if st and et and prefix and not FLIGHT_NO_RE.search(prefix):
             return True
 
-    # 新规则：上一行是标题，下一行是时间地点
     for i in range(len(lines) - 1):
         title_line = normalize_text(lines[i])
         time_line = normalize_text(lines[i + 1])
@@ -771,7 +790,6 @@ def split_day_block_into_cards(day_header: str, day_block: str) -> list:
 
         cards.append({"kind": "flight", "text": chunk})
 
-    # 如果 flight 分完后尾部还存在 generic，也补抓
     if flight_starts:
         last_start = flight_starts[-1]
         tail_lines = clean_tail_noise(lines[last_start + 1:])
@@ -1114,6 +1132,106 @@ def split_people_from_line_flight(line: str) -> list:
     return cleaned
 
 
+def likely_name_block_generic(line: str) -> bool:
+    line = normalize_text(line)
+    if not line:
+        return False
+    if any(x in line for x in TRANSPORT_HINT_WORDS):
+        return False
+    if time_range_search(line):
+        return False
+    if "→" in line or "->" in line:
+        return False
+    if MODEL_ONLY_RE.fullmatch(line):
+        return False
+    if line in ROLE_WORDS:
+        return False
+    if line in GENERIC_SKIP_WORDS:
+        return False
+    if any(x in line for x in ["理论课", "模拟机", "熟练检查", "复训", "训练", "课程"]):
+        return False
+    if not re.fullmatch(r"[\u4e00-\u9fff]{2,40}", line):
+        return False
+    return True
+
+
+def split_continuous_chinese_names_generic(line: str) -> list:
+    """
+    用于训练/考勤等 generic 场景下的连续中文姓名串拆分。
+    规则：
+    - 优先命中已知姓名
+    - 其次按中文姓名 2~3 字拆分
+    - 优先姓氏+2字名；也允许 2 字姓名
+    """
+    s = normalize_text(line)
+    if not s:
+        return []
+
+    if not likely_name_block_generic(s):
+        return []
+
+    known_sorted = sorted(set(KNOWN_PEOPLE), key=len, reverse=True)
+
+    memo = {}
+
+    def dfs(i: int):
+        if i == len(s):
+            return []
+        if i in memo:
+            return memo[i]
+
+        best = None
+
+        # 1) 先试已知姓名
+        for name in known_sorted:
+            if s.startswith(name, i):
+                tail = dfs(i + len(name))
+                if tail is not None:
+                    cand = [name] + tail
+                    if best is None or len(cand) < len(best):
+                        best = cand
+
+        # 2) 再试 3 字姓名（姓+2字名）
+        if i + 3 <= len(s):
+            piece = s[i:i + 3]
+            if piece[0] in COMMON_SURNAMES:
+                tail = dfs(i + 3)
+                if tail is not None:
+                    cand = [piece] + tail
+                    if best is None or len(cand) < len(best):
+                        best = cand
+
+        # 3) 再试 2 字姓名
+        if i + 2 <= len(s):
+            piece = s[i:i + 2]
+            if piece[0] in COMMON_SURNAMES:
+                tail = dfs(i + 2)
+                if tail is not None:
+                    cand = [piece] + tail
+                    if best is None or len(cand) < len(best):
+                        best = cand
+
+        memo[i] = best
+        return best
+
+    result = dfs(0)
+    if not result:
+        return []
+
+    cleaned = []
+    for name in result:
+        name = normalize_text(name)
+        if not name:
+            continue
+        if name in ROLE_WORDS or name in GENERIC_SKIP_WORDS or name in GENERIC_TASK_WORDS:
+            return []
+        if not re.fullmatch(r"[\u4e00-\u9fff]{2,3}", name):
+            return []
+        cleaned.append(name)
+
+    return cleaned
+
+
 def split_people_from_line_generic(line: str) -> list:
     line = normalize_text(line)
     if not line:
@@ -1146,7 +1264,9 @@ def split_people_from_line_generic(line: str) -> list:
             results.append(m)
             seen.add(m)
 
+    # 先试正常分隔模式
     parts = re.split(r"[\s,，、/]+", line)
+    split_hit = False
     for part in parts:
         part = normalize_text(part)
         if not part:
@@ -1163,6 +1283,15 @@ def split_people_from_line_generic(line: str) -> list:
             if part not in seen:
                 results.append(part)
                 seen.add(part)
+                split_hit = True
+
+    # 如果没有通过分隔符拿到足够名字，再尝试“整串连续中文姓名”拆分
+    if not split_hit and likely_name_block_generic(line):
+        continuous = split_continuous_chinese_names_generic(line)
+        for name in continuous:
+            if name not in seen:
+                results.append(name)
+                seen.add(name)
 
     return results
 
@@ -1296,7 +1425,6 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
     time_line_idx = None
     route_line = ""
 
-    # 先找“标题和时间同一行”的情况
     for idx, line in enumerate(lines):
         prefix, st, et, suffix = split_prefix_time_suffix(line)
         if st and et:
@@ -1310,7 +1438,6 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
             consumed_idx.add(idx)
             break
 
-    # 再支持“上一行标题，下一行时间地点”
     if time_line_idx is None:
         for idx in range(1, len(lines)):
             prev_line = normalize_text(lines[idx - 1])
@@ -1869,7 +1996,6 @@ def is_broken_old_summary_for_item(old_summary: str, item: dict, old_block: str 
         if old_no_icon in {"摆渡", "置位", "训练", "其他"} and "→" in correct_summary:
             return True
 
-        # 训练旧坏版本自动清理
         if item["task_type"] == "训练" and old_block and is_bad_training_event_block(old_block):
             return True
 
