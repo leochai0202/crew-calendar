@@ -31,7 +31,7 @@ ARTIFACT_DIR = "debug_output"
 AIRPORT_ALIASES_FILE = "airport_aliases.json"
 SH_TZ = ZoneInfo("Asia/Shanghai")
 
-MAX_DAYS = 7
+MAX_DAYS = 0  # 0 = 不限制，配合“查看更多”抓全量
 HEADLESS = os.environ.get("HEADLESS", "1") != "0"
 ALARM_MINUTES = 90
 
@@ -504,6 +504,85 @@ def get_day_headers(page) -> list:
     return out
 
 
+def get_load_more_labels(page) -> list:
+    text = page_text(page)
+    labels = []
+    for line in text.splitlines():
+        line = normalize_text(line)
+        if "查看更多" in line and re.search(r"\d{4}-\d{2}-\d{2}", line):
+            labels.append(line)
+    return labels
+
+
+def click_load_more(page) -> bool:
+    labels = get_load_more_labels(page)
+    if not labels:
+        return False
+
+    last_label = labels[-1]
+    logger.info(f"尝试点击查看更多: {last_label}")
+
+    try:
+        locator = page.locator(f"text={last_label}").first
+        locator.scroll_into_view_if_needed(timeout=3000)
+        random_like_wait(page, 600, 300)
+        locator.click(timeout=4000)
+        random_like_wait(page, 2200, 1200)
+        return True
+    except Exception:
+        pass
+
+    try:
+        locator = page.locator("text=查看更多").last
+        locator.scroll_into_view_if_needed(timeout=3000)
+        random_like_wait(page, 600, 300)
+        locator.click(timeout=4000)
+        random_like_wait(page, 2200, 1200)
+        return True
+    except Exception:
+        pass
+
+    return False
+
+
+def load_all_visible_tasks(page, max_rounds: int = 30):
+    seen_header_counts = []
+    for round_no in range(1, max_rounds + 1):
+        headers_before = get_day_headers(page)
+        load_more_before = get_load_more_labels(page)
+        save_text(f"load_more_round_{round_no}_before.txt", "\n".join(load_more_before))
+        logger.info(f"第 {round_no} 轮加载前: 日期头 {len(headers_before)} 个, 查看更多 {len(load_more_before)} 个")
+
+        signature_before = (len(headers_before), tuple(headers_before[-5:]), tuple(load_more_before[-3:]))
+
+        if not load_more_before:
+            logger.info("页面已无查看更多，停止扩展加载")
+            return
+
+        clicked = click_load_more(page)
+        if not clicked:
+            logger.info("未能点击查看更多，停止扩展加载")
+            return
+
+        headers_after = get_day_headers(page)
+        load_more_after = get_load_more_labels(page)
+        save_text(f"load_more_round_{round_no}_after.txt", "\n".join(load_more_after))
+        logger.info(f"第 {round_no} 轮加载后: 日期头 {len(headers_after)} 个, 查看更多 {len(load_more_after)} 个")
+
+        signature_after = (len(headers_after), tuple(headers_after[-5:]), tuple(load_more_after[-3:]))
+        seen_header_counts.append(signature_after)
+
+        if signature_after == signature_before:
+            logger.info("点击查看更多后没有新增内容，停止扩展加载")
+            return
+
+        if len(seen_header_counts) >= 2 and seen_header_counts[-1] == seen_header_counts[-2]:
+            logger.info("页面内容连续两轮未变化，停止扩展加载")
+            return
+
+    logger.info("达到最大查看更多轮数，停止扩展加载")
+
+
 def click_day_toggle(page, header: str) -> bool:
     row = page.locator(f"text={header}").first
     box = row.bounding_box()
@@ -687,6 +766,7 @@ def split_day_block_into_cards(day_header: str, day_block: str) -> list:
 
     flight_starts = sorted(set(flight_starts))
     cards = []
+
     if not flight_starts:
         if looks_like_generic_chunk(lines):
             cards.append({"kind": "generic", "text": "\n".join(lines).strip()})
@@ -708,6 +788,7 @@ def split_day_block_into_cards(day_header: str, day_block: str) -> list:
         chunk = "\n".join(filtered).strip()
         if chunk and time_range_search(chunk) and FLIGHT_NO_RE.search(chunk):
             cards.append({"kind": "flight", "text": chunk})
+
     return cards
 
 
@@ -910,9 +991,11 @@ def extract_people_lines_flight(card_text: str) -> list:
             continue
         if re.fullmatch(r"\d{2}:\d{2}", line) or len(line) == 1:
             continue
+
         for name in KNOWN_PEOPLE:
             if name in line and name not in out:
                 out.append(name)
+
         for p in re.split(r"[\s　,，、/]+", line):
             p = normalize_text(p)
             if not p or p in ROLE_WORDS or p in TASK_TITLE_WORDS:
@@ -920,6 +1003,7 @@ def extract_people_lines_flight(card_text: str) -> list:
             if re.fullmatch(r"[\u4e00-\u9fff]{2,6}", p) or LATIN_PERSON_RE.fullmatch(p) or re.fullmatch(r"[\u4e00-\u9fff]{2,4}\([^)]*\)", p):
                 if p not in out:
                     out.append(p)
+
     return out
 
 
@@ -936,6 +1020,7 @@ def _parse_ferry_route_from_description(desc: str):
     found_airports.sort(key=lambda x: x[0])
     if len(found_airports) >= 2:
         return found_airports[0][1], found_airports[-1][1]
+
     for keyword in ["去", "前往", "至"]:
         if keyword in desc:
             left_part, right_part = desc.split(keyword, 1)
@@ -1519,13 +1604,11 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
     def merge_history(filename: str, bucket_items: list):
         existing_map = read_existing_events(filename)
         new_blocks = [build_vevent(item, version_tag=version_tag) for item in bucket_items]
-
         merged_map = dict(existing_map)
         for block in new_blocks:
             uid = extract_uid_from_vevent(block)
             if uid:
                 merged_map[uid] = block
-
         return list(merged_map.values())
 
     changed_root = False
@@ -1567,8 +1650,11 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
 
 
 def collect_day_blocks(page) -> list:
+    load_all_visible_tasks(page)
+
     day_headers = get_day_headers(page)
     save_text("day_headers.txt", "\n".join(day_headers))
+
     result = []
     for idx, header in enumerate(day_headers):
         next_header = day_headers[idx + 1] if idx + 1 < len(day_headers) else None
@@ -1588,6 +1674,7 @@ def collect_day_blocks(page) -> list:
             logger.error(f"处理日期 {header} 失败: {e}")
         finally:
             collapse_day(page, header)
+
     logger.info(f"收集了 {len(result)} 个日期的数据")
     return result
 
