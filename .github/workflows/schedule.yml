@@ -31,13 +31,13 @@ jobs:
       - name: Install Python packages
         run: |
           python -m pip install --upgrade pip
-          pip install pillow pytesseract playwright
-          python -m playwright install chromium
+          pip install ddddocr pillow pytesseract playwright
+          playwright install chromium
 
       - name: Run scraper
         env:
-          USERNAME: ${{ secrets.USERNAME }}
-          PASSWORD: ${{ secrets.PASSWORD }}
+          CREW_USERNAME: ${{ secrets.CREW_USERNAME }}
+          CREW_PASSWORD: ${{ secrets.CREW_PASSWORD }}
           HEADLESS: "1"
         run: |
           python main.py
