@@ -3,6 +3,10 @@ name: Update Crew Calendar
 on:
   workflow_dispatch:
   schedule:
+    # GitHub Actions 使用 UTC
+    # 北京时间 17:30 = UTC 09:30
+    # 北京时间 18:30 = UTC 10:30
+    # 北京时间 19:30 = UTC 11:30
     - cron: '30 9 * * *'
     - cron: '30 10 * * *'
     - cron: '30 11 * * *'
@@ -28,27 +32,13 @@ jobs:
       - name: Install system packages
         run: |
           sudo apt-get update
-          sudo apt-get install -y \
-            tesseract-ocr \
-            libglib2.0-0 \
-            libnss3 \
-            libatk1.0-0 \
-            libatk-bridge2.0-0 \
-            libcups2 \
-            libdrm2 \
-            libxkbcommon0 \
-            libxcomposite1 \
-            libxdamage1 \
-            libxfixes3 \
-            libxrandr2 \
-            libgbm1 \
-            libasound2
+          sudo apt-get install -y tesseract-ocr
 
       - name: Install Python packages
         run: |
           python -m pip install --upgrade pip
           pip install pillow pytesseract playwright ddddocr
-          playwright install chromium
+          playwright install --with-deps chromium
 
       - name: Run scraper
         env:
@@ -79,5 +69,4 @@ jobs:
           fi
 
           git commit -m "Update crew calendar"
-          git pull --rebase origin main
-          git push origin main
+          git push
