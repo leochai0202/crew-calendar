@@ -123,6 +123,7 @@ KNOWN_PEOPLE = [
     "杨刚",
     "鲍国际",
     "许晓君",
+    "张晨昕",
 ]
 
 FLIGHT_NO_RE = re.compile(r"9C\d{3,4}[A-Z]?")
@@ -548,9 +549,9 @@ def load_all_visible_tasks(page, max_rounds: int = LOAD_MORE_MAX_ROUNDS):
     for round_no in range(1, max_rounds + 1):
         headers_before = get_day_headers(page)
         more_before = get_load_more_labels(page)
+
         save_text(f"load_round_{round_no}_headers_before.txt", "\n".join(headers_before))
         save_text(f"load_round_{round_no}_more_before.txt", "\n".join(more_before))
-        logger.info(f"第 {round_no} 轮加载前: 日期头 {len(headers_before)} 个, 查看更多 {len(more_before)} 个")
 
         signature_before = (
             len(headers_before),
@@ -558,6 +559,7 @@ def load_all_visible_tasks(page, max_rounds: int = LOAD_MORE_MAX_ROUNDS):
             len(more_before),
             tuple(more_before[-5:]),
         )
+
         if not more_before:
             logger.info("没有查看更多了")
             return
@@ -568,9 +570,9 @@ def load_all_visible_tasks(page, max_rounds: int = LOAD_MORE_MAX_ROUNDS):
 
         headers_after = get_day_headers(page)
         more_after = get_load_more_labels(page)
+
         save_text(f"load_round_{round_no}_headers_after.txt", "\n".join(headers_after))
         save_text(f"load_round_{round_no}_more_after.txt", "\n".join(more_after))
-        logger.info(f"第 {round_no} 轮加载后: 日期头 {len(headers_after)} 个, 查看更多 {len(more_after)} 个")
 
         signature_after = (
             len(headers_after),
@@ -578,6 +580,7 @@ def load_all_visible_tasks(page, max_rounds: int = LOAD_MORE_MAX_ROUNDS):
             len(more_after),
             tuple(more_after[-5:]),
         )
+
         if signature_after == signature_before or signature_after == prev_signature:
             logger.info("点了查看更多但页面签名没继续变化，停止扩展")
             return
@@ -726,7 +729,6 @@ def task_bucket(task_type: str) -> str:
         "置位": "positioning",
         "训练": "training",
         "摆渡": "ferry",
-        "停飞": "other",
     }.get(task_type, "other")
 
 
@@ -1080,142 +1082,12 @@ def contains_suspicious_half_name(token: str) -> bool:
     m_role = SHORT_ROLE_RE.search(token)
     if m_role:
         token = token.replace(m_role.group(0), "")
-
     if len(token) <= 1:
         return True
-
     risky_prefixes = {"段洋", "张子"}
     if token in risky_prefixes:
         return True
-
     return False
-
-
-def score_compact_split(tokens: list) -> int:
-    score = 0
-    anchor_count = 0
-    role_count = 0
-    for t in tokens:
-        base = t
-        if SHORT_ROLE_RE.search(t):
-            role_count += 1
-            base = SHORT_ROLE_RE.sub("", t)
-        if base in KNOWN_PEOPLE:
-            anchor_count += 1
-            score += 10
-        if len(base) == 3:
-            score += 4
-        elif len(base) == 2:
-            score += 2
-        elif len(base) == 4:
-            score += 1
-
-    score += role_count * 3
-    score += anchor_count * 5
-    score -= max(0, len(tokens) - 3)
-    return score
-
-
-def compact_people_candidates(text: str) -> list:
-    text = standardize_people_text(text)
-    if not text:
-        return []
-    if len(text) > 16:
-        return []
-    if not re.fullmatch(r"[\u4e00-\u9fff()A-Z]+", text):
-        return []
-
-    anchor_tokens = set(KNOWN_PEOPLE)
-    for name in KNOWN_PEOPLE:
-        anchor_tokens.add(f"{name}(R)")
-
-    memo = {}
-
-    def dfs(idx: int):
-        if idx == len(text):
-            return [[]]
-        if idx in memo:
-            return memo[idx]
-
-        res = []
-
-        for tok in sorted(anchor_tokens, key=len, reverse=True):
-            if text.startswith(tok, idx):
-                for tail in dfs(idx + len(tok)):
-                    res.append([tok] + tail)
-
-        for ln in [2, 3, 4]:
-            if idx + ln <= len(text):
-                base = text[idx:idx + ln]
-                if re.fullmatch(r"[\u4e00-\u9fff]{2,4}", base):
-                    for tail in dfs(idx + ln):
-                        res.append([base] + tail)
-                    role = "(R)"
-                    if text.startswith(role, idx + ln):
-                        for tail in dfs(idx + ln + len(role)):
-                            res.append([base + role] + tail)
-
-        memo[idx] = res
-        return res
-
-    all_splits = dfs(0)
-    candidates = []
-
-    for tokens in all_splits:
-        if not tokens:
-            continue
-        if len(tokens) > 5:
-            continue
-        if "".join(tokens) != text:
-            continue
-        if not all(looks_like_person_token(x) for x in tokens):
-            continue
-        if any(contains_suspicious_half_name(x) for x in tokens):
-            continue
-
-        score = score_compact_split(tokens)
-        candidates.append((score, tokens))
-
-    unique = {}
-    for score, tokens in candidates:
-        key = tuple(tokens)
-        if key not in unique or score > unique[key]:
-            unique[key] = score
-
-    ranked = sorted(unique.items(), key=lambda kv: kv[1], reverse=True)
-    return [list(k) for k, _ in ranked]
-
-
-def smart_split_short_compact_people(line: str) -> list:
-    line = standardize_people_text(line)
-    if not line:
-        return []
-    if len(line) > 16:
-        return []
-    if has_clear_delimiters(line):
-        return []
-
-    candidates = compact_people_candidates(line)
-    if not candidates:
-        return []
-
-    best = candidates[0]
-    if len(best) <= 1:
-        return []
-
-    has_anchor = any(SHORT_ROLE_RE.sub("", x) in KNOWN_PEOPLE for x in best)
-    has_role = any(SHORT_ROLE_RE.search(x) for x in best)
-    all_normal_zh = all(re.fullmatch(r"[\u4e00-\u9fff]{2,4}(?:\([A-Z]\))?", x) for x in best)
-
-    if has_anchor or has_role:
-        return best
-
-    if 2 <= len(best) <= 4 and all_normal_zh:
-        pure_len = len(SHORT_ROLE_RE.sub("", line))
-        if pure_len <= 10:
-            return best
-
-    return []
 
 
 def parse_people_line_conservatively(line: str):
@@ -1244,38 +1116,23 @@ def parse_people_line_conservatively(line: str):
     if LATIN_PERSON_RE.fullmatch(line) or ZH_TAGGED_NAME_RE.fullmatch(line):
         return "split", [line]
 
-    if not has_clear_delimiters(line):
-        micro = smart_split_short_compact_people(line)
-        if micro:
-            return "split", micro
-
-        if re.fullmatch(r"[\u4e00-\u9fff]{2,4}(?:\([A-Z]\))?", line):
-            if contains_suspicious_half_name(line):
-                return "keep", [line]
-            return "split", [line]
-
-        if re.fullmatch(r"[\u4e00-\u9fff()A-Z]{4,80}", line):
-            return "keep", [line]
-
-        return "skip", []
-
     parts = split_by_clear_delimiters(line)
-    if not parts:
-        return "skip", []
-
-    valid = [p for p in parts if looks_like_person_token(p) and not contains_suspicious_half_name(p)]
-    if not valid:
-        return "skip", []
-
-    if len(valid) < len(parts):
-        ratio = len(valid) / max(1, len(parts))
-        if ratio < 0.8:
+    if parts and len(parts) >= 2:
+        valid = [p for p in parts if looks_like_person_token(p) and not contains_suspicious_half_name(p)]
+        if valid:
+            if len(valid) <= 20:
+                return "split", valid
             return "keep", [line]
 
-    if len(valid) <= 5:
-        return "split", valid
+    if re.fullmatch(r"[\u4e00-\u9fff]{2,4}(?:\([A-Z]\))?", line):
+        if contains_suspicious_half_name(line):
+            return "keep", [line]
+        return "split", [line]
 
-    return "keep", [line]
+    if re.fullmatch(r"[\u4e00-\u9fff()A-Z]{4,200}", line):
+        return "keep", [line]
+
+    return "skip", []
 
 
 def extract_people_lines_flight(card_text: str) -> list:
@@ -1348,8 +1205,6 @@ def is_probably_people_zone(line: str) -> bool:
     if any(w in line for w in TASK_TITLE_WORDS):
         return False
     if "地点" in line or "任务" in line or "事项" in line or "类型" in line:
-        return False
-    if re.search(r"[：:。，、]", line) and not has_clear_delimiters(line):
         return False
 
     mode, result = parse_people_line_conservatively(line)
@@ -1771,165 +1626,15 @@ def build_vevent(item: dict, version_tag: str = "") -> str:
     return "\n".join(lines)
 
 
-def extract_uid_from_vevent(vevent: str) -> str:
-    m = re.search(r"^UID:(.+)$", vevent, flags=re.M)
-    return m.group(1).strip() if m else ""
-
-
-def extract_summary_from_vevent(vevent: str) -> str:
-    m = re.search(r"^SUMMARY:(.+)$", vevent, flags=re.M)
-    return m.group(1).strip() if m else ""
-
-
-def extract_dtstart_from_vevent(vevent: str) -> str:
-    m = re.search(r"^DTSTART(?:;[^:]+)?:([0-9T]+)$", vevent, flags=re.M)
-    return m.group(1).strip() if m else "99999999T999999"
-
-
-def extract_dtend_from_vevent(vevent: str) -> str:
-    m = re.search(r"^DTEND(?:;[^:]+)?:([0-9T]+)$", vevent, flags=re.M)
-    return m.group(1).strip() if m else "99999999T999999"
-
-
-def extract_event_date_from_block(block: str) -> str:
-    dt = extract_dtstart_from_vevent(block)
-    return dt[:8] if len(dt) >= 8 else ""
-
-
-def normalize_similarity_title(text: str) -> str:
-    text = normalize_text(text)
-    text = re.sub(r"\s*00:00\s*[~～\-–—]\s*(17:30|23:59)", "", text)
-    text = text.replace(" ", "")
-    return text
-
-
-def are_high_confidence_duplicates(block_a: str, block_b: str) -> bool:
-    if extract_dtstart_from_vevent(block_a) != extract_dtstart_from_vevent(block_b):
-        return False
-    if extract_dtend_from_vevent(block_a) != extract_dtend_from_vevent(block_b):
-        return False
-
-    sa = normalize_similarity_title(extract_summary_from_vevent(block_a))
-    sb = normalize_similarity_title(extract_summary_from_vevent(block_b))
-    if not sa or not sb:
-        return False
-    if sa == sb:
-        return True
-
-    fa = FLIGHT_NO_RE.search(sa)
-    fb = FLIGHT_NO_RE.search(sb)
-    if fa and fb and fa.group(0) == fb.group(0):
-        return True
-
-    return False
-
-
-def block_quality(block: str) -> int:
-    score = 0
-    summary = normalize_text(extract_summary_from_vevent(block))
-    score += len(summary)
-    if "航班" in block:
-        score += 10
-    if "地点：" in block:
-        score += 10
-    if "航线：" in block:
-        score += 10
-    if "签到：" in block:
-        score += 10
-    if "机型：" in block:
-        score += 10
-    if "人员名单：" in block:
-        score += 10
-    return score
-
-
-def cleanup_duplicate_blocks(blocks: list) -> list:
-    groups = {}
-    for block in blocks:
-        key = (extract_dtstart_from_vevent(block), extract_dtend_from_vevent(block))
-        groups.setdefault(key, []).append(block)
-
-    final_blocks = []
-    for _, group in groups.items():
-        if len(group) == 1:
-            final_blocks.extend(group)
-            continue
-
-        used = set()
-        for i, a in enumerate(group):
-            if i in used:
-                continue
-            cluster = [a]
-            used.add(i)
-            for j in range(i + 1, len(group)):
-                if j in used:
-                    continue
-                b = group[j]
-                if are_high_confidence_duplicates(a, b):
-                    cluster.append(b)
-                    used.add(j)
-
-            best = max(cluster, key=block_quality)
-            final_blocks.append(best)
-
-    final_blocks.sort(key=lambda x: (extract_dtstart_from_vevent(x), extract_uid_from_vevent(x)))
-    return final_blocks
-
-
-def event_quality(item: dict) -> int:
-    score = 0
-    if item["flight_no"]:
-        score += 30
-    if item["dep"] or item["dep_cn"]:
-        score += 10
-    if item["arr"] or item["arr_cn"]:
-        score += 10
-    if item["dep_cn"] and item["arr_cn"]:
-        score += 10
-    if item["reg"]:
-        score += 10
-    if item["model"]:
-        score += 10
-    if item["checkin_time"]:
-        score += 10
-    if item["checkin_place"]:
-        score += 10
-    if item["location"]:
-        score += 10
-    if item["people_lines"]:
-        score += 10
-    if item.get("title_text"):
-        score += 10
-    return score
-
-
-def read_existing_events(filename: str) -> dict:
-    existing = {}
-    if not os.path.exists(filename):
-        return existing
-    try:
-        with open(filename, "r", encoding="utf-8") as f:
-            content = f.read()
-        blocks = re.findall(r"BEGIN:VEVENT\s.*?END:VEVENT", content, flags=re.S)
-        for block in blocks:
-            uid = extract_uid_from_vevent(block.strip())
-            if uid:
-                existing[uid] = block.strip()
-    except Exception as e:
-        logger.warning(f"读取现有事件失败: {e}")
-    return existing
-
-
-def write_calendar_from_vevents(filename: str, vevents: list) -> bool:
-    unique = {}
-    for block in vevents:
-        uid = extract_uid_from_vevent(block)
-        if uid:
-            unique[uid] = block.strip()
+def write_calendar_from_items(filename: str, items: list, version_tag: str):
+    vevents = [build_vevent(item, version_tag=version_tag) for item in items]
 
     ordered = sorted(
-        unique.values(),
-        key=lambda x: (extract_dtstart_from_vevent(x), extract_uid_from_vevent(x)),
+        vevents,
+        key=lambda x: (
+            re.search(r"DTSTART(?:;[^:]+)?:([0-9T]+)", x).group(1) if re.search(r"DTSTART(?:;[^:]+)?:([0-9T]+)", x) else "99999999T999999",
+            x,
+        ),
     )
 
     content = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Crew Calendar//CN"]
@@ -1937,22 +1642,10 @@ def write_calendar_from_vevents(filename: str, vevents: list) -> bool:
     content.append("END:VCALENDAR")
     final_text = "\n".join(content)
 
-    old_text = None
-    if os.path.exists(filename):
-        try:
-            with open(filename, "r", encoding="utf-8") as f:
-                old_text = f.read()
-        except Exception:
-            pass
-
-    if old_text == final_text:
-        logger.info(f"{filename} 内容未变化")
-        return False
-
     with open(filename, "w", encoding="utf-8") as f:
         f.write(final_text)
-    logger.info(f"写入 {filename}: {len(ordered)} 个事件")
-    return True
+
+    logger.info(f"写入 {filename}: {len(items)} 个事件")
 
 
 def prepare_items(day_blocks, page_year: int) -> list:
@@ -1971,38 +1664,36 @@ def prepare_items(day_blocks, page_year: int) -> list:
     best_map = {}
     for item in raw_items:
         key = exact_content_signature(item)
-        q = event_quality(item)
-        item["quality"] = q
-        if key not in best_map or q > best_map[key]["quality"]:
+        score = 0
+        if item["flight_no"]:
+            score += 30
+        if item["dep_cn"] or item["dep"]:
+            score += 10
+        if item["arr_cn"] or item["arr"]:
+            score += 10
+        if item["checkin_time"]:
+            score += 10
+        if item["location"]:
+            score += 10
+        if item["people_lines"]:
+            score += 10
+        if item.get("title_text"):
+            score += 10
+
+        if key not in best_map or score > best_map[key].get("_score", -1):
+            item["_score"] = score
             best_map[key] = item
 
     items = list(best_map.values())
+    for item in items:
+        item.pop("_score", None)
+
     items.sort(key=lambda x: (x["start_dt"], build_title(x)))
     return items
 
 
 def build_version_tag() -> str:
     return datetime.now(SH_TZ).strftime("%Y-%m-%d %H:%M")
-
-
-def merge_history_replace_scraped_dates(filename: str, bucket_items: list) -> list:
-    existing_map = read_existing_events(filename)
-    existing_blocks = list(existing_map.values())
-    new_blocks = [build_vevent(item, version_tag=build_version_tag()) for item in bucket_items]
-
-    scraped_dates = set()
-    for item in bucket_items:
-        scraped_dates.add(item["start_dt"].strftime("%Y%m%d"))
-
-    kept_old_blocks = []
-    for block in existing_blocks:
-        event_date = extract_event_date_from_block(block)
-        if event_date in scraped_dates:
-            continue
-        kept_old_blocks.append(block)
-
-    merged_blocks = kept_old_blocks + new_blocks
-    return cleanup_duplicate_blocks(merged_blocks)
 
 
 def create_multi_calendars_from_blocks(day_blocks, page_year: int):
@@ -2029,60 +1720,23 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
     )
     total_items.sort(key=lambda x: (x["start_dt"], build_title(x)))
 
-    changed_root = False
+    # 正式订阅文件：每次全量重写，不保留旧历史，彻底避免脏数据残留
+    write_calendar_from_items("flight.ics", buckets["flight"], version_tag)
+    write_calendar_from_items("positioning.ics", buckets["positioning"], version_tag)
+    write_calendar_from_items("training.ics", buckets["training"], version_tag)
+    write_calendar_from_items("ferry.ics", buckets["ferry"], version_tag)
+    write_calendar_from_items("other.ics", buckets["other"], version_tag)
+    write_calendar_from_items("crew_schedule.ics", total_items, version_tag)
 
-    changed_root |= write_calendar_from_vevents(
-        "flight.ics",
-        merge_history_replace_scraped_dates("flight.ics", buckets["flight"])
-    )
-    changed_root |= write_calendar_from_vevents(
-        "positioning.ics",
-        merge_history_replace_scraped_dates("positioning.ics", buckets["positioning"])
-    )
-    changed_root |= write_calendar_from_vevents(
-        "training.ics",
-        merge_history_replace_scraped_dates("training.ics", buckets["training"])
-    )
-    changed_root |= write_calendar_from_vevents(
-        "ferry.ics",
-        merge_history_replace_scraped_dates("ferry.ics", buckets["ferry"])
-    )
-    changed_root |= write_calendar_from_vevents(
-        "other.ics",
-        merge_history_replace_scraped_dates("other.ics", buckets["other"])
-    )
-    changed_root |= write_calendar_from_vevents(
-        "crew_schedule.ics",
-        merge_history_replace_scraped_dates("crew_schedule.ics", total_items)
-    )
+    # debug 目录保留一份
+    write_calendar_from_items(os.path.join(ARTIFACT_DIR, "flight.ics"), buckets["flight"], version_tag)
+    write_calendar_from_items(os.path.join(ARTIFACT_DIR, "positioning.ics"), buckets["positioning"], version_tag)
+    write_calendar_from_items(os.path.join(ARTIFACT_DIR, "training.ics"), buckets["training"], version_tag)
+    write_calendar_from_items(os.path.join(ARTIFACT_DIR, "ferry.ics"), buckets["ferry"], version_tag)
+    write_calendar_from_items(os.path.join(ARTIFACT_DIR, "other.ics"), buckets["other"], version_tag)
+    write_calendar_from_items(os.path.join(ARTIFACT_DIR, "crew_schedule.ics"), total_items, version_tag)
 
-    write_calendar_from_vevents(
-        os.path.join(ARTIFACT_DIR, "flight.ics"),
-        [build_vevent(item, version_tag=version_tag) for item in buckets["flight"]],
-    )
-    write_calendar_from_vevents(
-        os.path.join(ARTIFACT_DIR, "positioning.ics"),
-        [build_vevent(item, version_tag=version_tag) for item in buckets["positioning"]],
-    )
-    write_calendar_from_vevents(
-        os.path.join(ARTIFACT_DIR, "training.ics"),
-        [build_vevent(item, version_tag=version_tag) for item in buckets["training"]],
-    )
-    write_calendar_from_vevents(
-        os.path.join(ARTIFACT_DIR, "ferry.ics"),
-        [build_vevent(item, version_tag=version_tag) for item in buckets["ferry"]],
-    )
-    write_calendar_from_vevents(
-        os.path.join(ARTIFACT_DIR, "other.ics"),
-        [build_vevent(item, version_tag=version_tag) for item in buckets["other"]],
-    )
-    write_calendar_from_vevents(
-        os.path.join(ARTIFACT_DIR, "crew_schedule.ics"),
-        [build_vevent(item, version_tag=version_tag) for item in total_items],
-    )
-
-    save_text("changed_root_flag.txt", str(changed_root))
-    logger.info(f"本次抓到 {len(total_items)} 个任务；已对本次抓到日期做整日替换，避免旧脏事件残留")
+    logger.info(f"本次抓到 {len(total_items)} 个任务；正式 ICS 已全量重建")
 
 
 def collect_day_blocks(page) -> list:
