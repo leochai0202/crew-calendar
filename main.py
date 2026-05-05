@@ -62,7 +62,6 @@ logger = setup_logging()
 
 
 BASE_AIRPORT_CN_TO_ICAO = {
-    # 常见国内机场
     "上海虹桥": "ZSSS",
     "虹桥": "ZSSS",
     "上海浦东": "ZSPD",
@@ -155,9 +154,6 @@ BASE_AIRPORT_CN_TO_ICAO = {
     "福成": "ZGBH",
     "珠海金湾": "ZGSD",
     "金湾": "ZGSD",
-    "汕头外砂": "ZGOW",
-    "梅州梅县": "ZGMX",
-    "梅县": "ZGMX",
     "湛江吴川": "ZGZJ",
     "吴川": "ZGZJ",
     "南通兴东": "ZSNT",
@@ -198,16 +194,12 @@ BASE_AIRPORT_CN_TO_ICAO = {
     "三峡": "ZHYC",
     "襄阳刘集": "ZHXF",
     "刘集": "ZHXF",
-    "恩施许家坪": "ZHES",
-    "许家坪": "ZHES",
     "张家界荷花": "ZGDY",
     "荷花": "ZGDY",
     "常德桃花源": "ZGCD",
     "桃花源": "ZGCD",
     "衡阳南岳": "ZGHY",
     "南岳": "ZGHY",
-    "永州零陵": "ZGLG",
-    "零陵": "ZGLG",
     "南充高坪": "ZUNC",
     "高坪": "ZUNC",
     "绵阳南郊": "ZUMY",
@@ -232,8 +224,6 @@ BASE_AIRPORT_CN_TO_ICAO = {
     "驼峰": "ZUTC",
     "迪庆香格里拉": "ZPDQ",
     "香格里拉": "ZPDQ",
-    "保山云瑞": "ZPBS",
-    "云瑞": "ZPBS",
     "银川河东": "ZLIC",
     "河东": "ZLIC",
     "西宁曹家堡": "ZLXN",
@@ -242,18 +232,12 @@ BASE_AIRPORT_CN_TO_ICAO = {
     "敦煌莫高": "ZLDH",
     "莫高": "ZLDH",
     "嘉峪关": "ZLJQ",
-    "天水麦积山": "ZLTS",
-    "麦积山": "ZLTS",
     "庆阳西峰": "ZLQY",
     "西峰": "ZLQY",
     "榆林榆阳": "ZLYL",
     "榆阳": "ZLYL",
     "延安南泥湾": "ZLYA",
     "南泥湾": "ZLYA",
-    "汉中城固": "ZLHZ",
-    "城固": "ZLHZ",
-    "安康富强": "ZLAK",
-    "富强": "ZLAK",
     "包头东河": "ZBOW",
     "东河": "ZBOW",
     "鄂尔多斯伊金霍洛": "ZBDS",
@@ -266,51 +250,21 @@ BASE_AIRPORT_CN_TO_ICAO = {
     "满洲里西郊": "ZBMZ",
     "西郊": "ZBMZ",
     "锡林浩特": "ZBXH",
-    "二连浩特赛乌素": "ZBER",
-    "赛乌素": "ZBER",
     "大同云冈": "ZBDT",
     "云冈": "ZBDT",
     "运城张孝": "ZBYC",
     "张孝": "ZBYC",
     "长治王村": "ZBCZ",
     "王村": "ZBCZ",
-    "临汾尧都": "ZBLF",
-    "尧都": "ZBLF",
-    "呼伦贝尔海拉尔": "ZBLA",
-    "阿尔山伊尔施": "ZBES",
-    "伊尔施": "ZBES",
     "大庆萨尔图": "ZYDQ",
     "萨尔图": "ZYDQ",
     "牡丹江海浪": "ZYMD",
     "海浪": "ZYMD",
     "佳木斯东郊": "ZYJM",
-    "齐齐哈尔三家子": "ZYQQ",
-    "三家子": "ZYQQ",
-    "鸡西兴凯湖": "ZYJX",
-    "兴凯湖": "ZYJX",
-    "黑河瑷珲": "ZYHE",
-    "瑷珲": "ZYHE",
-    "伊春林都": "ZYLD",
-    "林都": "ZYLD",
-    "加格达奇": "ZYJD",
-    "漠河古莲": "ZYMH",
-    "古莲": "ZYMH",
     "丹东浪头": "ZYDD",
     "浪头": "ZYDD",
-    "锦州湾": "ZYJZ",
-    "朝阳": "ZYCY",
-    "营口兰旗": "ZYYK",
-    "兰旗": "ZYYK",
-    "鞍山腾鳌": "ZYAS",
-    "腾鳌": "ZYAS",
-    "通化三源浦": "ZYTN",
-    "三源浦": "ZYTN",
-    "白山长白山": "ZYBS",
-    "长白山": "ZYBS",
     "延吉朝阳川": "ZYYJ",
     "朝阳川": "ZYYJ",
-
-    # 常见国际/地区
     "札幌新千岁": "RJCC",
     "新千岁": "RJCC",
     "东京成田": "RJAA",
@@ -371,8 +325,36 @@ AIRPORT_ICAO_TO_CN = {}
 AIRPORT_NAMES = []
 
 
-# 只保留自己作为极少数锚点；不再硬编码同事名字。
 KNOWN_PEOPLE = ["段洋硕"]
+
+
+COMMON_SURNAMES = set(
+    "赵钱孙李周吴郑王冯陈褚卫蒋沈韩杨朱秦尤许何吕施张孔曹严华"
+    "金魏陶姜戚谢邹喻柏水窦章云苏潘葛奚范彭郎鲁韦昌马苗凤花方"
+    "俞任袁柳鲍史唐费廉岑薛雷贺倪汤滕殷罗毕郝邬安常乐于时傅皮"
+    "卞齐康伍余元卜顾孟平黄和穆萧尹姚邵湛汪祁毛禹狄米贝明臧计"
+    "伏成戴谈宋庞熊纪舒屈项祝董梁杜阮蓝闵席季麻强贾路娄危江童颜"
+    "郭梅盛林刁钟徐邱骆高夏蔡田胡凌霍虞万支柯昝管卢莫经房裘缪干"
+    "解应宗丁宣邓郁单杭洪包诸左石崔吉龚程邢裴陆荣翁荀羊於惠甄曲"
+    "家封芮羿储靳汲邴糜松井段富巫乌焦巴弓牧隗山谷车侯宓蓬全郗班"
+    "仰秋仲伊宫宁仇栾暴甘钭厉戎祖武符刘景詹束龙叶幸司韶郜黎蓟薄"
+    "印宿白怀蒲邰从鄂索咸籍赖卓蔺屠蒙池乔阴胥能苍双闻莘党翟谭"
+    "贡劳逄姬申扶堵冉宰郦雍璩桑桂濮牛寿通边扈燕冀郏浦尚农温别"
+    "庄晏柴瞿阎充慕连茹习宦艾鱼容向古易慎戈廖庾终暨居衡步都耿满"
+    "弘匡国文寇广禄阙东沃利蔚越隆师巩厍聂晁勾敖融冷訾辛阚"
+    "那简饶空曾毋沙乜养鞠须丰巢关蒯相查后荆红游竺权逯盖益桓公"
+)
+
+COMPOUND_SURNAMES = [
+    "欧阳", "司马", "上官", "诸葛", "东方", "皇甫", "尉迟", "公羊",
+    "赫连", "澹台", "公冶", "宗政", "濮阳", "淳于", "单于", "太叔",
+    "申屠", "公孙", "仲孙", "轩辕", "令狐", "钟离", "宇文", "长孙",
+    "慕容", "鲜于", "闾丘", "司徒", "司空", "亓官", "司寇", "仉督",
+    "子车", "颛孙", "端木", "巫马", "公西", "漆雕", "乐正", "壤驷",
+    "公良", "拓跋", "夹谷", "宰父", "谷梁", "段干", "百里", "东郭",
+    "南门", "呼延", "羊舌", "微生", "梁丘", "左丘", "东门", "西门",
+    "南宫",
+]
 
 
 FLIGHT_NO_RE = re.compile(r"9C\d{3,4}[A-Z]?")
@@ -394,22 +376,9 @@ SHORT_ROLE_RE = re.compile(r"\([A-Z]\)")
 ROLE_WORDS = {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员", "观察员"}
 
 TRAINING_KEYWORDS = [
-    "理论课",
-    "模拟机",
-    "训练",
-    "复训",
-    "检查",
-    "熟练",
-    "安保",
-    "应急",
-    "生存",
-    "考试",
-    "晋级",
-    "课程",
-    "地面课",
-    "协同",
-    "CRM",
-    "EBT",
+    "理论课", "模拟机", "训练", "复训", "检查", "熟练", "安保",
+    "应急", "生存", "考试", "晋级", "课程", "地面课", "协同",
+    "CRM", "EBT",
 ]
 
 POSITIONING_KEYWORDS = ["置位"]
@@ -429,50 +398,15 @@ BAD_TITLE_WORDS = {
 }
 
 GENERIC_TASK_WORDS = [
-    "训练",
-    "考勤",
-    "摆渡",
-    "置位",
-    "航班",
-    "备份",
-    "待命",
-    "停飞",
-    "个起落",
+    "训练", "考勤", "摆渡", "置位", "航班", "备份", "待命", "停飞", "个起落",
 ]
 
 TASK_TITLE_WORDS = {
-    "理论课",
-    "模拟机",
-    "应急",
-    "生存",
-    "复训",
-    "训练",
-    "考勤",
-    "检查",
-    "定期",
-    "熟练",
-    "结合",
-    "晋级",
-    "考试",
-    "安保",
-    "程序",
-    "停飞",
-    "开会",
-    "英语",
-    "副驾驶",
-    "机长",
-    "乘务长",
-    "随机人员",
-    "加机组人员",
-    "观察员",
-    "检",
-    "考",
-    "协同",
-    "签到",
-    "劳动节",
-    "立夏",
-    "个起落",
-    "Grounding",
+    "理论课", "模拟机", "应急", "生存", "复训", "训练", "考勤",
+    "检查", "定期", "熟练", "结合", "晋级", "考试", "安保",
+    "程序", "停飞", "开会", "英语", "副驾驶", "机长", "乘务长",
+    "随机人员", "加机组人员", "观察员", "检", "考", "协同",
+    "签到", "劳动节", "立夏", "个起落", "Grounding",
 }
 
 
@@ -581,15 +515,6 @@ def save_airport_aliases(data: dict):
 
 
 def load_airports_csv() -> dict:
-    """
-    可选 airports.csv。
-    没有这个文件也完全不影响运行。
-
-    推荐格式：
-    icao,cn_name,aliases
-    ZSSS,上海虹桥,虹桥|上海虹桥机场
-    ZSPD,上海浦东,浦东|上海浦东机场
-    """
     data = {}
 
     if not os.path.exists(AIRPORTS_CSV_FILE):
@@ -627,22 +552,42 @@ def load_airports_csv() -> dict:
     return data
 
 
+def put_airport_mapping(mapping: dict, name: str, icao: str, source: str):
+    name = normalize_text(name)
+    icao = normalize_text(icao).upper()
+
+    if not name or not re.fullmatch(r"[A-Z]{4}", icao):
+        return
+
+    if name in mapping and mapping[name] != icao:
+        logger.warning(
+            f"机场别名冲突：{name} 已是 {mapping[name]}，{source} 想设为 {icao}，保留原值"
+        )
+        return
+
+    mapping[name] = icao
+
+
 def rebuild_airport_indexes():
     global AIRPORT_CN_TO_ICAO, AIRPORT_ICAO_TO_CN, AIRPORT_NAMES
 
-    AIRPORT_CN_TO_ICAO = dict(BASE_AIRPORT_CN_TO_ICAO)
+    merged = {}
+
+    for name, icao in BASE_AIRPORT_CN_TO_ICAO.items():
+        put_airport_mapping(merged, name, icao, "BASE")
 
     csv_data = load_airports_csv()
-    AIRPORT_CN_TO_ICAO.update(csv_data)
+    for name, icao in csv_data.items():
+        put_airport_mapping(merged, name, icao, "airports.csv")
 
     alias_data = load_airport_aliases()
     for icao, aliases in alias_data.items():
         if not isinstance(aliases, list):
             continue
         for alias in aliases:
-            alias = normalize_text(str(alias))
-            if alias:
-                AIRPORT_CN_TO_ICAO[alias] = icao
+            put_airport_mapping(merged, str(alias), icao, "airport_aliases.json")
+
+    AIRPORT_CN_TO_ICAO = merged
 
     AIRPORT_ICAO_TO_CN = {}
     for name, icao in AIRPORT_CN_TO_ICAO.items():
@@ -666,6 +611,11 @@ def add_airport_alias(icao: str, alias: str):
     if not alias or len(alias) < 2 or re.fullmatch(r"[A-Z]{4}", alias):
         return
     if alias in BASE_AIRPORT_CN_TO_ICAO:
+        return
+
+    current = AIRPORT_CN_TO_ICAO.get(alias)
+    if current and current != icao:
+        logger.warning(f"不写入机场别名冲突：{alias} 当前={current} 新={icao}")
         return
 
     data = load_airport_aliases()
@@ -1099,7 +1049,7 @@ def expand_day_with_retry(page, header: str, retries: int = 3) -> bool:
     return False
 
 
-def get_day_block(page, header: str, next_header: str | None) -> str:
+def get_day_block(page, header: str, next_header: str or None) -> str:
     body_text_all = normalize_text(page.locator("body").inner_text())
     start = body_text_all.find(header)
 
@@ -1185,43 +1135,37 @@ def line_has_task_keyword(line: str) -> bool:
     return any(k in line for k in keywords)
 
 
-def classify_card_kind(card_text: str, day_text: str) -> str:
+def classify_card_kind(card_text: str, day_header: str = "") -> str:
     """
-    硬分类优先级：
-    置位 > 摆渡 > 训练 > 停飞 > 考勤 > 备份/待命 > 航班 > 其他
-
-    目的：
-    1. 置位绝不进入航班。
-    2. 摆渡绝不进入航班。
-    3. 训练绝不进入航班。
-    4. 航班必须有航班号 + 航班结构。
+    分类只看当前 card_text，避免整天 day_block 污染分类。
+    优先级：置位 > 摆渡 > 训练 > 停飞 > 考勤 > 备份/待命 > 航班 > 其他
     """
-    combined = normalize_text(card_text + "\n" + day_text)
+    text = normalize_text(card_text)
 
-    if has_any_keyword(combined, POSITIONING_KEYWORDS):
+    if has_any_keyword(text, POSITIONING_KEYWORDS):
         return "positioning"
 
-    if has_any_keyword(combined, FERRY_KEYWORDS):
+    if has_any_keyword(text, FERRY_KEYWORDS):
         return "ferry"
 
-    if has_any_keyword(combined, TRAINING_KEYWORDS):
+    if has_any_keyword(text, TRAINING_KEYWORDS):
         return "training"
 
-    if has_any_keyword(combined, STOP_KEYWORDS):
+    if has_any_keyword(text, STOP_KEYWORDS):
         return "stop"
 
-    if has_any_keyword(combined, ATTENDANCE_KEYWORDS):
+    if has_any_keyword(text, ATTENDANCE_KEYWORDS):
         return "attendance"
 
-    if has_any_keyword(combined, STANDBY_KEYWORDS):
+    if has_any_keyword(text, STANDBY_KEYWORDS):
         return "standby"
 
-    flight_no = FLIGHT_NO_RE.search(combined)
+    flight_no = FLIGHT_NO_RE.search(text)
 
     has_flight_structure = (
-        "航班动态" in combined
-        or bool(REG_AND_MODEL_RE.search(combined))
-        or len(ICAO_RE.findall(combined)) >= 2
+        "航班动态" in text
+        or bool(REG_AND_MODEL_RE.search(text))
+        or len(ICAO_RE.findall(text)) >= 2
     )
 
     if flight_no and has_flight_structure:
@@ -1296,12 +1240,6 @@ def clean_tail_noise(lines: list) -> list:
 
 
 def is_card_start_line(line: str, prev_line: str = "") -> bool:
-    """
-    更稳的拆卡逻辑：
-    1. 当前行本身是航班号 / 旧式航班头。
-    2. 当前行本身包含任务关键词 + 时间段。
-    3. 当前行有时间段，前一行是任务标题。
-    """
     line = normalize_text(line)
     prev_line = normalize_text(prev_line)
 
@@ -1315,6 +1253,9 @@ def is_card_start_line(line: str, prev_line: str = "") -> bool:
         return True
 
     if TIME_RANGE_RE.search(line) and prev_line and line_has_task_keyword(prev_line):
+        return True
+
+    if TIME_RANGE_RE.search(line) and ("Grounding" in line or "grounding" in line or "停飞" in line):
         return True
 
     return False
@@ -1695,7 +1636,11 @@ def contains_suspicious_half_name(token: str) -> bool:
     if len(token) <= 1:
         return True
 
-    risky_prefixes = {"段洋", "张子"}
+    risky_prefixes = {
+        name[:2]
+        for name in KNOWN_PEOPLE
+        if isinstance(name, str) and len(name) >= 3
+    }
 
     if token in risky_prefixes:
         return True
@@ -1739,7 +1684,6 @@ def compact_people_candidates(text: str) -> list:
     if not text:
         return []
 
-    # 只拆短名单，长名单不拆。
     if len(text) > 12:
         return []
 
@@ -1891,7 +1835,6 @@ def parse_people_line_conservatively(line: str):
                 return "keep", [line]
             return "split", [line]
 
-        # 长名单保留整串。
         if re.fullmatch(r"[\u4e00-\u9fff()A-Z]{4,200}", line):
             return "keep", [line]
 
@@ -1916,6 +1859,153 @@ def parse_people_line_conservatively(line: str):
         return "split", valid
 
     return "keep", [line]
+
+
+def get_surname_lengths_at(text: str, idx: int) -> list:
+    lens = []
+
+    for s in COMPOUND_SURNAMES:
+        if text.startswith(s, idx):
+            lens.append(len(s))
+
+    if idx < len(text) and text[idx] in COMMON_SURNAMES:
+        lens.append(1)
+
+    return sorted(set(lens), reverse=True)
+
+
+def split_chinese_flight_people_by_surname(text: str) -> list:
+    text = standardize_people_text(text)
+    text = SHORT_ROLE_RE.sub("", text)
+    text = normalize_text(text)
+
+    if not text:
+        return []
+
+    if is_bad_title_text(text):
+        return []
+
+    if not re.fullmatch(r"[\u4e00-\u9fff]{2,24}", text):
+        return [text]
+
+    if len(text) > 15:
+        return [text]
+
+    memo = {}
+
+    def dfs(idx: int):
+        if idx == len(text):
+            return [[]]
+
+        if idx in memo:
+            return memo[idx]
+
+        remaining = len(text) - idx
+
+        if remaining == 1:
+            return []
+
+        surname_lengths = get_surname_lengths_at(text, idx)
+        if not surname_lengths:
+            return []
+
+        results = []
+
+        for surname_len in surname_lengths:
+            candidate_name_lens = [surname_len + 2, surname_len + 1]
+
+            if remaining == 4 and surname_len == 1:
+                candidate_name_lens = [2, 3]
+
+            for name_len in candidate_name_lens:
+                if name_len > remaining:
+                    continue
+                if name_len < surname_len + 1:
+                    continue
+
+                rest = remaining - name_len
+                if rest == 1:
+                    continue
+
+                name = text[idx:idx + name_len]
+
+                if len(name) < 2 or len(name) > 4:
+                    continue
+
+                tails = dfs(idx + name_len)
+
+                for tail in tails:
+                    results.append([name] + tail)
+
+        memo[idx] = results
+        return results
+
+    candidates = dfs(0)
+
+    if not candidates:
+        return [text]
+
+    def score_candidate_names(names: list) -> int:
+        score = 0
+
+        for n in names:
+            if n in KNOWN_PEOPLE:
+                score += 20
+            if len(n) == 3:
+                score += 5
+            elif len(n) == 2:
+                score += 4
+            elif len(n) == 4:
+                score += 2
+
+        if 2 <= len(names) <= 5:
+            score += 5
+        else:
+            score -= 10
+
+        if any(contains_suspicious_half_name(x) for x in names):
+            score -= 50
+
+        return score
+
+    best = max(candidates, key=score_candidate_names)
+
+    if len(best) <= 1:
+        return [text]
+
+    if any(contains_suspicious_half_name(x) for x in best):
+        return [text]
+
+    return best
+
+
+def parse_people_line_flight(line: str) -> list:
+    line = standardize_people_text(line)
+
+    if not line:
+        return []
+
+    if is_bad_title_text(line):
+        return []
+
+    if has_clear_delimiters(line):
+        parts = split_by_clear_delimiters(line)
+        valid = []
+
+        for p in parts:
+            p = normalize_text(p)
+            if not p or is_bad_title_text(p):
+                continue
+            if looks_like_person_token(p):
+                valid.append(p)
+
+        return normalize_people_output(valid)
+
+    micro = smart_split_short_compact_people(line)
+    if micro:
+        return normalize_people_output(micro)
+
+    return normalize_people_output(split_chinese_flight_people_by_surname(line))
 
 
 def extract_people_lines_flight(card_text: str) -> list:
@@ -1943,9 +2033,8 @@ def extract_people_lines_flight(card_text: str) -> list:
         if re.fullmatch(r"\d{2}:\d{2}", line) or len(line) == 1:
             continue
 
-        mode, result = parse_people_line_conservatively(line)
-
-        if mode in ("split", "keep"):
+        result = parse_people_line_flight(line)
+        if result:
             people.extend(result)
 
     return normalize_people_output(people)
@@ -2093,10 +2182,6 @@ def extract_people_lines_generic(lines: list, consumed_idx: set, title_text: str
 
 
 def should_block_new_dirty_grounding(item: dict) -> bool:
-    """
-    只阻止以后新生成明显错误的 Grounding / 个起落 类事件。
-    不主动清理历史，避免误删。
-    """
     title_text = normalize_text(item.get("title_text", ""))
     raw_card_text = normalize_text(item.get("raw_card_text", ""))
     people = item.get("people_lines", [])
@@ -2115,11 +2200,11 @@ def should_block_new_dirty_grounding(item: dict) -> bool:
     )
 
     people_bad = (not people) or all(is_bad_title_text(p) for p in people)
-    title_bad = is_bad_title_text(title_text) or title_text in {"停飞Grounding", "Grounding", "停飞"}
-    weak_location = (not location) or is_bad_title_text(location)
-    weak_extra = not extra_lines
+    no_useful_location = (not location) or is_bad_title_text(location)
+    no_useful_extra = not [x for x in extra_lines if not is_bad_title_text(x)]
+    weak_title = title_text in {"停飞Grounding", "Grounding", "grounding", "停飞"} or is_bad_title_text(title_text)
 
-    if grounding_like and people_bad and (title_bad or weak_location or weak_extra):
+    if grounding_like and people_bad and no_useful_location and no_useful_extra and weak_title:
         return True
 
     return False
@@ -2473,15 +2558,33 @@ def build_description(item: dict) -> str:
 
 
 def stable_uid_seed(item: dict) -> str:
+    """
+    UID 尽量使用稳定字段，避免 title_text 轻微变化造成 iPhone 认为是新事件。
+    """
     date_key = item["start_dt"].strftime("%Y-%m-%d")
     task_type = item["task_type"]
     flight_no = item.get("flight_no", "")
-    title_text = normalize_text(item.get("title_text", ""))
-    route_key = f"{item.get('dep_cn', '')}-{item.get('arr_cn', '')}-{item.get('dep', '')}-{item.get('arr', '')}"
     time_key = f"{item.get('start_time', '')}-{item.get('end_time', '')}"
+    route_key = f"{item.get('dep_cn', '')}-{item.get('arr_cn', '')}-{item.get('dep', '')}-{item.get('arr', '')}"
     loc_key = normalize_text(item.get("location", ""))
+    reg_key = normalize_text(item.get("reg", ""))
+    model_key = normalize_text(item.get("model", ""))
 
-    seed = f"{date_key}|{task_type}|{flight_no}|{title_text}|{route_key}|{time_key}|{loc_key}"
+    stable_parts = [
+        date_key,
+        task_type,
+        time_key,
+        flight_no,
+        route_key,
+        loc_key,
+        reg_key,
+        model_key,
+    ]
+
+    if not flight_no and not route_key.replace("-", "") and not loc_key:
+        stable_parts.append(normalize_text(item.get("title_text", "")))
+
+    seed = "|".join(stable_parts)
     return stable_hash(seed)[:32]
 
 
@@ -2775,7 +2878,7 @@ def prepare_items(day_blocks, page_year: int) -> list:
 
         for idx, card in enumerate(day["cards"], start=1):
             card_text = card["text"]
-            kind = classify_card_kind(card_text, day_block)
+            kind = classify_card_kind(card_text, day_header)
 
             if kind == "flight":
                 item = parse_flight_card(card_text, day_header, page_year, day_block)
@@ -2823,15 +2926,6 @@ def build_version_tag() -> str:
 
 
 def merge_history_replace_scraped_dates(filename: str, bucket_items: list, scraped_dates: set, version_tag: str) -> list:
-    """
-    核心底层逻辑：
-
-    1. 保留历史。
-    2. 只替换本次抓到的日期。
-    3. 所有分类文件都按同一组 scraped_dates 删除旧事件。
-       这样以前某天置位误进 flight.ics，本次抓到这天后，会从 flight.ics 清掉旧错块，
-       然后把新事件写入正确分类。
-    """
     existing_map = read_existing_events(filename)
     existing_blocks = list(existing_map.values())
     new_blocks = [build_vevent(item, version_tag=version_tag) for item in bucket_items]
@@ -2900,62 +2994,32 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
 
     changed_root |= write_calendar_from_vevents(
         "flight.ics",
-        merge_history_replace_scraped_dates(
-            "flight.ics",
-            buckets["flight"],
-            scraped_dates,
-            version_tag,
-        ),
+        merge_history_replace_scraped_dates("flight.ics", buckets["flight"], scraped_dates, version_tag),
     )
 
     changed_root |= write_calendar_from_vevents(
         "positioning.ics",
-        merge_history_replace_scraped_dates(
-            "positioning.ics",
-            buckets["positioning"],
-            scraped_dates,
-            version_tag,
-        ),
+        merge_history_replace_scraped_dates("positioning.ics", buckets["positioning"], scraped_dates, version_tag),
     )
 
     changed_root |= write_calendar_from_vevents(
         "training.ics",
-        merge_history_replace_scraped_dates(
-            "training.ics",
-            buckets["training"],
-            scraped_dates,
-            version_tag,
-        ),
+        merge_history_replace_scraped_dates("training.ics", buckets["training"], scraped_dates, version_tag),
     )
 
     changed_root |= write_calendar_from_vevents(
         "ferry.ics",
-        merge_history_replace_scraped_dates(
-            "ferry.ics",
-            buckets["ferry"],
-            scraped_dates,
-            version_tag,
-        ),
+        merge_history_replace_scraped_dates("ferry.ics", buckets["ferry"], scraped_dates, version_tag),
     )
 
     changed_root |= write_calendar_from_vevents(
         "other.ics",
-        merge_history_replace_scraped_dates(
-            "other.ics",
-            buckets["other"],
-            scraped_dates,
-            version_tag,
-        ),
+        merge_history_replace_scraped_dates("other.ics", buckets["other"], scraped_dates, version_tag),
     )
 
     changed_root |= write_calendar_from_vevents(
         "crew_schedule.ics",
-        merge_history_replace_scraped_dates(
-            "crew_schedule.ics",
-            total_items,
-            scraped_dates,
-            version_tag,
-        ),
+        merge_history_replace_scraped_dates("crew_schedule.ics", total_items, scraped_dates, version_tag),
     )
 
     write_calendar_from_vevents(
