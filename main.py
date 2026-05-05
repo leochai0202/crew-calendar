@@ -1137,10 +1137,6 @@ def line_has_task_keyword(line: str) -> bool:
 
 
 def classify_card_kind(card_text: str, day_header: str = "") -> str:
-    """
-    只看当前 card_text，不用整天 day_block，避免同一天多个任务互相污染分类。
-    优先级：置位 > 摆渡 > 训练 > 停飞 > 考勤 > 备份/待命 > 航班 > 其他
-    """
     text = normalize_text(card_text)
 
     if has_any_keyword(text, POSITIONING_KEYWORDS):
@@ -1241,15 +1237,6 @@ def clean_tail_noise(lines: list) -> list:
 
 
 def is_card_start_line(line: str, prev_line: str = "") -> bool:
-    """
-    修复重点：
-    1. 当前行是航班号 / 老式航班头，可以开新卡。
-    2. 当前行自己包含时间段 + 任务关键词，可以开新卡。
-    3. 不再因为“上一行含训练关键词 + 当前行有时间”就开新卡，
-       因为训练任务常见结构正是：
-       理论课-xxx训练
-       08:30~17:30 地点
-    """
     line = normalize_text(line)
 
     if not line:
@@ -1803,70 +1790,6 @@ def smart_split_short_compact_people(line: str) -> list:
     return []
 
 
-def parse_people_line_conservatively(line: str):
-    line = standardize_people_text(line)
-
-    if not line:
-        return "skip", []
-
-    if is_bad_title_text(line):
-        return "skip", []
-
-    if line in ROLE_WORDS:
-        return "skip", []
-
-    if is_day_header(line) or "查看更多" in line:
-        return "skip", []
-
-    if is_flight_line(line) or is_reg_model_line(line) or is_old_style_header_line(line):
-        return "skip", []
-
-    if ICAO_RE.fullmatch(line) or MODEL_ONLY_RE.fullmatch(line):
-        return "skip", []
-
-    if re.fullmatch(r"\d{2}:\d{2}", line):
-        return "skip", []
-
-    if LATIN_PERSON_RE.fullmatch(line) or ZH_TAGGED_NAME_RE.fullmatch(line):
-        return "split", [line]
-
-    if not has_clear_delimiters(line):
-        micro = smart_split_short_compact_people(line)
-
-        if micro:
-            return "split", micro
-
-        if re.fullmatch(r"[\u4e00-\u9fff]{2,4}(?:\([A-Z]\))?", line):
-            if contains_suspicious_half_name(line):
-                return "keep", [line]
-            return "split", [line]
-
-        if re.fullmatch(r"[\u4e00-\u9fff()A-Z]{4,200}", line):
-            return "keep", [line]
-
-        return "skip", []
-
-    parts = split_by_clear_delimiters(line)
-
-    if not parts:
-        return "skip", []
-
-    valid = [p for p in parts if looks_like_person_token(p) and not contains_suspicious_half_name(p)]
-
-    if not valid:
-        return "skip", []
-
-    if len(valid) < len(parts):
-        ratio = len(valid) / max(1, len(parts))
-        if ratio < 0.8:
-            return "keep", [line]
-
-    if len(valid) <= 5:
-        return "split", valid
-
-    return "keep", [line]
-
-
 def get_surname_lengths_at(text: str, idx: int) -> list:
     lens = []
 
@@ -1882,7 +1805,7 @@ def get_surname_lengths_at(text: str, idx: int) -> list:
 
 def split_chinese_flight_people_by_surname(text: str) -> list:
     """
-    航班人员专用拆分：
+    航班/短名单人员专用拆分：
     不靠硬编码同事名字。
     用姓氏 + 回溯拆短名单。
     拆不稳就保留整串，不误删。
@@ -1991,6 +1914,74 @@ def split_chinese_flight_people_by_surname(text: str) -> list:
     return best
 
 
+def parse_people_line_conservatively(line: str):
+    line = standardize_people_text(line)
+
+    if not line:
+        return "skip", []
+
+    if is_bad_title_text(line):
+        return "skip", []
+
+    if line in ROLE_WORDS:
+        return "skip", []
+
+    if is_day_header(line) or "查看更多" in line:
+        return "skip", []
+
+    if is_flight_line(line) or is_reg_model_line(line) or is_old_style_header_line(line):
+        return "skip", []
+
+    if ICAO_RE.fullmatch(line) or MODEL_ONLY_RE.fullmatch(line):
+        return "skip", []
+
+    if re.fullmatch(r"\d{2}:\d{2}", line):
+        return "skip", []
+
+    if LATIN_PERSON_RE.fullmatch(line) or ZH_TAGGED_NAME_RE.fullmatch(line):
+        return "split", [line]
+
+    if not has_clear_delimiters(line):
+        # 纯中文短名单：优先用姓氏 + 回溯拆分，不靠硬编码同事名字。
+        # 例如：段洋硕张子钦陈员 -> 段洋硕 / 张子钦 / 陈员
+        if re.fullmatch(r"[\u4e00-\u9fff]{4,15}", line):
+            surname_split = split_chinese_flight_people_by_surname(line)
+            if surname_split and len(surname_split) > 1:
+                return "split", surname_split
+
+        # 单个人名，直接保留为一个人。
+        if re.fullmatch(r"[\u4e00-\u9fff]{2,4}(?:\([A-Z]\))?", line):
+            if contains_suspicious_half_name(line):
+                return "keep", [line]
+            return "split", [line]
+
+        # 长名单：不要硬拆，保留整串，避免训练长名单被切坏。
+        if re.fullmatch(r"[\u4e00-\u9fff()A-Z]{4,200}", line):
+            return "keep", [line]
+
+        return "skip", []
+
+    parts = split_by_clear_delimiters(line)
+
+    if not parts:
+        return "skip", []
+
+    valid = [p for p in parts if looks_like_person_token(p) and not contains_suspicious_half_name(p)]
+
+    if not valid:
+        return "skip", []
+
+    if len(valid) < len(parts):
+        ratio = len(valid) / max(1, len(parts))
+        if ratio < 0.8:
+            return "keep", [line]
+
+    if len(valid) <= 5:
+        return "split", valid
+
+    return "keep", [line]
+
+
 def parse_people_line_flight(line: str) -> list:
     line = standardize_people_text(line)
 
@@ -2013,11 +2004,8 @@ def parse_people_line_flight(line: str) -> list:
 
         return normalize_people_output(valid)
 
-    micro = smart_split_short_compact_people(line)
-    if micro:
-        return normalize_people_output(micro)
-
-    return normalize_people_output(split_chinese_flight_people_by_surname(line))
+    surname_split = split_chinese_flight_people_by_surname(line)
+    return normalize_people_output(surname_split)
 
 
 def extract_people_lines_flight(card_text: str) -> list:
@@ -2570,9 +2558,6 @@ def build_description(item: dict) -> str:
 
 
 def stable_uid_seed(item: dict) -> str:
-    """
-    UID 尽量使用稳定字段，避免 title_text 轻微变化导致 iPhone 认为是新事件。
-    """
     date_key = item["start_dt"].strftime("%Y-%m-%d")
     task_type = item["task_type"]
     flight_no = item.get("flight_no", "")
