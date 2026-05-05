@@ -11,12 +11,17 @@ on:
     - cron: '30 10 * * *'
     - cron: '30 11 * * *'
 
+concurrency:
+  group: crew-calendar
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Checkout
