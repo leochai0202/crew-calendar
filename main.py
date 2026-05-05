@@ -2,6 +2,7 @@ import os
 import re
 import io
 import json
+import csv
 import base64
 import shutil
 import hashlib
@@ -29,6 +30,8 @@ PASSWORD = os.environ.get("CREW_PASSWORD") or os.environ.get("PASSWORD")
 
 ARTIFACT_DIR = "debug_output"
 AIRPORT_ALIASES_FILE = "airport_aliases.json"
+AIRPORTS_CSV_FILE = "airports.csv"
+
 SH_TZ = ZoneInfo("Asia/Shanghai")
 
 HEADLESS = os.environ.get("HEADLESS", "1") != "0"
@@ -59,29 +62,45 @@ logger = setup_logging()
 
 
 BASE_AIRPORT_CN_TO_ICAO = {
+    # 常见国内机场
     "上海虹桥": "ZSSS",
+    "虹桥": "ZSSS",
     "上海浦东": "ZSPD",
+    "浦东": "ZSPD",
     "西安咸阳": "ZLXY",
+    "咸阳": "ZLXY",
     "重庆江北": "ZUCK",
+    "江北": "ZUCK",
     "大连周水子": "ZYTL",
+    "周水子": "ZYTL",
     "深圳宝安": "ZGSZ",
+    "宝安": "ZGSZ",
     "济南遥墙": "ZSJN",
+    "遥墙": "ZSJN",
     "哈尔滨太平": "ZYHB",
+    "太平": "ZYHB",
     "淮安涟水": "ZSSH",
+    "涟水": "ZSSH",
     "呼和浩特白塔": "ZBHH",
+    "白塔": "ZBHH",
     "长春龙嘉": "ZYCC",
+    "龙嘉": "ZYCC",
     "兰州中川": "ZLLL",
+    "中川": "ZLLL",
     "广州白云": "ZGGG",
+    "白云": "ZGGG",
     "揭阳潮汕": "ZGOW",
-    "札幌新千岁": "RJCC",
-    "新千岁": "RJCC",
+    "潮汕": "ZGOW",
     "南宁吴圩": "ZGNN",
+    "吴圩": "ZGNN",
     "扬州泰州": "ZSYZ",
+    "扬泰": "ZSYZ",
     "厦门高崎": "ZSAM",
+    "高崎": "ZSAM",
     "泉州晋江": "ZSQZ",
-    "曼谷素旺那普": "VTBS",
-    "曼谷素万那普": "VTBS",
+    "晋江": "ZSQZ",
     "金边德崇": "VDTI",
+    "德崇": "VDTI",
     "石家庄正定": "ZBSJ",
     "正定": "ZBSJ",
     "宁波栎社": "ZSNB",
@@ -91,42 +110,269 @@ BASE_AIRPORT_CN_TO_ICAO = {
     "东营胜利": "ZSDY",
     "东营": "ZSDY",
     "北京首都": "ZBAA",
+    "首都": "ZBAA",
     "北京大兴": "ZBAD",
+    "大兴": "ZBAD",
     "成都天府": "ZUTF",
+    "天府": "ZUTF",
     "成都双流": "ZUUU",
+    "双流": "ZUUU",
     "昆明长水": "ZPPP",
+    "长水": "ZPPP",
     "武汉天河": "ZHHH",
+    "天河": "ZHHH",
     "南京禄口": "ZSNJ",
+    "禄口": "ZSNJ",
     "杭州萧山": "ZSHC",
+    "萧山": "ZSHC",
     "青岛胶东": "ZSQD",
+    "胶东": "ZSQD",
     "郑州新郑": "ZHCC",
+    "新郑": "ZHCC",
     "长沙黄花": "ZGHA",
+    "黄花": "ZGHA",
     "福州长乐": "ZSFZ",
+    "长乐": "ZSFZ",
     "沈阳桃仙": "ZYTX",
+    "桃仙": "ZYTX",
     "太原武宿": "ZBYN",
+    "武宿": "ZBYN",
     "乌鲁木齐地窝堡": "ZWWW",
+    "地窝堡": "ZWWW",
     "海口美兰": "ZJHK",
+    "美兰": "ZJHK",
     "三亚凤凰": "ZJSY",
+    "凤凰": "ZJSY",
+    "合肥新桥": "ZSOF",
+    "新桥": "ZSOF",
+    "南昌昌北": "ZSCN",
+    "昌北": "ZSCN",
+    "贵阳龙洞堡": "ZUGY",
+    "龙洞堡": "ZUGY",
+    "桂林两江": "ZGKL",
+    "两江": "ZGKL",
+    "北海福成": "ZGBH",
+    "福成": "ZGBH",
+    "珠海金湾": "ZGSD",
+    "金湾": "ZGSD",
+    "汕头外砂": "ZGOW",
+    "梅州梅县": "ZGMX",
+    "梅县": "ZGMX",
+    "湛江吴川": "ZGZJ",
+    "吴川": "ZGZJ",
+    "南通兴东": "ZSNT",
+    "兴东": "ZSNT",
+    "常州奔牛": "ZSCG",
+    "奔牛": "ZSCG",
+    "无锡硕放": "ZSWX",
+    "硕放": "ZSWX",
+    "盐城南洋": "ZSYN",
+    "南洋": "ZSYN",
+    "徐州观音": "ZSXZ",
+    "观音": "ZSXZ",
+    "连云港花果山": "ZSLG",
+    "花果山": "ZSLG",
+    "温州龙湾": "ZSWZ",
+    "龙湾": "ZSWZ",
+    "义乌": "ZSYW",
+    "台州路桥": "ZSLQ",
+    "路桥": "ZSLQ",
+    "舟山普陀山": "ZSZS",
+    "普陀山": "ZSZS",
+    "烟台蓬莱": "ZSYT",
+    "蓬莱": "ZSYT",
+    "威海大水泊": "ZSWH",
+    "大水泊": "ZSWH",
+    "临沂启阳": "ZSLY",
+    "启阳": "ZSLY",
+    "潍坊": "ZSWF",
+    "济宁曲阜": "ZSJG",
+    "曲阜": "ZSJG",
+    "日照山字河": "ZSRZ",
+    "山字河": "ZSRZ",
+    "洛阳北郊": "ZHLY",
+    "北郊": "ZHLY",
+    "南阳姜营": "ZHNY",
+    "姜营": "ZHNY",
+    "宜昌三峡": "ZHYC",
+    "三峡": "ZHYC",
+    "襄阳刘集": "ZHXF",
+    "刘集": "ZHXF",
+    "恩施许家坪": "ZHES",
+    "许家坪": "ZHES",
+    "张家界荷花": "ZGDY",
+    "荷花": "ZGDY",
+    "常德桃花源": "ZGCD",
+    "桃花源": "ZGCD",
+    "衡阳南岳": "ZGHY",
+    "南岳": "ZGHY",
+    "永州零陵": "ZGLG",
+    "零陵": "ZGLG",
+    "南充高坪": "ZUNC",
+    "高坪": "ZUNC",
+    "绵阳南郊": "ZUMY",
+    "南郊": "ZUMY",
+    "泸州云龙": "ZULZ",
+    "云龙": "ZULZ",
+    "宜宾五粮液": "ZUYB",
+    "五粮液": "ZUYB",
+    "西昌青山": "ZUXC",
+    "青山": "ZUXC",
+    "九寨黄龙": "ZUJZ",
+    "黄龙": "ZUJZ",
+    "拉萨贡嘎": "ZULS",
+    "贡嘎": "ZULS",
+    "丽江三义": "ZPLJ",
+    "三义": "ZPLJ",
+    "大理凤仪": "ZPDL",
+    "凤仪": "ZPDL",
+    "西双版纳嘎洒": "ZPJH",
+    "嘎洒": "ZPJH",
+    "腾冲驼峰": "ZUTC",
+    "驼峰": "ZUTC",
+    "迪庆香格里拉": "ZPDQ",
+    "香格里拉": "ZPDQ",
+    "保山云瑞": "ZPBS",
+    "云瑞": "ZPBS",
+    "银川河东": "ZLIC",
+    "河东": "ZLIC",
+    "西宁曹家堡": "ZLXN",
+    "曹家堡": "ZLXN",
+    "格尔木": "ZLGM",
+    "敦煌莫高": "ZLDH",
+    "莫高": "ZLDH",
+    "嘉峪关": "ZLJQ",
+    "天水麦积山": "ZLTS",
+    "麦积山": "ZLTS",
+    "庆阳西峰": "ZLQY",
+    "西峰": "ZLQY",
+    "榆林榆阳": "ZLYL",
+    "榆阳": "ZLYL",
+    "延安南泥湾": "ZLYA",
+    "南泥湾": "ZLYA",
+    "汉中城固": "ZLHZ",
+    "城固": "ZLHZ",
+    "安康富强": "ZLAK",
+    "富强": "ZLAK",
+    "包头东河": "ZBOW",
+    "东河": "ZBOW",
+    "鄂尔多斯伊金霍洛": "ZBDS",
+    "伊金霍洛": "ZBDS",
+    "赤峰玉龙": "ZBCF",
+    "玉龙": "ZBCF",
+    "通辽": "ZBTL",
+    "海拉尔东山": "ZBLA",
+    "东山": "ZBLA",
+    "满洲里西郊": "ZBMZ",
+    "西郊": "ZBMZ",
+    "锡林浩特": "ZBXH",
+    "二连浩特赛乌素": "ZBER",
+    "赛乌素": "ZBER",
+    "大同云冈": "ZBDT",
+    "云冈": "ZBDT",
+    "运城张孝": "ZBYC",
+    "张孝": "ZBYC",
+    "长治王村": "ZBCZ",
+    "王村": "ZBCZ",
+    "临汾尧都": "ZBLF",
+    "尧都": "ZBLF",
+    "呼伦贝尔海拉尔": "ZBLA",
+    "阿尔山伊尔施": "ZBES",
+    "伊尔施": "ZBES",
+    "大庆萨尔图": "ZYDQ",
+    "萨尔图": "ZYDQ",
+    "牡丹江海浪": "ZYMD",
+    "海浪": "ZYMD",
+    "佳木斯东郊": "ZYJM",
+    "齐齐哈尔三家子": "ZYQQ",
+    "三家子": "ZYQQ",
+    "鸡西兴凯湖": "ZYJX",
+    "兴凯湖": "ZYJX",
+    "黑河瑷珲": "ZYHE",
+    "瑷珲": "ZYHE",
+    "伊春林都": "ZYLD",
+    "林都": "ZYLD",
+    "加格达奇": "ZYJD",
+    "漠河古莲": "ZYMH",
+    "古莲": "ZYMH",
+    "丹东浪头": "ZYDD",
+    "浪头": "ZYDD",
+    "锦州湾": "ZYJZ",
+    "朝阳": "ZYCY",
+    "营口兰旗": "ZYYK",
+    "兰旗": "ZYYK",
+    "鞍山腾鳌": "ZYAS",
+    "腾鳌": "ZYAS",
+    "通化三源浦": "ZYTN",
+    "三源浦": "ZYTN",
+    "白山长白山": "ZYBS",
+    "长白山": "ZYBS",
+    "延吉朝阳川": "ZYYJ",
+    "朝阳川": "ZYYJ",
+
+    # 常见国际/地区
+    "札幌新千岁": "RJCC",
+    "新千岁": "RJCC",
+    "东京成田": "RJAA",
+    "成田": "RJAA",
+    "东京羽田": "RJTT",
+    "羽田": "RJTT",
+    "大阪关西": "RJBB",
+    "关西": "RJBB",
+    "名古屋中部": "RJGG",
+    "中部": "RJGG",
+    "福冈": "RJFF",
+    "冲绳那霸": "ROAH",
+    "那霸": "ROAH",
+    "首尔仁川": "RKSI",
+    "仁川": "RKSI",
+    "首尔金浦": "RKSS",
+    "金浦": "RKSS",
+    "济州": "RKPC",
+    "釜山金海": "RKPK",
+    "金海": "RKPK",
+    "曼谷素旺那普": "VTBS",
+    "曼谷素万那普": "VTBS",
+    "素万那普": "VTBS",
+    "素旺那普": "VTBS",
+    "曼谷廊曼": "VTBD",
+    "廊曼": "VTBD",
+    "普吉": "VTSP",
+    "清迈": "VTCC",
+    "新加坡樟宜": "WSSS",
+    "樟宜": "WSSS",
+    "吉隆坡": "WMKK",
+    "槟城": "WMKP",
+    "雅加达苏加诺哈达": "WIII",
+    "苏加诺哈达": "WIII",
+    "巴厘岛登巴萨": "WADD",
+    "登巴萨": "WADD",
+    "马尼拉": "RPLL",
+    "宿务": "RPVM",
+    "胡志明": "VVTS",
+    "河内内排": "VVNB",
+    "内排": "VVNB",
+    "岘港": "VVDN",
+    "金边": "VDPP",
+    "香港": "VHHH",
+    "香港赤鱲角": "VHHH",
+    "赤鱲角": "VHHH",
+    "澳门": "VMMC",
+    "台北桃园": "RCTP",
+    "桃园": "RCTP",
+    "台北松山": "RCSS",
+    "松山": "RCSS",
+    "高雄": "RCKH",
 }
+
 
 AIRPORT_CN_TO_ICAO = {}
 AIRPORT_ICAO_TO_CN = {}
 AIRPORT_NAMES = []
 
 
-KNOWN_PEOPLE = [
-    "段洋硕",
-    "张子钦",
-    "陈员",
-    "康铁辉",
-    "王闯",
-    "许磊",
-    "李罡",
-    "杨刚",
-    "鲍国际",
-    "许晓君",
-    "张晨昕",
-]
+# 只保留自己作为极少数锚点；不再硬编码同事名字。
+KNOWN_PEOPLE = ["段洋硕"]
 
 
 FLIGHT_NO_RE = re.compile(r"9C\d{3,4}[A-Z]?")
@@ -168,10 +414,19 @@ TRAINING_KEYWORDS = [
 
 POSITIONING_KEYWORDS = ["置位"]
 FERRY_KEYWORDS = ["摆渡"]
-STOP_KEYWORDS = ["停飞", "Grounding"]
+STOP_KEYWORDS = ["停飞", "Grounding", "grounding"]
 ATTENDANCE_KEYWORDS = ["考勤"]
+STANDBY_KEYWORDS = ["备份", "待命"]
 
 TRANSPORT_HINT_WORDS = ["搭乘", "乘坐", "火车", "高铁", "动车", "去", "前往", "至", "返回"]
+
+BAD_TITLE_WORDS = {
+    "个起落",
+    "90天3个起落",
+    "90天三个起落",
+    "三个起落",
+    "3个起落",
+}
 
 GENERIC_TASK_WORDS = [
     "训练",
@@ -284,6 +539,17 @@ def random_like_wait(page, base_ms: int, jitter_ms: int = 400):
     page.wait_for_timeout(base_ms + (hash(datetime.now().isoformat()) % max(1, jitter_ms)))
 
 
+def is_bad_title_text(text: str) -> bool:
+    text = normalize_text(text)
+    if not text:
+        return False
+    if text in BAD_TITLE_WORDS:
+        return True
+    if re.fullmatch(r"(90天)?[三3]个起落", text):
+        return True
+    return False
+
+
 def load_airport_aliases():
     if not os.path.exists(AIRPORT_ALIASES_FILE):
         return {}
@@ -314,12 +580,62 @@ def save_airport_aliases(data: dict):
         logger.error(f"保存机场别名失败: {e}")
 
 
+def load_airports_csv() -> dict:
+    """
+    可选 airports.csv。
+    没有这个文件也完全不影响运行。
+
+    推荐格式：
+    icao,cn_name,aliases
+    ZSSS,上海虹桥,虹桥|上海虹桥机场
+    ZSPD,上海浦东,浦东|上海浦东机场
+    """
+    data = {}
+
+    if not os.path.exists(AIRPORTS_CSV_FILE):
+        return data
+
+    try:
+        with open(AIRPORTS_CSV_FILE, "r", encoding="utf-8-sig", newline="") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                icao = normalize_text(row.get("icao", "")).upper()
+                cn_name = normalize_text(row.get("cn_name", ""))
+                aliases_raw = normalize_text(row.get("aliases", ""))
+
+                if not re.fullmatch(r"[A-Z]{4}", icao):
+                    continue
+
+                names = []
+                if cn_name:
+                    names.append(cn_name)
+
+                if aliases_raw:
+                    for alias in re.split(r"[|,，、/]+", aliases_raw):
+                        alias = normalize_text(alias)
+                        if alias:
+                            names.append(alias)
+
+                for name in names:
+                    if name and not re.fullmatch(r"[A-Z]{4}", name):
+                        data[name] = icao
+
+        logger.info(f"读取 airports.csv：{len(data)} 个机场别名")
+    except Exception as e:
+        logger.warning(f"读取 airports.csv 失败，跳过：{e}")
+
+    return data
+
+
 def rebuild_airport_indexes():
     global AIRPORT_CN_TO_ICAO, AIRPORT_ICAO_TO_CN, AIRPORT_NAMES
 
     AIRPORT_CN_TO_ICAO = dict(BASE_AIRPORT_CN_TO_ICAO)
-    alias_data = load_airport_aliases()
 
+    csv_data = load_airports_csv()
+    AIRPORT_CN_TO_ICAO.update(csv_data)
+
+    alias_data = load_airport_aliases()
     for icao, aliases in alias_data.items():
         if not isinstance(aliases, list):
             continue
@@ -335,6 +651,11 @@ def rebuild_airport_indexes():
 
     AIRPORT_NAMES = sorted(AIRPORT_CN_TO_ICAO.keys(), key=len, reverse=True)
 
+    save_text(
+        "airport_index_debug.txt",
+        "\n".join([f"{k}={v}" for k, v in sorted(AIRPORT_CN_TO_ICAO.items(), key=lambda x: x[0])]),
+    )
+
 
 def add_airport_alias(icao: str, alias: str):
     icao = normalize_text(icao).upper()
@@ -343,6 +664,8 @@ def add_airport_alias(icao: str, alias: str):
     if not re.fullmatch(r"[A-Z]{4}", icao):
         return
     if not alias or len(alias) < 2 or re.fullmatch(r"[A-Z]{4}", alias):
+        return
+    if alias in BASE_AIRPORT_CN_TO_ICAO:
         return
 
     data = load_airport_aliases()
@@ -366,9 +689,7 @@ def normalize_candidate(text: str) -> str:
 def score_candidate(text: str) -> int:
     if not text:
         return 0
-
     score = 0
-
     if len(text) == 4:
         score += 100
     elif len(text) == 5:
@@ -377,7 +698,6 @@ def score_candidate(text: str) -> int:
         score += 40
     else:
         score += 10
-
     score += sum(ch.isalnum() for ch in text)
     return score
 
@@ -848,20 +1168,33 @@ def strip_time_from_title(title: str) -> str:
     return title
 
 
-def has_any_keyword(text: str, keywords: list[str]) -> bool:
+def has_any_keyword(text: str, keywords: list) -> bool:
     return any(k in text for k in keywords)
+
+
+def line_has_task_keyword(line: str) -> bool:
+    line = normalize_text(line)
+    keywords = (
+        POSITIONING_KEYWORDS
+        + FERRY_KEYWORDS
+        + TRAINING_KEYWORDS
+        + STOP_KEYWORDS
+        + ATTENDANCE_KEYWORDS
+        + STANDBY_KEYWORDS
+    )
+    return any(k in line for k in keywords)
 
 
 def classify_card_kind(card_text: str, day_text: str) -> str:
     """
     硬分类优先级：
-    置位 > 摆渡 > 训练 > 停飞 > 考勤 > 航班 > 其他
+    置位 > 摆渡 > 训练 > 停飞 > 考勤 > 备份/待命 > 航班 > 其他
 
     目的：
-    1. 置位绝不进入航班
-    2. 摆渡绝不进入航班
-    3. 训练绝不进入航班
-    4. 航班必须有航班号 + 航班结构
+    1. 置位绝不进入航班。
+    2. 摆渡绝不进入航班。
+    3. 训练绝不进入航班。
+    4. 航班必须有航班号 + 航班结构。
     """
     combined = normalize_text(card_text + "\n" + day_text)
 
@@ -879,6 +1212,9 @@ def classify_card_kind(card_text: str, day_text: str) -> str:
 
     if has_any_keyword(combined, ATTENDANCE_KEYWORDS):
         return "attendance"
+
+    if has_any_keyword(combined, STANDBY_KEYWORDS):
+        return "standby"
 
     flight_no = FLIGHT_NO_RE.search(combined)
 
@@ -902,6 +1238,7 @@ def task_type_from_kind(kind: str) -> str:
         "flight": "航班",
         "stop": "停飞",
         "attendance": "考勤",
+        "standby": "待命",
         "generic": "其他",
     }.get(kind, "其他")
 
@@ -914,6 +1251,8 @@ def task_bucket(task_type: str) -> str:
         "摆渡": "ferry",
         "停飞": "other",
         "考勤": "other",
+        "待命": "other",
+        "备份": "other",
         "其他": "other",
     }.get(task_type, "other")
 
@@ -956,6 +1295,31 @@ def clean_tail_noise(lines: list) -> list:
     return cleaned
 
 
+def is_card_start_line(line: str, prev_line: str = "") -> bool:
+    """
+    更稳的拆卡逻辑：
+    1. 当前行本身是航班号 / 旧式航班头。
+    2. 当前行本身包含任务关键词 + 时间段。
+    3. 当前行有时间段，前一行是任务标题。
+    """
+    line = normalize_text(line)
+    prev_line = normalize_text(prev_line)
+
+    if not line:
+        return False
+
+    if is_old_style_header_line(line) or is_flight_line(line):
+        return True
+
+    if TIME_RANGE_RE.search(line) and line_has_task_keyword(line):
+        return True
+
+    if TIME_RANGE_RE.search(line) and prev_line and line_has_task_keyword(prev_line):
+        return True
+
+    return False
+
+
 def split_day_block_into_cards(day_header: str, day_block: str) -> list:
     lines = [normalize_text(x) for x in day_block.splitlines() if normalize_text(x)]
     lines = clean_tail_noise(lines)
@@ -985,23 +1349,8 @@ def split_day_block_into_cards(day_header: str, day_block: str) -> list:
         current = []
 
     for i, line in enumerate(lines):
-        is_start = False
-
-        if is_old_style_header_line(line) or is_flight_line(line):
-            is_start = True
-
-        elif TIME_RANGE_RE.search(line) and any(
-            k in line for k in ["置位", "摆渡", "训练", "考勤", "停飞", "Grounding"]
-        ):
-            is_start = True
-
-        elif i > 0 and TIME_RANGE_RE.search(line):
-            prev = lines[i - 1]
-            if any(
-                k in prev
-                for k in ["理论课", "模拟机", "训练", "考勤", "停飞", "Grounding", "置位", "摆渡"]
-            ):
-                is_start = True
+        prev = lines[i - 1] if i > 0 else ""
+        is_start = is_card_start_line(line, prev)
 
         if is_start and current:
             flush_current()
@@ -1009,6 +1358,7 @@ def split_day_block_into_cards(day_header: str, day_block: str) -> list:
         current.append(line)
 
     flush_current()
+
     return [c for c in cards if c["text"]]
 
 
@@ -1065,12 +1415,12 @@ def _extract_cn_route_from_card(card_text: str, dep_icao: str, arr_icao: str):
             left = normalize_text(MODEL_ONLY_RE.sub("", left))
             right = normalize_text(MODEL_ONLY_RE.sub("", right))
 
-            if re.fullmatch(r"[\u4e00-\u9fff]{2,8}", left):
+            if re.fullmatch(r"[\u4e00-\u9fff]{2,10}", left):
                 left_icao = AIRPORT_CN_TO_ICAO.get(left, "")
                 if left_icao == dep_icao or (not dep_cn and not left_icao):
                     dep_cn = left
 
-            if re.fullmatch(r"[\u4e00-\u9fff]{2,8}", right):
+            if re.fullmatch(r"[\u4e00-\u9fff]{2,10}", right):
                 right_icao = AIRPORT_CN_TO_ICAO.get(right, "")
                 if right_icao == arr_icao or (not arr_cn and not right_icao):
                     arr_cn = right
@@ -1297,7 +1647,7 @@ def looks_like_person_token(token: str) -> bool:
     if token in ROLE_WORDS or token in TASK_TITLE_WORDS or token in GENERIC_TASK_WORDS:
         return False
 
-    if token == "个起落":
+    if is_bad_title_text(token):
         return False
 
     if LATIN_PERSON_RE.fullmatch(token):
@@ -1322,7 +1672,10 @@ def normalize_people_output(items: list) -> list:
     for x in items:
         x = normalize_text(x)
 
-        if not x or x == "个起落":
+        if not x:
+            continue
+
+        if is_bad_title_text(x):
             continue
 
         if x not in seen:
@@ -1386,6 +1739,7 @@ def compact_people_candidates(text: str) -> list:
     if not text:
         return []
 
+    # 只拆短名单，长名单不拆。
     if len(text) > 12:
         return []
 
@@ -1505,6 +1859,9 @@ def parse_people_line_conservatively(line: str):
     if not line:
         return "skip", []
 
+    if is_bad_title_text(line):
+        return "skip", []
+
     if line in ROLE_WORDS:
         return "skip", []
 
@@ -1518,9 +1875,6 @@ def parse_people_line_conservatively(line: str):
         return "skip", []
 
     if re.fullmatch(r"\d{2}:\d{2}", line):
-        return "skip", []
-
-    if line == "个起落":
         return "skip", []
 
     if LATIN_PERSON_RE.fullmatch(line) or ZH_TAGGED_NAME_RE.fullmatch(line):
@@ -1537,6 +1891,7 @@ def parse_people_line_conservatively(line: str):
                 return "keep", [line]
             return "split", [line]
 
+        # 长名单保留整串。
         if re.fullmatch(r"[\u4e00-\u9fff()A-Z]{4,200}", line):
             return "keep", [line]
 
@@ -1632,7 +1987,10 @@ def _parse_ferry_route_from_description(desc: str):
 def is_probably_people_zone(line: str) -> bool:
     line = standardize_people_text(line)
 
-    if not line or line == "个起落":
+    if not line:
+        return False
+
+    if is_bad_title_text(line):
         return False
 
     if any(w in line for w in TRANSPORT_HINT_WORDS):
@@ -1694,6 +2052,9 @@ def extract_people_lines_generic(lines: list, consumed_idx: set, title_text: str
         if not line:
             continue
 
+        if is_bad_title_text(line):
+            continue
+
         if line in ROLE_WORDS or is_day_header(line) or "查看更多" in line:
             continue
 
@@ -1722,7 +2083,7 @@ def extract_people_lines_generic(lines: list, consumed_idx: set, title_text: str
             or any(w in line for w in GENERIC_TASK_WORDS)
         )
 
-        if is_title_like:
+        if is_title_like and not is_bad_title_text(line):
             extra_lines.append(line)
 
     people = normalize_people_output(people)
@@ -1733,23 +2094,32 @@ def extract_people_lines_generic(lines: list, consumed_idx: set, title_text: str
 
 def should_block_new_dirty_grounding(item: dict) -> bool:
     """
-    阻止以后新生成明显错误的 Grounding / 个起落 事件。
-    这不是清理历史，只是不再制造新错。
+    只阻止以后新生成明显错误的 Grounding / 个起落 类事件。
+    不主动清理历史，避免误删。
     """
     title_text = normalize_text(item.get("title_text", ""))
     raw_card_text = normalize_text(item.get("raw_card_text", ""))
     people = item.get("people_lines", [])
-    start_time = item.get("start_time", "")
-    end_time = item.get("end_time", "")
+    location = normalize_text(item.get("location", ""))
+    extra_lines = item.get("extra_lines", [])
 
     if item.get("task_type") not in {"停飞", "考勤", "其他"}:
         return False
 
-    grounding_like = ("Grounding" in title_text) or ("Grounding" in raw_card_text)
-    whole_day_like = start_time == "00:00" and end_time in {"17:30", "23:59"}
-    people_bad = (not people) or people == ["个起落"]
+    grounding_like = (
+        "Grounding" in title_text
+        or "grounding" in title_text
+        or "Grounding" in raw_card_text
+        or "grounding" in raw_card_text
+        or "停飞" in title_text
+    )
 
-    if grounding_like and whole_day_like and people_bad:
+    people_bad = (not people) or all(is_bad_title_text(p) for p in people)
+    title_bad = is_bad_title_text(title_text) or title_text in {"停飞Grounding", "Grounding", "停飞"}
+    weak_location = (not location) or is_bad_title_text(location)
+    weak_extra = not extra_lines
+
+    if grounding_like and people_bad and (title_bad or weak_location or weak_extra):
         return True
 
     return False
@@ -1799,7 +2169,7 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
             start_time, end_time = st, et
             time_line_prefix = prefix
 
-            if suffix:
+            if suffix and not is_bad_title_text(suffix):
                 location = suffix
 
             if has_next_day_marker(line):
@@ -1815,12 +2185,15 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
             if is_day_header(candidate) or ICAO_RE.fullmatch(candidate) or MODEL_ONLY_RE.fullmatch(candidate):
                 continue
 
+            if is_bad_title_text(candidate):
+                continue
+
             if re.search(r"[\u4e00-\u9fffA-Za-z]", candidate):
                 title_text = strip_time_from_title(candidate)
                 consumed_idx.add(look_back)
                 break
 
-    if not title_text and time_line_prefix:
+    if not title_text and time_line_prefix and not is_bad_title_text(time_line_prefix):
         title_text = strip_time_from_title(time_line_prefix)
 
     dep_icao_seq = [line for line in lines if ICAO_RE.fullmatch(line)]
@@ -1859,6 +2232,9 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
         for line in lines:
             line_clean = strip_time_from_title(line)
 
+            if is_bad_title_text(line_clean):
+                continue
+
             if (
                 line_clean
                 and line_clean not in TASK_TITLE_WORDS
@@ -1876,9 +2252,9 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
     )
 
     if task_type in {"停飞", "考勤"}:
-        people_lines = [p for p in people_lines if p != "个起落"]
+        people_lines = [p for p in people_lines if not is_bad_title_text(p)]
 
-        if title_text == "个起落":
+        if is_bad_title_text(title_text):
             title_text = task_type
 
     if not start_time or not end_time:
@@ -2034,14 +2410,14 @@ def build_title(item: dict) -> str:
             "",
             title_text,
         ).strip()
-        clean_title = clean_title.replace("Grounding", "").strip()
+        clean_title = clean_title.replace("Grounding", "").replace("grounding", "").strip()
 
-        if clean_title:
+        if clean_title and not is_bad_title_text(clean_title):
             return f"{icon} {clean_title}"
 
         return f"{icon} 停飞"
 
-    if title_text:
+    if title_text and not is_bad_title_text(title_text):
         return f"{icon} {title_text}"
 
     return f"{icon} {item['task_type']}"
@@ -2052,7 +2428,7 @@ def build_description(item: dict) -> str:
 
     if item["flight_no"]:
         lines.append(f"航班：{item['flight_no']}")
-    elif item.get("title_text"):
+    elif item.get("title_text") and not is_bad_title_text(item.get("title_text", "")):
         lines.append(f"事项：{item['title_text']}")
 
     if item["dep_cn"] and item["arr_cn"]:
@@ -2062,7 +2438,7 @@ def build_description(item: dict) -> str:
         cross = "(+1)" if item["end_dt"].date() > item["start_dt"].date() else ""
         lines.append(f"航线：{item['dep']} → {item['arr']}{cross}")
 
-    if item["location"]:
+    if item["location"] and not is_bad_title_text(item["location"]):
         lines.append(f"地点：{item['location']}")
 
     if item["checkin_time"] and item["checkin_place"]:
@@ -2079,16 +2455,18 @@ def build_description(item: dict) -> str:
     elif item["reg"]:
         lines.append(f"注册号：{item['reg']}")
 
-    if item["extra_lines"]:
+    clean_extra = [x for x in item["extra_lines"] if not is_bad_title_text(x)]
+    if clean_extra:
         lines.append("")
         lines.append("说明：")
-        for x in item["extra_lines"]:
+        for x in clean_extra:
             lines.append(f"• {x}")
 
-    if item["people_lines"]:
+    clean_people = normalize_people_output(item["people_lines"])
+    if clean_people:
         lines.append("")
         lines.append("人员名单：")
-        for p in item["people_lines"]:
+        for p in clean_people:
             lines.append(f"• {p}")
 
     return "\n".join(lines)
@@ -2149,7 +2527,7 @@ def build_vevent(item: dict, version_tag: str = "") -> str:
         f"X-CONTENT-SIGNATURE:{exact_content_signature(item)}",
     ]
 
-    if item["location"]:
+    if item["location"] and not is_bad_title_text(item["location"]):
         lines.append(f"LOCATION:{escape_ics_text(item['location'])}")
 
     lines.extend(
@@ -2194,7 +2572,7 @@ def extract_event_date_from_block(block: str) -> str:
 def normalize_similarity_title(text: str) -> str:
     text = normalize_text(text)
     text = re.sub(r"\s*00:00\s*[~～\-–—]\s*(17:30|23:59)", "", text)
-    text = text.replace("Grounding", "")
+    text = text.replace("Grounding", "").replace("grounding", "")
     text = text.replace(" ", "")
     return text
 
@@ -2243,11 +2621,11 @@ def block_quality(block: str) -> int:
     if "人员名单：" in block:
         score += 10
 
-    if "个起落" in block:
+    if any(bad in block for bad in BAD_TITLE_WORDS):
         score -= 100
 
-    if "Grounding" in block and ("00:00~23:59" in block or "00:00 - 23:59" in block):
-        score -= 100
+    if "Grounding" in block and ("00:00" in block):
+        score -= 20
 
     return score
 
@@ -2315,7 +2693,7 @@ def event_quality(item: dict) -> int:
         score += 10
     if item["people_lines"]:
         score += 10
-    if item.get("title_text"):
+    if item.get("title_text") and not is_bad_title_text(item.get("title_text", "")):
         score += 10
 
     return score
@@ -2444,7 +2822,7 @@ def build_version_tag() -> str:
     return datetime.now(SH_TZ).strftime("%Y-%m-%d %H:%M")
 
 
-def merge_history_replace_scraped_dates(filename: str, bucket_items: list, scraped_dates: set[str], version_tag: str) -> list:
+def merge_history_replace_scraped_dates(filename: str, bucket_items: list, scraped_dates: set, version_tag: str) -> list:
     """
     核心底层逻辑：
 
