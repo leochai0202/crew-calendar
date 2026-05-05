@@ -807,19 +807,6 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:f845acb6d9683cab8fa24911405f82f3@crew-calendar
-SUMMARY:🎓 理论课-安保理论（复训）
-DTSTART;TZID=Asia/Shanghai:20260510T090000
-DTEND;TZID=Asia/Shanghai:20260510T173000
-DESCRIPTION:05月10日 周日\n类型：训练\n事项：理论课-安保理论（复训）\n地点：春秋飞培2号楼教室2\n任务：09:00 - 17:30\n\n人员名单：\n• 段洋硕\n• 张晨昕\n\n版本：2026-05-04 16:16
-LOCATION:春秋飞培2号楼教室2
-BEGIN:VALARM
-TRIGGER:-PT90M
-DESCRIPTION:理论课-安保理论（复训） 提醒
-ACTION:DISPLAY
-END:VALARM
-END:VEVENT
-BEGIN:VEVENT
 DESCRIPTION:日期：03月14日 周六 航班 09:05- 22:40\n任务类型：航班\n航班号：9C8995\n机型：A321\n注册号：B326Q\n签到时间：14:20\n签到地点：上海虹桥\n任务时间：14:20 - 19:05\n人员类型：副驾驶\n人员名单：\n杨刚(T\,RT)鲍国际(R)段洋硕(R*)\n龚婷(B)\n兰力牛琨彭高庆得\n\n原始内容：\n9C8995\nB326QA321\n 14:20 上海虹桥 航班动态\n上海虹桥重庆江北 16:05- 19:05\n\n副驾驶\n\n杨刚(T\,RT)鲍国际(R)段洋硕(R*)\n\n龚婷(B)\n\n兰力牛琨彭高庆得
 DTEND:20260314T190500Z
 DTSTART:20260314T142000Z
