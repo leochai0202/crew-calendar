@@ -325,6 +325,7 @@ AIRPORT_ICAO_TO_CN = {}
 AIRPORT_NAMES = []
 
 
+# 只保留自己，不能靠硬编码同事名解决拆分问题。
 KNOWN_PEOPLE = ["段洋硕"]
 
 
@@ -1049,7 +1050,7 @@ def expand_day_with_retry(page, header: str, retries: int = 3) -> bool:
     return False
 
 
-def get_day_block(page, header: str, next_header: str or None) -> str:
+def get_day_block(page, header: str, next_header=None) -> str:
     body_text_all = normalize_text(page.locator("body").inner_text())
     start = body_text_all.find(header)
 
@@ -1137,7 +1138,7 @@ def line_has_task_keyword(line: str) -> bool:
 
 def classify_card_kind(card_text: str, day_header: str = "") -> str:
     """
-    分类只看当前 card_text，避免整天 day_block 污染分类。
+    只看当前 card_text，不用整天 day_block，避免同一天多个任务互相污染分类。
     优先级：置位 > 摆渡 > 训练 > 停飞 > 考勤 > 备份/待命 > 航班 > 其他
     """
     text = normalize_text(card_text)
@@ -1240,8 +1241,16 @@ def clean_tail_noise(lines: list) -> list:
 
 
 def is_card_start_line(line: str, prev_line: str = "") -> bool:
+    """
+    修复重点：
+    1. 当前行是航班号 / 老式航班头，可以开新卡。
+    2. 当前行自己包含时间段 + 任务关键词，可以开新卡。
+    3. 不再因为“上一行含训练关键词 + 当前行有时间”就开新卡，
+       因为训练任务常见结构正是：
+       理论课-xxx训练
+       08:30~17:30 地点
+    """
     line = normalize_text(line)
-    prev_line = normalize_text(prev_line)
 
     if not line:
         return False
@@ -1250,9 +1259,6 @@ def is_card_start_line(line: str, prev_line: str = "") -> bool:
         return True
 
     if TIME_RANGE_RE.search(line) and line_has_task_keyword(line):
-        return True
-
-    if TIME_RANGE_RE.search(line) and prev_line and line_has_task_keyword(prev_line):
         return True
 
     if TIME_RANGE_RE.search(line) and ("Grounding" in line or "grounding" in line or "停飞" in line):
@@ -1875,6 +1881,12 @@ def get_surname_lengths_at(text: str, idx: int) -> list:
 
 
 def split_chinese_flight_people_by_surname(text: str) -> list:
+    """
+    航班人员专用拆分：
+    不靠硬编码同事名字。
+    用姓氏 + 回溯拆短名单。
+    拆不稳就保留整串，不误删。
+    """
     text = standardize_people_text(text)
     text = SHORT_ROLE_RE.sub("", text)
     text = normalize_text(text)
@@ -2559,7 +2571,7 @@ def build_description(item: dict) -> str:
 
 def stable_uid_seed(item: dict) -> str:
     """
-    UID 尽量使用稳定字段，避免 title_text 轻微变化造成 iPhone 认为是新事件。
+    UID 尽量使用稳定字段，避免 title_text 轻微变化导致 iPhone 认为是新事件。
     """
     date_key = item["start_dt"].strftime("%Y-%m-%d")
     task_type = item["task_type"]
