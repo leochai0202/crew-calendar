@@ -6,7 +6,7 @@ UID:7b867d0ce62d12e8aac17fc918b488d2@crew-calendar
 SUMMARY:📋 停飞Grounding
 DTSTART;TZID=Asia/Shanghai:20260505T000000
 DTEND;TZID=Asia/Shanghai:20260505T173000
-DESCRIPTION:05月05日 周二\n类型：停飞\n事项：停飞Grounding\n任务：00:00 - 17:30\n\n说明：\n• 90天3个起落\n\n版本：2026-05-05 13:37
+DESCRIPTION:05月05日 周二\n类型：停飞\n事项：停飞Grounding\n任务：00:00 - 17:30\n\n说明：\n• 90天3个起落\n\n版本：2026-05-05 14:23
 X-CONTENT-SIGNATURE:094400b3a9bd632cea22afa55705c196
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -19,7 +19,7 @@ UID:8f5c5ce644aa8a9991131f963afb9fad@crew-calendar
 SUMMARY:🎓 理论课-应急生存训练复训
 DTSTART;TZID=Asia/Shanghai:20260506T083000
 DTEND;TZID=Asia/Shanghai:20260506T173000
-DESCRIPTION:05月06日 周三\n类型：训练\n事项：理论课-应急生存训练复训\n地点：东海学院匠兴苑C区5楼\n任务：08:30 - 17:30\n\n人员名单：\n• 徐帆丁小磊姚星宇段洋硕赵智勇牛雪山顾静昊曹胜懿胡凯祥李树基\n• 金雄张秀霞池清玮\n\n版本：2026-05-05 13:37
+DESCRIPTION:05月06日 周三\n类型：训练\n事项：理论课-应急生存训练复训\n地点：东海学院匠兴苑C区5楼\n任务：08:30 - 17:30\n\n人员名单：\n• 徐帆丁小磊姚星宇段洋硕赵智勇牛雪山顾静昊曹胜懿胡凯祥李树基\n• 金雄张秀霞池清玮\n\n版本：2026-05-05 14:23
 X-CONTENT-SIGNATURE:7451241d175d4c46da5b7c62e252f0f0
 LOCATION:东海学院匠兴苑C区5楼
 BEGIN:VALARM
@@ -33,7 +33,7 @@ UID:96d1f8142d4cc9ccac8d76f3f1a63195@crew-calendar
 SUMMARY:🎓 模拟机-定期复训结合熟练检查
 DTSTART;TZID=Asia/Shanghai:20260507T060000
 DTEND;TZID=Asia/Shanghai:20260507T120000
-DESCRIPTION:05月07日 周四\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：06:00 - 12:00\n\n人员名单：\n• 段洋硕张子钦陈员\n• 康铁辉\n\n版本：2026-05-05 13:37
+DESCRIPTION:05月07日 周四\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：06:00 - 12:00\n\n人员名单：\n• 段洋硕张子钦陈员\n• 康铁辉\n\n版本：2026-05-05 14:23
 X-CONTENT-SIGNATURE:5260ca60f2e365f823d0d7ec933ee7cc
 LOCATION:春秋飞培
 BEGIN:VALARM
@@ -47,7 +47,7 @@ UID:f95e433e94ea8d72525eefafff53c7d5@crew-calendar
 SUMMARY:🎓 模拟机-定期复训结合熟练检查
 DTSTART;TZID=Asia/Shanghai:20260508T101000
 DTEND;TZID=Asia/Shanghai:20260508T161000
-DESCRIPTION:05月08日 周五\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：10:10 - 16:10\n\n人员名单：\n• 段洋硕张子钦陈员\n• 康铁辉\n\n版本：2026-05-05 13:37
+DESCRIPTION:05月08日 周五\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：10:10 - 16:10\n\n人员名单：\n• 段洋硕张子钦陈员\n• 康铁辉\n\n版本：2026-05-05 14:23
 X-CONTENT-SIGNATURE:4fb3d2cca953f0374042ecf3234ed2dd
 LOCATION:春秋飞培
 BEGIN:VALARM
@@ -61,7 +61,7 @@ UID:8d85e8323c6fbe400306edfe436e6f49@crew-calendar
 SUMMARY:🎓 模拟机-定期复训结合熟练检查
 DTSTART;TZID=Asia/Shanghai:20260509T142000
 DTEND;TZID=Asia/Shanghai:20260509T202000
-DESCRIPTION:05月09日 周六\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：14:20 - 20:20\n\n人员名单：\n• 段洋硕张子钦陈员\n\n版本：2026-05-05 13:37
+DESCRIPTION:05月09日 周六\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：14:20 - 20:20\n\n人员名单：\n• 段洋硕张子钦陈员\n\n版本：2026-05-05 14:23
 X-CONTENT-SIGNATURE:f49a8b0252531f61377532be7cfe19d5
 LOCATION:春秋飞培
 BEGIN:VALARM
@@ -75,7 +75,7 @@ UID:cd3a200337de5f6a4ea96c229b088428@crew-calendar
 SUMMARY:🎓 理论课-安保理论(复训)
 DTSTART;TZID=Asia/Shanghai:20260510T090000
 DTEND;TZID=Asia/Shanghai:20260510T173000
-DESCRIPTION:05月10日 周日\n类型：训练\n事项：理论课-安保理论(复训)\n地点：春秋飞培2号楼教室2\n任务：09:00 - 17:30\n\n人员名单：\n• 侯钦耀杨家乐王凡王荣泰王壮张雍英赵久洋高昂段洋硕朱勇陈博张首三王则栋花云峰温逸豪刘煜徐元新吴念张子钦杨嘉荣赵智勇龚雷熊良虎曾辉陈员\n• 张晨昕\n\n版本：2026-05-05 13:37
+DESCRIPTION:05月10日 周日\n类型：训练\n事项：理论课-安保理论(复训)\n地点：春秋飞培2号楼教室2\n任务：09:00 - 17:30\n\n人员名单：\n• 侯钦耀杨家乐王凡王荣泰王壮张雍英赵久洋高昂段洋硕朱勇陈博张首三王则栋花云峰温逸豪刘煜徐元新吴念张子钦杨嘉荣赵智勇龚雷熊良虎曾辉陈员\n• 张晨昕\n\n版本：2026-05-05 14:23
 X-CONTENT-SIGNATURE:32b0eaaa3d59a685d0325d0aec5e08cb
 LOCATION:春秋飞培2号楼教室2
 BEGIN:VALARM

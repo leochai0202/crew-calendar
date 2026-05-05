@@ -6,7 +6,7 @@ UID:7b867d0ce62d12e8aac17fc918b488d2@crew-calendar
 SUMMARY:📋 停飞Grounding
 DTSTART;TZID=Asia/Shanghai:20260505T000000
 DTEND;TZID=Asia/Shanghai:20260505T173000
-DESCRIPTION:05月05日 周二\n类型：停飞\n事项：停飞Grounding\n任务：00:00 - 17:30\n\n说明：\n• 90天3个起落\n\n版本：2026-05-05 13:37
+DESCRIPTION:05月05日 周二\n类型：停飞\n事项：停飞Grounding\n任务：00:00 - 17:30\n\n说明：\n• 90天3个起落\n\n版本：2026-05-05 14:23
 X-CONTENT-SIGNATURE:094400b3a9bd632cea22afa55705c196
 BEGIN:VALARM
 TRIGGER:-PT90M
