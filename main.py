@@ -389,6 +389,23 @@ STOP_KEYWORDS = ["停飞", "Grounding", "grounding"]
 ATTENDANCE_KEYWORDS = ["考勤"]
 STANDBY_KEYWORDS = ["备份", "待命"]
 
+DETAIL_SIGNAL_KEYWORDS = [
+    "理论课",
+    "模拟机",
+    "教室",
+    "春秋飞培",
+    "人员名单",
+    "机长",
+    "副驾驶",
+    "乘务长",
+    "随机人员",
+    "加机组人员",
+    "航班动态",
+    "签到",
+    "地点",
+    "候振",
+]
+
 TRANSPORT_HINT_WORDS = ["搭乘", "乘坐", "火车", "高铁", "动车", "去", "前往", "至", "返回"]
 
 BAD_TITLE_WORDS = {
@@ -1021,36 +1038,6 @@ def collapse_day(page, header: str):
         pass
 
 
-def is_day_expanded(page, header: str) -> bool:
-    body = page_text(page)
-    start = body.find(header)
-
-    if start == -1:
-        return False
-
-    after = body[start:start + 1200]
-
-    if "航班动态" in after:
-        return True
-    if len(TIME_RANGE_RE.findall(after)) >= 1:
-        return True
-    if FLIGHT_NO_RE.search(after):
-        return True
-
-    return False
-
-
-def expand_day_with_retry(page, header: str, retries: int = 3) -> bool:
-    for _ in range(retries):
-        if expand_day(page, header):
-            if is_day_expanded(page, header):
-                return True
-
-        random_like_wait(page, 600, 300)
-
-    return False
-
-
 def get_day_block(page, header: str, next_header=None) -> str:
     body_text_all = normalize_text(page.locator("body").inner_text())
     start = body_text_all.find(header)
@@ -1160,15 +1147,6 @@ def line_has_summary_task_signal(line: str) -> bool:
 
 
 def get_day_summary_task_map(page) -> dict:
-    """
-    从页面正文里提取日期摘要行。
-    例如：
-    05月11日 周一 训练 09:00- 17:30
-
-    用途：
-    当某天展开失败，或者展开后 block/card 为空时，
-    用这个摘要行生成一个简化事件，避免漏进日历。
-    """
     text = page_text(page)
     result = {}
 
@@ -1201,6 +1179,205 @@ def get_day_summary_task_map(page) -> dict:
     )
 
     return result
+
+
+def is_summary_like_line_for_header(line: str, header: str) -> bool:
+    line = normalize_text(line)
+    header = normalize_text(header)
+
+    if not line:
+        return False
+
+    if header and line.startswith(header):
+        tail = normalize_text(line[len(header):])
+        return line_has_summary_task_signal(tail)
+
+    return line_has_summary_task_signal(line)
+
+
+def remove_summary_like_lines(lines: list, header: str, fallback_text: str = "") -> list:
+    cleaned = []
+    fallback_text = normalize_text(fallback_text)
+
+    for line in lines:
+        line = normalize_text(line)
+
+        if not line:
+            continue
+
+        if is_summary_like_line_for_header(line, header):
+            continue
+
+        if fallback_text and line == fallback_text:
+            continue
+
+        if "查看更多" in line:
+            continue
+
+        if PURE_DATE_PREFIX_RE.match(line):
+            continue
+
+        cleaned.append(line)
+
+    return cleaned
+
+
+def day_block_has_real_detail(day_block: str, header: str, fallback_text: str = "") -> bool:
+    day_block = normalize_text(day_block)
+
+    if not day_block:
+        return False
+
+    lines = [normalize_text(x) for x in day_block.splitlines() if normalize_text(x)]
+
+    if not lines:
+        return False
+
+    useful_lines = []
+
+    for line in lines:
+        if line == header:
+            continue
+
+        if header in line and is_summary_like_line_for_header(line, header):
+            continue
+
+        useful_lines.append(line)
+
+    useful_lines = remove_summary_like_lines(useful_lines, header, fallback_text=fallback_text)
+
+    if not useful_lines:
+        return False
+
+    joined = "\n".join(useful_lines)
+
+    if any(k in joined for k in DETAIL_SIGNAL_KEYWORDS):
+        return True
+
+    if "航班动态" in joined:
+        return True
+
+    if FLIGHT_NO_RE.search(joined) and (
+        REG_AND_MODEL_RE.search(joined)
+        or REG_ONLY_RE.search(joined)
+        or len(ICAO_RE.findall(joined)) >= 2
+    ):
+        return True
+
+    if len(useful_lines) >= 2:
+        has_text_detail = any(re.search(r"[\u4e00-\u9fffA-Za-z]", x) for x in useful_lines)
+        has_time = any(TIME_RANGE_RE.search(x) for x in useful_lines)
+        if has_text_detail and has_time:
+            return True
+
+    if len(useful_lines) == 1:
+        one = useful_lines[0]
+        if not line_has_summary_task_signal(one) and re.search(r"[\u4e00-\u9fffA-Za-z]", one):
+            detail_words = (
+                TRAINING_KEYWORDS
+                + POSITIONING_KEYWORDS
+                + FERRY_KEYWORDS
+                + STOP_KEYWORDS
+                + ATTENDANCE_KEYWORDS
+                + STANDBY_KEYWORDS
+            )
+            if any(k in one for k in detail_words):
+                return True
+
+    return False
+
+
+def cards_have_real_detail(cards: list, header: str, fallback_text: str = "") -> bool:
+    if not cards:
+        return False
+
+    for card in cards:
+        text = normalize_text(card.get("text", ""))
+        if not text:
+            continue
+
+        if day_block_has_real_detail(text, header, fallback_text=fallback_text):
+            return True
+
+    return False
+
+
+def wait_for_real_day_detail(page, header: str, next_header=None, fallback_text: str = "", max_wait_ms: int = 10000):
+    deadline = datetime.now() + timedelta(milliseconds=max_wait_ms)
+
+    last_block = ""
+    last_cards = []
+    has_real_detail = False
+
+    while datetime.now() < deadline:
+        try:
+            day_block = get_day_block(page, header, next_header)
+            cards = split_day_block_into_cards(header, day_block)
+
+            last_block = day_block
+            last_cards = cards
+
+            if day_block_has_real_detail(day_block, header, fallback_text=fallback_text):
+                has_real_detail = True
+                return last_block, last_cards, has_real_detail
+
+            if cards_have_real_detail(cards, header, fallback_text=fallback_text):
+                has_real_detail = True
+                return last_block, last_cards, has_real_detail
+
+        except Exception as e:
+            logger.warning(f"等待 {header} 详情时读取失败: {e}")
+
+        random_like_wait(page, 800, 400)
+
+    return last_block, last_cards, has_real_detail
+
+
+def expand_day_get_real_detail(page, header: str, next_header=None, fallback_text: str = "", retries: int = 4):
+    best_block = ""
+    best_cards = []
+    expanded_final = False
+
+    for attempt in range(1, retries + 1):
+        logger.info(f"展开 {header} 尝试 {attempt}/{retries}")
+
+        expanded = expand_day(page, header)
+
+        if not expanded:
+            logger.warning(f"{header} 点击展开失败")
+            random_like_wait(page, 800, 300)
+            continue
+
+        expanded_final = True
+
+        day_block, cards, has_real_detail = wait_for_real_day_detail(
+            page,
+            header,
+            next_header=next_header,
+            fallback_text=fallback_text,
+            max_wait_ms=10000 + attempt * 2000,
+        )
+
+        if day_block:
+            best_block = day_block
+        if cards:
+            best_cards = cards
+
+        if has_real_detail:
+            logger.info(f"{header} 已抓到真实详情")
+            return True, best_block, best_cards, True
+
+        logger.warning(f"{header} 本次只抓到摘要或空内容，准备重试")
+
+        try:
+            collapse_day(page, header)
+            expanded_final = False
+        except Exception:
+            pass
+
+        random_like_wait(page, 1000 + attempt * 300, 500)
+
+    return expanded_final, best_block, best_cards, False
 
 
 def classify_card_kind(card_text: str, day_header: str = "") -> str:
@@ -1871,12 +2048,6 @@ def get_surname_lengths_at(text: str, idx: int) -> list:
 
 
 def split_chinese_flight_people_by_surname(text: str) -> list:
-    """
-    航班/短名单人员专用拆分：
-    不靠硬编码同事名字。
-    用姓氏 + 回溯拆短名单。
-    拆不稳就保留整串，不误删。
-    """
     text = standardize_people_text(text)
     text = SHORT_ROLE_RE.sub("", text)
     text = normalize_text(text)
@@ -3145,24 +3316,27 @@ def collect_day_blocks(page) -> list:
         expanded = False
         day_block = ""
         cards = []
+        has_real_detail = False
+
+        fallback_text = normalize_text(summary_task_map.get(header, ""))
 
         try:
-            expanded = expand_day_with_retry(page, header)
+            expanded, day_block, cards, has_real_detail = expand_day_get_real_detail(
+                page,
+                header,
+                next_header=next_header,
+                fallback_text=fallback_text,
+                retries=4,
+            )
 
-            if not expanded:
-                logger.warning(f"日期 {header} 展开失败，尝试使用页面摘要兜底")
+            if has_real_detail:
+                logger.info(f"日期 {header} 使用真实详情卡片")
             else:
-                day_block = get_day_block(page, header, next_header)
-                cards = split_day_block_into_cards(header, day_block)
+                logger.warning(f"日期 {header} 未确认真实详情，检查是否需要摘要兜底")
 
-            if not cards:
-                fallback_text = normalize_text(summary_task_map.get(header, ""))
-
+            if not has_real_detail or not cards:
                 if fallback_text:
-                    logger.warning(f"日期 {header} 未抓到详情卡片，使用摘要行兜底：{fallback_text}")
-
-                    if not day_block:
-                        day_block = f"{header}\n{fallback_text}"
+                    logger.warning(f"日期 {header} 最终使用摘要行兜底：{fallback_text}")
 
                     fallback_cards = split_day_block_into_cards(
                         header,
@@ -3180,8 +3354,12 @@ def collect_day_blocks(page) -> list:
                                 "summary_fallback": True,
                             }
                         ]
+
+                    if not day_block:
+                        day_block = f"{header}\n{fallback_text}"
                 else:
-                    logger.warning(f"日期 {header} 未抓到详情卡片，且没有可用摘要兜底")
+                    logger.warning(f"日期 {header} 没有真实详情，也没有可用摘要兜底")
+                    cards = []
 
             save_text(f"block_{key}.txt", day_block)
 
@@ -3205,7 +3383,7 @@ def collect_day_blocks(page) -> list:
                 )
 
         except Exception as e:
-            logger.error(f"处理日期 {header} 失败: {e}")
+            logger.error(f"处理日期 {header} 失败: {e}", exc_info=True)
 
             fallback_text = normalize_text(summary_task_map.get(header, ""))
 
