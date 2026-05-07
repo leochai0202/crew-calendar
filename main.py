@@ -1,7 +1,7 @@
-import os
 import re
 import io
 import json
+import os
 import csv
 import base64
 import shutil
@@ -368,6 +368,7 @@ PAGE_YEAR_MONTH_RE = re.compile(r"(\d{4})年(\d{1,2})月")
 PURE_DATE_PREFIX_RE = re.compile(r"^\d{4}-\d{2}-\d{2}")
 ICAO_RE = re.compile(r"\b[A-Z]{4}\b")
 DAY_HEADER_RE = re.compile(r"^\d{2}月\d{2}日\s*周.")
+DAY_SUMMARY_LINE_RE = re.compile(r"^(\d{2}月\d{2}日\s*周.)(.*)$")
 LATIN_PERSON_RE = re.compile(r"[A-Z][A-Z\s\.\-']{1,80}\([^)]*\)")
 ZH_TAGGED_NAME_RE = re.compile(r"[\u4e00-\u9fff]{2,4}\([^)]*\)")
 ZH_NAME_WITH_ROLE_RE = re.compile(r"[\u4e00-\u9fff]{2,4}(?:\([A-Z]\))?")
@@ -1134,6 +1135,72 @@ def line_has_task_keyword(line: str) -> bool:
         + STANDBY_KEYWORDS
     )
     return any(k in line for k in keywords)
+
+
+def line_has_summary_task_signal(line: str) -> bool:
+    line = normalize_text(line)
+
+    if not line:
+        return False
+
+    if not TIME_RANGE_RE.search(line):
+        return False
+
+    keywords = (
+        POSITIONING_KEYWORDS
+        + FERRY_KEYWORDS
+        + TRAINING_KEYWORDS
+        + STOP_KEYWORDS
+        + ATTENDANCE_KEYWORDS
+        + STANDBY_KEYWORDS
+        + ["航班"]
+    )
+
+    return any(k in line for k in keywords)
+
+
+def get_day_summary_task_map(page) -> dict:
+    """
+    从页面正文里提取日期摘要行。
+    例如：
+    05月11日 周一 训练 09:00- 17:30
+
+    用途：
+    当某天展开失败，或者展开后 block/card 为空时，
+    用这个摘要行生成一个简化事件，避免漏进日历。
+    """
+    text = page_text(page)
+    result = {}
+
+    for raw_line in text.splitlines():
+        line = normalize_text(raw_line)
+
+        if not line:
+            continue
+
+        m = DAY_SUMMARY_LINE_RE.match(line)
+
+        if not m:
+            continue
+
+        header = normalize_text(m.group(1))
+        tail = normalize_text(m.group(2))
+
+        if not tail:
+            continue
+
+        if "查看更多" in tail:
+            continue
+
+        if line_has_summary_task_signal(tail):
+            result[header] = tail
+
+    save_text(
+        "day_summary_fallback_map.txt",
+        "\n".join([f"{k} => {v}" for k, v in result.items()]),
+    )
+
+    return result
 
 
 def classify_card_kind(card_text: str, day_header: str = "") -> str:
@@ -1942,20 +2009,16 @@ def parse_people_line_conservatively(line: str):
         return "split", [line]
 
     if not has_clear_delimiters(line):
-        # 纯中文短名单：优先用姓氏 + 回溯拆分，不靠硬编码同事名字。
-        # 例如：段洋硕张子钦陈员 -> 段洋硕 / 张子钦 / 陈员
         if re.fullmatch(r"[\u4e00-\u9fff]{4,15}", line):
             surname_split = split_chinese_flight_people_by_surname(line)
             if surname_split and len(surname_split) > 1:
                 return "split", surname_split
 
-        # 单个人名，直接保留为一个人。
         if re.fullmatch(r"[\u4e00-\u9fff]{2,4}(?:\([A-Z]\))?", line):
             if contains_suspicious_half_name(line):
                 return "keep", [line]
             return "split", [line]
 
-        # 长名单：不要硬拆，保留整串，避免训练长名单被切坏。
         if re.fullmatch(r"[\u4e00-\u9fff()A-Z]{4,200}", line):
             return "keep", [line]
 
@@ -2888,10 +2951,19 @@ def prepare_items(day_blocks, page_year: int) -> list:
                     forced_kind=kind,
                 )
 
+            if item and card.get("summary_fallback"):
+                item["summary_fallback"] = True
+
+                if not item.get("extra_lines"):
+                    item["extra_lines"] = []
+
+                item["extra_lines"].append("来源：页面摘要行，未展开到详细任务卡片")
+
             title = build_title(item) if item else "SKIPPED"
+            fallback_mark = " | SUMMARY_FALLBACK" if card.get("summary_fallback") else ""
 
             classification_log.append(
-                f"{day_header} | card#{idx} | kind={kind} | title={title}\n{card_text}\n---"
+                f"{day_header} | card#{idx} | kind={kind}{fallback_mark} | title={title}\n{card_text}\n---"
             )
 
             if item:
@@ -3062,41 +3134,111 @@ def collect_day_blocks(page) -> list:
     day_headers = get_day_headers(page)
     save_text("day_headers.txt", "\n".join(day_headers))
 
+    summary_task_map = get_day_summary_task_map(page)
+
     result = []
 
     for idx, header in enumerate(day_headers):
         next_header = day_headers[idx + 1] if idx + 1 < len(day_headers) else None
+        key = safe_name(header)
 
-        if not expand_day_with_retry(page, header):
-            logger.warning(f"日期 {header} 展开失败")
-            continue
+        expanded = False
+        day_block = ""
+        cards = []
 
         try:
-            day_block = get_day_block(page, header, next_header)
-            cards = split_day_block_into_cards(header, day_block)
+            expanded = expand_day_with_retry(page, header)
 
-            key = safe_name(header)
+            if not expanded:
+                logger.warning(f"日期 {header} 展开失败，尝试使用页面摘要兜底")
+            else:
+                day_block = get_day_block(page, header, next_header)
+                cards = split_day_block_into_cards(header, day_block)
+
+            if not cards:
+                fallback_text = normalize_text(summary_task_map.get(header, ""))
+
+                if fallback_text:
+                    logger.warning(f"日期 {header} 未抓到详情卡片，使用摘要行兜底：{fallback_text}")
+
+                    if not day_block:
+                        day_block = f"{header}\n{fallback_text}"
+
+                    fallback_cards = split_day_block_into_cards(
+                        header,
+                        f"{header}\n{fallback_text}",
+                    )
+
+                    if fallback_cards:
+                        for c in fallback_cards:
+                            c["summary_fallback"] = True
+                        cards = fallback_cards
+                    else:
+                        cards = [
+                            {
+                                "text": fallback_text,
+                                "summary_fallback": True,
+                            }
+                        ]
+                else:
+                    logger.warning(f"日期 {header} 未抓到详情卡片，且没有可用摘要兜底")
 
             save_text(f"block_{key}.txt", day_block)
 
             save_text(
                 f"cards_{key}.txt",
-                "\n\n==========\n\n".join([f"[card]\n{c['text']}" for c in cards]),
+                "\n\n==========\n\n".join(
+                    [
+                        f"[card]{' SUMMARY_FALLBACK' if c.get('summary_fallback') else ''}\n{c['text']}"
+                        for c in cards
+                    ]
+                ),
             )
 
-            result.append(
-                {
-                    "day_header": header,
-                    "day_block": day_block,
-                    "cards": cards,
-                }
-            )
+            if cards:
+                result.append(
+                    {
+                        "day_header": header,
+                        "day_block": day_block,
+                        "cards": cards,
+                    }
+                )
 
         except Exception as e:
             logger.error(f"处理日期 {header} 失败: {e}")
 
+            fallback_text = normalize_text(summary_task_map.get(header, ""))
+
+            if fallback_text:
+                logger.warning(f"日期 {header} 异常后使用摘要行兜底：{fallback_text}")
+
+                cards = [
+                    {
+                        "text": fallback_text,
+                        "summary_fallback": True,
+                    }
+                ]
+
+                day_block = f"{header}\n{fallback_text}"
+
+                save_text(f"block_{key}.txt", day_block)
+
+                save_text(
+                    f"cards_{key}.txt",
+                    f"[card] SUMMARY_FALLBACK\n{fallback_text}",
+                )
+
+                result.append(
+                    {
+                        "day_header": header,
+                        "day_block": day_block,
+                        "cards": cards,
+                    }
+                )
+
         finally:
-            collapse_day(page, header)
+            if expanded:
+                collapse_day(page, header)
 
     logger.info(f"收集了 {len(result)} 个日期的数据")
     return result
