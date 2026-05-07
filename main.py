@@ -325,7 +325,6 @@ AIRPORT_ICAO_TO_CN = {}
 AIRPORT_NAMES = []
 
 
-# 只保留自己，不能靠硬编码同事名解决拆分问题。
 KNOWN_PEOPLE = ["段洋硕"]
 
 
@@ -1007,31 +1006,156 @@ def load_all_visible_tasks(page, max_rounds: int = LOAD_MORE_MAX_ROUNDS):
         prev_signature = signature_after
 
 
-def click_day_toggle(page, header: str) -> bool:
-    row = page.locator(f"text={header}").first
-    box = row.bounding_box()
+def click_day_toggle(page, header: str, strategy: int = 0) -> bool:
+    """
+    强化版展开点击：
+    不只点日期文字本身，而是尝试找到日期所在的大行容器，
+    再点击该行右侧的展开图标区域。
 
-    if not box:
+    strategy:
+    0 = 行容器最右侧，通常是展开箭头/弧形图标位置
+    1 = 行容器右侧偏左
+    2 = 行容器中部
+    3 = 日期文字本身
+    4 = 视口最右侧同高度
+    """
+    try:
+        row = page.locator(f"text={header}").first
+        row.scroll_into_view_if_needed(timeout=5000)
+        random_like_wait(page, 300, 200)
+
+        info = row.evaluate(
+            """
+            (el, strategy) => {
+                function rectInfo(r) {
+                    return {
+                        x: r.x,
+                        y: r.y,
+                        width: r.width,
+                        height: r.height,
+                        left: r.left,
+                        right: r.right,
+                        top: r.top,
+                        bottom: r.bottom
+                    };
+                }
+
+                let textRect = el.getBoundingClientRect();
+                let node = el;
+
+                for (let i = 0; i < 10; i++) {
+                    if (!node) break;
+
+                    let r = node.getBoundingClientRect();
+
+                    if (r.width >= 350 && r.height >= 25) {
+                        break;
+                    }
+
+                    if (!node.parentElement) break;
+                    node = node.parentElement;
+                }
+
+                let r = node.getBoundingClientRect();
+
+                let x = r.right - 24;
+                let y = r.top + r.height / 2;
+
+                if (strategy === 1) {
+                    x = r.right - 70;
+                    y = r.top + r.height / 2;
+                } else if (strategy === 2) {
+                    x = r.left + r.width / 2;
+                    y = r.top + r.height / 2;
+                } else if (strategy === 3) {
+                    x = textRect.left + textRect.width / 2;
+                    y = textRect.top + textRect.height / 2;
+                } else if (strategy === 4) {
+                    x = window.innerWidth - 38;
+                    y = textRect.top + textRect.height / 2;
+                }
+
+                x = Math.max(5, Math.min(window.innerWidth - 5, x));
+                y = Math.max(5, Math.min(window.innerHeight - 5, y));
+
+                let target = document.elementFromPoint(x, y);
+
+                if (target) {
+                    target.click();
+                } else {
+                    node.click();
+                }
+
+                return {
+                    ok: true,
+                    strategy: strategy,
+                    clickedX: x,
+                    clickedY: y,
+                    textRect: rectInfo(textRect),
+                    rowRect: rectInfo(r),
+                    targetTag: target ? target.tagName : "",
+                    targetClass: target ? String(target.className || "") : "",
+                    targetText: target ? String(target.innerText || target.textContent || "").slice(0, 80) : ""
+                };
+            }
+            """,
+            strategy,
+        )
+
+        save_text(
+            f"click_{safe_name(header)}_strategy_{strategy}.json",
+            json.dumps(info, ensure_ascii=False, indent=2),
+        )
+
+        random_like_wait(page, 1000, 500)
+        return True
+
+    except Exception as e:
+        logger.warning(f"{header} JS 点击策略 {strategy} 失败：{e}")
+
+    try:
+        row = page.locator(f"text={header}").first
+        box = row.bounding_box()
+
+        if not box:
+            return False
+
+        viewport = page.viewport_size or {"width": 1400, "height": 1000}
+        vw = viewport.get("width", 1400)
+
+        y = box["y"] + box["height"] / 2
+
+        points = [
+            (vw - 45, y),
+            (vw - 100, y),
+            (box["x"] + box["width"] + 60, y),
+            (box["x"] + box["width"] / 2, y),
+        ]
+
+        x, y = points[strategy % len(points)]
+        x = max(5, min(vw - 5, x))
+
+        page.mouse.click(x, y)
+        random_like_wait(page, 1000, 500)
+        return True
+
+    except Exception as e:
+        logger.warning(f"{header} 坐标点击策略 {strategy} 失败：{e}")
         return False
 
-    x = box["x"] + box["width"] - 28
-    y = box["y"] + box["height"] / 2
-    page.mouse.click(x, y)
-    return True
 
-
-def expand_day(page, header: str) -> bool:
-    ok = click_day_toggle(page, header)
+def expand_day(page, header: str, strategy: int = 0) -> bool:
+    ok = click_day_toggle(page, header, strategy=strategy)
 
     if ok:
-        random_like_wait(page, 1500, 700)
+        random_like_wait(page, 1200, 600)
 
     return ok
 
 
 def collapse_day(page, header: str):
     try:
-        ok = click_day_toggle(page, header)
+        ok = click_day_toggle(page, header, strategy=0)
         if ok:
             random_like_wait(page, 700, 300)
     except Exception:
@@ -1333,29 +1457,48 @@ def wait_for_real_day_detail(page, header: str, next_header=None, fallback_text:
     return last_block, last_cards, has_real_detail
 
 
-def expand_day_get_real_detail(page, header: str, next_header=None, fallback_text: str = "", retries: int = 4):
+def expand_day_get_real_detail(page, header: str, next_header=None, fallback_text: str = "", retries: int = 5):
     best_block = ""
     best_cards = []
     expanded_final = False
 
     for attempt in range(1, retries + 1):
-        logger.info(f"展开 {header} 尝试 {attempt}/{retries}")
+        strategy = (attempt - 1) % 5
+        logger.info(f"展开 {header} 尝试 {attempt}/{retries}，点击策略 {strategy}")
 
-        expanded = expand_day(page, header)
+        expanded = expand_day(page, header, strategy=strategy)
 
         if not expanded:
-            logger.warning(f"{header} 点击展开失败")
+            logger.warning(f"{header} 点击展开失败，strategy={strategy}")
             random_like_wait(page, 800, 300)
             continue
 
         expanded_final = True
+
+        try:
+            page.screenshot(
+                path=os.path.join(ARTIFACT_DIR, f"expand_{safe_name(header)}_attempt_{attempt}_strategy_{strategy}.png"),
+                full_page=True,
+            )
+        except Exception:
+            pass
 
         day_block, cards, has_real_detail = wait_for_real_day_detail(
             page,
             header,
             next_header=next_header,
             fallback_text=fallback_text,
-            max_wait_ms=10000 + attempt * 2000,
+            max_wait_ms=12000 + attempt * 2500,
+        )
+
+        save_text(
+            f"expand_{safe_name(header)}_attempt_{attempt}_block.txt",
+            day_block,
+        )
+
+        save_text(
+            f"expand_{safe_name(header)}_attempt_{attempt}_cards.txt",
+            "\n\n==========\n\n".join([f"[card]\n{c.get('text', '')}" for c in cards]),
         )
 
         if day_block:
@@ -1367,15 +1510,9 @@ def expand_day_get_real_detail(page, header: str, next_header=None, fallback_tex
             logger.info(f"{header} 已抓到真实详情")
             return True, best_block, best_cards, True
 
-        logger.warning(f"{header} 本次只抓到摘要或空内容，准备重试")
+        logger.warning(f"{header} 本次只抓到摘要或空内容，准备换策略重试")
 
-        try:
-            collapse_day(page, header)
-            expanded_final = False
-        except Exception:
-            pass
-
-        random_like_wait(page, 1000 + attempt * 300, 500)
+        random_like_wait(page, 800 + attempt * 250, 500)
 
     return expanded_final, best_block, best_cards, False
 
@@ -3326,7 +3463,7 @@ def collect_day_blocks(page) -> list:
                 header,
                 next_header=next_header,
                 fallback_text=fallback_text,
-                retries=4,
+                retries=5,
             )
 
             if has_real_detail:
@@ -3416,7 +3553,10 @@ def collect_day_blocks(page) -> list:
 
         finally:
             if expanded:
-                collapse_day(page, header)
+                try:
+                    collapse_day(page, header)
+                except Exception:
+                    pass
 
     logger.info(f"收集了 {len(result)} 个日期的数据")
     return result
