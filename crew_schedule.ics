@@ -769,7 +769,7 @@ UID:42e615c0fb28801863b434aa5a4f230e@crew-calendar
 SUMMARY:🎓 模拟机-定期复训结合熟练检查
 DTSTART;TZID=Asia/Shanghai:20260507T060000
 DTEND;TZID=Asia/Shanghai:20260507T120000
-DESCRIPTION:05月07日 周四\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：06:00 - 12:00\n\n人员名单：\n• 段洋硕\n• 张子钦\n• 陈员\n• 康铁辉\n\n版本：2026-05-07 15:50
+DESCRIPTION:05月07日 周四\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：06:00 - 12:00\n\n人员名单：\n• 段洋硕\n• 张子钦\n• 陈员\n• 康铁辉\n\n版本：2026-05-07 19:34
 X-CONTENT-SIGNATURE:7aab6e19dc69d227446a7cedcdb95c9e
 LOCATION:春秋飞培
 BEGIN:VALARM
@@ -779,12 +779,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:0eeab6b1837ea242f16fe2e3fa1ee162@crew-calendar
+UID:fab1af622baa18cfcdbed49bb871d834@crew-calendar
 SUMMARY:🎓 模拟机-定期复训结合熟练检查
-DTSTART;TZID=Asia/Shanghai:20260508T101000
-DTEND;TZID=Asia/Shanghai:20260508T161000
-DESCRIPTION:05月08日 周五\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：10:10 - 16:10\n\n人员名单：\n• 段洋硕\n• 张子钦\n• 陈员\n• 康铁辉\n\n版本：2026-05-07 15:50
-X-CONTENT-SIGNATURE:c283611ef74adb03bcdee539194c5067
+DTSTART;TZID=Asia/Shanghai:20260508T141000
+DTEND;TZID=Asia/Shanghai:20260508T201000
+DESCRIPTION:05月08日 周五\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：14:10 - 20:10\n\n人员名单：\n• 段洋硕\n• 张子钦\n• 陈员\n• 康铁辉\n\n版本：2026-05-07 19:34
+X-CONTENT-SIGNATURE:e7eb837a2a67cbdf31f706f50d994a8c
 LOCATION:春秋飞培
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -797,7 +797,7 @@ UID:0ec3885e214542eadbae53648f13b74c@crew-calendar
 SUMMARY:🎓 模拟机-定期复训结合熟练检查
 DTSTART;TZID=Asia/Shanghai:20260509T142000
 DTEND;TZID=Asia/Shanghai:20260509T202000
-DESCRIPTION:05月09日 周六\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：14:20 - 20:20\n\n人员名单：\n• 段洋硕\n• 张子钦\n• 陈员\n\n版本：2026-05-07 15:50
+DESCRIPTION:05月09日 周六\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：14:20 - 20:20\n\n人员名单：\n• 段洋硕\n• 张子钦\n• 陈员\n\n版本：2026-05-07 19:34
 X-CONTENT-SIGNATURE:dee90094e82c8ebecf643ff8a6c8ff41
 LOCATION:春秋飞培
 BEGIN:VALARM
@@ -811,7 +811,7 @@ UID:59dd18a4e52e569849a759e3d3e6259d@crew-calendar
 SUMMARY:🎓 理论课-安保理论(复训)
 DTSTART;TZID=Asia/Shanghai:20260510T090000
 DTEND;TZID=Asia/Shanghai:20260510T173000
-DESCRIPTION:05月10日 周日\n类型：训练\n事项：理论课-安保理论(复训)\n地点：春秋飞培2号楼教室2\n任务：09:00 - 17:30\n\n人员名单：\n• 侯钦耀杨家乐王凡王荣泰王壮张雍英赵久洋高昂段洋硕朱勇陈博张首三王则栋花云峰温逸豪刘煜徐元新吴念张子钦杨嘉荣赵智勇龚雷熊良虎曾辉陈员\n• 张晨昕\n\n版本：2026-05-07 15:50
+DESCRIPTION:05月10日 周日\n类型：训练\n事项：理论课-安保理论(复训)\n地点：春秋飞培2号楼教室2\n任务：09:00 - 17:30\n\n人员名单：\n• 侯钦耀杨家乐王凡王荣泰王壮张雍英赵久洋高昂段洋硕朱勇陈博张首三王则栋花云峰温逸豪刘煜徐元新吴念张子钦杨嘉荣赵智勇龚雷熊良虎曾辉陈员\n• 张晨昕\n\n版本：2026-05-07 19:34
 X-CONTENT-SIGNATURE:32b0eaaa3d59a685d0325d0aec5e08cb
 LOCATION:春秋飞培2号楼教室2
 BEGIN:VALARM
@@ -825,7 +825,7 @@ UID:1f0a76dd6f134ee9cd5a42e02aaa05e8@crew-calendar
 SUMMARY:🎓 训练
 DTSTART;TZID=Asia/Shanghai:20260511T090000
 DTEND;TZID=Asia/Shanghai:20260511T173000
-DESCRIPTION:05月11日 周一\n类型：训练\n事项：训练\n任务：09:00 - 17:30\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-05-07 15:50
+DESCRIPTION:05月11日 周一\n类型：训练\n事项：训练\n任务：09:00 - 17:30\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-05-07 19:34
 X-CONTENT-SIGNATURE:f962f42454890ce8a9e7eb8b9202eb31
 BEGIN:VALARM
 TRIGGER:-PT90M
