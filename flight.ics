@@ -547,7 +547,7 @@ UID:47d61fb41af90790cce7b7a59edd3a8e@crew-calendar
 SUMMARY:✈️ 9C8602 上海浦东→名古屋中部
 DTSTART;TZID=Asia/Shanghai:20260515T142500
 DTEND;TZID=Asia/Shanghai:20260515T171000
-DESCRIPTION:05月15日 周五\n类型：航班\n航班：9C8602\n航线：上海浦东 → 名古屋中部\n地点：上海浦东\n签到：08:55｜上海浦东\n任务：14:25 - 17:10\n机型：A320｜注册号：B300X\n\n人员名单：\n• 田鸿飞(R)\n• 张昌浩(R)\n• 段洋硕\n• 衡佳远\n\n版本：2026-05-10 20:33
+DESCRIPTION:05月15日 周五\n类型：航班\n航班：9C8602\n航线：上海浦东 → 名古屋中部\n地点：上海浦东\n签到：08:55｜上海浦东\n任务：14:25 - 17:10\n机型：A320｜注册号：B300X\n\n人员名单：\n• 田鸿飞(R)\n• 张昌浩(R)\n• 段洋硕\n• 衡佳远\n\n版本：2026-05-10 21:32
 X-CONTENT-SIGNATURE:4a7ee6199d7e4d47a392d9199e8e277a
 LOCATION:上海浦东
 BEGIN:VALARM
