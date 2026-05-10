@@ -62,261 +62,261 @@ logger = setup_logging()
 
 
 BASE_AIRPORT_CN_TO_ICAO = {
-    "上海虹桥": "ZSSS",
-    "虹桥": "ZSSS",
-    "上海浦东": "ZSPD",
-    "浦东": "ZSPD",
-    "西安咸阳": "ZLXY",
-    "咸阳": "ZLXY",
-    "重庆江北": "ZUCK",
-    "江北": "ZUCK",
-    "大连周水子": "ZYTL",
-    "周水子": "ZYTL",
-    "深圳宝安": "ZGSZ",
-    "宝安": "ZGSZ",
-    "济南遥墙": "ZSJN",
-    "遥墙": "ZSJN",
-    "哈尔滨太平": "ZYHB",
-    "太平": "ZYHB",
-    "淮安涟水": "ZSSH",
-    "涟水": "ZSSH",
-    "呼和浩特白塔": "ZBHH",
-    "白塔": "ZBHH",
-    "长春龙嘉": "ZYCC",
-    "龙嘉": "ZYCC",
-    "兰州中川": "ZLLL",
-    "中川": "ZLLL",
-    "广州白云": "ZGGG",
-    "白云": "ZGGG",
-    "揭阳潮汕": "ZGOW",
-    "潮汕": "ZGOW",
-    "南宁吴圩": "ZGNN",
-    "吴圩": "ZGNN",
-    "扬州泰州": "ZSYZ",
-    "扬泰": "ZSYZ",
-    "厦门高崎": "ZSAM",
-    "高崎": "ZSAM",
-    "泉州晋江": "ZSQZ",
-    "晋江": "ZSQZ",
-    "金边德崇": "VDTI",
-    "德崇": "VDTI",
-    "石家庄正定": "ZBSJ",
-    "正定": "ZBSJ",
-    "宁波栎社": "ZSNB",
-    "栎社": "ZSNB",
-    "天津滨海": "ZBTJ",
-    "滨海": "ZBTJ",
-    "东营胜利": "ZSDY",
-    "东营": "ZSDY",
-    "北京首都": "ZBAA",
-    "首都": "ZBAA",
-    "北京大兴": "ZBAD",
-    "大兴": "ZBAD",
-    "成都天府": "ZUTF",
-    "天府": "ZUTF",
-    "成都双流": "ZUUU",
-    "双流": "ZUUU",
-    "昆明长水": "ZPPP",
-    "长水": "ZPPP",
-    "武汉天河": "ZHHH",
-    "天河": "ZHHH",
-    "南京禄口": "ZSNJ",
-    "禄口": "ZSNJ",
-    "杭州萧山": "ZSHC",
-    "萧山": "ZSHC",
-    "青岛胶东": "ZSQD",
-    "胶东": "ZSQD",
-    "郑州新郑": "ZHCC",
-    "新郑": "ZHCC",
-    "长沙黄花": "ZGHA",
-    "黄花": "ZGHA",
-    "福州长乐": "ZSFZ",
-    "长乐": "ZSFZ",
-    "沈阳桃仙": "ZYTX",
-    "桃仙": "ZYTX",
-    "太原武宿": "ZBYN",
-    "武宿": "ZBYN",
-    "乌鲁木齐地窝堡": "ZWWW",
-    "地窝堡": "ZWWW",
-    "海口美兰": "ZJHK",
-    "美兰": "ZJHK",
-    "三亚凤凰": "ZJSY",
-    "凤凰": "ZJSY",
-    "合肥新桥": "ZSOF",
-    "新桥": "ZSOF",
-    "南昌昌北": "ZSCN",
-    "昌北": "ZSCN",
-    "贵阳龙洞堡": "ZUGY",
-    "龙洞堡": "ZUGY",
-    "桂林两江": "ZGKL",
-    "两江": "ZGKL",
-    "北海福成": "ZGBH",
-    "福成": "ZGBH",
-    "珠海金湾": "ZGSD",
-    "金湾": "ZGSD",
-    "湛江吴川": "ZGZJ",
-    "吴川": "ZGZJ",
-    "南通兴东": "ZSNT",
-    "兴东": "ZSNT",
-    "常州奔牛": "ZSCG",
-    "奔牛": "ZSCG",
-    "无锡硕放": "ZSWX",
-    "硕放": "ZSWX",
-    "盐城南洋": "ZSYN",
-    "南洋": "ZSYN",
-    "徐州观音": "ZSXZ",
-    "观音": "ZSXZ",
-    "连云港花果山": "ZSLG",
-    "花果山": "ZSLG",
-    "温州龙湾": "ZSWZ",
-    "龙湾": "ZSWZ",
-    "义乌": "ZSYW",
-    "台州路桥": "ZSLQ",
-    "路桥": "ZSLQ",
-    "舟山普陀山": "ZSZS",
-    "普陀山": "ZSZS",
-    "烟台蓬莱": "ZSYT",
-    "蓬莱": "ZSYT",
-    "威海大水泊": "ZSWH",
-    "大水泊": "ZSWH",
-    "临沂启阳": "ZSLY",
-    "启阳": "ZSLY",
-    "潍坊": "ZSWF",
-    "济宁曲阜": "ZSJG",
-    "曲阜": "ZSJG",
-    "日照山字河": "ZSRZ",
-    "山字河": "ZSRZ",
-    "洛阳北郊": "ZHLY",
-    "北郊": "ZHLY",
-    "南阳姜营": "ZHNY",
-    "姜营": "ZHNY",
-    "宜昌三峡": "ZHYC",
-    "三峡": "ZHYC",
-    "襄阳刘集": "ZHXF",
-    "刘集": "ZHXF",
-    "张家界荷花": "ZGDY",
-    "荷花": "ZGDY",
-    "常德桃花源": "ZGCD",
-    "桃花源": "ZGCD",
-    "衡阳南岳": "ZGHY",
-    "南岳": "ZGHY",
-    "南充高坪": "ZUNC",
-    "高坪": "ZUNC",
-    "绵阳南郊": "ZUMY",
-    "南郊": "ZUMY",
-    "泸州云龙": "ZULZ",
-    "云龙": "ZULZ",
-    "宜宾五粮液": "ZUYB",
-    "五粮液": "ZUYB",
-    "西昌青山": "ZUXC",
-    "青山": "ZUXC",
-    "九寨黄龙": "ZUJZ",
-    "黄龙": "ZUJZ",
-    "拉萨贡嘎": "ZULS",
-    "贡嘎": "ZULS",
-    "丽江三义": "ZPLJ",
-    "三义": "ZPLJ",
-    "大理凤仪": "ZPDL",
-    "凤仪": "ZPDL",
-    "西双版纳嘎洒": "ZPJH",
-    "嘎洒": "ZPJH",
-    "腾冲驼峰": "ZUTC",
-    "驼峰": "ZUTC",
-    "迪庆香格里拉": "ZPDQ",
-    "香格里拉": "ZPDQ",
-    "银川河东": "ZLIC",
-    "河东": "ZLIC",
-    "西宁曹家堡": "ZLXN",
-    "曹家堡": "ZLXN",
-    "格尔木": "ZLGM",
-    "敦煌莫高": "ZLDH",
-    "莫高": "ZLDH",
-    "嘉峪关": "ZLJQ",
-    "庆阳西峰": "ZLQY",
-    "西峰": "ZLQY",
-    "榆林榆阳": "ZLYL",
-    "榆阳": "ZLYL",
-    "延安南泥湾": "ZLYA",
-    "南泥湾": "ZLYA",
-    "包头东河": "ZBOW",
-    "东河": "ZBOW",
-    "鄂尔多斯伊金霍洛": "ZBDS",
-    "伊金霍洛": "ZBDS",
-    "赤峰玉龙": "ZBCF",
-    "玉龙": "ZBCF",
-    "通辽": "ZBTL",
-    "海拉尔东山": "ZBLA",
-    "东山": "ZBLA",
-    "满洲里西郊": "ZBMZ",
-    "西郊": "ZBMZ",
-    "锡林浩特": "ZBXH",
-    "大同云冈": "ZBDT",
-    "云冈": "ZBDT",
-    "运城张孝": "ZBYC",
-    "张孝": "ZBYC",
-    "长治王村": "ZBCZ",
-    "王村": "ZBCZ",
-    "大庆萨尔图": "ZYDQ",
-    "萨尔图": "ZYDQ",
-    "牡丹江海浪": "ZYMD",
-    "海浪": "ZYMD",
-    "佳木斯东郊": "ZYJM",
-    "丹东浪头": "ZYDD",
-    "浪头": "ZYDD",
-    "延吉朝阳川": "ZYYJ",
-    "朝阳川": "ZYYJ",
-    "札幌新千岁": "RJCC",
-    "新千岁": "RJCC",
-    "东京成田": "RJAA",
-    "成田": "RJAA",
-    "东京羽田": "RJTT",
-    "羽田": "RJTT",
-    "大阪关西": "RJBB",
-    "关西": "RJBB",
-    "名古屋中部": "RJGG",
-    "中部": "RJGG",
-    "福冈": "RJFF",
-    "冲绳那霸": "ROAH",
-    "那霸": "ROAH",
-    "首尔仁川": "RKSI",
-    "仁川": "RKSI",
-    "首尔金浦": "RKSS",
-    "金浦": "RKSS",
-    "济州": "RKPC",
-    "釜山金海": "RKPK",
-    "金海": "RKPK",
-    "曼谷素旺那普": "VTBS",
-    "曼谷素万那普": "VTBS",
-    "素万那普": "VTBS",
-    "素旺那普": "VTBS",
-    "曼谷廊曼": "VTBD",
-    "廊曼": "VTBD",
-    "普吉": "VTSP",
-    "清迈": "VTCC",
-    "新加坡樟宜": "WSSS",
-    "樟宜": "WSSS",
-    "吉隆坡": "WMKK",
-    "槟城": "WMKP",
-    "雅加达苏加诺哈达": "WIII",
-    "苏加诺哈达": "WIII",
-    "巴厘岛登巴萨": "WADD",
-    "登巴萨": "WADD",
-    "马尼拉": "RPLL",
-    "宿务": "RPVM",
-    "胡志明": "VVTS",
-    "河内内排": "VVNB",
-    "内排": "VVNB",
-    "岘港": "VVDN",
-    "金边": "VDPP",
-    "香港": "VHHH",
-    "香港赤鱲角": "VHHH",
-    "赤鱲角": "VHHH",
-    "澳门": "VMMC",
-    "台北桃园": "RCTP",
-    "桃园": "RCTP",
-    "台北松山": "RCSS",
-    "松山": "RCSS",
-    "高雄": "RCKH",
+    "ä¸æµ·è¹æ¡¥": "ZSSS",
+    "è¹æ¡¥": "ZSSS",
+    "ä¸æµ·æµ¦ä¸": "ZSPD",
+    "æµ¦ä¸": "ZSPD",
+    "è¥¿å®å¸é³": "ZLXY",
+    "å¸é³": "ZLXY",
+    "éåºæ±å": "ZUCK",
+    "æ±å": "ZUCK",
+    "å¤§è¿å¨æ°´å­": "ZYTL",
+    "å¨æ°´å­": "ZYTL",
+    "æ·±å³å®å®": "ZGSZ",
+    "å®å®": "ZGSZ",
+    "æµåé¥å¢": "ZSJN",
+    "é¥å¢": "ZSJN",
+    "åå°æ»¨å¤ªå¹³": "ZYHB",
+    "å¤ªå¹³": "ZYHB",
+    "æ·®å®æ¶æ°´": "ZSSH",
+    "æ¶æ°´": "ZSSH",
+    "å¼åæµ©ç¹ç½å¡": "ZBHH",
+    "ç½å¡": "ZBHH",
+    "é¿æ¥é¾å": "ZYCC",
+    "é¾å": "ZYCC",
+    "å°å·ä¸­å·": "ZLLL",
+    "ä¸­å·": "ZLLL",
+    "å¹¿å·ç½äº": "ZGGG",
+    "ç½äº": "ZGGG",
+    "æ­é³æ½®æ±": "ZGOW",
+    "æ½®æ±": "ZGOW",
+    "åå®å´å©": "ZGNN",
+    "å´å©": "ZGNN",
+    "æ¬å·æ³°å·": "ZSYZ",
+    "æ¬æ³°": "ZSYZ",
+    "å¦é¨é«å´": "ZSAM",
+    "é«å´": "ZSAM",
+    "æ³å·ææ±": "ZSQZ",
+    "ææ±": "ZSQZ",
+    "éè¾¹å¾·å´": "VDTI",
+    "å¾·å´": "VDTI",
+    "ç³å®¶åºæ­£å®": "ZBSJ",
+    "æ­£å®": "ZBSJ",
+    "å®æ³¢æ ç¤¾": "ZSNB",
+    "æ ç¤¾": "ZSNB",
+    "å¤©æ´¥æ»¨æµ·": "ZBTJ",
+    "æ»¨æµ·": "ZBTJ",
+    "ä¸è¥èå©": "ZSDY",
+    "ä¸è¥": "ZSDY",
+    "åäº¬é¦é½": "ZBAA",
+    "é¦é½": "ZBAA",
+    "åäº¬å¤§å´": "ZBAD",
+    "å¤§å´": "ZBAD",
+    "æé½å¤©åº": "ZUTF",
+    "å¤©åº": "ZUTF",
+    "æé½åæµ": "ZUUU",
+    "åæµ": "ZUUU",
+    "ææé¿æ°´": "ZPPP",
+    "é¿æ°´": "ZPPP",
+    "æ­¦æ±å¤©æ²³": "ZHHH",
+    "å¤©æ²³": "ZHHH",
+    "åäº¬ç¦å£": "ZSNJ",
+    "ç¦å£": "ZSNJ",
+    "æ­å·è§å±±": "ZSHC",
+    "è§å±±": "ZSHC",
+    "éå²è¶ä¸": "ZSQD",
+    "è¶ä¸": "ZSQD",
+    "éå·æ°é": "ZHCC",
+    "æ°é": "ZHCC",
+    "é¿æ²é»è±": "ZGHA",
+    "é»è±": "ZGHA",
+    "ç¦å·é¿ä¹": "ZSFZ",
+    "é¿ä¹": "ZSFZ",
+    "æ²é³æ¡ä»": "ZYTX",
+    "æ¡ä»": "ZYTX",
+    "å¤ªåæ­¦å®¿": "ZBYN",
+    "æ­¦å®¿": "ZBYN",
+    "ä¹é²æ¨é½å°çªå ¡": "ZWWW",
+    "å°çªå ¡": "ZWWW",
+    "æµ·å£ç¾å°": "ZJHK",
+    "ç¾å°": "ZJHK",
+    "ä¸äºå¤å°": "ZJSY",
+    "å¤å°": "ZJSY",
+    "åè¥æ°æ¡¥": "ZSOF",
+    "æ°æ¡¥": "ZSOF",
+    "åææå": "ZSCN",
+    "æå": "ZSCN",
+    "è´µé³é¾æ´å ¡": "ZUGY",
+    "é¾æ´å ¡": "ZUGY",
+    "æ¡æä¸¤æ±": "ZGKL",
+    "ä¸¤æ±": "ZGKL",
+    "åæµ·ç¦æ": "ZGBH",
+    "ç¦æ": "ZGBH",
+    "ç æµ·éæ¹¾": "ZGSD",
+    "éæ¹¾": "ZGSD",
+    "æ¹æ±å´å·": "ZGZJ",
+    "å´å·": "ZGZJ",
+    "åéå´ä¸": "ZSNT",
+    "å´ä¸": "ZSNT",
+    "å¸¸å·å¥ç": "ZSCG",
+    "å¥ç": "ZSCG",
+    "æ é¡ç¡æ¾": "ZSWX",
+    "ç¡æ¾": "ZSWX",
+    "çååæ´": "ZSYN",
+    "åæ´": "ZSYN",
+    "å¾å·è§é³": "ZSXZ",
+    "è§é³": "ZSXZ",
+    "è¿äºæ¸¯è±æå±±": "ZSLG",
+    "è±æå±±": "ZSLG",
+    "æ¸©å·é¾æ¹¾": "ZSWZ",
+    "é¾æ¹¾": "ZSWZ",
+    "ä¹ä¹": "ZSYW",
+    "å°å·è·¯æ¡¥": "ZSLQ",
+    "è·¯æ¡¥": "ZSLQ",
+    "èå±±æ®éå±±": "ZSZS",
+    "æ®éå±±": "ZSZS",
+    "çå°è¬è±": "ZSYT",
+    "è¬è±": "ZSYT",
+    "å¨æµ·å¤§æ°´æ³": "ZSWH",
+    "å¤§æ°´æ³": "ZSWH",
+    "ä¸´æ²å¯é³": "ZSLY",
+    "å¯é³": "ZSLY",
+    "æ½å": "ZSWF",
+    "æµå®æ²é": "ZSJG",
+    "æ²é": "ZSJG",
+    "æ¥ç§å±±å­æ²³": "ZSRZ",
+    "å±±å­æ²³": "ZSRZ",
+    "æ´é³åé": "ZHLY",
+    "åé": "ZHLY",
+    "åé³å§è¥": "ZHNY",
+    "å§è¥": "ZHNY",
+    "å®æä¸å³¡": "ZHYC",
+    "ä¸å³¡": "ZHYC",
+    "è¥é³åé": "ZHXF",
+    "åé": "ZHXF",
+    "å¼ å®¶çè·è±": "ZGDY",
+    "è·è±": "ZGDY",
+    "å¸¸å¾·æ¡è±æº": "ZGCD",
+    "æ¡è±æº": "ZGCD",
+    "è¡¡é³åå²³": "ZGHY",
+    "åå²³": "ZGHY",
+    "ååé«åª": "ZUNC",
+    "é«åª": "ZUNC",
+    "ç»µé³åé": "ZUMY",
+    "åé": "ZUMY",
+    "æ³¸å·äºé¾": "ZULZ",
+    "äºé¾": "ZULZ",
+    "å®å®¾äºç²®æ¶²": "ZUYB",
+    "äºç²®æ¶²": "ZUYB",
+    "è¥¿æéå±±": "ZUXC",
+    "éå±±": "ZUXC",
+    "ä¹å¯¨é»é¾": "ZUJZ",
+    "é»é¾": "ZUJZ",
+    "æè¨è´¡å": "ZULS",
+    "è´¡å": "ZULS",
+    "ä¸½æ±ä¸ä¹": "ZPLJ",
+    "ä¸ä¹": "ZPLJ",
+    "å¤§çå¤ä»ª": "ZPDL",
+    "å¤ä»ª": "ZPDL",
+    "è¥¿åççº³åæ´": "ZPJH",
+    "åæ´": "ZPJH",
+    "è¾å²é©¼å³°": "ZUTC",
+    "é©¼å³°": "ZUTC",
+    "è¿ªåºé¦æ ¼éæ": "ZPDQ",
+    "é¦æ ¼éæ": "ZPDQ",
+    "é¶å·æ²³ä¸": "ZLIC",
+    "æ²³ä¸": "ZLIC",
+    "è¥¿å®æ¹å®¶å ¡": "ZLXN",
+    "æ¹å®¶å ¡": "ZLXN",
+    "æ ¼å°æ¨": "ZLGM",
+    "æ¦çè«é«": "ZLDH",
+    "è«é«": "ZLDH",
+    "åå³ªå³": "ZLJQ",
+    "åºé³è¥¿å³°": "ZLQY",
+    "è¥¿å³°": "ZLQY",
+    "æ¦ææ¦é³": "ZLYL",
+    "æ¦é³": "ZLYL",
+    "å»¶å®åæ³¥æ¹¾": "ZLYA",
+    "åæ³¥æ¹¾": "ZLYA",
+    "åå¤´ä¸æ²³": "ZBOW",
+    "ä¸æ²³": "ZBOW",
+    "éå°å¤æ¯ä¼ééæ´": "ZBDS",
+    "ä¼ééæ´": "ZBDS",
+    "èµ¤å³°çé¾": "ZBCF",
+    "çé¾": "ZBCF",
+    "éè¾½": "ZBTL",
+    "æµ·æå°ä¸å±±": "ZBLA",
+    "ä¸å±±": "ZBLA",
+    "æ»¡æ´²éè¥¿é": "ZBMZ",
+    "è¥¿é": "ZBMZ",
+    "é¡ææµ©ç¹": "ZBXH",
+    "å¤§åäºå": "ZBDT",
+    "äºå": "ZBDT",
+    "è¿åå¼ å­": "ZBYC",
+    "å¼ å­": "ZBYC",
+    "é¿æ²»çæ": "ZBCZ",
+    "çæ": "ZBCZ",
+    "å¤§åºè¨å°å¾": "ZYDQ",
+    "è¨å°å¾": "ZYDQ",
+    "ç¡ä¸¹æ±æµ·æµª": "ZYMD",
+    "æµ·æµª": "ZYMD",
+    "ä½³æ¨æ¯ä¸é": "ZYJM",
+    "ä¸¹ä¸æµªå¤´": "ZYDD",
+    "æµªå¤´": "ZYDD",
+    "å»¶åæé³å·": "ZYYJ",
+    "æé³å·": "ZYYJ",
+    "æ­å¹æ°åå²": "RJCC",
+    "æ°åå²": "RJCC",
+    "ä¸äº¬æç°": "RJAA",
+    "æç°": "RJAA",
+    "ä¸äº¬ç¾½ç°": "RJTT",
+    "ç¾½ç°": "RJTT",
+    "å¤§éªå³è¥¿": "RJBB",
+    "å³è¥¿": "RJBB",
+    "åå¤å±ä¸­é¨": "RJGG",
+    "ä¸­é¨": "RJGG",
+    "ç¦å": "RJFF",
+    "å²ç»³é£é¸": "ROAH",
+    "é£é¸": "ROAH",
+    "é¦å°ä»å·": "RKSI",
+    "ä»å·": "RKSI",
+    "é¦å°éæµ¦": "RKSS",
+    "éæµ¦": "RKSS",
+    "æµå·": "RKPC",
+    "éå±±éæµ·": "RKPK",
+    "éæµ·": "RKPK",
+    "æ¼è°·ç´ æºé£æ®": "VTBS",
+    "æ¼è°·ç´ ä¸é£æ®": "VTBS",
+    "ç´ ä¸é£æ®": "VTBS",
+    "ç´ æºé£æ®": "VTBS",
+    "æ¼è°·å»æ¼": "VTBD",
+    "å»æ¼": "VTBD",
+    "æ®å": "VTSP",
+    "æ¸è¿": "VTCC",
+    "æ°å å¡æ¨å®": "WSSS",
+    "æ¨å®": "WSSS",
+    "åéå¡": "WMKK",
+    "æ§å": "WMKP",
+    "éå è¾¾èå è¯ºåè¾¾": "WIII",
+    "èå è¯ºåè¾¾": "WIII",
+    "å·´åå²ç»å·´è¨": "WADD",
+    "ç»å·´è¨": "WADD",
+    "é©¬å°¼æ": "RPLL",
+    "å®¿å¡": "RPVM",
+    "è¡å¿æ": "VVTS",
+    "æ²³ååæ": "VVNB",
+    "åæ": "VVNB",
+    "å²æ¸¯": "VVDN",
+    "éè¾¹": "VDPP",
+    "é¦æ¸¯": "VHHH",
+    "é¦æ¸¯èµ¤é±²è§": "VHHH",
+    "èµ¤é±²è§": "VHHH",
+    "æ¾³é¨": "VMMC",
+    "å°åæ¡å­": "RCTP",
+    "æ¡å­": "RCTP",
+    "å°åæ¾å±±": "RCSS",
+    "æ¾å±±": "RCSS",
+    "é«é": "RCKH",
 }
 
 
@@ -325,35 +325,35 @@ AIRPORT_ICAO_TO_CN = {}
 AIRPORT_NAMES = []
 
 
-KNOWN_PEOPLE = ["段洋硕"]
+KNOWN_PEOPLE = ["æ®µæ´ç¡"]
 
 
 COMMON_SURNAMES = set(
-    "赵钱孙李周吴郑王冯陈褚卫蒋沈韩杨朱秦尤许何吕施张孔曹严华"
-    "金魏陶姜戚谢邹喻柏水窦章云苏潘葛奚范彭郎鲁韦昌马苗凤花方"
-    "俞任袁柳鲍史唐费廉岑薛雷贺倪汤滕殷罗毕郝邬安常乐于时傅皮"
-    "卞齐康伍余元卜顾孟平黄和穆萧尹姚邵湛汪祁毛禹狄米贝明臧计"
-    "伏成戴谈宋庞熊纪舒屈项祝董梁杜阮蓝闵席季麻强贾路娄危江童颜"
-    "郭梅盛林刁钟徐邱骆高夏蔡田胡凌霍虞万支柯昝管卢莫经房裘缪干"
-    "解应宗丁宣邓郁单杭洪包诸左石崔吉龚程邢裴陆荣翁荀羊於惠甄曲"
-    "家封芮羿储靳汲邴糜松井段富巫乌焦巴弓牧隗山谷车侯宓蓬全郗班"
-    "仰秋仲伊宫宁仇栾暴甘钭厉戎祖武符刘景詹束龙叶幸司韶郜黎蓟薄"
-    "印宿白怀蒲邰从鄂索咸籍赖卓蔺屠蒙池乔阴胥能苍双闻莘党翟谭"
-    "贡劳逄姬申扶堵冉宰郦雍璩桑桂濮牛寿通边扈燕冀郏浦尚农温别"
-    "庄晏柴瞿阎充慕连茹习宦艾鱼容向古易慎戈廖庾终暨居衡步都耿满"
-    "弘匡国文寇广禄阙东沃利蔚越隆师巩厍聂晁勾敖融冷訾辛阚"
-    "那简饶空曾毋沙乜养鞠须丰巢关蒯相查后荆红游竺权逯盖益桓公"
+    "èµµé±å­æå¨å´éçå¯éè¤å«èæ²é©æ¨æ±ç§¦å°¤è®¸ä½åæ½å¼ å­æ¹ä¸¥å"
+    "éé­é¶å§æè°¢é¹å»ææ°´çª¦ç« äºèæ½èå¥èå½­éé²é¦æé©¬èå¤è±æ¹"
+    "ä¿ä»»è¢æ³é²å²åè´¹å»å²èé·è´ºåªæ±¤æ»æ®·ç½æ¯éé¬å®å¸¸ä¹äºæ¶åç®"
+    "åé½åº·ä¼ä½ååé¡¾å­å¹³é»åç©è§å°¹å§éµæ¹æ±ªç¥æ¯ç¦¹çç±³è´æè§è®¡"
+    "ä¼ææ´è°å®åºççºªèå±é¡¹ç¥è£æ¢æé®èéµå¸­å­£éº»å¼ºè´¾è·¯å¨å±æ±ç«¥é¢"
+    "é­æ¢çæåéå¾é±éªé«å¤è¡ç°è¡åéèä¸æ¯æ¯æç®¡å¢è«ç»æ¿è£ç¼ªå¹²"
+    "è§£åºå®ä¸å®£ééåæ­æ´ªåè¯¸å·¦ç³å´åé¾ç¨é¢è£´éè£ç¿èç¾æ¼æ çæ²"
+    "å®¶å°è®ç¾¿å¨é³æ±²é´ç³æ¾äºæ®µå¯å·«ä¹ç¦å·´å¼ç§éå±±è°·è½¦ä¾¯å®è¬å¨éç­"
+    "ä»°ç§ä»²ä¼å®«å®ä»æ ¾æ´çé­åæç¥æ­¦ç¬¦åæ¯è©¹æé¾å¶å¹¸å¸é¶éé»èè"
+    "å°å®¿ç½æè²é°ä»éç´¢å¸ç±èµåèºå± èæ± ä¹é´è¥è½èåé»èåç¿è°­"
+    "è´¡å³éå§¬ç³æ¶å µåå®°é¦éç©æ¡æ¡æ¿®çå¯¿éè¾¹æçåéæµ¦å°åæ¸©å«"
+    "åºææ´ç¿éåæè¿è¹ä¹ å®¦è¾é±¼å®¹åå¤æææå»åº¾ç»æ¨å±è¡¡æ­¥é½è¿æ»¡"
+    "å¼å¡å½æå¯å¹¿ç¦éä¸æ²å©èè¶éå¸å·©åèæå¾æèå·è¨¾è¾é"
+    "é£ç®é¥¶ç©ºæ¾æ¯æ²ä¹å»é é¡»ä¸°å·¢å³è¯ç¸æ¥åèçº¢æ¸¸ç«ºæé¯ççæ¡å¬"
 )
 
 COMPOUND_SURNAMES = [
-    "欧阳", "司马", "上官", "诸葛", "东方", "皇甫", "尉迟", "公羊",
-    "赫连", "澹台", "公冶", "宗政", "濮阳", "淳于", "单于", "太叔",
-    "申屠", "公孙", "仲孙", "轩辕", "令狐", "钟离", "宇文", "长孙",
-    "慕容", "鲜于", "闾丘", "司徒", "司空", "亓官", "司寇", "仉督",
-    "子车", "颛孙", "端木", "巫马", "公西", "漆雕", "乐正", "壤驷",
-    "公良", "拓跋", "夹谷", "宰父", "谷梁", "段干", "百里", "东郭",
-    "南门", "呼延", "羊舌", "微生", "梁丘", "左丘", "东门", "西门",
-    "南宫",
+    "æ¬§é³", "å¸é©¬", "ä¸å®", "è¯¸è", "ä¸æ¹", "çç«", "å°è¿", "å¬ç¾",
+    "èµ«è¿", "æ¾¹å°", "å¬å¶", "å®æ¿", "æ¿®é³", "æ·³äº", "åäº", "å¤ªå",
+    "ç³å± ", "å¬å­", "ä»²å­", "è½©è¾", "ä»¤ç", "éç¦»", "å®æ", "é¿å­",
+    "æå®¹", "é²äº", "é¾ä¸", "å¸å¾", "å¸ç©º", "äºå®", "å¸å¯", "ä»ç£",
+    "å­è½¦", "é¢å­", "ç«¯æ¨", "å·«é©¬", "å¬è¥¿", "æ¼é", "ä¹æ­£", "å£¤é©·",
+    "å¬è¯", "æè·", "å¤¹è°·", "å®°ç¶", "è°·æ¢", "æ®µå¹²", "ç¾é", "ä¸é­",
+    "åé¨", "å¼å»¶", "ç¾è", "å¾®ç", "æ¢ä¸", "å·¦ä¸", "ä¸é¨", "è¥¿é¨",
+    "åå®«",
 ]
 
 
@@ -362,69 +362,69 @@ REG_MODEL_RE = re.compile(r"^B[0-9A-Z]{4,5}A(?:319|320|321)$")
 REG_AND_MODEL_RE = re.compile(r"\b(B[0-9A-Z]{4,5})(A319|A320|A321)\b")
 REG_ONLY_RE = re.compile(r"\bB[0-9A-Z]{4,5}\b")
 MODEL_ONLY_RE = re.compile(r"\bA(?:319|320|321)\b")
-TIME_RANGE_RE = re.compile(r"(\d{2}:\d{2})\s*[-~～—–]+\s*(\d{2}:\d{2})")
-PAGE_YEAR_MONTH_RE = re.compile(r"(\d{4})年(\d{1,2})月")
+TIME_RANGE_RE = re.compile(r"(\d{2}:\d{2})\s*[-~ï½ââ]+\s*(\d{2}:\d{2})")
+PAGE_YEAR_MONTH_RE = re.compile(r"(\d{4})å¹´(\d{1,2})æ")
 PURE_DATE_PREFIX_RE = re.compile(r"^\d{4}-\d{2}-\d{2}")
 ICAO_RE = re.compile(r"\b[A-Z]{4}\b")
-DAY_HEADER_RE = re.compile(r"^\d{2}月\d{2}日\s*周.")
-DAY_SUMMARY_LINE_RE = re.compile(r"^(\d{2}月\d{2}日\s*周.)(.*)$")
+DAY_HEADER_RE = re.compile(r"^\d{2}æ\d{2}æ¥\s*å¨.")
+DAY_SUMMARY_LINE_RE = re.compile(r"^(\d{2}æ\d{2}æ¥\s*å¨.)(.*)$")
 LATIN_PERSON_RE = re.compile(r"[A-Z][A-Z\s\.\-']{1,80}\([^)]*\)")
 ZH_TAGGED_NAME_RE = re.compile(r"[\u4e00-\u9fff]{2,4}\([^)]*\)")
 ZH_NAME_WITH_ROLE_RE = re.compile(r"[\u4e00-\u9fff]{2,4}(?:\([A-Z]\))?")
 SHORT_ROLE_RE = re.compile(r"\([A-Z]\)")
 
 
-ROLE_WORDS = {"机长", "副驾驶", "乘务长", "随机人员", "加机组人员", "观察员"}
+ROLE_WORDS = {"æºé¿", "å¯é©¾é©¶", "ä¹å¡é¿", "éæºäººå", "å æºç»äººå", "è§å¯å"}
 
 TRAINING_KEYWORDS = [
-    "理论课", "模拟机", "训练", "复训", "检查", "熟练", "安保",
-    "应急", "生存", "考试", "晋级", "课程", "地面课", "协同",
+    "çè®ºè¯¾", "æ¨¡ææº", "è®­ç»", "å¤è®­", "æ£æ¥", "çç»", "å®ä¿",
+    "åºæ¥", "çå­", "èè¯", "æçº§", "è¯¾ç¨", "å°é¢è¯¾", "åå",
     "CRM", "EBT",
 ]
 
-POSITIONING_KEYWORDS = ["置位"]
-FERRY_KEYWORDS = ["摆渡"]
-STOP_KEYWORDS = ["停飞", "Grounding", "grounding"]
-ATTENDANCE_KEYWORDS = ["考勤"]
-STANDBY_KEYWORDS = ["备份", "待命"]
+POSITIONING_KEYWORDS = ["ç½®ä½"]
+FERRY_KEYWORDS = ["ææ¸¡"]
+STOP_KEYWORDS = ["åé£", "Grounding", "grounding"]
+ATTENDANCE_KEYWORDS = ["èå¤"]
+STANDBY_KEYWORDS = ["å¤ä»½", "å¾å½"]
 
 DETAIL_SIGNAL_KEYWORDS = [
-    "理论课",
-    "模拟机",
-    "教室",
-    "春秋飞培",
-    "人员名单",
-    "机长",
-    "副驾驶",
-    "乘务长",
-    "随机人员",
-    "加机组人员",
-    "航班动态",
-    "签到",
-    "地点",
-    "候振",
+    "çè®ºè¯¾",
+    "æ¨¡ææº",
+    "æå®¤",
+    "æ¥ç§é£å¹",
+    "äººååå",
+    "æºé¿",
+    "å¯é©¾é©¶",
+    "ä¹å¡é¿",
+    "éæºäººå",
+    "å æºç»äººå",
+    "èªç­å¨æ",
+    "ç­¾å°",
+    "å°ç¹",
+    "åæ¯",
 ]
 
-TRANSPORT_HINT_WORDS = ["搭乘", "乘坐", "火车", "高铁", "动车", "去", "前往", "至", "返回"]
+TRANSPORT_HINT_WORDS = ["æ­ä¹", "ä¹å", "ç«è½¦", "é«é", "å¨è½¦", "å»", "åå¾", "è³", "è¿å"]
 
 BAD_TITLE_WORDS = {
-    "个起落",
-    "90天3个起落",
-    "90天三个起落",
-    "三个起落",
-    "3个起落",
+    "ä¸ªèµ·è½",
+    "90å¤©3ä¸ªèµ·è½",
+    "90å¤©ä¸ä¸ªèµ·è½",
+    "ä¸ä¸ªèµ·è½",
+    "3ä¸ªèµ·è½",
 }
 
 GENERIC_TASK_WORDS = [
-    "训练", "考勤", "摆渡", "置位", "航班", "备份", "待命", "停飞", "个起落",
+    "è®­ç»", "èå¤", "ææ¸¡", "ç½®ä½", "èªç­", "å¤ä»½", "å¾å½", "åé£", "ä¸ªèµ·è½",
 ]
 
 TASK_TITLE_WORDS = {
-    "理论课", "模拟机", "应急", "生存", "复训", "训练", "考勤",
-    "检查", "定期", "熟练", "结合", "晋级", "考试", "安保",
-    "程序", "停飞", "开会", "英语", "副驾驶", "机长", "乘务长",
-    "随机人员", "加机组人员", "观察员", "检", "考", "协同",
-    "签到", "劳动节", "立夏", "个起落", "Grounding",
+    "çè®ºè¯¾", "æ¨¡ææº", "åºæ¥", "çå­", "å¤è®­", "è®­ç»", "èå¤",
+    "æ£æ¥", "å®æ", "çç»", "ç»å", "æçº§", "èè¯", "å®ä¿",
+    "ç¨åº", "åé£", "å¼ä¼", "è±è¯­", "å¯é©¾é©¶", "æºé¿", "ä¹å¡é¿",
+    "éæºäººå", "å æºç»äººå", "è§å¯å", "æ£", "è", "åå",
+    "ç­¾å°", "å³å¨è", "ç«å¤", "ä¸ªèµ·è½", "Grounding",
 }
 
 
@@ -432,7 +432,7 @@ def normalize_text(text: str) -> str:
     if text is None:
         return ""
     text = str(text).replace("\u00a0", " ").replace("\r", "")
-    text = text.replace("（", "(").replace("）", ")")
+    text = text.replace("ï¼", "(").replace("ï¼", ")")
     text = re.sub(r"[ \t]+", " ", text)
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip()
@@ -483,7 +483,7 @@ def page_text(page) -> str:
     try:
         return page.locator("body").inner_text(timeout=8000)
     except Exception as e:
-        logger.warning(f"页面文本读取失败: {type(e).__name__}: {str(e)[:200]}")
+        logger.warning(f"é¡µé¢ææ¬è¯»åå¤±è´¥: {type(e).__name__}: {str(e)[:200]}")
         return ""
 
 
@@ -497,7 +497,7 @@ def is_bad_title_text(text: str) -> bool:
         return False
     if text in BAD_TITLE_WORDS:
         return True
-    if re.fullmatch(r"(90天)?[三3]个起落", text):
+    if re.fullmatch(r"(90å¤©)?[ä¸3]ä¸ªèµ·è½", text):
         return True
     return False
 
@@ -529,7 +529,7 @@ def save_airport_aliases(data: dict):
             os.remove(AIRPORT_ALIASES_FILE)
         os.rename(temp_file, AIRPORT_ALIASES_FILE)
     except Exception as e:
-        logger.error(f"保存机场别名失败: {e}")
+        logger.error(f"ä¿å­æºåºå«åå¤±è´¥: {e}")
 
 
 def load_airports_csv() -> dict:
@@ -554,7 +554,7 @@ def load_airports_csv() -> dict:
                     names.append(cn_name)
 
                 if aliases_raw:
-                    for alias in re.split(r"[|,，、/]+", aliases_raw):
+                    for alias in re.split(r"[|,ï¼ã/]+", aliases_raw):
                         alias = normalize_text(alias)
                         if alias:
                             names.append(alias)
@@ -563,9 +563,9 @@ def load_airports_csv() -> dict:
                     if name and not re.fullmatch(r"[A-Z]{4}", name):
                         data[name] = icao
 
-        logger.info(f"读取 airports.csv：{len(data)} 个机场别名")
+        logger.info(f"è¯»å airports.csvï¼{len(data)} ä¸ªæºåºå«å")
     except Exception as e:
-        logger.warning(f"读取 airports.csv 失败，跳过：{e}")
+        logger.warning(f"è¯»å airports.csv å¤±è´¥ï¼è·³è¿ï¼{e}")
 
     return data
 
@@ -579,7 +579,7 @@ def put_airport_mapping(mapping: dict, name: str, icao: str, source: str):
 
     if name in mapping and mapping[name] != icao:
         logger.warning(
-            f"机场别名冲突：{name} 已是 {mapping[name]}，{source} 想设为 {icao}，保留原值"
+            f"æºåºå«åå²çªï¼{name} å·²æ¯ {mapping[name]}ï¼{source} æ³è®¾ä¸º {icao}ï¼ä¿çåå¼"
         )
         return
 
@@ -633,7 +633,7 @@ def add_airport_alias(icao: str, alias: str):
 
     current = AIRPORT_CN_TO_ICAO.get(alias)
     if current and current != icao:
-        logger.warning(f"不写入机场别名冲突：{alias} 当前={current} 新={icao}")
+        logger.warning(f"ä¸åå¥æºåºå«åå²çªï¼{alias} å½å={current} æ°={icao}")
         return
 
     data = load_airport_aliases()
@@ -720,7 +720,7 @@ def extract_captcha_bytes(page) -> bytes:
         except Exception:
             pass
 
-    raise RuntimeError("未找到验证码图片")
+    raise RuntimeError("æªæ¾å°éªè¯ç å¾ç")
 
 
 def build_variants(img_bytes: bytes) -> list:
@@ -752,7 +752,7 @@ def solve_captcha_with_ddddocr(img_bytes: bytes) -> str:
         ocr = ddddocr.DdddOcr(show_ad=False)
         return normalize_candidate(ocr.classification(img_bytes))[:4]
     except Exception as e:
-        logger.warning(f"ddddocr 识别失败，回退 pytesseract: {e}")
+        logger.warning(f"ddddocr è¯å«å¤±è´¥ï¼åé pytesseract: {e}")
         return ""
 
 
@@ -801,7 +801,7 @@ def fill_login_form(page, code: str):
     inputs = page.locator("input")
 
     if inputs.count() < 3:
-        raise RuntimeError("登录页输入框数量异常")
+        raise RuntimeError("ç»å½é¡µè¾å¥æ¡æ°éå¼å¸¸")
 
     inputs.nth(0).fill(USERNAME)
     inputs.nth(1).fill(PASSWORD)
@@ -811,13 +811,13 @@ def fill_login_form(page, code: str):
 def login(page, max_retries: int = 10):
     for attempt in range(1, max_retries + 1):
         try:
-            logger.info(f"登录尝试 {attempt}/{max_retries}")
+            logger.info(f"ç»å½å°è¯ {attempt}/{max_retries}")
             page.goto(LOGIN_URL, wait_until="domcontentloaded", timeout=90000)
             random_like_wait(page, 4500, 1200)
             page.screenshot(path=os.path.join(ARTIFACT_DIR, f"login_page_{attempt}.png"), full_page=True)
             save_text(f"login_page_{attempt}.txt", page_text(page))
         except Exception as e:
-            logger.error(f"登录页加载失败: {e}")
+            logger.error(f"ç»å½é¡µå è½½å¤±è´¥: {e}")
             if attempt == max_retries:
                 raise
             continue
@@ -852,8 +852,8 @@ def login(page, max_retries: int = 10):
                 )
                 save_text(f"login_attempt_{attempt}_{idx}_{cand}.txt", body_text)
 
-                if ("统一认证中心" not in body_text) and ("Login" not in body_text):
-                    logger.info(f"登录成功，验证码：{cand}")
+                if ("ç»ä¸è®¤è¯ä¸­å¿" not in body_text) and ("Login" not in body_text):
+                    logger.info(f"ç»å½æåï¼éªè¯ç ï¼{cand}")
                     return
 
                 try:
@@ -863,36 +863,36 @@ def login(page, max_retries: int = 10):
                     pass
 
             except Exception as e:
-                logger.error(f"验证码 {cand} 尝试失败: {e}")
+                logger.error(f"éªè¯ç  {cand} å°è¯å¤±è´¥: {e}")
 
-    raise RuntimeError("多次尝试后仍无法登录")
+    raise RuntimeError("å¤æ¬¡å°è¯åä»æ æ³ç»å½")
 
 
 def open_mission_page(page):
     for i in range(3):
         try:
-            logger.info(f"打开任务页面，尝试 {i + 1}/3")
+            logger.info(f"æå¼ä»»å¡é¡µé¢ï¼å°è¯ {i + 1}/3")
             page.goto(MISSION_URL, wait_until="domcontentloaded", timeout=90000)
             random_like_wait(page, 4500, 1200)
 
             try:
-                page.locator("text=我的任务").first.click(timeout=5000)
+                page.locator("text=æçä»»å¡").first.click(timeout=5000)
                 random_like_wait(page, 2600, 900)
             except Exception:
                 pass
 
             body_text = page_text(page)
 
-            if re.search(r"\d{2}月\d{2}日\s*周.", body_text):
-                logger.info("任务页面已加载")
+            if re.search(r"\d{2}æ\d{2}æ¥\s*å¨.", body_text):
+                logger.info("ä»»å¡é¡µé¢å·²å è½½")
                 return
 
         except Exception as e:
-            logger.error(f"打开任务页面失败: {e}")
+            logger.error(f"æå¼ä»»å¡é¡µé¢å¤±è´¥: {e}")
             if i == 2:
                 raise
 
-    raise RuntimeError("未能进入任务列表页")
+    raise RuntimeError("æªè½è¿å¥ä»»å¡åè¡¨é¡µ")
 
 
 def get_day_headers(page) -> list:
@@ -901,7 +901,7 @@ def get_day_headers(page) -> list:
 
     for line in text.splitlines():
         line = normalize_text(line)
-        m = re.match(r"^(\d{2}月\d{2}日\s*周.)", line)
+        m = re.match(r"^(\d{2}æ\d{2}æ¥\s*å¨.)", line)
         if m:
             headers.append(m.group(1))
 
@@ -922,7 +922,7 @@ def get_load_more_labels(page) -> list:
 
     for line in text.splitlines():
         line = normalize_text(line)
-        if "查看更多" in line:
+        if "æ¥çæ´å¤" in line:
             labels.append(line)
 
     return labels
@@ -930,7 +930,7 @@ def get_load_more_labels(page) -> list:
 
 def click_load_more(page) -> bool:
     try:
-        loc = page.locator("text=查看更多")
+        loc = page.locator("text=æ¥çæ´å¤")
         count = loc.count()
 
         if count == 0:
@@ -949,7 +949,7 @@ def click_load_more(page) -> bool:
         return True
 
     except Exception as e:
-        logger.info(f"点击查看更多失败: {e}")
+        logger.info(f"ç¹å»æ¥çæ´å¤å¤±è´¥: {e}")
         return False
 
 
@@ -964,7 +964,7 @@ def load_all_visible_tasks(page, max_rounds: int = LOAD_MORE_MAX_ROUNDS):
         save_text(f"load_round_{round_no}_more_before.txt", "\n".join(more_before))
 
         logger.info(
-            f"第 {round_no} 轮加载前：日期头 {len(headers_before)} 个，查看更多 {len(more_before)} 个"
+            f"ç¬¬ {round_no} è½®å è½½åï¼æ¥æå¤´ {len(headers_before)} ä¸ªï¼æ¥çæ´å¤ {len(more_before)} ä¸ª"
         )
 
         signature_before = (
@@ -975,11 +975,11 @@ def load_all_visible_tasks(page, max_rounds: int = LOAD_MORE_MAX_ROUNDS):
         )
 
         if not more_before:
-            logger.info("没有查看更多了")
+            logger.info("æ²¡ææ¥çæ´å¤äº")
             return
 
         if not click_load_more(page):
-            logger.info("查看更多无法继续点击")
+            logger.info("æ¥çæ´å¤æ æ³ç»§ç»­ç¹å»")
             return
 
         headers_after = get_day_headers(page)
@@ -989,7 +989,7 @@ def load_all_visible_tasks(page, max_rounds: int = LOAD_MORE_MAX_ROUNDS):
         save_text(f"load_round_{round_no}_more_after.txt", "\n".join(more_after))
 
         logger.info(
-            f"第 {round_no} 轮加载后：日期头 {len(headers_after)} 个，查看更多 {len(more_after)} 个"
+            f"ç¬¬ {round_no} è½®å è½½åï¼æ¥æå¤´ {len(headers_after)} ä¸ªï¼æ¥çæ´å¤ {len(more_after)} ä¸ª"
         )
 
         signature_after = (
@@ -1000,7 +1000,7 @@ def load_all_visible_tasks(page, max_rounds: int = LOAD_MORE_MAX_ROUNDS):
         )
 
         if signature_after == signature_before or signature_after == prev_signature:
-            logger.info("点了查看更多但页面签名没继续变化，停止扩展")
+            logger.info("ç¹äºæ¥çæ´å¤ä½é¡µé¢ç­¾åæ²¡ç»§ç»­ååï¼åæ­¢æ©å±")
             return
 
         prev_signature = signature_after
@@ -1099,7 +1099,7 @@ def click_day_toggle(page, header: str, strategy: int = 0) -> bool:
         return True
 
     except Exception as e:
-        logger.warning(f"{header} JS 点击策略 {strategy} 失败：{e}")
+        logger.warning(f"{header} JS ç¹å»ç­ç¥ {strategy} å¤±è´¥ï¼{e}")
 
     try:
         row = page.locator(f"text={header}").first
@@ -1128,7 +1128,7 @@ def click_day_toggle(page, header: str, strategy: int = 0) -> bool:
         return True
 
     except Exception as e:
-        logger.warning(f"{header} 坐标点击策略 {strategy} 失败：{e}")
+        logger.warning(f"{header} åæ ç¹å»ç­ç¥ {strategy} å¤±è´¥ï¼{e}")
         return False
 
 
@@ -1173,7 +1173,7 @@ def get_day_block_by_body_text(page, header: str, next_header=None) -> str:
     for line in lines:
         line_stripped = normalize_text(line)
 
-        if "查看更多" in line_stripped and re.search(r"\d{4}-\d{2}-\d{2}", line_stripped):
+        if "æ¥çæ´å¤" in line_stripped and re.search(r"\d{4}-\d{2}-\d{2}", line_stripped):
             break
 
         if DAY_HEADER_RE.match(line_stripped) and line_stripped != header:
@@ -1186,9 +1186,9 @@ def get_day_block_by_body_text(page, header: str, next_header=None) -> str:
 
 def get_day_block_by_dom(page, header: str, next_header=None) -> str:
     """
-    严格版 DOM 读取：
-    只读取“当前日期行所在任务列表区域”下面、下一个日期头之前的可见详情。
-    不再全页面按 Y 坐标大范围扫，避免把 Grounding / 其它日期串进当前日期。
+    ä¸¥æ ¼ç DOM è¯»åï¼
+    åªè¯»åâå½åæ¥æè¡æå¨ä»»å¡åè¡¨åºåâä¸é¢ãä¸ä¸ä¸ªæ¥æå¤´ä¹åçå¯è§è¯¦æã
+    ä¸åå¨é¡µé¢æ Y åæ å¤§èå´æ«ï¼é¿åæ Grounding / å¶å®æ¥æä¸²è¿å½åæ¥æã
     """
     try:
         result = page.evaluate(
@@ -1225,7 +1225,7 @@ def get_day_block_by_dom(page, header: str, next_header=None) -> str:
                 }
 
                 function countDateHeaders(s) {
-                    const m = String(s || "").match(/\\d{2}月\\d{2}日\\s*周./g);
+                    const m = String(s || "").match(/\\d{2}æ\\d{2}æ¥\\s*å¨./g);
                     return m ? m.length : 0;
                 }
 
@@ -1241,21 +1241,21 @@ def get_day_block_by_dom(page, header: str, next_header=None) -> str:
 
                     const r = el.getBoundingClientRect();
 
-                    // 排除全页面大容器：包含太多日期头的一律不要
+                    // æé¤å¨é¡µé¢å¤§å®¹å¨ï¼åå«å¤ªå¤æ¥æå¤´çä¸å¾ä¸è¦
                     if (countDateHeaders(text) >= 3) continue;
 
                     let score = 0;
 
                     if (text === header) score += 30;
                     if (text.startsWith(header)) score += 50;
-                    if (/\\d{2}:\\d{2}\\s*[-~～—–]+\\s*\\d{2}:\\d{2}/.test(text)) score += 30;
-                    if (/(训练|航班|置位|摆渡|备份|待命|考勤|停飞|Grounding)/.test(text)) score += 30;
+                    if (/\\d{2}:\\d{2}\\s*[-~ï½ââ]+\\s*\\d{2}:\\d{2}/.test(text)) score += 30;
+                    if (/(è®­ç»|èªç­|ç½®ä½|ææ¸¡|å¤ä»½|å¾å½|èå¤|åé£|Grounding)/.test(text)) score += 30;
 
-                    // 右侧任务列表通常较宽，左侧日历小格子较窄
+                    // å³ä¾§ä»»å¡åè¡¨éå¸¸è¾å®½ï¼å·¦ä¾§æ¥åå°æ ¼å­è¾çª
                     if (r.width >= 300) score += 20;
                     if (r.left >= 250) score += 20;
 
-                    // 过大的容器扣分
+                    // è¿å¤§çå®¹å¨æ£å
                     if (r.height > 180) score -= 40;
                     if (text.length > 300) score -= 40;
 
@@ -1269,7 +1269,7 @@ def get_day_block_by_dom(page, header: str, next_header=None) -> str:
                 headerCandidates.sort((a, b) => b.score - a.score);
                 const headerEl = headerCandidates[0].el;
 
-                // 向上找“日期任务行”容器，但不能找到整页大容器
+                // åä¸æ¾âæ¥æä»»å¡è¡âå®¹å¨ï¼ä½ä¸è½æ¾å°æ´é¡µå¤§å®¹å¨
                 let rowNode = headerEl;
                 for (let i = 0; i < 8; i++) {
                     if (!rowNode || !rowNode.parentElement) break;
@@ -1295,7 +1295,7 @@ def get_day_block_by_dom(page, header: str, next_header=None) -> str:
                 const headerTop = rowRect.top;
                 const rowBottom = rowRect.bottom;
 
-                // 只允许读取当前任务列表横向区域，避免读到左侧日历或其它面板
+                // åªåè®¸è¯»åå½åä»»å¡åè¡¨æ¨ªååºåï¼é¿åè¯»å°å·¦ä¾§æ¥åæå¶å®é¢æ¿
                 const regionLeft = Math.max(0, rowRect.left - 30);
                 const regionRight = Math.min(window.innerWidth, rowRect.right + 30);
 
@@ -1315,13 +1315,13 @@ def get_day_block_by_dom(page, header: str, next_header=None) -> str:
 
                         if (r.top <= headerTop + 5) continue;
 
-                        // 必须和当前任务列表横向区域有交集
+                        // å¿é¡»åå½åä»»å¡åè¡¨æ¨ªååºåæäº¤é
                         const overlap = Math.min(r.right, regionRight) - Math.max(r.left, regionLeft);
                         if (overlap <= 20) continue;
 
                         let score = 0;
                         if (text.startsWith(nextHeader)) score += 50;
-                        if (/\\d{2}:\\d{2}\\s*[-~～—–]+\\s*\\d{2}:\\d{2}/.test(text)) score += 20;
+                        if (/\\d{2}:\\d{2}\\s*[-~ï½ââ]+\\s*\\d{2}:\\d{2}/.test(text)) score += 20;
                         if (r.width >= 300) score += 20;
                         if (r.height > 180) score -= 30;
 
@@ -1344,11 +1344,11 @@ def get_day_block_by_dom(page, header: str, next_header=None) -> str:
 
                     const r = el.getBoundingClientRect();
 
-                    // 只读日期行下方到下一个日期头之前
+                    // åªè¯»æ¥æè¡ä¸æ¹å°ä¸ä¸ä¸ªæ¥æå¤´ä¹å
                     if (r.bottom < rowBottom - 3) continue;
                     if (r.top > nextTop - 5) continue;
 
-                    // 必须在同一个任务列表横向区域
+                    // å¿é¡»å¨åä¸ä¸ªä»»å¡åè¡¨æ¨ªååºå
                     const overlap = Math.min(r.right, regionRight) - Math.max(r.left, regionLeft);
                     if (overlap <= 20) continue;
 
@@ -1357,7 +1357,7 @@ def get_day_block_by_dom(page, header: str, next_header=None) -> str:
                     if (text.length > 800) continue;
                     if (countDateHeaders(text) >= 2) continue;
 
-                    // 只取更像叶子节点的文本，避免父容器重复吞大段
+                    // åªåæ´åå¶å­èç¹çææ¬ï¼é¿åç¶å®¹å¨éå¤åå¤§æ®µ
                     let childTextCount = 0;
                     for (const child of Array.from(el.children || [])) {
                         if (!visible(child)) continue;
@@ -1442,16 +1442,16 @@ def get_day_block_by_dom(page, header: str, next_header=None) -> str:
             return normalize_text(result.get("text", ""))
 
     except Exception as e:
-        logger.warning(f"{header} DOM 严格区域读取失败：{e}")
+        logger.warning(f"{header} DOM ä¸¥æ ¼åºåè¯»åå¤±è´¥ï¼{e}")
 
     return ""
 
 
 def block_looks_polluted(day_block: str, header: str, fallback_text: str = "") -> bool:
     """
-    防串卡污染：
-    如果当前日期摘要是训练/航班/置位/摆渡，
-    但 DOM 详情里读出了 Grounding/停飞，判定为污染块，不写入。
+    é²ä¸²å¡æ±¡æï¼
+    å¦æå½åæ¥ææè¦æ¯è®­ç»/èªç­/ç½®ä½/ææ¸¡ï¼
+    ä½ DOM è¯¦æéè¯»åºäº Grounding/åé£ï¼å¤å®ä¸ºæ±¡æåï¼ä¸åå¥ã
     """
     day_block = normalize_text(day_block)
     fallback_text = normalize_text(fallback_text)
@@ -1470,7 +1470,7 @@ def block_looks_polluted(day_block: str, header: str, fallback_text: str = "") -
     if other_headers:
         return True
 
-    date_header_count = len(re.findall(r"\d{2}月\d{2}日\s*周.", joined))
+    date_header_count = len(re.findall(r"\d{2}æ\d{2}æ¥\s*å¨.", joined))
     if date_header_count >= 2:
         return True
 
@@ -1491,11 +1491,11 @@ def block_looks_polluted(day_block: str, header: str, fallback_text: str = "") -
     if block_kind == "stop" and fallback_kind in {"training", "flight", "positioning", "ferry", "standby", "attendance"}:
         return True
 
-    # 同一块里既有训练细节又有 Grounding，通常是串读
+    # åä¸åéæ¢æè®­ç»ç»èåæ Groundingï¼éå¸¸æ¯ä¸²è¯»
     if block_has_grounding and block_has_training:
         return True
 
-    # 一个日期块里出现过多不同任务关键词，容易是读串
+    # ä¸ä¸ªæ¥æåéåºç°è¿å¤ä¸åä»»å¡å³é®è¯ï¼å®¹ææ¯è¯»ä¸²
     kind_hits = 0
     for group in [
         POSITIONING_KEYWORDS,
@@ -1542,10 +1542,10 @@ def get_day_block(page, header: str, next_header=None, fallback_text: str = "") 
         if any(k in body_block for k in DETAIL_SIGNAL_KEYWORDS):
             body_score += 500
 
-        if "航班动态" in dom_block:
+        if "èªç­å¨æ" in dom_block:
             dom_score += 500
 
-        if "航班动态" in body_block:
+        if "èªç­å¨æ" in body_block:
             body_score += 500
 
         chosen = dom_block if dom_score >= body_score else body_block
@@ -1589,12 +1589,12 @@ def split_prefix_time_suffix(line: str):
 
 def has_next_day_marker(text: str) -> bool:
     text = normalize_text(text)
-    return any(x in text for x in ["(+1)", "（+1）", "＋1", "+1", "次日", "第二天", "翌日"])
+    return any(x in text for x in ["(+1)", "ï¼+1ï¼", "ï¼1", "+1", "æ¬¡æ¥", "ç¬¬äºå¤©", "ç¿æ¥"])
 
 
 def strip_time_from_title(title: str) -> str:
     title = TIME_RANGE_RE.sub("", title).strip()
-    title = re.sub(r"[\s~～\-–—]+$", "", title).strip()
+    title = re.sub(r"[\s~ï½\-ââ]+$", "", title).strip()
     return title
 
 
@@ -1631,7 +1631,7 @@ def line_has_summary_task_signal(line: str) -> bool:
         + STOP_KEYWORDS
         + ATTENDANCE_KEYWORDS
         + STANDBY_KEYWORDS
-        + ["航班"]
+        + ["èªç­"]
     )
 
     return any(k in line for k in keywords)
@@ -1658,7 +1658,7 @@ def get_day_summary_task_map(page) -> dict:
         if not tail:
             continue
 
-        if "查看更多" in tail:
+        if "æ¥çæ´å¤" in tail:
             continue
 
         if line_has_summary_task_signal(tail):
@@ -1702,7 +1702,7 @@ def remove_summary_like_lines(lines: list, header: str, fallback_text: str = "")
         if fallback_text and line == fallback_text:
             continue
 
-        if "查看更多" in line:
+        if "æ¥çæ´å¤" in line:
             continue
 
         if PURE_DATE_PREFIX_RE.match(line):
@@ -1745,7 +1745,7 @@ def day_block_has_real_detail(day_block: str, header: str, fallback_text: str = 
     if any(k in joined for k in DETAIL_SIGNAL_KEYWORDS):
         return True
 
-    if "航班动态" in joined:
+    if "èªç­å¨æ" in joined:
         return True
 
     if FLIGHT_NO_RE.search(joined) and (
@@ -1827,7 +1827,7 @@ def wait_for_real_day_detail(page, header: str, next_header=None, fallback_text:
                 return last_block, last_cards, has_real_detail
 
         except Exception as e:
-            logger.warning(f"等待 {header} 详情时读取失败: {e}")
+            logger.warning(f"ç­å¾ {header} è¯¦ææ¶è¯»åå¤±è´¥: {e}")
 
         random_like_wait(page, 800, 400)
 
@@ -1841,12 +1841,12 @@ def expand_day_get_real_detail(page, header: str, next_header=None, fallback_tex
 
     for attempt in range(1, retries + 1):
         strategy = (attempt - 1) % 5
-        logger.info(f"展开 {header} 尝试 {attempt}/{retries}，点击策略 {strategy}")
+        logger.info(f"å±å¼ {header} å°è¯ {attempt}/{retries}ï¼ç¹å»ç­ç¥ {strategy}")
 
         expanded = expand_day(page, header, strategy=strategy)
 
         if not expanded:
-            logger.warning(f"{header} 点击展开失败，strategy={strategy}")
+            logger.warning(f"{header} ç¹å»å±å¼å¤±è´¥ï¼strategy={strategy}")
             random_like_wait(page, 800, 300)
             continue
 
@@ -1884,10 +1884,10 @@ def expand_day_get_real_detail(page, header: str, next_header=None, fallback_tex
             best_cards = cards
 
         if has_real_detail:
-            logger.info(f"{header} 已抓到真实详情")
+            logger.info(f"{header} å·²æå°çå®è¯¦æ")
             return True, best_block, best_cards, True
 
-        logger.warning(f"{header} 本次只抓到摘要或空内容，准备换策略重试")
+        logger.warning(f"{header} æ¬æ¬¡åªæå°æè¦æç©ºåå®¹ï¼åå¤æ¢ç­ç¥éè¯")
 
         random_like_wait(page, 800 + attempt * 250, 500)
 
@@ -1918,7 +1918,7 @@ def classify_card_kind(card_text: str, day_header: str = "") -> str:
     flight_no = FLIGHT_NO_RE.search(text)
 
     has_flight_structure = (
-        "航班动态" in text
+        "èªç­å¨æ" in text
         or bool(REG_AND_MODEL_RE.search(text))
         or len(ICAO_RE.findall(text)) >= 2
     )
@@ -1931,33 +1931,33 @@ def classify_card_kind(card_text: str, day_header: str = "") -> str:
 
 def task_type_from_kind(kind: str) -> str:
     return {
-        "positioning": "置位",
-        "ferry": "摆渡",
-        "training": "训练",
-        "flight": "航班",
-        "stop": "停飞",
-        "attendance": "考勤",
-        "standby": "待命",
-        "generic": "其他",
-    }.get(kind, "其他")
+        "positioning": "ç½®ä½",
+        "ferry": "ææ¸¡",
+        "training": "è®­ç»",
+        "flight": "èªç­",
+        "stop": "åé£",
+        "attendance": "èå¤",
+        "standby": "å¾å½",
+        "generic": "å¶ä»",
+    }.get(kind, "å¶ä»")
 
 
 def task_bucket(task_type: str) -> str:
     return {
-        "航班": "flight",
-        "置位": "positioning",
-        "训练": "training",
-        "摆渡": "ferry",
-        "停飞": "other",
-        "考勤": "other",
-        "待命": "other",
-        "备份": "other",
-        "其他": "other",
+        "èªç­": "flight",
+        "ç½®ä½": "positioning",
+        "è®­ç»": "training",
+        "ææ¸¡": "ferry",
+        "åé£": "other",
+        "èå¤": "other",
+        "å¾å½": "other",
+        "å¤ä»½": "other",
+        "å¶ä»": "other",
     }.get(task_type, "other")
 
 
 def extract_date(text: str, page_year: int):
-    m = re.search(r"(\d{2})月(\d{2})日", text)
+    m = re.search(r"(\d{2})æ(\d{2})æ¥", text)
 
     if not m:
         return None
@@ -1984,7 +1984,7 @@ def clean_tail_noise(lines: list) -> list:
     for line in lines:
         if not line:
             continue
-        if "查看更多" in line:
+        if "æ¥çæ´å¤" in line:
             continue
         if PURE_DATE_PREFIX_RE.match(line):
             continue
@@ -2006,7 +2006,7 @@ def is_card_start_line(line: str, prev_line: str = "") -> bool:
     if TIME_RANGE_RE.search(line) and line_has_task_keyword(line):
         return True
 
-    if TIME_RANGE_RE.search(line) and ("Grounding" in line or "grounding" in line or "停飞" in line):
+    if TIME_RANGE_RE.search(line) and ("Grounding" in line or "grounding" in line or "åé£" in line):
         return True
 
     return False
@@ -2086,10 +2086,10 @@ def _extract_cn_route_from_card(card_text: str, dep_icao: str, arr_icao: str):
     lines = [normalize_text(x) for x in card_text.splitlines() if normalize_text(x)]
 
     for line in lines:
-        if "航班动态" in line or MODEL_ONLY_RE.fullmatch(line):
+        if "èªç­å¨æ" in line or MODEL_ONLY_RE.fullmatch(line):
             continue
 
-        for sep in ["→", "——", "-", "─"]:
+        for sep in ["â", "ââ", "-", "â"]:
             if sep not in line:
                 continue
 
@@ -2237,7 +2237,7 @@ def extract_reg_and_model(card_text: str):
 
 
 def extract_checkin(card_text: str):
-    m = re.search(r"(\d{2}:\d{2})\s*([^\s]{2,30})\s*航班动态", card_text)
+    m = re.search(r"(\d{2}:\d{2})\s*([^\s]{2,30})\s*èªç­å¨æ", card_text)
 
     if m:
         return m.group(1), m.group(2)
@@ -2245,7 +2245,7 @@ def extract_checkin(card_text: str):
     lines = [normalize_text(x) for x in card_text.splitlines() if normalize_text(x)]
 
     for line in lines:
-        if "航班动态" not in line:
+        if "èªç­å¨æ" not in line:
             continue
 
         m_old = re.search(r"(\d{2}:\d{2})\s+([^\s]{2,30})", line)
@@ -2256,10 +2256,10 @@ def extract_checkin(card_text: str):
         hhmm = m_old.group(1)
         place = m_old.group(2)
 
-        if f"{hhmm}-" in line or f"{hhmm}~" in line or f"{hhmm}～" in line:
+        if f"{hhmm}-" in line or f"{hhmm}~" in line or f"{hhmm}ï½" in line:
             continue
 
-        if place in ["A319", "A320", "A321", "航班动态"]:
+        if place in ["A319", "A320", "A321", "èªç­å¨æ"]:
             continue
 
         if FLIGHT_NO_RE.fullmatch(place):
@@ -2275,7 +2275,7 @@ def extract_start_end_time(card_text: str):
     candidate_lines = []
 
     for line in lines:
-        if "航班动态" in line:
+        if "èªç­å¨æ" in line:
             continue
 
         if FLIGHT_NO_RE.fullmatch(line) or is_old_style_header_line(line) or is_reg_model_line(line):
@@ -2303,7 +2303,7 @@ def standardize_people_text(text: str) -> str:
     if not text:
         return ""
 
-    text = text.replace("（", "(").replace("）", ")")
+    text = text.replace("ï¼", "(").replace("ï¼", ")")
     text = re.sub(r"\s+", " ", text)
     text = re.sub(r"(\([A-Z]\))", r"\1 ", text)
     text = re.sub(r"\s{2,}", " ", text)
@@ -2317,7 +2317,7 @@ def has_clear_delimiters(text: str) -> bool:
     if not text:
         return False
 
-    return any(sep in text for sep in [" ", "　", "、", "，", ",", "/", "\n", "\t"])
+    return any(sep in text for sep in [" ", "ã", "ã", "ï¼", ",", "/", "\n", "\t"])
 
 
 def split_by_clear_delimiters(text: str) -> list:
@@ -2326,7 +2326,7 @@ def split_by_clear_delimiters(text: str) -> list:
     if not text:
         return []
 
-    parts = re.split(r"[\s　、，,/]+", text)
+    parts = re.split(r"[\sããï¼,/]+", text)
     return [normalize_text(x) for x in parts if normalize_text(x)]
 
 
@@ -2357,17 +2357,132 @@ def looks_like_person_token(token: str) -> bool:
     return False
 
 
+def is_non_person_name_noise(token: str) -> bool:
+    token = normalize_text(token)
+
+    if not token:
+        return True
+
+    # é R çåå­æ¯æ è®°åå»æï¼ä¾å¦ è¡¡ä½³è¿(B) -> è¡¡ä½³è¿
+    token_no_non_r_tag = re.sub(r"\((?!R\))[A-Z]\)", "", token)
+    plain = SHORT_ROLE_RE.sub("", token_no_non_r_tag)
+    plain = normalize_text(plain)
+
+    if not plain:
+        return True
+
+    if is_bad_title_text(plain):
+        return True
+
+    if plain in ROLE_WORDS or plain in TASK_TITLE_WORDS or plain in GENERIC_TASK_WORDS:
+        return True
+
+    if FLIGHT_NO_RE.fullmatch(plain):
+        return True
+
+    if REG_ONLY_RE.fullmatch(plain) or REG_MODEL_RE.fullmatch(plain):
+        return True
+
+    if MODEL_ONLY_RE.fullmatch(plain):
+        return True
+
+    if ICAO_RE.fullmatch(plain):
+        return True
+
+    if TIME_RANGE_RE.search(plain) or re.fullmatch(r"\d{2}:\d{2}", plain):
+        return True
+
+    if "èªç­å¨æ" in plain:
+        return True
+
+    if plain in AIRPORT_CN_TO_ICAO:
+        return True
+
+    if plain in AIRPORT_ICAO_TO_CN:
+        return True
+
+    # è¿æ»¤æºåºä¸­æåæ¼å¨ä¸èµ·çèªçº¿ä¸²ï¼ä¾å¦ ä¸æµ·æµ¦ä¸åå¤å±ä¸­é¨ / åå¤å±ä¸­é¨ä¸æµ·æµ¦ä¸
+    if re.fullmatch(r"[\u4e00-\u9fff]{4,20}", plain):
+        matched_names = []
+        temp = plain
+
+        for airport_name in AIRPORT_NAMES:
+            if airport_name and airport_name in temp:
+                matched_names.append(airport_name)
+                temp = temp.replace(airport_name, "", 1)
+
+        if len(matched_names) >= 2 and not temp:
+            return True
+
+    return False
+
+
+def normalize_person_display_token(token: str) -> str:
+    token = normalize_text(token)
+    # ä¿ç (R)ï¼å»æå¶å®åå­æ¯æ è®°ï¼é¿å è¡¡ä½³è¿(B) è¿ç§æ¾ç¤ºè¿äººåååã
+    token = re.sub(r"\((?!R\))[A-Z]\)", "", token)
+    return normalize_text(token)
+
+
+def is_summary_only_card(card_text: str, day_header: str = "") -> bool:
+    lines = [normalize_text(x) for x in normalize_text(card_text).splitlines() if normalize_text(x)]
+
+    if len(lines) != 1:
+        return False
+
+    line = lines[0]
+
+    if day_header and line.startswith(day_header):
+        line = normalize_text(line[len(day_header):])
+
+    if not line:
+        return False
+
+    # æè¦è¡ä¸è¬æ¯ï¼èªç­ 11:00- 17:10 / è®­ç» 09:00-17:30
+    if not line_has_summary_task_signal(line):
+        return False
+
+    # åªè¦æçå®èªç­å·ãæ³¨åå·ãæºåãèªç­å¨æï¼å°±ä¸æ¯æè¦ååºã
+    if FLIGHT_NO_RE.search(line):
+        return False
+
+    if REG_ONLY_RE.search(line) or REG_AND_MODEL_RE.search(line) or MODEL_ONLY_RE.search(line):
+        return False
+
+    if "èªç­å¨æ" in line:
+        return False
+
+    return True
+
 def normalize_people_output(items: list) -> list:
-    out = []
-    seen = set()
+    normalized = []
 
     for x in items:
-        x = normalize_text(x)
+        x = normalize_person_display_token(x)
 
         if not x:
             continue
 
-        if is_bad_title_text(x):
+        if is_non_person_name_noise(x):
+            continue
+
+        normalized.append(x)
+
+    # å¦æå·²ç»æ ç°é¸¿é£(R)ï¼å°±ä¸è¦åæ¾ç¤ºæ è§è²ç ç°é¸¿é£ã
+    tagged_bases = set()
+    for x in normalized:
+        if SHORT_ROLE_RE.search(x):
+            base = normalize_text(SHORT_ROLE_RE.sub("", x))
+            if base:
+                tagged_bases.add(base)
+
+    out = []
+    seen = set()
+
+    for x in normalized:
+        base = normalize_text(SHORT_ROLE_RE.sub("", x))
+
+        if base in tagged_bases and not SHORT_ROLE_RE.search(x):
             continue
 
         if x not in seen:
@@ -2375,7 +2490,6 @@ def normalize_people_output(items: list) -> list:
             seen.add(x)
 
     return out
-
 
 def contains_suspicious_half_name(token: str) -> bool:
     token = normalize_text(token)
@@ -2678,7 +2792,7 @@ def parse_people_line_conservatively(line: str):
     if line in ROLE_WORDS:
         return "skip", []
 
-    if is_day_header(line) or "查看更多" in line:
+    if is_day_header(line) or "æ¥çæ´å¤" in line:
         return "skip", []
 
     if is_flight_line(line) or is_reg_model_line(line) or is_old_style_header_line(line):
@@ -2775,10 +2889,29 @@ def extract_people_lines_flight(card_text: str) -> list:
         if PURE_DATE_PREFIX_RE.match(line):
             break
 
-        if "航班动态" in line or "查看更多" in line or TIME_RANGE_RE.search(line):
+        if "èªç­å¨æ" in line or "æ¥çæ´å¤" in line or TIME_RANGE_RE.search(line):
             continue
 
         if re.fullmatch(r"\d{2}:\d{2}", line) or len(line) == 1:
+            continue
+
+        if is_non_person_name_noise(line):
+            continue
+
+        # ä¼åæåå¸¦è§è²æ è®°çäººåï¼ä¾å¦ ç°é¸¿é£(R)å¼ ææµ©(R)æ®µæ´ç¡
+        tagged = ZH_TAGGED_NAME_RE.findall(line)
+        if tagged:
+            for t in tagged:
+                t = normalize_person_display_token(t)
+                if t and not is_non_person_name_noise(t):
+                    people.append(t)
+
+            rest = ZH_TAGGED_NAME_RE.sub("", line)
+            rest = normalize_text(rest)
+            if rest and not is_non_person_name_noise(rest):
+                result = parse_people_line_flight(rest)
+                if result:
+                    people.extend(result)
             continue
 
         result = parse_people_line_flight(line)
@@ -2786,7 +2919,6 @@ def extract_people_lines_flight(card_text: str) -> list:
             people.extend(result)
 
     return normalize_people_output(people)
-
 
 def _parse_ferry_route_from_description(desc: str):
     dep_cn = ""
@@ -2798,14 +2930,14 @@ def _parse_ferry_route_from_description(desc: str):
         if name in temp:
             pos = temp.find(name)
             found_airports.append((pos, name))
-            temp = temp.replace(name, "〇" * len(name), 1)
+            temp = temp.replace(name, "ã" * len(name), 1)
 
     found_airports.sort(key=lambda x: x[0])
 
     if len(found_airports) >= 2:
         return found_airports[0][1], found_airports[-1][1]
 
-    for keyword in ["去", "前往", "至", "返回"]:
+    for keyword in ["å»", "åå¾", "è³", "è¿å"]:
         if keyword in desc:
             left_part, right_part = desc.split(keyword, 1)
 
@@ -2836,10 +2968,10 @@ def is_probably_people_zone(line: str) -> bool:
     if any(w in line for w in TASK_TITLE_WORDS):
         return False
 
-    if "地点" in line or "任务" in line or "事项" in line or "类型" in line:
+    if "å°ç¹" in line or "ä»»å¡" in line or "äºé¡¹" in line or "ç±»å" in line:
         return False
 
-    if re.search(r"[：:。，、]", line) and not has_clear_delimiters(line):
+    if re.search(r"[ï¼:ãï¼ã]", line) and not has_clear_delimiters(line):
         return False
 
     mode, result = parse_people_line_conservatively(line)
@@ -2892,7 +3024,7 @@ def extract_people_lines_generic(lines: list, consumed_idx: set, title_text: str
         if is_bad_title_text(line):
             continue
 
-        if line in ROLE_WORDS or is_day_header(line) or "查看更多" in line:
+        if line in ROLE_WORDS or is_day_header(line) or "æ¥çæ´å¤" in line:
             continue
 
         if is_flight_line(line) or is_reg_model_line(line) or is_old_style_header_line(line):
@@ -2936,7 +3068,7 @@ def should_block_new_dirty_grounding(item: dict) -> bool:
     location = normalize_text(item.get("location", ""))
     extra_lines = item.get("extra_lines", [])
 
-    if item.get("task_type") not in {"停飞", "考勤", "其他"}:
+    if item.get("task_type") not in {"åé£", "èå¤", "å¶ä»"}:
         return False
 
     grounding_like = (
@@ -2944,13 +3076,13 @@ def should_block_new_dirty_grounding(item: dict) -> bool:
         or "grounding" in title_text
         or "Grounding" in raw_card_text
         or "grounding" in raw_card_text
-        or "停飞" in title_text
+        or "åé£" in title_text
     )
 
     people_bad = (not people) or all(is_bad_title_text(p) for p in people)
     no_useful_location = (not location) or is_bad_title_text(location)
     no_useful_extra = not [x for x in extra_lines if not is_bad_title_text(x)]
-    weak_title = title_text in {"停飞Grounding", "Grounding", "grounding", "停飞"} or is_bad_title_text(title_text)
+    weak_title = title_text in {"åé£Grounding", "Grounding", "grounding", "åé£"} or is_bad_title_text(title_text)
 
     if grounding_like and people_bad and no_useful_location and no_useful_extra and weak_title:
         return True
@@ -3055,9 +3187,9 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
 
     if forced_kind in {"ferry", "positioning"}:
         if dep_cn and arr_cn:
-            title_text = f"{dep_cn}→{arr_cn}"
+            title_text = f"{dep_cn}â{arr_cn}"
         elif dep and arr:
-            title_text = f"{dep}→{arr}"
+            title_text = f"{dep}â{arr}"
         elif not title_text:
             title_text = task_type
 
@@ -3084,7 +3216,7 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
         location=location,
     )
 
-    if task_type in {"停飞", "考勤"}:
+    if task_type in {"åé£", "èå¤"}:
         people_lines = [p for p in people_lines if not is_bad_title_text(p)]
 
         if is_bad_title_text(title_text):
@@ -3129,7 +3261,7 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
     }
 
     if should_block_new_dirty_grounding(item):
-        logger.info(f"拦截旧错误样式新生成：{day_header} | {title_text}")
+        logger.info(f"æ¦æªæ§éè¯¯æ ·å¼æ°çæï¼{day_header} | {title_text}")
         return None
 
     return item
@@ -3172,7 +3304,7 @@ def parse_flight_card(card_text: str, day_header: str, page_year: int, day_task_
 
     return {
         "day_header": day_header,
-        "task_type": "航班",
+        "task_type": "èªç­",
         "flight_no": flight_no,
         "title_text": "",
         "dep": dep,
@@ -3197,16 +3329,16 @@ def parse_flight_card(card_text: str, day_header: str, page_year: int, day_task_
 
 def title_icon(task_type: str) -> str:
     return {
-        "航班": "✈️",
-        "置位": "📍",
-        "训练": "🎓",
-        "摆渡": "🚐",
-        "备份": "🗂",
-        "待命": "🕒",
-        "考勤": "📋",
-        "停飞": "📋",
-        "其他": "🗂",
-    }.get(task_type, "🗂")
+        "èªç­": "âï¸",
+        "ç½®ä½": "ð",
+        "è®­ç»": "ð",
+        "ææ¸¡": "ð",
+        "å¤ä»½": "ð",
+        "å¾å½": "ð",
+        "èå¤": "ð",
+        "åé£": "ð",
+        "å¶ä»": "ð",
+    }.get(task_type, "ð")
 
 
 def build_title(item: dict) -> str:
@@ -3222,24 +3354,24 @@ def build_title(item: dict) -> str:
 
     if flight_no:
         if dep_cn and arr_cn:
-            return f"{icon} {flight_no} {dep_cn}→{arr_cn}{suffix}"
+            return f"{icon} {flight_no} {dep_cn}â{arr_cn}{suffix}"
         if dep_cn and arr:
-            return f"{icon} {flight_no} {dep_cn}→{arr}{suffix}"
+            return f"{icon} {flight_no} {dep_cn}â{arr}{suffix}"
         if dep and arr_cn:
-            return f"{icon} {flight_no} {dep}→{arr_cn}{suffix}"
+            return f"{icon} {flight_no} {dep}â{arr_cn}{suffix}"
         if dep and arr:
             return f"{icon} {flight_no} {dep}-{arr}{suffix}"
         return f"{icon} {flight_no}"
 
-    if item["task_type"] in {"摆渡", "置位"}:
+    if item["task_type"] in {"ææ¸¡", "ç½®ä½"}:
         if dep_cn and arr_cn:
-            return f"{icon} {dep_cn}→{arr_cn}{suffix}"
+            return f"{icon} {dep_cn}â{arr_cn}{suffix}"
         if dep and arr:
-            return f"{icon} {dep}→{arr}{suffix}"
+            return f"{icon} {dep}â{arr}{suffix}"
 
-    if item["task_type"] == "停飞":
+    if item["task_type"] == "åé£":
         clean_title = re.sub(
-            r"\s*00:00\s*[~～\-–—]\s*(17:30|23:59)\s*$",
+            r"\s*00:00\s*[~ï½\-ââ]\s*(17:30|23:59)\s*$",
             "",
             title_text,
         ).strip()
@@ -3248,7 +3380,7 @@ def build_title(item: dict) -> str:
         if clean_title and not is_bad_title_text(clean_title):
             return f"{icon} {clean_title}"
 
-        return f"{icon} 停飞"
+        return f"{icon} åé£"
 
     if title_text and not is_bad_title_text(title_text):
         return f"{icon} {title_text}"
@@ -3257,50 +3389,50 @@ def build_title(item: dict) -> str:
 
 
 def build_description(item: dict) -> str:
-    lines = [item["day_header"], f"类型：{item['task_type']}"]
+    lines = [item["day_header"], f"ç±»åï¼{item['task_type']}"]
 
     if item["flight_no"]:
-        lines.append(f"航班：{item['flight_no']}")
+        lines.append(f"èªç­ï¼{item['flight_no']}")
     elif item.get("title_text") and not is_bad_title_text(item.get("title_text", "")):
-        lines.append(f"事项：{item['title_text']}")
+        lines.append(f"äºé¡¹ï¼{item['title_text']}")
 
     if item["dep_cn"] and item["arr_cn"]:
         cross = "(+1)" if item["end_dt"].date() > item["start_dt"].date() else ""
-        lines.append(f"航线：{item['dep_cn']} → {item['arr_cn']}{cross}")
+        lines.append(f"èªçº¿ï¼{item['dep_cn']} â {item['arr_cn']}{cross}")
     elif item["dep"] and item["arr"]:
         cross = "(+1)" if item["end_dt"].date() > item["start_dt"].date() else ""
-        lines.append(f"航线：{item['dep']} → {item['arr']}{cross}")
+        lines.append(f"èªçº¿ï¼{item['dep']} â {item['arr']}{cross}")
 
     if item["location"] and not is_bad_title_text(item["location"]):
-        lines.append(f"地点：{item['location']}")
+        lines.append(f"å°ç¹ï¼{item['location']}")
 
     if item["checkin_time"] and item["checkin_place"]:
-        lines.append(f"签到：{item['checkin_time']}｜{item['checkin_place']}")
+        lines.append(f"ç­¾å°ï¼{item['checkin_time']}ï½{item['checkin_place']}")
     elif item["checkin_time"]:
-        lines.append(f"签到：{item['checkin_time']}")
+        lines.append(f"ç­¾å°ï¼{item['checkin_time']}")
 
-    lines.append(f"任务：{item['start_time']} - {item['end_time']}")
+    lines.append(f"ä»»å¡ï¼{item['start_time']} - {item['end_time']}")
 
     if item["model"] and item["reg"]:
-        lines.append(f"机型：{item['model']}｜注册号：{item['reg']}")
+        lines.append(f"æºåï¼{item['model']}ï½æ³¨åå·ï¼{item['reg']}")
     elif item["model"]:
-        lines.append(f"机型：{item['model']}")
+        lines.append(f"æºåï¼{item['model']}")
     elif item["reg"]:
-        lines.append(f"注册号：{item['reg']}")
+        lines.append(f"æ³¨åå·ï¼{item['reg']}")
 
     clean_extra = [x for x in item["extra_lines"] if not is_bad_title_text(x)]
     if clean_extra:
         lines.append("")
-        lines.append("说明：")
+        lines.append("è¯´æï¼")
         for x in clean_extra:
-            lines.append(f"• {x}")
+            lines.append(f"â¢ {x}")
 
     clean_people = normalize_people_output(item["people_lines"])
     if clean_people:
         lines.append("")
-        lines.append("人员名单：")
+        lines.append("äººåååï¼")
         for p in clean_people:
-            lines.append(f"• {p}")
+            lines.append(f"â¢ {p}")
 
     return "\n".join(lines)
 
@@ -3360,9 +3492,9 @@ def build_vevent(item: dict, version_tag: str = "") -> str:
     desc = build_description(item)
 
     if version_tag:
-        desc = f"{desc}\n\n版本：{version_tag}"
+        desc = f"{desc}\n\nçæ¬ï¼{version_tag}"
 
-    alarm_desc = f"{item['flight_no']} 签到提醒" if item["flight_no"] else f"{item.get('title_text', '任务')} 提醒"
+    alarm_desc = f"{item['flight_no']} ç­¾å°æé" if item["flight_no"] else f"{item.get('title_text', 'ä»»å¡')} æé"
     uid_base = stable_uid_seed(item)
 
     lines = [
@@ -3419,7 +3551,7 @@ def extract_event_date_from_block(block: str) -> str:
 
 def normalize_similarity_title(text: str) -> str:
     text = normalize_text(text)
-    text = re.sub(r"\s*00:00\s*[~～\-–—]\s*(17:30|23:59)", "", text)
+    text = re.sub(r"\s*00:00\s*[~ï½\-ââ]\s*(17:30|23:59)", "", text)
     text = text.replace("Grounding", "").replace("grounding", "")
     text = text.replace(" ", "")
     return text
@@ -3456,17 +3588,17 @@ def block_quality(block: str) -> int:
 
     score += len(summary)
 
-    if "航班：" in block:
+    if "èªç­ï¼" in block:
         score += 10
-    if "地点：" in block:
+    if "å°ç¹ï¼" in block:
         score += 10
-    if "航线：" in block:
+    if "èªçº¿ï¼" in block:
         score += 10
-    if "签到：" in block:
+    if "ç­¾å°ï¼" in block:
         score += 10
-    if "机型：" in block:
+    if "æºåï¼" in block:
         score += 10
-    if "人员名单：" in block:
+    if "äººåååï¼" in block:
         score += 10
 
     if any(bad in block for bad in BAD_TITLE_WORDS):
@@ -3565,7 +3697,7 @@ def read_existing_events(filename: str) -> dict:
                 existing[uid] = block.strip()
 
     except Exception as e:
-        logger.warning(f"读取现有事件失败: {e}")
+        logger.warning(f"è¯»åç°æäºä»¶å¤±è´¥: {e}")
 
     return existing
 
@@ -3603,13 +3735,13 @@ def write_calendar_from_vevents(filename: str, vevents: list) -> bool:
             pass
 
     if old_text == final_text:
-        logger.info(f"{filename} 内容未变化")
+        logger.info(f"{filename} åå®¹æªåå")
         return False
 
     with open(filename, "w", encoding="utf-8") as f:
         f.write(final_text)
 
-    logger.info(f"写入 {filename}: {len(ordered)} 个事件")
+    logger.info(f"åå¥ {filename}: {len(ordered)} ä¸ªäºä»¶")
     return True
 
 
@@ -3620,10 +3752,33 @@ def prepare_items(day_blocks, page_year: int) -> list:
     for day in day_blocks:
         day_header = day["day_header"]
         day_block = day["day_block"]
+        cards = day["cards"]
 
-        for idx, card in enumerate(day["cards"], start=1):
+        # å¦æåä¸å¤©å·²ç»å­å¨çå®è¯¦æå¡çï¼å°±è·³è¿âèªç­ 11:00-17:10âè¿ç±»æè¦ååºå¡ã
+        # è¿æ ·å¯ä»¥é¿ååä¸å¤©åæ¶åºç°ï¼
+        #   ð èªç­ 11:00-17:10
+        #   âï¸ 9C8602 ä¸æµ·æµ¦ä¸âåå¤å±ä¸­é¨
+        day_has_real_detail_card = False
+        for c in cards:
+            text = normalize_text(c.get("text", ""))
+            if not text:
+                continue
+            if is_summary_only_card(text, day_header):
+                continue
+            k = classify_card_kind(text, day_header)
+            if k in {"flight", "training", "positioning", "ferry", "standby", "attendance", "stop"}:
+                day_has_real_detail_card = True
+                break
+
+        for idx, card in enumerate(cards, start=1):
             card_text = card["text"]
             kind = classify_card_kind(card_text, day_header)
+
+            if day_has_real_detail_card and is_summary_only_card(card_text, day_header):
+                classification_log.append(
+                    f"{day_header} | card#{idx} | kind={kind} | title=SKIPPED_SUMMARY_DUPLICATE\n{card_text}\n---"
+                )
+                continue
 
             if kind == "flight":
                 item = parse_flight_card(card_text, day_header, page_year, day_block)
@@ -3642,7 +3797,7 @@ def prepare_items(day_blocks, page_year: int) -> list:
                 if not item.get("extra_lines"):
                     item["extra_lines"] = []
 
-                item["extra_lines"].append("来源：页面摘要行，未展开到详细任务卡片")
+                item["extra_lines"].append("æ¥æºï¼é¡µé¢æè¦è¡ï¼æªå±å¼å°è¯¦ç»ä»»å¡å¡ç")
 
             title = build_title(item) if item else "SKIPPED"
             fallback_mark = " | SUMMARY_FALLBACK" if card.get("summary_fallback") else ""
@@ -3673,7 +3828,6 @@ def prepare_items(day_blocks, page_year: int) -> list:
 
     items.sort(key=lambda x: (x["start_dt"], build_title(x)))
     return items
-
 
 def build_version_tag() -> str:
     return datetime.now(SH_TZ).strftime("%Y-%m-%d %H:%M")
@@ -3809,7 +3963,7 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
     save_text("changed_root_flag.txt", str(changed_root))
 
     logger.info(
-        f"本次抓到 {len(total_items)} 个任务；保留历史，只替换本次抓到日期；分类强约束已启用"
+        f"æ¬æ¬¡æå° {len(total_items)} ä¸ªä»»å¡ï¼ä¿çåå²ï¼åªæ¿æ¢æ¬æ¬¡æå°æ¥æï¼åç±»å¼ºçº¦æå·²å¯ç¨"
     )
 
 
@@ -3844,13 +3998,13 @@ def collect_day_blocks(page) -> list:
             )
 
             if has_real_detail:
-                logger.info(f"日期 {header} 使用真实详情卡片")
+                logger.info(f"æ¥æ {header} ä½¿ç¨çå®è¯¦æå¡ç")
             else:
-                logger.warning(f"日期 {header} 未确认真实详情，检查是否需要摘要兜底")
+                logger.warning(f"æ¥æ {header} æªç¡®è®¤çå®è¯¦æï¼æ£æ¥æ¯å¦éè¦æè¦ååº")
 
             if not has_real_detail or not cards:
                 if fallback_text:
-                    logger.warning(f"日期 {header} 最终使用摘要行兜底：{fallback_text}")
+                    logger.warning(f"æ¥æ {header} æç»ä½¿ç¨æè¦è¡ååºï¼{fallback_text}")
 
                     fallback_cards = split_day_block_into_cards(
                         header,
@@ -3872,7 +4026,7 @@ def collect_day_blocks(page) -> list:
                     if not day_block:
                         day_block = f"{header}\n{fallback_text}"
                 else:
-                    logger.warning(f"日期 {header} 没有真实详情，也没有可用摘要兜底")
+                    logger.warning(f"æ¥æ {header} æ²¡æçå®è¯¦æï¼ä¹æ²¡æå¯ç¨æè¦ååº")
                     cards = []
 
             save_text(f"block_{key}.txt", day_block)
@@ -3897,12 +4051,12 @@ def collect_day_blocks(page) -> list:
                 )
 
         except Exception as e:
-            logger.error(f"处理日期 {header} 失败: {e}", exc_info=True)
+            logger.error(f"å¤çæ¥æ {header} å¤±è´¥: {e}", exc_info=True)
 
             fallback_text = normalize_text(summary_task_map.get(header, ""))
 
             if fallback_text:
-                logger.warning(f"日期 {header} 异常后使用摘要行兜底：{fallback_text}")
+                logger.warning(f"æ¥æ {header} å¼å¸¸åä½¿ç¨æè¦è¡ååºï¼{fallback_text}")
 
                 cards = [
                     {
@@ -3935,7 +4089,7 @@ def collect_day_blocks(page) -> list:
                 except Exception:
                     pass
 
-    logger.info(f"收集了 {len(result)} 个日期的数据")
+    logger.info(f"æ¶éäº {len(result)} ä¸ªæ¥æçæ°æ®")
     return result
 
 
@@ -3960,11 +4114,11 @@ def snapshot_existing_calendars():
 
 def run():
     logger.info("=" * 60)
-    logger.info("开始执行航班日历爬虫")
+    logger.info("å¼å§æ§è¡èªç­æ¥åç¬è«")
     logger.info("=" * 60)
 
     if not USERNAME or not PASSWORD:
-        raise RuntimeError("缺少环境变量：CREW_USERNAME / CREW_PASSWORD")
+        raise RuntimeError("ç¼ºå°ç¯å¢åéï¼CREW_USERNAME / CREW_PASSWORD")
 
     snapshot_existing_calendars()
     rebuild_airport_indexes()
@@ -4004,21 +4158,21 @@ def run():
 
             page_year = detect_page_year(page)
             save_text("page_year.txt", str(page_year))
-            logger.info(f"页面年份: {page_year}")
+            logger.info(f"é¡µé¢å¹´ä»½: {page_year}")
 
             day_blocks = collect_day_blocks(page)
 
             if not day_blocks:
-                raise RuntimeError("未抓到任何任务块，停止写入，保护现有 ICS")
+                raise RuntimeError("æªæå°ä»»ä½ä»»å¡åï¼åæ­¢åå¥ï¼ä¿æ¤ç°æ ICS")
 
             create_multi_calendars_from_blocks(day_blocks, page_year)
 
             logger.info("=" * 60)
-            logger.info("执行完成")
+            logger.info("æ§è¡å®æ")
             logger.info("=" * 60)
 
         except Exception as e:
-            logger.error(f"执行出错: {e}", exc_info=True)
+            logger.error(f"æ§è¡åºé: {e}", exc_info=True)
             raise
 
         finally:
