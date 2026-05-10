@@ -45,6 +45,10 @@ jobs:
           pip install pillow pytesseract playwright ddddocr
           playwright install --with-deps chromium
 
+      - name: Apply crew calendar hotfix
+        run: |
+          python apply_crew_calendar_hotfix.py
+
       - name: Run scraper
         env:
           CREW_USERNAME: ${{ secrets.CREW_USERNAME }}
@@ -66,7 +70,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add *.ics airport_aliases.json || true
+          git add *.ics airport_aliases.json main.py || true
 
           if git diff --cached --quiet; then
             echo "No changes to commit"
