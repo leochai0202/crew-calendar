@@ -1186,15 +1186,9 @@ def get_day_block_by_body_text(page, header: str, next_header=None) -> str:
 
 def get_day_block_by_dom(page, header: str, next_header=None) -> str:
     """
-    通用 DOM 区域读取：
-    解决“截图已经展开，但 body.inner_text() 没读到详情”的问题。
-
-    逻辑：
-    1. 找到包含 header 的可见元素；
-    2. 记录 header 的 Y 坐标；
-    3. 如果有 next_header，记录下一个日期头 Y 坐标；
-    4. 收集 header 到 next_header 之间所有可见文本；
-    5. 去重、排序、拼成 day_block。
+    严格版 DOM 读取：
+    只读取“当前日期行所在任务列表区域”下面、下一个日期头之前的可见详情。
+    不再全页面按 Y 坐标大范围扫，避免把 Grounding / 其它日期串进当前日期。
     """
     try:
         result = page.evaluate(
@@ -1220,97 +1214,182 @@ def get_day_block_by_dom(page, header: str, next_header=None) -> str:
 
                 function rectInfo(el) {
                     const r = el.getBoundingClientRect();
-                    return {top: r.top, bottom: r.bottom, left: r.left, right: r.right, width: r.width, height: r.height};
+                    return {
+                        top: r.top,
+                        bottom: r.bottom,
+                        left: r.left,
+                        right: r.right,
+                        width: r.width,
+                        height: r.height
+                    };
+                }
+
+                function countDateHeaders(s) {
+                    const m = String(s || "").match(/\\d{2}月\\d{2}日\\s*周./g);
+                    return m ? m.length : 0;
                 }
 
                 const all = Array.from(document.querySelectorAll("body *"));
-                let headerEls = [];
+                let headerCandidates = [];
 
                 for (const el of all) {
                     if (!visible(el)) continue;
-                    const t = norm(el.innerText || el.textContent || "");
-                    if (!t) continue;
-                    if (t.includes(header)) {
-                        headerEls.push(el);
-                    }
+
+                    const text = norm(el.innerText || el.textContent || "");
+                    if (!text) continue;
+                    if (!text.includes(header)) continue;
+
+                    const r = el.getBoundingClientRect();
+
+                    // 排除全页面大容器：包含太多日期头的一律不要
+                    if (countDateHeaders(text) >= 3) continue;
+
+                    let score = 0;
+
+                    if (text === header) score += 30;
+                    if (text.startsWith(header)) score += 50;
+                    if (/\\d{2}:\\d{2}\\s*[-~～—–]+\\s*\\d{2}:\\d{2}/.test(text)) score += 30;
+                    if (/(训练|航班|置位|摆渡|备份|待命|考勤|停飞|Grounding)/.test(text)) score += 30;
+
+                    // 右侧任务列表通常较宽，左侧日历小格子较窄
+                    if (r.width >= 300) score += 20;
+                    if (r.left >= 250) score += 20;
+
+                    // 过大的容器扣分
+                    if (r.height > 180) score -= 40;
+                    if (text.length > 300) score -= 40;
+
+                    headerCandidates.push({el, text, score, rect: rectInfo(el)});
                 }
 
-                if (!headerEls.length) {
+                if (!headerCandidates.length) {
                     return {ok: false, reason: "header_not_found", text: "", debug: {}};
                 }
 
-                headerEls.sort((a, b) => {
-                    const ra = a.getBoundingClientRect();
-                    const rb = b.getBoundingClientRect();
-                    const areaA = ra.width * ra.height;
-                    const areaB = rb.width * rb.height;
-                    return areaA - areaB;
-                });
+                headerCandidates.sort((a, b) => b.score - a.score);
+                const headerEl = headerCandidates[0].el;
 
-                const headerEl = headerEls[0];
-                const headerRect = headerEl.getBoundingClientRect();
-                const headerTop = headerRect.top;
-                const headerBottom = headerRect.bottom;
+                // 向上找“日期任务行”容器，但不能找到整页大容器
+                let rowNode = headerEl;
+                for (let i = 0; i < 8; i++) {
+                    if (!rowNode || !rowNode.parentElement) break;
+
+                    const parent = rowNode.parentElement;
+                    const pr = parent.getBoundingClientRect();
+                    const pt = norm(parent.innerText || parent.textContent || "");
+
+                    if (countDateHeaders(pt) >= 3) break;
+                    if (pt.length > 600) break;
+
+                    if (pr.width >= 350 && pr.height >= 28 && pr.height <= 160) {
+                        rowNode = parent;
+                    }
+
+                    if (pr.width >= 500 && pr.height >= 35 && pr.height <= 120) {
+                        rowNode = parent;
+                        break;
+                    }
+                }
+
+                const rowRect = rowNode.getBoundingClientRect();
+                const headerTop = rowRect.top;
+                const rowBottom = rowRect.bottom;
+
+                // 只允许读取当前任务列表横向区域，避免读到左侧日历或其它面板
+                const regionLeft = Math.max(0, rowRect.left - 30);
+                const regionRight = Math.min(window.innerWidth, rowRect.right + 30);
 
                 let nextTop = Infinity;
 
                 if (nextHeader) {
-                    let nextEls = [];
+                    let nextCandidates = [];
+
                     for (const el of all) {
                         if (!visible(el)) continue;
-                        const t = norm(el.innerText || el.textContent || "");
-                        if (!t) continue;
-                        if (t.includes(nextHeader)) {
-                            const r = el.getBoundingClientRect();
-                            if (r.top > headerTop + 5) {
-                                nextEls.push(el);
-                            }
-                        }
+
+                        const text = norm(el.innerText || el.textContent || "");
+                        if (!text || !text.includes(nextHeader)) continue;
+                        if (countDateHeaders(text) >= 3) continue;
+
+                        const r = el.getBoundingClientRect();
+
+                        if (r.top <= headerTop + 5) continue;
+
+                        // 必须和当前任务列表横向区域有交集
+                        const overlap = Math.min(r.right, regionRight) - Math.max(r.left, regionLeft);
+                        if (overlap <= 20) continue;
+
+                        let score = 0;
+                        if (text.startsWith(nextHeader)) score += 50;
+                        if (/\\d{2}:\\d{2}\\s*[-~～—–]+\\s*\\d{2}:\\d{2}/.test(text)) score += 20;
+                        if (r.width >= 300) score += 20;
+                        if (r.height > 180) score -= 30;
+
+                        nextCandidates.push({el, score, top: r.top});
                     }
 
-                    if (nextEls.length) {
-                        nextEls.sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
-                        nextTop = nextEls[0].getBoundingClientRect().top;
+                    if (nextCandidates.length) {
+                        nextCandidates.sort((a, b) => {
+                            if (b.score !== a.score) return b.score - a.score;
+                            return a.top - b.top;
+                        });
+                        nextTop = nextCandidates[0].top;
                     }
                 }
 
-                const candidates = [];
+                const rows = [];
 
                 for (const el of all) {
                     if (!visible(el)) continue;
 
                     const r = el.getBoundingClientRect();
-                    if (r.bottom < headerTop - 8) continue;
-                    if (r.top > nextTop - 4) continue;
 
-                    const raw = norm(el.innerText || el.textContent || "");
-                    if (!raw) continue;
-                    if (raw.length > 2000) continue;
+                    // 只读日期行下方到下一个日期头之前
+                    if (r.bottom < rowBottom - 3) continue;
+                    if (r.top > nextTop - 5) continue;
 
-                    candidates.push({
+                    // 必须在同一个任务列表横向区域
+                    const overlap = Math.min(r.right, regionRight) - Math.max(r.left, regionLeft);
+                    if (overlap <= 20) continue;
+
+                    const text = norm(el.innerText || el.textContent || "");
+                    if (!text) continue;
+                    if (text.length > 800) continue;
+                    if (countDateHeaders(text) >= 2) continue;
+
+                    // 只取更像叶子节点的文本，避免父容器重复吞大段
+                    let childTextCount = 0;
+                    for (const child of Array.from(el.children || [])) {
+                        if (!visible(child)) continue;
+                        const ct = norm(child.innerText || child.textContent || "");
+                        if (ct && text.includes(ct)) childTextCount++;
+                    }
+
+                    if (childTextCount >= 3 && text.length > 120) continue;
+
+                    rows.push({
                         top: r.top,
                         left: r.left,
                         bottom: r.bottom,
-                        width: r.width,
-                        height: r.height,
-                        text: raw,
+                        text,
                         tag: el.tagName,
-                        cls: String(el.className || "").slice(0, 120)
+                        cls: String(el.className || "").slice(0, 100)
                     });
                 }
 
-                candidates.sort((a, b) => {
+                rows.sort((a, b) => {
                     if (Math.abs(a.top - b.top) > 3) return a.top - b.top;
                     return a.left - b.left;
                 });
 
-                let lines = [];
                 const seen = new Set();
+                const lines = [];
 
                 function addLine(s) {
                     s = norm(s);
                     if (!s) return;
-                    if (s.length > 500) return;
+                    if (s.length > 300) return;
+                    if (nextHeader && s.includes(nextHeader)) return;
                     if (seen.has(s)) return;
                     seen.add(s);
                     lines.push(s);
@@ -1318,18 +1397,14 @@ def get_day_block_by_dom(page, header: str, next_header=None) -> str:
 
                 addLine(header);
 
-                for (const c of candidates) {
-                    let parts = c.text.split(/\\n+/).map(norm).filter(Boolean);
+                for (const row of rows) {
+                    const parts = row.text.split(/\\n+/).map(norm).filter(Boolean);
 
                     for (const p of parts) {
                         if (p === header) continue;
-                        if (nextHeader && p.includes(nextHeader)) continue;
 
                         if (p.includes(header)) {
-                            const idx = p.indexOf(header);
-                            const before = norm(p.slice(0, idx));
-                            const after = norm(p.slice(idx + header.length));
-                            if (before) addLine(before);
+                            const after = norm(p.slice(p.indexOf(header) + header.length));
                             if (after) addLine(after);
                             continue;
                         }
@@ -1343,10 +1418,14 @@ def get_day_block_by_dom(page, header: str, next_header=None) -> str:
                     reason: "ok",
                     text: lines.join("\\n"),
                     debug: {
-                        headerRect: rectInfo(headerEl),
-                        nextTop: nextTop,
-                        count: candidates.length,
-                        sample: candidates.slice(0, 30)
+                        selectedHeaderText: headerCandidates[0].text,
+                        selectedHeaderScore: headerCandidates[0].score,
+                        selectedHeaderRect: headerCandidates[0].rect,
+                        rowRect: rectInfo(rowNode),
+                        regionLeft,
+                        regionRight,
+                        nextTop,
+                        sample: rows.slice(0, 40)
                     }
                 };
             }
@@ -1363,14 +1442,89 @@ def get_day_block_by_dom(page, header: str, next_header=None) -> str:
             return normalize_text(result.get("text", ""))
 
     except Exception as e:
-        logger.warning(f"{header} DOM 区域读取失败：{e}")
+        logger.warning(f"{header} DOM 严格区域读取失败：{e}")
 
     return ""
 
 
-def get_day_block(page, header: str, next_header=None) -> str:
+def block_looks_polluted(day_block: str, header: str, fallback_text: str = "") -> bool:
+    """
+    防串卡污染：
+    如果当前日期摘要是训练/航班/置位/摆渡，
+    但 DOM 详情里读出了 Grounding/停飞，判定为污染块，不写入。
+    """
+    day_block = normalize_text(day_block)
+    fallback_text = normalize_text(fallback_text)
+
+    if not day_block:
+        return False
+
+    lines = [normalize_text(x) for x in day_block.splitlines() if normalize_text(x)]
+    joined = "\n".join(lines)
+
+    other_headers = []
+    for line in lines:
+        if DAY_HEADER_RE.match(line) and line != header:
+            other_headers.append(line)
+
+    if other_headers:
+        return True
+
+    date_header_count = len(re.findall(r"\d{2}月\d{2}日\s*周.", joined))
+    if date_header_count >= 2:
+        return True
+
+    fallback_kind = classify_card_kind(fallback_text, header) if fallback_text else "generic"
+    block_kind = classify_card_kind(day_block, header)
+
+    fallback_is_training = fallback_kind == "training" or any(k in fallback_text for k in TRAINING_KEYWORDS)
+    fallback_is_flight = fallback_kind == "flight" or bool(FLIGHT_NO_RE.search(fallback_text))
+    fallback_is_positioning = fallback_kind == "positioning"
+    fallback_is_ferry = fallback_kind == "ferry"
+
+    block_has_grounding = any(k in joined for k in STOP_KEYWORDS)
+    block_has_training = any(k in joined for k in TRAINING_KEYWORDS)
+
+    if block_has_grounding and (fallback_is_training or fallback_is_flight or fallback_is_positioning or fallback_is_ferry):
+        return True
+
+    if block_kind == "stop" and fallback_kind in {"training", "flight", "positioning", "ferry", "standby", "attendance"}:
+        return True
+
+    # 同一块里既有训练细节又有 Grounding，通常是串读
+    if block_has_grounding and block_has_training:
+        return True
+
+    # 一个日期块里出现过多不同任务关键词，容易是读串
+    kind_hits = 0
+    for group in [
+        POSITIONING_KEYWORDS,
+        FERRY_KEYWORDS,
+        TRAINING_KEYWORDS,
+        STOP_KEYWORDS,
+        ATTENDANCE_KEYWORDS,
+        STANDBY_KEYWORDS,
+    ]:
+        if any(k in joined for k in group):
+            kind_hits += 1
+
+    if kind_hits >= 3:
+        return True
+
+    return False
+
+
+def get_day_block(page, header: str, next_header=None, fallback_text: str = "") -> str:
     dom_block = get_day_block_by_dom(page, header, next_header=next_header)
     body_block = get_day_block_by_body_text(page, header, next_header=next_header)
+
+    if dom_block and block_looks_polluted(dom_block, header, fallback_text=fallback_text):
+        save_text(f"polluted_dom_block_{safe_name(header)}.txt", dom_block)
+        dom_block = ""
+
+    if body_block and block_looks_polluted(body_block, header, fallback_text=fallback_text):
+        save_text(f"polluted_body_block_{safe_name(header)}.txt", body_block)
+        body_block = ""
 
     if dom_block and not body_block:
         return dom_block
@@ -1394,7 +1548,13 @@ def get_day_block(page, header: str, next_header=None) -> str:
         if "航班动态" in body_block:
             body_score += 500
 
-        return dom_block if dom_score >= body_score else body_block
+        chosen = dom_block if dom_score >= body_score else body_block
+
+        if block_looks_polluted(chosen, header, fallback_text=fallback_text):
+            save_text(f"polluted_chosen_block_{safe_name(header)}.txt", chosen)
+            return ""
+
+        return chosen
 
     return ""
 
@@ -1642,7 +1802,17 @@ def wait_for_real_day_detail(page, header: str, next_header=None, fallback_text:
 
     while datetime.now() < deadline:
         try:
-            day_block = get_day_block(page, header, next_header)
+            day_block = get_day_block(
+                page,
+                header,
+                next_header=next_header,
+                fallback_text=fallback_text,
+            )
+
+            if block_looks_polluted(day_block, header, fallback_text=fallback_text):
+                save_text(f"polluted_wait_block_{safe_name(header)}.txt", day_block)
+                day_block = ""
+
             cards = split_day_block_into_cards(header, day_block)
 
             last_block = day_block

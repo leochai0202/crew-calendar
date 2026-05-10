@@ -171,43 +171,4 @@ DESCRIPTION:停飞Grounding 提醒
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
-BEGIN:VEVENT
-UID:563f098f09208affc94dec9484b86743@crew-calendar
-SUMMARY:📋 停飞
-DTSTART;TZID=Asia/Shanghai:20260510T000000
-DTEND;TZID=Asia/Shanghai:20260510T235900
-DESCRIPTION:05月10日 周日\n类型：停飞\n事项：停飞Grounding\n任务：00:00 - 23:59\n\n人员名单：\n• 杨嘉荣\n• 赵智勇\n• 龚雷\n• 熊良虎\n• 曾辉\n• 陈员\n\n版本：2026-05-10 14:07
-X-CONTENT-SIGNATURE:be395ad954203d80139a5cd4731eacda
-BEGIN:VALARM
-TRIGGER:-PT90M
-DESCRIPTION:停飞Grounding 提醒
-ACTION:DISPLAY
-END:VALARM
-END:VEVENT
-BEGIN:VEVENT
-UID:cdb70ae57e1c89089e2b524fb89261a3@crew-calendar
-SUMMARY:📋 停飞
-DTSTART;TZID=Asia/Shanghai:20260511T000000
-DTEND;TZID=Asia/Shanghai:20260511T173000
-DESCRIPTION:05月11日 周一\n类型：停飞\n事项：停飞Grounding\n任务：00:00 - 17:30\n\n说明：\n• 航班任务发布至\n\n人员名单：\n• 顾静昊\n• 王则栋\n• 郭帆\n• 陈员\n\n版本：2026-05-10 14:07
-X-CONTENT-SIGNATURE:96cca834f13fdfe1b875e53da9c975d9
-BEGIN:VALARM
-TRIGGER:-PT90M
-DESCRIPTION:停飞Grounding 提醒
-ACTION:DISPLAY
-END:VALARM
-END:VEVENT
-BEGIN:VEVENT
-UID:fc9f278460ce5a0f9ec9ac734340db63@crew-calendar
-SUMMARY:📋 停飞
-DTSTART;TZID=Asia/Shanghai:20260511T000000
-DTEND;TZID=Asia/Shanghai:20260511T235900
-DESCRIPTION:05月11日 周一\n类型：停飞\n事项：停飞Grounding\n任务：00:00 - 23:59\n\n人员名单：\n• 温逸豪\n• 王凡\n• 卫正\n• 马江辉\n• 牛立强\n• 徐元新\n• 王荣泰\n• 吴念\n• 张子钦\n• 赵久洋\n• 李中梁\n• 冯礁\n• 解真\n• 段洋硕\n• 龚威\n• 陈博\n• 赵智勇\n• 张首三\n• 王之水\n\n版本：2026-05-10 14:07
-X-CONTENT-SIGNATURE:a14c4ff5a875dbdcef12ce33636b8176
-BEGIN:VALARM
-TRIGGER:-PT90M
-DESCRIPTION:停飞Grounding 提醒
-ACTION:DISPLAY
-END:VALARM
-END:VEVENT
 END:VCALENDAR
