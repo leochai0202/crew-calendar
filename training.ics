@@ -84,16 +84,15 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:59dd18a4e52e569849a759e3d3e6259d@crew-calendar
-SUMMARY:🎓 理论课-安保理论(复训)
+UID:8972cd6d096c7396d5251463e9343a45@crew-calendar
+SUMMARY:🎓 训练
 DTSTART;TZID=Asia/Shanghai:20260510T090000
 DTEND;TZID=Asia/Shanghai:20260510T173000
-DESCRIPTION:05月10日 周日\n类型：训练\n事项：理论课-安保理论(复训)\n地点：春秋飞培2号楼教室2\n任务：09:00 - 17:30\n\n人员名单：\n• 侯钦耀杨家乐王凡王荣泰王壮张雍英赵久洋高昂段洋硕朱勇陈博张首三王则栋花云峰温逸豪刘煜徐元新吴念张子钦杨嘉荣赵智勇龚雷熊良虎曾辉陈员\n• 张晨昕\n\n版本：2026-05-09 20:10
-X-CONTENT-SIGNATURE:32b0eaaa3d59a685d0325d0aec5e08cb
-LOCATION:春秋飞培2号楼教室2
+DESCRIPTION:05月10日 周日\n类型：训练\n事项：训练\n任务：09:00 - 17:30\n\n说明：\n• 理论课-安保理论(复训)\n• 09:00~ 17:30 春秋飞培2号楼教室2\n• 侯钦耀杨家乐王凡王荣泰王壮张雍英赵久洋高昂段洋硕朱勇陈博张首三王则栋花云峰温逸豪刘煜徐元新吴念张子钦杨嘉荣赵智勇龚雷熊良虎曾辉陈员\n• 09:00~ 17:30\n• 春秋飞培2号楼教室2\n\n人员名单：\n• 侯钦耀\n• 杨家乐\n• 王凡\n• 王荣泰\n• 王壮\n• 张雍英\n• 赵久洋\n• 高昂\n• 段洋硕\n• 朱勇\n• 陈博\n• 张首三\n• 王则栋\n• 花云峰\n• 温逸豪\n• 刘煜\n• 徐元新\n• 吴念\n• 张子钦\n\n版本：2026-05-10 14:07
+X-CONTENT-SIGNATURE:509738091905e4eaf0ec7fc8fcd64c18
 BEGIN:VALARM
 TRIGGER:-PT90M
-DESCRIPTION:理论课-安保理论(复训) 提醒
+DESCRIPTION:训练 提醒
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
@@ -102,11 +101,24 @@ UID:1f0a76dd6f134ee9cd5a42e02aaa05e8@crew-calendar
 SUMMARY:🎓 训练
 DTSTART;TZID=Asia/Shanghai:20260511T090000
 DTEND;TZID=Asia/Shanghai:20260511T173000
-DESCRIPTION:05月11日 周一\n类型：训练\n事项：训练\n任务：09:00 - 17:30\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-05-09 20:10
-X-CONTENT-SIGNATURE:f962f42454890ce8a9e7eb8b9202eb31
+DESCRIPTION:05月11日 周一\n类型：训练\n事项：训练\n任务：09:00 - 17:30\n\n说明：\n• 理论课-复训理论课(上半年)\n• 09:00~ 17:30 春秋飞培2号楼教室2\n• 温逸豪王凡卫正马江辉牛立强徐元新王荣泰吴念张子钦赵久洋李中梁冯礁解真段洋硕龚威陈博赵智勇张首三王之水顾静昊王则栋郭帆陈员\n• 09:00~ 17:30\n• 春秋飞培2号楼教室2\n\n人员名单：\n• 周一\n\n版本：2026-05-10 14:07
+X-CONTENT-SIGNATURE:bc48b41201f45bc96e80bf069eaf56e5
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:训练 提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:3e0a697ee7077f9d032fcbe194a7694d@crew-calendar
+SUMMARY:🎓 05月10日 周日 训练
+DTSTART;TZID=Asia/Shanghai:20260511T090000
+DTEND;TZID=Asia/Shanghai:20260511T173000
+DESCRIPTION:05月11日 周一\n类型：训练\n事项：05月10日 周日 训练\n任务：09:00 - 17:30\n\n版本：2026-05-10 14:07
+X-CONTENT-SIGNATURE:168618408d23935051018bb3026540b1
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:05月10日 周日 训练 提醒
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
