@@ -1007,18 +1007,6 @@ def load_all_visible_tasks(page, max_rounds: int = LOAD_MORE_MAX_ROUNDS):
 
 
 def click_day_toggle(page, header: str, strategy: int = 0) -> bool:
-    """
-    强化版展开点击：
-    不只点日期文字本身，而是尝试找到日期所在的大行容器，
-    再点击该行右侧的展开图标区域。
-
-    strategy:
-    0 = 行容器最右侧，通常是展开箭头/弧形图标位置
-    1 = 行容器右侧偏左
-    2 = 行容器中部
-    3 = 日期文字本身
-    4 = 视口最右侧同高度
-    """
     try:
         row = page.locator(f"text={header}").first
         row.scroll_into_view_if_needed(timeout=5000)
@@ -1162,8 +1150,12 @@ def collapse_day(page, header: str):
         pass
 
 
-def get_day_block(page, header: str, next_header=None) -> str:
-    body_text_all = normalize_text(page.locator("body").inner_text())
+def get_day_block_by_body_text(page, header: str, next_header=None) -> str:
+    try:
+        body_text_all = normalize_text(page.locator("body").inner_text(timeout=8000))
+    except Exception:
+        body_text_all = normalize_text(page_text(page))
+
     start = body_text_all.find(header)
 
     if start == -1:
@@ -1190,6 +1182,221 @@ def get_day_block(page, header: str, next_header=None) -> str:
         result_lines.append(line)
 
     return "\n".join(result_lines).strip()
+
+
+def get_day_block_by_dom(page, header: str, next_header=None) -> str:
+    """
+    通用 DOM 区域读取：
+    解决“截图已经展开，但 body.inner_text() 没读到详情”的问题。
+
+    逻辑：
+    1. 找到包含 header 的可见元素；
+    2. 记录 header 的 Y 坐标；
+    3. 如果有 next_header，记录下一个日期头 Y 坐标；
+    4. 收集 header 到 next_header 之间所有可见文本；
+    5. 去重、排序、拼成 day_block。
+    """
+    try:
+        result = page.evaluate(
+            """
+            ({header, nextHeader}) => {
+                function norm(s) {
+                    return String(s || "")
+                        .replace(/\\u00a0/g, " ")
+                        .replace(/[ \\t]+/g, " ")
+                        .replace(/\\r/g, "")
+                        .trim();
+                }
+
+                function visible(el) {
+                    if (!el) return false;
+                    const style = window.getComputedStyle(el);
+                    if (!style) return false;
+                    if (style.display === "none" || style.visibility === "hidden" || Number(style.opacity) === 0) return false;
+                    const r = el.getBoundingClientRect();
+                    if (!r || r.width < 1 || r.height < 1) return false;
+                    return true;
+                }
+
+                function rectInfo(el) {
+                    const r = el.getBoundingClientRect();
+                    return {top: r.top, bottom: r.bottom, left: r.left, right: r.right, width: r.width, height: r.height};
+                }
+
+                const all = Array.from(document.querySelectorAll("body *"));
+                let headerEls = [];
+
+                for (const el of all) {
+                    if (!visible(el)) continue;
+                    const t = norm(el.innerText || el.textContent || "");
+                    if (!t) continue;
+                    if (t.includes(header)) {
+                        headerEls.push(el);
+                    }
+                }
+
+                if (!headerEls.length) {
+                    return {ok: false, reason: "header_not_found", text: "", debug: {}};
+                }
+
+                headerEls.sort((a, b) => {
+                    const ra = a.getBoundingClientRect();
+                    const rb = b.getBoundingClientRect();
+                    const areaA = ra.width * ra.height;
+                    const areaB = rb.width * rb.height;
+                    return areaA - areaB;
+                });
+
+                const headerEl = headerEls[0];
+                const headerRect = headerEl.getBoundingClientRect();
+                const headerTop = headerRect.top;
+                const headerBottom = headerRect.bottom;
+
+                let nextTop = Infinity;
+
+                if (nextHeader) {
+                    let nextEls = [];
+                    for (const el of all) {
+                        if (!visible(el)) continue;
+                        const t = norm(el.innerText || el.textContent || "");
+                        if (!t) continue;
+                        if (t.includes(nextHeader)) {
+                            const r = el.getBoundingClientRect();
+                            if (r.top > headerTop + 5) {
+                                nextEls.push(el);
+                            }
+                        }
+                    }
+
+                    if (nextEls.length) {
+                        nextEls.sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
+                        nextTop = nextEls[0].getBoundingClientRect().top;
+                    }
+                }
+
+                const candidates = [];
+
+                for (const el of all) {
+                    if (!visible(el)) continue;
+
+                    const r = el.getBoundingClientRect();
+                    if (r.bottom < headerTop - 8) continue;
+                    if (r.top > nextTop - 4) continue;
+
+                    const raw = norm(el.innerText || el.textContent || "");
+                    if (!raw) continue;
+                    if (raw.length > 2000) continue;
+
+                    candidates.push({
+                        top: r.top,
+                        left: r.left,
+                        bottom: r.bottom,
+                        width: r.width,
+                        height: r.height,
+                        text: raw,
+                        tag: el.tagName,
+                        cls: String(el.className || "").slice(0, 120)
+                    });
+                }
+
+                candidates.sort((a, b) => {
+                    if (Math.abs(a.top - b.top) > 3) return a.top - b.top;
+                    return a.left - b.left;
+                });
+
+                let lines = [];
+                const seen = new Set();
+
+                function addLine(s) {
+                    s = norm(s);
+                    if (!s) return;
+                    if (s.length > 500) return;
+                    if (seen.has(s)) return;
+                    seen.add(s);
+                    lines.push(s);
+                }
+
+                addLine(header);
+
+                for (const c of candidates) {
+                    let parts = c.text.split(/\\n+/).map(norm).filter(Boolean);
+
+                    for (const p of parts) {
+                        if (p === header) continue;
+                        if (nextHeader && p.includes(nextHeader)) continue;
+
+                        if (p.includes(header)) {
+                            const idx = p.indexOf(header);
+                            const before = norm(p.slice(0, idx));
+                            const after = norm(p.slice(idx + header.length));
+                            if (before) addLine(before);
+                            if (after) addLine(after);
+                            continue;
+                        }
+
+                        addLine(p);
+                    }
+                }
+
+                return {
+                    ok: true,
+                    reason: "ok",
+                    text: lines.join("\\n"),
+                    debug: {
+                        headerRect: rectInfo(headerEl),
+                        nextTop: nextTop,
+                        count: candidates.length,
+                        sample: candidates.slice(0, 30)
+                    }
+                };
+            }
+            """,
+            {"header": header, "nextHeader": next_header or ""},
+        )
+
+        save_text(
+            f"dom_read_{safe_name(header)}.json",
+            json.dumps(result, ensure_ascii=False, indent=2),
+        )
+
+        if isinstance(result, dict) and result.get("ok") and result.get("text"):
+            return normalize_text(result.get("text", ""))
+
+    except Exception as e:
+        logger.warning(f"{header} DOM 区域读取失败：{e}")
+
+    return ""
+
+
+def get_day_block(page, header: str, next_header=None) -> str:
+    dom_block = get_day_block_by_dom(page, header, next_header=next_header)
+    body_block = get_day_block_by_body_text(page, header, next_header=next_header)
+
+    if dom_block and not body_block:
+        return dom_block
+
+    if body_block and not dom_block:
+        return body_block
+
+    if dom_block and body_block:
+        dom_score = len(dom_block)
+        body_score = len(body_block)
+
+        if any(k in dom_block for k in DETAIL_SIGNAL_KEYWORDS):
+            dom_score += 500
+
+        if any(k in body_block for k in DETAIL_SIGNAL_KEYWORDS):
+            body_score += 500
+
+        if "航班动态" in dom_block:
+            dom_score += 500
+
+        if "航班动态" in body_block:
+            body_score += 500
+
+        return dom_block if dom_score >= body_score else body_block
+
+    return ""
 
 
 def detect_page_year(page) -> int:
