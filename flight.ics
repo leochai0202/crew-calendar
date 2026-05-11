@@ -547,7 +547,7 @@ UID:7b0ba83df286ce66c067abec2f4f4287@crew-calendar
 SUMMARY:✈️ 9C8601 上海浦东→名古屋中部
 DTSTART;TZID=Asia/Shanghai:20260515T110000
 DTEND;TZID=Asia/Shanghai:20260515T132500
-DESCRIPTION:05月15日 周五\n类型：航班\n航班：9C8601\n航线：上海浦东 → 名古屋中部\n地点：上海浦东\n签到：08:55｜上海浦东\n任务：11:00 - 13:25\n机型：A320｜注册号：B8371\n\n人员名单：\n• 田鸿飞(R)\n• 张昌浩(R)\n• 段洋硕\n• 衡佳远\n• 缪佳伟(MP)\n\n版本：2026-05-11 21:03
+DESCRIPTION:05月15日 周五\n类型：航班\n航班：9C8601\n航线：上海浦东 → 名古屋中部\n地点：上海浦东\n签到：08:55｜上海浦东\n任务：11:00 - 13:25\n机型：A320｜注册号：B8371\n\n人员名单：\n• 田鸿飞(R)\n• 张昌浩(R)\n• 段洋硕\n• 衡佳远\n• 缪佳伟(MP)\n\n版本：2026-05-11 21:25
 X-CONTENT-SIGNATURE:501866ca90dc3065d72c04de1fbdfa75
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -561,7 +561,7 @@ UID:a4c381c47ce63327077614b75e86f58a@crew-calendar
 SUMMARY:✈️ 9C8602 名古屋中部→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260515T142500
 DTEND;TZID=Asia/Shanghai:20260515T171000
-DESCRIPTION:05月15日 周五\n类型：航班\n航班：9C8602\n航线：名古屋中部 → 上海浦东\n地点：上海浦东\n签到：08:55｜上海浦东\n任务：14:25 - 17:10\n机型：A320｜注册号：B8371\n\n人员名单：\n• 田鸿飞(R)\n• 张昌浩(R)\n• 段洋硕\n• 衡佳远\n• 缪佳伟(MP)\n\n版本：2026-05-11 21:03
+DESCRIPTION:05月15日 周五\n类型：航班\n航班：9C8602\n航线：名古屋中部 → 上海浦东\n地点：上海浦东\n签到：08:55｜上海浦东\n任务：14:25 - 17:10\n机型：A320｜注册号：B8371\n\n人员名单：\n• 田鸿飞(R)\n• 张昌浩(R)\n• 段洋硕\n• 衡佳远\n• 缪佳伟(MP)\n\n版本：2026-05-11 21:25
 X-CONTENT-SIGNATURE:571bcfbe0a136f118580b47291fa9adc
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -575,7 +575,7 @@ UID:568eba4b3d8320717e2763ce11f6f6b1@crew-calendar
 SUMMARY:✈️ 9C7057 上海浦东→乌兰巴托成吉思汗
 DTSTART;TZID=Asia/Shanghai:20260516T081000
 DTEND;TZID=Asia/Shanghai:20260516T120000
-DESCRIPTION:05月16日 周六\n类型：航班\n航班：9C7057\n航线：上海浦东 → 乌兰巴托成吉思汗\n地点：上海浦东\n签到：06:05｜上海浦东\n任务：08:10 - 12:00\n机型：A320｜注册号：B32MS\n\n人员名单：\n• VERTIZ ROBLEDA IGNACIO(R)\n• 刘栋梁(R)\n• 段洋硕\n• 许晓辰\n\n版本：2026-05-11 21:03
+DESCRIPTION:05月16日 周六\n类型：航班\n航班：9C7057\n航线：上海浦东 → 乌兰巴托成吉思汗\n地点：上海浦东\n签到：06:05｜上海浦东\n任务：08:10 - 12:00\n机型：A320｜注册号：B32MS\n\n人员名单：\n• VERTIZ ROBLEDA IGNACIO(R)\n• 刘栋梁(R)\n• 段洋硕\n• 许晓辰\n\n版本：2026-05-11 21:25
 X-CONTENT-SIGNATURE:b3a0e770200a971cfe4afff0868599af
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -589,7 +589,7 @@ UID:125c519470f0a13cda0f4bd30491b4b5@crew-calendar
 SUMMARY:✈️ 9C7058 乌兰巴托成吉思汗→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260516T130000
 DTEND;TZID=Asia/Shanghai:20260516T170000
-DESCRIPTION:05月16日 周六\n类型：航班\n航班：9C7058\n航线：乌兰巴托成吉思汗 → 上海浦东\n地点：上海浦东\n签到：06:05｜上海浦东\n任务：13:00 - 17:00\n机型：A320｜注册号：B32MS\n\n人员名单：\n• VERTIZ ROBLEDA IGNACIO(R)\n• 刘栋梁(R)\n• 段洋硕\n• 许晓辰\n\n版本：2026-05-11 21:03
+DESCRIPTION:05月16日 周六\n类型：航班\n航班：9C7058\n航线：乌兰巴托成吉思汗 → 上海浦东\n地点：上海浦东\n签到：06:05｜上海浦东\n任务：13:00 - 17:00\n机型：A320｜注册号：B32MS\n\n人员名单：\n• VERTIZ ROBLEDA IGNACIO(R)\n• 刘栋梁(R)\n• 段洋硕\n• 许晓辰\n\n版本：2026-05-11 21:25
 X-CONTENT-SIGNATURE:2e1f57f2910d1eab775c7e2a5b4c53d8
 LOCATION:上海浦东
 BEGIN:VALARM
