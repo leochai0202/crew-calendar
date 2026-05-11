@@ -824,8 +824,8 @@ UID:1f0a76dd6f134ee9cd5a42e02aaa05e8@crew-calendar
 SUMMARY:🎓 训练
 DTSTART;TZID=Asia/Shanghai:20260511T090000
 DTEND;TZID=Asia/Shanghai:20260511T173000
-DESCRIPTION:05月11日 周一\n类型：训练\n事项：训练\n任务：09:00 - 17:30\n\n说明：\n• 理论课-复训理论课(上半年)\n• 温逸豪王凡卫正马江辉牛立强徐元新王荣泰吴念张子钦赵久洋李中梁冯礁解真段洋硕龚威陈博赵智勇张首三王之水顾静昊王则栋郭帆陈员\n• 春秋飞培2号楼教室2\n\n人员名单：\n• 温逸豪\n• 王凡\n• 卫正\n• 马江辉\n• 牛立强\n• 徐元新\n• 王荣泰\n• 吴念\n• 张子钦\n• 赵久洋\n• 李中梁\n• 冯礁\n• 解真\n• 段洋硕\n• 龚威\n• 陈博\n• 赵智勇\n• 张首三\n• 王之水\n• 顾静昊\n• 王则栋\n• 郭帆\n• 陈员\n\n版本：2026-05-10 23:30
-X-CONTENT-SIGNATURE:359532ab89f164ffae28ea9b54e8935f
+DESCRIPTION:05月11日 周一\n类型：训练\n事项：训练\n任务：09:00 - 17:30\n\n说明：\n• 理论课-复训理论课(上半年)\n• 温逸豪王凡卫正马江辉牛立强徐元新王荣泰张子钦赵久洋李中梁冯礁解真段洋硕龚威陈博赵智勇张首三王之水顾静昊王则栋郭帆陈员\n• 春秋飞培2号楼教室2\n\n人员名单：\n• 温逸豪\n• 王凡\n• 卫正\n• 马江辉\n• 牛立强\n• 徐元新\n• 王荣泰\n• 张子钦\n• 赵久洋\n• 李中梁\n• 冯礁\n• 解真\n• 段洋硕\n• 龚威\n• 陈博\n• 赵智勇\n• 张首三\n• 王之水\n• 顾静昊\n• 王则栋\n• 郭帆\n• 陈员\n\n版本：2026-05-11 20:30
+X-CONTENT-SIGNATURE:9eb05dd35e81412ca76b6427af4db68c
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:训练 提醒
@@ -833,12 +833,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:09bdf48f09ee2f6b09b799cb0bf3f7cd@crew-calendar
+UID:7b0ba83df286ce66c067abec2f4f4287@crew-calendar
 SUMMARY:✈️ 9C8601 上海浦东→名古屋中部
 DTSTART;TZID=Asia/Shanghai:20260515T110000
 DTEND;TZID=Asia/Shanghai:20260515T132500
-DESCRIPTION:05月15日 周五\n类型：航班\n航班：9C8601\n航线：上海浦东 → 名古屋中部\n地点：上海浦东\n签到：08:55｜上海浦东\n任务：11:00 - 13:25\n机型：A320｜注册号：B300X\n\n人员名单：\n• 田鸿飞(R)\n• 张昌浩(R)\n• 段洋硕\n• 衡佳远\n\n版本：2026-05-10 23:30
-X-CONTENT-SIGNATURE:2665a9b89a81432205d6fd66ab757861
+DESCRIPTION:05月15日 周五\n类型：航班\n航班：9C8601\n航线：上海浦东 → 名古屋中部\n地点：上海浦东\n签到：08:55｜上海浦东\n任务：11:00 - 13:25\n机型：A320｜注册号：B8371\n\n人员名单：\n• 田鸿飞(R)\n• 张昌浩(R)\n• 段洋硕\n• 衡佳远\n• 缪佳伟(MP)\n\n版本：2026-05-11 20:30
+X-CONTENT-SIGNATURE:501866ca90dc3065d72c04de1fbdfa75
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -847,16 +847,44 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:5f4affe45220b5770962ff5b4a3e3e17@crew-calendar
+UID:a4c381c47ce63327077614b75e86f58a@crew-calendar
 SUMMARY:✈️ 9C8602 名古屋中部→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260515T142500
 DTEND;TZID=Asia/Shanghai:20260515T171000
-DESCRIPTION:05月15日 周五\n类型：航班\n航班：9C8602\n航线：名古屋中部 → 上海浦东\n地点：上海浦东\n签到：08:55｜上海浦东\n任务：14:25 - 17:10\n机型：A320｜注册号：B300X\n\n人员名单：\n• 田鸿飞(R)\n• 张昌浩(R)\n• 段洋硕\n• 衡佳远\n\n版本：2026-05-10 23:30
-X-CONTENT-SIGNATURE:7efd6cee53a2c7b5279c1756822c58ea
+DESCRIPTION:05月15日 周五\n类型：航班\n航班：9C8602\n航线：名古屋中部 → 上海浦东\n地点：上海浦东\n签到：08:55｜上海浦东\n任务：14:25 - 17:10\n机型：A320｜注册号：B8371\n\n人员名单：\n• 田鸿飞(R)\n• 张昌浩(R)\n• 段洋硕\n• 衡佳远\n• 缪佳伟(MP)\n\n版本：2026-05-11 20:30
+X-CONTENT-SIGNATURE:571bcfbe0a136f118580b47291fa9adc
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C8602 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:b48afff53c9ddde2819dbf25fee8a135@crew-calendar
+SUMMARY:✈️ 9C7057 上海浦东→浦东
+DTSTART;TZID=Asia/Shanghai:20260516T081000
+DTEND;TZID=Asia/Shanghai:20260516T120000
+DESCRIPTION:05月16日 周六\n类型：航班\n航班：9C7057\n航线：上海浦东 → 浦东\n地点：上海浦东\n签到：06:05｜上海浦东\n任务：08:10 - 12:00\n机型：A320｜注册号：B32MS\n\n人员名单：\n• 刘栋梁(R)\n• IGNACIO(R)\n• 段洋硕\n• 许晓辰\n• 上海浦东乌兰巴托成吉思汗\n• 乌兰巴托成吉思汗上海浦东\n\n版本：2026-05-11 20:30
+X-CONTENT-SIGNATURE:ca9f9bea3dfb8550ac8dd51e7aa01983
+LOCATION:上海浦东
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C7057 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:e82f2236a04bd4fa7771ca9356db87e4@crew-calendar
+SUMMARY:✈️ 9C7058 上海浦东→浦东
+DTSTART;TZID=Asia/Shanghai:20260516T130000
+DTEND;TZID=Asia/Shanghai:20260516T170000
+DESCRIPTION:05月16日 周六\n类型：航班\n航班：9C7058\n航线：上海浦东 → 浦东\n地点：上海浦东\n签到：06:05｜上海浦东\n任务：13:00 - 17:00\n机型：A320｜注册号：B32MS\n\n人员名单：\n• 刘栋梁(R)\n• IGNACIO(R)\n• 段洋硕\n• 许晓辰\n• 上海浦东乌兰巴托成吉思汗\n• 乌兰巴托成吉思汗上海浦东\n\n版本：2026-05-11 20:30
+X-CONTENT-SIGNATURE:0f85b1d3eca3f34a6278469651607505
+LOCATION:上海浦东
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C7058 签到提醒
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
