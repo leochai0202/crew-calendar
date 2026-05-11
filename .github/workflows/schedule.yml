@@ -51,7 +51,7 @@ jobs:
           CREW_PASSWORD: ${{ secrets.CREW_PASSWORD }}
           HEADLESS: "1"
         run: |
-          python crew_calendar_main_v8.py
+          python crew_calendar_main.py
 
       - name: Upload debug artifacts
         if: always()
