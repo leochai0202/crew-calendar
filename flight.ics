@@ -547,7 +547,7 @@ UID:7b0ba83df286ce66c067abec2f4f4287@crew-calendar
 SUMMARY:✈️ 9C8601 上海浦东→名古屋中部
 DTSTART;TZID=Asia/Shanghai:20260515T110000
 DTEND;TZID=Asia/Shanghai:20260515T132500
-DESCRIPTION:05月15日 周五\n类型：航班\n航班：9C8601\n航线：上海浦东 → 名古屋中部\n地点：上海浦东\n签到：08:55｜上海浦东\n任务：11:00 - 13:25\n机型：A320｜注册号：B8371\n\n人员名单：\n• 田鸿飞(R)\n• 张昌浩(R)\n• 段洋硕\n• 衡佳远\n• 缪佳伟(MP)\n\n版本：2026-05-12 19:33
+DESCRIPTION:05月15日 周五\n类型：航班\n航班：9C8601\n航线：上海浦东 → 名古屋中部\n地点：上海浦东\n签到：08:55｜上海浦东\n任务：11:00 - 13:25\n机型：A320｜注册号：B8371\n\n人员名单：\n• 田鸿飞(R)\n• 张昌浩(R)\n• 段洋硕\n• 衡佳远\n• 缪佳伟(MP)\n\n版本：2026-05-12 20:25
 X-CONTENT-SIGNATURE:501866ca90dc3065d72c04de1fbdfa75
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -561,7 +561,7 @@ UID:a4c381c47ce63327077614b75e86f58a@crew-calendar
 SUMMARY:✈️ 9C8602 名古屋中部→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260515T142500
 DTEND;TZID=Asia/Shanghai:20260515T171000
-DESCRIPTION:05月15日 周五\n类型：航班\n航班：9C8602\n航线：名古屋中部 → 上海浦东\n地点：上海浦东\n签到：08:55｜上海浦东\n任务：14:25 - 17:10\n机型：A320｜注册号：B8371\n\n人员名单：\n• 田鸿飞(R)\n• 张昌浩(R)\n• 段洋硕\n• 衡佳远\n• 缪佳伟(MP)\n\n版本：2026-05-12 19:33
+DESCRIPTION:05月15日 周五\n类型：航班\n航班：9C8602\n航线：名古屋中部 → 上海浦东\n地点：上海浦东\n签到：08:55｜上海浦东\n任务：14:25 - 17:10\n机型：A320｜注册号：B8371\n\n人员名单：\n• 田鸿飞(R)\n• 张昌浩(R)\n• 段洋硕\n• 衡佳远\n• 缪佳伟(MP)\n\n版本：2026-05-12 20:25
 X-CONTENT-SIGNATURE:571bcfbe0a136f118580b47291fa9adc
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -575,7 +575,7 @@ UID:ebec2cda4b22ab0121808848e89d2191@crew-calendar
 SUMMARY:✈️ 9C7057 上海浦东→乌兰巴托成吉思汗
 DTSTART;TZID=Asia/Shanghai:20260516T081000
 DTEND;TZID=Asia/Shanghai:20260516T120000
-DESCRIPTION:05月16日 周六\n类型：航班\n航班：9C7057\n航线：上海浦东 → 乌兰巴托成吉思汗\n地点：上海浦东\n签到：06:05｜上海浦东\n任务：08:10 - 12:00\n机型：A320｜注册号：B30D3\n\n人员名单：\n• VERTIZ ROBLEDA IGNACIO(R)\n• 刘栋梁(R)\n• 段洋硕\n• 许晓辰\n• 朱越杰(MP)\n\n版本：2026-05-12 19:33
+DESCRIPTION:05月16日 周六\n类型：航班\n航班：9C7057\n航线：上海浦东 → 乌兰巴托成吉思汗\n地点：上海浦东\n签到：06:05｜上海浦东\n任务：08:10 - 12:00\n机型：A320｜注册号：B30D3\n\n人员名单：\n• VERTIZ ROBLEDA IGNACIO(R)\n• 刘栋梁(R)\n• 段洋硕\n• 许晓辰\n• 朱越杰(MP)\n\n版本：2026-05-12 20:25
 X-CONTENT-SIGNATURE:9ab9f517e2f6b9e4dafe8cd3bdc99c9d
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -589,7 +589,7 @@ UID:e8abe0ef5ff6afbd98d06a1226e4ef7f@crew-calendar
 SUMMARY:✈️ 9C7058 乌兰巴托成吉思汗→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260516T130000
 DTEND;TZID=Asia/Shanghai:20260516T170000
-DESCRIPTION:05月16日 周六\n类型：航班\n航班：9C7058\n航线：乌兰巴托成吉思汗 → 上海浦东\n地点：上海浦东\n签到：06:05｜上海浦东\n任务：13:00 - 17:00\n机型：A320｜注册号：B30D3\n\n人员名单：\n• VERTIZ ROBLEDA IGNACIO(R)\n• 刘栋梁(R)\n• 段洋硕\n• 许晓辰\n• 朱越杰(MP)\n\n版本：2026-05-12 19:33
+DESCRIPTION:05月16日 周六\n类型：航班\n航班：9C7058\n航线：乌兰巴托成吉思汗 → 上海浦东\n地点：上海浦东\n签到：06:05｜上海浦东\n任务：13:00 - 17:00\n机型：A320｜注册号：B30D3\n\n人员名单：\n• VERTIZ ROBLEDA IGNACIO(R)\n• 刘栋梁(R)\n• 段洋硕\n• 许晓辰\n• 朱越杰(MP)\n\n版本：2026-05-12 20:25
 X-CONTENT-SIGNATURE:c0fc201eda42ffcd213baa44be0410e5
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -603,7 +603,7 @@ UID:dad5bb61f3cf2473f11a60e0ce58ff63@crew-calendar
 SUMMARY:✈️ 9C6899 上海浦东→釜山金海
 DTSTART;TZID=Asia/Shanghai:20260517T184000
 DTEND;TZID=Asia/Shanghai:20260517T203000
-DESCRIPTION:05月17日 周日\n类型：航班\n航班：9C6899\n航线：上海浦东 → 釜山金海\n地点：上海浦东\n签到：16:35｜上海浦东\n任务：18:40 - 20:30\n机型：A320｜注册号：B8248\n\n人员名单：\n• 李鸿君(T2\,R)\n• 李光亮(R)\n• 段洋硕\n• 宋文林\n\n版本：2026-05-12 19:33
+DESCRIPTION:05月17日 周日\n类型：航班\n航班：9C6899\n航线：上海浦东 → 釜山金海\n地点：上海浦东\n签到：16:35｜上海浦东\n任务：18:40 - 20:30\n机型：A320｜注册号：B8248\n\n人员名单：\n• 李鸿君(T2\,R)\n• 李光亮(R)\n• 段洋硕\n• 宋文林\n\n版本：2026-05-12 20:25
 X-CONTENT-SIGNATURE:cf82e160a3e56f314652bc70780645a4
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -617,7 +617,7 @@ UID:cb15691ab5be40c69ca3f1db31255cb6@crew-calendar
 SUMMARY:✈️ 9C6900 釜山金海→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260517T213000
 DTEND;TZID=Asia/Shanghai:20260517T233500
-DESCRIPTION:05月17日 周日\n类型：航班\n航班：9C6900\n航线：釜山金海 → 上海浦东\n地点：上海浦东\n签到：16:35｜上海浦东\n任务：21:30 - 23:35\n机型：A320｜注册号：B8248\n\n人员名单：\n• 李鸿君(T2\,R)\n• 李光亮(R)\n• 段洋硕\n• 宋文林\n\n版本：2026-05-12 19:33
+DESCRIPTION:05月17日 周日\n类型：航班\n航班：9C6900\n航线：釜山金海 → 上海浦东\n地点：上海浦东\n签到：16:35｜上海浦东\n任务：21:30 - 23:35\n机型：A320｜注册号：B8248\n\n人员名单：\n• 李鸿君(T2\,R)\n• 李光亮(R)\n• 段洋硕\n• 宋文林\n\n版本：2026-05-12 20:25
 X-CONTENT-SIGNATURE:9cea592c225171a66f4e1e30eb968e7f
 LOCATION:上海浦东
 BEGIN:VALARM
