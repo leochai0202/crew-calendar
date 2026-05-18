@@ -627,12 +627,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:5b8956aa9cb5710ccd474779059ff0af@crew-calendar
+UID:d8d426ecf5a1eff95b22e2e571ef29f0@crew-calendar
 SUMMARY:✈️ 9C8995 上海虹桥→重庆江北
-DTSTART;TZID=Asia/Shanghai:20260518T160500
-DTEND;TZID=Asia/Shanghai:20260518T190000
-DESCRIPTION:05月18日 周一\n类型：航班\n航班：9C8995\n航线：上海虹桥 → 重庆江北\n地点：上海虹桥\n签到：14:20｜上海虹桥\n任务：16:05 - 19:00\n机型：A320｜注册号：B9965\n\n人员名单：\n• KIM SEUNG TAE(R)\n• 王俊猛(R)\n• 段洋硕\n\n版本：2026-05-17 20:11
-X-CONTENT-SIGNATURE:943d83b8df445f5175e708dc007c930b
+DTSTART;TZID=Asia/Shanghai:20260518T173500
+DTEND;TZID=Asia/Shanghai:20260518T203000
+DESCRIPTION:05月18日 周一\n类型：航班\n航班：9C8995\n航线：上海虹桥 → 重庆江北\n地点：上海虹桥\n签到：15:50｜上海虹桥\n任务：17:35 - 20:30\n机型：A320｜注册号：B6751\n\n人员名单：\n• KIM SEUNG TAE(R)\n• 王俊猛(R)\n• 段洋硕\n\n版本：2026-05-18 20:52
+X-CONTENT-SIGNATURE:7be798fa52fc041894cf7f152a76f89e
 LOCATION:上海虹桥
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -641,12 +641,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:9d547d5b62c58805d877ef1fa6861ee5@crew-calendar
+UID:d3d339ee89a6d6030f251ad5ff3a5cd6@crew-calendar
 SUMMARY:✈️ 9C8996 重庆江北→上海虹桥
-DTSTART;TZID=Asia/Shanghai:20260518T200500
-DTEND;TZID=Asia/Shanghai:20260518T222500
-DESCRIPTION:05月18日 周一\n类型：航班\n航班：9C8996\n航线：重庆江北 → 上海虹桥\n地点：上海虹桥\n签到：14:20｜上海虹桥\n任务：20:05 - 22:25\n机型：A320｜注册号：B9965\n\n人员名单：\n• KIM SEUNG TAE(R)\n• 王俊猛(R)\n• 段洋硕\n\n版本：2026-05-17 20:11
-X-CONTENT-SIGNATURE:d54b9c00a85813a8c2a5cca1b787528c
+DTSTART;TZID=Asia/Shanghai:20260518T213500
+DTEND;TZID=Asia/Shanghai:20260518T235500
+DESCRIPTION:05月18日 周一\n类型：航班\n航班：9C8996\n航线：重庆江北 → 上海虹桥\n地点：上海虹桥\n签到：15:50｜上海虹桥\n任务：21:35 - 23:55\n机型：A320｜注册号：B6751\n\n人员名单：\n• KIM SEUNG TAE(R)\n• 王俊猛(R)\n• 段洋硕\n\n版本：2026-05-18 20:52
+X-CONTENT-SIGNATURE:e55666f6a56a0a2ee74938177c651c09
 LOCATION:上海虹桥
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -655,12 +655,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:73219c37cadad77924883f21815d84dd@crew-calendar
+UID:bc917942cb0ff8d904886a2662f36ac4@crew-calendar
 SUMMARY:✈️ 9C7685 上海虹桥→成都双流
 DTSTART;TZID=Asia/Shanghai:20260522T092000
 DTEND;TZID=Asia/Shanghai:20260522T122500
-DESCRIPTION:05月22日 周五\n类型：航班\n航班：9C7685\n航线：上海虹桥 → 成都双流\n地点：上海虹桥\n签到：07:35｜上海虹桥\n任务：09:20 - 12:25\n机型：A321｜注册号：B323N\n\n人员名单：\n• 杜海勇(T2\,RT)\n• 段洋硕(R*)\n• 赵广琳(R)\n• 叶一鸣\n\n版本：2026-05-17 20:11
-X-CONTENT-SIGNATURE:0ea1a17942cc058fbc07e965a4e9865c
+DESCRIPTION:05月22日 周五\n类型：航班\n航班：9C7685\n航线：上海虹桥 → 成都双流\n地点：上海虹桥\n签到：07:35｜上海虹桥\n任务：09:20 - 12:25\n机型：A321｜注册号：B322P\n\n人员名单：\n• 杜海勇(T2\,RT)\n• 段洋硕(R*)\n• 赵广琳(R)\n• 叶一鸣\n\n版本：2026-05-18 20:52
+X-CONTENT-SIGNATURE:76d32e39ba8317eea6cf2bd476cb3dd3
 LOCATION:上海虹桥
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -669,16 +669,30 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:afb4fb4ac5a74faae117184e6eb5ec9f@crew-calendar
+UID:dcd7198225c46c2d860a7fa8e9e244e8@crew-calendar
 SUMMARY:✈️ 9C7686 成都双流→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260522T133500
 DTEND;TZID=Asia/Shanghai:20260522T161000
-DESCRIPTION:05月22日 周五\n类型：航班\n航班：9C7686\n航线：成都双流 → 上海虹桥\n地点：上海虹桥\n签到：07:35｜上海虹桥\n任务：13:35 - 16:10\n机型：A321｜注册号：B323N\n\n人员名单：\n• 杜海勇(T2\,RT)\n• 段洋硕(R*)\n• 赵广琳(R)\n• 叶一鸣\n\n版本：2026-05-17 20:11
-X-CONTENT-SIGNATURE:f317cc3bb2d6bdce1b0a2adb8c617e01
+DESCRIPTION:05月22日 周五\n类型：航班\n航班：9C7686\n航线：成都双流 → 上海虹桥\n地点：上海虹桥\n签到：07:35｜上海虹桥\n任务：13:35 - 16:10\n机型：A321｜注册号：B322P\n\n人员名单：\n• 杜海勇(T2\,RT)\n• 段洋硕(R*)\n• 赵广琳(R)\n• 叶一鸣\n\n版本：2026-05-18 20:52
+X-CONTENT-SIGNATURE:c373094ee066ce9bdb6366d6ee07ee62
 LOCATION:上海虹桥
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C7686 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:3d678839d360655d0d56ab9a82999c14@crew-calendar
+SUMMARY:✈️ 9C7635 上海浦东→沈阳桃仙
+DTSTART;TZID=Asia/Shanghai:20260523T063500
+DTEND;TZID=Asia/Shanghai:20260523T085500
+DESCRIPTION:05月23日 周六\n类型：航班\n航班：9C7635\n航线：上海浦东 → 沈阳桃仙\n地点：上海浦东\n签到：04:45｜上海浦东\n任务：06:35 - 08:55\n机型：A320｜注册号：B1025\n\n人员名单：\n• 杜元波(R)\n• 潘佃勇\n• 唐水晶\n• 胡军\n• 朱天扬\n• 段洋硕\n• 陈宇A\n\n版本：2026-05-18 20:52
+X-CONTENT-SIGNATURE:d2770c71abb041a98324c74482e2490d
+LOCATION:上海浦东
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C7635 签到提醒
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
