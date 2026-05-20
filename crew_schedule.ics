@@ -949,7 +949,7 @@ UID:73219c37cadad77924883f21815d84dd@crew-calendar
 SUMMARY:✈️ 9C7685 上海虹桥→成都双流
 DTSTART;TZID=Asia/Shanghai:20260522T092000
 DTEND;TZID=Asia/Shanghai:20260522T122500
-DESCRIPTION:05月22日 周五\n类型：航班\n航班：9C7685\n航线：上海虹桥 → 成都双流\n地点：上海虹桥\n签到：07:35｜上海虹桥\n任务：09:20 - 12:25\n机型：A321｜注册号：B323N\n\n人员名单：\n• 杜海勇(T2\,RT)\n• 段洋硕(R*)\n• 赵广琳(R)\n• 叶一鸣\n\n版本：2026-05-20 19:22
+DESCRIPTION:05月22日 周五\n类型：航班\n航班：9C7685\n航线：上海虹桥 → 成都双流\n地点：上海虹桥\n签到：07:35｜上海虹桥\n任务：09:20 - 12:25\n机型：A321｜注册号：B323N\n\n人员名单：\n• 杜海勇(T2\,RT)\n• 段洋硕(R*)\n• 赵广琳(R)\n• 叶一鸣\n\n版本：2026-05-20 19:36
 X-CONTENT-SIGNATURE:0ea1a17942cc058fbc07e965a4e9865c
 LOCATION:上海虹桥
 BEGIN:VALARM
@@ -963,7 +963,7 @@ UID:afb4fb4ac5a74faae117184e6eb5ec9f@crew-calendar
 SUMMARY:✈️ 9C7686 成都双流→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260522T133500
 DTEND;TZID=Asia/Shanghai:20260522T161000
-DESCRIPTION:05月22日 周五\n类型：航班\n航班：9C7686\n航线：成都双流 → 上海虹桥\n地点：上海虹桥\n签到：07:35｜上海虹桥\n任务：13:35 - 16:10\n机型：A321｜注册号：B323N\n\n人员名单：\n• 杜海勇(T2\,RT)\n• 段洋硕(R*)\n• 赵广琳(R)\n• 叶一鸣\n\n版本：2026-05-20 19:22
+DESCRIPTION:05月22日 周五\n类型：航班\n航班：9C7686\n航线：成都双流 → 上海虹桥\n地点：上海虹桥\n签到：07:35｜上海虹桥\n任务：13:35 - 16:10\n机型：A321｜注册号：B323N\n\n人员名单：\n• 杜海勇(T2\,RT)\n• 段洋硕(R*)\n• 赵广琳(R)\n• 叶一鸣\n\n版本：2026-05-20 19:36
 X-CONTENT-SIGNATURE:f317cc3bb2d6bdce1b0a2adb8c617e01
 LOCATION:上海虹桥
 BEGIN:VALARM
@@ -977,7 +977,7 @@ UID:3d678839d360655d0d56ab9a82999c14@crew-calendar
 SUMMARY:✈️ 9C7635 上海浦东→沈阳桃仙
 DTSTART;TZID=Asia/Shanghai:20260523T063500
 DTEND;TZID=Asia/Shanghai:20260523T085500
-DESCRIPTION:05月23日 周六\n类型：航班\n航班：9C7635\n航线：上海浦东 → 沈阳桃仙\n地点：上海浦东\n签到：04:45｜上海浦东\n任务：06:35 - 08:55\n机型：A320｜注册号：B1025\n\n人员名单：\n• 杜元波(R)\n• 潘佃勇\n• 唐水晶\n• 朱天扬\n• 段洋硕\n• 陈宇A\n\n版本：2026-05-20 19:22
+DESCRIPTION:05月23日 周六\n类型：航班\n航班：9C7635\n航线：上海浦东 → 沈阳桃仙\n地点：上海浦东\n签到：04:45｜上海浦东\n任务：06:35 - 08:55\n机型：A320｜注册号：B1025\n\n人员名单：\n• 杜元波(R)\n• 潘佃勇\n• 唐水晶\n• 朱天扬\n• 段洋硕\n• 陈宇A\n\n版本：2026-05-20 19:36
 X-CONTENT-SIGNATURE:3cc88a9708e7e137a68243769d9afe60
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -991,7 +991,7 @@ UID:77f0eb3efbb834eef0fe0c49045b7557@crew-calendar
 SUMMARY:✈️ 9C8553 沈阳桃仙→兰州中川
 DTSTART;TZID=Asia/Shanghai:20260524T073500
 DTEND;TZID=Asia/Shanghai:20260524T105500
-DESCRIPTION:05月24日 周日\n类型：航班\n航班：9C8553\n航线：沈阳桃仙 → 兰州中川\n地点：沈阳桃仙\n签到：05:45｜沈阳桃仙\n任务：07:35 - 10:55\n机型：A320｜注册号：B6708\n\n人员名单：\n• 胡军(R)\n• 硕朱天扬(R)\n• 段洋\n• 王磊1\n• 段洋硕\n• 朱天扬(R)\n\n版本：2026-05-20 19:22
+DESCRIPTION:05月24日 周日\n类型：航班\n航班：9C8553\n航线：沈阳桃仙 → 兰州中川\n地点：沈阳桃仙\n签到：05:45｜沈阳桃仙\n任务：07:35 - 10:55\n机型：A320｜注册号：B6708\n\n人员名单：\n• 胡军(R)\n• 硕朱天扬(R)\n• 段洋\n• 王磊1\n• 段洋硕\n• 朱天扬(R)\n\n版本：2026-05-20 19:36
 X-CONTENT-SIGNATURE:20ca57770a0818b2afab4d2a53961748
 LOCATION:沈阳桃仙
 BEGIN:VALARM
@@ -1005,7 +1005,7 @@ UID:f2ee3a849e3aeeae0e6ee7a8c9ff3b2d@crew-calendar
 SUMMARY:✈️ 9C8554 兰州中川→沈阳桃仙
 DTSTART;TZID=Asia/Shanghai:20260524T125500
 DTEND;TZID=Asia/Shanghai:20260524T155500
-DESCRIPTION:05月24日 周日\n类型：航班\n航班：9C8554\n航线：兰州中川 → 沈阳桃仙\n地点：沈阳桃仙\n签到：05:45｜沈阳桃仙\n任务：12:55 - 15:55\n机型：A320｜注册号：B6708\n\n人员名单：\n• 胡军(R)\n• 硕朱天扬(R)\n• 段洋\n• 王磊1\n• 段洋硕\n• 朱天扬(R)\n\n版本：2026-05-20 19:22
+DESCRIPTION:05月24日 周日\n类型：航班\n航班：9C8554\n航线：兰州中川 → 沈阳桃仙\n地点：沈阳桃仙\n签到：05:45｜沈阳桃仙\n任务：12:55 - 15:55\n机型：A320｜注册号：B6708\n\n人员名单：\n• 胡军(R)\n• 硕朱天扬(R)\n• 段洋\n• 王磊1\n• 段洋硕\n• 朱天扬(R)\n\n版本：2026-05-20 19:36
 X-CONTENT-SIGNATURE:2f1a3ce9a6bb4ee6e03b5d86b2031332
 LOCATION:沈阳桃仙
 BEGIN:VALARM
@@ -1019,7 +1019,7 @@ UID:81dbd04c4e2f4eb363b4fb709682f5e0@crew-calendar
 SUMMARY:✈️ 9C8831 沈阳桃仙→西安咸阳
 DTSTART;TZID=Asia/Shanghai:20260525T064500
 DTEND;TZID=Asia/Shanghai:20260525T094500
-DESCRIPTION:05月25日 周一\n类型：航班\n航班：9C8831\n航线：沈阳桃仙 → 西安咸阳\n地点：沈阳桃仙\n签到：04:55｜沈阳桃仙\n任务：06:45 - 09:45\n机型：A320｜注册号：B6708\n\n人员名单：\n• 胡军(R)\n• 硕朱天扬(R)\n• 段洋\n• 赵莹\n• 栾志超\n• 段洋硕\n• 朱天扬(R)\n\n版本：2026-05-20 19:22
+DESCRIPTION:05月25日 周一\n类型：航班\n航班：9C8831\n航线：沈阳桃仙 → 西安咸阳\n地点：沈阳桃仙\n签到：04:55｜沈阳桃仙\n任务：06:45 - 09:45\n机型：A320｜注册号：B6708\n\n人员名单：\n• 胡军(R)\n• 硕朱天扬(R)\n• 段洋\n• 赵莹\n• 栾志超\n• 段洋硕\n• 朱天扬(R)\n\n版本：2026-05-20 19:36
 X-CONTENT-SIGNATURE:cf0cda665a6b4a5d6b2c4302ca762b00
 LOCATION:沈阳桃仙
 BEGIN:VALARM
