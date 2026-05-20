@@ -53,6 +53,10 @@ jobs:
         run: |
           python crew_calendar_main.py
 
+      - name: Clean ICS people lists
+        run: |
+          python clean_ics_people.py
+
       - name: Upload debug artifacts
         if: always()
         uses: actions/upload-artifact@v4
