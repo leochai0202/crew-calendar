@@ -1939,7 +1939,7 @@ DESCRIPTION:05月25日 周一
 • 赵莹
 • 栾志超
 • 段洋硕
-• 朱天扬(R) 版本：2026-05-25 19:27
+• 朱天扬(R) 版本：2026-05-25 20:50
 X-CONTENT-SIGNATURE:cb573043fb210eedfbc24594212c322b
 LOCATION:沈阳桃仙
 BEGIN:VALARM
@@ -1958,7 +1958,7 @@ DESCRIPTION:05月25日 周一
 • 赵莹
 • 栾志超
 • 段洋硕
-• 朱天扬(R) 版本：2026-05-25 19:27
+• 朱天扬(R) 版本：2026-05-25 20:50
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
@@ -1985,7 +1985,7 @@ DESCRIPTION:05月26日 周二
 • 段洋硕
 • 朱天扬(R)
 • 黄震
-• 居明宇 版本：2026-05-25 19:27
+• 居明宇 版本：2026-05-25 20:50
 X-CONTENT-SIGNATURE:c1adce5fa763e8cd730f0bcb8785ae29
 LOCATION:西安咸阳
 BEGIN:VALARM
@@ -2008,7 +2008,7 @@ DESCRIPTION:05月26日 周二
 • 段洋硕
 • 朱天扬(R)
 • 黄震
-• 居明宇 版本：2026-05-25 19:27
+• 居明宇 版本：2026-05-25 20:50
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
@@ -2035,7 +2035,7 @@ DESCRIPTION:05月26日 周二
 • 段洋硕
 • 朱天扬(R)
 • 黄震
-• 居明宇 版本：2026-05-25 19:27
+• 居明宇 版本：2026-05-25 20:50
 X-CONTENT-SIGNATURE:a63324080dc07a993f7a6863e658bc1d
 LOCATION:西安咸阳
 BEGIN:VALARM
@@ -2058,31 +2058,27 @@ DESCRIPTION:05月26日 周二
 • 段洋硕
 • 朱天扬(R)
 • 黄震
-• 居明宇 版本：2026-05-25 19:27
+• 居明宇 版本：2026-05-25 20:50
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:2f904d010e4822d1a9ee0cf4e9396666@crew-calendar
-SUMMARY:✈️ 9C6391 上海浦东→威海大水泊(+1)
+SUMMARY:✈️ 9C6391 上海浦东→威海大水泊
 DTSTART;TZID=Asia/Shanghai:20260529T082500
-DTEND;TZID=Asia/Shanghai:20260530T102500
+DTEND;TZID=Asia/Shanghai:20260529T102500
 DESCRIPTION:05月29日 周五
 类型：航班
 航班：9C6391
-航线：上海浦东 → 威海大水泊(+1)
+航线：上海浦东 → 威海大水泊
 地点：上海浦东
 签到：06:35｜上海浦东
 任务：08:25 - 10:25
-机型：A320｜注册号：B8581
-
-人员名单：
+机型：A320｜注册号：B8581 人员名单：
 • 陈飞(T2\,R)
-• 林峰(R)
-• 汤慧君
-• 段洋硕
-
-版本：2026-05-25 19:27
+• 洋硕林峰(R)
+• 段
+• 汤慧君 版本：2026-05-25 20:50
 X-CONTENT-SIGNATURE:b5ad6dd8e979e202bf74fa0f18914221
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -2090,43 +2086,35 @@ TRIGGER:-PT90M
 DESCRIPTION:05月29日 周五
 类型：航班
 航班：9C6391
-航线：上海浦东 → 威海大水泊(+1)
+航线：上海浦东 → 威海大水泊
 地点：上海浦东
 签到：06:35｜上海浦东
 任务：08:25 - 10:25
-机型：A320｜注册号：B8581
-
-人员名单：
+机型：A320｜注册号：B8581 人员名单：
 • 陈飞(T2\,R)
-• 林峰(R)
-• 汤慧君
-• 段洋硕
-
-版本：2026-05-25 19:27
+• 洋硕林峰(R)
+• 段
+• 汤慧君 版本：2026-05-25 20:50
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ad507980f66b7c04ffd845657faa8518@crew-calendar
-SUMMARY:✈️ 9C6392 威海大水泊→上海浦东(+1)
+SUMMARY:✈️ 9C6392 威海大水泊→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260529T111500
-DTEND;TZID=Asia/Shanghai:20260530T130000
+DTEND;TZID=Asia/Shanghai:20260529T130000
 DESCRIPTION:05月29日 周五
 类型：航班
 航班：9C6392
-航线：威海大水泊 → 上海浦东(+1)
+航线：威海大水泊 → 上海浦东
 地点：上海浦东
 签到：06:35｜上海浦东
 任务：11:15 - 13:00
-机型：A320｜注册号：B8581
-
-人员名单：
+机型：A320｜注册号：B8581 人员名单：
 • 陈飞(T2\,R)
-• 林峰(R)
-• 汤慧君
-• 段洋硕
-
-版本：2026-05-25 19:27
+• 洋硕林峰(R)
+• 段
+• 汤慧君 版本：2026-05-25 20:50
 X-CONTENT-SIGNATURE:75a0540178d7b70313fedaddc9707c3a
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -2134,19 +2122,15 @@ TRIGGER:-PT90M
 DESCRIPTION:05月29日 周五
 类型：航班
 航班：9C6392
-航线：威海大水泊 → 上海浦东(+1)
+航线：威海大水泊 → 上海浦东
 地点：上海浦东
 签到：06:35｜上海浦东
 任务：11:15 - 13:00
-机型：A320｜注册号：B8581
-
-人员名单：
+机型：A320｜注册号：B8581 人员名单：
 • 陈飞(T2\,R)
-• 林峰(R)
-• 汤慧君
-• 段洋硕
-
-版本：2026-05-25 19:27
+• 洋硕林峰(R)
+• 段
+• 汤慧君 版本：2026-05-25 20:50
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
@@ -2170,7 +2154,7 @@ DESCRIPTION:05月30日 周六
 • 董山川(P\,B)
 • 段洋硕
 
-版本：2026-05-25 19:27
+版本：2026-05-25 20:50
 X-CONTENT-SIGNATURE:9ff92bf0f2819aaebe336d258ec2bb6c
 LOCATION:大连周水子
 BEGIN:VALARM
@@ -2190,7 +2174,7 @@ DESCRIPTION:05月30日 周六
 • 董山川(P\,B)
 • 段洋硕
 
-版本：2026-05-25 19:27
+版本：2026-05-25 20:50
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
