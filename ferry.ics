@@ -6,29 +6,9 @@ UID:81f1b5ca451cf206198af5a2bead3588@crew-calendar
 SUMMARY:🚐 A320
 DTSTART;TZID=Asia/Shanghai:20260417T120000
 DTEND;TZID=Asia/Shanghai:20260417T134500
-DESCRIPTION:04月17日 周五
-类型：摆渡
-事项：A320
-任务：12:00 - 13:45 人员名单：
-• 上海虹
-• 桥搭乘
-• 火车去
-• 宁波
-• 栎社
-• 段洋硕 版本：2026-04-17 20:10
-BEGIN:VALARM
+DESCRIPTION:04月17日 周五\n类型：摆渡\n事项：A320\n任务：12:00 - 13:45\n\n人员名单：\n• 上海虹\n• 桥搭乘\n• 火车去\n• 宁波\n• 栎社\n\n版本：2026-04-17 20:10\nBEGIN:VALARM
 TRIGGER:-PT90M
-DESCRIPTION:04月17日 周五
-类型：摆渡
-事项：A320
-任务：12:00 - 13:45 人员名单：
-• 上海虹
-• 桥搭乘
-• 火车去
-• 宁波
-• 栎社
-• 段洋硕 版本：2026-04-17 20:10
-ACTION:DISPLAY
+DESCRIPTION:04月17日 周五\n类型：摆渡\n事项：A320\n任务：12:00 - 13:45\n\n人员名单：\n• 上海虹\n• 桥搭乘\n• 火车去\n• 宁波\n• 栎社\n\n版本：2026-04-17 20:10\nACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -36,25 +16,9 @@ UID:72acda9a1fbe79df1e7985405e3b8f7b@crew-calendar
 SUMMARY:🚐 宁波栎社→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260420T090000
 DTEND;TZID=Asia/Shanghai:20260420T130000
-DESCRIPTION:04月20日 周一
-类型：摆渡
-事项：宁波栎社→上海虹桥
-航线：宁波栎社 → 上海虹桥
-任务：09:00 - 13:00
-机型：A320 说明：
-• 宁波栎社搭乘火车去上海虹桥 人员名单：
-• 段洋硕 版本：2026-04-20 20:16
-BEGIN:VALARM
+DESCRIPTION:04月20日 周一\n类型：摆渡\n事项：宁波栎社→上海虹桥\n航线：宁波栎社 → 上海虹桥\n任务：09:00 - 13:00\n机型：A320 说明：\n• 宁波栎社搭乘火车去上海虹桥\n\n人员名单：\n\n版本：2026-04-20 20:16\nBEGIN:VALARM
 TRIGGER:-PT90M
-DESCRIPTION:04月20日 周一
-类型：摆渡
-事项：宁波栎社→上海虹桥
-航线：宁波栎社 → 上海虹桥
-任务：09:00 - 13:00
-机型：A320 说明：
-• 宁波栎社搭乘火车去上海虹桥 人员名单：
-• 段洋硕 版本：2026-04-20 20:16
-ACTION:DISPLAY
+DESCRIPTION:04月20日 周一\n类型：摆渡\n事项：宁波栎社→上海虹桥\n航线：宁波栎社 → 上海虹桥\n任务：09:00 - 13:00\n机型：A320 说明：\n• 宁波栎社搭乘火车去上海虹桥\n\n人员名单：\n\n版本：2026-04-20 20:16\nACTION:DISPLAY
 END:VALARM
 END:VEVENT
 END:VCALENDAR
