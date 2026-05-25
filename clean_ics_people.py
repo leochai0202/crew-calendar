@@ -1,16 +1,9 @@
 import os
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
-VERSION = "clean-ics-final-v4-people-and-nextday"
-
-# 最终 ICS 后处理：
-# 1. 清理非跨日航班误带的 (+1)
-# 2. 保留真实跨日航班的 (+1)
-# 3. 清理人员名单里“段洋硕”被拆碎/黏连的问题
-# 4. 保留真实带数字姓名，例如“王磊1”
-# 5. 不改主程序、不改多航段解析、不改航线主体
+VERSION = "clean-ics-final-v5-fix-fake-cross-day-dtend"
 
 ICS_FILES = [
     "crew_schedule.ics",
@@ -80,21 +73,50 @@ def parse_dt_line(block: str, key: str):
         return None
 
 
-def event_is_cross_day(block: str) -> bool:
+def set_dtend(block: str, new_dt: datetime) -> str:
+    value = new_dt.strftime("%Y%m%dT%H%M%S")
+    pattern = r"^(DTEND(?:;[^:]+)?):[0-9]{8}T[0-9]{6}$"
+
+    def repl(m):
+        return f"{m.group(1)}:{value}"
+
+    return re.sub(pattern, repl, block, flags=re.M)
+
+
+def is_fake_cross_day(block: str) -> bool:
     start = parse_dt_line(block, "DTSTART")
     end = parse_dt_line(block, "DTEND")
 
     if not start or not end:
         return False
 
+    if end.date() <= start.date():
+        return False
+
+    duration = end - start
+
+    # 正常航段跨日通常只有几小时。
+    # 如果被写成 25、26 小时，基本就是整天 (+1) 污染。
+    return duration > timedelta(hours=12)
+
+
+def event_is_real_cross_day(block: str) -> bool:
+    start = parse_dt_line(block, "DTSTART")
+    end = parse_dt_line(block, "DTEND")
+
+    if not start or not end:
+        return False
+
+    if is_fake_cross_day(block):
+        return False
+
     return end.date() > start.date()
 
 
-def remove_false_nextday_marks(text: str, is_cross_day: bool) -> str:
-    if is_cross_day:
+def remove_false_nextday_marks(text: str, is_real_cross_day: bool) -> str:
+    if is_real_cross_day:
         return text
 
-    # 非跨日事件不允许残留 (+1)
     text = text.replace("(+1)", "")
     text = text.replace("（+1）", "")
     text = re.sub(r"\s{2,}", " ", text)
@@ -126,11 +148,6 @@ def looks_like_person_token(token: str) -> bool:
 
 
 def remove_leading_known_fragment(token: str, existing_bases: set[str]) -> str:
-    """
-    处理这类串读：
-    洋硕朴峰(R) -> 朴峰(R)
-    硕朱天扬(R) -> 朱天扬(R)
-    """
     token = norm(token)
 
     if not token:
@@ -161,16 +178,13 @@ def should_drop_person(token: str, existing_bases: set[str]) -> bool:
     if not token or not b:
         return True
 
-    # 删除“段 / 段洋 / 洋硕 / 硕”这类半截
     if b in KNOWN_NAME_FRAGMENTS:
         return True
 
-    # 如果已经有完整“段洋硕”，则继续删除半截
     for full in KNOWN_FULL_NAMES:
         if full in existing_bases and b in {full[:1], full[:2], full[1:], full[-1:]}:
             return True
 
-    # 明显不是人员的项目
     if b in {"A319", "A320", "A321", "航班动态"}:
         return True
 
@@ -200,7 +214,6 @@ def clean_people_list(people: list[str]) -> list[str]:
 
     bases = {base_name(x) for x in preliminary if base_name(x)}
 
-    # 如果出现“段 / 段洋 / 洋硕 / 硕”等碎片，但没有完整“段洋硕”，自动补回完整姓名
     if any(base_name(x) in KNOWN_NAME_FRAGMENTS for x in preliminary):
         if "段洋硕" not in bases:
             preliminary.append("段洋硕")
@@ -217,7 +230,6 @@ def clean_people_list(people: list[str]) -> list[str]:
         if should_drop_person(token, bases):
             continue
 
-        # 如果已有带角色版本，后续无角色重复名跳过
         if not has_role(token) and b in seen_base_with_role:
             continue
 
@@ -228,7 +240,6 @@ def clean_people_list(people: list[str]) -> list[str]:
             cleaned.append(token)
             seen_exact.add(token)
 
-    # 如果同时有“朱天扬”和“朱天扬(R)”，保留带角色版本
     role_bases = {base_name(x) for x in cleaned if has_role(x)}
     final = []
     seen = set()
@@ -274,7 +285,6 @@ def clean_description_people(desc: str) -> str:
                 i += 1
                 continue
 
-            # 兼容没有项目符号但仍像人员名的行
             if looks_like_person_token(stripped):
                 people.append(stripped)
                 i += 1
@@ -291,20 +301,27 @@ def clean_description_people(desc: str) -> str:
 
 
 def clean_event(block: str) -> str:
-    cross_day = event_is_cross_day(block)
+    fake_cross_day = is_fake_cross_day(block)
+
+    if fake_cross_day:
+        end = parse_dt_line(block, "DTEND")
+        if end:
+            block = set_dtend(block, end - timedelta(days=1))
+
+    real_cross_day = event_is_real_cross_day(block)
 
     summary = get_line(block, "SUMMARY")
     if summary:
         block = set_line(
             block,
             "SUMMARY",
-            remove_false_nextday_marks(summary, cross_day),
+            remove_false_nextday_marks(summary, real_cross_day),
         )
 
     desc_escaped = get_line(block, "DESCRIPTION")
     if desc_escaped:
         desc = unescape_ics_text(desc_escaped)
-        desc = remove_false_nextday_marks(desc, cross_day)
+        desc = remove_false_nextday_marks(desc, real_cross_day)
         desc = clean_description_people(desc)
         block = set_line(block, "DESCRIPTION", escape_ics_text(desc))
 
