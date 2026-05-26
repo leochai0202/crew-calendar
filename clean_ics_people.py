@@ -3,7 +3,7 @@ import re
 from datetime import datetime, timedelta
 from pathlib import Path
 
-VERSION = "clean-ics-final-v6-fix-description-people-block"
+VERSION = "clean-ics-final-v7-apple-valid-description"
 
 ICS_FILES = [
     "crew_schedule.ics",
@@ -27,7 +27,7 @@ ROLE_RE = re.compile(r"\([A-Z0-9,，、\s\*]+\)")
 VEVENT_RE = re.compile(r"BEGIN:VEVENT\s.*?END:VEVENT", re.S)
 
 DESC_SECTION_RE = re.compile(
-    r"(^DESCRIPTION:)(.*?)(?=^(?:X-CONTENT-SIGNATURE:|LOCATION:|BEGIN:VALARM|ACTION:|END:VALARM|END:VEVENT))",
+    r"(^DESCRIPTION:)(.*?)(?=^(?:X-CONTENT-SIGNATURE:|LOCATION:|BEGIN:VALARM|ACTION:|TRIGGER:|END:VALARM|END:VEVENT))",
     re.S | re.M,
 )
 
@@ -41,12 +41,14 @@ def escape_ics_text(text: str) -> str:
     text = text.replace("\\", "\\\\")
     text = text.replace(";", r"\;")
     text = text.replace(",", r"\,")
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
     text = text.replace("\n", r"\n")
     return text
 
 
 def unescape_ics_text(text: str) -> str:
     text = text or ""
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
     text = text.replace(r"\n", "\n")
     text = text.replace(r"\,", ",")
     text = text.replace(r"\;", ";")
@@ -104,7 +106,7 @@ def is_fake_cross_day(block: str) -> bool:
     duration = end - start
 
     # 正常跨日航段通常只有几小时。
-    # 如果因为整天污染被写成 25 小时、26 小时，判定为假跨日。
+    # 如果被污染成 25 小时、26 小时，判定为假跨日。
     return duration > timedelta(hours=12)
 
 
@@ -316,7 +318,7 @@ def clean_description(desc: str, is_real_cross_day: bool) -> str:
             if s.startswith("•"):
                 s = s[1:].strip()
 
-            # 防止“某某 版本：...”残留
+            # 防止“汤慧君 版本：...”残留
             s = re.sub(r"\s*版本：.*$", "", s).strip()
 
             if s:
@@ -331,7 +333,7 @@ def clean_description(desc: str, is_real_cross_day: bool) -> str:
 
         continue
 
-    return "\n".join(out).strip() + "\n"
+    return "\n".join(out).strip()
 
 
 def clean_description_sections(block: str, is_real_cross_day: bool) -> str:
@@ -339,6 +341,10 @@ def clean_description_sections(block: str, is_real_cross_day: bool) -> str:
         prefix = m.group(1)
         desc = m.group(2)
         cleaned = clean_description(desc, is_real_cross_day)
+
+        # 关键修复：
+        # DESCRIPTION 必须写回单行，用 \n 表示换行。
+        # 不能写成真实多行，否则 Apple 日历会验证失败。
         return prefix + escape_ics_text(cleaned)
 
     return DESC_SECTION_RE.sub(repl, block)
@@ -369,11 +375,18 @@ def clean_event(block: str) -> str:
     return block
 
 
+def normalize_ics_newlines(text: str) -> str:
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    return text.replace("\n", "\r\n")
+
+
 def clean_file(path: str) -> tuple[bool, int]:
     if not os.path.exists(path):
         return False, 0
 
     text = Path(path).read_text(encoding="utf-8")
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+
     blocks = VEVENT_RE.findall(text)
 
     if not blocks:
@@ -389,8 +402,12 @@ def clean_file(path: str) -> tuple[bool, int]:
             changed_count += 1
             new_text = new_text.replace(block, cleaned, 1)
 
-    if new_text != text:
-        Path(path).write_text(new_text, encoding="utf-8")
+    new_text = normalize_ics_newlines(new_text)
+
+    old_text_for_compare = normalize_ics_newlines(text)
+
+    if new_text != old_text_for_compare:
+        Path(path).write_text(new_text, encoding="utf-8", newline="")
         return True, changed_count
 
     return False, changed_count
@@ -419,7 +436,7 @@ def main():
     )
 
     Path("debug_output/clean_ics_people.log").write_text(
-        "\n".join(log_lines),
+        "\n".join(log_lines) + "\n",
         encoding="utf-8",
     )
 
