@@ -6,103 +6,91 @@ UID:03e6195aac26869ab20caf1f7cfd9316@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260422T000000
 DTEND;TZID=Asia/Shanghai:20260422T235900
-DESCRIPTION:04月22日 周三\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-22 20:14\nBEGIN:VALARMTRIGGER:-PT90M
-DESCRIPTION:04月22日 周三\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-22 20:14\nACTION:DISPLAYEND:VALARM
+DESCRIPTION:04月22日 周三\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-22 20:14\nBEGIN:VALARMTRIGGER:-PT90M\nDESCRIPTION:04月22日 周三\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-22 20:14\nACTION:DISPLAYEND:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ab81340698a1087c6a8030fdca7b2d3b@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260423T000000
 DTEND;TZID=Asia/Shanghai:20260423T235900
-DESCRIPTION:04月23日 周四\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-23 20:13\nBEGIN:VALARMTRIGGER:-PT90M
-DESCRIPTION:04月23日 周四\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-23 20:13\nACTION:DISPLAYEND:VALARM
+DESCRIPTION:04月23日 周四\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-23 20:13\nBEGIN:VALARMTRIGGER:-PT90M\nDESCRIPTION:04月23日 周四\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-23 20:13\nACTION:DISPLAYEND:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:50028a3f21f17fc26b15f650dab5936b@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260424T000000
 DTEND;TZID=Asia/Shanghai:20260424T235900
-DESCRIPTION:04月24日 周五\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-24 20:10\nBEGIN:VALARMTRIGGER:-PT90M
-DESCRIPTION:04月24日 周五\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-24 20:10\nACTION:DISPLAYEND:VALARM
+DESCRIPTION:04月24日 周五\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-24 20:10\nBEGIN:VALARMTRIGGER:-PT90M\nDESCRIPTION:04月24日 周五\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-24 20:10\nACTION:DISPLAYEND:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:6a2d1979cfb8721ab51adb7926a018a1@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260425T000000
 DTEND;TZID=Asia/Shanghai:20260425T235900
-DESCRIPTION:04月25日 周六\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-25 20:04\nBEGIN:VALARMTRIGGER:-PT90M
-DESCRIPTION:04月25日 周六\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-25 20:04\nACTION:DISPLAYEND:VALARM
+DESCRIPTION:04月25日 周六\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-25 20:04\nBEGIN:VALARMTRIGGER:-PT90M\nDESCRIPTION:04月25日 周六\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-25 20:04\nACTION:DISPLAYEND:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:39634c3559a28c1ebd315bc59cef5eca@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260426T000000
 DTEND;TZID=Asia/Shanghai:20260426T235900
-DESCRIPTION:04月26日 周日\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-26 20:00\nBEGIN:VALARMTRIGGER:-PT90M
-DESCRIPTION:04月26日 周日\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-26 20:00\nACTION:DISPLAYEND:VALARM
+DESCRIPTION:04月26日 周日\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-26 20:00\nBEGIN:VALARMTRIGGER:-PT90M\nDESCRIPTION:04月26日 周日\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-26 20:00\nACTION:DISPLAYEND:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:449500076f21ba07854903955983e370@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260427T000000
 DTEND;TZID=Asia/Shanghai:20260427T235900
-DESCRIPTION:04月27日 周一\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-27 20:55\nBEGIN:VALARMTRIGGER:-PT90M
-DESCRIPTION:04月27日 周一\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-27 20:55\nACTION:DISPLAYEND:VALARM
+DESCRIPTION:04月27日 周一\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-27 20:55\nBEGIN:VALARMTRIGGER:-PT90M\nDESCRIPTION:04月27日 周一\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-27 20:55\nACTION:DISPLAYEND:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:4b9a39b32068748e27203e7fc0ad9071@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260428T000000
 DTEND;TZID=Asia/Shanghai:20260428T235900
-DESCRIPTION:04月28日 周二\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-28 21:03\nBEGIN:VALARMTRIGGER:-PT90M
-DESCRIPTION:04月28日 周二\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-28 21:03\nACTION:DISPLAYEND:VALARM
+DESCRIPTION:04月28日 周二\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-28 21:03\nBEGIN:VALARMTRIGGER:-PT90M\nDESCRIPTION:04月28日 周二\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-28 21:03\nACTION:DISPLAYEND:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:5c202c74a573bed2f7389cddab5a42c6@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260429T000000
 DTEND;TZID=Asia/Shanghai:20260429T235900
-DESCRIPTION:04月29日 周三\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-29 21:00\nBEGIN:VALARMTRIGGER:-PT90M
-DESCRIPTION:04月29日 周三\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-29 21:00\nACTION:DISPLAYEND:VALARM
+DESCRIPTION:04月29日 周三\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-29 21:00\nBEGIN:VALARMTRIGGER:-PT90M\nDESCRIPTION:04月29日 周三\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-29 21:00\nACTION:DISPLAYEND:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:9162b13d3457f7fcdabe4b3be9ee9273@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260430T000000
 DTEND;TZID=Asia/Shanghai:20260430T235900
-DESCRIPTION:04月30日 周四\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-30 19:57\nBEGIN:VALARMTRIGGER:-PT90M
-DESCRIPTION:04月30日 周四\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-30 19:57\nACTION:DISPLAYEND:VALARM
+DESCRIPTION:04月30日 周四\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-30 19:57\nBEGIN:VALARMTRIGGER:-PT90M\nDESCRIPTION:04月30日 周四\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-04-30 19:57\nACTION:DISPLAYEND:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:fc39b5922d484315e54428924c74f1ec@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260501T000000
 DTEND;TZID=Asia/Shanghai:20260501T235900
-DESCRIPTION:05月01日 周五\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-05-01 20:10\nBEGIN:VALARMTRIGGER:-PT90M
-DESCRIPTION:05月01日 周五\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-05-01 20:10\nACTION:DISPLAYEND:VALARM
+DESCRIPTION:05月01日 周五\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-05-01 20:10\nBEGIN:VALARMTRIGGER:-PT90M\nDESCRIPTION:05月01日 周五\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-05-01 20:10\nACTION:DISPLAYEND:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:40a570c17402074db8ac60ec334a5fe6@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260502T000000
 DTEND;TZID=Asia/Shanghai:20260502T235900
-DESCRIPTION:05月02日 周六\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-05-02 20:03\nBEGIN:VALARMTRIGGER:-PT90M
-DESCRIPTION:05月02日 周六\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-05-02 20:03\nACTION:DISPLAYEND:VALARM
+DESCRIPTION:05月02日 周六\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-05-02 20:03\nBEGIN:VALARMTRIGGER:-PT90M\nDESCRIPTION:05月02日 周六\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-05-02 20:03\nACTION:DISPLAYEND:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:827cf1045c447dfc26b93104f80b6a24@crew-calendar
 SUMMARY:📋 停飞Grounding 00:00~ 23:59
 DTSTART;TZID=Asia/Shanghai:20260503T000000
 DTEND;TZID=Asia/Shanghai:20260503T235900
-DESCRIPTION:05月03日 周日\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-05-03 20:02\nBEGIN:VALARMTRIGGER:-PT90M
-DESCRIPTION:05月03日 周日\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-05-03 20:02\nACTION:DISPLAYEND:VALARM
+DESCRIPTION:05月03日 周日\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-05-03 20:02\nBEGIN:VALARMTRIGGER:-PT90M\nDESCRIPTION:05月03日 周日\n类型：考勤\n事项：停飞Grounding 00:00~ 23:59\n任务：00:00 - 23:59\n\n人员名单：\n• 个起落\n\n版本：2026-05-03 20:02\nACTION:DISPLAYEND:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:b5ce087e794a017374505fe6d4b8b618@crew-calendar
 SUMMARY:📋 停飞Grounding
 DTSTART;TZID=Asia/Shanghai:20260504T000000
 DTEND;TZID=Asia/Shanghai:20260504T235900
-DESCRIPTION:05月04日 周一\n类型：停飞\n事项：停飞Grounding\n任务：00:00 - 23:59\n\n版本：2026-05-04 23:22\nX-CONTENT-SIGNATURE:0aca746a85ae0cab67d48c8f66157e2dBEGIN:VALARM
+DESCRIPTION:05月04日 周一\n类型：停飞\n事项：停飞Grounding\n任务：00:00 - 23:59\n\n版本：2026-05-04 23:22\nGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:05月04日 周一\n类型：停飞\n事项：停飞Grounding\n任务：00:00 - 23:59\n\n版本：2026-05-04 23:22\nACTION:DISPLAYEND:VALARM
 END:VEVENT
@@ -111,7 +99,7 @@ UID:7b867d0ce62d12e8aac17fc918b488d2@crew-calendar
 SUMMARY:📋 停飞Grounding
 DTSTART;TZID=Asia/Shanghai:20260505T000000
 DTEND;TZID=Asia/Shanghai:20260505T173000
-DESCRIPTION:05月05日 周二\n类型：停飞\n事项：停飞Grounding\n任务：00:00 - 17:30\n\n版本：2026-05-04 23:22\nX-CONTENT-SIGNATURE:0637ec2c127e5bde7c7a058f8adca03eBEGIN:VALARM
+DESCRIPTION:05月05日 周二\n类型：停飞\n事项：停飞Grounding\n任务：00:00 - 17:30\n\n版本：2026-05-04 23:22\nGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:05月05日 周二\n类型：停飞\n事项：停飞Grounding\n任务：00:00 - 17:30\n\n版本：2026-05-04 23:22\nACTION:DISPLAYEND:VALARM
 END:VEVENT
