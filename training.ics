@@ -6,91 +6,75 @@ UID:训练-4b302fd331ee811b-20260330T120000-20260330T170000@crew-calendar
 SUMMARY:🎓 模拟机-RNP 程序训练
 DTSTART;TZID=Asia/Shanghai:20260330T120000
 DTEND;TZID=Asia/Shanghai:20260330T170000
-DESCRIPTION:03月30日 周一\n类型：训练\n事项：模拟机-RNP 程序训练\n地点：春秋航空总部大楼\n任务：12:00 - 17:00\n\n人员名单：\n• 丁佳瑞\n• 董铭宸\n• 范伟龙\n• 丁敏\nLOCATION:春秋航空总部大楼
-BEGIN:VALARM
+DESCRIPTION:03月30日 周一\n类型：训练\n事项：模拟机-RNP 程序训练\n地点：春秋航空总部大楼\n任务：12:00 - 17:00\n\n人员名单：\n• 丁佳瑞\n• 董铭宸\n• 范伟龙\n• 丁敏BEGIN:VALARM
 TRIGGER:-PT90M
-DESCRIPTION:03月30日 周一\n类型：训练\n事项：模拟机-RNP 程序训练\n地点：春秋航空总部大楼\n任务：12:00 - 17:00\n\n人员名单：\n• 丁佳瑞\n• 董铭宸\n• 范伟龙\n• 丁敏\nACTION:DISPLAY
-END:VALARM
+DESCRIPTION:03月30日 周一\n类型：训练\n事项：模拟机-RNP 程序训练\n地点：春秋航空总部大楼\n任务：12:00 - 17:00\n\n人员名单：\n• 丁佳瑞\n• 董铭宸\n• 范伟龙\n• 丁敏END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:训练-b9ec4c09c58808d3-20260330T120000-20260330T180000@crew-calendar
 SUMMARY:🎓 模拟机-RNP 程序训练
 DTSTART;TZID=Asia/Shanghai:20260330T120000
 DTEND;TZID=Asia/Shanghai:20260330T180000
-DESCRIPTION:03月30日 周一\n类型：训练\n事项：模拟机-RNP 程序训练\n地点：春秋航空总部大楼\n任务：12:00 - 18:00\n\n人员名单：\n• 段洋硕\nLOCATION:春秋航空总部大楼
-BEGIN:VALARM
+DESCRIPTION:03月30日 周一\n类型：训练\n事项：模拟机-RNP 程序训练\n地点：春秋航空总部大楼\n任务：12:00 - 18:00\n\n人员名单：BEGIN:VALARM
 TRIGGER:-PT90M
-DESCRIPTION:03月30日 周一\n类型：训练\n事项：模拟机-RNP 程序训练\n地点：春秋航空总部大楼\n任务：12:00 - 18:00\n\n人员名单：\n• 段洋硕\nACTION:DISPLAY
-END:VALARM
+DESCRIPTION:03月30日 周一\n类型：训练\n事项：模拟机-RNP 程序训练\n地点：春秋航空总部大楼\n任务：12:00 - 18:00\n\n人员名单：END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:517fddcbdd77d2885fa10e5d16d7695b@crew-calendar
 SUMMARY:🎓 理论课-应急生存训练复训
 DTSTART;TZID=Asia/Shanghai:20260506T083000
 DTEND;TZID=Asia/Shanghai:20260506T173000
-DESCRIPTION:05月06日 周三\n类型：训练\n事项：理论课-应急生存训练复训\n地点：东海学院匠兴苑C区5楼\n任务：08:30 - 17:30\n\n人员名单：\n• 徐帆丁小磊姚星宇\n• 段洋硕\n• 金雄\n• 张秀霞\n• 池清玮\n\n版本：2026-05-06 21:11\nX-CONTENT-SIGNATURE:ea64fe0fe47051eeaea322a49b5ac4e0
-LOCATION:东海学院匠兴苑C区5楼
+DESCRIPTION:05月06日 周三\n类型：训练\n事项：理论课-应急生存训练复训\n地点：东海学院匠兴苑C区5楼\n任务：08:30 - 17:30\n\n人员名单：\n• 徐帆丁小磊姚星宇\n• 金雄\n• 张秀霞\n• 池清玮\n\n版本：2026-05-06 21:11\nX-CONTENT-SIGNATURE:ea64fe0fe47051eeaea322a49b5ac4e0LOCATION:东海学院匠兴苑C区5楼
 BEGIN:VALARM
 TRIGGER:-PT90M
-DESCRIPTION:05月06日 周三\n类型：训练\n事项：理论课-应急生存训练复训\n地点：东海学院匠兴苑C区5楼\n任务：08:30 - 17:30\n\n人员名单：\n• 徐帆丁小磊姚星宇\n• 段洋硕\n• 金雄\n• 张秀霞\n• 池清玮\n\n版本：2026-05-06 21:11\nACTION:DISPLAY
-END:VALARM
+DESCRIPTION:05月06日 周三\n类型：训练\n事项：理论课-应急生存训练复训\n地点：东海学院匠兴苑C区5楼\n任务：08:30 - 17:30\n\n人员名单：\n• 徐帆丁小磊姚星宇\n• 金雄\n• 张秀霞\n• 池清玮\n\n版本：2026-05-06 21:11\nACTION:DISPLAYEND:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:42e615c0fb28801863b434aa5a4f230e@crew-calendar
 SUMMARY:🎓 模拟机-定期复训结合熟练检查
 DTSTART;TZID=Asia/Shanghai:20260507T060000
 DTEND;TZID=Asia/Shanghai:20260507T120000
-DESCRIPTION:05月07日 周四\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：06:00 - 12:00\n\n人员名单：\n• 张子钦\n• 陈员\n• 康铁辉\n\n版本：2026-05-07 21:16\nX-CONTENT-SIGNATURE:7aab6e19dc69d227446a7cedcdb95c9e
-LOCATION:春秋飞培
+DESCRIPTION:05月07日 周四\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：06:00 - 12:00\n\n人员名单：\n• 张子钦\n• 陈员\n• 康铁辉\n\n版本：2026-05-07 21:16\nX-CONTENT-SIGNATURE:7aab6e19dc69d227446a7cedcdb95c9eLOCATION:春秋飞培
 BEGIN:VALARM
 TRIGGER:-PT90M
-DESCRIPTION:05月07日 周四\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：06:00 - 12:00\n\n人员名单：\n• 张子钦\n• 陈员\n• 康铁辉\n\n版本：2026-05-07 21:16\nACTION:DISPLAY
-END:VALARM
+DESCRIPTION:05月07日 周四\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：06:00 - 12:00\n\n人员名单：\n• 张子钦\n• 陈员\n• 康铁辉\n\n版本：2026-05-07 21:16\nACTION:DISPLAYEND:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:fab1af622baa18cfcdbed49bb871d834@crew-calendar
 SUMMARY:🎓 模拟机-定期复训结合熟练检查
 DTSTART;TZID=Asia/Shanghai:20260508T141000
 DTEND;TZID=Asia/Shanghai:20260508T201000
-DESCRIPTION:05月08日 周五\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：14:10 - 20:10\n\n人员名单：\n• 张子钦\n• 陈员\n• 康铁辉\n\n版本：2026-05-08 20:54\nX-CONTENT-SIGNATURE:e7eb837a2a67cbdf31f706f50d994a8c
-LOCATION:春秋飞培
+DESCRIPTION:05月08日 周五\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：14:10 - 20:10\n\n人员名单：\n• 张子钦\n• 陈员\n• 康铁辉\n\n版本：2026-05-08 20:54\nX-CONTENT-SIGNATURE:e7eb837a2a67cbdf31f706f50d994a8cLOCATION:春秋飞培
 BEGIN:VALARM
 TRIGGER:-PT90M
-DESCRIPTION:05月08日 周五\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：14:10 - 20:10\n\n人员名单：\n• 张子钦\n• 陈员\n• 康铁辉\n\n版本：2026-05-08 20:54\nACTION:DISPLAY
-END:VALARM
+DESCRIPTION:05月08日 周五\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：14:10 - 20:10\n\n人员名单：\n• 张子钦\n• 陈员\n• 康铁辉\n\n版本：2026-05-08 20:54\nACTION:DISPLAYEND:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:0ec3885e214542eadbae53648f13b74c@crew-calendar
 SUMMARY:🎓 模拟机-定期复训结合熟练检查
 DTSTART;TZID=Asia/Shanghai:20260509T142000
 DTEND;TZID=Asia/Shanghai:20260509T202000
-DESCRIPTION:05月09日 周六\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：14:20 - 20:20\n\n人员名单：\n• 张子钦\n• 陈员\n\n版本：2026-05-09 20:10\nX-CONTENT-SIGNATURE:dee90094e82c8ebecf643ff8a6c8ff41
-LOCATION:春秋飞培
+DESCRIPTION:05月09日 周六\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：14:20 - 20:20\n\n人员名单：\n• 张子钦\n• 陈员\n\n版本：2026-05-09 20:10\nX-CONTENT-SIGNATURE:dee90094e82c8ebecf643ff8a6c8ff41LOCATION:春秋飞培
 BEGIN:VALARM
 TRIGGER:-PT90M
-DESCRIPTION:05月09日 周六\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：14:20 - 20:20\n\n人员名单：\n• 张子钦\n• 陈员\n\n版本：2026-05-09 20:10\nACTION:DISPLAY
-END:VALARM
+DESCRIPTION:05月09日 周六\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：14:20 - 20:20\n\n人员名单：\n• 张子钦\n• 陈员\n\n版本：2026-05-09 20:10\nACTION:DISPLAYEND:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:8972cd6d096c7396d5251463e9343a45@crew-calendar
 SUMMARY:🎓 训练
 DTSTART;TZID=Asia/Shanghai:20260510T090000
 DTEND;TZID=Asia/Shanghai:20260510T173000
-DESCRIPTION:05月10日 周日\n类型：训练\n事项：训练\n任务：09:00 - 17:30 说明：\n• 理论课-安保理论(复训)\n• 侯钦耀杨家乐王凡王荣泰王壮张雍英赵久洋高昂段洋硕朱勇陈博张首三王则栋花云峰温逸豪刘煜徐元新吴念张子钦杨嘉荣赵智勇龚雷熊良虎曾辉陈员\n• 春秋飞培2号楼教室2\n\n人员名单：\n• 侯钦耀\n• 杨家乐\n• 王凡\n• 王荣泰\n• 王壮\n• 张雍英\n• 赵久洋\n• 高昂\n• 朱勇\n• 陈博\n• 张首三\n• 王则栋\n• 花云峰\n• 温逸豪\n• 刘煜\n• 徐元新\n• 吴念\n• 张子钦\n• 杨嘉荣\n• 赵智勇\n• 龚雷\n• 熊良虎\n• 曾辉\n• 陈员\n\n版本：2026-05-10 23:30\nX-CONTENT-SIGNATURE:558f242560f815aa1cf95687bfae26c2
-BEGIN:VALARM
+DESCRIPTION:05月10日 周日\n类型：训练\n事项：训练\n任务：09:00 - 17:30 说明：\n• 理论课-安保理论(复训)\n• 侯钦耀杨家乐王凡王荣泰王壮张雍英赵久洋高昂段洋硕朱勇陈博张首三王则栋花云峰温逸豪刘煜徐元新吴念张子钦杨嘉荣赵智勇龚雷熊良虎曾辉陈员\n• 春秋飞培2号楼教室2\n\n人员名单：\n• 侯钦耀\n• 杨家乐\n• 王凡\n• 王荣泰\n• 王壮\n• 张雍英\n• 赵久洋\n• 高昂\n• 朱勇\n• 陈博\n• 张首三\n• 王则栋\n• 花云峰\n• 温逸豪\n• 刘煜\n• 徐元新\n• 吴念\n• 张子钦\n• 杨嘉荣\n• 赵智勇\n• 龚雷\n• 熊良虎\n• 曾辉\n• 陈员\n\n版本：2026-05-10 23:30\nX-CONTENT-SIGNATURE:558f242560f815aa1cf95687bfae26c2BEGIN:VALARM
 TRIGGER:-PT90M
-DESCRIPTION:05月10日 周日\n类型：训练\n事项：训练\n任务：09:00 - 17:30 说明：\n• 理论课-安保理论(复训)\n• 侯钦耀杨家乐王凡王荣泰王壮张雍英赵久洋高昂段洋硕朱勇陈博张首三王则栋花云峰温逸豪刘煜徐元新吴念张子钦杨嘉荣赵智勇龚雷熊良虎曾辉陈员\n• 春秋飞培2号楼教室2\n\n人员名单：\n• 侯钦耀\n• 杨家乐\n• 王凡\n• 王荣泰\n• 王壮\n• 张雍英\n• 赵久洋\n• 高昂\n• 朱勇\n• 陈博\n• 张首三\n• 王则栋\n• 花云峰\n• 温逸豪\n• 刘煜\n• 徐元新\n• 吴念\n• 张子钦\n• 杨嘉荣\n• 赵智勇\n• 龚雷\n• 熊良虎\n• 曾辉\n• 陈员\n\n版本：2026-05-10 23:30\nACTION:DISPLAY
-END:VALARM
+DESCRIPTION:05月10日 周日\n类型：训练\n事项：训练\n任务：09:00 - 17:30 说明：\n• 理论课-安保理论(复训)\n• 侯钦耀杨家乐王凡王荣泰王壮张雍英赵久洋高昂段洋硕朱勇陈博张首三王则栋花云峰温逸豪刘煜徐元新吴念张子钦杨嘉荣赵智勇龚雷熊良虎曾辉陈员\n• 春秋飞培2号楼教室2\n\n人员名单：\n• 侯钦耀\n• 杨家乐\n• 王凡\n• 王荣泰\n• 王壮\n• 张雍英\n• 赵久洋\n• 高昂\n• 朱勇\n• 陈博\n• 张首三\n• 王则栋\n• 花云峰\n• 温逸豪\n• 刘煜\n• 徐元新\n• 吴念\n• 张子钦\n• 杨嘉荣\n• 赵智勇\n• 龚雷\n• 熊良虎\n• 曾辉\n• 陈员\n\n版本：2026-05-10 23:30\nACTION:DISPLAYEND:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:1f0a76dd6f134ee9cd5a42e02aaa05e8@crew-calendar
 SUMMARY:🎓 训练
 DTSTART;TZID=Asia/Shanghai:20260511T090000
 DTEND;TZID=Asia/Shanghai:20260511T173000
-DESCRIPTION:05月11日 周一\n类型：训练\n事项：训练\n任务：09:00 - 17:30 说明：\n• 理论课-复训理论课(上半年)\n• 温逸豪王凡卫正马江辉牛立强徐元新王荣泰张子钦赵久洋李中梁冯礁解真段洋硕龚威陈博赵智勇张首三王之水顾静昊王则栋郭帆陈员\n• 春秋飞培2号楼教室2\n\n人员名单：\n• 温逸豪\n• 王凡\n• 卫正\n• 马江辉\n• 牛立强\n• 徐元新\n• 王荣泰\n• 张子钦\n• 赵久洋\n• 李中梁\n• 冯礁\n• 解真\n• 龚威\n• 陈博\n• 赵智勇\n• 张首三\n• 王之水\n• 顾静昊\n• 王则栋\n• 郭帆\n• 陈员\n\n版本：2026-05-11 22:02\nX-CONTENT-SIGNATURE:9eb05dd35e81412ca76b6427af4db68c
-BEGIN:VALARM
+DESCRIPTION:05月11日 周一\n类型：训练\n事项：训练\n任务：09:00 - 17:30 说明：\n• 理论课-复训理论课(上半年)\n• 温逸豪王凡卫正马江辉牛立强徐元新王荣泰张子钦赵久洋李中梁冯礁解真段洋硕龚威陈博赵智勇张首三王之水顾静昊王则栋郭帆陈员\n• 春秋飞培2号楼教室2\n\n人员名单：\n• 温逸豪\n• 王凡\n• 卫正\n• 马江辉\n• 牛立强\n• 徐元新\n• 王荣泰\n• 张子钦\n• 赵久洋\n• 李中梁\n• 冯礁\n• 解真\n• 龚威\n• 陈博\n• 赵智勇\n• 张首三\n• 王之水\n• 顾静昊\n• 王则栋\n• 郭帆\n• 陈员\n\n版本：2026-05-11 22:02\nX-CONTENT-SIGNATURE:9eb05dd35e81412ca76b6427af4db68cBEGIN:VALARM
 TRIGGER:-PT90M
-DESCRIPTION:05月11日 周一\n类型：训练\n事项：训练\n任务：09:00 - 17:30 说明：\n• 理论课-复训理论课(上半年)\n• 温逸豪王凡卫正马江辉牛立强徐元新王荣泰张子钦赵久洋李中梁冯礁解真段洋硕龚威陈博赵智勇张首三王之水顾静昊王则栋郭帆陈员\n• 春秋飞培2号楼教室2\n\n人员名单：\n• 温逸豪\n• 王凡\n• 卫正\n• 马江辉\n• 牛立强\n• 徐元新\n• 王荣泰\n• 张子钦\n• 赵久洋\n• 李中梁\n• 冯礁\n• 解真\n• 龚威\n• 陈博\n• 赵智勇\n• 张首三\n• 王之水\n• 顾静昊\n• 王则栋\n• 郭帆\n• 陈员\n\n版本：2026-05-11 22:02\nACTION:DISPLAY
-END:VALARM
+DESCRIPTION:05月11日 周一\n类型：训练\n事项：训练\n任务：09:00 - 17:30 说明：\n• 理论课-复训理论课(上半年)\n• 温逸豪王凡卫正马江辉牛立强徐元新王荣泰张子钦赵久洋李中梁冯礁解真段洋硕龚威陈博赵智勇张首三王之水顾静昊王则栋郭帆陈员\n• 春秋飞培2号楼教室2\n\n人员名单：\n• 温逸豪\n• 王凡\n• 卫正\n• 马江辉\n• 牛立强\n• 徐元新\n• 王荣泰\n• 张子钦\n• 赵久洋\n• 李中梁\n• 冯礁\n• 解真\n• 龚威\n• 陈博\n• 赵智勇\n• 张首三\n• 王之水\n• 顾静昊\n• 王则栋\n• 郭帆\n• 陈员\n\n版本：2026-05-11 22:02\nACTION:DISPLAYEND:VALARM
 END:VEVENT
 END:VCALENDAR
