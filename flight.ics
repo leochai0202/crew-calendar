@@ -714,12 +714,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:73efa774d6bd87c03788d1657240d2b3@crew-calendar
+UID:3a0fce2be5d327e81f9d40481e837f1d@crew-calendar
 SUMMARY:✈️ 9C6391 上海浦东→威海大水泊
-DTSTART;TZID=Asia/Shanghai:20260529T082500
-DTEND;TZID=Asia/Shanghai:20260529T102500
-DESCRIPTION:05月29日 周五\n类型：航班\n航班：9C6391\n航线：上海浦东 → 威海大水泊\n地点：上海浦东\n签到：06:35｜上海浦东\n任务：08:25 - 10:25\n机型：A320｜注册号：B6971\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 汤慧君\n\n版本：2026-05-28 20:51
-X-CONTENT-SIGNATURE:f80cd1197ac11c228057bb5453256869
+DTSTART;TZID=Asia/Shanghai:20260529T094500
+DTEND;TZID=Asia/Shanghai:20260529T114500
+DESCRIPTION:05月29日 周五\n类型：航班\n航班：9C6391\n航线：上海浦东 → 威海大水泊\n地点：上海浦东\n签到：07:55｜上海浦东\n任务：09:45 - 11:45\n机型：A320｜注册号：B6971\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 汤慧君\n\n版本：2026-05-28 22:11
+X-CONTENT-SIGNATURE:27cef5b68786ae714712e9d55a92109f
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -728,12 +728,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:63fd04f3cb55abd41f20a2d5929daf0a@crew-calendar
+UID:4115bdbc16610b53af1d402fc4fca7ba@crew-calendar
 SUMMARY:✈️ 9C6392 威海大水泊→上海浦东
-DTSTART;TZID=Asia/Shanghai:20260529T111500
-DTEND;TZID=Asia/Shanghai:20260529T130000
-DESCRIPTION:05月29日 周五\n类型：航班\n航班：9C6392\n航线：威海大水泊 → 上海浦东\n地点：上海浦东\n签到：06:35｜上海浦东\n任务：11:15 - 13:00\n机型：A320｜注册号：B6971\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 汤慧君\n\n版本：2026-05-28 20:51
-X-CONTENT-SIGNATURE:170dbda190f4dabef1fbccb27c12d543
+DTSTART;TZID=Asia/Shanghai:20260529T123500
+DTEND;TZID=Asia/Shanghai:20260529T142000
+DESCRIPTION:05月29日 周五\n类型：航班\n航班：9C6392\n航线：威海大水泊 → 上海浦东\n地点：上海浦东\n签到：07:55｜上海浦东\n任务：12:35 - 14:20\n机型：A320｜注册号：B6971\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 汤慧君\n\n版本：2026-05-28 22:11
+X-CONTENT-SIGNATURE:e364abdaf63e787bd611f929d3c7ac4d
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -746,8 +746,8 @@ UID:3601ff7efd50b345051c89f812a27325@crew-calendar
 SUMMARY:✈️ 9C8981 上海浦东→大连周水子(+1)
 DTSTART;TZID=Asia/Shanghai:20260529T225000
 DTEND;TZID=Asia/Shanghai:20260530T005500
-DESCRIPTION:05月29日 周五\n类型：航班\n航班：9C8981\n航线：上海浦东 → 大连周水子(+1)\n地点：上海浦东\n签到：06:35｜上海浦东\n任务：22:50 - 00:55\n机型：A320｜注册号：B6971\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 汤慧君\n\n版本：2026-05-28 20:51
-X-CONTENT-SIGNATURE:566dcd5a18940b0a071198cd85a2cdb8
+DESCRIPTION:05月29日 周五\n类型：航班\n航班：9C8981\n航线：上海浦东 → 大连周水子(+1)\n地点：上海浦东\n签到：07:55｜上海浦东\n任务：22:50 - 00:55\n机型：A320｜注册号：B6971\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 汤慧君\n\n版本：2026-05-28 22:11
+X-CONTENT-SIGNATURE:ad8181a2a4ca5de8d475a1c5a0bdf8fd
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -760,7 +760,7 @@ UID:e8938a56d83e46f4e04a42cb0de2af4f@crew-calendar
 SUMMARY:✈️ 9C6596X 大连周水子→济南遥墙
 DTSTART;TZID=Asia/Shanghai:20260530T184500
 DTEND;TZID=Asia/Shanghai:20260530T201500
-DESCRIPTION:05月30日 周六\n类型：航班\n航班：9C6596X\n航线：大连周水子 → 济南遥墙\n地点：大连周水子\n签到：16:55｜大连周水子\n任务：18:45 - 20:15\n机型：A320｜注册号：B6840\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 董山川(P\,B)\n\n版本：2026-05-28 20:51
+DESCRIPTION:05月30日 周六\n类型：航班\n航班：9C6596X\n航线：大连周水子 → 济南遥墙\n地点：大连周水子\n签到：16:55｜大连周水子\n任务：18:45 - 20:15\n机型：A320｜注册号：B6840\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 董山川(P\,B)\n\n版本：2026-05-28 22:11
 X-CONTENT-SIGNATURE:977a6a4d8aedd0fbfd24e643f0a2f7aa
 LOCATION:大连周水子
 BEGIN:VALARM
@@ -774,7 +774,7 @@ UID:f538d5788c6ca03efdbfef226df34846@crew-calendar
 SUMMARY:✈️ 9C6596Y 济南遥墙→深圳宝安(+1)
 DTSTART;TZID=Asia/Shanghai:20260530T211500
 DTEND;TZID=Asia/Shanghai:20260531T002000
-DESCRIPTION:05月30日 周六\n类型：航班\n航班：9C6596Y\n航线：济南遥墙 → 深圳宝安(+1)\n地点：大连周水子\n签到：16:55｜大连周水子\n任务：21:15 - 00:20\n机型：A320｜注册号：B6840\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 董山川(P\,B)\n\n版本：2026-05-28 20:51
+DESCRIPTION:05月30日 周六\n类型：航班\n航班：9C6596Y\n航线：济南遥墙 → 深圳宝安(+1)\n地点：大连周水子\n签到：16:55｜大连周水子\n任务：21:15 - 00:20\n机型：A320｜注册号：B6840\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 董山川(P\,B)\n\n版本：2026-05-28 22:11
 X-CONTENT-SIGNATURE:b6d5d995085cc7fc83c1430c705624e0
 LOCATION:大连周水子
 BEGIN:VALARM
@@ -788,7 +788,7 @@ UID:e7037b8cc5ef5aba8e0ff8be35c3e3f3@crew-calendar
 SUMMARY:✈️ 9C6595X 深圳宝安→济南遥墙
 DTSTART;TZID=Asia/Shanghai:20260601T063500
 DTEND;TZID=Asia/Shanghai:20260601T091500
-DESCRIPTION:06月01日 周一\n类型：航班\n航班：9C6595X\n航线：深圳宝安 → 济南遥墙\n地点：深圳宝安\n签到：04:45｜深圳宝安\n任务：06:35 - 09:15\n机型：A320｜注册号：B1671\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 杨春雪\n\n版本：2026-05-28 20:51
+DESCRIPTION:06月01日 周一\n类型：航班\n航班：9C6595X\n航线：深圳宝安 → 济南遥墙\n地点：深圳宝安\n签到：04:45｜深圳宝安\n任务：06:35 - 09:15\n机型：A320｜注册号：B1671\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 杨春雪\n\n版本：2026-05-28 22:11
 X-CONTENT-SIGNATURE:7a2092ce3306873c3e5ae742a2e95533
 LOCATION:深圳宝安
 BEGIN:VALARM
@@ -802,7 +802,7 @@ UID:9dea490529ded16d1319604ee99e1bf6@crew-calendar
 SUMMARY:✈️ 9C6595Y 济南遥墙→大连周水子
 DTSTART;TZID=Asia/Shanghai:20260601T101500
 DTEND;TZID=Asia/Shanghai:20260601T114000
-DESCRIPTION:06月01日 周一\n类型：航班\n航班：9C6595Y\n航线：济南遥墙 → 大连周水子\n地点：深圳宝安\n签到：04:45｜深圳宝安\n任务：10:15 - 11:40\n机型：A320｜注册号：B1671\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 杨春雪\n\n版本：2026-05-28 20:51
+DESCRIPTION:06月01日 周一\n类型：航班\n航班：9C6595Y\n航线：济南遥墙 → 大连周水子\n地点：深圳宝安\n签到：04:45｜深圳宝安\n任务：10:15 - 11:40\n机型：A320｜注册号：B1671\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 杨春雪\n\n版本：2026-05-28 22:11
 X-CONTENT-SIGNATURE:f46e1a1c91c621b47aa3964b0184b5a5
 LOCATION:深圳宝安
 BEGIN:VALARM
