@@ -788,7 +788,7 @@ UID:b529ac33440fae1030aa0eca605e8d06@crew-calendar
 SUMMARY:✈️ 9C6595X 深圳宝安→济南遥墙
 DTSTART;TZID=Asia/Shanghai:20260601T063500
 DTEND;TZID=Asia/Shanghai:20260601T091500
-DESCRIPTION:06月01日 周一\n类型：航班\n航班：9C6595X\n航线：深圳宝安 → 济南遥墙\n地点：深圳宝安\n签到：04:45｜深圳宝安\n任务：06:35 - 09:15\n机型：A320｜注册号：B32HZ\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 杨春雪\n\n版本：2026-05-31 19:17
+DESCRIPTION:06月01日 周一\n类型：航班\n航班：9C6595X\n航线：深圳宝安 → 济南遥墙\n地点：深圳宝安\n签到：04:45｜深圳宝安\n任务：06:35 - 09:15\n机型：A320｜注册号：B32HZ\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 杨春雪\n\n版本：2026-05-31 19:58
 X-CONTENT-SIGNATURE:00cdcfa821f7a68d61db93ca7876145d
 LOCATION:深圳宝安
 BEGIN:VALARM
@@ -802,7 +802,7 @@ UID:66743bfe79df827efc43589a49c4397f@crew-calendar
 SUMMARY:✈️ 9C6595Y 济南遥墙→大连周水子
 DTSTART;TZID=Asia/Shanghai:20260601T101500
 DTEND;TZID=Asia/Shanghai:20260601T114000
-DESCRIPTION:06月01日 周一\n类型：航班\n航班：9C6595Y\n航线：济南遥墙 → 大连周水子\n地点：济南遥墙\n签到：08:40｜济南遥墙\n任务：10:15 - 11:40\n机型：A320｜注册号：B32HZ\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 杨春雪\n\n版本：2026-05-31 19:17
+DESCRIPTION:06月01日 周一\n类型：航班\n航班：9C6595Y\n航线：济南遥墙 → 大连周水子\n地点：济南遥墙\n签到：08:40｜济南遥墙\n任务：10:15 - 11:40\n机型：A320｜注册号：B32HZ\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 杨春雪\n\n版本：2026-05-31 19:58
 X-CONTENT-SIGNATURE:6dddca18646d1a634c447be9e32e3d57
 LOCATION:济南遥墙
 BEGIN:VALARM
@@ -816,7 +816,7 @@ UID:8c1098bac7a381b4f1f2f873877aa51f@crew-calendar
 SUMMARY:✈️ 9C6777X 大连周水子→扬州泰州
 DTSTART;TZID=Asia/Shanghai:20260604T064000
 DTEND;TZID=Asia/Shanghai:20260604T082000
-DESCRIPTION:06月04日 周四\n类型：航班\n航班：9C6777X\n航线：大连周水子 → 扬州泰州\n地点：大连周水子\n签到：05:00｜大连周水子\n任务：06:40 - 08:20\n机型：A320｜注册号：B6820\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 李帅\n\n版本：2026-05-31 19:17
+DESCRIPTION:06月04日 周四\n类型：航班\n航班：9C6777X\n航线：大连周水子 → 扬州泰州\n地点：大连周水子\n签到：05:00｜大连周水子\n任务：06:40 - 08:20\n机型：A320｜注册号：B6820\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 李帅\n\n版本：2026-05-31 19:58
 X-CONTENT-SIGNATURE:d9f5db75310e40e85588fd6ec03ee4bd
 LOCATION:大连周水子
 BEGIN:VALARM
@@ -830,7 +830,7 @@ UID:b0f88ca5508037b3c7355700f0fbb2a9@crew-calendar
 SUMMARY:✈️ 9C6777Y 扬州泰州→南宁吴圩
 DTSTART;TZID=Asia/Shanghai:20260604T091000
 DTEND;TZID=Asia/Shanghai:20260604T121000
-DESCRIPTION:06月04日 周四\n类型：航班\n航班：9C6777Y\n航线：扬州泰州 → 南宁吴圩\n地点：扬州泰州\n签到：07:30｜扬州泰州\n任务：09:10 - 12:10\n机型：A320｜注册号：B6820\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 李帅\n\n版本：2026-05-31 19:17
+DESCRIPTION:06月04日 周四\n类型：航班\n航班：9C6777Y\n航线：扬州泰州 → 南宁吴圩\n地点：扬州泰州\n签到：07:30｜扬州泰州\n任务：09:10 - 12:10\n机型：A320｜注册号：B6820\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 李帅\n\n版本：2026-05-31 19:58
 X-CONTENT-SIGNATURE:aa88c5e558b459133a889dac3d61ad1d
 LOCATION:扬州泰州
 BEGIN:VALARM
@@ -844,7 +844,7 @@ UID:2a118774a67603b693efc377f59b9c43@crew-calendar
 SUMMARY:✈️ 9C6778X 南宁吴圩→扬州泰州
 DTSTART;TZID=Asia/Shanghai:20260604T130500
 DTEND;TZID=Asia/Shanghai:20260604T154000
-DESCRIPTION:06月04日 周四\n类型：航班\n航班：9C6778X\n航线：南宁吴圩 → 扬州泰州\n地点：南宁吴圩\n签到：11:35｜南宁吴圩\n任务：13:05 - 15:40\n机型：A320｜注册号：B6820\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 李帅\n\n版本：2026-05-31 19:17
+DESCRIPTION:06月04日 周四\n类型：航班\n航班：9C6778X\n航线：南宁吴圩 → 扬州泰州\n地点：南宁吴圩\n签到：11:35｜南宁吴圩\n任务：13:05 - 15:40\n机型：A320｜注册号：B6820\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 李帅\n\n版本：2026-05-31 19:58
 X-CONTENT-SIGNATURE:2ce88bd0dafbca487aff6bb28cbe2bf8
 LOCATION:南宁吴圩
 BEGIN:VALARM
@@ -858,7 +858,7 @@ UID:e72e2dbdad8fe25b270c76040a15c474@crew-calendar
 SUMMARY:✈️ 9C6778Y 扬州泰州→大连周水子
 DTSTART;TZID=Asia/Shanghai:20260605T162500
 DTEND;TZID=Asia/Shanghai:20260605T175500
-DESCRIPTION:06月05日 周五\n类型：航班\n航班：9C6778Y\n航线：扬州泰州 → 大连周水子\n地点：扬州泰州\n签到：14:45｜扬州泰州\n任务：16:25 - 17:55\n机型：A320｜注册号：B6931\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 李帅\n\n版本：2026-05-31 19:17
+DESCRIPTION:06月05日 周五\n类型：航班\n航班：9C6778Y\n航线：扬州泰州 → 大连周水子\n地点：扬州泰州\n签到：14:45｜扬州泰州\n任务：16:25 - 17:55\n机型：A320｜注册号：B6931\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 李帅\n\n版本：2026-05-31 19:58
 X-CONTENT-SIGNATURE:a46b112315769b4599005239af509a75
 LOCATION:扬州泰州
 BEGIN:VALARM
@@ -872,7 +872,7 @@ UID:dfbe3b8abb523d0ae090fef20bedbe21@crew-calendar
 SUMMARY:✈️ 9C7069 大连周水子→郑州新郑
 DTSTART;TZID=Asia/Shanghai:20260605T191500
 DTEND;TZID=Asia/Shanghai:20260605T210500
-DESCRIPTION:06月05日 周五\n类型：航班\n航班：9C7069\n航线：大连周水子 → 郑州新郑\n地点：大连周水子\n签到：17:15｜大连周水子\n任务：19:15 - 21:05\n机型：A320｜注册号：B6931\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 李帅\n\n版本：2026-05-31 19:17
+DESCRIPTION:06月05日 周五\n类型：航班\n航班：9C7069\n航线：大连周水子 → 郑州新郑\n地点：大连周水子\n签到：17:15｜大连周水子\n任务：19:15 - 21:05\n机型：A320｜注册号：B6931\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 李帅\n\n版本：2026-05-31 19:58
 X-CONTENT-SIGNATURE:c7dfbb457783d7ee8985a8cb406a6de4
 LOCATION:大连周水子
 BEGIN:VALARM
@@ -886,7 +886,7 @@ UID:06d2008deaada7ce8bc3a6c04690364e@crew-calendar
 SUMMARY:✈️ 9C7070 郑州新郑→大连周水子(+1)
 DTSTART;TZID=Asia/Shanghai:20260605T220500
 DTEND;TZID=Asia/Shanghai:20260606T000500
-DESCRIPTION:06月05日 周五\n类型：航班\n航班：9C7070\n航线：郑州新郑 → 大连周水子(+1)\n地点：郑州新郑\n签到：20:25｜郑州新郑\n任务：22:05 - 00:05\n机型：A320｜注册号：B6931\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 李帅\n\n版本：2026-05-31 19:17
+DESCRIPTION:06月05日 周五\n类型：航班\n航班：9C7070\n航线：郑州新郑 → 大连周水子(+1)\n地点：郑州新郑\n签到：20:25｜郑州新郑\n任务：22:05 - 00:05\n机型：A320｜注册号：B6931\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 李帅\n\n版本：2026-05-31 19:58
 X-CONTENT-SIGNATURE:04545c41d49b601e25c9bdf2914bccec
 LOCATION:郑州新郑
 BEGIN:VALARM
