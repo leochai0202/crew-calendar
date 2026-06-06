@@ -900,7 +900,7 @@ UID:a293a94b9188c74d3b735b56f21518ef@crew-calendar
 SUMMARY:✈️ 9C6731 大连周水子→呼和浩特白塔
 DTSTART;TZID=Asia/Shanghai:20260606T161500
 DTEND;TZID=Asia/Shanghai:20260606T181500
-DESCRIPTION:06月06日 周六\n类型：航班\n航班：9C6731\n航线：大连周水子 → 呼和浩特白塔\n地点：大连周水子\n签到：14:25｜大连周水子\n任务：16:15 - 18:15\n机型：A320｜注册号：B30CM\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 董瑞峰\n• 倪杰\n\n版本：2026-06-06 19:06
+DESCRIPTION:06月06日 周六\n类型：航班\n航班：9C6731\n航线：大连周水子 → 呼和浩特白塔\n地点：大连周水子\n签到：14:25｜大连周水子\n任务：16:15 - 18:15\n机型：A320｜注册号：B30CM\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 董瑞峰\n• 倪杰\n\n版本：2026-06-06 19:54
 X-CONTENT-SIGNATURE:44351cd0f40f089605912ca5475c0b43
 LOCATION:大连周水子
 BEGIN:VALARM
@@ -914,7 +914,7 @@ UID:0fbae1777205d037f69358fa2c4d73fd@crew-calendar
 SUMMARY:✈️ 9C6732 呼和浩特白塔→大连周水子
 DTSTART;TZID=Asia/Shanghai:20260606T190500
 DTEND;TZID=Asia/Shanghai:20260606T205500
-DESCRIPTION:06月06日 周六\n类型：航班\n航班：9C6732\n航线：呼和浩特白塔 → 大连周水子\n地点：呼和浩特白塔\n签到：17:30｜呼和浩特白塔\n任务：19:05 - 20:55\n机型：A320｜注册号：B30CM\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 董瑞峰\n• 倪杰\n\n版本：2026-06-06 19:06
+DESCRIPTION:06月06日 周六\n类型：航班\n航班：9C6732\n航线：呼和浩特白塔 → 大连周水子\n地点：呼和浩特白塔\n签到：17:30｜呼和浩特白塔\n任务：19:05 - 20:55\n机型：A320｜注册号：B30CM\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 董瑞峰\n• 倪杰\n\n版本：2026-06-06 19:54
 X-CONTENT-SIGNATURE:eb85b089a50e215a036aabca55d8c8f2
 LOCATION:呼和浩特白塔
 BEGIN:VALARM
@@ -928,7 +928,7 @@ UID:c228541127444230575f536005fad63c@crew-calendar
 SUMMARY:✈️ 9C8982 大连周水子→上海浦东(+1)
 DTSTART;TZID=Asia/Shanghai:20260606T221500
 DTEND;TZID=Asia/Shanghai:20260607T002500
-DESCRIPTION:06月06日 周六\n类型：航班\n航班：9C8982\n航线：大连周水子 → 上海浦东(+1)\n地点：大连周水子\n签到：20:25｜大连周水子\n任务：22:15 - 00:25\n机型：A320｜注册号：B30CM\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 董瑞峰\n• 倪杰\n\n版本：2026-06-06 19:06
+DESCRIPTION:06月06日 周六\n类型：航班\n航班：9C8982\n航线：大连周水子 → 上海浦东(+1)\n地点：大连周水子\n签到：20:25｜大连周水子\n任务：22:15 - 00:25\n机型：A320｜注册号：B30CM\n\n人员名单：\n• 陈飞(T2\,R)\n• 林峰(R)\n• 段洋硕\n• 董瑞峰\n• 倪杰\n\n版本：2026-06-06 19:54
 X-CONTENT-SIGNATURE:218fce066bedff23ca8c023ce53e4fd4
 LOCATION:大连周水子
 BEGIN:VALARM
@@ -942,7 +942,7 @@ UID:111e7e358107832110604c8baf5c617a@crew-calendar
 SUMMARY:✈️ 9C8881 上海虹桥→深圳宝安
 DTSTART;TZID=Asia/Shanghai:20260609T104000
 DTEND;TZID=Asia/Shanghai:20260609T131000
-DESCRIPTION:06月09日 周二\n类型：航班\n航班：9C8881\n航线：上海虹桥 → 深圳宝安\n地点：上海虹桥\n签到：08:55｜上海虹桥\n任务：10:40 - 13:10\n机型：A321｜注册号：B30EU\n\n人员名单：\n• 张东(R)\n• 李创新(R)\n• 黄亚林\n• 段洋硕\n\n版本：2026-06-06 19:06
+DESCRIPTION:06月09日 周二\n类型：航班\n航班：9C8881\n航线：上海虹桥 → 深圳宝安\n地点：上海虹桥\n签到：08:55｜上海虹桥\n任务：10:40 - 13:10\n机型：A321｜注册号：B30EU\n\n人员名单：\n• 张东(R)\n• 李创新(R)\n• 黄亚林\n• 段洋硕\n\n版本：2026-06-06 19:54
 X-CONTENT-SIGNATURE:cdbd1930159934999d6e14b296d48294
 LOCATION:上海虹桥
 BEGIN:VALARM
@@ -956,7 +956,7 @@ UID:d1e79593b333a07ac728bc7f2e663c8e@crew-calendar
 SUMMARY:✈️ 9C8613 深圳宝安→重庆江北
 DTSTART;TZID=Asia/Shanghai:20260610T063000
 DTEND;TZID=Asia/Shanghai:20260610T083500
-DESCRIPTION:06月10日 周三\n类型：航班\n航班：9C8613\n航线：深圳宝安 → 重庆江北\n地点：深圳宝安\n签到：04:40｜深圳宝安\n任务：06:30 - 08:35\n机型：A320｜注册号：B1670\n\n人员名单：\n• 郑皓(RC)\n• 陈方正(R)\n• 段洋硕\n• 赵谦\n\n版本：2026-06-06 19:06
+DESCRIPTION:06月10日 周三\n类型：航班\n航班：9C8613\n航线：深圳宝安 → 重庆江北\n地点：深圳宝安\n签到：04:40｜深圳宝安\n任务：06:30 - 08:35\n机型：A320｜注册号：B1670\n\n人员名单：\n• 郑皓(RC)\n• 陈方正(R)\n• 段洋硕\n• 赵谦\n\n版本：2026-06-06 19:54
 X-CONTENT-SIGNATURE:a170096d1fe180bbc1b78fcc1cfc21f7
 LOCATION:深圳宝安
 BEGIN:VALARM
@@ -970,7 +970,7 @@ UID:5827446d5c5c18b19a15aca4de004daa@crew-calendar
 SUMMARY:✈️ 9C8614 重庆江北→深圳宝安
 DTSTART;TZID=Asia/Shanghai:20260610T094000
 DTEND;TZID=Asia/Shanghai:20260610T114500
-DESCRIPTION:06月10日 周三\n类型：航班\n航班：9C8614\n航线：重庆江北 → 深圳宝安\n地点：重庆江北\n签到：08:05｜重庆江北\n任务：09:40 - 11:45\n机型：A320｜注册号：B1670\n\n人员名单：\n• 郑皓(RC)\n• 陈方正(R)\n• 段洋硕\n• 赵谦\n\n版本：2026-06-06 19:06
+DESCRIPTION:06月10日 周三\n类型：航班\n航班：9C8614\n航线：重庆江北 → 深圳宝安\n地点：重庆江北\n签到：08:05｜重庆江北\n任务：09:40 - 11:45\n机型：A320｜注册号：B1670\n\n人员名单：\n• 郑皓(RC)\n• 陈方正(R)\n• 段洋硕\n• 赵谦\n\n版本：2026-06-06 19:54
 X-CONTENT-SIGNATURE:024bd2ba3adbad47bb065f84041a73eb
 LOCATION:重庆江北
 BEGIN:VALARM
@@ -984,7 +984,7 @@ UID:824bd965fb548b38d575e5985f1afade@crew-calendar
 SUMMARY:✈️ 9C7355X 深圳宝安→兰州中川
 DTSTART;TZID=Asia/Shanghai:20260611T064500
 DTEND;TZID=Asia/Shanghai:20260611T101000
-DESCRIPTION:06月11日 周四\n类型：航班\n航班：9C7355X\n航线：深圳宝安 → 兰州中川\n地点：深圳宝安\n签到：04:55｜深圳宝安\n任务：06:45 - 10:10\n机型：A320｜注册号：B30DD\n\n人员名单：\n• 朱嘉(R)\n• 牛立强(R)\n• 段洋硕\n• 李扬1\n\n版本：2026-06-06 19:06
+DESCRIPTION:06月11日 周四\n类型：航班\n航班：9C7355X\n航线：深圳宝安 → 兰州中川\n地点：深圳宝安\n签到：04:55｜深圳宝安\n任务：06:45 - 10:10\n机型：A320｜注册号：B30DD\n\n人员名单：\n• 朱嘉(R)\n• 牛立强(R)\n• 段洋硕\n• 李扬1\n\n版本：2026-06-06 19:54
 X-CONTENT-SIGNATURE:06685ea0c3771368071fc901e09930f2
 LOCATION:深圳宝安
 BEGIN:VALARM
