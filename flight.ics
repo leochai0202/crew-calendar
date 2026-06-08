@@ -942,8 +942,8 @@ UID:111e7e358107832110604c8baf5c617a@crew-calendar
 SUMMARY:✈️ 9C8881 上海虹桥→深圳宝安
 DTSTART;TZID=Asia/Shanghai:20260609T104000
 DTEND;TZID=Asia/Shanghai:20260609T131000
-DESCRIPTION:06月09日 周二\n类型：航班\n航班：9C8881\n航线：上海虹桥 → 深圳宝安\n地点：上海虹桥\n签到：08:55｜上海虹桥\n任务：10:40 - 13:10\n机型：A321｜注册号：B30EU\n\n人员名单：\n• 孙正彤(R)\n• 李创新(R)\n• 黄亚林\n• 段洋硕\n\n版本：2026-06-07 20:56
-X-CONTENT-SIGNATURE:27681cfbdb5466be4436c72425863200
+DESCRIPTION:06月09日 周二\n类型：航班\n航班：9C8881\n航线：上海虹桥 → 深圳宝安\n地点：上海虹桥\n签到：08:55｜上海虹桥\n任务：10:40 - 13:10\n机型：A321｜注册号：B30EU\n\n人员名单：\n• 孙正彤(R)\n• 李创新(R)\n• 黄亚林\n• 段洋硕\n• 熊良虎\n• 李振\n\n版本：2026-06-08 21:52
+X-CONTENT-SIGNATURE:c5e3f6d2144bde5b07ec061e58d32056
 LOCATION:上海虹桥
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -952,12 +952,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:d1e79593b333a07ac728bc7f2e663c8e@crew-calendar
+UID:a451059badc1d272de11ad7fccdc9f21@crew-calendar
 SUMMARY:✈️ 9C8613 深圳宝安→重庆江北
 DTSTART;TZID=Asia/Shanghai:20260610T063000
 DTEND;TZID=Asia/Shanghai:20260610T083500
-DESCRIPTION:06月10日 周三\n类型：航班\n航班：9C8613\n航线：深圳宝安 → 重庆江北\n地点：深圳宝安\n签到：04:40｜深圳宝安\n任务：06:30 - 08:35\n机型：A320｜注册号：B1670\n\n人员名单：\n• 郑皓(RC)\n• 陈方正(R)\n• 段洋硕\n\n版本：2026-06-07 20:56
-X-CONTENT-SIGNATURE:83883100b5bfc1a93ec17eb0d9a174d0
+DESCRIPTION:06月10日 周三\n类型：航班\n航班：9C8613\n航线：深圳宝安 → 重庆江北\n地点：深圳宝安\n签到：04:40｜深圳宝安\n任务：06:30 - 08:35\n机型：A320｜注册号：B8580\n\n人员名单：\n• 郑皓(RC)\n• 陈方正(R)\n• 段洋硕\n• 赵忠强\n\n版本：2026-06-08 21:52
+X-CONTENT-SIGNATURE:188f492665e18155d5e94e9417b87f0b
 LOCATION:深圳宝安
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -966,12 +966,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:5827446d5c5c18b19a15aca4de004daa@crew-calendar
+UID:58221fed2ca4cc056aaebde958baf703@crew-calendar
 SUMMARY:✈️ 9C8614 重庆江北→深圳宝安
 DTSTART;TZID=Asia/Shanghai:20260610T094000
 DTEND;TZID=Asia/Shanghai:20260610T114500
-DESCRIPTION:06月10日 周三\n类型：航班\n航班：9C8614\n航线：重庆江北 → 深圳宝安\n地点：重庆江北\n签到：08:05｜重庆江北\n任务：09:40 - 11:45\n机型：A320｜注册号：B1670\n\n人员名单：\n• 郑皓(RC)\n• 陈方正(R)\n• 段洋硕\n\n版本：2026-06-07 20:56
-X-CONTENT-SIGNATURE:ebc0123c2a66564ae57ea372f2f06af2
+DESCRIPTION:06月10日 周三\n类型：航班\n航班：9C8614\n航线：重庆江北 → 深圳宝安\n地点：重庆江北\n签到：08:05｜重庆江北\n任务：09:40 - 11:45\n机型：A320｜注册号：B8580\n\n人员名单：\n• 郑皓(RC)\n• 陈方正(R)\n• 段洋硕\n• 赵忠强\n\n版本：2026-06-08 21:52
+X-CONTENT-SIGNATURE:44f22d21f0ee5e50fd065ac53a74703b
 LOCATION:重庆江北
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -980,12 +980,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:bc4b684ec69b8481d6e90dd08d712cd7@crew-calendar
+UID:ed38f3dd39f61e1b0abc825a98624a09@crew-calendar
 SUMMARY:✈️ 9C7355X 深圳宝安→兰州中川
 DTSTART;TZID=Asia/Shanghai:20260611T064500
 DTEND;TZID=Asia/Shanghai:20260611T101000
-DESCRIPTION:06月11日 周四\n类型：航班\n航班：9C7355X\n航线：深圳宝安 → 兰州中川\n地点：深圳宝安\n签到：04:55｜深圳宝安\n任务：06:45 - 10:10\n机型：A320｜注册号：B307N\n\n人员名单：\n• 朱嘉(R)\n• 牛立强(R)\n• 段洋硕\n• 李扬1\n\n版本：2026-06-07 20:56
-X-CONTENT-SIGNATURE:33f307d831a2acc5127c55139a6aa3ab
+DESCRIPTION:06月11日 周四\n类型：航班\n航班：9C7355X\n航线：深圳宝安 → 兰州中川\n地点：深圳宝安\n签到：04:55｜深圳宝安\n任务：06:45 - 10:10\n机型：A320｜注册号：B326R\n\n人员名单：\n• 朱嘉(R)\n• 牛立强(R)\n• 段洋硕\n• 李扬1\n\n版本：2026-06-08 21:52
+X-CONTENT-SIGNATURE:8d509c04de81dd15d1ec292fc12618a4
 LOCATION:深圳宝安
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -994,12 +994,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:312321af1c2d643ecf90bef236f06b8b@crew-calendar
+UID:5bd3755b26efe0dbd27900499a8cb3fe@crew-calendar
 SUMMARY:✈️ 9C7004 兰州中川→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260611T182000
 DTEND;TZID=Asia/Shanghai:20260611T212500
-DESCRIPTION:06月11日 周四\n类型：航班\n航班：9C7004\n航线：兰州中川 → 上海浦东\n地点：兰州中川\n签到：16:30｜兰州中川\n任务：18:20 - 21:25\n机型：A320｜注册号：B307N\n\n人员名单：\n• 朱嘉(R)\n• 牛立强(R)\n• 段洋硕\n• 李扬1\n\n版本：2026-06-07 20:56
-X-CONTENT-SIGNATURE:fb58cd64eb7b86a64c094a7eb0039683
+DESCRIPTION:06月11日 周四\n类型：航班\n航班：9C7004\n航线：兰州中川 → 上海浦东\n地点：兰州中川\n签到：16:30｜兰州中川\n任务：18:20 - 21:25\n机型：A320｜注册号：B326R\n\n人员名单：\n• 朱嘉(R)\n• 牛立强(R)\n• 段洋硕\n• 李扬1\n\n版本：2026-06-08 21:52
+X-CONTENT-SIGNATURE:02ac23365532fd84b809f660ee27c9e4
 LOCATION:兰州中川
 BEGIN:VALARM
 TRIGGER:-PT90M
