@@ -956,7 +956,7 @@ UID:a451059badc1d272de11ad7fccdc9f21@crew-calendar
 SUMMARY:✈️ 9C8613 深圳宝安→重庆江北
 DTSTART;TZID=Asia/Shanghai:20260610T063000
 DTEND;TZID=Asia/Shanghai:20260610T083500
-DESCRIPTION:06月10日 周三\n类型：航班\n航班：9C8613\n航线：深圳宝安 → 重庆江北\n地点：深圳宝安\n签到：04:40｜深圳宝安\n任务：06:30 - 08:35\n机型：A320｜注册号：B8580\n\n人员名单：\n• 郑皓(RC)\n• 陈方正(R)\n• 段洋硕\n• 赵忠强\n\n版本：2026-06-10 21:57
+DESCRIPTION:06月10日 周三\n类型：航班\n航班：9C8613\n航线：深圳宝安 → 重庆江北\n地点：深圳宝安\n签到：04:40｜深圳宝安\n任务：06:30 - 08:35\n机型：A320｜注册号：B8580\n\n人员名单：\n• 郑皓(RC)\n• 陈方正(R)\n• 段洋硕\n• 赵忠强\n\n版本：2026-06-10 22:33
 X-CONTENT-SIGNATURE:188f492665e18155d5e94e9417b87f0b
 LOCATION:深圳宝安
 BEGIN:VALARM
@@ -970,7 +970,7 @@ UID:58221fed2ca4cc056aaebde958baf703@crew-calendar
 SUMMARY:✈️ 9C8614 重庆江北→深圳宝安
 DTSTART;TZID=Asia/Shanghai:20260610T094000
 DTEND;TZID=Asia/Shanghai:20260610T114500
-DESCRIPTION:06月10日 周三\n类型：航班\n航班：9C8614\n航线：重庆江北 → 深圳宝安\n地点：重庆江北\n签到：08:05｜重庆江北\n任务：09:40 - 11:45\n机型：A320｜注册号：B8580\n\n人员名单：\n• 郑皓(RC)\n• 陈方正(R)\n• 段洋硕\n• 赵忠强\n\n版本：2026-06-10 21:57
+DESCRIPTION:06月10日 周三\n类型：航班\n航班：9C8614\n航线：重庆江北 → 深圳宝安\n地点：重庆江北\n签到：08:05｜重庆江北\n任务：09:40 - 11:45\n机型：A320｜注册号：B8580\n\n人员名单：\n• 郑皓(RC)\n• 陈方正(R)\n• 段洋硕\n• 赵忠强\n\n版本：2026-06-10 22:33
 X-CONTENT-SIGNATURE:44f22d21f0ee5e50fd065ac53a74703b
 LOCATION:重庆江北
 BEGIN:VALARM
@@ -984,7 +984,7 @@ UID:ed38f3dd39f61e1b0abc825a98624a09@crew-calendar
 SUMMARY:✈️ 9C7355X 深圳宝安→兰州中川
 DTSTART;TZID=Asia/Shanghai:20260611T064500
 DTEND;TZID=Asia/Shanghai:20260611T101000
-DESCRIPTION:06月11日 周四\n类型：航班\n航班：9C7355X\n航线：深圳宝安 → 兰州中川\n地点：深圳宝安\n签到：04:55｜深圳宝安\n任务：06:45 - 10:10\n机型：A320｜注册号：B326R\n\n人员名单：\n• 朱嘉(R)\n• 牛立强(R)\n• 段洋硕\n• 李扬1\n\n版本：2026-06-10 21:57
+DESCRIPTION:06月11日 周四\n类型：航班\n航班：9C7355X\n航线：深圳宝安 → 兰州中川\n地点：深圳宝安\n签到：04:55｜深圳宝安\n任务：06:45 - 10:10\n机型：A320｜注册号：B326R\n\n人员名单：\n• 朱嘉(R)\n• 牛立强(R)\n• 段洋硕\n• 李扬1\n\n版本：2026-06-10 22:33
 X-CONTENT-SIGNATURE:8d509c04de81dd15d1ec292fc12618a4
 LOCATION:深圳宝安
 BEGIN:VALARM
@@ -998,7 +998,7 @@ UID:5bd3755b26efe0dbd27900499a8cb3fe@crew-calendar
 SUMMARY:✈️ 9C7004 兰州中川→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260611T182000
 DTEND;TZID=Asia/Shanghai:20260611T212500
-DESCRIPTION:06月11日 周四\n类型：航班\n航班：9C7004\n航线：兰州中川 → 上海浦东\n地点：兰州中川\n签到：16:30｜兰州中川\n任务：18:20 - 21:25\n机型：A320｜注册号：B326R\n\n人员名单：\n• 朱嘉(R)\n• 牛立强(R)\n• 段洋硕\n• 李扬1\n\n版本：2026-06-10 21:57
+DESCRIPTION:06月11日 周四\n类型：航班\n航班：9C7004\n航线：兰州中川 → 上海浦东\n地点：兰州中川\n签到：16:30｜兰州中川\n任务：18:20 - 21:25\n机型：A320｜注册号：B326R\n\n人员名单：\n• 朱嘉(R)\n• 牛立强(R)\n• 段洋硕\n• 李扬1\n\n版本：2026-06-10 22:33
 X-CONTENT-SIGNATURE:02ac23365532fd84b809f660ee27c9e4
 LOCATION:兰州中川
 BEGIN:VALARM
@@ -1012,7 +1012,7 @@ UID:d2e2572bca6dbc6871bf419f55ce24ae@crew-calendar
 SUMMARY:✈️ 9C8677 上海虹桥→揭阳潮汕
 DTSTART;TZID=Asia/Shanghai:20260614T080500
 DTEND;TZID=Asia/Shanghai:20260614T101500
-DESCRIPTION:06月14日 周日\n类型：航班\n航班：9C8677\n航线：上海虹桥 → 揭阳潮汕\n地点：上海虹桥\n签到：06:25｜上海虹桥\n任务：08:05 - 10:15\n机型：A320｜注册号：B8871\n\n人员名单：\n• 钱超(T2\,R)\n• 邹文松(R)\n• 黄亚林\n• 李林\n• 王健林\n• 段洋硕\n• 张亚辉\n\n版本：2026-06-10 21:57
+DESCRIPTION:06月14日 周日\n类型：航班\n航班：9C8677\n航线：上海虹桥 → 揭阳潮汕\n地点：上海虹桥\n签到：06:25｜上海虹桥\n任务：08:05 - 10:15\n机型：A320｜注册号：B8871\n\n人员名单：\n• 钱超(T2\,R)\n• 邹文松(R)\n• 黄亚林\n• 李林\n• 王健林\n• 段洋硕\n• 张亚辉\n\n版本：2026-06-10 22:33
 X-CONTENT-SIGNATURE:65d7d29281dcafbec1b200bff0a95e6e
 LOCATION:上海虹桥
 BEGIN:VALARM
@@ -1026,7 +1026,7 @@ UID:fa8c84b5923543dbd2682196601ad51c@crew-calendar
 SUMMARY:✈️ 9C7603X 揭阳潮汕→扬州泰州
 DTSTART;TZID=Asia/Shanghai:20260614T113500
 DTEND;TZID=Asia/Shanghai:20260614T134500
-DESCRIPTION:06月14日 周日\n类型：航班\n航班：9C7603X\n航线：揭阳潮汕 → 扬州泰州\n地点：揭阳潮汕\n签到：09:45｜揭阳潮汕\n任务：11:35 - 13:45\n机型：A320｜注册号：B8871\n\n人员名单：\n• 钱超(T2\,R)\n• 邹文松(R)\n• 黄亚林\n• 李林\n• 王健林\n• 段洋硕\n• 张亚辉\n\n版本：2026-06-10 21:57
+DESCRIPTION:06月14日 周日\n类型：航班\n航班：9C7603X\n航线：揭阳潮汕 → 扬州泰州\n地点：揭阳潮汕\n签到：09:45｜揭阳潮汕\n任务：11:35 - 13:45\n机型：A320｜注册号：B8871\n\n人员名单：\n• 钱超(T2\,R)\n• 邹文松(R)\n• 黄亚林\n• 李林\n• 王健林\n• 段洋硕\n• 张亚辉\n\n版本：2026-06-10 22:33
 X-CONTENT-SIGNATURE:081915d8f932306430a7bb7e4018bc3e
 LOCATION:揭阳潮汕
 BEGIN:VALARM
@@ -1040,7 +1040,7 @@ UID:4163baf7ded3caebdce07da719cd31b4@crew-calendar
 SUMMARY:✈️ 9C7603Y 扬州泰州→长春龙嘉
 DTSTART;TZID=Asia/Shanghai:20260614T143000
 DTEND;TZID=Asia/Shanghai:20260614T165500
-DESCRIPTION:06月14日 周日\n类型：航班\n航班：9C7603Y\n航线：扬州泰州 → 长春龙嘉\n地点：扬州泰州\n签到：12:50｜扬州泰州\n任务：14:30 - 16:55\n机型：A320｜注册号：B8871\n\n人员名单：\n• 钱超(T2\,R)\n• 邹文松(R)\n• 黄亚林\n• 李林\n• 王健林\n• 段洋硕\n• 张亚辉\n\n版本：2026-06-10 21:57
+DESCRIPTION:06月14日 周日\n类型：航班\n航班：9C7603Y\n航线：扬州泰州 → 长春龙嘉\n地点：扬州泰州\n签到：12:50｜扬州泰州\n任务：14:30 - 16:55\n机型：A320｜注册号：B8871\n\n人员名单：\n• 钱超(T2\,R)\n• 邹文松(R)\n• 黄亚林\n• 李林\n• 王健林\n• 段洋硕\n• 张亚辉\n\n版本：2026-06-10 22:33
 X-CONTENT-SIGNATURE:fbabc9b43f27d898909d5bc542527993
 LOCATION:扬州泰州
 BEGIN:VALARM
@@ -1054,7 +1054,7 @@ UID:9262c3f91fbde800e586d905d54945ea@crew-calendar
 SUMMARY:✈️ 9C7604X 长春龙嘉→扬州泰州
 DTSTART;TZID=Asia/Shanghai:20260614T174500
 DTEND;TZID=Asia/Shanghai:20260614T202000
-DESCRIPTION:06月14日 周日\n类型：航班\n航班：9C7604X\n航线：长春龙嘉 → 扬州泰州\n地点：长春龙嘉\n签到：16:10｜长春龙嘉\n任务：17:45 - 20:20\n机型：A320｜注册号：B8871\n\n人员名单：\n• 钱超(T2\,R)\n• 邹文松(R)\n• 黄亚林\n• 李林\n• 王健林\n• 段洋硕\n• 张亚辉\n\n版本：2026-06-10 21:57
+DESCRIPTION:06月14日 周日\n类型：航班\n航班：9C7604X\n航线：长春龙嘉 → 扬州泰州\n地点：长春龙嘉\n签到：16:10｜长春龙嘉\n任务：17:45 - 20:20\n机型：A320｜注册号：B8871\n\n人员名单：\n• 钱超(T2\,R)\n• 邹文松(R)\n• 黄亚林\n• 李林\n• 王健林\n• 段洋硕\n• 张亚辉\n\n版本：2026-06-10 22:33
 X-CONTENT-SIGNATURE:97798a154849d9d6a7478baa3d02c40e
 LOCATION:长春龙嘉
 BEGIN:VALARM
@@ -1068,7 +1068,7 @@ UID:d9d52db593bec41696f9635a4b9a893a@crew-calendar
 SUMMARY:✈️ 9C7603Y 扬州泰州→长春龙嘉
 DTSTART;TZID=Asia/Shanghai:20260615T143000
 DTEND;TZID=Asia/Shanghai:20260615T165500
-DESCRIPTION:06月15日 周一\n类型：航班\n航班：9C7603Y\n航线：扬州泰州 → 长春龙嘉\n地点：扬州泰州\n签到：12:50｜扬州泰州\n任务：14:30 - 16:55\n机型：A320｜注册号：B8000\n\n人员名单：\n• 王健\n• 林官亮\n• 段洋硕\n• 王兵\n• 王健林\n• 官亮\n\n版本：2026-06-10 21:57
+DESCRIPTION:06月15日 周一\n类型：航班\n航班：9C7603Y\n航线：扬州泰州 → 长春龙嘉\n地点：扬州泰州\n签到：12:50｜扬州泰州\n任务：14:30 - 16:55\n机型：A320｜注册号：B8000\n\n人员名单：\n• 王健\n• 林官亮\n• 段洋硕\n• 王兵\n• 王健林\n• 官亮\n\n版本：2026-06-10 22:33
 X-CONTENT-SIGNATURE:c4bac70727887e74982d881132cfeaa2
 LOCATION:扬州泰州
 BEGIN:VALARM
@@ -1082,7 +1082,7 @@ UID:5ac85cccd062e8b7e59920059a6ce154@crew-calendar
 SUMMARY:✈️ 9C7604X 长春龙嘉→扬州泰州
 DTSTART;TZID=Asia/Shanghai:20260615T174500
 DTEND;TZID=Asia/Shanghai:20260615T202000
-DESCRIPTION:06月15日 周一\n类型：航班\n航班：9C7604X\n航线：长春龙嘉 → 扬州泰州\n地点：长春龙嘉\n签到：16:10｜长春龙嘉\n任务：17:45 - 20:20\n机型：A320｜注册号：B8000\n\n人员名单：\n• 王健\n• 林官亮\n• 段洋硕\n• 王兵\n• 王健林\n• 官亮\n\n版本：2026-06-10 21:57
+DESCRIPTION:06月15日 周一\n类型：航班\n航班：9C7604X\n航线：长春龙嘉 → 扬州泰州\n地点：长春龙嘉\n签到：16:10｜长春龙嘉\n任务：17:45 - 20:20\n机型：A320｜注册号：B8000\n\n人员名单：\n• 王健\n• 林官亮\n• 段洋硕\n• 王兵\n• 王健林\n• 官亮\n\n版本：2026-06-10 22:33
 X-CONTENT-SIGNATURE:c0b0e7af1b32da514fd44352ac68374e
 LOCATION:长春龙嘉
 BEGIN:VALARM
@@ -1096,7 +1096,7 @@ UID:7ecbaaa1db3cd3a886d404be8587e9ca@crew-calendar
 SUMMARY:✈️ 9C7604Y 扬州泰州→揭阳潮汕
 DTSTART;TZID=Asia/Shanghai:20260615T210500
 DTEND;TZID=Asia/Shanghai:20260615T231000
-DESCRIPTION:06月15日 周一\n类型：航班\n航班：9C7604Y\n航线：扬州泰州 → 揭阳潮汕\n地点：扬州泰州\n签到：19:25｜扬州泰州\n任务：21:05 - 23:10\n机型：A320｜注册号：B8000\n\n人员名单：\n• 王健\n• 林官亮\n• 段洋硕\n• 王兵\n• 王健林\n• 官亮\n\n版本：2026-06-10 21:57
+DESCRIPTION:06月15日 周一\n类型：航班\n航班：9C7604Y\n航线：扬州泰州 → 揭阳潮汕\n地点：扬州泰州\n签到：19:25｜扬州泰州\n任务：21:05 - 23:10\n机型：A320｜注册号：B8000\n\n人员名单：\n• 王健\n• 林官亮\n• 段洋硕\n• 王兵\n• 王健林\n• 官亮\n\n版本：2026-06-10 22:33
 X-CONTENT-SIGNATURE:41de939218dcb7f1394b3a17c3e36fdc
 LOCATION:扬州泰州
 BEGIN:VALARM
