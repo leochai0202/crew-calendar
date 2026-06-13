@@ -1012,8 +1012,8 @@ UID:d2e2572bca6dbc6871bf419f55ce24ae@crew-calendar
 SUMMARY:✈️ 9C8677 上海虹桥→揭阳潮汕
 DTSTART;TZID=Asia/Shanghai:20260614T080500
 DTEND;TZID=Asia/Shanghai:20260614T101500
-DESCRIPTION:06月14日 周日\n类型：航班\n航班：9C8677\n航线：上海虹桥 → 揭阳潮汕\n地点：上海虹桥\n签到：06:25｜上海虹桥\n任务：08:05 - 10:15\n机型：A320｜注册号：B8871\n\n人员名单：\n• 钱超(T2\,R)\n• 邹文松(R)\n• 黄亚林\n• 李林\n• 王健林\n• 段洋硕\n• 张亚辉\n\n版本：2026-06-12 22:19
-X-CONTENT-SIGNATURE:65d7d29281dcafbec1b200bff0a95e6e
+DESCRIPTION:06月14日 周日\n类型：航班\n航班：9C8677\n航线：上海虹桥 → 揭阳潮汕\n地点：上海虹桥\n签到：06:25｜上海虹桥\n任务：08:05 - 10:15\n机型：A320｜注册号：B8871\n\n人员名单：\n• 钱超(T2\,R)\n• 邹文松(R)\n• 黄亚林\n• 李林\n• 王健林\n• 段伟\n• 张亚辉\n• 段洋硕\n\n版本：2026-06-13 19:29
+X-CONTENT-SIGNATURE:33b1bd10e4955f320387af36517267a2
 LOCATION:上海虹桥
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1026,8 +1026,8 @@ UID:fa8c84b5923543dbd2682196601ad51c@crew-calendar
 SUMMARY:✈️ 9C7603X 揭阳潮汕→扬州泰州
 DTSTART;TZID=Asia/Shanghai:20260614T113500
 DTEND;TZID=Asia/Shanghai:20260614T134500
-DESCRIPTION:06月14日 周日\n类型：航班\n航班：9C7603X\n航线：揭阳潮汕 → 扬州泰州\n地点：揭阳潮汕\n签到：09:45｜揭阳潮汕\n任务：11:35 - 13:45\n机型：A320｜注册号：B8871\n\n人员名单：\n• 钱超(T2\,R)\n• 邹文松(R)\n• 黄亚林\n• 李林\n• 王健林\n• 段洋硕\n• 张亚辉\n\n版本：2026-06-12 22:19
-X-CONTENT-SIGNATURE:081915d8f932306430a7bb7e4018bc3e
+DESCRIPTION:06月14日 周日\n类型：航班\n航班：9C7603X\n航线：揭阳潮汕 → 扬州泰州\n地点：揭阳潮汕\n签到：09:45｜揭阳潮汕\n任务：11:35 - 13:45\n机型：A320｜注册号：B8871\n\n人员名单：\n• 钱超(T2\,R)\n• 邹文松(R)\n• 黄亚林\n• 李林\n• 王健林\n• 段伟\n• 张亚辉\n• 段洋硕\n\n版本：2026-06-13 19:29
+X-CONTENT-SIGNATURE:8cb0c211829de489dafb3e6c5d551dc9
 LOCATION:揭阳潮汕
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1040,8 +1040,8 @@ UID:4163baf7ded3caebdce07da719cd31b4@crew-calendar
 SUMMARY:✈️ 9C7603Y 扬州泰州→长春龙嘉
 DTSTART;TZID=Asia/Shanghai:20260614T143000
 DTEND;TZID=Asia/Shanghai:20260614T165500
-DESCRIPTION:06月14日 周日\n类型：航班\n航班：9C7603Y\n航线：扬州泰州 → 长春龙嘉\n地点：扬州泰州\n签到：12:50｜扬州泰州\n任务：14:30 - 16:55\n机型：A320｜注册号：B8871\n\n人员名单：\n• 钱超(T2\,R)\n• 邹文松(R)\n• 黄亚林\n• 李林\n• 王健林\n• 段洋硕\n• 张亚辉\n\n版本：2026-06-12 22:19
-X-CONTENT-SIGNATURE:fbabc9b43f27d898909d5bc542527993
+DESCRIPTION:06月14日 周日\n类型：航班\n航班：9C7603Y\n航线：扬州泰州 → 长春龙嘉\n地点：扬州泰州\n签到：12:50｜扬州泰州\n任务：14:30 - 16:55\n机型：A320｜注册号：B8871\n\n人员名单：\n• 钱超(T2\,R)\n• 邹文松(R)\n• 黄亚林\n• 李林\n• 王健林\n• 段伟\n• 张亚辉\n• 段洋硕\n\n版本：2026-06-13 19:29
+X-CONTENT-SIGNATURE:1d00e9d7bfae52a09fb48b417a3dd0e7
 LOCATION:扬州泰州
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1054,8 +1054,8 @@ UID:9262c3f91fbde800e586d905d54945ea@crew-calendar
 SUMMARY:✈️ 9C7604X 长春龙嘉→扬州泰州
 DTSTART;TZID=Asia/Shanghai:20260614T174500
 DTEND;TZID=Asia/Shanghai:20260614T202000
-DESCRIPTION:06月14日 周日\n类型：航班\n航班：9C7604X\n航线：长春龙嘉 → 扬州泰州\n地点：长春龙嘉\n签到：16:10｜长春龙嘉\n任务：17:45 - 20:20\n机型：A320｜注册号：B8871\n\n人员名单：\n• 钱超(T2\,R)\n• 邹文松(R)\n• 黄亚林\n• 李林\n• 王健林\n• 段洋硕\n• 张亚辉\n\n版本：2026-06-12 22:19
-X-CONTENT-SIGNATURE:97798a154849d9d6a7478baa3d02c40e
+DESCRIPTION:06月14日 周日\n类型：航班\n航班：9C7604X\n航线：长春龙嘉 → 扬州泰州\n地点：长春龙嘉\n签到：16:10｜长春龙嘉\n任务：17:45 - 20:20\n机型：A320｜注册号：B8871\n\n人员名单：\n• 钱超(T2\,R)\n• 邹文松(R)\n• 黄亚林\n• 李林\n• 王健林\n• 段伟\n• 张亚辉\n• 段洋硕\n\n版本：2026-06-13 19:29
+X-CONTENT-SIGNATURE:58e3c5d9b38ff8769e85cb650cf94a2f
 LOCATION:长春龙嘉
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1068,8 +1068,8 @@ UID:a22100ac25424229b0db85f5665777b7@crew-calendar
 SUMMARY:✈️ 9C7603Y 扬州泰州→长春龙嘉
 DTSTART;TZID=Asia/Shanghai:20260615T143000
 DTEND;TZID=Asia/Shanghai:20260615T165500
-DESCRIPTION:06月15日 周一\n类型：航班\n航班：9C7603Y\n航线：扬州泰州 → 长春龙嘉\n地点：扬州泰州\n签到：12:50｜扬州泰州\n任务：14:30 - 16:55\n机型：A320｜注册号：B306P\n\n人员名单：\n• 王健\n• 林官亮\n• 段洋硕\n• 王兵\n• 王健林\n• 官亮\n\n版本：2026-06-12 22:19
-X-CONTENT-SIGNATURE:fa5d4959567ea062041e637c84fe150d
+DESCRIPTION:06月15日 周一\n类型：航班\n航班：9C7603Y\n航线：扬州泰州 → 长春龙嘉\n地点：扬州泰州\n签到：12:50｜扬州泰州\n任务：14:30 - 16:55\n机型：A320｜注册号：B306P\n\n人员名单：\n• 健林段伟(R)\n• 段洋硕\n• 王\n• 王兵\n• 王健林\n• 段伟(R)\n\n版本：2026-06-13 19:29
+X-CONTENT-SIGNATURE:7bb4d20fd1a6cba23f32f798da99400d
 LOCATION:扬州泰州
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1082,8 +1082,8 @@ UID:55338ca5168c1a01f438fe72a9eed4e4@crew-calendar
 SUMMARY:✈️ 9C7604X 长春龙嘉→扬州泰州
 DTSTART;TZID=Asia/Shanghai:20260615T174500
 DTEND;TZID=Asia/Shanghai:20260615T202000
-DESCRIPTION:06月15日 周一\n类型：航班\n航班：9C7604X\n航线：长春龙嘉 → 扬州泰州\n地点：长春龙嘉\n签到：16:10｜长春龙嘉\n任务：17:45 - 20:20\n机型：A320｜注册号：B306P\n\n人员名单：\n• 王健\n• 林官亮\n• 段洋硕\n• 王兵\n• 王健林\n• 官亮\n\n版本：2026-06-12 22:19
-X-CONTENT-SIGNATURE:9499d35ac5fa995d120cc28dea872dcf
+DESCRIPTION:06月15日 周一\n类型：航班\n航班：9C7604X\n航线：长春龙嘉 → 扬州泰州\n地点：长春龙嘉\n签到：16:10｜长春龙嘉\n任务：17:45 - 20:20\n机型：A320｜注册号：B306P\n\n人员名单：\n• 健林段伟(R)\n• 段洋硕\n• 王\n• 王兵\n• 王健林\n• 段伟(R)\n\n版本：2026-06-13 19:29
+X-CONTENT-SIGNATURE:60a93a2fd25f015b1122490a48ade461
 LOCATION:长春龙嘉
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1096,12 +1096,26 @@ UID:7410c8f4958302c3013d984809de8d9e@crew-calendar
 SUMMARY:✈️ 9C7604Y 扬州泰州→揭阳潮汕
 DTSTART;TZID=Asia/Shanghai:20260615T210500
 DTEND;TZID=Asia/Shanghai:20260615T231000
-DESCRIPTION:06月15日 周一\n类型：航班\n航班：9C7604Y\n航线：扬州泰州 → 揭阳潮汕\n地点：扬州泰州\n签到：19:25｜扬州泰州\n任务：21:05 - 23:10\n机型：A320｜注册号：B306P\n\n人员名单：\n• 王健\n• 林官亮\n• 段洋硕\n• 王兵\n• 王健林\n• 官亮\n\n版本：2026-06-12 22:19
-X-CONTENT-SIGNATURE:16d6b144284dd05075a27f8e258d4694
+DESCRIPTION:06月15日 周一\n类型：航班\n航班：9C7604Y\n航线：扬州泰州 → 揭阳潮汕\n地点：扬州泰州\n签到：19:25｜扬州泰州\n任务：21:05 - 23:10\n机型：A320｜注册号：B306P\n\n人员名单：\n• 健林段伟(R)\n• 段洋硕\n• 王\n• 王兵\n• 王健林\n• 段伟(R)\n\n版本：2026-06-13 19:29
+X-CONTENT-SIGNATURE:60808ab247d63e89652d2b4273e2d018
 LOCATION:扬州泰州
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C7604Y 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:6bd40134207dbb9f7345193dd7ca5136@crew-calendar
+SUMMARY:✈️ 9C8678 揭阳潮汕→上海虹桥
+DTSTART;TZID=Asia/Shanghai:20260616T095500
+DTEND;TZID=Asia/Shanghai:20260616T120000
+DESCRIPTION:06月16日 周二\n类型：航班\n航班：9C8678\n航线：揭阳潮汕 → 上海虹桥\n地点：揭阳潮汕\n签到：08:05｜揭阳潮汕\n任务：09:55 - 12:00\n机型：A320｜注册号：B6862\n\n人员名单：\n• 丁家威(R)\n• 李鹏波(R)\n• 邵露露\n• 姜加龙\n• 王健林\n• 段伟\n• 段洋硕\n\n版本：2026-06-13 19:29
+X-CONTENT-SIGNATURE:aa153d1279526017a9d18b9da53bb94b
+LOCATION:揭阳潮汕
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C8678 签到提醒
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
