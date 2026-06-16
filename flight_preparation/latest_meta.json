@@ -1,8 +1,8 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-06-19",
-  "generated_at_beijing": "2026-06-16T21:32:37.196149+08:00",
-  "generator": "flight-prep-free-v3-manual-20260615-all-airports",
+  "generated_at_beijing": "2026-06-16T21:49:23.032006+08:00",
+  "generator": "flight-prep-free-v5-standard-template-20260616",
   "flight_numbers": [
     "9C6733",
     "9C6734"
