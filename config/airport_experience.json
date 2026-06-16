@@ -1,6 +1,217 @@
 {
   "rolling_days": 90,
-  "as_of": null,
-  "airports": {},
-  "note": "机场最近运行日期可根据已经结束的航班事件自动更新；如发生取消、调班或实际未执行，请手动纠正。"
+  "as_of": "2026-06-16",
+  "airports": {
+    "西安咸阳": {
+      "last_operated": "2026-05-26",
+      "source": "completed_schedule_event",
+      "flight_number": "9C8832",
+      "within_90_days": true
+    },
+    "上海虹桥": {
+      "last_operated": "2026-06-14",
+      "source": "completed_schedule_event",
+      "flight_number": "9C8677",
+      "within_90_days": true
+    },
+    "重庆江北": {
+      "last_operated": "2026-06-10",
+      "source": "completed_schedule_event",
+      "flight_number": "9C8613",
+      "within_90_days": true
+    },
+    "上海浦东": {
+      "last_operated": "2026-06-11",
+      "source": "completed_schedule_event",
+      "flight_number": "9C7004",
+      "within_90_days": true
+    },
+    "札幌新千岁": {
+      "last_operated": "2026-03-18",
+      "source": "completed_schedule_event",
+      "flight_number": "9C8791",
+      "within_90_days": true
+    },
+    "曼谷素旺那普": {
+      "last_operated": "2026-04-14",
+      "source": "completed_schedule_event",
+      "flight_number": "9C7419",
+      "within_90_days": true
+    },
+    "南宁吴圩": {
+      "last_operated": "2026-06-04",
+      "source": "completed_schedule_event",
+      "flight_number": "9C6777Y",
+      "within_90_days": true
+    },
+    "泉州晋江": {
+      "last_operated": "2026-04-18",
+      "source": "completed_schedule_event",
+      "flight_number": "9C6319",
+      "within_90_days": true
+    },
+    "揭阳潮汕": {
+      "last_operated": "2026-06-15",
+      "source": "completed_schedule_event",
+      "flight_number": "9C7604Y",
+      "within_90_days": true
+    },
+    "广州白云": {
+      "last_operated": "2026-04-14",
+      "source": "completed_schedule_event",
+      "flight_number": "9C7419",
+      "within_90_days": true
+    },
+    "金边德崇": {
+      "last_operated": "2026-04-01",
+      "source": "completed_schedule_event",
+      "flight_number": "9C7007",
+      "within_90_days": true
+    },
+    "大阪": {
+      "last_operated": "2026-04-08",
+      "source": "completed_schedule_event",
+      "flight_number": "9C6565Y",
+      "within_90_days": true
+    },
+    "厦门高崎": {
+      "last_operated": "2026-04-07",
+      "source": "completed_schedule_event",
+      "flight_number": "9C8805",
+      "within_90_days": true
+    },
+    "西宁曹家堡": {
+      "last_operated": "2026-04-09",
+      "source": "completed_schedule_event",
+      "flight_number": "9C6833",
+      "within_90_days": true
+    },
+    "西宁": {
+      "last_operated": "2026-04-09",
+      "source": "completed_schedule_event",
+      "flight_number": "9C6834",
+      "within_90_days": true
+    },
+    "曹家堡上海虹桥": {
+      "last_operated": "2026-04-09",
+      "source": "completed_schedule_event",
+      "flight_number": "9C6834",
+      "within_90_days": true
+    },
+    "宁波栎社": {
+      "last_operated": "2026-04-19",
+      "source": "completed_schedule_event",
+      "flight_number": "9C6254Y",
+      "within_90_days": true
+    },
+    "石家庄正定": {
+      "last_operated": "2026-04-19",
+      "source": "completed_schedule_event",
+      "flight_number": "9C6254Y",
+      "within_90_days": true
+    },
+    "石家": {
+      "last_operated": "2026-04-18",
+      "source": "completed_schedule_event",
+      "flight_number": "9C6319",
+      "within_90_days": true
+    },
+    "庄正定泉州晋江": {
+      "last_operated": "2026-04-18",
+      "source": "completed_schedule_event",
+      "flight_number": "9C6319",
+      "within_90_days": true
+    },
+    "天津滨海": {
+      "last_operated": "2026-04-19",
+      "source": "completed_schedule_event",
+      "flight_number": "9C8519",
+      "within_90_days": true
+    },
+    "名古屋中部": {
+      "last_operated": "2026-05-15",
+      "source": "completed_schedule_event",
+      "flight_number": "9C8601",
+      "within_90_days": true
+    },
+    "乌兰巴托成吉思汗": {
+      "last_operated": "2026-05-16",
+      "source": "completed_schedule_event",
+      "flight_number": "9C7057",
+      "within_90_days": true
+    },
+    "釜山金海": {
+      "last_operated": "2026-05-17",
+      "source": "completed_schedule_event",
+      "flight_number": "9C6899",
+      "within_90_days": true
+    },
+    "成都双流": {
+      "last_operated": "2026-05-22",
+      "source": "completed_schedule_event",
+      "flight_number": "9C7685",
+      "within_90_days": true
+    },
+    "沈阳桃仙": {
+      "last_operated": "2026-05-26",
+      "source": "completed_schedule_event",
+      "flight_number": "9C8832",
+      "within_90_days": true
+    },
+    "兰州中川": {
+      "last_operated": "2026-06-11",
+      "source": "completed_schedule_event",
+      "flight_number": "9C7355X",
+      "within_90_days": true
+    },
+    "威海大水泊": {
+      "last_operated": "2026-05-29",
+      "source": "completed_schedule_event",
+      "flight_number": "9C6391",
+      "within_90_days": true
+    },
+    "大连周水子": {
+      "last_operated": "2026-06-06",
+      "source": "completed_schedule_event",
+      "flight_number": "9C6731",
+      "within_90_days": true
+    },
+    "济南遥墙": {
+      "last_operated": "2026-06-01",
+      "source": "completed_schedule_event",
+      "flight_number": "9C6595X",
+      "within_90_days": true
+    },
+    "深圳宝安": {
+      "last_operated": "2026-06-11",
+      "source": "completed_schedule_event",
+      "flight_number": "9C7355X",
+      "within_90_days": true
+    },
+    "扬州泰州": {
+      "last_operated": "2026-06-15",
+      "source": "completed_schedule_event",
+      "flight_number": "9C7603Y",
+      "within_90_days": true
+    },
+    "郑州新郑": {
+      "last_operated": "2026-06-05",
+      "source": "completed_schedule_event",
+      "flight_number": "9C7069",
+      "within_90_days": true
+    },
+    "呼和浩特白塔": {
+      "last_operated": "2026-06-06",
+      "source": "completed_schedule_event",
+      "flight_number": "9C6731",
+      "within_90_days": true
+    },
+    "长春龙嘉": {
+      "last_operated": "2026-06-15",
+      "source": "completed_schedule_event",
+      "flight_number": "9C7603Y",
+      "within_90_days": true
+    }
+  },
+  "note": "机场最近运行日期根据已结束的排班航班自动更新；经历时间、起落和最近操纵落地不自动更新。"
 }
