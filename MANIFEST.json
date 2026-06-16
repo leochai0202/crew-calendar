@@ -1,0 +1,22 @@
+{
+  "bundle_version": "2026.06.16-v1",
+  "protected_existing_files": [
+    ".github/workflows/schedule.yml",
+    "crew_calendar_main.py",
+    "clean_ics_people.py",
+    "airport_aliases.json"
+  ],
+  "new_workflows": [
+    ".github/workflows/flight-prep-agent.yml",
+    ".github/workflows/crew-maintenance-agent.yml"
+  ],
+  "default_models": {
+    "flight_prep": "gpt-5-mini",
+    "maintenance": "gpt-5.1"
+  },
+  "safety": {
+    "maintenance_auto_overwrite": false,
+    "flight_prep_atomic_write": true,
+    "api_failure_preserves_official_files": true
+  }
+}

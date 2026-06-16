@@ -1,0 +1,26 @@
+{
+  "timezone": "Asia/Shanghai",
+  "greeting": "",
+  "language": "zh-CN",
+  "default_aircraft_type": "A320",
+  "auto_update_airport_experience": true,
+  "airport_experience_rolling_days": 90,
+  "do_not_auto_update_profile_fields": true,
+  "weather_source": "AviationWeather.gov METAR/TAF Data API",
+  "weather_timeout_seconds": 20,
+  "max_airport_manual_chars": 24000,
+  "max_agent_input_chars": 90000,
+  "output_directory": "flight_preparation",
+  "commit_successful_output": true,
+  "include_weather_section": true,
+  "include_people_names_in_output": false,
+  "typical_incidents_per_airport": {
+    "min": 2,
+    "max": 5
+  },
+  "schedule_beijing": {
+    "draft_d_minus_2": "18:17",
+    "refresh_d_minus_1": "00:37",
+    "final_d_minus_1": "09:07"
+  }
+}

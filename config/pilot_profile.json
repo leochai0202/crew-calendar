@@ -1,0 +1,36 @@
+{
+  "name": "段洋硕",
+  "unit": "飞行十五中队",
+  "role": "副驾驶",
+  "technical_level": "A2",
+  "promotion_date": "01月13日",
+  "stage_hours": 65,
+  "stage_landings": 9,
+  "landings_90_days": 9,
+  "landings_30_days": 8,
+  "simulation_included": true,
+  "total_flight_hours": null,
+  "total_landings": null,
+  "duty_day": null,
+  "last_operated_landing": {
+    "airport": "浦东机场",
+    "date": "2026-06-06"
+  },
+  "recent_feedback": {
+    "PF": "30尺以下带杆量欠一点；着陆后快速脱离道口前及时减速至30节以下。",
+    "PM": "增加SOP熟练度，标准喊话声音大一些。",
+    "RNP": "五边速度180时注意形态二，入口前关注飞机状态。"
+  },
+  "manual_fields": [
+    "stage_hours",
+    "stage_landings",
+    "landings_90_days",
+    "landings_30_days",
+    "total_flight_hours",
+    "total_landings",
+    "duty_day",
+    "last_operated_landing",
+    "recent_feedback"
+  ],
+  "note": "以上字段由用户手动更新，Agent不得根据排班自动推断经历时间、起落数或最近操纵落地。"
+}

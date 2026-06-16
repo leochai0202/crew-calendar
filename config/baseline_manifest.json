@@ -1,0 +1,12 @@
+{
+  "captured_on": "2026-06-16",
+  "crew_calendar_main.py": {
+    "expected_sha256": "27f0173d9c716bed17cb325f1ceacb91b6a35be5219d5e05b7655ddf86ac02cc",
+    "reference_version": "v15_positioning_and_people"
+  },
+  "clean_ics_people.py": {
+    "expected_sha256": "5f96b7dfe70ac5011f0a2d897aa644a2e40d28bb8a88e807337ad11e8bb5a870",
+    "reference_version": "v12_authoritative_scraped_dates"
+  },
+  "note": "仅用于提示当前基线版本；Agent不会因为哈希变化而阻止运行，也不会自动覆盖正式文件。"
+}
