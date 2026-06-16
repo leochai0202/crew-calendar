@@ -1,0 +1,115 @@
+name: Generate Flight Preparation FREE v4
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_date:
+        description: '目标日期 YYYY-MM-DD；留空则按 days_ahead'
+        required: false
+        type: string
+      days_ahead:
+        description: '手动运行时生成几天后的任务'
+        required: true
+        default: '1'
+        type: choice
+        options:
+          - '1'
+          - '2'
+  schedule:
+    # GitHub cron 使用 UTC，对应北京时间：
+    # D-2 18:17 = 10:17 UTC
+    # D-1 00:37 = 前一日 16:37 UTC
+    # D-1 09:07 = 01:07 UTC
+    - cron: '17 10 * * *'
+    - cron: '37 16 * * *'
+    - cron: '7 1 * * *'
+
+concurrency:
+  group: flight-preparation-free-v4
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install free dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-agent.txt
+
+      - name: Determine target date mode
+        id: target
+        shell: bash
+        run: |
+          DAYS="1"
+          TARGET=""
+
+          if [[ "${{ github.event_name }}" == "schedule" && "${{ github.event.schedule }}" == "17 10 * * *" ]]; then
+            DAYS="2"
+          fi
+
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            DAYS="${{ inputs.days_ahead }}"
+            TARGET="${{ inputs.target_date }}"
+          fi
+
+          echo "days=$DAYS" >> "$GITHUB_OUTPUT"
+          echo "target=$TARGET" >> "$GITHUB_OUTPUT"
+
+      - name: Generate free rule-based flight preparation
+        shell: bash
+        run: |
+          ARGS=(--repo . --days-ahead "${{ steps.target.outputs.days }}")
+          if [[ -n "${{ steps.target.outputs.target }}" ]]; then
+            ARGS+=(--target-date "${{ steps.target.outputs.target }}")
+          fi
+          python crew_agents/flight_prep_agent.py "${ARGS[@]}"
+
+      - name: Upload preparation artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: flight-preparation-free-v4-${{ github.run_number }}
+          path: |
+            flight_preparation/
+            agent_output/flight_prep/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Commit successful preparation
+        if: ${{ success() }}
+        shell: bash
+        run: |
+          if [[ ! -f flight_preparation/.success ]]; then
+            echo "No successful preparation to commit"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add flight_preparation/*.txt flight_preparation/*.json config/airport_experience.json || true
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          TARGET_DATE=$(python -c "import json; from pathlib import Path; print(json.loads(Path('flight_preparation/latest_meta.json').read_text(encoding='utf-8')).get('target_date', 'unknown'))")
+          git commit -m "Generate free flight preparation for ${TARGET_DATE}"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
