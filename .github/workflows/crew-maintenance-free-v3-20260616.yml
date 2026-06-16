@@ -1,0 +1,87 @@
+name: Crew Calendar Free Maintenance Check v3
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_scraper:
+        description: '是否额外运行一次爬虫和清洗脚本，生成最新诊断资料'
+        required: true
+        default: false
+        type: boolean
+  workflow_run:
+    workflows: ["Update Crew Calendar"]
+    types: [completed]
+
+concurrency:
+  group: crew-calendar-free-maintenance-v3
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Checkout latest repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install scraper dependencies for manual diagnostic run
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_scraper == true }}
+        run: |
+          python -m pip install --upgrade pip
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr
+          pip install pillow pytesseract playwright ddddocr
+          playwright install --with-deps chromium
+
+      - name: Run scraper and cleaner for diagnostics only
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_scraper == true }}
+        continue-on-error: true
+        env:
+          CREW_USERNAME: ${{ secrets.CREW_USERNAME }}
+          CREW_PASSWORD: ${{ secrets.CREW_PASSWORD }}
+          HEADLESS: '1'
+        shell: bash
+        run: |
+          mkdir -p agent_run
+          set +e
+          python crew_calendar_main.py 2>&1 | tee agent_run/scraper.log
+          echo "${PIPESTATUS[0]}" > agent_run/scraper_exit.txt
+          python clean_ics_people.py 2>&1 | tee agent_run/cleaner.log
+          echo "${PIPESTATUS[0]}" > agent_run/cleaner_exit.txt
+          exit 0
+
+      - name: Run free deterministic maintenance detector
+        if: always()
+        shell: bash
+        env:
+          UPSTREAM_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+        run: |
+          python crew_agents/maintenance_agent.py \
+            --repo . \
+            --debug-dir debug_output \
+            --output-dir agent_output/maintenance \
+            --upstream-conclusion "${UPSTREAM_CONCLUSION:-}"
+
+      - name: Upload maintenance report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: crew-maintenance-free-v3-${{ github.run_number }}
+          path: |
+            agent_output/maintenance/
+            agent_run/
+            debug_output/
+          if-no-files-found: warn
+          retention-days: 30
