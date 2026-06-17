@@ -1,8 +1,8 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-06-19",
-  "generated_at_beijing": "2026-06-16T23:05:49.850826+08:00",
-  "generator": "flight-prep-free-v7-group-and-detail-20260616",
+  "generated_at_beijing": "2026-06-17T22:05:17.678309+08:00",
+  "generator": "flight-prep-free-v8-group-and-detail-20260616",
   "flight_numbers": [
     "9C6733",
     "9C6734"
@@ -22,8 +22,8 @@
       "icao": "ZSPD",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-06-16T12:00:00+00:00",
-        "2026-06-17T18:00:00+00:00"
+        "2026-06-17T12:00:00+00:00",
+        "2026-06-18T18:00:00+00:00"
       ],
       "relevant_times": [
         "2026-06-19T08:35:00+08:00",
