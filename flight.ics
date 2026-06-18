@@ -1110,7 +1110,7 @@ UID:97b502c52e93bd37901347b5e91d4e3d@crew-calendar
 SUMMARY:✈️ 9C6733 上海浦东→丽江三义
 DTSTART;TZID=Asia/Shanghai:20260619T083500
 DTEND;TZID=Asia/Shanghai:20260619T122000
-DESCRIPTION:06月19日 周五\n类型：航班\n航班：9C6733\n航线：上海浦东 → 丽江三义\n地点：上海浦东\n签到：06:45｜上海浦东\n任务：08:35 - 12:20\n机型：A320｜注册号：B32S5\n\n人员名单：\n• 杨金麟(T\,R)\n• 张磊A\n• 段洋硕\n• 吴梦琪\n\n版本：2026-06-18 21:49
+DESCRIPTION:06月19日 周五\n类型：航班\n航班：9C6733\n航线：上海浦东 → 丽江三义\n地点：上海浦东\n签到：06:45｜上海浦东\n任务：08:35 - 12:20\n机型：A320｜注册号：B32S5\n\n人员名单：\n• 杨金麟(T\,R)\n• 张磊A\n• 段洋硕\n• 吴梦琪\n\n版本：2026-06-18 22:28
 X-CONTENT-SIGNATURE:2e0f56677a0f63fdd6067fe067cc041a
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -1124,7 +1124,7 @@ UID:ce34116d33ad00a3328dba7d67f5c07c@crew-calendar
 SUMMARY:✈️ 9C6734 丽江三义→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260619T131000
 DTEND;TZID=Asia/Shanghai:20260619T164000
-DESCRIPTION:06月19日 周五\n类型：航班\n航班：9C6734\n航线：丽江三义 → 上海浦东\n地点：丽江三义\n签到：11:35｜丽江三义\n任务：13:10 - 16:40\n机型：A320｜注册号：B32S5\n\n人员名单：\n• 杨金麟(T\,R)\n• 张磊A\n• 段洋硕\n• 吴梦琪\n\n版本：2026-06-18 21:49
+DESCRIPTION:06月19日 周五\n类型：航班\n航班：9C6734\n航线：丽江三义 → 上海浦东\n地点：丽江三义\n签到：11:35｜丽江三义\n任务：13:10 - 16:40\n机型：A320｜注册号：B32S5\n\n人员名单：\n• 杨金麟(T\,R)\n• 张磊A\n• 段洋硕\n• 吴梦琪\n\n版本：2026-06-18 22:28
 X-CONTENT-SIGNATURE:8555738bb720bb9883b9b8ab715aed7a
 LOCATION:丽江三义
 BEGIN:VALARM
@@ -1138,7 +1138,7 @@ UID:f7288ff11a32f1e54a8a53de9f7a0599@crew-calendar
 SUMMARY:✈️ 9C8574 济州→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260622T062500
 DTEND;TZID=Asia/Shanghai:20260622T080000
-DESCRIPTION:06月22日 周一\n类型：航班\n航班：9C8574\n航线：济州 → 上海浦东\n地点：济州\n签到：04:30｜济州\n任务：06:25 - 08:00\n机型：A320｜注册号：B8580\n\n人员名单：\n• 王钰程(T1\,R)\n• 王晨东(R)\n• 段洋硕\n• 林凌\n\n版本：2026-06-18 21:49
+DESCRIPTION:06月22日 周一\n类型：航班\n航班：9C8574\n航线：济州 → 上海浦东\n地点：济州\n签到：04:30｜济州\n任务：06:25 - 08:00\n机型：A320｜注册号：B8580\n\n人员名单：\n• 王钰程(T1\,R)\n• 王晨东(R)\n• 段洋硕\n• 林凌\n\n版本：2026-06-18 22:28
 X-CONTENT-SIGNATURE:a3b0e6388297811255bb539ac7364b3a
 LOCATION:济州
 BEGIN:VALARM
