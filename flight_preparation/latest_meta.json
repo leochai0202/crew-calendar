@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-06-19",
-  "generated_at_beijing": "2026-06-18T03:11:27.966936+08:00",
+  "generated_at_beijing": "2026-06-18T14:07:07.805019+08:00",
   "generator": "flight-prep-free-v8-group-and-detail-20260616",
   "flight_numbers": [
     "9C6733",
@@ -20,13 +20,21 @@
   "weather": {
     "上海浦东": {
       "icao": "ZSPD",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-06-18T06:00:00+00:00",
+        "2026-06-19T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-06-19T08:35:00+08:00",
         "2026-06-19T16:40:00+08:00"
       ],
-      "decoded": [],
+      "decoded": [
+        "能见度700米",
+        "雷雨",
+        "轻雾",
+        "多云，云底约1500英尺"
+      ],
       "fetch_error": ""
     },
     "丽江三义": {
