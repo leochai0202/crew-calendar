@@ -174,7 +174,7 @@ UID:68cc6832153fc82b3a29430ee4505316@crew-calendar
 SUMMARY:🕒 备份
 DTSTART;TZID=Asia/Shanghai:20260620T053000
 DTEND;TZID=Asia/Shanghai:20260620T135900
-DESCRIPTION:06月20日 周六\n类型：待命\n事项：备份\n任务：05:30 - 13:59\n机型：A320\n\n说明：\n• 甘宜青孙晨骁张建文刘京生张亚辉段洋硕\n\n人员名单：\n• 甘宜青\n• 孙晨骁\n• 张建文\n• 刘京生\n• 张亚辉\n• 段洋硕\n\n版本：2026-06-19 21:00
+DESCRIPTION:06月20日 周六\n类型：待命\n事项：备份\n任务：05:30 - 13:59\n机型：A320\n\n说明：\n• 甘宜青孙晨骁张建文刘京生张亚辉段洋硕\n\n人员名单：\n• 甘宜青\n• 孙晨骁\n• 张建文\n• 刘京生\n• 张亚辉\n• 段洋硕\n\n版本：2026-06-19 21:56
 X-CONTENT-SIGNATURE:1e7a6a9ac66e98173dd91829c06d58f9
 BEGIN:VALARM
 TRIGGER:-PT90M
