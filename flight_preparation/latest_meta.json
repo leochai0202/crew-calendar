@@ -1,55 +1,60 @@
 {
   "status": "SUCCESS",
-  "target_date": "2026-06-19",
-  "generated_at_beijing": "2026-06-18T14:07:07.805019+08:00",
-  "generator": "flight-prep-free-v8-group-and-detail-20260616",
+  "target_date": "2026-06-22",
+  "generated_at_beijing": "2026-06-21T09:36:21.288300+08:00",
+  "generator": "flight-prep-free-v10-all-airports-manual-index-20260617",
   "flight_numbers": [
-    "9C6733",
-    "9C6734"
+    "9C8574"
   ],
   "airports": [
-    "上海浦东",
-    "丽江三义"
+    "济州",
+    "上海浦东"
   ],
-  "group_output": "2026-06-19_航前准备.txt",
-  "detail_output": "2026-06-19_航前准备_详细版.txt",
+  "group_output": "2026-06-22_航前准备.txt",
+  "detail_output": "2026-06-22_航前准备_详细版.txt",
   "warnings": [
-    "上海浦东匹配最新机场特点章节：上 海 / 浦 东 机 场 运 行 特 点（ZSPD）",
-    "丽江三义匹配最新机场特点章节：丽 江 / 三 义 机 场 运 行 特 点（ZPLJ）"
+    "济州匹配最新机场特点章节：济州机场运行特点 JIZHOU(CJU/RKPC)（RKPC）",
+    "上海浦东匹配最新机场特点章节：上 海 / 浦 东 机 场 运 行 特 点（ZSPD）"
   ],
   "weather": {
+    "济州": {
+      "icao": "RKPC",
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-06-21T00:00:00+00:00",
+        "2026-06-22T06:00:00+00:00"
+      ],
+      "relevant_times": [
+        "2026-06-22T06:25:00+08:00"
+      ],
+      "decoded": [
+        "能见度801米",
+        "小雨"
+      ],
+      "fetch_error": ""
+    },
     "上海浦东": {
       "icao": "ZSPD",
       "source_used": "TAF",
       "taf_validity_utc": [
-        "2026-06-18T06:00:00+00:00",
-        "2026-06-19T12:00:00+00:00"
+        "2026-06-21T00:00:00+00:00",
+        "2026-06-22T06:00:00+00:00"
       ],
       "relevant_times": [
-        "2026-06-19T08:35:00+08:00",
-        "2026-06-19T16:40:00+08:00"
+        "2026-06-22T08:00:00+08:00"
       ],
       "decoded": [
-        "能见度700米",
-        "雷雨",
-        "轻雾",
-        "多云，云底约1500英尺"
+        "能见度1000米",
+        "阵雨",
+        "多云，云底约800英尺"
       ],
-      "fetch_error": ""
-    },
-    "丽江三义": {
-      "icao": "ZPLJ",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
-      "relevant_times": [
-        "2026-06-19T12:20:00+08:00",
-        "2026-06-19T13:10:00+08:00"
-      ],
-      "decoded": [],
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [],
+  "airport_experience_changes": [
+    "上海浦东: 2026-06-11 -> 2026-06-19",
+    "丽江三义: - -> 2026-06-19"
+  ],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/airport_information_20260615.txt",
   "airport_information_version": 20260615
 }
