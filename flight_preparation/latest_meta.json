@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-06-24",
-  "generated_at_beijing": "2026-06-22T23:33:49.035449+08:00",
+  "generated_at_beijing": "2026-06-23T03:57:09.413918+08:00",
   "generator": "flight-prep-free-v10-all-airports-manual-index-20260617",
   "flight_numbers": [
     "9C8981"
@@ -20,10 +20,7 @@
     "上海浦东": {
       "icao": "ZSPD",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-06-22T12:00:00+00:00",
-        "2026-06-23T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-06-24T22:50:00+08:00"
       ],
@@ -34,8 +31,8 @@
       "icao": "ZYTL",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-06-22T12:00:00+00:00",
-        "2026-06-23T12:00:00+00:00"
+        "2026-06-22T18:00:00+00:00",
+        "2026-06-23T18:00:00+00:00"
       ],
       "relevant_times": [
         "2026-06-25T00:55:00+08:00"
@@ -44,10 +41,7 @@
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [
-    "济州: - -> 2026-06-22",
-    "上海浦东: 2026-06-19 -> 2026-06-22"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/airport_information_20260615.txt",
   "airport_information_version": 20260615
 }
