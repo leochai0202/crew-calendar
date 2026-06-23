@@ -1152,7 +1152,7 @@ UID:bbc4db67ac02931ed33733d5a441e702@crew-calendar
 SUMMARY:✈️ 9C8981 上海浦东→大连周水子(+1)
 DTSTART;TZID=Asia/Shanghai:20260624T225000
 DTEND;TZID=Asia/Shanghai:20260625T005500
-DESCRIPTION:06月24日 周三\n类型：航班\n航班：9C8981\n航线：上海浦东 → 大连周水子(+1)\n地点：上海浦东\n签到：21:00｜上海浦东\n任务：22:50 - 00:55\n机型：A320｜注册号：B1672\n\n人员名单：\n• 陈建刚(R)\n• 段洋硕\n• 王韬(R)\n• 操乐轩\n• 焦瑞哲\n\n版本：2026-06-23 21:22
+DESCRIPTION:06月24日 周三\n类型：航班\n航班：9C8981\n航线：上海浦东 → 大连周水子(+1)\n地点：上海浦东\n签到：21:00｜上海浦东\n任务：22:50 - 00:55\n机型：A320｜注册号：B1672\n\n人员名单：\n• 陈建刚(R)\n• 段洋硕\n• 王韬(R)\n• 操乐轩\n• 焦瑞哲\n\n版本：2026-06-23 21:58
 X-CONTENT-SIGNATURE:c4079b94864144b031c7492a3d22e9b0
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -1166,7 +1166,7 @@ UID:40024d78e3d5e32dde3dac184cb938f8@crew-calendar
 SUMMARY:✈️ 9C6596X 大连周水子→济南遥墙
 DTSTART;TZID=Asia/Shanghai:20260625T184500
 DTEND;TZID=Asia/Shanghai:20260625T201500
-DESCRIPTION:06月25日 周四\n类型：航班\n航班：9C6596X\n航线：大连周水子 → 济南遥墙\n地点：大连周水子\n签到：16:45｜大连周水子\n任务：18:45 - 20:15\n机型：A320｜注册号：B1895\n\n人员名单：\n• 段洋硕\n• 杨春雪\n\n版本：2026-06-23 21:22
+DESCRIPTION:06月25日 周四\n类型：航班\n航班：9C6596X\n航线：大连周水子 → 济南遥墙\n地点：大连周水子\n签到：16:45｜大连周水子\n任务：18:45 - 20:15\n机型：A320｜注册号：B1895\n\n人员名单：\n• 段洋硕\n• 杨春雪\n\n版本：2026-06-23 21:58
 X-CONTENT-SIGNATURE:afba920af290f67bf5d6243b8fbe70ff
 LOCATION:大连周水子
 BEGIN:VALARM
@@ -1180,7 +1180,7 @@ UID:385d44dd97ab1c0e3f61d81d53f41c84@crew-calendar
 SUMMARY:✈️ 9C6596Y 济南遥墙→深圳宝安(+1)
 DTSTART;TZID=Asia/Shanghai:20260625T211500
 DTEND;TZID=Asia/Shanghai:20260626T002000
-DESCRIPTION:06月25日 周四\n类型：航班\n航班：9C6596Y\n航线：济南遥墙 → 深圳宝安(+1)\n地点：济南遥墙\n签到：19:35｜济南遥墙\n任务：21:15 - 00:20\n机型：A320｜注册号：B1895\n\n人员名单：\n• 段洋硕\n• 杨春雪\n\n版本：2026-06-23 21:22
+DESCRIPTION:06月25日 周四\n类型：航班\n航班：9C6596Y\n航线：济南遥墙 → 深圳宝安(+1)\n地点：济南遥墙\n签到：19:35｜济南遥墙\n任务：21:15 - 00:20\n机型：A320｜注册号：B1895\n\n人员名单：\n• 段洋硕\n• 杨春雪\n\n版本：2026-06-23 21:58
 X-CONTENT-SIGNATURE:95e9565263dbcaa5866619c97ca92a5a
 LOCATION:济南遥墙
 BEGIN:VALARM
@@ -1194,7 +1194,7 @@ UID:e75c26d7ada7d7062a313c9d06f763fb@crew-calendar
 SUMMARY:✈️ 9C6595X 深圳宝安→济南遥墙
 DTSTART;TZID=Asia/Shanghai:20260627T063000
 DTEND;TZID=Asia/Shanghai:20260627T091500
-DESCRIPTION:06月27日 周六\n类型：航班\n航班：9C6595X\n航线：深圳宝安 → 济南遥墙\n地点：深圳宝安\n签到：04:40｜深圳宝安\n任务：06:30 - 09:15\n机型：A320｜注册号：B6862\n\n人员名单：\n• 段洋硕\n• 赵忠强\n\n版本：2026-06-23 21:22
+DESCRIPTION:06月27日 周六\n类型：航班\n航班：9C6595X\n航线：深圳宝安 → 济南遥墙\n地点：深圳宝安\n签到：04:40｜深圳宝安\n任务：06:30 - 09:15\n机型：A320｜注册号：B6862\n\n人员名单：\n• 段洋硕\n• 赵忠强\n\n版本：2026-06-23 21:58
 X-CONTENT-SIGNATURE:f7d90b9e2d8945d439bce2d56d3357d0
 LOCATION:深圳宝安
 BEGIN:VALARM
@@ -1208,7 +1208,7 @@ UID:64ef1da7fe2683de638e79a780427d5a@crew-calendar
 SUMMARY:✈️ 9C6595Y 济南遥墙→大连周水子
 DTSTART;TZID=Asia/Shanghai:20260627T101500
 DTEND;TZID=Asia/Shanghai:20260627T112500
-DESCRIPTION:06月27日 周六\n类型：航班\n航班：9C6595Y\n航线：济南遥墙 → 大连周水子\n地点：济南遥墙\n签到：08:40｜济南遥墙\n任务：10:15 - 11:25\n机型：A320｜注册号：B6862\n\n人员名单：\n• 段洋硕\n• 赵忠强\n\n版本：2026-06-23 21:22
+DESCRIPTION:06月27日 周六\n类型：航班\n航班：9C6595Y\n航线：济南遥墙 → 大连周水子\n地点：济南遥墙\n签到：08:40｜济南遥墙\n任务：10:15 - 11:25\n机型：A320｜注册号：B6862\n\n人员名单：\n• 段洋硕\n• 赵忠强\n\n版本：2026-06-23 21:58
 X-CONTENT-SIGNATURE:19be0ac988177b23246a8cdf92088571
 LOCATION:济南遥墙
 BEGIN:VALARM
