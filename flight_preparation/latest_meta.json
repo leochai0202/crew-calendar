@@ -1,8 +1,8 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-06-24",
-  "generated_at_beijing": "2026-06-23T03:57:09.413918+08:00",
-  "generator": "flight-prep-free-v10-all-airports-manual-index-20260617",
+  "generated_at_beijing": "2026-06-23T10:34:35.334458+08:00",
+  "generator": "flight-prep-free-v11.4-all-airports-manual-tables-20260617",
   "flight_numbers": [
     "9C8981"
   ],
@@ -13,14 +13,17 @@
   "group_output": "2026-06-24_航前准备.txt",
   "detail_output": "2026-06-24_航前准备_详细版.txt",
   "warnings": [
-    "上海浦东匹配最新机场特点章节：上 海 / 浦 东 机 场 运 行 特 点（ZSPD）",
-    "大连周水子匹配最新机场特点章节：大 连 / 周 水 子 机 场 运 行 特 点（ZYTL）"
+    "上海浦东匹配最新机场特点章节：上海浦东机场（PVG/ZSPD）威胁识别及缓解措 + 上 海 / 浦 东 机 场 运 行 特 点（ZSPD）",
+    "大连周水子匹配最新机场特点章节：大连周水子机场（DLC/ZYTL）威胁识别与缓解 + 大 连 / 周 水 子 机 场 运 行 特 点（ZYTL）"
   ],
   "weather": {
     "上海浦东": {
       "icao": "ZSPD",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-06-23T00:00:00+00:00",
+        "2026-06-24T06:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-06-24T22:50:00+08:00"
       ],
@@ -30,10 +33,7 @@
     "大连周水子": {
       "icao": "ZYTL",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-06-22T18:00:00+00:00",
-        "2026-06-23T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-06-25T00:55:00+08:00"
       ],
