@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-06-25",
-  "generated_at_beijing": "2026-06-23T21:17:55.355710+08:00",
+  "generated_at_beijing": "2026-06-24T02:28:02.790145+08:00",
   "generator": "flight-prep-free-v11.4-all-airports-manual-tables-20260617",
   "flight_numbers": [
     "9C6596X",
@@ -24,8 +24,8 @@
       "icao": "ZYTL",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-06-23T12:00:00+00:00",
-        "2026-06-24T12:00:00+00:00"
+        "2026-06-23T18:00:00+00:00",
+        "2026-06-24T18:00:00+00:00"
       ],
       "relevant_times": [
         "2026-06-25T18:45:00+08:00"
@@ -37,8 +37,8 @@
       "icao": "ZSJN",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-06-23T12:00:00+00:00",
-        "2026-06-24T12:00:00+00:00"
+        "2026-06-23T18:00:00+00:00",
+        "2026-06-24T18:00:00+00:00"
       ],
       "relevant_times": [
         "2026-06-25T20:15:00+08:00",
@@ -50,10 +50,7 @@
     "深圳宝安": {
       "icao": "ZGSZ",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-06-23T12:00:00+00:00",
-        "2026-06-24T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-06-26T00:20:00+08:00"
       ],
