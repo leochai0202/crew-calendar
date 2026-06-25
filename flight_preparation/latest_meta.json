@@ -1,34 +1,34 @@
 {
   "status": "SUCCESS",
-  "target_date": "2026-06-25",
-  "generated_at_beijing": "2026-06-24T13:09:24.175947+08:00",
+  "target_date": "2026-06-27",
+  "generated_at_beijing": "2026-06-25T20:34:11.006305+08:00",
   "generator": "flight-prep-free-v11.4-all-airports-manual-tables-20260617",
   "flight_numbers": [
-    "9C6596X",
-    "9C6596Y"
+    "9C6595X",
+    "9C6595Y"
   ],
   "airports": [
-    "大连周水子",
+    "深圳宝安",
     "济南遥墙",
-    "深圳宝安"
+    "大连周水子"
   ],
-  "group_output": "2026-06-25_航前准备.txt",
-  "detail_output": "2026-06-25_航前准备_详细版.txt",
+  "group_output": "2026-06-27_航前准备.txt",
+  "detail_output": "2026-06-27_航前准备_详细版.txt",
   "warnings": [
-    "大连周水子匹配最新机场特点章节：大连周水子机场（DLC/ZYTL）威胁识别与缓解 + 大 连 / 周 水 子 机 场 运 行 特 点（ZYTL）",
+    "深圳宝安匹配最新机场特点章节：深圳宝安机场（SZX/ZGSZ）威胁识别与缓解措 + 深 圳 / 宝 安 机 场 运 行 特 点（ZGSZ）",
     "济南遥墙匹配最新机场特点章节：济南遥墙机场（TNA/ZSJN）威胁识别及缓解措 + 济 南 / 遥 墙 机 场 运 行 特 点（ZSJN）",
-    "深圳宝安匹配最新机场特点章节：深圳宝安机场（SZX/ZGSZ）威胁识别与缓解措 + 深 圳 / 宝 安 机 场 运 行 特 点（ZGSZ）"
+    "大连周水子匹配最新机场特点章节：大连周水子机场（DLC/ZYTL）威胁识别与缓解 + 大 连 / 周 水 子 机 场 运 行 特 点（ZYTL）"
   ],
   "weather": {
-    "大连周水子": {
-      "icao": "ZYTL",
+    "深圳宝安": {
+      "icao": "ZGSZ",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-06-24T06:00:00+00:00",
-        "2026-06-25T06:00:00+00:00"
+        "2026-06-25T12:00:00+00:00",
+        "2026-06-26T18:00:00+00:00"
       ],
       "relevant_times": [
-        "2026-06-25T18:45:00+08:00"
+        "2026-06-27T06:30:00+08:00"
       ],
       "decoded": [],
       "fetch_error": ""
@@ -37,31 +37,36 @@
       "icao": "ZSJN",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-06-24T06:00:00+00:00",
-        "2026-06-25T06:00:00+00:00"
+        "2026-06-25T12:00:00+00:00",
+        "2026-06-26T12:00:00+00:00"
       ],
       "relevant_times": [
-        "2026-06-25T20:15:00+08:00",
-        "2026-06-25T21:15:00+08:00"
+        "2026-06-27T09:15:00+08:00",
+        "2026-06-27T10:15:00+08:00"
       ],
       "decoded": [],
       "fetch_error": ""
     },
-    "深圳宝安": {
-      "icao": "ZGSZ",
+    "大连周水子": {
+      "icao": "ZYTL",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-06-24T06:00:00+00:00",
-        "2026-06-25T12:00:00+00:00"
+        "2026-06-25T12:00:00+00:00",
+        "2026-06-26T12:00:00+00:00"
       ],
       "relevant_times": [
-        "2026-06-26T00:20:00+08:00"
+        "2026-06-27T11:25:00+08:00"
       ],
       "decoded": [],
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [],
+  "airport_experience_changes": [
+    "上海浦东: 2026-06-22 -> 2026-06-24",
+    "大连周水子: 2026-06-06 -> 2026-06-24",
+    "大连周水子: 2026-06-24 -> 2026-06-25",
+    "济南遥墙: 2026-06-01 -> 2026-06-25"
+  ],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/airport_information_20260615.txt",
   "airport_information_version": 20260615
 }
