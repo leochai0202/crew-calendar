@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-06-27",
-  "generated_at_beijing": "2026-06-25T20:34:11.006305+08:00",
+  "generated_at_beijing": "2026-06-26T02:36:54.616255+08:00",
   "generator": "flight-prep-free-v11.4-all-airports-manual-tables-20260617",
   "flight_numbers": [
     "9C6595X",
@@ -23,10 +23,7 @@
     "深圳宝安": {
       "icao": "ZGSZ",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-06-25T12:00:00+00:00",
-        "2026-06-26T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-06-27T06:30:00+08:00"
       ],
@@ -37,8 +34,8 @@
       "icao": "ZSJN",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-06-25T12:00:00+00:00",
-        "2026-06-26T12:00:00+00:00"
+        "2026-06-25T18:00:00+00:00",
+        "2026-06-26T18:00:00+00:00"
       ],
       "relevant_times": [
         "2026-06-27T09:15:00+08:00",
@@ -51,8 +48,8 @@
       "icao": "ZYTL",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-06-25T12:00:00+00:00",
-        "2026-06-26T12:00:00+00:00"
+        "2026-06-25T18:00:00+00:00",
+        "2026-06-26T18:00:00+00:00"
       ],
       "relevant_times": [
         "2026-06-27T11:25:00+08:00"
@@ -62,10 +59,7 @@
     }
   },
   "airport_experience_changes": [
-    "上海浦东: 2026-06-22 -> 2026-06-24",
-    "大连周水子: 2026-06-06 -> 2026-06-24",
-    "大连周水子: 2026-06-24 -> 2026-06-25",
-    "济南遥墙: 2026-06-01 -> 2026-06-25"
+    "深圳宝安: 2026-06-11 -> 2026-06-25"
   ],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/airport_information_20260615.txt",
   "airport_information_version": 20260615
