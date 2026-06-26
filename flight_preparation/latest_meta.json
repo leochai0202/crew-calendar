@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-06-27",
-  "generated_at_beijing": "2026-06-26T02:36:54.616255+08:00",
+  "generated_at_beijing": "2026-06-26T13:19:36.057960+08:00",
   "generator": "flight-prep-free-v11.4-all-airports-manual-tables-20260617",
   "flight_numbers": [
     "9C6595X",
@@ -22,45 +22,56 @@
   "weather": {
     "深圳宝安": {
       "icao": "ZGSZ",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-06-26T06:00:00+00:00",
+        "2026-06-27T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-06-27T06:30:00+08:00"
       ],
-      "decoded": [],
+      "decoded": [
+        "能见度1800米",
+        "强雷雨",
+        "雷雨",
+        "阵雨"
+      ],
       "fetch_error": ""
     },
     "济南遥墙": {
       "icao": "ZSJN",
-      "source_used": "OUTSIDE_VALID_WINDOW",
+      "source_used": "TAF",
       "taf_validity_utc": [
-        "2026-06-25T18:00:00+00:00",
-        "2026-06-26T18:00:00+00:00"
+        "2026-06-26T06:00:00+00:00",
+        "2026-06-27T06:00:00+00:00"
       ],
       "relevant_times": [
         "2026-06-27T09:15:00+08:00",
         "2026-06-27T10:15:00+08:00"
       ],
-      "decoded": [],
+      "decoded": [
+        "能见度2300米",
+        "轻雾"
+      ],
       "fetch_error": ""
     },
     "大连周水子": {
       "icao": "ZYTL",
-      "source_used": "OUTSIDE_VALID_WINDOW",
+      "source_used": "TAF",
       "taf_validity_utc": [
-        "2026-06-25T18:00:00+00:00",
-        "2026-06-26T18:00:00+00:00"
+        "2026-06-26T06:00:00+00:00",
+        "2026-06-27T06:00:00+00:00"
       ],
       "relevant_times": [
         "2026-06-27T11:25:00+08:00"
       ],
-      "decoded": [],
+      "decoded": [
+        "能见度2603米"
+      ],
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [
-    "深圳宝安: 2026-06-11 -> 2026-06-25"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/airport_information_20260615.txt",
   "airport_information_version": 20260615
 }
