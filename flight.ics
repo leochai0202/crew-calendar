@@ -1190,30 +1190,30 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:8a2bb7751adb45a9b8a01a064f8367c7@crew-calendar
-SUMMARY:✈️ 9C6595X 深圳宝安→济南遥墙
-DTSTART;TZID=Asia/Shanghai:20260627T063000
-DTEND;TZID=Asia/Shanghai:20260627T091500
-DESCRIPTION:06月27日 周六\n类型：航班\n航班：9C6595X\n航线：深圳宝安 → 济南遥墙\n地点：深圳宝安\n签到：04:40｜深圳宝安\n任务：06:30 - 09:15\n机型：A320｜注册号：B6612\n\n人员名单：\n• 陈建刚(R)\n• 段洋硕\n• 王韬(R)\n• 赵忠强\n\n版本：2026-06-25 21:32
-X-CONTENT-SIGNATURE:7cc9363bfdc07ae19b1ba95f51627adb
-LOCATION:深圳宝安
-BEGIN:VALARM
-TRIGGER:-PT90M
-DESCRIPTION:9C6595X 签到提醒
-ACTION:DISPLAY
-END:VALARM
-END:VEVENT
-BEGIN:VEVENT
-UID:47fb1be6b18b552b280d704b3d868fa6@crew-calendar
+UID:4f0988b578ef3cd0d21cbe527b524de8@crew-calendar
 SUMMARY:✈️ 9C6595Y 济南遥墙→大连周水子
 DTSTART;TZID=Asia/Shanghai:20260627T101500
 DTEND;TZID=Asia/Shanghai:20260627T112500
-DESCRIPTION:06月27日 周六\n类型：航班\n航班：9C6595Y\n航线：济南遥墙 → 大连周水子\n地点：济南遥墙\n签到：08:40｜济南遥墙\n任务：10:15 - 11:25\n机型：A320｜注册号：B6612\n\n人员名单：\n• 陈建刚(R)\n• 段洋硕\n• 王韬(R)\n• 赵忠强\n\n版本：2026-06-25 21:32
-X-CONTENT-SIGNATURE:82d5157ed482b41341e7dadb42defef6
+DESCRIPTION:06月27日 周六\n类型：航班\n航班：9C6595Y\n航线：济南遥墙 → 大连周水子\n地点：济南遥墙\n签到：08:35｜济南遥墙\n任务：10:15 - 11:25\n机型：A320｜注册号：B8817\n\n人员名单：\n• 陈建刚(R)\n• 王韬(R)\n• 段洋硕\n• 张霖晨\n\n版本：2026-06-26 20:00
+X-CONTENT-SIGNATURE:df70893d3fb9b3c074586894a32619b0
 LOCATION:济南遥墙
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C6595Y 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ffa9ca6c5c062bfacaff7e681faa8f56@crew-calendar
+SUMMARY:✈️ 9C8978 大连周水子→上海浦东
+DTSTART;TZID=Asia/Shanghai:20260627T155500
+DTEND;TZID=Asia/Shanghai:20260627T181000
+DESCRIPTION:06月27日 周六\n类型：航班\n航班：9C8978\n航线：大连周水子 → 上海浦东\n地点：大连周水子\n签到：14:05｜大连周水子\n任务：15:55 - 18:10\n机型：A320｜注册号：B8347\n\n人员名单：\n• 陈建刚(R)\n• 王韬(R)\n• 段洋硕\n• 汪世锋\n• 王京京\n\n版本：2026-06-26 20:00
+X-CONTENT-SIGNATURE:4254d2c36effe8a1b62aebbbeb6ccc1a
+LOCATION:大连周水子
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C8978 签到提醒
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
