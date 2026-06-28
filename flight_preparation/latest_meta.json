@@ -1,77 +1,50 @@
 {
   "status": "SUCCESS",
-  "target_date": "2026-06-27",
-  "generated_at_beijing": "2026-06-26T13:19:36.057960+08:00",
+  "target_date": "2026-06-30",
+  "generated_at_beijing": "2026-06-28T19:59:30.965305+08:00",
   "generator": "flight-prep-free-v11.4-all-airports-manual-tables-20260617",
   "flight_numbers": [
-    "9C6595X",
-    "9C6595Y"
+    "9C6777X"
   ],
   "airports": [
-    "深圳宝安",
-    "济南遥墙",
-    "大连周水子"
+    "ZYTL",
+    "ZSYA"
   ],
-  "group_output": "2026-06-27_航前准备.txt",
-  "detail_output": "2026-06-27_航前准备_详细版.txt",
+  "group_output": "2026-06-30_航前准备.txt",
+  "detail_output": "2026-06-30_航前准备_详细版.txt",
   "warnings": [
-    "深圳宝安匹配最新机场特点章节：深圳宝安机场（SZX/ZGSZ）威胁识别与缓解措 + 深 圳 / 宝 安 机 场 运 行 特 点（ZGSZ）",
-    "济南遥墙匹配最新机场特点章节：济南遥墙机场（TNA/ZSJN）威胁识别及缓解措 + 济 南 / 遥 墙 机 场 运 行 特 点（ZSJN）",
-    "大连周水子匹配最新机场特点章节：大连周水子机场（DLC/ZYTL）威胁识别与缓解 + 大 连 / 周 水 子 机 场 运 行 特 点（ZYTL）"
+    "ZYTL天气获取提示：机场 ICAO 未识别",
+    "ZSYA天气获取提示：机场 ICAO 未识别",
+    "ZYTL匹配最新机场特点章节：长白山机场（ZYBS）威胁识别与缓解措施表 + 大连周水子机场（DLC/ZYTL）威胁识别与缓解 + 哈尔滨太平机场（ZYHB/HRB）威胁识别与缓解（ZYBS）",
+    "ZSYA匹配最新机场特点章节：长白山机场（ZYBS）威胁识别与缓解措施表 + 大连周水子机场（DLC/ZYTL）威胁识别与缓解 + 哈尔滨太平机场（ZYHB/HRB）威胁识别与缓解（ZYBS）"
   ],
   "weather": {
-    "深圳宝安": {
-      "icao": "ZGSZ",
-      "source_used": "TAF",
-      "taf_validity_utc": [
-        "2026-06-26T06:00:00+00:00",
-        "2026-06-27T12:00:00+00:00"
-      ],
+    "ZYTL": {
+      "icao": "",
+      "source_used": "OUTSIDE_VALID_WINDOW",
+      "taf_validity_utc": [],
       "relevant_times": [
-        "2026-06-27T06:30:00+08:00"
+        "2026-06-30T06:45:00+08:00"
       ],
-      "decoded": [
-        "能见度1800米",
-        "强雷雨",
-        "雷雨",
-        "阵雨"
-      ],
-      "fetch_error": ""
+      "decoded": [],
+      "fetch_error": "机场 ICAO 未识别"
     },
-    "济南遥墙": {
-      "icao": "ZSJN",
-      "source_used": "TAF",
-      "taf_validity_utc": [
-        "2026-06-26T06:00:00+00:00",
-        "2026-06-27T06:00:00+00:00"
-      ],
+    "ZSYA": {
+      "icao": "",
+      "source_used": "OUTSIDE_VALID_WINDOW",
+      "taf_validity_utc": [],
       "relevant_times": [
-        "2026-06-27T09:15:00+08:00",
-        "2026-06-27T10:15:00+08:00"
+        "2026-06-30T08:20:00+08:00"
       ],
-      "decoded": [
-        "能见度2300米",
-        "轻雾"
-      ],
-      "fetch_error": ""
-    },
-    "大连周水子": {
-      "icao": "ZYTL",
-      "source_used": "TAF",
-      "taf_validity_utc": [
-        "2026-06-26T06:00:00+00:00",
-        "2026-06-27T06:00:00+00:00"
-      ],
-      "relevant_times": [
-        "2026-06-27T11:25:00+08:00"
-      ],
-      "decoded": [
-        "能见度2603米"
-      ],
-      "fetch_error": ""
+      "decoded": [],
+      "fetch_error": "机场 ICAO 未识别"
     }
   },
-  "airport_experience_changes": [],
+  "airport_experience_changes": [
+    "济南遥墙: 2026-06-25 -> 2026-06-27",
+    "大连周水子: 2026-06-25 -> 2026-06-27",
+    "上海浦东: 2026-06-24 -> 2026-06-27"
+  ],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/airport_information_20260615.txt",
   "airport_information_version": 20260615
 }
