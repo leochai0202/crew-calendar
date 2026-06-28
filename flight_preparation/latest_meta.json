@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-06-30",
-  "generated_at_beijing": "2026-06-28T19:59:30.965305+08:00",
+  "generated_at_beijing": "2026-06-29T01:48:29.591637+08:00",
   "generator": "flight-prep-free-v11.4-all-airports-manual-tables-20260617",
   "flight_numbers": [
     "9C6777X"
@@ -40,11 +40,7 @@
       "fetch_error": "机场 ICAO 未识别"
     }
   },
-  "airport_experience_changes": [
-    "济南遥墙: 2026-06-25 -> 2026-06-27",
-    "大连周水子: 2026-06-25 -> 2026-06-27",
-    "上海浦东: 2026-06-24 -> 2026-06-27"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/airport_information_20260615.txt",
   "airport_information_version": 20260615
 }
