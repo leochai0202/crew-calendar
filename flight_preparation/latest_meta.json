@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-06-30",
-  "generated_at_beijing": "2026-06-29T01:48:29.591637+08:00",
+  "generated_at_beijing": "2026-06-29T14:02:30.196053+08:00",
   "generator": "flight-prep-free-v11.4-all-airports-manual-tables-20260617",
   "flight_numbers": [
     "9C6777X"
