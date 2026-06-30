@@ -1236,7 +1236,7 @@ UID:74f439a089f8ad8df3d1b60f2c078e28@crew-calendar
 SUMMARY:✈️ 9C6787 石家庄正定→兰州中川
 DTSTART;TZID=Asia/Shanghai:20260702T070000
 DTEND;TZID=Asia/Shanghai:20260702T090500
-DESCRIPTION:07月02日 周四\n类型：航班\n航班：9C6787\n航线：石家庄正定 → 兰州中川\n地点：石家庄正定\n签到：05:20｜石家庄正定\n任务：07:00 - 09:05\n机型：A320｜注册号：B320M\n\n人员名单：\n• 裘彬张\n• 龙玉\n• 段洋硕\n• 张立刚\n\n版本：2026-06-30 20:30
+DESCRIPTION:07月02日 周四\n类型：航班\n航班：9C6787\n航线：石家庄正定 → 兰州中川\n地点：石家庄正定\n签到：05:20｜石家庄正定\n任务：07:00 - 09:05\n机型：A320｜注册号：B320M\n\n人员名单：\n• 裘彬张\n• 龙玉\n• 段洋硕\n• 张立刚\n\n版本：2026-06-30 21:21
 X-CONTENT-SIGNATURE:750ed6e0963f1c54b355f74d64e083cf
 LOCATION:石家庄正定
 BEGIN:VALARM
@@ -1250,7 +1250,7 @@ UID:06a41771ef49ca42bfb0786a06dd0ae3@crew-calendar
 SUMMARY:✈️ 9C6601 兰州中川→杭州萧山
 DTSTART;TZID=Asia/Shanghai:20260702T095500
 DTEND;TZID=Asia/Shanghai:20260702T125000
-DESCRIPTION:07月02日 周四\n类型：航班\n航班：9C6601\n航线：兰州中川 → 杭州萧山\n地点：兰州中川\n签到：08:05｜兰州中川\n任务：09:55 - 12:50\n机型：A320｜注册号：B320M\n\n人员名单：\n• 裘彬张\n• 龙玉\n• 段洋硕\n• 董广皓\n\n版本：2026-06-30 20:30
+DESCRIPTION:07月02日 周四\n类型：航班\n航班：9C6601\n航线：兰州中川 → 杭州萧山\n地点：兰州中川\n签到：08:05｜兰州中川\n任务：09:55 - 12:50\n机型：A320｜注册号：B320M\n\n人员名单：\n• 裘彬张\n• 龙玉\n• 段洋硕\n• 董广皓\n\n版本：2026-06-30 21:21
 X-CONTENT-SIGNATURE:34a31a51e25ed6bf664532a53a72929d
 LOCATION:兰州中川
 BEGIN:VALARM
@@ -1264,7 +1264,7 @@ UID:004af7201b14d8b7f76856e3ce667e4d@crew-calendar
 SUMMARY:✈️ 9C6602 杭州萧山→兰州中川
 DTSTART;TZID=Asia/Shanghai:20260702T135500
 DTEND;TZID=Asia/Shanghai:20260702T170000
-DESCRIPTION:07月02日 周四\n类型：航班\n航班：9C6602\n航线：杭州萧山 → 兰州中川\n地点：杭州萧山\n签到：12:20｜杭州萧山\n任务：13:55 - 17:00\n机型：A320｜注册号：B320M\n\n人员名单：\n• 裘彬张\n• 龙玉\n• 段洋硕\n• 董广皓\n\n版本：2026-06-30 20:30
+DESCRIPTION:07月02日 周四\n类型：航班\n航班：9C6602\n航线：杭州萧山 → 兰州中川\n地点：杭州萧山\n签到：12:20｜杭州萧山\n任务：13:55 - 17:00\n机型：A320｜注册号：B320M\n\n人员名单：\n• 裘彬张\n• 龙玉\n• 段洋硕\n• 董广皓\n\n版本：2026-06-30 21:21
 X-CONTENT-SIGNATURE:136715d0776469b8b6ad82d8d8c1e7ad
 LOCATION:杭州萧山
 BEGIN:VALARM
@@ -1278,7 +1278,7 @@ UID:0c48ad4029b5e6c664394a68d7e5825d@crew-calendar
 SUMMARY:✈️ 9C6788 兰州中川→石家庄正定
 DTSTART;TZID=Asia/Shanghai:20260703T080000
 DTEND;TZID=Asia/Shanghai:20260703T095500
-DESCRIPTION:07月03日 周五\n类型：航班\n航班：9C6788\n航线：兰州中川 → 石家庄正定\n地点：兰州中川\n签到：06:10｜兰州中川\n任务：08:00 - 09:55\n机型：A320｜注册号：B6902\n\n人员名单：\n• 裘彬张\n• 龙玉\n• 段洋硕\n• 张立刚\n\n版本：2026-06-30 20:30
+DESCRIPTION:07月03日 周五\n类型：航班\n航班：9C6788\n航线：兰州中川 → 石家庄正定\n地点：兰州中川\n签到：06:10｜兰州中川\n任务：08:00 - 09:55\n机型：A320｜注册号：B6902\n\n人员名单：\n• 裘彬张\n• 龙玉\n• 段洋硕\n• 张立刚\n\n版本：2026-06-30 21:21
 X-CONTENT-SIGNATURE:717c95c52e7accc04987d5814dbf16b6
 LOCATION:兰州中川
 BEGIN:VALARM
@@ -1292,7 +1292,7 @@ UID:c00f5ed09f05c5ae03fea199d64f8b3a@crew-calendar
 SUMMARY:✈️ 9C8993 石家庄正定→重庆江北
 DTSTART;TZID=Asia/Shanghai:20260703T192500
 DTEND;TZID=Asia/Shanghai:20260703T215000
-DESCRIPTION:07月03日 周五\n类型：航班\n航班：9C8993\n航线：石家庄正定 → 重庆江北\n地点：石家庄正定\n签到：17:45｜石家庄正定\n任务：19:25 - 21:50\n机型：A320｜注册号：B1628\n\n人员名单：\n• 裘彬张\n• 龙玉\n• 段洋硕\n• 吴丹\n\n版本：2026-06-30 20:30
+DESCRIPTION:07月03日 周五\n类型：航班\n航班：9C8993\n航线：石家庄正定 → 重庆江北\n地点：石家庄正定\n签到：17:45｜石家庄正定\n任务：19:25 - 21:50\n机型：A320｜注册号：B1628\n\n人员名单：\n• 裘彬张\n• 龙玉\n• 段洋硕\n• 吴丹\n\n版本：2026-06-30 21:21
 X-CONTENT-SIGNATURE:ef72ded3e621443593d74eddfb6be928
 LOCATION:石家庄正定
 BEGIN:VALARM
@@ -1306,7 +1306,7 @@ UID:458e3c61eae372ea7bf4c78ab9a97541@crew-calendar
 SUMMARY:✈️ 9C8994 重庆江北→石家庄正定(+1)
 DTSTART;TZID=Asia/Shanghai:20260703T225500
 DTEND;TZID=Asia/Shanghai:20260704T011000
-DESCRIPTION:07月03日 周五\n类型：航班\n航班：9C8994\n航线：重庆江北 → 石家庄正定(+1)\n地点：重庆江北\n签到：21:20｜重庆江北\n任务：22:55 - 01:10\n机型：A320｜注册号：B1628\n\n人员名单：\n• 裘彬张\n• 龙玉\n• 段洋硕\n• 吴丹\n\n版本：2026-06-30 20:30
+DESCRIPTION:07月03日 周五\n类型：航班\n航班：9C8994\n航线：重庆江北 → 石家庄正定(+1)\n地点：重庆江北\n签到：21:20｜重庆江北\n任务：22:55 - 01:10\n机型：A320｜注册号：B1628\n\n人员名单：\n• 裘彬张\n• 龙玉\n• 段洋硕\n• 吴丹\n\n版本：2026-06-30 21:21
 X-CONTENT-SIGNATURE:9e363fdae7222b6cfc93fab06feea04f
 LOCATION:重庆江北
 BEGIN:VALARM
@@ -1320,7 +1320,7 @@ UID:a87a69ff5c6b77aaa7b22bf1abd6a457@crew-calendar
 SUMMARY:✈️ 9C8993 石家庄正定→重庆江北
 DTSTART;TZID=Asia/Shanghai:20260704T192500
 DTEND;TZID=Asia/Shanghai:20260704T220000
-DESCRIPTION:07月04日 周六\n类型：航班\n航班：9C8993\n航线：石家庄正定 → 重庆江北\n地点：石家庄正定\n签到：17:45｜石家庄正定\n任务：19:25 - 22:00\n机型：A320｜注册号：B6970\n\n人员名单：\n• 裘彬\n• 张秀杰\n• 段洋硕\n• 张立刚\n\n版本：2026-06-30 20:30
+DESCRIPTION:07月04日 周六\n类型：航班\n航班：9C8993\n航线：石家庄正定 → 重庆江北\n地点：石家庄正定\n签到：17:45｜石家庄正定\n任务：19:25 - 22:00\n机型：A320｜注册号：B6970\n\n人员名单：\n• 裘彬\n• 张秀杰\n• 段洋硕\n• 张立刚\n\n版本：2026-06-30 21:21
 X-CONTENT-SIGNATURE:b3096d9dd7ddf378d9aebde965c149f8
 LOCATION:石家庄正定
 BEGIN:VALARM
@@ -1334,7 +1334,7 @@ UID:c8b39dd369e3debcdf30059a7919b47f@crew-calendar
 SUMMARY:✈️ 9C8994 重庆江北→石家庄正定(+1)
 DTSTART;TZID=Asia/Shanghai:20260704T230500
 DTEND;TZID=Asia/Shanghai:20260705T011000
-DESCRIPTION:07月04日 周六\n类型：航班\n航班：9C8994\n航线：重庆江北 → 石家庄正定(+1)\n地点：重庆江北\n签到：21:30｜重庆江北\n任务：23:05 - 01:10\n机型：A320｜注册号：B6970\n\n人员名单：\n• 裘彬\n• 张秀杰\n• 段洋硕\n• 张立刚\n\n版本：2026-06-30 20:30
+DESCRIPTION:07月04日 周六\n类型：航班\n航班：9C8994\n航线：重庆江北 → 石家庄正定(+1)\n地点：重庆江北\n签到：21:30｜重庆江北\n任务：23:05 - 01:10\n机型：A320｜注册号：B6970\n\n人员名单：\n• 裘彬\n• 张秀杰\n• 段洋硕\n• 张立刚\n\n版本：2026-06-30 21:21
 X-CONTENT-SIGNATURE:936e1f812a693c8a1274e32bc618b59a
 LOCATION:重庆江北
 BEGIN:VALARM
