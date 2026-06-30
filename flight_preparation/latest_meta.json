@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-07-02",
-  "generated_at_beijing": "2026-06-30T20:25:48.458183+08:00",
+  "generated_at_beijing": "2026-07-01T02:22:12.730529+08:00",
   "generator": "flight-prep-free-v11.4-all-airports-manual-tables-20260617",
   "flight_numbers": [
     "9C6787",
@@ -25,8 +25,8 @@
       "icao": "ZBSJ",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-06-30T12:00:00+00:00",
-        "2026-07-01T12:00:00+00:00"
+        "2026-06-30T18:00:00+00:00",
+        "2026-07-01T18:00:00+00:00"
       ],
       "relevant_times": [
         "2026-07-02T07:00:00+08:00"
@@ -38,8 +38,8 @@
       "icao": "ZLLL",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-06-30T12:00:00+00:00",
-        "2026-07-01T12:00:00+00:00"
+        "2026-06-30T18:00:00+00:00",
+        "2026-07-01T18:00:00+00:00"
       ],
       "relevant_times": [
         "2026-07-02T09:05:00+08:00",
@@ -53,8 +53,8 @@
       "icao": "ZSHC",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-06-30T12:00:00+00:00",
-        "2026-07-01T12:00:00+00:00"
+        "2026-06-30T18:00:00+00:00",
+        "2026-07-01T18:00:00+00:00"
       ],
       "relevant_times": [
         "2026-07-02T12:50:00+08:00",
@@ -64,10 +64,7 @@
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [
-    "ZYTL: - -> 2026-06-30",
-    "ZSYA: - -> 2026-06-30"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/airport_information_20260615.txt",
   "airport_information_version": 20260615
 }

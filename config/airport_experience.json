@@ -1,6 +1,6 @@
 {
   "rolling_days": 90,
-  "as_of": "2026-06-30",
+  "as_of": "2026-07-01",
   "airports": {
     "西安咸阳": {
       "last_operated": "2026-05-26",
@@ -66,7 +66,7 @@
       "last_operated": "2026-04-01",
       "source": "completed_schedule_event",
       "flight_number": "9C7007",
-      "within_90_days": true
+      "within_90_days": false
     },
     "大阪": {
       "last_operated": "2026-04-08",
