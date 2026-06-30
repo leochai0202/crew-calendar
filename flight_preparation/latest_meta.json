@@ -1,46 +1,73 @@
 {
   "status": "SUCCESS",
-  "target_date": "2026-06-30",
-  "generated_at_beijing": "2026-06-29T14:02:30.196053+08:00",
+  "target_date": "2026-07-02",
+  "generated_at_beijing": "2026-06-30T20:25:48.458183+08:00",
   "generator": "flight-prep-free-v11.4-all-airports-manual-tables-20260617",
   "flight_numbers": [
-    "9C6777X"
+    "9C6787",
+    "9C6601",
+    "9C6602"
   ],
   "airports": [
-    "ZYTL",
-    "ZSYA"
+    "石家庄正定",
+    "兰州中川",
+    "杭州萧山"
   ],
-  "group_output": "2026-06-30_航前准备.txt",
-  "detail_output": "2026-06-30_航前准备_详细版.txt",
+  "group_output": "2026-07-02_航前准备.txt",
+  "detail_output": "2026-07-02_航前准备_详细版.txt",
   "warnings": [
-    "ZYTL天气获取提示：机场 ICAO 未识别",
-    "ZSYA天气获取提示：机场 ICAO 未识别",
-    "ZYTL匹配最新机场特点章节：长白山机场（ZYBS）威胁识别与缓解措施表 + 大连周水子机场（DLC/ZYTL）威胁识别与缓解 + 哈尔滨太平机场（ZYHB/HRB）威胁识别与缓解（ZYBS）",
-    "ZSYA匹配最新机场特点章节：长白山机场（ZYBS）威胁识别与缓解措施表 + 大连周水子机场（DLC/ZYTL）威胁识别与缓解 + 哈尔滨太平机场（ZYHB/HRB）威胁识别与缓解（ZYBS）"
+    "石家庄正定匹配最新机场特点章节：石家庄正定机场（SJW/ZBSJ）威胁识别及缓解 + 石 家 庄 / 正 定 机 场 运 行 特 点（ZBSJ）",
+    "兰州中川匹配最新机场特点章节：兰州中川机场（LHW/ZLLL）威胁识别及缓解措 + 兰 州 / 中 川 机 场 运 行 特 点（ZLLL）",
+    "杭州萧山匹配最新机场特点章节：杭州萧山机场（HGH/ZSHC）威胁识别及缓解措 + 杭 州 / 萧 山 机 场 运 行 特 点（ZSHC）"
   ],
   "weather": {
-    "ZYTL": {
-      "icao": "",
+    "石家庄正定": {
+      "icao": "ZBSJ",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-06-30T12:00:00+00:00",
+        "2026-07-01T12:00:00+00:00"
+      ],
       "relevant_times": [
-        "2026-06-30T06:45:00+08:00"
+        "2026-07-02T07:00:00+08:00"
       ],
       "decoded": [],
-      "fetch_error": "机场 ICAO 未识别"
+      "fetch_error": ""
     },
-    "ZSYA": {
-      "icao": "",
+    "兰州中川": {
+      "icao": "ZLLL",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-06-30T12:00:00+00:00",
+        "2026-07-01T12:00:00+00:00"
+      ],
       "relevant_times": [
-        "2026-06-30T08:20:00+08:00"
+        "2026-07-02T09:05:00+08:00",
+        "2026-07-02T09:55:00+08:00",
+        "2026-07-02T17:00:00+08:00"
       ],
       "decoded": [],
-      "fetch_error": "机场 ICAO 未识别"
+      "fetch_error": ""
+    },
+    "杭州萧山": {
+      "icao": "ZSHC",
+      "source_used": "OUTSIDE_VALID_WINDOW",
+      "taf_validity_utc": [
+        "2026-06-30T12:00:00+00:00",
+        "2026-07-01T12:00:00+00:00"
+      ],
+      "relevant_times": [
+        "2026-07-02T12:50:00+08:00",
+        "2026-07-02T13:55:00+08:00"
+      ],
+      "decoded": [],
+      "fetch_error": ""
     }
   },
-  "airport_experience_changes": [],
+  "airport_experience_changes": [
+    "ZYTL: - -> 2026-06-30",
+    "ZSYA: - -> 2026-06-30"
+  ],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/airport_information_20260615.txt",
   "airport_information_version": 20260615
 }
