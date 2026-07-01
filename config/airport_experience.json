@@ -1,6 +1,6 @@
 {
   "rolling_days": 90,
-  "as_of": "2026-07-01",
+  "as_of": "2026-07-02",
   "airports": {
     "西安咸阳": {
       "last_operated": "2026-05-26",

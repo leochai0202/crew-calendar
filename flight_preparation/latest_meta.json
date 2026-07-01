@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-07-03",
-  "generated_at_beijing": "2026-07-01T21:12:41.962289+08:00",
+  "generated_at_beijing": "2026-07-02T02:29:42.985075+08:00",
   "generator": "flight-prep-free-v12.3-concise-group-template-20260701",
   "flight_numbers": [
     "9C6788",
@@ -16,6 +16,7 @@
   "group_output": "2026-07-03_航前准备.txt",
   "detail_output": "2026-07-03_航前准备_详细版.txt",
   "warnings": [
+    "石家庄正定天气获取提示：TAF获取失败: ReadTimeout: HTTPSConnectionPool(host='aviationweather.gov', port=443): Read timed out. (read timeout=20)",
     "兰州中川匹配最新机场特点章节：兰州中川机场（LHW/ZLLL）威胁识别及缓解措 + 兰 州 / 中 川 机 场 运 行 特 点（ZLLL）",
     "石家庄正定匹配最新机场特点章节：石家庄正定机场（SJW/ZBSJ）威胁识别及缓解 + 石 家 庄 / 正 定 机 场 运 行 特 点（ZBSJ）",
     "重庆江北匹配最新机场特点章节：重庆江北机场（CKG/ZUCK）威胁识别与缓解措 + 重 庆 / 江 北 机 场 运 行 特 点（ZUCK）"
@@ -25,8 +26,8 @@
       "icao": "ZLLL",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-07-01T12:00:00+00:00",
-        "2026-07-02T12:00:00+00:00"
+        "2026-07-01T18:00:00+00:00",
+        "2026-07-02T18:00:00+00:00"
       ],
       "relevant_times": [
         "2026-07-03T08:00:00+08:00"
@@ -37,24 +38,21 @@
     "石家庄正定": {
       "icao": "ZBSJ",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-07-01T12:00:00+00:00",
-        "2026-07-02T12:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-07-03T09:55:00+08:00",
         "2026-07-03T19:25:00+08:00",
         "2026-07-04T01:10:00+08:00"
       ],
       "decoded": [],
-      "fetch_error": ""
+      "fetch_error": "TAF获取失败: ReadTimeout: HTTPSConnectionPool(host='aviationweather.gov', port=443): Read timed out. (read timeout=20)"
     },
     "重庆江北": {
       "icao": "ZUCK",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-07-01T12:00:00+00:00",
-        "2026-07-02T12:00:00+00:00"
+        "2026-07-01T18:00:00+00:00",
+        "2026-07-02T18:00:00+00:00"
       ],
       "relevant_times": [
         "2026-07-03T21:50:00+08:00",
