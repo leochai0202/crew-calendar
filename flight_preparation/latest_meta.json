@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-07-02",
-  "generated_at_beijing": "2026-07-01T09:46:43.813462+08:00",
+  "generated_at_beijing": "2026-07-01T13:50:48.559140+08:00",
   "generator": "flight-prep-free-v12.3-concise-group-template-20260701",
   "flight_numbers": [
     "9C6787",
@@ -23,35 +23,54 @@
   "weather": {
     "石家庄正定": {
       "icao": "ZBSJ",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-07-01T06:00:00+00:00",
+        "2026-07-02T06:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-07-02T07:00:00+08:00"
       ],
-      "decoded": [],
+      "decoded": [
+        "能见度103米",
+        "轻雾"
+      ],
       "fetch_error": ""
     },
     "兰州中川": {
       "icao": "ZLLL",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-07-01T06:00:00+00:00",
+        "2026-07-02T06:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-07-02T09:05:00+08:00",
         "2026-07-02T09:55:00+08:00",
         "2026-07-02T17:00:00+08:00"
       ],
-      "decoded": [],
+      "decoded": [
+        "能见度103米"
+      ],
       "fetch_error": ""
     },
     "杭州萧山": {
       "icao": "ZSHC",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-07-01T06:00:00+00:00",
+        "2026-07-02T06:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-07-02T12:50:00+08:00",
         "2026-07-02T13:55:00+08:00"
       ],
-      "decoded": [],
+      "decoded": [
+        "能见度103米",
+        "阵雨",
+        "轻雾",
+        "多云，云底约2000英尺"
+      ],
       "fetch_error": ""
     }
   },
