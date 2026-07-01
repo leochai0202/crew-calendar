@@ -38,7 +38,7 @@ UID:a2cd09fb9c5656365c174e22e879b334@crew-calendar
 SUMMARY:📍 9C7277X 上海虹桥→石家庄正定
 DTSTART;TZID=Asia/Shanghai:20260701T070000
 DTEND;TZID=Asia/Shanghai:20260701T090000
-DESCRIPTION:07月01日 周三\n类型：置位\n航班：9C7277X\n航线：上海虹桥 → 石家庄正定\n地点：上海虹桥\n签到：05:15｜上海虹桥\n任务：07:00 - 09:00\n机型：A320｜注册号：B8581\n\n人员名单：\n• 居明宇(R)\n• 祁万(R)\n• 高轩\n• 钱程\n• 高红兵\n• 段洋硕\n• 杜翔飞\n• 栾智勇\n\n版本：2026-07-01 21:22
+DESCRIPTION:07月01日 周三\n类型：置位\n航班：9C7277X\n航线：上海虹桥 → 石家庄正定\n地点：上海虹桥\n签到：05:15｜上海虹桥\n任务：07:00 - 09:00\n机型：A320｜注册号：B8581\n\n人员名单：\n• 居明宇(R)\n• 祁万(R)\n• 高轩\n• 钱程\n• 高红兵\n• 段洋硕\n• 杜翔飞\n• 栾智勇\n\n版本：2026-07-01 21:49
 X-CONTENT-SIGNATURE:9ab40da3079a3a9e617918e8e5c8d34d
 LOCATION:上海虹桥
 BEGIN:VALARM
@@ -52,7 +52,7 @@ UID:67ee03b7949cac282010c461d72da5c5@crew-calendar
 SUMMARY:📍 9C7278Y 石家庄正定→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260705T162000
 DTEND;TZID=Asia/Shanghai:20260705T181500
-DESCRIPTION:07月05日 周日\n类型：置位\n航班：9C7278Y\n航线：石家庄正定 → 上海虹桥\n地点：石家庄正定\n签到：14:40｜石家庄正定\n任务：16:20 - 18:15\n机型：A320｜注册号：B6863\n\n人员名单：\n• 薛森(R)\n• 周光伟(R)\n• 马腾(R)\n• 吴骏\n• 裘彬\n• 段洋硕\n• 马鑫磊\n\n版本：2026-07-01 21:22
+DESCRIPTION:07月05日 周日\n类型：置位\n航班：9C7278Y\n航线：石家庄正定 → 上海虹桥\n地点：石家庄正定\n签到：14:40｜石家庄正定\n任务：16:20 - 18:15\n机型：A320｜注册号：B6863\n\n人员名单：\n• 薛森(R)\n• 周光伟(R)\n• 马腾(R)\n• 吴骏\n• 裘彬\n• 段洋硕\n• 马鑫磊\n\n版本：2026-07-01 21:49
 X-CONTENT-SIGNATURE:62f87a9735c5174f2adedcc094dac3f3
 LOCATION:石家庄正定
 BEGIN:VALARM
