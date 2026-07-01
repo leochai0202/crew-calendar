@@ -1,8 +1,8 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-07-02",
-  "generated_at_beijing": "2026-07-01T02:22:12.730529+08:00",
-  "generator": "flight-prep-free-v11.4-all-airports-manual-tables-20260617",
+  "generated_at_beijing": "2026-07-01T09:46:43.813462+08:00",
+  "generator": "flight-prep-free-v12.3-concise-group-template-20260701",
   "flight_numbers": [
     "9C6787",
     "9C6601",
@@ -24,10 +24,7 @@
     "石家庄正定": {
       "icao": "ZBSJ",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-06-30T18:00:00+00:00",
-        "2026-07-01T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-07-02T07:00:00+08:00"
       ],
@@ -37,10 +34,7 @@
     "兰州中川": {
       "icao": "ZLLL",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-06-30T18:00:00+00:00",
-        "2026-07-01T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-07-02T09:05:00+08:00",
         "2026-07-02T09:55:00+08:00",
@@ -52,10 +46,7 @@
     "杭州萧山": {
       "icao": "ZSHC",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-06-30T18:00:00+00:00",
-        "2026-07-01T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-07-02T12:50:00+08:00",
         "2026-07-02T13:55:00+08:00"
