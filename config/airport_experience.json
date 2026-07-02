@@ -105,9 +105,9 @@
       "within_90_days": true
     },
     "石家庄正定": {
-      "last_operated": "2026-04-19",
+      "last_operated": "2026-07-02",
       "source": "completed_schedule_event",
-      "flight_number": "9C6254Y",
+      "flight_number": "9C6787",
       "within_90_days": true
     },
     "石家": {
@@ -159,9 +159,9 @@
       "within_90_days": true
     },
     "兰州中川": {
-      "last_operated": "2026-06-11",
+      "last_operated": "2026-07-02",
       "source": "completed_schedule_event",
-      "flight_number": "9C7355X",
+      "flight_number": "9C6787",
       "within_90_days": true
     },
     "威海大水泊": {
@@ -234,6 +234,12 @@
       "last_operated": "2026-06-30",
       "source": "completed_schedule_event",
       "flight_number": "9C6777X",
+      "within_90_days": true
+    },
+    "杭州萧山": {
+      "last_operated": "2026-07-02",
+      "source": "completed_schedule_event",
+      "flight_number": "9C6601",
       "within_90_days": true
     }
   },
