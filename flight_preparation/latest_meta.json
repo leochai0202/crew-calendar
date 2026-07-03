@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-07-04",
-  "generated_at_beijing": "2026-07-03T02:18:14.432756+08:00",
+  "generated_at_beijing": "2026-07-03T12:53:02.858157+08:00",
   "generator": "flight-prep-free-v12.3-concise-group-template-20260701",
   "flight_numbers": [
     "9C8993",
@@ -22,8 +22,8 @@
       "icao": "ZBSJ",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-07-02T18:00:00+00:00",
-        "2026-07-03T18:00:00+00:00"
+        "2026-07-03T06:00:00+00:00",
+        "2026-07-04T06:00:00+00:00"
       ],
       "relevant_times": [
         "2026-07-04T19:25:00+08:00",
@@ -36,8 +36,8 @@
       "icao": "ZUCK",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-07-02T18:00:00+00:00",
-        "2026-07-03T18:00:00+00:00"
+        "2026-07-03T06:00:00+00:00",
+        "2026-07-04T06:00:00+00:00"
       ],
       "relevant_times": [
         "2026-07-04T22:00:00+08:00",
@@ -47,7 +47,10 @@
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [],
+  "airport_experience_changes": [
+    "兰州中川: 2026-07-02 -> 2026-07-03",
+    "石家庄正定: 2026-07-02 -> 2026-07-03"
+  ],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/airport_information_20260615.txt",
   "airport_information_version": 20260615
 }
