@@ -1626,7 +1626,7 @@ UID:1afe3a4d86e4234b4ee5c05626714962@crew-calendar
 SUMMARY:✈️ 9C6788 兰州中川→石家庄正定
 DTSTART;TZID=Asia/Shanghai:20260703T080000
 DTEND;TZID=Asia/Shanghai:20260703T095500
-DESCRIPTION:07月03日 周五\n类型：航班\n航班：9C6788\n航线：兰州中川 → 石家庄正定\n地点：兰州中川\n签到：06:10｜兰州中川\n任务：08:00 - 09:55\n机型：A320｜注册号：B30AD\n\n人员名单：\n• 裘彬张\n• 龙玉\n• 段洋硕\n• 张立刚\n\n版本：2026-07-02 21:19
+DESCRIPTION:07月03日 周五\n类型：航班\n航班：9C6788\n航线：兰州中川 → 石家庄正定\n地点：兰州中川\n签到：06:10｜兰州中川\n任务：08:00 - 09:55\n机型：A320｜注册号：B30AD\n\n人员名单：\n• 裘彬张\n• 龙玉\n• 段洋硕\n• 张立刚\n\n版本：2026-07-03 19:56
 X-CONTENT-SIGNATURE:44722e6cc2c750fd41776f24f4a82252
 LOCATION:兰州中川
 BEGIN:VALARM
@@ -1640,7 +1640,7 @@ UID:44fb1b1eda57c00b092b5cca19e7c847@crew-calendar
 SUMMARY:✈️ 9C8993 石家庄正定→重庆江北
 DTSTART;TZID=Asia/Shanghai:20260703T192500
 DTEND;TZID=Asia/Shanghai:20260703T215000
-DESCRIPTION:07月03日 周五\n类型：航班\n航班：9C8993\n航线：石家庄正定 → 重庆江北\n地点：石家庄正定\n签到：17:45｜石家庄正定\n任务：19:25 - 21:50\n机型：A320｜注册号：B6645\n\n人员名单：\n• 裘彬张\n• 龙玉\n• 段洋硕\n• 吴丹\n\n版本：2026-07-02 21:19
+DESCRIPTION:07月03日 周五\n类型：航班\n航班：9C8993\n航线：石家庄正定 → 重庆江北\n地点：石家庄正定\n签到：17:45｜石家庄正定\n任务：19:25 - 21:50\n机型：A320｜注册号：B6645\n\n人员名单：\n• 裘彬张\n• 龙玉\n• 段洋硕\n• 吴丹\n\n版本：2026-07-03 19:56
 X-CONTENT-SIGNATURE:7e7abd68eb286918240601d9a82a7546
 LOCATION:石家庄正定
 BEGIN:VALARM
@@ -1654,7 +1654,7 @@ UID:e3b42c1b9d278e47f121e139d991da34@crew-calendar
 SUMMARY:✈️ 9C8994 重庆江北→石家庄正定(+1)
 DTSTART;TZID=Asia/Shanghai:20260703T225500
 DTEND;TZID=Asia/Shanghai:20260704T011000
-DESCRIPTION:07月03日 周五\n类型：航班\n航班：9C8994\n航线：重庆江北 → 石家庄正定(+1)\n地点：重庆江北\n签到：21:20｜重庆江北\n任务：22:55 - 01:10\n机型：A320｜注册号：B6645\n\n人员名单：\n• 裘彬张\n• 龙玉\n• 段洋硕\n• 吴丹\n\n版本：2026-07-02 21:19
+DESCRIPTION:07月03日 周五\n类型：航班\n航班：9C8994\n航线：重庆江北 → 石家庄正定(+1)\n地点：重庆江北\n签到：21:20｜重庆江北\n任务：22:55 - 01:10\n机型：A320｜注册号：B6645\n\n人员名单：\n• 裘彬张\n• 龙玉\n• 段洋硕\n• 吴丹\n\n版本：2026-07-03 19:56
 X-CONTENT-SIGNATURE:06e6dcc84860e1f99d59bdc89c7ff3b3
 LOCATION:重庆江北
 BEGIN:VALARM
@@ -1664,12 +1664,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:a87a69ff5c6b77aaa7b22bf1abd6a457@crew-calendar
+UID:22508e522c4c273ae7f0e1404cf74a2b@crew-calendar
 SUMMARY:✈️ 9C8993 石家庄正定→重庆江北
 DTSTART;TZID=Asia/Shanghai:20260704T192500
 DTEND;TZID=Asia/Shanghai:20260704T220000
-DESCRIPTION:07月04日 周六\n类型：航班\n航班：9C8993\n航线：石家庄正定 → 重庆江北\n地点：石家庄正定\n签到：17:45｜石家庄正定\n任务：19:25 - 22:00\n机型：A320｜注册号：B6970\n\n人员名单：\n• 裘彬\n• 张秀杰\n• 段洋硕\n• 张立刚\n\n版本：2026-07-02 21:19
-X-CONTENT-SIGNATURE:b3096d9dd7ddf378d9aebde965c149f8
+DESCRIPTION:07月04日 周六\n类型：航班\n航班：9C8993\n航线：石家庄正定 → 重庆江北\n地点：石家庄正定\n签到：17:45｜石家庄正定\n任务：19:25 - 22:00\n机型：A320｜注册号：B1627\n\n人员名单：\n• 裘彬\n• 张秀杰\n• 段洋硕\n• 张立刚\n\n版本：2026-07-03 19:56
+X-CONTENT-SIGNATURE:78e0a1fef86748cdca249357baec9e0f
 LOCATION:石家庄正定
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1678,12 +1678,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:c8b39dd369e3debcdf30059a7919b47f@crew-calendar
+UID:74be79dc81cfa2534ef83662d1ee7368@crew-calendar
 SUMMARY:✈️ 9C8994 重庆江北→石家庄正定(+1)
 DTSTART;TZID=Asia/Shanghai:20260704T230500
 DTEND;TZID=Asia/Shanghai:20260705T011000
-DESCRIPTION:07月04日 周六\n类型：航班\n航班：9C8994\n航线：重庆江北 → 石家庄正定(+1)\n地点：重庆江北\n签到：21:30｜重庆江北\n任务：23:05 - 01:10\n机型：A320｜注册号：B6970\n\n人员名单：\n• 裘彬\n• 张秀杰\n• 段洋硕\n• 张立刚\n\n版本：2026-07-02 21:19
-X-CONTENT-SIGNATURE:936e1f812a693c8a1274e32bc618b59a
+DESCRIPTION:07月04日 周六\n类型：航班\n航班：9C8994\n航线：重庆江北 → 石家庄正定(+1)\n地点：重庆江北\n签到：21:30｜重庆江北\n任务：23:05 - 01:10\n机型：A320｜注册号：B1627\n\n人员名单：\n• 裘彬\n• 张秀杰\n• 段洋硕\n• 张立刚\n\n版本：2026-07-03 19:56
+X-CONTENT-SIGNATURE:bcbf40e66b62404436297aff7f7d8517
 LOCATION:重庆江北
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1696,7 +1696,7 @@ UID:67ee03b7949cac282010c461d72da5c5@crew-calendar
 SUMMARY:📍 9C7278Y 石家庄正定→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260705T162000
 DTEND;TZID=Asia/Shanghai:20260705T181500
-DESCRIPTION:07月05日 周日\n类型：置位\n航班：9C7278Y\n航线：石家庄正定 → 上海虹桥\n地点：石家庄正定\n签到：14:40｜石家庄正定\n任务：16:20 - 18:15\n机型：A320｜注册号：B6863\n\n人员名单：\n• 薛森(R)\n• 周光伟(R)\n• 马腾(R)\n• 吴骏\n• 裘彬\n• 段洋硕\n• 马鑫磊\n\n版本：2026-07-02 21:19
+DESCRIPTION:07月05日 周日\n类型：置位\n航班：9C7278Y\n航线：石家庄正定 → 上海虹桥\n地点：石家庄正定\n签到：14:40｜石家庄正定\n任务：16:20 - 18:15\n机型：A320｜注册号：B6863\n\n人员名单：\n• 薛森(R)\n• 周光伟(R)\n• 马腾(R)\n• 吴骏\n• 裘彬\n• 段洋硕\n• 马鑫磊\n\n版本：2026-07-03 19:56
 X-CONTENT-SIGNATURE:62f87a9735c5174f2adedcc094dac3f3
 LOCATION:石家庄正定
 BEGIN:VALARM
@@ -1706,11 +1706,39 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
+UID:a1f4905e2df7b10c7ad10caf450c6b89@crew-calendar
+SUMMARY:✈️ 9C7165 上海浦东→西宁曹家堡
+DTSTART;TZID=Asia/Shanghai:20260708T081500
+DTEND;TZID=Asia/Shanghai:20260708T120000
+DESCRIPTION:07月08日 周三\n类型：航班\n航班：9C7165\n航线：上海浦东 → 西宁曹家堡\n地点：上海浦东\n签到：06:25｜上海浦东\n任务：08:15 - 12:00\n机型：A320｜注册号：B328U\n\n人员名单：\n• 朱勇(T2\,R)\n• 相欣(R)\n• 段洋硕\n• 刘畅1\n\n版本：2026-07-03 19:56
+X-CONTENT-SIGNATURE:ad4c69585a62967e5daa13e9f6c00bae
+LOCATION:上海浦东
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C7165 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:762feed5a71af8e9a035dfd09c1a2d43@crew-calendar
+SUMMARY:✈️ 9C7258 西宁曹家堡→南昌昌北
+DTSTART;TZID=Asia/Shanghai:20260708T124500
+DTEND;TZID=Asia/Shanghai:20260708T153500
+DESCRIPTION:07月08日 周三\n类型：航班\n航班：9C7258\n航线：西宁曹家堡 → 南昌昌北\n地点：西宁曹家堡\n签到：11:10｜西宁曹家堡\n任务：12:45 - 15:35\n机型：A320｜注册号：B328U\n\n人员名单：\n• 朱勇(T2\,R)\n• 相欣(R)\n• 段洋硕\n• 刘畅1\n\n版本：2026-07-03 19:56
+X-CONTENT-SIGNATURE:ccb2660f1726d7b94a1ab04ae548ad67
+LOCATION:西宁曹家堡
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C7258 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
 UID:29213f511f3d276072b9b06a1f11be2a@crew-calendar
 SUMMARY:📋 考勤
 DTSTART;TZID=Asia/Shanghai:20260724T000000
 DTEND;TZID=Asia/Shanghai:20260724T235900
-DESCRIPTION:07月24日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-02 21:19
+DESCRIPTION:07月24日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-03 19:56
 X-CONTENT-SIGNATURE:30a28e8a04273f293c8d70ba07239a1a
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1723,7 +1751,7 @@ UID:4a0215aa6fbf7103fac7999b8bf7af1e@crew-calendar
 SUMMARY:📋 考勤
 DTSTART;TZID=Asia/Shanghai:20260731T000000
 DTEND;TZID=Asia/Shanghai:20260731T235900
-DESCRIPTION:07月31日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-02 21:19
+DESCRIPTION:07月31日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-03 19:56
 X-CONTENT-SIGNATURE:b42b86da9b574e4bdb2422b793f12aed
 BEGIN:VALARM
 TRIGGER:-PT90M
