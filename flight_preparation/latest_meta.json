@@ -1,8 +1,8 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-07-08",
-  "generated_at_beijing": "2026-07-05T12:32:36.041293+08:00",
-  "generator": "flight-prep-free-v12.4-github-template-20260702",
+  "generated_at_beijing": "2026-07-05T12:43:55.789994+08:00",
+  "generator": "flight-prep-free-v12.5-airport-specific-20260705",
   "flight_numbers": [
     "9C7165",
     "9C7258"
@@ -55,11 +55,7 @@
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [
-    "重庆江北: 2026-06-10 -> 2026-07-03",
-    "石家庄正定: 2026-07-03 -> 2026-07-04",
-    "重庆江北: 2026-07-03 -> 2026-07-04"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/airport_information_20260615.txt",
   "airport_information_version": 20260615
 }
