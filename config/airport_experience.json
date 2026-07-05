@@ -1,6 +1,6 @@
 {
   "rolling_days": 90,
-  "as_of": "2026-07-03",
+  "as_of": "2026-07-05",
   "airports": {
     "西安咸阳": {
       "last_operated": "2026-05-26",
@@ -15,9 +15,9 @@
       "within_90_days": true
     },
     "重庆江北": {
-      "last_operated": "2026-06-10",
+      "last_operated": "2026-07-04",
       "source": "completed_schedule_event",
-      "flight_number": "9C8613",
+      "flight_number": "9C8993",
       "within_90_days": true
     },
     "上海浦东": {
@@ -105,9 +105,9 @@
       "within_90_days": true
     },
     "石家庄正定": {
-      "last_operated": "2026-07-03",
+      "last_operated": "2026-07-04",
       "source": "completed_schedule_event",
-      "flight_number": "9C6788",
+      "flight_number": "9C8993",
       "within_90_days": true
     },
     "石家": {
