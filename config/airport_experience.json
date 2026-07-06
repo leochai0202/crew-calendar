@@ -1,6 +1,6 @@
 {
   "rolling_days": 90,
-  "as_of": "2026-07-06",
+  "as_of": "2026-07-07",
   "airports": {
     "西安咸阳": {
       "last_operated": "2026-05-26",
@@ -78,7 +78,7 @@
       "last_operated": "2026-04-07",
       "source": "completed_schedule_event",
       "flight_number": "9C8805",
-      "within_90_days": true
+      "within_90_days": false
     },
     "西宁曹家堡": {
       "last_operated": "2026-04-09",

@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-07-08",
-  "generated_at_beijing": "2026-07-06T22:03:53.582214+08:00",
+  "generated_at_beijing": "2026-07-07T02:29:13.996940+08:00",
   "generator": "flight-prep-free-v12.5-airport-specific-20260705",
   "flight_numbers": [
     "9C7165",
@@ -23,10 +23,7 @@
     "上海浦东": {
       "icao": "ZSPD",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-07-06T12:00:00+00:00",
-        "2026-07-07T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-07-08T08:15:00+08:00"
       ],
@@ -55,11 +52,7 @@
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [
-    "济南遥墙: 2026-06-27 -> 2026-07-05",
-    "石家庄正定: 2026-07-04 -> 2026-07-05",
-    "上海虹桥: 2026-06-14 -> 2026-07-05"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/airport_information_20260615.txt",
   "airport_information_version": 20260615
 }
