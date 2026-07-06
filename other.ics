@@ -191,7 +191,7 @@ UID:29213f511f3d276072b9b06a1f11be2a@crew-calendar
 SUMMARY:📋 考勤
 DTSTART;TZID=Asia/Shanghai:20260724T000000
 DTEND;TZID=Asia/Shanghai:20260724T235900
-DESCRIPTION:07月24日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-05 20:50
+DESCRIPTION:07月24日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-06 21:09
 X-CONTENT-SIGNATURE:30a28e8a04273f293c8d70ba07239a1a
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -204,7 +204,7 @@ UID:4a0215aa6fbf7103fac7999b8bf7af1e@crew-calendar
 SUMMARY:📋 考勤
 DTSTART;TZID=Asia/Shanghai:20260731T000000
 DTEND;TZID=Asia/Shanghai:20260731T235900
-DESCRIPTION:07月31日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-05 20:50
+DESCRIPTION:07月31日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-06 21:09
 X-CONTENT-SIGNATURE:b42b86da9b574e4bdb2422b793f12aed
 BEGIN:VALARM
 TRIGGER:-PT90M

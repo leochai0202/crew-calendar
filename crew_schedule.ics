@@ -1720,12 +1720,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:d38b26bb9a856ac34e354f2ca4e5aece@crew-calendar
+UID:5d9c341430df426cfd5018bafc4ba6ff@crew-calendar
 SUMMARY:✈️ 9C7165 上海浦东→西宁曹家堡
 DTSTART;TZID=Asia/Shanghai:20260708T081500
 DTEND;TZID=Asia/Shanghai:20260708T120000
-DESCRIPTION:07月08日 周三\n类型：航班\n航班：9C7165\n航线：上海浦东 → 西宁曹家堡\n地点：上海浦东\n签到：06:25｜上海浦东\n任务：08:15 - 12:00\n机型：A320｜注册号：B30AD\n\n人员名单：\n• 朱勇(T2\,R)\n• 相欣(R)\n• 段洋硕\n• 刘畅1\n\n版本：2026-07-05 20:50
-X-CONTENT-SIGNATURE:172ee689e64431a91eea4f9c80d2a148
+DESCRIPTION:07月08日 周三\n类型：航班\n航班：9C7165\n航线：上海浦东 → 西宁曹家堡\n地点：上海浦东\n签到：06:25｜上海浦东\n任务：08:15 - 12:00\n机型：A320｜注册号：B30CM\n\n人员名单：\n• 朱勇(T2\,R)\n• 相欣(R)\n• 段洋硕\n• 刘畅1\n\n版本：2026-07-06 21:09
+X-CONTENT-SIGNATURE:950081312154f7ba6ace9c92bae62ba7
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1734,12 +1734,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:34b07ae414a8fe52789c97c07445d2b4@crew-calendar
+UID:18a8212fabcd7d46dc95439bd59509c8@crew-calendar
 SUMMARY:✈️ 9C7258 西宁曹家堡→南昌昌北
 DTSTART;TZID=Asia/Shanghai:20260708T124500
 DTEND;TZID=Asia/Shanghai:20260708T153500
-DESCRIPTION:07月08日 周三\n类型：航班\n航班：9C7258\n航线：西宁曹家堡 → 南昌昌北\n地点：西宁曹家堡\n签到：11:10｜西宁曹家堡\n任务：12:45 - 15:35\n机型：A320｜注册号：B30AD\n\n人员名单：\n• 朱勇(T2\,R)\n• 相欣(R)\n• 段洋硕\n• 刘畅1\n\n版本：2026-07-05 20:50
-X-CONTENT-SIGNATURE:76fe3a71c19ba298acf2b8f363b5041b
+DESCRIPTION:07月08日 周三\n类型：航班\n航班：9C7258\n航线：西宁曹家堡 → 南昌昌北\n地点：西宁曹家堡\n签到：11:10｜西宁曹家堡\n任务：12:45 - 15:35\n机型：A320｜注册号：B30CM\n\n人员名单：\n• 朱勇(T2\,R)\n• 相欣(R)\n• 段洋硕\n• 刘畅1\n\n版本：2026-07-06 21:09
+X-CONTENT-SIGNATURE:7c91833d6652b1725f464ca79a53f7d9
 LOCATION:西宁曹家堡
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1752,7 +1752,7 @@ UID:227f6746f2bd85db75c247a06ba1a3c9@crew-calendar
 SUMMARY:✈️ 9C7257 南昌昌北→西宁曹家堡
 DTSTART;TZID=Asia/Shanghai:20260709T151000
 DTEND;TZID=Asia/Shanghai:20260709T180000
-DESCRIPTION:07月09日 周四\n类型：航班\n航班：9C7257\n航线：南昌昌北 → 西宁曹家堡\n地点：南昌昌北\n签到：13:35｜南昌昌北\n任务：15:10 - 18:00\n机型：A320｜注册号：B32MX\n\n人员名单：\n• 朱勇(T2\,R)\n• 相欣(R)\n• 段洋硕\n• 刘畅1\n\n版本：2026-07-05 20:50
+DESCRIPTION:07月09日 周四\n类型：航班\n航班：9C7257\n航线：南昌昌北 → 西宁曹家堡\n地点：南昌昌北\n签到：13:35｜南昌昌北\n任务：15:10 - 18:00\n机型：A320｜注册号：B32MX\n\n人员名单：\n• 朱勇(T2\,R)\n• 相欣(R)\n• 段洋硕\n• 刘畅1\n\n版本：2026-07-06 21:09
 X-CONTENT-SIGNATURE:d334c12b319a550704c114e03e2c0419
 LOCATION:南昌昌北
 BEGIN:VALARM
@@ -1766,7 +1766,7 @@ UID:8557c353d42d1c2a3b9f5abc78c9f5ce@crew-calendar
 SUMMARY:✈️ 9C7166 西宁曹家堡→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260709T184500
 DTEND;TZID=Asia/Shanghai:20260709T215500
-DESCRIPTION:07月09日 周四\n类型：航班\n航班：9C7166\n航线：西宁曹家堡 → 上海浦东\n地点：西宁曹家堡\n签到：17:10｜西宁曹家堡\n任务：18:45 - 21:55\n机型：A320｜注册号：B32MX\n\n人员名单：\n• 朱勇(T2\,R)\n• 相欣(R)\n• 段洋硕\n• 刘畅1\n\n版本：2026-07-05 20:50
+DESCRIPTION:07月09日 周四\n类型：航班\n航班：9C7166\n航线：西宁曹家堡 → 上海浦东\n地点：西宁曹家堡\n签到：17:10｜西宁曹家堡\n任务：18:45 - 21:55\n机型：A320｜注册号：B32MX\n\n人员名单：\n• 朱勇(T2\,R)\n• 相欣(R)\n• 段洋硕\n• 刘畅1\n\n版本：2026-07-06 21:09
 X-CONTENT-SIGNATURE:0130f0c9893e7960889c9f8e65fccfd2
 LOCATION:西宁曹家堡
 BEGIN:VALARM
@@ -1780,7 +1780,7 @@ UID:29213f511f3d276072b9b06a1f11be2a@crew-calendar
 SUMMARY:📋 考勤
 DTSTART;TZID=Asia/Shanghai:20260724T000000
 DTEND;TZID=Asia/Shanghai:20260724T235900
-DESCRIPTION:07月24日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-05 20:50
+DESCRIPTION:07月24日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-06 21:09
 X-CONTENT-SIGNATURE:30a28e8a04273f293c8d70ba07239a1a
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1793,7 +1793,7 @@ UID:4a0215aa6fbf7103fac7999b8bf7af1e@crew-calendar
 SUMMARY:📋 考勤
 DTSTART;TZID=Asia/Shanghai:20260731T000000
 DTEND;TZID=Asia/Shanghai:20260731T235900
-DESCRIPTION:07月31日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-05 20:50
+DESCRIPTION:07月31日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-06 21:09
 X-CONTENT-SIGNATURE:b42b86da9b574e4bdb2422b793f12aed
 BEGIN:VALARM
 TRIGGER:-PT90M
