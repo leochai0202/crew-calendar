@@ -1,6 +1,6 @@
 {
   "rolling_days": 90,
-  "as_of": "2026-07-07",
+  "as_of": "2026-07-08",
   "airports": {
     "西安咸阳": {
       "last_operated": "2026-05-26",
@@ -72,7 +72,7 @@
       "last_operated": "2026-04-08",
       "source": "completed_schedule_event",
       "flight_number": "9C6565Y",
-      "within_90_days": true
+      "within_90_days": false
     },
     "厦门高崎": {
       "last_operated": "2026-04-07",
