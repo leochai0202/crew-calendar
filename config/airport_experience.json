@@ -21,9 +21,9 @@
       "within_90_days": true
     },
     "上海浦东": {
-      "last_operated": "2026-06-27",
+      "last_operated": "2026-07-08",
       "source": "completed_schedule_event",
-      "flight_number": "9C8978",
+      "flight_number": "9C7165",
       "within_90_days": true
     },
     "札幌新千岁": {
@@ -81,9 +81,9 @@
       "within_90_days": false
     },
     "西宁曹家堡": {
-      "last_operated": "2026-04-09",
+      "last_operated": "2026-07-08",
       "source": "completed_schedule_event",
-      "flight_number": "9C6833",
+      "flight_number": "9C7165",
       "within_90_days": true
     },
     "西宁": {
