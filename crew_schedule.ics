@@ -1793,7 +1793,7 @@ UID:2fc41d0f943a65e2d5048546316651a7@crew-calendar
 SUMMARY:🚐 摆渡
 DTSTART;TZID=Asia/Shanghai:20260713T084500
 DTEND;TZID=Asia/Shanghai:20260713T105500
-DESCRIPTION:07月13日 周一\n类型：摆渡\n事项：摆渡\n地点：航班 16:25- 23:20\n任务：08:45 - 10:55\n\n版本：2026-07-11 19:35
+DESCRIPTION:07月13日 周一\n类型：摆渡\n事项：摆渡\n地点：航班 16:25- 23:20\n任务：08:45 - 10:55\n\n版本：2026-07-11 20:16
 X-CONTENT-SIGNATURE:faa25f418f3b5571b87edf52b3151bed
 LOCATION:航班 16:25- 23:20
 BEGIN:VALARM
@@ -1803,12 +1803,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:7e61b73888dd91c07ebd51d5fb7fae9d@crew-calendar
+UID:432c385a66a5712a3bdb543627f6a8f9@crew-calendar
 SUMMARY:✈️ 9C7257 上海浦东→南昌昌北
 DTSTART;TZID=Asia/Shanghai:20260713T084500
 DTEND;TZID=Asia/Shanghai:20260713T105500
-DESCRIPTION:07月13日 周一\n类型：航班\n航班：9C7257\n航线：上海浦东 → 南昌昌北\n地点：南昌昌北\n签到：14:50｜南昌昌北\n任务：08:45 - 10:55\n机型：A320｜注册号：B327J\n\n人员名单：\n• 张亚(T2\,R)\n• 段洋硕\n• 唐晨(R)\n• 倪杰\n\n版本：2026-07-11 19:35
-X-CONTENT-SIGNATURE:74b200acf716ce92bb27bd42187b292b
+DESCRIPTION:07月13日 周一\n类型：航班\n航班：9C7257\n航线：上海浦东 → 南昌昌北\n地点：南昌昌北\n签到：14:50｜南昌昌北\n任务：08:45 - 10:55\n机型：A320｜注册号：B328H\n\n人员名单：\n• 张亚(T2\,R)\n• 段洋硕\n• 唐晨(R)\n• 倪杰\n\n版本：2026-07-11 20:16
+X-CONTENT-SIGNATURE:f1f8630807a35b499db928b16054bf23
 LOCATION:南昌昌北
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1817,12 +1817,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:4fa427bbf27306f634d13c48d31abcc7@crew-calendar
+UID:7991e144ba255189003836093435461e@crew-calendar
 SUMMARY:✈️ 9C7166 南昌昌北→西宁曹家堡
 DTSTART;TZID=Asia/Shanghai:20260713T162500
 DTEND;TZID=Asia/Shanghai:20260713T192000
-DESCRIPTION:07月13日 周一\n类型：航班\n航班：9C7166\n航线：南昌昌北 → 西宁曹家堡\n地点：南昌昌北\n签到：14:50｜南昌昌北\n任务：16:25 - 19:20\n机型：A320｜注册号：B327J\n\n人员名单：\n• 张亚(T2\,R)\n• 段洋硕\n• 唐晨(R)\n• 倪杰\n\n版本：2026-07-11 19:35
-X-CONTENT-SIGNATURE:5db71be6b27f5239b7d4084fe2897085
+DESCRIPTION:07月13日 周一\n类型：航班\n航班：9C7166\n航线：南昌昌北 → 西宁曹家堡\n地点：南昌昌北\n签到：14:50｜南昌昌北\n任务：16:25 - 19:20\n机型：A320｜注册号：B328H\n\n人员名单：\n• 张亚(T2\,R)\n• 段洋硕\n• 唐晨(R)\n• 倪杰\n\n版本：2026-07-11 20:16
+X-CONTENT-SIGNATURE:636d37d2a04f9fe25932d226981fbccd
 LOCATION:南昌昌北
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1863,7 +1863,7 @@ UID:29213f511f3d276072b9b06a1f11be2a@crew-calendar
 SUMMARY:📋 考勤
 DTSTART;TZID=Asia/Shanghai:20260724T000000
 DTEND;TZID=Asia/Shanghai:20260724T235900
-DESCRIPTION:07月24日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-11 19:35
+DESCRIPTION:07月24日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-11 20:16
 X-CONTENT-SIGNATURE:30a28e8a04273f293c8d70ba07239a1a
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1876,7 +1876,7 @@ UID:4a0215aa6fbf7103fac7999b8bf7af1e@crew-calendar
 SUMMARY:📋 考勤
 DTSTART;TZID=Asia/Shanghai:20260731T000000
 DTEND;TZID=Asia/Shanghai:20260731T235900
-DESCRIPTION:07月31日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-11 19:35
+DESCRIPTION:07月31日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-11 20:16
 X-CONTENT-SIGNATURE:b42b86da9b574e4bdb2422b793f12aed
 BEGIN:VALARM
 TRIGGER:-PT90M
