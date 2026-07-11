@@ -1,31 +1,45 @@
 {
   "status": "SUCCESS",
-  "target_date": "2026-07-09",
-  "generated_at_beijing": "2026-07-08T12:25:50.971130+08:00",
+  "target_date": "2026-07-13",
+  "generated_at_beijing": "2026-07-11T19:27:28.493132+08:00",
   "generator": "flight-prep-free-v12.5-airport-specific-20260705",
   "flight_numbers": [
     "9C7257",
     "9C7166"
   ],
   "airports": [
+    "上海浦东",
     "南昌昌北",
-    "西宁曹家堡",
-    "上海浦东"
+    "西宁曹家堡"
   ],
-  "group_output": "2026-07-09_航前准备.txt",
-  "detail_output": "2026-07-09_航前准备_详细版.txt",
+  "group_output": "2026-07-13_航前准备.txt",
+  "detail_output": "2026-07-13_航前准备_详细版.txt",
   "warnings": [
+    "上海浦东匹配最新机场特点章节：上海浦东机场（PVG/ZSPD）威胁识别及缓解措 + 上 海 / 浦 东 机 场 运 行 特 点（ZSPD）",
     "南昌昌北匹配最新机场特点章节：南昌昌北机场（KHN/ZSCN）威胁识别及缓解措 + 南 昌 / 昌 北 机 场 运 行 特 点（ZSCN）",
-    "西宁曹家堡匹配最新机场特点章节：西宁曹家堡机场（XNN/ZLXN）威胁识别及缓解 + 西 宁 / 曹 家 堡 机 场 运 行 特 点（ZLXN）",
-    "上海浦东匹配最新机场特点章节：上海浦东机场（PVG/ZSPD）威胁识别及缓解措 + 上 海 / 浦 东 机 场 运 行 特 点（ZSPD）"
+    "西宁曹家堡匹配最新机场特点章节：西宁曹家堡机场（XNN/ZLXN）威胁识别及缓解 + 西 宁 / 曹 家 堡 机 场 运 行 特 点（ZLXN）"
   ],
   "weather": {
+    "上海浦东": {
+      "icao": "ZSPD",
+      "source_used": "OUTSIDE_VALID_WINDOW",
+      "taf_validity_utc": [
+        "2026-07-11T12:00:00+00:00",
+        "2026-07-12T18:00:00+00:00"
+      ],
+      "relevant_times": [
+        "2026-07-13T08:45:00+08:00"
+      ],
+      "decoded": [],
+      "fetch_error": ""
+    },
     "南昌昌北": {
       "icao": "ZSCN",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [],
       "relevant_times": [
-        "2026-07-09T15:10:00+08:00"
+        "2026-07-13T10:55:00+08:00",
+        "2026-07-13T16:25:00+08:00"
       ],
       "decoded": [],
       "fetch_error": ""
@@ -35,29 +49,17 @@
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [],
       "relevant_times": [
-        "2026-07-09T18:00:00+08:00",
-        "2026-07-09T18:45:00+08:00"
-      ],
-      "decoded": [],
-      "fetch_error": ""
-    },
-    "上海浦东": {
-      "icao": "ZSPD",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-07-08T06:00:00+00:00",
-        "2026-07-09T12:00:00+00:00"
-      ],
-      "relevant_times": [
-        "2026-07-09T21:55:00+08:00"
+        "2026-07-13T19:20:00+08:00"
       ],
       "decoded": [],
       "fetch_error": ""
     }
   },
   "airport_experience_changes": [
-    "上海浦东: 2026-06-27 -> 2026-07-08",
-    "西宁曹家堡: 2026-04-09 -> 2026-07-08"
+    "南昌昌北: - -> 2026-07-08",
+    "南昌昌北: 2026-07-08 -> 2026-07-09",
+    "西宁曹家堡: 2026-07-08 -> 2026-07-09",
+    "上海浦东: 2026-07-08 -> 2026-07-09"
   ],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/airport_information_20260615.txt",
   "airport_information_version": 20260615

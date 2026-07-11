@@ -1,6 +1,6 @@
 {
   "rolling_days": 90,
-  "as_of": "2026-07-08",
+  "as_of": "2026-07-11",
   "airports": {
     "西安咸阳": {
       "last_operated": "2026-05-26",
@@ -21,9 +21,9 @@
       "within_90_days": true
     },
     "上海浦东": {
-      "last_operated": "2026-07-08",
+      "last_operated": "2026-07-09",
       "source": "completed_schedule_event",
-      "flight_number": "9C7165",
+      "flight_number": "9C7166",
       "within_90_days": true
     },
     "札幌新千岁": {
@@ -81,22 +81,22 @@
       "within_90_days": false
     },
     "西宁曹家堡": {
-      "last_operated": "2026-07-08",
+      "last_operated": "2026-07-09",
       "source": "completed_schedule_event",
-      "flight_number": "9C7165",
+      "flight_number": "9C7257",
       "within_90_days": true
     },
     "西宁": {
       "last_operated": "2026-04-09",
       "source": "completed_schedule_event",
       "flight_number": "9C6834",
-      "within_90_days": true
+      "within_90_days": false
     },
     "曹家堡上海虹桥": {
       "last_operated": "2026-04-09",
       "source": "completed_schedule_event",
       "flight_number": "9C6834",
-      "within_90_days": true
+      "within_90_days": false
     },
     "宁波栎社": {
       "last_operated": "2026-04-19",
@@ -240,6 +240,12 @@
       "last_operated": "2026-07-02",
       "source": "completed_schedule_event",
       "flight_number": "9C6601",
+      "within_90_days": true
+    },
+    "南昌昌北": {
+      "last_operated": "2026-07-09",
+      "source": "completed_schedule_event",
+      "flight_number": "9C7257",
       "within_90_days": true
     }
   },
