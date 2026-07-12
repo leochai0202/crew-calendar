@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-07-13",
-  "generated_at_beijing": "2026-07-12T01:38:28.796950+08:00",
+  "generated_at_beijing": "2026-07-12T12:32:57.696812+08:00",
   "generator": "flight-prep-free-v12.5-airport-specific-20260705",
   "flight_numbers": [
     "9C7257",
@@ -22,12 +22,18 @@
   "weather": {
     "上海浦东": {
       "icao": "ZSPD",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-07-12T06:00:00+00:00",
+        "2026-07-13T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-07-13T08:45:00+08:00"
       ],
-      "decoded": [],
+      "decoded": [
+        "能见度1203米",
+        "多云，云底约2000英尺"
+      ],
       "fetch_error": ""
     },
     "南昌昌北": {
