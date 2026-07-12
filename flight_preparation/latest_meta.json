@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-07-14",
-  "generated_at_beijing": "2026-07-12T19:33:34.621077+08:00",
+  "generated_at_beijing": "2026-07-13T01:39:36.186448+08:00",
   "generator": "flight-prep-free-v12.5-airport-specific-20260705",
   "flight_numbers": [
     "9C6899",
@@ -21,10 +21,7 @@
     "上海浦东": {
       "icao": "ZSPD",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-07-12T12:00:00+00:00",
-        "2026-07-13T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-07-14T18:30:00+08:00",
         "2026-07-14T23:25:00+08:00"
@@ -35,10 +32,7 @@
     "釜山金海": {
       "icao": "RKPK",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-07-12T12:00:00+00:00",
-        "2026-07-13T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-07-14T20:30:00+08:00",
         "2026-07-14T21:30:00+08:00"
