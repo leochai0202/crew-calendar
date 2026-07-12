@@ -1436,7 +1436,7 @@ UID:dc8a7e8abd462ef6149c60a82d766d2d@crew-calendar
 SUMMARY:✈️ 9C7257 上海浦东→南昌昌北
 DTSTART;TZID=Asia/Shanghai:20260713T084500
 DTEND;TZID=Asia/Shanghai:20260713T105500
-DESCRIPTION:07月13日 周一\n类型：航班\n航班：9C7257\n航线：上海浦东 → 南昌昌北\n地点：南昌昌北\n签到：14:50｜南昌昌北\n任务：08:45 - 10:55\n机型：A320｜注册号：B8592\n\n人员名单：\n• 张亚(T2\,R)\n• 段洋硕\n• 唐晨(R)\n• 倪杰\n\n版本：2026-07-12 18:59
+DESCRIPTION:07月13日 周一\n类型：航班\n航班：9C7257\n航线：上海浦东 → 南昌昌北\n地点：南昌昌北\n签到：14:50｜南昌昌北\n任务：08:45 - 10:55\n机型：A320｜注册号：B8592\n\n人员名单：\n• 张亚(T2\,R)\n• 段洋硕\n• 唐晨(R)\n• 倪杰\n\n版本：2026-07-12 19:42
 X-CONTENT-SIGNATURE:22a7672440de4b0dd2be8d0a8bb34c6e
 LOCATION:南昌昌北
 BEGIN:VALARM
@@ -1450,7 +1450,7 @@ UID:086338f31d7d378806d4207a1424047b@crew-calendar
 SUMMARY:✈️ 9C7166 南昌昌北→西宁曹家堡
 DTSTART;TZID=Asia/Shanghai:20260713T162500
 DTEND;TZID=Asia/Shanghai:20260713T192000
-DESCRIPTION:07月13日 周一\n类型：航班\n航班：9C7166\n航线：南昌昌北 → 西宁曹家堡\n地点：南昌昌北\n签到：14:50｜南昌昌北\n任务：16:25 - 19:20\n机型：A320｜注册号：B8592\n\n人员名单：\n• 张亚(T2\,R)\n• 段洋硕\n• 唐晨(R)\n• 倪杰\n\n版本：2026-07-12 18:59
+DESCRIPTION:07月13日 周一\n类型：航班\n航班：9C7166\n航线：南昌昌北 → 西宁曹家堡\n地点：南昌昌北\n签到：14:50｜南昌昌北\n任务：16:25 - 19:20\n机型：A320｜注册号：B8592\n\n人员名单：\n• 张亚(T2\,R)\n• 段洋硕\n• 唐晨(R)\n• 倪杰\n\n版本：2026-07-12 19:42
 X-CONTENT-SIGNATURE:09cd0366855998e5639fd431f161f938
 LOCATION:南昌昌北
 BEGIN:VALARM
@@ -1492,7 +1492,7 @@ UID:6dd05162a6f8434ffdd218ffb33a3dda@crew-calendar
 SUMMARY:✈️ 9C8935 上海浦东→长春龙嘉
 DTSTART;TZID=Asia/Shanghai:20260716T151000
 DTEND;TZID=Asia/Shanghai:20260716T175500
-DESCRIPTION:07月16日 周四\n类型：航班\n航班：9C8935\n航线：上海浦东 → 长春龙嘉\n地点：上海浦东\n签到：13:20｜上海浦东\n任务：15:10 - 17:55\n机型：A320｜注册号：B1627\n\n人员名单：\n• 徐宝建(R)\n• 段洋硕\n• 丁锋\n\n版本：2026-07-12 18:59
+DESCRIPTION:07月16日 周四\n类型：航班\n航班：9C8935\n航线：上海浦东 → 长春龙嘉\n地点：上海浦东\n签到：13:20｜上海浦东\n任务：15:10 - 17:55\n机型：A320｜注册号：B1627\n\n人员名单：\n• 徐宝建(R)\n• 段洋硕\n• 丁锋\n\n版本：2026-07-12 19:42
 X-CONTENT-SIGNATURE:600ed1c33d8941f0f0db21777ec266b2
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -1506,7 +1506,7 @@ UID:7c88ed42cf1f14328f9f7f3c6217dd0a@crew-calendar
 SUMMARY:✈️ 9C8545 长春龙嘉→宁波栎社
 DTSTART;TZID=Asia/Shanghai:20260716T190000
 DTEND;TZID=Asia/Shanghai:20260716T215500
-DESCRIPTION:07月16日 周四\n类型：航班\n航班：9C8545\n航线：长春龙嘉 → 宁波栎社\n地点：长春龙嘉\n签到：17:20｜长春龙嘉\n任务：19:00 - 21:55\n机型：A320｜注册号：B1627\n\n人员名单：\n• 徐宝建(R)\n• 段洋硕\n• 丁锋\n\n版本：2026-07-12 18:59
+DESCRIPTION:07月16日 周四\n类型：航班\n航班：9C8545\n航线：长春龙嘉 → 宁波栎社\n地点：长春龙嘉\n签到：17:20｜长春龙嘉\n任务：19:00 - 21:55\n机型：A320｜注册号：B1627\n\n人员名单：\n• 徐宝建(R)\n• 段洋硕\n• 丁锋\n\n版本：2026-07-12 19:42
 X-CONTENT-SIGNATURE:12242cb73f9cf10eb9607866900487c5
 LOCATION:长春龙嘉
 BEGIN:VALARM
