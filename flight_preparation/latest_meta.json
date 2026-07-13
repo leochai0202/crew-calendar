@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-07-14",
-  "generated_at_beijing": "2026-07-13T01:39:36.186448+08:00",
+  "generated_at_beijing": "2026-07-13T12:38:39.717114+08:00",
   "generator": "flight-prep-free-v12.5-airport-specific-20260705",
   "flight_numbers": [
     "9C6899",
@@ -20,19 +20,28 @@
   "weather": {
     "上海浦东": {
       "icao": "ZSPD",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-07-13T06:00:00+00:00",
+        "2026-07-14T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-07-14T18:30:00+08:00",
         "2026-07-14T23:25:00+08:00"
       ],
-      "decoded": [],
+      "decoded": [
+        "能见度1303米",
+        "多云，云底约2000英尺"
+      ],
       "fetch_error": ""
     },
     "釜山金海": {
       "icao": "RKPK",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-07-13T00:00:00+00:00",
+        "2026-07-14T06:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-07-14T20:30:00+08:00",
         "2026-07-14T21:30:00+08:00"
@@ -41,7 +50,10 @@
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [],
+  "airport_experience_changes": [
+    "上海浦东: 2026-07-09 -> 2026-07-13",
+    "南昌昌北: 2026-07-09 -> 2026-07-13"
+  ],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/airport_information_20260615.txt",
   "airport_information_version": 20260615
 }

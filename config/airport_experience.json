@@ -21,9 +21,9 @@
       "within_90_days": true
     },
     "上海浦东": {
-      "last_operated": "2026-07-09",
+      "last_operated": "2026-07-13",
       "source": "completed_schedule_event",
-      "flight_number": "9C7166",
+      "flight_number": "9C7257",
       "within_90_days": true
     },
     "札幌新千岁": {
@@ -243,7 +243,7 @@
       "within_90_days": true
     },
     "南昌昌北": {
-      "last_operated": "2026-07-09",
+      "last_operated": "2026-07-13",
       "source": "completed_schedule_event",
       "flight_number": "9C7257",
       "within_90_days": true
