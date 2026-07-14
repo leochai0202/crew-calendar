@@ -1,58 +1,68 @@
 {
   "status": "SUCCESS",
-  "target_date": "2026-07-14",
-  "generated_at_beijing": "2026-07-13T12:38:39.717114+08:00",
+  "target_date": "2026-07-16",
+  "generated_at_beijing": "2026-07-14T19:48:12.037227+08:00",
   "generator": "flight-prep-free-v12.5-airport-specific-20260705",
   "flight_numbers": [
-    "9C6899",
-    "9C6900"
+    "9C8935",
+    "9C8545"
   ],
   "airports": [
     "上海浦东",
-    "釜山金海"
+    "长春龙嘉",
+    "宁波栎社"
   ],
-  "group_output": "2026-07-14_航前准备.txt",
-  "detail_output": "2026-07-14_航前准备_详细版.txt",
+  "group_output": "2026-07-16_航前准备.txt",
+  "detail_output": "2026-07-16_航前准备_详细版.txt",
   "warnings": [
     "上海浦东匹配最新机场特点章节：上海浦东机场（PVG/ZSPD）威胁识别及缓解措 + 上 海 / 浦 东 机 场 运 行 特 点（ZSPD）",
-    "釜山金海匹配最新机场特点章节：釜山机场（RKPK）威胁识别及缓解措施表 + 釜山机场运行特点 Busan(PUS/RKPK)（RKPK）"
+    "长春龙嘉匹配最新机场特点章节：长春龙嘉机场（CGQ/ZYCC）威胁识别及缓解措 + 长 春 / 龙 嘉 机 场 运 行 特 点（ZYCC）",
+    "宁波栎社匹配最新机场特点章节：宁波栎社机场（NGB/ZSNB）威胁识别及缓解措 + 宁 波 / 栎 社 机 场 运 行 特 点（ZSNB）"
   ],
   "weather": {
     "上海浦东": {
       "icao": "ZSPD",
-      "source_used": "TAF",
-      "taf_validity_utc": [
-        "2026-07-13T06:00:00+00:00",
-        "2026-07-14T12:00:00+00:00"
-      ],
-      "relevant_times": [
-        "2026-07-14T18:30:00+08:00",
-        "2026-07-14T23:25:00+08:00"
-      ],
-      "decoded": [
-        "能见度1303米",
-        "多云，云底约2000英尺"
-      ],
-      "fetch_error": ""
-    },
-    "釜山金海": {
-      "icao": "RKPK",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-07-13T00:00:00+00:00",
-        "2026-07-14T06:00:00+00:00"
+        "2026-07-14T12:00:00+00:00",
+        "2026-07-15T18:00:00+00:00"
       ],
       "relevant_times": [
-        "2026-07-14T20:30:00+08:00",
-        "2026-07-14T21:30:00+08:00"
+        "2026-07-16T15:10:00+08:00"
+      ],
+      "decoded": [],
+      "fetch_error": ""
+    },
+    "长春龙嘉": {
+      "icao": "ZYCC",
+      "source_used": "OUTSIDE_VALID_WINDOW",
+      "taf_validity_utc": [
+        "2026-07-14T12:00:00+00:00",
+        "2026-07-15T12:00:00+00:00"
+      ],
+      "relevant_times": [
+        "2026-07-16T17:55:00+08:00",
+        "2026-07-16T19:00:00+08:00"
+      ],
+      "decoded": [],
+      "fetch_error": ""
+    },
+    "宁波栎社": {
+      "icao": "ZSNB",
+      "source_used": "OUTSIDE_VALID_WINDOW",
+      "taf_validity_utc": [
+        "2026-07-14T12:00:00+00:00",
+        "2026-07-15T12:00:00+00:00"
+      ],
+      "relevant_times": [
+        "2026-07-16T21:55:00+08:00"
       ],
       "decoded": [],
       "fetch_error": ""
     }
   },
   "airport_experience_changes": [
-    "上海浦东: 2026-07-09 -> 2026-07-13",
-    "南昌昌北: 2026-07-09 -> 2026-07-13"
+    "西宁曹家堡: 2026-07-09 -> 2026-07-13"
   ],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/airport_information_20260615.txt",
   "airport_information_version": 20260615
