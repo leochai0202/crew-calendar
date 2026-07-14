@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-07-16",
-  "generated_at_beijing": "2026-07-14T19:48:12.037227+08:00",
+  "generated_at_beijing": "2026-07-15T01:44:40.358172+08:00",
   "generator": "flight-prep-free-v12.5-airport-specific-20260705",
   "flight_numbers": [
     "9C8935",
@@ -23,10 +23,7 @@
     "上海浦东": {
       "icao": "ZSPD",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-07-14T12:00:00+00:00",
-        "2026-07-15T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-07-16T15:10:00+08:00"
       ],
@@ -37,8 +34,8 @@
       "icao": "ZYCC",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-07-14T12:00:00+00:00",
-        "2026-07-15T12:00:00+00:00"
+        "2026-07-14T18:00:00+00:00",
+        "2026-07-15T18:00:00+00:00"
       ],
       "relevant_times": [
         "2026-07-16T17:55:00+08:00",
@@ -51,8 +48,8 @@
       "icao": "ZSNB",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-07-14T12:00:00+00:00",
-        "2026-07-15T12:00:00+00:00"
+        "2026-07-14T18:00:00+00:00",
+        "2026-07-15T18:00:00+00:00"
       ],
       "relevant_times": [
         "2026-07-16T21:55:00+08:00"
@@ -62,7 +59,8 @@
     }
   },
   "airport_experience_changes": [
-    "西宁曹家堡: 2026-07-09 -> 2026-07-13"
+    "上海浦东: 2026-07-13 -> 2026-07-14",
+    "釜山金海: 2026-05-17 -> 2026-07-14"
   ],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/airport_information_20260615.txt",
   "airport_information_version": 20260615
