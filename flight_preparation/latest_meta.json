@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-07-17",
-  "generated_at_beijing": "2026-07-15T19:52:37.782149+08:00",
+  "generated_at_beijing": "2026-07-16T01:51:10.776435+08:00",
   "generator": "flight-prep-free-v12.5-airport-specific-20260705",
   "flight_numbers": [
     "9C7385",
@@ -22,8 +22,8 @@
       "icao": "ZSNB",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-07-15T12:00:00+00:00",
-        "2026-07-16T12:00:00+00:00"
+        "2026-07-15T18:00:00+00:00",
+        "2026-07-16T18:00:00+00:00"
       ],
       "relevant_times": [
         "2026-07-17T16:35:00+08:00",
@@ -36,8 +36,8 @@
       "icao": "ZJSY",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-07-15T12:00:00+00:00",
-        "2026-07-16T12:00:00+00:00"
+        "2026-07-15T18:00:00+00:00",
+        "2026-07-16T18:00:00+00:00"
       ],
       "relevant_times": [
         "2026-07-17T19:40:00+08:00",
