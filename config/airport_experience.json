@@ -21,9 +21,9 @@
       "within_90_days": true
     },
     "上海浦东": {
-      "last_operated": "2026-07-14",
+      "last_operated": "2026-07-16",
       "source": "completed_schedule_event",
-      "flight_number": "9C6899",
+      "flight_number": "9C8935",
       "within_90_days": true
     },
     "札幌新千岁": {
@@ -207,9 +207,9 @@
       "within_90_days": true
     },
     "长春龙嘉": {
-      "last_operated": "2026-06-15",
+      "last_operated": "2026-07-16",
       "source": "completed_schedule_event",
-      "flight_number": "9C7603Y",
+      "flight_number": "9C8935",
       "within_90_days": true
     },
     "丽江三义": {

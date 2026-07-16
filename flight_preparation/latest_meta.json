@@ -1,53 +1,70 @@
 {
   "status": "SUCCESS",
-  "target_date": "2026-07-17",
-  "generated_at_beijing": "2026-07-16T12:19:08.404297+08:00",
+  "target_date": "2026-07-18",
+  "generated_at_beijing": "2026-07-16T19:55:34.662101+08:00",
   "generator": "flight-prep-free-v12.5-airport-specific-20260705",
   "flight_numbers": [
-    "9C7385",
-    "9C7386"
+    "9C8546",
+    "9C8936"
   ],
   "airports": [
     "宁波栎社",
-    "三亚凤凰"
+    "长春龙嘉",
+    "上海浦东"
   ],
-  "group_output": "2026-07-17_航前准备.txt",
-  "detail_output": "2026-07-17_航前准备_详细版.txt",
+  "group_output": "2026-07-18_航前准备.txt",
+  "detail_output": "2026-07-18_航前准备_详细版.txt",
   "warnings": [
     "宁波栎社匹配最新机场特点章节：宁波栎社机场（NGB/ZSNB）威胁识别及缓解措 + 宁 波 / 栎 社 机 场 运 行 特 点（ZSNB）",
-    "三亚凤凰匹配最新机场特点章节：三亚凤凰机场（SYX/ZJSY）威胁识别与缓解措 + 三 亚 / 凤 凰 机 场 运 行 特 点（ZJSY）"
+    "长春龙嘉匹配最新机场特点章节：长春龙嘉机场（CGQ/ZYCC）威胁识别及缓解措 + 长 春 / 龙 嘉 机 场 运 行 特 点（ZYCC）",
+    "上海浦东匹配最新机场特点章节：上海浦东机场（PVG/ZSPD）威胁识别及缓解措 + 上 海 / 浦 东 机 场 运 行 特 点（ZSPD）"
   ],
   "weather": {
     "宁波栎社": {
       "icao": "ZSNB",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-07-16T06:00:00+00:00",
-        "2026-07-17T06:00:00+00:00"
+        "2026-07-16T12:00:00+00:00",
+        "2026-07-17T12:00:00+00:00"
       ],
       "relevant_times": [
-        "2026-07-17T16:35:00+08:00",
-        "2026-07-17T23:35:00+08:00"
+        "2026-07-18T15:30:00+08:00"
       ],
       "decoded": [],
       "fetch_error": ""
     },
-    "三亚凤凰": {
-      "icao": "ZJSY",
+    "长春龙嘉": {
+      "icao": "ZYCC",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-07-16T06:00:00+00:00",
-        "2026-07-17T06:00:00+00:00"
+        "2026-07-16T12:00:00+00:00",
+        "2026-07-17T12:00:00+00:00"
       ],
       "relevant_times": [
-        "2026-07-17T19:40:00+08:00",
-        "2026-07-17T20:45:00+08:00"
+        "2026-07-18T18:25:00+08:00",
+        "2026-07-18T19:30:00+08:00"
+      ],
+      "decoded": [],
+      "fetch_error": ""
+    },
+    "上海浦东": {
+      "icao": "ZSPD",
+      "source_used": "OUTSIDE_VALID_WINDOW",
+      "taf_validity_utc": [
+        "2026-07-16T12:00:00+00:00",
+        "2026-07-17T18:00:00+00:00"
+      ],
+      "relevant_times": [
+        "2026-07-18T22:20:00+08:00"
       ],
       "decoded": [],
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [],
+  "airport_experience_changes": [
+    "上海浦东: 2026-07-14 -> 2026-07-16",
+    "长春龙嘉: 2026-06-15 -> 2026-07-16"
+  ],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/airport_information_20260615.txt",
   "airport_information_version": 20260615
 }
