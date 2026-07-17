@@ -1520,8 +1520,8 @@ UID:51cc1e773a7c327f84d69c58ba3bd3bf@crew-calendar
 SUMMARY:✈️ 9C7385 宁波栎社→三亚凤凰
 DTSTART;TZID=Asia/Shanghai:20260717T163500
 DTEND;TZID=Asia/Shanghai:20260717T194000
-DESCRIPTION:07月17日 周五\n类型：航班\n航班：9C7385\n航线：宁波栎社 → 三亚凤凰\n地点：宁波栎社\n签到：14:50｜宁波栎社\n任务：16:35 - 19:40\n机型：A320｜注册号：B8873\n\n人员名单：\n• 徐宝建(R)\n• 段洋硕\n• 丁志彪(P\,B)\n\n版本：2026-07-16 21:02
-X-CONTENT-SIGNATURE:979f095b0fa3cc4dd9dbafcba31b94f0
+DESCRIPTION:07月17日 周五\n类型：航班\n航班：9C7385\n航线：宁波栎社 → 三亚凤凰\n地点：宁波栎社\n签到：14:50｜宁波栎社\n任务：16:35 - 19:40\n机型：A320｜注册号：B8873\n\n人员名单：\n• 徐宝建(R)\n• 段洋硕\n• 丁志彪(P\,B)\n\n版本：2026-07-17 09:43
+X-CONTENT-SIGNATURE:6a0137789d05d68266b5016710acda4e
 LOCATION:宁波栎社
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1534,8 +1534,8 @@ UID:7b69efb962536ed18eb4c59532c1131a@crew-calendar
 SUMMARY:✈️ 9C7386 三亚凤凰→宁波栎社
 DTSTART;TZID=Asia/Shanghai:20260717T204500
 DTEND;TZID=Asia/Shanghai:20260717T233500
-DESCRIPTION:07月17日 周五\n类型：航班\n航班：9C7386\n航线：三亚凤凰 → 宁波栎社\n地点：三亚凤凰\n签到：19:10｜三亚凤凰\n任务：20:45 - 23:35\n机型：A320｜注册号：B8873\n\n人员名单：\n• 徐宝建(R)\n• 段洋硕\n• 丁志彪(P\,B)\n\n版本：2026-07-16 21:02
-X-CONTENT-SIGNATURE:c167f30e0443c014b73e7538d085fbf6
+DESCRIPTION:07月17日 周五\n类型：航班\n航班：9C7386\n航线：三亚凤凰 → 宁波栎社\n地点：三亚凤凰\n签到：19:10｜三亚凤凰\n任务：20:45 - 23:35\n机型：A320｜注册号：B8873\n\n人员名单：\n• 徐宝建(R)\n• 段洋硕\n• 丁志彪(P\,B)\n\n版本：2026-07-17 09:43
+X-CONTENT-SIGNATURE:2b402d01cdde16d9a16d86826080a890
 LOCATION:三亚凤凰
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1548,8 +1548,8 @@ UID:71858c17a291b8adffa431c837beabeb@crew-calendar
 SUMMARY:✈️ 9C8546 宁波栎社→长春龙嘉
 DTSTART;TZID=Asia/Shanghai:20260718T153000
 DTEND;TZID=Asia/Shanghai:20260718T182500
-DESCRIPTION:07月18日 周六\n类型：航班\n航班：9C8546\n航线：宁波栎社 → 长春龙嘉\n地点：宁波栎社\n签到：13:45｜宁波栎社\n任务：15:30 - 18:25\n机型：A320｜注册号：B320L\n\n人员名单：\n• 徐宝建(R)\n• 段洋硕\n• 郜晨静\n\n版本：2026-07-16 21:02
-X-CONTENT-SIGNATURE:ce76edc1562a6309450d2364604d2a1e
+DESCRIPTION:07月18日 周六\n类型：航班\n航班：9C8546\n航线：宁波栎社 → 长春龙嘉\n地点：宁波栎社\n签到：13:45｜宁波栎社\n任务：15:30 - 18:25\n机型：A320｜注册号：B320L\n\n人员名单：\n• 徐宝建(R)\n• 段洋硕\n• 郜晨静(B)\n\n版本：2026-07-17 09:43
+X-CONTENT-SIGNATURE:95d626e8df84e8cf052c08ee64307ffe
 LOCATION:宁波栎社
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1562,8 +1562,8 @@ UID:69aa570b32a5b8ba73ae7711cc7aedc4@crew-calendar
 SUMMARY:✈️ 9C8936 长春龙嘉→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260718T193000
 DTEND;TZID=Asia/Shanghai:20260718T222000
-DESCRIPTION:07月18日 周六\n类型：航班\n航班：9C8936\n航线：长春龙嘉 → 上海浦东\n地点：长春龙嘉\n签到：17:55｜长春龙嘉\n任务：19:30 - 22:20\n机型：A320｜注册号：B320L\n\n人员名单：\n• 徐宝建(R)\n• 段洋硕\n• 郜晨静\n\n版本：2026-07-16 21:02
-X-CONTENT-SIGNATURE:a0c74e7e0c026a5ccadec9b88dfd5e95
+DESCRIPTION:07月18日 周六\n类型：航班\n航班：9C8936\n航线：长春龙嘉 → 上海浦东\n地点：长春龙嘉\n签到：17:55｜长春龙嘉\n任务：19:30 - 22:20\n机型：A320｜注册号：B320L\n\n人员名单：\n• 徐宝建(R)\n• 段洋硕\n• 郜晨静(B)\n\n版本：2026-07-17 09:43
+X-CONTENT-SIGNATURE:069e237bd94a85d42f8e84096eed674a
 LOCATION:长春龙嘉
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1576,8 +1576,8 @@ UID:089d1239f1b70f6737f1608aedbdefb8@crew-calendar
 SUMMARY:✈️ 9C8551 上海浦东→新加坡樟宜(+1)
 DTSTART;TZID=Asia/Shanghai:20260721T233000
 DTEND;TZID=Asia/Shanghai:20260722T051500
-DESCRIPTION:07月21日 周二\n类型：航班\n航班：9C8551\n航线：上海浦东 → 新加坡樟宜(+1)\n地点：上海浦东\n签到：21:25｜上海浦东\n任务：23:30 - 05:15\n机型：A320｜注册号：B32CP\n\n人员名单：\n• 左争世(R)\n• 段洋硕\n• 罗一敏\n\n版本：2026-07-16 21:02
-X-CONTENT-SIGNATURE:1595916f9121c23111b170999e5bda78
+DESCRIPTION:07月21日 周二\n类型：航班\n航班：9C8551\n航线：上海浦东 → 新加坡樟宜(+1)\n地点：上海浦东\n签到：21:25｜上海浦东\n任务：23:30 - 05:15\n机型：A320｜注册号：B32CP\n\n人员名单：\n• 左争世(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-07-17 09:43
+X-CONTENT-SIGNATURE:1ee64e04f0546ee112d0f0e46e060eda
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
