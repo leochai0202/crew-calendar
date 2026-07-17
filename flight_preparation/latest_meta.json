@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-07-18",
-  "generated_at_beijing": "2026-07-17T01:49:20.796529+08:00",
+  "generated_at_beijing": "2026-07-17T12:17:32.948484+08:00",
   "generator": "flight-prep-free-v12.5-airport-specific-20260705",
   "flight_numbers": [
     "9C8546",
@@ -24,8 +24,8 @@
       "icao": "ZSNB",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-07-16T18:00:00+00:00",
-        "2026-07-17T18:00:00+00:00"
+        "2026-07-17T06:00:00+00:00",
+        "2026-07-18T06:00:00+00:00"
       ],
       "relevant_times": [
         "2026-07-18T15:30:00+08:00"
@@ -37,8 +37,8 @@
       "icao": "ZYCC",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-07-16T18:00:00+00:00",
-        "2026-07-17T18:00:00+00:00"
+        "2026-07-17T06:00:00+00:00",
+        "2026-07-18T06:00:00+00:00"
       ],
       "relevant_times": [
         "2026-07-18T18:25:00+08:00",
@@ -50,7 +50,10 @@
     "上海浦东": {
       "icao": "ZSPD",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-07-17T06:00:00+00:00",
+        "2026-07-18T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-07-18T22:20:00+08:00"
       ],
@@ -58,9 +61,7 @@
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [
-    "宁波栎社: 2026-04-19 -> 2026-07-16"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/airport_information_20260615.txt",
   "airport_information_version": 20260615
 }
