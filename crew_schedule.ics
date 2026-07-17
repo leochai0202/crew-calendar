@@ -1891,7 +1891,7 @@ UID:51cc1e773a7c327f84d69c58ba3bd3bf@crew-calendar
 SUMMARY:✈️ 9C7385 宁波栎社→三亚凤凰
 DTSTART;TZID=Asia/Shanghai:20260717T163500
 DTEND;TZID=Asia/Shanghai:20260717T194000
-DESCRIPTION:07月17日 周五\n类型：航班\n航班：9C7385\n航线：宁波栎社 → 三亚凤凰\n地点：宁波栎社\n签到：14:50｜宁波栎社\n任务：16:35 - 19:40\n机型：A320｜注册号：B8873\n\n人员名单：\n• 徐宝建(R)\n• 段洋硕\n• 丁志彪(P\,B)\n\n版本：2026-07-17 09:43
+DESCRIPTION:07月17日 周五\n类型：航班\n航班：9C7385\n航线：宁波栎社 → 三亚凤凰\n地点：宁波栎社\n签到：14:50｜宁波栎社\n任务：16:35 - 19:40\n机型：A320｜注册号：B8873\n\n人员名单：\n• ALVARO CEMBRANOS GARCIA(R)\n• 徐宝建(R)\n• 段洋硕\n• 丁志彪(P\,B)\n\n版本：2026-07-17 10:09
 X-CONTENT-SIGNATURE:6a0137789d05d68266b5016710acda4e
 LOCATION:宁波栎社
 BEGIN:VALARM
@@ -1905,7 +1905,7 @@ UID:7b69efb962536ed18eb4c59532c1131a@crew-calendar
 SUMMARY:✈️ 9C7386 三亚凤凰→宁波栎社
 DTSTART;TZID=Asia/Shanghai:20260717T204500
 DTEND;TZID=Asia/Shanghai:20260717T233500
-DESCRIPTION:07月17日 周五\n类型：航班\n航班：9C7386\n航线：三亚凤凰 → 宁波栎社\n地点：三亚凤凰\n签到：19:10｜三亚凤凰\n任务：20:45 - 23:35\n机型：A320｜注册号：B8873\n\n人员名单：\n• 徐宝建(R)\n• 段洋硕\n• 丁志彪(P\,B)\n\n版本：2026-07-17 09:43
+DESCRIPTION:07月17日 周五\n类型：航班\n航班：9C7386\n航线：三亚凤凰 → 宁波栎社\n地点：三亚凤凰\n签到：19:10｜三亚凤凰\n任务：20:45 - 23:35\n机型：A320｜注册号：B8873\n\n人员名单：\n• ALVARO CEMBRANOS GARCIA(R)\n• 徐宝建(R)\n• 段洋硕\n• 丁志彪(P\,B)\n\n版本：2026-07-17 10:09
 X-CONTENT-SIGNATURE:2b402d01cdde16d9a16d86826080a890
 LOCATION:三亚凤凰
 BEGIN:VALARM
@@ -1919,7 +1919,7 @@ UID:71858c17a291b8adffa431c837beabeb@crew-calendar
 SUMMARY:✈️ 9C8546 宁波栎社→长春龙嘉
 DTSTART;TZID=Asia/Shanghai:20260718T153000
 DTEND;TZID=Asia/Shanghai:20260718T182500
-DESCRIPTION:07月18日 周六\n类型：航班\n航班：9C8546\n航线：宁波栎社 → 长春龙嘉\n地点：宁波栎社\n签到：13:45｜宁波栎社\n任务：15:30 - 18:25\n机型：A320｜注册号：B320L\n\n人员名单：\n• 徐宝建(R)\n• 段洋硕\n• 郜晨静(B)\n\n版本：2026-07-17 09:43
+DESCRIPTION:07月18日 周六\n类型：航班\n航班：9C8546\n航线：宁波栎社 → 长春龙嘉\n地点：宁波栎社\n签到：13:45｜宁波栎社\n任务：15:30 - 18:25\n机型：A320｜注册号：B320L\n\n人员名单：\n• ALVARO CEMBRANOS GARCIA(R)\n• 徐宝建(R)\n• 段洋硕\n• 郜晨静(B)\n\n版本：2026-07-17 10:09
 X-CONTENT-SIGNATURE:95d626e8df84e8cf052c08ee64307ffe
 LOCATION:宁波栎社
 BEGIN:VALARM
@@ -1933,7 +1933,7 @@ UID:69aa570b32a5b8ba73ae7711cc7aedc4@crew-calendar
 SUMMARY:✈️ 9C8936 长春龙嘉→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260718T193000
 DTEND;TZID=Asia/Shanghai:20260718T222000
-DESCRIPTION:07月18日 周六\n类型：航班\n航班：9C8936\n航线：长春龙嘉 → 上海浦东\n地点：长春龙嘉\n签到：17:55｜长春龙嘉\n任务：19:30 - 22:20\n机型：A320｜注册号：B320L\n\n人员名单：\n• 徐宝建(R)\n• 段洋硕\n• 郜晨静(B)\n\n版本：2026-07-17 09:43
+DESCRIPTION:07月18日 周六\n类型：航班\n航班：9C8936\n航线：长春龙嘉 → 上海浦东\n地点：长春龙嘉\n签到：17:55｜长春龙嘉\n任务：19:30 - 22:20\n机型：A320｜注册号：B320L\n\n人员名单：\n• ALVARO CEMBRANOS GARCIA(R)\n• 徐宝建(R)\n• 段洋硕\n• 郜晨静(B)\n\n版本：2026-07-17 10:09
 X-CONTENT-SIGNATURE:069e237bd94a85d42f8e84096eed674a
 LOCATION:长春龙嘉
 BEGIN:VALARM
@@ -1943,12 +1943,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:089d1239f1b70f6737f1608aedbdefb8@crew-calendar
+UID:9809d4288af4883e83fe7b1b948e5db6@crew-calendar
 SUMMARY:✈️ 9C8551 上海浦东→新加坡樟宜(+1)
 DTSTART;TZID=Asia/Shanghai:20260721T233000
 DTEND;TZID=Asia/Shanghai:20260722T051500
-DESCRIPTION:07月21日 周二\n类型：航班\n航班：9C8551\n航线：上海浦东 → 新加坡樟宜(+1)\n地点：上海浦东\n签到：21:25｜上海浦东\n任务：23:30 - 05:15\n机型：A320｜注册号：B32CP\n\n人员名单：\n• 左争世(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-07-17 09:43
-X-CONTENT-SIGNATURE:1ee64e04f0546ee112d0f0e46e060eda
+DESCRIPTION:07月21日 周二\n类型：航班\n航班：9C8551\n航线：上海浦东 → 新加坡樟宜(+1)\n地点：上海浦东\n签到：21:25｜上海浦东\n任务：23:30 - 05:15\n机型：A320｜注册号：B32D5\n\n人员名单：\n• MARQUES SANTANNA HELIO(R)\n• 左争世(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-07-17 10:09
+X-CONTENT-SIGNATURE:94be025a82adc6a6cee8ed2a9b09bc5e
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1961,7 +1961,7 @@ UID:29213f511f3d276072b9b06a1f11be2a@crew-calendar
 SUMMARY:📋 考勤
 DTSTART;TZID=Asia/Shanghai:20260724T000000
 DTEND;TZID=Asia/Shanghai:20260724T235900
-DESCRIPTION:07月24日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-17 09:43
+DESCRIPTION:07月24日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-17 10:09
 X-CONTENT-SIGNATURE:30a28e8a04273f293c8d70ba07239a1a
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1974,7 +1974,7 @@ UID:4a0215aa6fbf7103fac7999b8bf7af1e@crew-calendar
 SUMMARY:📋 考勤
 DTSTART;TZID=Asia/Shanghai:20260731T000000
 DTEND;TZID=Asia/Shanghai:20260731T235900
-DESCRIPTION:07月31日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-17 09:43
+DESCRIPTION:07月31日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-17 10:09
 X-CONTENT-SIGNATURE:b42b86da9b574e4bdb2422b793f12aed
 BEGIN:VALARM
 TRIGGER:-PT90M
