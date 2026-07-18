@@ -1919,7 +1919,7 @@ UID:0123631de23648707148417c3ad6734a@crew-calendar
 SUMMARY:✈️ 9C8546 宁波栎社→长春龙嘉
 DTSTART;TZID=Asia/Shanghai:20260718T153000
 DTEND;TZID=Asia/Shanghai:20260718T182500
-DESCRIPTION:07月18日 周六\n类型：航班\n航班：9C8546\n航线：宁波栎社 → 长春龙嘉\n地点：宁波栎社\n签到：13:45｜宁波栎社\n任务：15:30 - 18:25\n机型：A320｜注册号：B30D7\n\n人员名单：\n• ALVARO CEMBRANOS GARCIA(R)\n• 徐宝建(R)\n• 段洋硕\n• 郜晨静(B)\n\n版本：2026-07-18 19:35
+DESCRIPTION:07月18日 周六\n类型：航班\n航班：9C8546\n航线：宁波栎社 → 长春龙嘉\n地点：宁波栎社\n签到：13:45｜宁波栎社\n任务：15:30 - 18:25\n机型：A320｜注册号：B30D7\n\n人员名单：\n• ALVARO CEMBRANOS GARCIA(R)\n• 徐宝建(R)\n• 段洋硕\n• 郜晨静(B)\n\n版本：2026-07-18 20:14
 X-CONTENT-SIGNATURE:9ec69060c14c9ecca98d63b17dc71074
 LOCATION:宁波栎社
 BEGIN:VALARM
@@ -1933,7 +1933,7 @@ UID:bd632640bebc629addda5a4498ff6218@crew-calendar
 SUMMARY:✈️ 9C8936 长春龙嘉→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260718T193000
 DTEND;TZID=Asia/Shanghai:20260718T222000
-DESCRIPTION:07月18日 周六\n类型：航班\n航班：9C8936\n航线：长春龙嘉 → 上海浦东\n地点：长春龙嘉\n签到：17:55｜长春龙嘉\n任务：19:30 - 22:20\n机型：A320｜注册号：B30D7\n\n人员名单：\n• ALVARO CEMBRANOS GARCIA(R)\n• 徐宝建(R)\n• 段洋硕\n• 郜晨静(B)\n\n版本：2026-07-18 19:35
+DESCRIPTION:07月18日 周六\n类型：航班\n航班：9C8936\n航线：长春龙嘉 → 上海浦东\n地点：长春龙嘉\n签到：17:55｜长春龙嘉\n任务：19:30 - 22:20\n机型：A320｜注册号：B30D7\n\n人员名单：\n• ALVARO CEMBRANOS GARCIA(R)\n• 徐宝建(R)\n• 段洋硕\n• 郜晨静(B)\n\n版本：2026-07-18 20:14
 X-CONTENT-SIGNATURE:6034e3423a843061236fa1776d31cc22
 LOCATION:长春龙嘉
 BEGIN:VALARM
@@ -1947,7 +1947,7 @@ UID:9c43f202a8ed34f0bc27a9ba31e2852b@crew-calendar
 SUMMARY:✈️ 9C8551 上海浦东→新加坡樟宜(+1)
 DTSTART;TZID=Asia/Shanghai:20260721T233000
 DTEND;TZID=Asia/Shanghai:20260722T051500
-DESCRIPTION:07月21日 周二\n类型：航班\n航班：9C8551\n航线：上海浦东 → 新加坡樟宜(+1)\n地点：上海浦东\n签到：21:25｜上海浦东\n任务：23:30 - 05:15\n机型：A320｜注册号：B308V\n\n人员名单：\n• MARQUES SANTANNA HELIO(R)\n• 左争世(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-07-18 19:35
+DESCRIPTION:07月21日 周二\n类型：航班\n航班：9C8551\n航线：上海浦东 → 新加坡樟宜(+1)\n地点：上海浦东\n签到：21:25｜上海浦东\n任务：23:30 - 05:15\n机型：A320｜注册号：B308V\n\n人员名单：\n• MARQUES SANTANNA HELIO(R)\n• 左争世(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-07-18 20:14
 X-CONTENT-SIGNATURE:1676facfea53741795c529e3722627d0
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -1961,7 +1961,7 @@ UID:5373cdf8f339a47f287a07baf5139e59@crew-calendar
 SUMMARY:✈️ 9C8552 新加坡樟宜→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260723T061500
 DTEND;TZID=Asia/Shanghai:20260723T114000
-DESCRIPTION:07月23日 周四\n类型：航班\n航班：9C8552\n航线：新加坡樟宜 → 上海浦东\n地点：新加坡樟宜\n签到：04:25｜新加坡樟宜\n任务：06:15 - 11:40\n机型：A320｜注册号：B324G\n\n人员名单：\n• MARQUES SANTANNA HELIO(R)\n• 左争世(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-07-18 19:35
+DESCRIPTION:07月23日 周四\n类型：航班\n航班：9C8552\n航线：新加坡樟宜 → 上海浦东\n地点：新加坡樟宜\n签到：04:25｜新加坡樟宜\n任务：06:15 - 11:40\n机型：A320｜注册号：B324G\n\n人员名单：\n• MARQUES SANTANNA HELIO(R)\n• 左争世(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-07-18 20:14
 X-CONTENT-SIGNATURE:008ce99e953b9030139801e64affd34d
 LOCATION:新加坡樟宜
 BEGIN:VALARM
@@ -1975,7 +1975,7 @@ UID:29213f511f3d276072b9b06a1f11be2a@crew-calendar
 SUMMARY:📋 考勤
 DTSTART;TZID=Asia/Shanghai:20260724T000000
 DTEND;TZID=Asia/Shanghai:20260724T235900
-DESCRIPTION:07月24日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-18 19:35
+DESCRIPTION:07月24日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-18 20:14
 X-CONTENT-SIGNATURE:30a28e8a04273f293c8d70ba07239a1a
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -1988,7 +1988,7 @@ UID:4a0215aa6fbf7103fac7999b8bf7af1e@crew-calendar
 SUMMARY:📋 考勤
 DTSTART;TZID=Asia/Shanghai:20260731T000000
 DTEND;TZID=Asia/Shanghai:20260731T235900
-DESCRIPTION:07月31日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-18 19:35
+DESCRIPTION:07月31日 周五\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-18 20:14
 X-CONTENT-SIGNATURE:b42b86da9b574e4bdb2422b793f12aed
 BEGIN:VALARM
 TRIGGER:-PT90M
