@@ -1,6 +1,6 @@
 {
   "rolling_days": 90,
-  "as_of": "2026-07-17",
+  "as_of": "2026-07-19",
   "airports": {
     "西安咸阳": {
       "last_operated": "2026-05-26",
@@ -21,9 +21,9 @@
       "within_90_days": true
     },
     "上海浦东": {
-      "last_operated": "2026-07-16",
+      "last_operated": "2026-07-18",
       "source": "completed_schedule_event",
-      "flight_number": "9C8935",
+      "flight_number": "9C8936",
       "within_90_days": true
     },
     "札幌新千岁": {
@@ -48,7 +48,7 @@
       "last_operated": "2026-04-18",
       "source": "completed_schedule_event",
       "flight_number": "9C6319",
-      "within_90_days": true
+      "within_90_days": false
     },
     "揭阳潮汕": {
       "last_operated": "2026-06-15",
@@ -99,9 +99,9 @@
       "within_90_days": false
     },
     "宁波栎社": {
-      "last_operated": "2026-07-16",
+      "last_operated": "2026-07-18",
       "source": "completed_schedule_event",
-      "flight_number": "9C8545",
+      "flight_number": "9C8546",
       "within_90_days": true
     },
     "石家庄正定": {
@@ -114,19 +114,19 @@
       "last_operated": "2026-04-18",
       "source": "completed_schedule_event",
       "flight_number": "9C6319",
-      "within_90_days": true
+      "within_90_days": false
     },
     "庄正定泉州晋江": {
       "last_operated": "2026-04-18",
       "source": "completed_schedule_event",
       "flight_number": "9C6319",
-      "within_90_days": true
+      "within_90_days": false
     },
     "天津滨海": {
       "last_operated": "2026-04-19",
       "source": "completed_schedule_event",
       "flight_number": "9C8519",
-      "within_90_days": true
+      "within_90_days": false
     },
     "名古屋中部": {
       "last_operated": "2026-05-15",
@@ -207,9 +207,9 @@
       "within_90_days": true
     },
     "长春龙嘉": {
-      "last_operated": "2026-07-16",
+      "last_operated": "2026-07-18",
       "source": "completed_schedule_event",
-      "flight_number": "9C8935",
+      "flight_number": "9C8546",
       "within_90_days": true
     },
     "丽江三义": {
@@ -246,6 +246,12 @@
       "last_operated": "2026-07-13",
       "source": "completed_schedule_event",
       "flight_number": "9C7257",
+      "within_90_days": true
+    },
+    "三亚凤凰": {
+      "last_operated": "2026-07-17",
+      "source": "completed_schedule_event",
+      "flight_number": "9C7385",
       "within_90_days": true
     }
   },
