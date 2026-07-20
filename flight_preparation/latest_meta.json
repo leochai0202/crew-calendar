@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-07-21",
-  "generated_at_beijing": "2026-07-20T01:38:03.504367+08:00",
+  "generated_at_beijing": "2026-07-20T12:46:53.441268+08:00",
   "generator": "flight-prep-free-v12.5-airport-specific-20260705",
   "flight_numbers": [
     "9C8551"
@@ -20,7 +20,10 @@
     "上海浦东": {
       "icao": "ZSPD",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-07-20T06:00:00+00:00",
+        "2026-07-21T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-07-21T23:30:00+08:00"
       ],
@@ -31,8 +34,8 @@
       "icao": "WSSS",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-07-19T18:00:00+00:00",
-        "2026-07-21T00:00:00+00:00"
+        "2026-07-20T00:00:00+00:00",
+        "2026-07-21T06:00:00+00:00"
       ],
       "relevant_times": [
         "2026-07-22T05:15:00+08:00"
