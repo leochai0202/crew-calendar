@@ -1576,7 +1576,7 @@ UID:d027d90e9a39c1586af4a099061ef77f@crew-calendar
 SUMMARY:✈️ 9C8551 上海浦东→新加坡樟宜(+1)
 DTSTART;TZID=Asia/Shanghai:20260721T233000
 DTEND;TZID=Asia/Shanghai:20260722T051500
-DESCRIPTION:07月21日 周二\n类型：航班\n航班：9C8551\n航线：上海浦东 → 新加坡樟宜(+1)\n地点：上海浦东\n签到：21:25｜上海浦东\n任务：23:30 - 05:15\n机型：A320｜注册号：B32FM\n\n人员名单：\n• MARQUES SANTANNA HELIO(R)\n• 左争世(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-07-19 20:15
+DESCRIPTION:07月21日 周二\n类型：航班\n航班：9C8551\n航线：上海浦东 → 新加坡樟宜(+1)\n地点：上海浦东\n签到：21:25｜上海浦东\n任务：23:30 - 05:15\n机型：A320｜注册号：B32FM\n\n人员名单：\n• MARQUES SANTANNA HELIO(R)\n• 左争世(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-07-20 20:07
 X-CONTENT-SIGNATURE:7de12ef9e30d253bfad748e6ccd806d8
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -1586,12 +1586,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:a5d9654523aa03660280e783a90735d3@crew-calendar
+UID:de9398449a6ce2fd4f4e3f513fa502a9@crew-calendar
 SUMMARY:✈️ 9C8552 新加坡樟宜→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260723T061500
 DTEND;TZID=Asia/Shanghai:20260723T114000
-DESCRIPTION:07月23日 周四\n类型：航班\n航班：9C8552\n航线：新加坡樟宜 → 上海浦东\n地点：新加坡樟宜\n签到：04:25｜新加坡樟宜\n任务：06:15 - 11:40\n机型：A320｜注册号：B32CP\n\n人员名单：\n• MARQUES SANTANNA HELIO(R)\n• 左争世(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-07-19 20:15
-X-CONTENT-SIGNATURE:d063ef20aaf244ec3d2379e95cdaf53c
+DESCRIPTION:07月23日 周四\n类型：航班\n航班：9C8552\n航线：新加坡樟宜 → 上海浦东\n地点：新加坡樟宜\n签到：04:25｜新加坡樟宜\n任务：06:15 - 11:40\n机型：A320｜注册号：B30DD\n\n人员名单：\n• MARQUES SANTANNA HELIO(R)\n• 左争世(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-07-20 20:07
+X-CONTENT-SIGNATURE:3c35237a5423f48f0af81769d5292d41
 LOCATION:新加坡樟宜
 BEGIN:VALARM
 TRIGGER:-PT90M
