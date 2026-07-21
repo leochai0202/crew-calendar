@@ -1,44 +1,45 @@
 {
   "status": "SUCCESS",
-  "target_date": "2026-07-21",
-  "generated_at_beijing": "2026-07-20T12:46:53.441268+08:00",
+  "target_date": "2026-07-23",
+  "generated_at_beijing": "2026-07-21T20:02:30.535214+08:00",
   "generator": "flight-prep-free-v12.5-airport-specific-20260705",
   "flight_numbers": [
-    "9C8551"
+    "9C8552"
   ],
   "airports": [
-    "上海浦东",
-    "新加坡樟宜"
+    "新加坡樟宜",
+    "上海浦东"
   ],
-  "group_output": "2026-07-21_航前准备.txt",
-  "detail_output": "2026-07-21_航前准备_详细版.txt",
+  "group_output": "2026-07-23_航前准备.txt",
+  "detail_output": "2026-07-23_航前准备_详细版.txt",
   "warnings": [
-    "上海浦东匹配最新机场特点章节：上海浦东机场（PVG/ZSPD）威胁识别及缓解措 + 上 海 / 浦 东 机 场 运 行 特 点（ZSPD）",
-    "新加坡樟宜匹配最新机场特点章节：新加坡樟宜机场（SIN/WSSS）威胁识别及缓解（WSSS）"
+    "新加坡樟宜天气获取提示：METAR获取失败: HTTPError: 502 Server Error: Bad Gateway for url: https://aviationweather.gov/api/data/metar?ids=WSSS&format=raw",
+    "新加坡樟宜匹配最新机场特点章节：新加坡樟宜机场（SIN/WSSS）威胁识别及缓解（WSSS）",
+    "上海浦东匹配最新机场特点章节：上海浦东机场（PVG/ZSPD）威胁识别及缓解措 + 上 海 / 浦 东 机 场 运 行 特 点（ZSPD）"
   ],
   "weather": {
-    "上海浦东": {
-      "icao": "ZSPD",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-07-20T06:00:00+00:00",
-        "2026-07-21T12:00:00+00:00"
-      ],
-      "relevant_times": [
-        "2026-07-21T23:30:00+08:00"
-      ],
-      "decoded": [],
-      "fetch_error": ""
-    },
     "新加坡樟宜": {
       "icao": "WSSS",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-07-20T00:00:00+00:00",
-        "2026-07-21T06:00:00+00:00"
+        "2026-07-21T12:00:00+00:00",
+        "2026-07-22T18:00:00+00:00"
       ],
       "relevant_times": [
-        "2026-07-22T05:15:00+08:00"
+        "2026-07-23T06:15:00+08:00"
+      ],
+      "decoded": [],
+      "fetch_error": "METAR获取失败: HTTPError: 502 Server Error: Bad Gateway for url: https://aviationweather.gov/api/data/metar?ids=WSSS&format=raw"
+    },
+    "上海浦东": {
+      "icao": "ZSPD",
+      "source_used": "OUTSIDE_VALID_WINDOW",
+      "taf_validity_utc": [
+        "2026-07-21T12:00:00+00:00",
+        "2026-07-22T18:00:00+00:00"
+      ],
+      "relevant_times": [
+        "2026-07-23T11:40:00+08:00"
       ],
       "decoded": [],
       "fetch_error": ""
