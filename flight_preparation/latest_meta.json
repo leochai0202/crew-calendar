@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-07-23",
-  "generated_at_beijing": "2026-07-22T01:56:13.134661+08:00",
+  "generated_at_beijing": "2026-07-22T12:27:36.745650+08:00",
   "generator": "flight-prep-free-v12.5-airport-specific-20260705",
   "flight_numbers": [
     "9C8552"
@@ -21,14 +21,14 @@
       "icao": "WSSS",
       "source_used": "TAF",
       "taf_validity_utc": [
-        "2026-07-21T18:00:00+00:00",
-        "2026-07-23T00:00:00+00:00"
+        "2026-07-22T03:00:00+00:00",
+        "2026-07-23T06:00:00+00:00"
       ],
       "relevant_times": [
         "2026-07-23T06:15:00+08:00"
       ],
       "decoded": [
-        "能见度1700米",
+        "能见度1900米",
         "雷雨",
         "多云，云底约1500英尺"
       ],
@@ -36,16 +36,25 @@
     },
     "上海浦东": {
       "icao": "ZSPD",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-07-22T06:00:00+00:00",
+        "2026-07-23T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-07-23T11:40:00+08:00"
       ],
-      "decoded": [],
+      "decoded": [
+        "能见度1900米",
+        "雷雨"
+      ],
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [],
+  "airport_experience_changes": [
+    "上海浦东: 2026-07-18 -> 2026-07-21",
+    "新加坡樟宜: - -> 2026-07-21"
+  ],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/airport_information_20260615.txt",
   "airport_information_version": 20260615
 }
