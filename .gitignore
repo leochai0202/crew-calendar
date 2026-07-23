@@ -1,0 +1,5 @@
+playwright/.auth/
+playwright/.auth-diagnostics/
+*.storage-state.json
+crew-auth-session*.json
+.env

@@ -1,0 +1,48 @@
+name: Crew authentication session check
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: crew-authentication-session-check
+  cancel-in-progress: true
+
+jobs:
+  check-authentication:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Playwright
+        run: |
+          python -m pip install --disable-pip-version-check playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Check authentication session
+        env:
+          CREW_STORAGE_STATE_B64: ${{ secrets.CREW_STORAGE_STATE_B64 }}
+          CREW_AUTH_TEMP_DIR: ${{ runner.temp }}/crew-auth-session
+        run: |
+          mkdir -p "$CREW_AUTH_TEMP_DIR"
+          python crew_auth_session.py \
+            --check-secret-env CREW_STORAGE_STATE_B64
+
+      - name: Remove temporary authentication files
+        if: always()
+        env:
+          CREW_AUTH_TEMP_DIR: ${{ runner.temp }}/crew-auth-session
+        run: |
+          if [ -d "$CREW_AUTH_TEMP_DIR" ]; then
+            rm -rf -- "$CREW_AUTH_TEMP_DIR"
+          fi
