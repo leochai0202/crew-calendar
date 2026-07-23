@@ -19,7 +19,10 @@ REAL_PDF = (
     / "AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
 )
 REAL_TARGET_DATE = "2026-07-08"
-KEY_AIRPORTS = ("上海浦东", "西宁曹家堡", "南昌昌北")
+REAL_FLIGHT_NUMBER = "9C7165"
+REAL_DEPARTURE = "上海浦东"
+REAL_ARRIVAL = "西宁曹家堡"
+KEY_AIRPORTS = (REAL_DEPARTURE, REAL_ARRIVAL)
 
 
 def test_pdf_20260720_outranks_txt_20260615(tmp_path: Path) -> None:
@@ -232,6 +235,12 @@ def _run_real_task(
             str(repo),
             "--target-date",
             REAL_TARGET_DATE,
+            "--flight-number",
+            REAL_FLIGHT_NUMBER,
+            "--departure",
+            REAL_DEPARTURE,
+            "--arrival",
+            REAL_ARRIVAL,
         ],
     )
     agent.extract_pdf_text.cache_clear()
@@ -304,7 +313,7 @@ def test_real_flight_before_after_pdf_regression(
             f"{airport.replace('上海', '') if airport == '上海浦东' else airport}机场典型不安全事件：",
         )
 
-    for heading in ("浦东：", "西宁曹家堡：", "南昌昌北："):
+    for heading in ("浦东（起飞）：", "西宁曹家堡（落地）："):
         assert _section(upgraded_group, heading) == _section(baseline_group, heading)
 
     assert len(upgraded_group) <= int(len(baseline_group) * 1.15)

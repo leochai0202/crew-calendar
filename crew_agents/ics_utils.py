@@ -11,6 +11,14 @@ from zoneinfo import ZoneInfo
 BEIJING = ZoneInfo("Asia/Shanghai")
 
 
+class FlightSelectionError(ValueError):
+    """Raised when one exact flight event cannot be selected safely."""
+
+
+class AmbiguousFlightSelectionError(FlightSelectionError):
+    """Raised when more than one event satisfies the requested flight identity."""
+
+
 @dataclass
 class CalendarEvent:
     uid: str
@@ -226,6 +234,105 @@ def parse_ics(path: str | Path) -> list[CalendarEvent]:
 def events_for_date(events: Iterable[CalendarEvent], target: date) -> list[CalendarEvent]:
     selected = [e for e in events if e.start.astimezone(BEIJING).date() == target]
     return sorted(selected, key=lambda e: e.start)
+
+
+def normalize_flight_number(value: str) -> str:
+    return re.sub(r"\s+", "", value or "").upper()
+
+
+def normalize_route_airport(value: str) -> str:
+    return re.sub(r"\s+", "", clean_airport_name(value or ""))
+
+
+def select_exact_flight_event(
+    events: Iterable[CalendarEvent],
+    target: date,
+    *,
+    flight_number: str = "",
+    departure: str = "",
+    arrival: str = "",
+) -> CalendarEvent:
+    """Select exactly one non-positioning flight without cross-event fallback.
+
+    When selectors are supplied, all three identity fields are required and are
+    matched together with the event date. With no selectors, the date itself
+    must contain exactly one eligible flight; an ambiguous day is never reduced
+    to the first event.
+    """
+
+    selectors = (flight_number.strip(), departure.strip(), arrival.strip())
+    if any(selectors) and not all(selectors):
+        raise FlightSelectionError("精确匹配必须同时提供航班号、起飞机场和落地机场")
+
+    day_flights = [
+        event
+        for event in events_for_date(events, target)
+        if event.is_flight and not event.is_positioning
+    ]
+    candidates = day_flights
+    if all(selectors):
+        expected_number = normalize_flight_number(flight_number)
+        expected_departure = normalize_route_airport(departure)
+        expected_arrival = normalize_route_airport(arrival)
+        candidates = []
+        for event in day_flights:
+            event_departure, event_arrival = event.route
+            if (
+                normalize_flight_number(event.flight_number) == expected_number
+                and normalize_route_airport(event_departure) == expected_departure
+                and normalize_route_airport(event_arrival) == expected_arrival
+            ):
+                candidates.append(event)
+
+    if not candidates:
+        requested = (
+            f"{target.isoformat()} {flight_number} {departure}→{arrival}".strip()
+            if all(selectors)
+            else target.isoformat()
+        )
+        raise FlightSelectionError(f"未找到唯一对应的航班事件：{requested}")
+    if len(candidates) > 1:
+        identities = [
+            f"{event.uid or '<no-uid>'}:{event.flight_number} "
+            f"{event.route[0]}→{event.route[1]} {event.start.isoformat()}"
+            for event in candidates
+        ]
+        raise AmbiguousFlightSelectionError(
+            "航班事件存在多个候选，拒绝默认选择第一个：" + " | ".join(identities)
+        )
+
+    selected = candidates[0]
+    selected_departure, selected_arrival = selected.route
+    if (
+        selected.start.astimezone(BEIJING).date() != target
+        or not selected.flight_number
+        or not selected_departure
+        or not selected_arrival
+    ):
+        raise FlightSelectionError("候选事件缺少日期、航班号或完整航线，无法安全匹配")
+    return selected
+
+
+CREW_ROLE_SUFFIX_RE = re.compile(
+    r"\s*[\(（][A-Za-z0-9,\s/、+\-]+[\)）]\s*$"
+)
+
+
+def strip_crew_role_markers(value: str) -> str:
+    name = (value or "").strip()
+    while True:
+        stripped = CREW_ROLE_SUFFIX_RE.sub("", name).strip()
+        if stripped == name:
+            return name
+        name = stripped
+
+
+def has_latin_crew_name(value: str) -> bool:
+    return bool(re.search(r"[A-Za-z]", strip_crew_role_markers(value)))
+
+
+def foreign_crew_names(event: CalendarEvent) -> list[str]:
+    return [name for name in event.people if has_latin_crew_name(name)]
 
 
 def extract_airport_mapping(main_py: str | Path) -> dict[str, str]:
