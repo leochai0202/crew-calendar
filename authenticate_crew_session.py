@@ -90,8 +90,8 @@ def observe_context(context: Any) -> tuple[AuthObservation, Any | None]:
         return AuthObservation(AuthStatus.NETWORK_OR_SITE_ERROR, signals), None
 
     priority = (
-        AuthStatus.AUTHENTICATED,
         AuthStatus.ADDITIONAL_VERIFICATION_REQUIRED,
+        AuthStatus.AUTHENTICATED,
         AuthStatus.LOGIN_REQUIRED,
         AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
         AuthStatus.NETWORK_OR_SITE_ERROR,

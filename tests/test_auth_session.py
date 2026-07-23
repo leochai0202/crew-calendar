@@ -80,6 +80,27 @@ class FakeContext:
         self.closed = True
 
 
+class FakeTextLocator:
+    def __init__(self, text: str, selector: str):
+        self.text = text
+        self.selector = selector
+
+    def inner_text(self, timeout: int) -> str:
+        return self.text if self.selector == "body" else ""
+
+    def count(self) -> int:
+        return 0
+
+
+class FakeTextPage:
+    def __init__(self, text: str):
+        self.text = text
+        self.url = auth.MISSION_URL
+
+    def locator(self, selector: str) -> FakeTextLocator:
+        return FakeTextLocator(self.text, selector)
+
+
 class FakeBrowser:
     def __init__(self):
         self.contexts: list[FakeContext] = []
@@ -202,6 +223,21 @@ def test_expired_state_redirect_is_login_required() -> None:
     assert status == auth.AuthStatus.LOGIN_REQUIRED
 
 
+@pytest.mark.parametrize("marker", ["登录已过期", "会话已过期"])
+def test_session_expired_page_is_login_required(marker: str) -> None:
+    observation = auth.probe_page(FakeTextPage(marker))
+    assert observation.status == auth.AuthStatus.LOGIN_REQUIRED
+
+
+@pytest.mark.parametrize("marker", ["无权限", "访问被拒绝"])
+def test_access_denied_page_is_unknown_even_with_task_content(
+    marker: str,
+) -> None:
+    page_text = f"我的任务\n07月23日 周四\n{marker}"
+    observation = auth.probe_page(FakeTextPage(page_text))
+    assert observation.status == auth.AuthStatus.PAGE_CHANGED_OR_UNKNOWN
+
+
 def test_additional_verification_has_priority() -> None:
     status = auth.classify_auth_signals(
         auth.AuthSignals(
@@ -225,6 +261,48 @@ def test_network_error_is_separate_from_login_error() -> None:
         auth.AuthSignals(network_or_site_error=True, login_text=True)
     )
     assert status == auth.AuthStatus.NETWORK_OR_SITE_ERROR
+
+
+def test_additional_verification_page_wins_over_authenticated_page(
+    monkeypatch,
+) -> None:
+    authenticated_page = SimpleNamespace(
+        status=auth.AuthStatus.AUTHENTICATED
+    )
+    verification_page = SimpleNamespace(
+        status=auth.AuthStatus.ADDITIONAL_VERIFICATION_REQUIRED
+    )
+    context = SimpleNamespace(
+        pages=[authenticated_page, verification_page]
+    )
+    monkeypatch.setattr(
+        local_auth,
+        "probe_page",
+        lambda page: auth.AuthObservation(page.status, auth.AuthSignals()),
+    )
+
+    observation, selected_page = local_auth.observe_context(context)
+
+    assert observation.status == auth.AuthStatus.ADDITIONAL_VERIFICATION_REQUIRED
+    assert selected_page is verification_page
+
+
+def test_authenticated_page_wins_over_plain_login_page(monkeypatch) -> None:
+    login_page = SimpleNamespace(status=auth.AuthStatus.LOGIN_REQUIRED)
+    authenticated_page = SimpleNamespace(
+        status=auth.AuthStatus.AUTHENTICATED
+    )
+    context = SimpleNamespace(pages=[login_page, authenticated_page])
+    monkeypatch.setattr(
+        local_auth,
+        "probe_page",
+        lambda page: auth.AuthObservation(page.status, auth.AuthSignals()),
+    )
+
+    observation, selected_page = local_auth.observe_context(context)
+
+    assert observation.status == auth.AuthStatus.AUTHENTICATED
+    assert selected_page is authenticated_page
 
 
 def test_safe_log_never_contains_authentication_material(capsys) -> None:

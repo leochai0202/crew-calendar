@@ -43,12 +43,14 @@ ADDITIONAL_VERIFICATION_MARKERS = (
     "安全验证",
     "验证身份",
 )
-ACCESS_ERROR_MARKERS = (
+SESSION_EXPIRED_MARKERS = (
+    "登录已过期",
+    "会话已过期",
+)
+ACCESS_DENIED_MARKERS = (
     "无权限",
     "权限不足",
     "访问被拒绝",
-    "登录已过期",
-    "会话已过期",
 )
 
 
@@ -96,7 +98,8 @@ class AuthSignals:
     login_text: bool = False
     qr_indicator: bool = False
     additional_verification: bool = False
-    access_error: bool = False
+    session_expired: bool = False
+    access_denied: bool = False
     login_url_hint: bool = False
     network_or_site_error: bool = False
 
@@ -272,6 +275,10 @@ def classify_auth_signals(signals: AuthSignals) -> AuthStatus:
         return AuthStatus.NETWORK_OR_SITE_ERROR
     if signals.additional_verification:
         return AuthStatus.ADDITIONAL_VERIFICATION_REQUIRED
+    if signals.session_expired:
+        return AuthStatus.LOGIN_REQUIRED
+    if signals.access_denied:
+        return AuthStatus.PAGE_CHANGED_OR_UNKNOWN
     if (
         signals.mission_heading
         and (signals.task_container or signals.user_indicator)
@@ -350,8 +357,11 @@ def probe_page(page: Any) -> AuthObservation:
             marker in compact_text
             for marker in ADDITIONAL_VERIFICATION_MARKERS
         ),
-        access_error=any(
-            marker in compact_text for marker in ACCESS_ERROR_MARKERS
+        session_expired=any(
+            marker in compact_text for marker in SESSION_EXPIRED_MARKERS
+        ),
+        access_denied=any(
+            marker in compact_text for marker in ACCESS_DENIED_MARKERS
         ),
         login_url_hint=any(
             marker in path_probe for marker in ("/login", "/auth", "/sso")
