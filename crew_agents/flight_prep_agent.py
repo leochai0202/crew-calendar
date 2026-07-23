@@ -6,7 +6,13 @@ import re
 import sys
 import traceback
 from datetime import date, datetime, timedelta, timezone
+from functools import lru_cache
 from pathlib import Path
+
+try:
+    from pypdf import PdfReader
+except ImportError:
+    PdfReader = None
 
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -28,7 +34,7 @@ from crew_agents.ics_utils import (
 )
 from crew_agents.weather import fetch_airport_weather
 
-VERSION = "flight-prep-free-v12.5-airport-specific-20260705"
+VERSION = "flight-prep-free-v12.6-pdf-knowledge-20260720"
 RISK_KEYWORDS = (
     "跑道", "滑行", "进近", "离场", "复飞", "盲降", "双截获", "高截获", "风切变",
     "乱流", "雷雨", "鸟击", "GPS", "地形", "气压", "灯光", "军航", "高度", "速度",
@@ -47,6 +53,18 @@ MANUAL_HEADER_MARKERS = (
     "威胁识别与缓解",
     "威胁识别及缓解",
 )
+MANUAL_GLOB_PATTERNS = (
+    "airport_information*.txt",
+    "*机场特点*.txt",
+    "AirDropManual*.txt",
+    "*.txt",
+    "pdf/*.pdf",
+)
+MIN_PDF_MANUAL_TEXT_CHARS = 10_000
+MAX_PDF_FAILED_PAGE_RATIO = 0.01
+PDF_FOOTER_LINES = {
+    "春秋航空股份有限公司飞行标准管理部飞行标准处",
+}
 
 
 # Curated wording is intentionally written from the operating crew's point of view.
@@ -659,25 +677,117 @@ def compact_key(value: str) -> str:
     return value
 
 
-def manual_version(path: Path) -> int:
-    try:
-        head = path.read_text(encoding="utf-8", errors="replace")[:12000]
-    except Exception:
-        return 0
-    versions = [int(x) for x in re.findall(r"版本号\s*[:：]?\s*(20\d{6})", head)]
-    if versions:
-        return max(versions)
-    match = re.search(r"(20\d{6})", path.name)
-    return int(match.group(1)) if match else 0
+def is_repeated_pdf_line(value: str) -> bool:
+    compact = compact_key(value)
+    if compact.startswith("非受控文件仅供参考"):
+        return True
+    if re.fullmatch(r"版本号20\d{6}", compact):
+        return True
+    if compact.startswith("版本号20") and "修改日期" in compact:
+        return True
+    if compact.startswith("修改日期20"):
+        return True
+    if re.fullmatch(r"\d+/\d+", compact):
+        return True
+    if re.fullmatch(r"第?\d+页(?:共\d+页)?", compact):
+        return True
+    return compact in {compact_key(line) for line in PDF_FOOTER_LINES}
 
 
-def find_latest_airport_manual(knowledge_dir: Path) -> Path | None:
+def normalize_pdf_page(text: str) -> str:
+    lines: list[str] = []
+    for raw in (text or "").replace("\r\n", "\n").replace("\r", "\n").split("\n"):
+        line = raw.rstrip()
+        if not line.strip():
+            lines.append("")
+            continue
+        if is_repeated_pdf_line(line):
+            continue
+        lines.append(line)
+    return "\n".join(lines).strip()
+
+
+@lru_cache(maxsize=2)
+def extract_pdf_text(path_value: str) -> tuple[str, tuple[int, ...]]:
+    if PdfReader is None:
+        raise RuntimeError("pypdf 未安装，无法读取 PDF 机场手册")
+
+    reader = PdfReader(path_value)
+    if reader.is_encrypted:
+        raise RuntimeError("PDF 机场手册已加密")
+
+    extracted_pages: list[str] = []
+    failed_pages: list[int] = []
+    for page_no, page in enumerate(reader.pages, start=1):
+        try:
+            raw = page.extract_text() or ""
+        except Exception:
+            failed_pages.append(page_no)
+            continue
+        normalized = normalize_pdf_page(raw)
+        if normalized:
+            extracted_pages.append(normalized)
+
+    allowed_failures = max(3, int(len(reader.pages) * MAX_PDF_FAILED_PAGE_RATIO))
+    if len(failed_pages) > allowed_failures:
+        raise RuntimeError(
+            f"PDF 文本提取失败页数过多：{len(failed_pages)}/{len(reader.pages)}"
+        )
+
+    text = "\n\n".join(extracted_pages)
+    if len(text) < MIN_PDF_MANUAL_TEXT_CHARS:
+        raise RuntimeError("PDF 提取文本异常偏短")
+    return text, tuple(failed_pages)
+
+
+def read_manual_text(path: Path) -> tuple[str, list[str]]:
+    if path.suffix.lower() == ".pdf":
+        text, failed_pages = extract_pdf_text(str(path.resolve()))
+        warnings = (
+            [f"PDF机场手册有{len(failed_pages)}页未能提取，已跳过异常页"]
+            if failed_pages
+            else []
+        )
+        return text, warnings
+    return path.read_text(encoding="utf-8", errors="replace"), []
+
+
+def manual_information_type(path: Path | None) -> str:
+    if not path:
+        return ""
+    return "PDF" if path.suffix.lower() == ".pdf" else "TXT"
+
+
+def manual_version(path: Path, text: str | None = None) -> int:
+    versions = [int(x) for x in re.findall(r"(20\d{6})", path.name)]
+    if text is None and path.suffix.lower() == ".txt":
+        try:
+            text = path.read_text(encoding="utf-8", errors="replace")[:12000]
+        except Exception:
+            text = ""
+    if text:
+        versions.extend(
+            int(x)
+            for x in re.findall(
+                r"版本号\s*[:：]?\s*(20\d{6})",
+                text[:12000],
+            )
+        )
+    return max(versions, default=0)
+
+
+def find_airport_manual_candidates(knowledge_dir: Path) -> list[Path]:
     candidates: list[Path] = []
-    for pattern in ("airport_information*.txt", "*机场特点*.txt", "AirDropManual*.txt", "*.txt"):
+    for pattern in MANUAL_GLOB_PATTERNS:
         candidates.extend(knowledge_dir.glob(pattern))
     unique_paths = list(dict.fromkeys(p.resolve() for p in candidates if p.is_file()))
+
     relevant: list[Path] = []
     for path in unique_paths:
+        if path.suffix.lower() == ".pdf":
+            if "机场特点" in path.name or path.name.startswith("AirDropManual"):
+                relevant.append(path)
+            continue
         try:
             sample = path.read_text(encoding="utf-8", errors="replace")[:200000]
         except Exception:
@@ -685,10 +795,21 @@ def find_latest_airport_manual(knowledge_dir: Path) -> Path | None:
         if "机场运行特点" not in compact_key(sample) and "机场特点" not in path.name:
             continue
         relevant.append(path)
-    if not relevant:
-        return None
-    relevant.sort(key=lambda p: (manual_version(p), p.stat().st_mtime), reverse=True)
-    return relevant[0]
+
+    relevant.sort(
+        key=lambda path: (
+            manual_version(path),
+            path.suffix.lower() == ".pdf",
+            path.stat().st_mtime,
+        ),
+        reverse=True,
+    )
+    return relevant
+
+
+def find_latest_airport_manual(knowledge_dir: Path) -> Path | None:
+    candidates = find_airport_manual_candidates(knowledge_dir)
+    return candidates[0] if candidates else None
 
 
 def _find_manual_header_marker(value: str) -> tuple[int, str]:
@@ -1214,30 +1335,52 @@ def manual_airport_data(
     airports: list[str],
     icao_map: dict[str, str],
     max_items: int,
-) -> tuple[dict[str, dict], str, int]:
-    source = find_latest_airport_manual(knowledge_dir)
-    if not source:
-        return {}, "", 0
-    text = source.read_text(encoding="utf-8", errors="replace")
-    index = build_manual_index(text)
-    result: dict[str, dict] = {}
-    for airport in airports:
-        sections = match_manual_sections(index, airport, icao_map.get(airport, ""))
-        if not sections:
-            continue
-        typical: list[str] = []
-        core: list[str] = []
-        for section in sections:
-            section_typical, section_core = extract_manual_lists(section, max_items)
-            typical = unique([*typical, *section_typical])[:max_items]
-            core = unique([*core, *section_core])[:max_items]
-        result[airport] = {
-            "typical_incidents": typical,
-            "core_threats": core,
-            "matched_header": " + ".join(str(s.get("header", "")) for s in sections),
-            "matched_icao": next((str(s.get("icao", "")) for s in sections if s.get("icao")), ""),
-        }
-    return result, str(source), manual_version(source)
+) -> tuple[dict[str, dict], str, int, str, list[str]]:
+    failures: list[str] = []
+    for source in find_airport_manual_candidates(knowledge_dir):
+        try:
+            text, source_warnings = read_manual_text(source)
+            index = build_manual_index(text)
+            if not index:
+                raise ValueError("未识别到机场知识章节")
+
+            result: dict[str, dict] = {}
+            for airport in airports:
+                sections = match_manual_sections(index, airport, icao_map.get(airport, ""))
+                if not sections:
+                    continue
+                typical: list[str] = []
+                core: list[str] = []
+                for section in sections:
+                    section_typical, section_core = extract_manual_lists(section, max_items)
+                    typical = unique([*typical, *section_typical])[:max_items]
+                    core = unique([*core, *section_core])[:max_items]
+                result[airport] = {
+                    "typical_incidents": typical,
+                    "core_threats": core,
+                    "matched_header": " + ".join(str(s.get("header", "")) for s in sections),
+                    "matched_icao": next((str(s.get("icao", "")) for s in sections if s.get("icao")), ""),
+                }
+
+            if not result:
+                raise ValueError("未匹配本次航班涉及机场")
+
+            warnings = [*failures, *source_warnings]
+            if failures:
+                warnings.append(f"已安全回退使用机场知识源：{source.name}")
+            return (
+                result,
+                str(source),
+                manual_version(source, text),
+                manual_information_type(source),
+                warnings,
+            )
+        except Exception as exc:
+            failures.append(
+                f"机场知识源不可用：{source.name}：{type(exc).__name__}: {exc}"
+            )
+
+    return {}, "", 0, "", failures
 
 
 def supplements_for_airport(supplements: dict, airport: str) -> tuple[dict, str]:
@@ -1254,15 +1397,15 @@ def airport_risks(
     airports: list[str],
     icao_map: dict[str, str],
     max_items: int,
-) -> tuple[dict[str, list[str]], dict[str, list[str]], list[str], str, int]:
+) -> tuple[dict[str, list[str]], dict[str, list[str]], list[str], str, int, str]:
     supplements = load_json(repo / "config" / "airport_supplements.json", {}) or {}
-    manual_data, manual_source, manual_ver = manual_airport_data(
+    manual_data, manual_source, manual_ver, manual_type, source_warnings = manual_airport_data(
         repo / "knowledge", airports, icao_map, max_items=max_items
     )
 
     risks: dict[str, list[str]] = {}
     threats: dict[str, list[str]] = {}
-    warnings: list[str] = []
+    warnings: list[str] = list(source_warnings)
 
     for airport in airports:
         supplement, matched_name = supplements_for_airport(supplements, airport)
@@ -1300,7 +1443,7 @@ def airport_risks(
         elif matched_name:
             warnings.append(f"{airport}未匹配手册章节，使用补充知识库：{matched_name}")
 
-    return risks, threats, warnings, manual_source, manual_ver
+    return risks, threats, warnings, manual_source, manual_ver, manual_type
 
 
 def global_threats(operational_focus: dict, month: int) -> list[str]:
@@ -2098,9 +2241,14 @@ def main() -> int:
             warnings.extend(weather_warnings)
 
         max_items = int((settings.get("typical_incidents_per_airport") or {}).get("max", 5))
-        risks, airport_threat_map, risk_warnings, manual_source, manual_ver = airport_risks(
-            repo, airports, icao_map, max_items=max_items
-        )
+        (
+            risks,
+            airport_threat_map,
+            risk_warnings,
+            manual_source,
+            manual_ver,
+            manual_type,
+        ) = airport_risks(repo, airports, icao_map, max_items=max_items)
         warnings.extend(risk_warnings)
 
         missing_airports = [
@@ -2115,6 +2263,7 @@ def main() -> int:
                 "version": VERSION,
                 "airport_information_file": manual_source,
                 "airport_information_version": manual_ver,
+                "airport_information_type": manual_type,
                 "note": "任一涉及机场缺少典型风险或核心威胁，正式准备稿不覆盖。",
             }
             write_status(repo, status)
@@ -2286,6 +2435,7 @@ def main() -> int:
                 "airport_experience_changes": changes,
                 "airport_information_file": manual_source,
                 "airport_information_version": manual_ver,
+                "airport_information_type": manual_type,
             },
         )
         atomic_write_text(success_marker, "SUCCESS\n")
