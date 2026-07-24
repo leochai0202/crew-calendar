@@ -25,8 +25,6 @@ FAILURE_STATUSES = {
     "LOGIN_REQUIRED",
     "ADDITIONAL_VERIFICATION_REQUIRED",
     "PAGE_CHANGED_OR_UNKNOWN",
-    "NETWORK_OR_SITE_ERROR",
-    "SCRAPER_ERROR",
 }
 
 STATUS_EXPLANATIONS = {
@@ -42,18 +40,28 @@ STATUS_EXPLANATIONS = {
         "页面已经加载，但程序无法安全确认当前认证状态，可能存在页面结构或权限变化。",
         "暂时不要反复扫码，请先在本机检查网站页面是否发生变化。",
     ),
-    "NETWORK_OR_SITE_ERROR": (
-        "GitHub Runner访问网站时遇到网络或站点服务异常。",
-        "当前不需要扫码；请等待下一次运行，或确认网站是否可以正常访问。",
-    ),
-    "SCRAPER_ERROR": (
-        "正式抓取发生普通错误，本次无法确认认证与任务处理是否完整完成。",
-        "这不等同于登录失效，请先查看GitHub Actions的脱敏状态。",
-    ),
 }
+
+FAILURE_SUBJECTS = {
+    "LOGIN_REQUIRED": "【Crew Calendar】登录认证已失效",
+    "ADDITIONAL_VERIFICATION_REQUIRED": "【Crew Calendar】需要人工完成附加验证",
+    "PAGE_CHANGED_OR_UNKNOWN": "【Crew Calendar】无法安全确认登录状态",
+}
+
+CREW_TASK_URL = "https://cp.9cair.com/html/task/mission.html"
+GITHUB_ACTIONS_URL = (
+    "https://github.com/leochai0202/crew-calendar/actions"
+)
+GITHUB_ACTIONS_SECRETS_URL = (
+    "https://github.com/leochai0202/crew-calendar/settings/secrets/actions"
+)
 
 
 class NotificationError(RuntimeError):
+    pass
+
+
+class MissingGmailConfiguration(NotificationError):
     pass
 
 
@@ -134,36 +142,34 @@ def save_state(path: Path, state: NotificationState) -> None:
             temporary.unlink()
 
 
-def build_recovery_steps(status: str) -> list[str]:
-    if status == "NETWORK_OR_SITE_ERROR":
-        return [
-            "1. 暂时无需扫码或更新认证Secret；",
-            "2. 检查网站是否可以正常访问；",
-            "3. 等待下一次定时运行，必要时手动运行认证检查工作流。",
-        ]
-    if status == "PAGE_CHANGED_OR_UNKNOWN":
-        return [
-            "1. 打开电脑并进入 D:\\GGITHUB\\crew-calendar；",
-            "2. 运行 python authenticate_crew_session.py --validate-existing；",
-            "3. 如本机认证有效，请检查网站页面结构或权限是否发生变化；",
-            "4. 如本机也要求登录，再运行 python authenticate_crew_session.py 完成人工认证；",
-            "5. 安全更新 CREW_STORAGE_STATE_B64，并手动运行认证检查。",
-        ]
-    if status == "SCRAPER_ERROR":
-        return [
-            "1. 打开GitHub Actions并查看本次运行的脱敏状态；",
-            "2. 不要从日志复制或发送Cookie、Token或认证包；",
-            "3. 如认证检查失败，再按本机人工认证流程恢复。",
-        ]
+def build_recovery_steps() -> list[str]:
     return [
-        "1. 打开电脑；",
-        "2. 进入 D:\\GGITHUB\\crew-calendar；",
-        "3. 运行 python authenticate_crew_session.py；",
-        "4. 在弹出的浏览器中正常扫码，并完成网站要求的短信或邮箱验证；",
-        "5. 等待程序显示 AUTHENTICATED；",
-        "6. 安全更新 GitHub Secret CREW_STORAGE_STATE_B64；",
-        "7. 手动运行 auth-session-check；",
-        "8. 确认云端检查恢复为 AUTHENTICATED。",
+        "1. 使用电脑打开项目目录：",
+        "   D:\\GGITHUB\\crew-calendar",
+        "",
+        "2. 在该目录打开终端，运行：",
+        "   python authenticate_crew_session.py",
+        "",
+        "3. 浏览器打开后，按照网站提示正常扫码登录；如出现短信、邮箱或其他验证，人工完成验证。",
+        "   程序不得自动绕过任何验证。",
+        "",
+        "4. 等待终端显示：",
+        "   AUTHENTICATED",
+        "",
+        "5. 按程序提示取得新的认证内容，并更新GitHub Secret：",
+        "   CREW_STORAGE_STATE_B64",
+        "",
+        "6. 打开仓库Actions页面：",
+        f"   {GITHUB_ACTIONS_URL}",
+        "",
+        "7. 运行：",
+        "   Crew authentication session check",
+        "",
+        "8. 检查结果是否为绿色成功，并确认日志状态为：",
+        "   AUTHENTICATED",
+        "",
+        "9. 验证成功后，可以等待下一次自动更新；如需立即更新日历，再手动运行：",
+        "   Update Crew Calendar",
     ]
 
 
@@ -178,14 +184,29 @@ def build_failure_message(status: str, detected_at: datetime) -> tuple[str, str]
         f"当前发生了什么：{explanation}",
         f"是否需要验证：{verification}",
         "",
-        "保护结果：本次失败运行不会清洗、生成、提交或覆盖正式 flight.ics，原有日历继续保留。",
+        "保护结果：认证失败期间 flight.ics 不会被覆盖，清洗和ICS提交被门控阻止，现有手机日历会继续保留。",
         "",
-        "恢复步骤：",
-        *build_recovery_steps(status),
+        "【你需要怎么做】",
         "",
-        "安全提示：请勿通过邮件或日志发送Cookie、Token、密码或完整认证包。",
+        *build_recovery_steps(),
+        "",
+        "快捷链接：",
+        "机组任务页面：",
+        CREW_TASK_URL,
+        "",
+        "GitHub Secrets设置页面：",
+        GITHUB_ACTIONS_SECRETS_URL,
+        "",
+        "GitHub Actions页面：",
+        GITHUB_ACTIONS_URL,
+        "",
+        "重要提醒：",
+        "- 只在网页中重新登录，不能自动恢复GitHub云端认证。",
+        "- 必须重新运行 authenticate_crew_session.py 并更新 CREW_STORAGE_STATE_B64。",
+        "- 认证失败期间 flight.ics 不会被覆盖，现有手机日历会继续保留。",
+        "- 不要通过邮件、聊天或日志发送Cookie、Token、密码或完整认证包。",
     ]
-    return "[crew-calendar] 航班日历认证需要处理", "\n".join(body)
+    return FAILURE_SUBJECTS[status], "\n".join(body)
 
 
 def build_recovery_message(
@@ -200,22 +221,24 @@ def build_recovery_message(
         f"上一故障状态：{previous_status or 'UNKNOWN'}",
         "",
         "当前发生了什么：GitHub Runner已经重新确认认证有效，正式任务处理流程可以继续。",
-        "保护结果：故障期间原有 flight.ics 没有被失败运行覆盖。",
+        "保护结果：故障期间正式 flight.ics 未被覆盖，清洗和ICS提交曾被门控阻止。",
         "是否需要验证：当前不需要再次扫码、短信或邮箱验证。",
         "",
         "后续操作：无需处理；如任务解析正常，日历将继续按原有流程更新。",
+        "如以后需要恢复，请运行 python authenticate_crew_session.py，更新 CREW_STORAGE_STATE_B64，并确认云端状态为 AUTHENTICATED。",
         "",
+        "程序不会自动绕过扫码、短信、邮箱或二次验证。",
         "安全提示：本邮件不包含Cookie、Token、密码或认证包。",
     ]
-    return "[crew-calendar] 航班日历认证已恢复", "\n".join(body)
+    return "【Crew Calendar】登录认证已恢复", "\n".join(body)
 
 
 def gmail_config_from_environment() -> GmailConfig:
     sender = os.environ.get("GMAIL_SMTP_USER", "").strip()
     app_password = os.environ.get("GMAIL_SMTP_APP_PASSWORD", "")
-    recipient = os.environ.get("GMAIL_NOTIFY_TO", "").strip()
+    recipient = os.environ.get("CREW_NOTIFY_EMAIL", "").strip()
     if not sender or not app_password or not recipient:
-        raise NotificationError("Gmail通知配置缺失")
+        raise MissingGmailConfiguration("邮件配置缺失")
     return GmailConfig(sender, app_password, recipient)
 
 
@@ -250,6 +273,10 @@ def handle_auth_status(
     detected_at: datetime,
 ) -> str:
     normalized = (status or "SCRAPER_ERROR").strip().upper()
+
+    if normalized not in FAILURE_STATUSES and normalized != AUTHENTICATED:
+        return "NO_ACTION"
+
     state = load_state(state_path)
 
     if normalized in FAILURE_STATUSES:
@@ -320,6 +347,9 @@ def main() -> int:
             send_email,
             detected_at,
         )
+    except MissingGmailConfiguration:
+        print("邮件配置缺失，跳过通知", flush=True)
+        return 0
     except Exception:
         print("AUTH_NOTIFICATION=ERROR", file=sys.stderr, flush=True)
         return 1

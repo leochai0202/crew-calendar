@@ -92,7 +92,7 @@ jobs:
           AUTH_STATUS: ${{ steps.scraper.outputs.auth_status }}
           GMAIL_SMTP_USER: ${{ secrets.GMAIL_SMTP_USER }}
           GMAIL_SMTP_APP_PASSWORD: ${{ secrets.GMAIL_SMTP_APP_PASSWORD }}
-          GMAIL_NOTIFY_TO: ${{ secrets.GMAIL_NOTIFY_TO }}
+          CREW_NOTIFY_EMAIL: ${{ secrets.CREW_NOTIFY_EMAIL }}
         shell: bash
         run: |
           python crew_auth_notification.py \
