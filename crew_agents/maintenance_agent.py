@@ -11,8 +11,12 @@ from zoneinfo import ZoneInfo
 from pathlib import Path
 from typing import Any
 
-VERSION = "maintenance-detector-free-v4-20260616"
-REQUIRED_PYTHON = ("crew_calendar_main.py", "clean_ics_people.py")
+VERSION = "maintenance-detector-free-v5-session-auth"
+REQUIRED_PYTHON = (
+    "crew_calendar_main.py",
+    "crew_auth_session.py",
+    "clean_ics_people.py",
+)
 ICS_FILES = (
     "crew_schedule.ics",
     "flight.ics",
@@ -45,7 +49,6 @@ def parse_args() -> argparse.Namespace:
         description="Free deterministic crew-calendar detector. It only reports and never modifies production files."
     )
     parser.add_argument("--repo", default=".")
-    parser.add_argument("--debug-dir", default="debug_output")
     parser.add_argument("--output-dir", default="agent_output/maintenance")
     parser.add_argument("--upstream-conclusion", default="")
     return parser.parse_args()
@@ -107,15 +110,6 @@ def parse_ics_datetime(value: str) -> datetime | None:
     return None
 
 
-def read_tail(path: Path, max_chars: int = 16000) -> str:
-    if not path.exists() or not path.is_file():
-        return ""
-    try:
-        return path.read_text(encoding="utf-8", errors="replace")[-max_chars:]
-    except OSError:
-        return ""
-
-
 def check_python(repo: Path) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     notes: list[str] = []
@@ -136,8 +130,16 @@ def check_python(repo: Path) -> tuple[list[str], list[str]]:
         text = main_path.read_text(encoding="utf-8", errors="replace")
         if len(text) < 20_000:
             errors.append("crew_calendar_main.py 文件体积异常偏小，可能被截断")
-        if "CREW_USERNAME" not in text or "CREW_PASSWORD" not in text:
-            errors.append("crew_calendar_main.py 未发现凭证环境变量读取逻辑")
+        for required_marker in (
+            "CREW_STORAGE_STATE_B64",
+            "crew_auth_session",
+            "decode_auth_bundle",
+        ):
+            if required_marker not in text:
+                errors.append(
+                    "crew_calendar_main.py 未发现正式认证接入："
+                    f"{required_marker}"
+                )
         if "segment_people_lists[i]" in text and not re.search(r"for\s+i\s*(?:,|in)", text):
             errors.append("crew_calendar_main.py 疑似存在未定义索引 i")
 
@@ -208,47 +210,6 @@ def check_ics(repo: Path) -> tuple[list[str], list[str], dict[str, int]]:
     return errors, notes, stats
 
 
-def check_logs(repo: Path, debug: Path) -> tuple[list[str], list[str]]:
-    issues: list[str] = []
-    notes: list[str] = []
-    paths = [
-        repo / "agent_run" / "scraper.log",
-        repo / "agent_run" / "cleaner.log",
-        repo / "agent_run" / "scraper_exit.txt",
-        repo / "agent_run" / "cleaner_exit.txt",
-        debug / "execution.log",
-        debug / "classification_log.txt",
-        debug / "items_summary.txt",
-    ]
-    existing = [path for path in paths if path.exists()]
-    if not existing:
-        notes.append("本次没有可用运行日志，仅完成源码与ICS静态检查")
-        return issues, notes
-
-    combined = "\n".join(read_tail(path) for path in existing)
-    patterns = (
-        (r"Traceback \(most recent call last\)", "运行日志中发现 Python 异常堆栈"),
-        (r"\bSyntaxError:", "运行日志中发现 SyntaxError"),
-        (r"\bNameError:", "运行日志中发现 NameError"),
-        (r"登录失败|login failed", "运行日志显示登录失败"),
-        (r"FileNotFoundError|No such file", "运行日志显示缺少文件"),
-        (r"403\b", "运行日志中出现 403，需检查推送或访问权限"),
-    )
-    for pattern, label in patterns:
-        if re.search(pattern, combined, re.I):
-            issues.append(label)
-
-    for exit_file, label in (
-        (repo / "agent_run" / "scraper_exit.txt", "爬虫"),
-        (repo / "agent_run" / "cleaner_exit.txt", "清洗脚本"),
-    ):
-        if exit_file.exists():
-            value = exit_file.read_text(encoding="utf-8", errors="replace").strip()
-            if value and value != "0":
-                issues.append(f"{label}退出码为 {value}")
-    return issues, notes
-
-
 def write_outputs(output: Path, result: dict[str, Any]) -> None:
     output.mkdir(parents=True, exist_ok=True)
     (output / "report.json").write_text(
@@ -275,7 +236,7 @@ def write_outputs(output: Path, result: dict[str, Any]) -> None:
         lines.extend(
             [
                 "",
-                "处理方式：下载本次Artifact中的report.json、report.txt和debug_output，再交给ChatGPT分析。",
+                "处理方式：下载本次Artifact中的report.json和report.txt，再交给ChatGPT分析。",
                 "检测器不会自动修改主程序、清洗脚本、workflow或ICS。",
             ]
         )
@@ -298,15 +259,13 @@ def write_outputs(output: Path, result: dict[str, Any]) -> None:
 def main() -> int:
     args = parse_args()
     repo = Path(args.repo).resolve()
-    debug = (repo / args.debug_dir).resolve()
     output = (repo / args.output_dir).resolve()
 
     python_errors, python_notes = check_python(repo)
     ics_errors, ics_notes, stats = check_ics(repo)
-    log_errors, log_notes = check_logs(repo, debug)
 
-    issues = [*python_errors, *ics_errors, *log_errors]
-    notes = [*python_notes, *ics_notes, *log_notes]
+    issues = [*python_errors, *ics_errors]
+    notes = [*python_notes, *ics_notes]
     if args.upstream_conclusion and args.upstream_conclusion != "success":
         issues.insert(0, f"上游 Update Crew Calendar 工作流状态为 {args.upstream_conclusion}")
 

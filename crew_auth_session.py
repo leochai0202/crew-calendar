@@ -270,6 +270,23 @@ def add_session_storage_init_script(
     )
 
 
+def create_context_from_auth_bundle(
+    browser: Any,
+    bundle: AuthBundle,
+    **context_options: Any,
+) -> Any:
+    context = browser.new_context(
+        storage_state=bundle.storage_state,
+        **context_options,
+    )
+    try:
+        add_session_storage_init_script(context, bundle.session_storage)
+    except Exception:
+        context.close()
+        raise
+    return context
+
+
 def classify_auth_signals(signals: AuthSignals) -> AuthStatus:
     if signals.network_or_site_error:
         return AuthStatus.NETWORK_OR_SITE_ERROR
@@ -404,13 +421,14 @@ def verify_auth_bundle(
 ) -> AuthObservation:
     launch_options = {"channel": channel} if channel else {}
     browser = playwright.chromium.launch(headless=True, **launch_options)
-    context = browser.new_context(storage_state=bundle.storage_state)
+    context = None
     try:
-        add_session_storage_init_script(context, bundle.session_storage)
+        context = create_context_from_auth_bundle(browser, bundle)
         page = context.new_page()
         return navigate_and_probe(page)
     finally:
-        context.close()
+        if context is not None:
+            context.close()
         browser.close()
 
 
