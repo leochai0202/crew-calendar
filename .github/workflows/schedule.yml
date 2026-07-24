@@ -83,3 +83,38 @@ jobs:
 
           git commit -m "Update crew calendar"
           git push
+
+      - name: Send authentication status notification
+        id: auth_notification
+        if: ${{ always() }}
+        continue-on-error: true
+        env:
+          AUTH_STATUS: ${{ steps.scraper.outputs.auth_status }}
+          GMAIL_SMTP_USER: ${{ secrets.GMAIL_SMTP_USER }}
+          GMAIL_SMTP_APP_PASSWORD: ${{ secrets.GMAIL_SMTP_APP_PASSWORD }}
+          GMAIL_NOTIFY_TO: ${{ secrets.GMAIL_NOTIFY_TO }}
+        shell: bash
+        run: |
+          python crew_auth_notification.py \
+            --auth-status "${AUTH_STATUS:-SCRAPER_ERROR}" \
+            --state-file state/auth_notification_state.json
+
+      - name: Commit authentication notification state
+        if: ${{ always() && steps.auth_notification.outcome == 'success' }}
+        continue-on-error: true
+        shell: bash
+        run: |
+          if [ ! -f state/auth_notification_state.json ]; then
+            exit 0
+          fi
+
+          git add -- state/auth_notification_state.json
+
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update authentication notification state"
+          git push
