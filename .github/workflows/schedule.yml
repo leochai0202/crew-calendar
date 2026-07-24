@@ -34,38 +34,42 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install system packages
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y tesseract-ocr
-
       - name: Install Python packages
         run: |
           python -m pip install --upgrade pip
-          pip install pillow pytesseract playwright ddddocr
+          pip install -r requirements.txt
           playwright install --with-deps chromium
 
       - name: Run scraper
+        id: scraper
         env:
-          CREW_USERNAME: ${{ secrets.CREW_USERNAME }}
-          CREW_PASSWORD: ${{ secrets.CREW_PASSWORD }}
-          HEADLESS: "1"
+          CREW_STORAGE_STATE_B64: ${{ secrets.CREW_STORAGE_STATE_B64 }}
+        shell: bash
         run: |
+          set +e
           python crew_calendar_main.py
+          exit_code=$?
+          set -e
+
+          case "$exit_code" in
+            0) auth_status="AUTHENTICATED" ;;
+            3) auth_status="LOGIN_REQUIRED" ;;
+            4) auth_status="ADDITIONAL_VERIFICATION_REQUIRED" ;;
+            5) auth_status="PAGE_CHANGED_OR_UNKNOWN" ;;
+            6) auth_status="NETWORK_OR_SITE_ERROR" ;;
+            *) auth_status="SCRAPER_ERROR" ;;
+          esac
+
+          echo "auth_status=$auth_status" >> "$GITHUB_OUTPUT"
+          exit "$exit_code"
 
       - name: Clean ICS people lists
+        if: ${{ steps.scraper.outcome == 'success' && steps.scraper.outputs.auth_status == 'AUTHENTICATED' }}
         run: |
           python clean_ics_people.py
 
-      - name: Upload debug artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: debug-output
-          path: debug_output/
-          if-no-files-found: ignore
-
       - name: Commit and push ICS files
+        if: ${{ steps.scraper.outcome == 'success' && steps.scraper.outputs.auth_status == 'AUTHENTICATED' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

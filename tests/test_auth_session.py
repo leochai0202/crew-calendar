@@ -65,8 +65,9 @@ def sample_bundle(*, with_session_storage: bool = True) -> auth.AuthBundle:
 
 
 class FakeContext:
-    def __init__(self, storage_state: dict):
+    def __init__(self, storage_state: dict, **context_options):
         self.storage_state = storage_state
+        self.context_options = context_options
         self.init_scripts: list[str] = []
         self.closed = False
 
@@ -106,8 +107,8 @@ class FakeBrowser:
         self.contexts: list[FakeContext] = []
         self.closed = False
 
-    def new_context(self, *, storage_state: dict) -> FakeContext:
-        context = FakeContext(storage_state)
+    def new_context(self, *, storage_state: dict, **context_options) -> FakeContext:
+        context = FakeContext(storage_state, **context_options)
         self.contexts.append(context)
         return context
 
@@ -161,6 +162,51 @@ def test_storage_state_alone_is_login_required_and_full_bundle_authenticates(
         launch == {"headless": True}
         for launch in playwright.chromium.launches
     )
+
+
+def test_shared_context_factory_restores_scoped_session_storage() -> None:
+    browser = FakeBrowser()
+    bundle = auth.AuthBundle(
+        sample_bundle().storage_state,
+        {
+            "https://cp.9cair.com": {"cp-key": "cp-value"},
+            "https://cas.9cair.com": {"cas-key": "cas-value"},
+            "https://example.com": {"forbidden-key": "forbidden-value"},
+        },
+    )
+
+    context = auth.create_context_from_auth_bundle(
+        browser,
+        bundle,
+        viewport={"width": 1400, "height": 1000},
+    )
+
+    assert context.storage_state == bundle.storage_state
+    assert context.context_options == {
+        "viewport": {"width": 1400, "height": 1000}
+    }
+    assert len(context.init_scripts) == 1
+    assert "https://cp.9cair.com" in context.init_scripts[0]
+    assert "https://cas.9cair.com" in context.init_scripts[0]
+    assert "example.com" not in context.init_scripts[0]
+
+
+def test_verify_closes_browser_when_context_creation_fails(
+    monkeypatch,
+) -> None:
+    playwright = fake_playwright()
+    monkeypatch.setattr(
+        auth,
+        "create_context_from_auth_bundle",
+        lambda *args, **kwargs: (_ for _ in ()).throw(
+            RuntimeError("context creation failed")
+        ),
+    )
+
+    with pytest.raises(RuntimeError, match="context creation failed"):
+        auth.verify_auth_bundle(playwright, sample_bundle())
+
+    assert playwright.chromium.browsers[0].closed is True
 
 
 def test_bundle_round_trip_filters_unrelated_origins() -> None:

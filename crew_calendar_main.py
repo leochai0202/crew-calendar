@@ -15,6 +15,15 @@ from PIL import Image, ImageOps, ImageFilter
 import pytesseract
 from playwright.sync_api import sync_playwright
 
+from crew_auth_session import (
+    AuthBundleError,
+    AuthStatus,
+    STATUS_EXIT_CODES,
+    create_context_from_auth_bundle,
+    decode_auth_bundle,
+    navigate_and_probe,
+)
+
 try:
     import ddddocr  # type: ignore
     HAS_DDDDOCR = True
@@ -28,7 +37,12 @@ MISSION_URL = "https://cp.9cair.com/html/task/mission.html"
 USERNAME = os.environ.get("CREW_USERNAME") or os.environ.get("USERNAME")
 PASSWORD = os.environ.get("CREW_PASSWORD") or os.environ.get("PASSWORD")
 
-ARTIFACT_DIR = "debug_output"
+LEGACY_DIAGNOSTICS_ENABLED = os.environ.get("CREW_LEGACY_DIAGNOSTICS") == "1"
+ARTIFACT_DIR = os.path.join(
+    "playwright",
+    ".auth-diagnostics",
+    "legacy-scraper",
+)
 AIRPORT_ALIASES_FILE = "airport_aliases.json"
 AIRPORTS_CSV_FILE = "airports.csv"
 
@@ -40,21 +54,28 @@ LOAD_MORE_MAX_ROUNDS = 8
 SEGMENT_CARD_MARKER = "__SEGMENT_CARD__"
 
 
-if os.path.exists(ARTIFACT_DIR):
-    shutil.rmtree(ARTIFACT_DIR)
-os.makedirs(ARTIFACT_DIR, exist_ok=True)
+def ensure_artifact_dir() -> bool:
+    if not LEGACY_DIAGNOSTICS_ENABLED:
+        return False
+    os.makedirs(ARTIFACT_DIR, exist_ok=True)
+    return True
 
 
 def setup_logging():
-    log_file = os.path.join(ARTIFACT_DIR, "execution.log")
+    handlers: list[logging.Handler] = [logging.StreamHandler()]
+    if ensure_artifact_dir():
+        handlers.insert(
+            0,
+            logging.FileHandler(
+                os.path.join(ARTIFACT_DIR, "execution.log"),
+                encoding="utf-8",
+            ),
+        )
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s | %(levelname)-8s | %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
-        handlers=[
-            logging.FileHandler(log_file, encoding="utf-8"),
-            logging.StreamHandler(),
-        ],
+        handlers=handlers,
     )
     return logging.getLogger(__name__)
 
@@ -446,13 +467,26 @@ def normalize_text(text: str) -> str:
 
 
 def save_text(filename: str, text: str):
+    if not ensure_artifact_dir():
+        return
     with open(os.path.join(ARTIFACT_DIR, filename), "w", encoding="utf-8") as f:
         f.write(text)
 
 
 def save_bytes(filename: str, content: bytes):
+    if not ensure_artifact_dir():
+        return
     with open(os.path.join(ARTIFACT_DIR, filename), "wb") as f:
         f.write(content)
+
+
+def save_page_screenshot(page, filename: str):
+    if not ensure_artifact_dir():
+        return
+    page.screenshot(
+        path=os.path.join(ARTIFACT_DIR, filename),
+        full_page=True,
+    )
 
 
 def escape_ics_text(text: str) -> str:
@@ -821,7 +855,7 @@ def login(page, max_retries: int = 10):
             logger.info(f"登录尝试 {attempt}/{max_retries}")
             page.goto(LOGIN_URL, wait_until="domcontentloaded", timeout=90000)
             random_like_wait(page, 4500, 1200)
-            page.screenshot(path=os.path.join(ARTIFACT_DIR, f"login_page_{attempt}.png"), full_page=True)
+            save_page_screenshot(page, f"login_page_{attempt}.png")
             save_text(f"login_page_{attempt}.txt", page_text(page))
         except Exception as e:
             logger.error(f"登录页加载失败: {e}")
@@ -853,9 +887,9 @@ def login(page, max_retries: int = 10):
 
                 body_text = page_text(page)
 
-                page.screenshot(
-                    path=os.path.join(ARTIFACT_DIR, f"login_attempt_{attempt}_{idx}_{cand}.png"),
-                    full_page=True,
+                save_page_screenshot(
+                    page,
+                    f"login_attempt_{attempt}_{idx}_{cand}.png",
                 )
                 save_text(f"login_attempt_{attempt}_{idx}_{cand}.txt", body_text)
 
@@ -1912,9 +1946,9 @@ def expand_day_get_real_detail(page, header: str, next_header=None, fallback_tex
         expanded_final = True
 
         try:
-            page.screenshot(
-                path=os.path.join(ARTIFACT_DIR, f"expand_{safe_name(header)}_attempt_{attempt}_strategy_{strategy}.png"),
-                full_page=True,
+            save_page_screenshot(
+                page,
+                f"expand_{safe_name(header)}_attempt_{attempt}_strategy_{strategy}.png",
             )
         except Exception:
             pass
@@ -4774,35 +4808,45 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
         merge_history_replace_scraped_dates("crew_schedule.ics", total_items, scraped_dates, version_tag),
     )
 
-    write_calendar_from_vevents(
-        os.path.join(ARTIFACT_DIR, "flight.ics"),
-        [build_vevent(item, version_tag=version_tag) for item in buckets["flight"]],
-    )
+    if ensure_artifact_dir():
+        write_calendar_from_vevents(
+            os.path.join(ARTIFACT_DIR, "flight.ics"),
+            [
+                build_vevent(item, version_tag=version_tag)
+                for item in buckets["flight"]
+            ],
+        )
 
-    write_calendar_from_vevents(
-        os.path.join(ARTIFACT_DIR, "positioning.ics"),
-        [build_vevent(item, version_tag=version_tag) for item in buckets["positioning"]],
-    )
+        write_calendar_from_vevents(
+            os.path.join(ARTIFACT_DIR, "positioning.ics"),
+            [
+                build_vevent(item, version_tag=version_tag)
+                for item in buckets["positioning"]
+            ],
+        )
 
-    write_calendar_from_vevents(
-        os.path.join(ARTIFACT_DIR, "training.ics"),
-        [build_vevent(item, version_tag=version_tag) for item in buckets["training"]],
-    )
+        write_calendar_from_vevents(
+            os.path.join(ARTIFACT_DIR, "training.ics"),
+            [
+                build_vevent(item, version_tag=version_tag)
+                for item in buckets["training"]
+            ],
+        )
 
-    write_calendar_from_vevents(
-        os.path.join(ARTIFACT_DIR, "ferry.ics"),
-        [build_vevent(item, version_tag=version_tag) for item in buckets["ferry"]],
-    )
+        write_calendar_from_vevents(
+            os.path.join(ARTIFACT_DIR, "ferry.ics"),
+            [build_vevent(item, version_tag=version_tag) for item in buckets["ferry"]],
+        )
 
-    write_calendar_from_vevents(
-        os.path.join(ARTIFACT_DIR, "other.ics"),
-        [build_vevent(item, version_tag=version_tag) for item in buckets["other"]],
-    )
+        write_calendar_from_vevents(
+            os.path.join(ARTIFACT_DIR, "other.ics"),
+            [build_vevent(item, version_tag=version_tag) for item in buckets["other"]],
+        )
 
-    write_calendar_from_vevents(
-        os.path.join(ARTIFACT_DIR, "crew_schedule.ics"),
-        [build_vevent(item, version_tag=version_tag) for item in total_items],
-    )
+        write_calendar_from_vevents(
+            os.path.join(ARTIFACT_DIR, "crew_schedule.ics"),
+            [build_vevent(item, version_tag=version_tag) for item in total_items],
+        )
 
     save_text("changed_root_flag.txt", str(changed_root))
 
@@ -4938,6 +4982,9 @@ def collect_day_blocks(page) -> list:
 
 
 def snapshot_existing_calendars():
+    if not ensure_artifact_dir():
+        return
+
     backups = []
 
     for name in [
@@ -4956,74 +5003,85 @@ def snapshot_existing_calendars():
     save_text("backed_up_files.txt", "\n".join(backups))
 
 
-def run():
+def emit_auth_status(status: AuthStatus) -> None:
+    print(f"AUTH_STATUS={status.value}", flush=True)
+
+
+def run() -> int:
     logger.info("=" * 60)
     logger.info("开始执行航班日历爬虫")
     logger.info("代码版本: multi-task-v15-positioning-time-bound")
     logger.info("=" * 60)
 
-    if not USERNAME or not PASSWORD:
-        raise RuntimeError("缺少环境变量：CREW_USERNAME / CREW_PASSWORD")
-
-    snapshot_existing_calendars()
-    rebuild_airport_indexes()
-
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=HEADLESS)
-
-        context = browser.new_context(
-            viewport={"width": 1400, "height": 1000},
-            user_agent=(
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) "
-                "Chrome/122.0.0.0 Safari/537.36"
-            ),
+    try:
+        bundle = decode_auth_bundle(
+            os.environ.get("CREW_STORAGE_STATE_B64", "")
         )
+    except AuthBundleError:
+        status = AuthStatus.LOGIN_REQUIRED
+        emit_auth_status(status)
+        return STATUS_EXIT_CODES[status]
 
-        page = context.new_page()
-        page.set_default_timeout(90000)
-        page.set_default_navigation_timeout(90000)
+    browser = None
+    context = None
 
-        try:
-            login(page, max_retries=10)
+    try:
+        with sync_playwright() as p:
+            try:
+                browser = p.chromium.launch(headless=True)
 
-            page.screenshot(
-                path=os.path.join(ARTIFACT_DIR, "after_login.png"),
-                full_page=True,
-            )
-            save_text("after_login.txt", page_text(page))
+                context = create_context_from_auth_bundle(
+                    browser,
+                    bundle,
+                    viewport={"width": 1400, "height": 1000},
+                )
 
-            open_mission_page(page)
+                page = context.new_page()
+                page.set_default_timeout(90000)
+                page.set_default_navigation_timeout(90000)
 
-            page.screenshot(
-                path=os.path.join(ARTIFACT_DIR, "mission_page_ready.png"),
-                full_page=True,
-            )
-            save_text("mission_body_text.txt", page_text(page))
+                observation = navigate_and_probe(page)
+                emit_auth_status(observation.status)
+                if observation.status != AuthStatus.AUTHENTICATED:
+                    return STATUS_EXIT_CODES[observation.status]
 
-            page_year = detect_page_year(page)
-            save_text("page_year.txt", str(page_year))
-            logger.info(f"页面年份: {page_year}")
+                snapshot_existing_calendars()
+                rebuild_airport_indexes()
+                open_mission_page(page)
 
-            day_blocks = collect_day_blocks(page)
+                page_year = detect_page_year(page)
+                save_text("page_year.txt", str(page_year))
+                logger.info(f"页面年份: {page_year}")
 
-            if not day_blocks:
-                raise RuntimeError("未抓到任何任务块，停止写入，保护现有 ICS")
+                day_blocks = collect_day_blocks(page)
 
-            create_multi_calendars_from_blocks(day_blocks, page_year)
+                if not day_blocks:
+                    raise RuntimeError(
+                        "未抓到任何任务块，停止写入，保护现有 ICS"
+                    )
 
-            logger.info("=" * 60)
-            logger.info("执行完成")
-            logger.info("=" * 60)
+                create_multi_calendars_from_blocks(day_blocks, page_year)
 
-        except Exception as e:
-            logger.error(f"执行出错: {e}", exc_info=True)
-            raise
+                logger.info("=" * 60)
+                logger.info("执行完成")
+                logger.info("=" * 60)
+                return STATUS_EXIT_CODES[AuthStatus.AUTHENTICATED]
+            finally:
+                if context is not None:
+                    try:
+                        context.close()
+                    except Exception:
+                        pass
+                if browser is not None:
+                    try:
+                        browser.close()
+                    except Exception:
+                        pass
 
-        finally:
-            context.close()
-            browser.close()
+    except Exception:
+        logger.error("正式抓取执行失败，现有 ICS 不会由失败步骤提交。")
+        return 1
 
 
 if __name__ == "__main__":
-    run()
+    raise SystemExit(run())
