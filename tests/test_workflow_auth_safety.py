@@ -12,7 +12,7 @@ MAINTENANCE_WORKFLOW = (
 MAINTENANCE_AGENT = ROOT / "crew_agents" / "maintenance_agent.py"
 
 
-def test_schedule_keeps_three_times_and_uses_only_session_secret() -> None:
+def test_schedule_keeps_three_times_and_uses_expected_secrets() -> None:
     workflow = SCHEDULE.read_text(encoding="utf-8")
 
     for cron in (
@@ -25,6 +25,13 @@ def test_schedule_keeps_three_times_and_uses_only_session_secret() -> None:
         "CREW_STORAGE_STATE_B64: "
         "${{ secrets.CREW_STORAGE_STATE_B64 }}" in workflow
     )
+    for secret_name in (
+        "GMAIL_SMTP_USER",
+        "GMAIL_SMTP_APP_PASSWORD",
+        "CREW_NOTIFY_EMAIL",
+    ):
+        assert f"${{{{ secrets.{secret_name} }}}}" in workflow
+    assert "GMAIL_NOTIFY_TO" not in workflow
     assert "pip install -r requirements.txt" in workflow
     assert "playwright install --with-deps chromium" in workflow
     for forbidden in (
@@ -57,6 +64,26 @@ def test_schedule_maps_auth_status_and_gates_clean_and_commit() -> None:
         "steps.scraper.outputs.auth_status == 'AUTHENTICATED'"
     )
     assert workflow.count(gate) == 2
+
+
+def test_auth_notification_is_non_blocking_and_persists_only_safe_state() -> None:
+    workflow = SCHEDULE.read_text(encoding="utf-8")
+
+    assert "id: auth_notification" in workflow
+    assert "python crew_auth_notification.py" in workflow
+    assert workflow.count("continue-on-error: true") == 2
+    assert (
+        "always() && steps.auth_notification.outcome == 'success'"
+        in workflow
+    )
+    assert (
+        "git add -- state/auth_notification_state.json"
+        in workflow
+    )
+    assert "git add -A" not in workflow
+    assert workflow.index("Commit and push ICS files") < workflow.index(
+        "Send authentication status notification"
+    )
 
 
 def test_maintenance_workflow_has_no_scraper_or_raw_diagnostics_path() -> None:
