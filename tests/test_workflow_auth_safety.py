@@ -26,12 +26,16 @@ def test_schedule_keeps_three_times_and_uses_expected_secrets() -> None:
         "${{ secrets.CREW_STORAGE_STATE_B64 }}" in workflow
     )
     for secret_name in (
+        "CREW_PHONE",
+        "IMAP_EMAIL",
+        "IMAP_AUTH_CODE",
         "GMAIL_SMTP_USER",
         "GMAIL_SMTP_APP_PASSWORD",
         "CREW_NOTIFY_EMAIL",
     ):
         assert f"${{{{ secrets.{secret_name} }}}}" in workflow
     assert "GMAIL_NOTIFY_TO" not in workflow
+    assert "imap.163.com" not in workflow
     assert "pip install -r requirements.txt" in workflow
     assert "playwright install --with-deps chromium" in workflow
     for forbidden in (

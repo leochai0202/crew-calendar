@@ -20,12 +20,6 @@ OTP_SUBJECT = "CREW_OTP"
 DEFAULT_TIMEOUT_SECONDS = 120
 DEFAULT_POLL_INTERVAL_SECONDS = 3
 OTP_PATTERN = re.compile(r"(?<!\d)(\d{4,8})(?!\d)")
-IMAP_ID_PAYLOAD = (
-    '("name" "CrewCalendar" '
-    '"version" "1.0" '
-    '"vendor" "LocalPythonClient" '
-    '"contact" "local")'
-)
 
 
 class OtpError(RuntimeError):
@@ -130,16 +124,6 @@ def extract_otp_from_message(
     return None
 
 
-def register_163_imap_id(client: Any) -> None:
-    imaplib.Commands["ID"] = ("AUTH",)
-    try:
-        status, _ = client._simple_command("ID", IMAP_ID_PAYLOAD)
-    except Exception as exc:
-        raise OtpMailboxError("网易IMAP ID命令发送失败") from exc
-    if status != "OK":
-        raise OtpMailboxError("网易IMAP ID命令未被接受")
-
-
 class ImapOtpReader:
     def __init__(
         self,
@@ -169,16 +153,11 @@ class ImapOtpReader:
 
     @classmethod
     def from_environment(cls, **kwargs: Any) -> "ImapOtpReader":
-        raw_port = os.environ.get("IMAP_PORT", str(IMAP_PORT)).strip()
-        try:
-            port = int(raw_port)
-        except ValueError as exc:
-            raise OtpConfigurationError("IMAP端口配置无效") from exc
         return cls(
             os.environ.get("IMAP_EMAIL", "").strip(),
             os.environ.get("IMAP_AUTH_CODE", ""),
-            host=os.environ.get("IMAP_HOST", IMAP_HOST),
-            port=port,
+            host=IMAP_HOST,
+            port=IMAP_PORT,
             **kwargs,
         )
 
@@ -199,8 +178,6 @@ class ImapOtpReader:
             )
             if status != "OK":
                 raise OtpMailboxError("163邮箱IMAP登录失败")
-            if self._host == "imap.163.com":
-                register_163_imap_id(client)
             status, _ = client.select("INBOX", readonly=True)
             if status != "OK":
                 raise OtpMailboxError("163邮箱收件箱无法打开")

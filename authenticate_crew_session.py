@@ -77,6 +77,11 @@ IMAP_AUTH_CODE_ENV = "IMAP_AUTH_CODE"
 IMAP_HOST_ENV = "IMAP_HOST"
 IMAP_PORT_ENV = "IMAP_PORT"
 LOGIN_PHONE_ENV = "CREW_LOGIN_PHONE"
+CLOUD_LOGIN_PHONE_ENV = "CREW_PHONE"
+
+
+class AdditionalVerificationRequiredError(OtpError):
+    pass
 
 
 def _decode_env_value(raw_value: str) -> str:
@@ -598,7 +603,11 @@ def _save_login_switch_diagnostics(page: Any, reason: str) -> None:
         print("登录页切换失败，诊断信息保存失败。", flush=True)
 
 
-def _switch_to_dynamic_password_login(page: Any) -> None:
+def _switch_to_dynamic_password_login(
+    page: Any,
+    *,
+    save_diagnostics: bool = True,
+) -> None:
     try:
         form = page.locator(DYNAMIC_LOGIN_FORM_SELECTOR)
         if form.count() == 1 and form.is_visible():
@@ -666,13 +675,19 @@ def _switch_to_dynamic_password_login(page: Any) -> None:
             "动态密码输入框",
         ).wait_for(state="visible", timeout=10_000)
     except Exception as exc:
-        _save_login_switch_diagnostics(page, type(exc).__name__)
+        if save_diagnostics:
+            _save_login_switch_diagnostics(page, type(exc).__name__)
         if isinstance(exc, OtpError):
             raise
         raise OtpError("未能切换到动态密码登录页") from exc
 
 
-def _wait_for_phone_or_email(page: Any, timeout_seconds: int) -> None:
+def _wait_for_phone_or_email(
+    page: Any,
+    timeout_seconds: int,
+    *,
+    phone_number: str | None = None,
+) -> None:
     del timeout_seconds
     phone = _unique_locator(
         page,
@@ -680,7 +695,13 @@ def _wait_for_phone_or_email(page: Any, timeout_seconds: int) -> None:
         "手机号或邮箱输入框",
     )
     phone.wait_for(state="visible", timeout=10_000)
-    configured_phone = ensure_local_login_phone()
+    configured_phone = (
+        (phone_number or "").strip()
+        or os.environ.get(CLOUD_LOGIN_PHONE_ENV, "").strip()
+        or os.environ.get(LOGIN_PHONE_ENV, "").strip()
+    )
+    if not configured_phone:
+        configured_phone = ensure_local_login_phone()
     if phone.input_value().strip() != configured_phone:
         phone.fill(configured_phone)
 
@@ -711,6 +732,7 @@ def _wait_for_slider_if_present(
     timeout_seconds: int,
     *,
     detection_timeout_seconds: float = 3,
+    allow_manual_completion: bool = True,
 ) -> None:
     slider = _find_visible_slider(
         page,
@@ -718,6 +740,10 @@ def _wait_for_slider_if_present(
     )
     if slider is None:
         return
+    if not allow_manual_completion:
+        raise AdditionalVerificationRequiredError(
+            "登录需要人工完成滑块验证"
+        )
     print(
         "需要人工完成一次滑块；完成后程序将自动继续。",
         flush=True,
@@ -756,9 +782,19 @@ def complete_dynamic_password_login(
     *,
     manual_timeout_seconds: int,
     otp_timeout_seconds: int = OTP_TIMEOUT_SECONDS,
+    phone_number: str | None = None,
+    allow_manual_slider: bool = True,
+    save_diagnostics: bool = True,
 ) -> AuthObservation:
-    _switch_to_dynamic_password_login(page)
-    _wait_for_phone_or_email(page, manual_timeout_seconds)
+    _switch_to_dynamic_password_login(
+        page,
+        save_diagnostics=save_diagnostics,
+    )
+    _wait_for_phone_or_email(
+        page,
+        manual_timeout_seconds,
+        phone_number=phone_number,
+    )
 
     request_button = _unique_locator(
         page,
@@ -776,7 +812,11 @@ def complete_dynamic_password_login(
 
     baseline_uid = otp_reader.current_max_uid()
     request_button.click()
-    _wait_for_slider_if_present(page, manual_timeout_seconds)
+    _wait_for_slider_if_present(
+        page,
+        manual_timeout_seconds,
+        allow_manual_completion=allow_manual_slider,
+    )
 
     try:
         otp = otp_reader.wait_for_new_otp(
@@ -784,7 +824,8 @@ def complete_dynamic_password_login(
             timeout_seconds=otp_timeout_seconds,
         )
     except OtpTimeoutError:
-        _save_otp_timeout_screenshot(page)
+        if save_diagnostics:
+            _save_otp_timeout_screenshot(page)
         raise
 
     dynamic_password = _unique_locator(

@@ -44,6 +44,9 @@ jobs:
         id: scraper
         env:
           CREW_STORAGE_STATE_B64: ${{ secrets.CREW_STORAGE_STATE_B64 }}
+          CREW_PHONE: ${{ secrets.CREW_PHONE }}
+          IMAP_EMAIL: ${{ secrets.IMAP_EMAIL }}
+          IMAP_AUTH_CODE: ${{ secrets.IMAP_AUTH_CODE }}
         shell: bash
         run: |
           set +e

@@ -16,12 +16,27 @@ import pytesseract
 from playwright.sync_api import sync_playwright
 
 from crew_auth_session import (
+    AuthObservation,
+    AuthSignals,
     AuthBundleError,
     AuthStatus,
     STATUS_EXIT_CODES,
     create_context_from_auth_bundle,
     decode_auth_bundle,
     navigate_and_probe,
+)
+from authenticate_crew_session import (
+    AdditionalVerificationRequiredError,
+    complete_dynamic_password_login,
+)
+from imap_otp import (
+    IMAP_HOST,
+    IMAP_PORT,
+    ImapOtpReader,
+    OtpConfigurationError,
+    OtpError,
+    OtpMailboxError,
+    OtpTimeoutError,
 )
 
 try:
@@ -5007,20 +5022,66 @@ def emit_auth_status(status: AuthStatus) -> None:
     print(f"AUTH_STATUS={status.value}", flush=True)
 
 
+def attempt_cloud_dynamic_password_login(page) -> AuthObservation:
+    phone_number = os.environ.get("CREW_PHONE", "").strip()
+    email_address = os.environ.get("IMAP_EMAIL", "").strip()
+    auth_code = os.environ.get("IMAP_AUTH_CODE", "")
+    if not phone_number or not email_address or not auth_code:
+        return AuthObservation(
+            AuthStatus.LOGIN_REQUIRED,
+            AuthSignals(login_url_hint=True),
+        )
+
+    try:
+        with ImapOtpReader(
+            email_address,
+            auth_code,
+            host=IMAP_HOST,
+            port=IMAP_PORT,
+        ) as otp_reader:
+            return complete_dynamic_password_login(
+                page,
+                otp_reader,
+                manual_timeout_seconds=1,
+                phone_number=phone_number,
+                allow_manual_slider=False,
+                save_diagnostics=False,
+            )
+    except AdditionalVerificationRequiredError:
+        return AuthObservation(
+            AuthStatus.ADDITIONAL_VERIFICATION_REQUIRED,
+            AuthSignals(additional_verification=True),
+        )
+    except (OtpConfigurationError, OtpMailboxError, OtpTimeoutError):
+        return AuthObservation(
+            AuthStatus.NETWORK_OR_SITE_ERROR,
+            AuthSignals(network_or_site_error=True),
+        )
+    except OtpError:
+        return AuthObservation(
+            AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+            AuthSignals(),
+        )
+    except Exception:
+        return AuthObservation(
+            AuthStatus.NETWORK_OR_SITE_ERROR,
+            AuthSignals(network_or_site_error=True),
+        )
+
+
 def run() -> int:
     logger.info("=" * 60)
     logger.info("开始执行航班日历爬虫")
     logger.info("代码版本: multi-task-v15-positioning-time-bound")
     logger.info("=" * 60)
 
+    bundle = None
     try:
         bundle = decode_auth_bundle(
             os.environ.get("CREW_STORAGE_STATE_B64", "")
         )
     except AuthBundleError:
-        status = AuthStatus.LOGIN_REQUIRED
-        emit_auth_status(status)
-        return STATUS_EXIT_CODES[status]
+        pass
 
     browser = None
     context = None
@@ -5030,17 +5091,24 @@ def run() -> int:
             try:
                 browser = p.chromium.launch(headless=True)
 
-                context = create_context_from_auth_bundle(
-                    browser,
-                    bundle,
-                    viewport={"width": 1400, "height": 1000},
-                )
+                if bundle is None:
+                    context = browser.new_context(
+                        viewport={"width": 1400, "height": 1000},
+                    )
+                else:
+                    context = create_context_from_auth_bundle(
+                        browser,
+                        bundle,
+                        viewport={"width": 1400, "height": 1000},
+                    )
 
                 page = context.new_page()
                 page.set_default_timeout(90000)
                 page.set_default_navigation_timeout(90000)
 
                 observation = navigate_and_probe(page)
+                if observation.status == AuthStatus.LOGIN_REQUIRED:
+                    observation = attempt_cloud_dynamic_password_login(page)
                 emit_auth_status(observation.status)
                 if observation.status != AuthStatus.AUTHENTICATED:
                     return STATUS_EXIT_CODES[observation.status]

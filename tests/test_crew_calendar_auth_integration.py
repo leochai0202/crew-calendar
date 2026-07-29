@@ -38,6 +38,14 @@ class FakeContext:
 class FakeBrowser:
     def __init__(self) -> None:
         self.closed = False
+        self.context: FakeContext | None = None
+        self.context_options: dict = {}
+
+    def new_context(self, **options) -> FakeContext:
+        self.context_options.update(options)
+        if self.context is None:
+            self.context = FakeContext()
+        return self.context
 
     def close(self) -> None:
         self.closed = True
@@ -69,6 +77,8 @@ def install_fake_browser(monkeypatch):
     manager = FakePlaywrightManager(browser)
     context = FakeContext()
     context_options: dict = {}
+    browser.context = context
+    browser.context_options = context_options
 
     monkeypatch.setattr(calendar, "sync_playwright", lambda: manager)
 
@@ -142,6 +152,13 @@ def test_authenticated_status_enters_existing_processing_flow(
     )
     monkeypatch.setattr(
         calendar,
+        "attempt_cloud_dynamic_password_login",
+        lambda page: (_ for _ in ()).throw(
+            AssertionError("valid session must not use QQ IMAP")
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
         "login",
         lambda *args, **kwargs: (_ for _ in ()).throw(
             AssertionError("legacy login must not be called")
@@ -205,7 +222,6 @@ def test_authenticated_status_enters_existing_processing_flow(
 @pytest.mark.parametrize(
     ("status", "exit_code"),
     [
-        (auth.AuthStatus.LOGIN_REQUIRED, 3),
         (auth.AuthStatus.ADDITIONAL_VERIFICATION_REQUIRED, 4),
         (auth.AuthStatus.PAGE_CHANGED_OR_UNKNOWN, 5),
         (auth.AuthStatus.NETWORK_OR_SITE_ERROR, 6),
@@ -230,6 +246,13 @@ def test_non_authenticated_status_never_processes_or_writes_ics(
         "navigate_and_probe",
         lambda page: auth.AuthObservation(status, auth.AuthSignals()),
     )
+    monkeypatch.setattr(
+        calendar,
+        "attempt_cloud_dynamic_password_login",
+        lambda page: (_ for _ in ()).throw(
+            AssertionError("non-login auth status must not use QQ IMAP")
+        ),
+    )
 
     assert calendar.run() == exit_code
 
@@ -241,7 +264,7 @@ def test_non_authenticated_status_never_processes_or_writes_ics(
 
 
 @pytest.mark.parametrize("secret", ["", "not-valid-base64"])
-def test_missing_or_corrupt_secret_is_login_required_without_browser_or_write(
+def test_missing_or_corrupt_secret_falls_back_without_writing(
     secret: str,
     monkeypatch,
     tmp_path: Path,
@@ -254,13 +277,23 @@ def test_missing_or_corrupt_secret_is_login_required_without_browser_or_write(
         monkeypatch.setenv("CREW_STORAGE_STATE_B64", secret)
     else:
         monkeypatch.delenv("CREW_STORAGE_STATE_B64", raising=False)
+    _, browser, context, context_options = install_fake_browser(monkeypatch)
     calls: list[str] = []
     forbid_legacy_and_processing(monkeypatch, calls)
     monkeypatch.setattr(
         calendar,
-        "sync_playwright",
-        lambda: (_ for _ in ()).throw(
-            AssertionError("browser must not start")
+        "navigate_and_probe",
+        lambda page: auth.AuthObservation(
+            auth.AuthStatus.LOGIN_REQUIRED,
+            auth.AuthSignals(login_url_hint=True),
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "attempt_cloud_dynamic_password_login",
+        lambda page: auth.AuthObservation(
+            auth.AuthStatus.LOGIN_REQUIRED,
+            auth.AuthSignals(login_url_hint=True),
         ),
     )
 
@@ -269,6 +302,174 @@ def test_missing_or_corrupt_secret_is_login_required_without_browser_or_write(
     assert capsys.readouterr().out == "AUTH_STATUS=LOGIN_REQUIRED\n"
     assert calls == []
     assert existing.read_text(encoding="utf-8") == "existing-calendar"
+    assert context_options == {"viewport": {"width": 1400, "height": 1000}}
+    assert context.closed is True
+    assert browser.closed is True
+
+
+def test_confirmed_login_required_uses_cloud_fallback_then_processes(
+    monkeypatch,
+    tmp_path: Path,
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    install_valid_bundle(monkeypatch)
+    install_fake_browser(monkeypatch)
+    calls: list[str] = []
+    observations = iter(
+        [
+            auth.AuthObservation(
+                auth.AuthStatus.LOGIN_REQUIRED,
+                auth.AuthSignals(login_url_hint=True),
+            )
+        ]
+    )
+    monkeypatch.setattr(
+        calendar,
+        "navigate_and_probe",
+        lambda page: next(observations),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "attempt_cloud_dynamic_password_login",
+        lambda page: calls.append("fallback")
+        or auth.AuthObservation(
+            auth.AuthStatus.AUTHENTICATED,
+            auth.AuthSignals(mission_heading=True, task_container=True),
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "snapshot_existing_calendars",
+        lambda: calls.append("snapshot"),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "rebuild_airport_indexes",
+        lambda: calls.append("rebuild"),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "open_mission_page",
+        lambda page: calls.append("open"),
+    )
+    monkeypatch.setattr(calendar, "detect_page_year", lambda page: 2026)
+    monkeypatch.setattr(
+        calendar,
+        "collect_day_blocks",
+        lambda page: ["day-block"],
+    )
+    monkeypatch.setattr(
+        calendar,
+        "create_multi_calendars_from_blocks",
+        lambda blocks, year: calls.append("create"),
+    )
+
+    assert calendar.run() == 0
+    assert calls == [
+        "fallback",
+        "snapshot",
+        "rebuild",
+        "open",
+        "create",
+    ]
+
+
+def test_cloud_fallback_uses_fixed_qq_imap_and_secret_phone(
+    monkeypatch,
+) -> None:
+    monkeypatch.setenv("CREW_PHONE", "13000000000")
+    monkeypatch.setenv("IMAP_EMAIL", "crew@example.invalid")
+    monkeypatch.setenv("IMAP_AUTH_CODE", "test-auth-code")
+    captured: dict = {}
+
+    class Reader:
+        def __init__(self, email, auth_code, *, host, port) -> None:
+            captured["reader"] = (email, auth_code, host, port)
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args) -> None:
+            return None
+
+    monkeypatch.setattr(calendar, "ImapOtpReader", Reader)
+    monkeypatch.setattr(
+        calendar,
+        "complete_dynamic_password_login",
+        lambda page, reader, **options: captured.update(options)
+        or auth.AuthObservation(
+            auth.AuthStatus.AUTHENTICATED,
+            auth.AuthSignals(mission_heading=True, task_container=True),
+        ),
+    )
+
+    observation = calendar.attempt_cloud_dynamic_password_login(object())
+
+    assert observation.status == auth.AuthStatus.AUTHENTICATED
+    assert captured["reader"] == (
+        "crew@example.invalid",
+        "test-auth-code",
+        "imap.qq.com",
+        993,
+    )
+    assert captured["phone_number"] == "13000000000"
+    assert captured["allow_manual_slider"] is False
+    assert captured["save_diagnostics"] is False
+
+
+def test_cloud_fallback_missing_secret_does_not_connect_imap(
+    monkeypatch,
+) -> None:
+    monkeypatch.delenv("CREW_PHONE", raising=False)
+    monkeypatch.delenv("IMAP_EMAIL", raising=False)
+    monkeypatch.delenv("IMAP_AUTH_CODE", raising=False)
+    monkeypatch.setattr(
+        calendar,
+        "ImapOtpReader",
+        lambda *args, **kwargs: (_ for _ in ()).throw(
+            AssertionError("missing cloud config must not connect IMAP")
+        ),
+    )
+
+    observation = calendar.attempt_cloud_dynamic_password_login(object())
+
+    assert observation.status == auth.AuthStatus.LOGIN_REQUIRED
+
+
+def test_cloud_slider_requires_additional_verification(
+    monkeypatch,
+) -> None:
+    monkeypatch.setenv("CREW_PHONE", "13000000000")
+    monkeypatch.setenv("IMAP_EMAIL", "crew@example.invalid")
+    monkeypatch.setenv("IMAP_AUTH_CODE", "test-auth-code")
+
+    class Reader:
+        def __init__(self, *args, **kwargs) -> None:
+            return None
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args) -> None:
+            return None
+
+    monkeypatch.setattr(calendar, "ImapOtpReader", Reader)
+    monkeypatch.setattr(
+        calendar,
+        "complete_dynamic_password_login",
+        lambda *args, **kwargs: (_ for _ in ()).throw(
+            calendar.AdditionalVerificationRequiredError(
+                "manual slider required"
+            )
+        ),
+    )
+
+    observation = calendar.attempt_cloud_dynamic_password_login(object())
+
+    assert (
+        observation.status
+        == auth.AuthStatus.ADDITIONAL_VERIFICATION_REQUIRED
+    )
 
 
 def test_processing_exception_returns_one_and_closes_resources(
@@ -362,8 +563,8 @@ def test_import_does_not_touch_repository_debug_output(
 def test_formal_run_has_no_legacy_login_or_ocr_call_path() -> None:
     source = inspect.getsource(calendar.run)
 
+    assert "attempt_cloud_dynamic_password_login(" in source
     for forbidden in (
-        "login(",
         "solve_captcha",
         "extract_captcha_bytes",
         "pytesseract",

@@ -125,12 +125,11 @@ def test_ignores_message_with_unrelated_subject() -> None:
     assert extract_otp_from_message(raw) is None
 
 
-def test_connect_sends_163_id_before_opening_inbox_and_closes() -> None:
+def test_connect_opens_inbox_without_provider_specific_id_and_closes() -> None:
     client = FakeImap()
     reader = ImapOtpReader(
         "configured@example.invalid",
         "configured-auth-code",
-        host="imap.163.com",
         client_factory=fake_factory(client),
     )
 
@@ -138,8 +137,8 @@ def test_connect_sends_163_id_before_opening_inbox_and_closes() -> None:
         assert reader.current_max_uid() == 7
 
     event_names = [event[0] for event in client.events]
-    assert event_names.index("login") < event_names.index("ID")
-    assert event_names.index("ID") < event_names.index("select")
+    assert event_names.index("login") < event_names.index("select")
+    assert "ID" not in event_names
     assert ("select", "INBOX", True) in client.events
     assert event_names[-2:] == ["unselect", "logout"]
     assert "configured-auth-code" not in repr(reader)
@@ -297,17 +296,17 @@ def test_dynamic_login_records_uid_before_single_request_and_fills_otp(
     monkeypatch.setattr(
         authentication,
         "_switch_to_dynamic_password_login",
-        lambda _: events.append(("switch_dynamic_login",)),
+        lambda _, **__: events.append(("switch_dynamic_login",)),
     )
     monkeypatch.setattr(
         authentication,
         "_wait_for_phone_or_email",
-        lambda *_: events.append(("phone_ready",)),
+        lambda *_, **__: events.append(("phone_ready",)),
     )
     monkeypatch.setattr(
         authentication,
         "_wait_for_slider_if_present",
-        lambda *_: events.append(("slider_complete",)),
+        lambda *_, **__: events.append(("slider_complete",)),
     )
     monkeypatch.setattr(
         authentication,
