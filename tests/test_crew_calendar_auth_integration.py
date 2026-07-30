@@ -423,6 +423,7 @@ def test_cloud_fallback_uses_fixed_qq_imap_and_secret_phone(
     assert captured["phone_number"] == "13000000000"
     assert captured["allow_manual_slider"] is False
     assert captured["save_diagnostics"] is False
+    assert captured["expected_otp_length"] == 6
 
 
 def test_cloud_fallback_missing_secret_does_not_connect_imap(
@@ -507,6 +508,7 @@ def test_cloud_unknown_writes_only_safe_staged_diagnostic(
     def fake_login(_page, _reader, **options):
         reporter = options["stage_reporter"]
         for stage in (
+            "LOGIN_FLOW_STARTED",
             "LOGIN_PAGE_SWITCHED",
             "DYNAMIC_TAB_OPENED",
             "PHONE_FILLED",
@@ -519,6 +521,8 @@ def test_cloud_unknown_writes_only_safe_staged_diagnostic(
         for stage in (
             "OTP_FIELD_FILLED",
             "LOGIN_BUTTON_CLICKED",
+            "SSO_HANDOFF_REACHED",
+            "MISSION_PAGE_REQUESTED",
             "FINAL_PAGE_PROBED",
         ):
             reporter(stage, {})
@@ -558,12 +562,15 @@ def test_cloud_unknown_writes_only_safe_staged_diagnostic(
     assert observation.status == auth.AuthStatus.PAGE_CHANGED_OR_UNKNOWN
     output = capsys.readouterr().out
     assert "LOGIN_STAGE=OTP_MAIL_RECEIVED OTP_LENGTH=6" in output
-    assert "LOGIN_ERROR_CATEGORY=LOGIN_RESULT_UNKNOWN" in output
+    assert (
+        "LOGIN_ERROR_CATEGORY=POST_LOGIN_HANDOFF_INCOMPLETE"
+        in output
+    )
     assert "LOGIN_PAGE_DOMAIN=cas.9cair.com" in output
     assert "LOGIN_PAGE_PATH=/login" in output
     payload = json.loads(diagnostic_path.read_text(encoding="utf-8"))
     assert payload["last_stage"] == "FINAL_PAGE_PROBED"
-    assert payload["error_category"] == "LOGIN_RESULT_UNKNOWN"
+    assert payload["error_category"] == "POST_LOGIN_HANDOFF_INCOMPLETE"
     assert payload["auth_status"] == "PAGE_CHANGED_OR_UNKNOWN"
     serialized = json.dumps(payload, ensure_ascii=False)
     for sensitive in (

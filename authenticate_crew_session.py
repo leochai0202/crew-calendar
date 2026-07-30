@@ -37,6 +37,7 @@ from imap_otp import (
     OtpConfigurationError,
     OtpError,
     OtpMailboxError,
+    OtpParseError,
     OtpTimeoutError,
 )
 
@@ -61,7 +62,7 @@ LOGIN_SWITCH_DIAGNOSTIC_DIR = (
 # These selectors were verified against the current CAS DOM. The legacy
 # username/password/image-captcha login in crew_calendar_main.py is preserved.
 ACCOUNT_LOGIN_TOGGLE_SELECTOR = (
-    '.login-badge .badge-icon:not([style*="display: none"])'
+    ".login-badge .badge-icon"
 )
 PASSWORD_LOGIN_TAB_SELECTOR = "#div1"
 DYNAMIC_LOGIN_TAB_SELECTOR = "#div2"
@@ -81,7 +82,13 @@ CLOUD_LOGIN_PHONE_ENV = "CREW_PHONE"
 
 LOGIN_STAGE_NAMES = frozenset(
     {
+        "LOGIN_FLOW_STARTED",
         "LOGIN_PAGE_SWITCHED",
+        "QR_LOGIN_PAGE_DETECTED",
+        "ACCOUNT_LOGIN_TOGGLE_CLICKED",
+        "ACCOUNT_LOGIN_PANEL_VISIBLE",
+        "PASSWORD_TAB_VISIBLE",
+        "DYNAMIC_TAB_CLICKED",
         "DYNAMIC_TAB_OPENED",
         "PHONE_FILLED",
         "IMAP_BASELINE_RECORDED",
@@ -91,6 +98,10 @@ LOGIN_STAGE_NAMES = frozenset(
         "OTP_MAIL_RECEIVED",
         "OTP_FIELD_FILLED",
         "LOGIN_BUTTON_CLICKED",
+        "SSO_HANDOFF_REACHED",
+        "SSO_HANDOFF_TIMEOUT",
+        "MISSION_PAGE_REQUESTED",
+        "MISSION_PAGE_AUTHENTICATED",
         "FINAL_PAGE_PROBED",
     }
 )
@@ -718,6 +729,10 @@ def _switch_to_dynamic_password_login(
             )
             _report_login_stage(
                 stage_reporter,
+                "ACCOUNT_LOGIN_PANEL_VISIBLE",
+            )
+            _report_login_stage(
+                stage_reporter,
                 "DYNAMIC_TAB_OPENED",
             )
         else:
@@ -739,6 +754,10 @@ def _switch_to_dynamic_password_login(
                     or not qr_heading.is_visible()
                 ):
                     raise OtpError("未识别到扫码登录页或账号登录页")
+                _report_login_stage(
+                    stage_reporter,
+                    "QR_LOGIN_PAGE_DETECTED",
+                )
                 toggle = _unique_locator(
                     page,
                     ACCOUNT_LOGIN_TOGGLE_SELECTOR,
@@ -746,6 +765,10 @@ def _switch_to_dynamic_password_login(
                 )
                 toggle.wait_for(state="visible", timeout=10_000)
                 toggle.click()
+                _report_login_stage(
+                    stage_reporter,
+                    "ACCOUNT_LOGIN_TOGGLE_CLICKED",
+                )
                 password_tab = _unique_locator(
                     page,
                     PASSWORD_LOGIN_TAB_SELECTOR,
@@ -757,13 +780,25 @@ def _switch_to_dynamic_password_login(
                     "动态密码登录页签",
                 )
                 password_tab.wait_for(state="visible", timeout=10_000)
+                _report_login_stage(
+                    stage_reporter,
+                    "PASSWORD_TAB_VISIBLE",
+                )
                 dynamic_tab.wait_for(state="visible", timeout=10_000)
 
             _report_login_stage(
                 stage_reporter,
                 "LOGIN_PAGE_SWITCHED",
             )
+            _report_login_stage(
+                stage_reporter,
+                "ACCOUNT_LOGIN_PANEL_VISIBLE",
+            )
             dynamic_tab.click()
+            _report_login_stage(
+                stage_reporter,
+                "DYNAMIC_TAB_CLICKED",
+            )
             form = _unique_locator(
                 page,
                 DYNAMIC_LOGIN_FORM_SELECTOR,
@@ -907,7 +942,9 @@ def complete_dynamic_password_login(
     allow_manual_slider: bool = True,
     save_diagnostics: bool = True,
     stage_reporter: LoginStageReporter | None = None,
+    expected_otp_length: int | None = None,
 ) -> AuthObservation:
+    _report_login_stage(stage_reporter, "LOGIN_FLOW_STARTED")
     _switch_to_dynamic_password_login(
         page,
         save_diagnostics=save_diagnostics,
@@ -954,6 +991,8 @@ def complete_dynamic_password_login(
         if save_diagnostics:
             _save_otp_timeout_screenshot(page)
         raise
+    if expected_otp_length is not None and len(otp) != expected_otp_length:
+        raise OtpParseError("动态密码长度不符合预期")
     _report_login_stage(
         stage_reporter,
         "OTP_MAIL_RECEIVED",
@@ -981,10 +1020,17 @@ def complete_dynamic_password_login(
             timeout=30_000,
             wait_until="domcontentloaded",
         )
+        _report_login_stage(stage_reporter, "SSO_HANDOFF_REACHED")
     except Exception:
-        pass
+        _report_login_stage(stage_reporter, "SSO_HANDOFF_TIMEOUT")
+    _report_login_stage(stage_reporter, "MISSION_PAGE_REQUESTED")
     observation = navigate_and_probe(page, MISSION_URL)
     _report_login_stage(stage_reporter, "FINAL_PAGE_PROBED")
+    if observation.status == AuthStatus.AUTHENTICATED:
+        _report_login_stage(
+            stage_reporter,
+            "MISSION_PAGE_AUTHENTICATED",
+        )
     return observation
 
 

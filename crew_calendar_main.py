@@ -5070,6 +5070,8 @@ def _cloud_error_category(diagnostic: dict) -> str:
         return "OTP_REQUEST_FAILED"
     if "OTP_FIELD_FILLED" not in stages:
         return "OTP_PARSE_FAILED"
+    if "LOGIN_BUTTON_CLICKED" in stages:
+        return "POST_LOGIN_HANDOFF_INCOMPLETE"
     return "LOGIN_RESULT_UNKNOWN"
 
 
@@ -5166,6 +5168,7 @@ def attempt_cloud_dynamic_password_login(page) -> AuthObservation:
                 allow_manual_slider=False,
                 save_diagnostics=False,
                 stage_reporter=stage_reporter,
+                expected_otp_length=6,
             )
     except AdditionalVerificationRequiredError:
         observation = AuthObservation(
@@ -5199,7 +5202,7 @@ def attempt_cloud_dynamic_password_login(page) -> AuthObservation:
         error_category = _cloud_error_category(diagnostic)
     else:
         error_category = (
-            "LOGIN_RESULT_UNKNOWN"
+            _cloud_error_category(diagnostic)
             if observation.status == AuthStatus.PAGE_CHANGED_OR_UNKNOWN
             else ""
         )

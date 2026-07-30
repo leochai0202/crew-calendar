@@ -347,12 +347,16 @@ def test_dynamic_login_records_uid_before_single_request_and_fills_otp(
         events.index(("click", "login"))
     )
     assert stages == [
+        ("LOGIN_FLOW_STARTED", {}),
         ("IMAP_BASELINE_RECORDED", {}),
         ("OTP_REQUEST_CLICKED", {}),
         ("OTP_MAIL_RECEIVED", {"otp_length": 6}),
         ("OTP_FIELD_FILLED", {}),
         ("LOGIN_BUTTON_CLICKED", {}),
+        ("SSO_HANDOFF_REACHED", {}),
+        ("MISSION_PAGE_REQUESTED", {}),
         ("FINAL_PAGE_PROBED", {}),
+        ("MISSION_PAGE_AUTHENTICATED", {}),
     ]
 
 
@@ -405,6 +409,10 @@ def test_safe_login_page_snapshot_omits_query_and_sensitive_content() -> None:
 
 
 def test_dynamic_login_selectors_match_verified_dom_contract() -> None:
+    assert (
+        authentication.ACCOUNT_LOGIN_TOGGLE_SELECTOR
+        == ".login-badge .badge-icon"
+    )
     assert authentication.PASSWORD_LOGIN_TAB_SELECTOR == "#div1"
     assert authentication.DYNAMIC_LOGIN_TAB_SELECTOR == "#div2"
     assert authentication.PHONE_OR_EMAIL_SELECTOR == "#phone"
@@ -557,6 +565,7 @@ def test_saving_local_imap_configuration_preserves_unrelated_entries(
 
 def test_qr_login_switches_to_account_then_dynamic_password() -> None:
     events: list[tuple[str, str]] = []
+    stages: list[str] = []
 
     class Locator:
         def __init__(self, name: str, visible: bool = False) -> None:
@@ -608,13 +617,25 @@ def test_qr_login_switches_to_account_then_dynamic_password() -> None:
             assert exact is True
             return Locator("qr_heading", True)
 
-    authentication._switch_to_dynamic_password_login(Page())
+    authentication._switch_to_dynamic_password_login(
+        Page(),
+        stage_reporter=lambda stage, _details: stages.append(stage),
+    )
 
     assert events.index(("click", "account_toggle")) < events.index(
         ("click", "dynamic_tab")
     )
     assert ("wait", "phone") in events
     assert ("wait", "request") in events
+    assert stages == [
+        "QR_LOGIN_PAGE_DETECTED",
+        "ACCOUNT_LOGIN_TOGGLE_CLICKED",
+        "PASSWORD_TAB_VISIBLE",
+        "LOGIN_PAGE_SWITCHED",
+        "ACCOUNT_LOGIN_PANEL_VISIBLE",
+        "DYNAMIC_TAB_CLICKED",
+        "DYNAMIC_TAB_OPENED",
+    ]
 
 
 def test_already_dynamic_login_does_not_repeat_switch() -> None:
