@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
@@ -47,7 +48,11 @@ DEFAULT_PROFILE_DIR = DEFAULT_AUTH_DIR / "crew-profile"
 DEFAULT_STATE_FILE = DEFAULT_AUTH_DIR / "crew-auth-session.storage-state.json"
 DEFAULT_LOCAL_ENV_FILE = Path(__file__).resolve().parent / ".env"
 DEFAULT_TIMEOUT_SECONDS = 10 * 60
-OTP_TIMEOUT_SECONDS = 120
+OTP_TIMEOUT_SECONDS = 45
+OTP_POLL_INTERVAL_SECONDS = 1
+OTP_MAX_ATTEMPTS = 3
+OTP_REQUEST_RECOVERY_TIMEOUT_SECONDS = 70
+OTP_CLOCK_SKEW_SECONDS = 5
 OTP_DIAGNOSTIC_DIR = (
     Path("playwright")
     / ".auth-diagnostics"
@@ -102,10 +107,14 @@ LOGIN_STAGE_NAMES = frozenset(
         "DYNAMIC_TAB_CLICKED",
         "DYNAMIC_TAB_OPENED",
         "PHONE_FILLED",
+        "OTP_ATTEMPT_STARTED",
         "IMAP_BASELINE_RECORDED",
         "OTP_REQUEST_CLICKED",
         "SLIDER_PRESENT",
         "SLIDER_ABSENT",
+        "OTP_ATTEMPT_TIMEOUT",
+        "OTP_RETRY_WAIT_STARTED",
+        "OTP_RETRY_READY",
         "OTP_MAIL_RECEIVED",
         "OTP_FIELD_FILLED",
         "LOGIN_BUTTON_CLICKED",
@@ -1333,6 +1342,52 @@ def _save_otp_timeout_screenshot(page: Any) -> None:
         print("验证码等待超时，调试截图保存失败。", flush=True)
 
 
+def _wait_for_otp_request_button_enabled(
+    page: Any,
+    *,
+    timeout_seconds: int,
+) -> None:
+    page.wait_for_function(
+        "() => {"
+        "const button=document.querySelector('#btnGetDynamic');"
+        "return Boolean(button && !button.disabled);"
+        "}",
+        timeout=max(1, timeout_seconds) * 1_000,
+    )
+
+
+def _confirm_dynamic_login_attempt_ready(
+    page: Any,
+    *,
+    manual_timeout_seconds: int,
+    phone_number: str | None,
+    stage_reporter: LoginStageReporter | None,
+) -> Any:
+    _unique_locator(
+        page,
+        DYNAMIC_LOGIN_FORM_SELECTOR,
+        "动态密码登录表单",
+    ).wait_for(state="visible", timeout=10_000)
+    _wait_for_phone_or_email(
+        page,
+        manual_timeout_seconds,
+        phone_number=phone_number,
+        stage_reporter=stage_reporter,
+    )
+    request_button = _unique_locator(
+        page,
+        REQUEST_DYNAMIC_PASSWORD_SELECTOR,
+        "获取动态密码按钮",
+    )
+    request_button.wait_for(state="visible", timeout=10_000)
+    _unique_locator(
+        page,
+        DYNAMIC_PASSWORD_SELECTOR,
+        "动态密码输入框",
+    ).wait_for(state="visible", timeout=10_000)
+    return request_button
+
+
 def complete_dynamic_password_login(
     page: Any,
     otp_reader: ImapOtpReader,
@@ -1344,57 +1399,106 @@ def complete_dynamic_password_login(
     save_diagnostics: bool = True,
     stage_reporter: LoginStageReporter | None = None,
     expected_otp_length: int | None = None,
+    max_otp_attempts: int = OTP_MAX_ATTEMPTS,
+    otp_poll_interval_seconds: float = OTP_POLL_INTERVAL_SECONDS,
+    request_recovery_timeout_seconds: int = (
+        OTP_REQUEST_RECOVERY_TIMEOUT_SECONDS
+    ),
 ) -> AuthObservation:
+    if max_otp_attempts < 1:
+        raise ValueError("动态密码申请次数必须至少为1")
     _report_login_stage(stage_reporter, "LOGIN_FLOW_STARTED")
     _switch_to_dynamic_password_login(
         page,
         save_diagnostics=save_diagnostics,
         stage_reporter=stage_reporter,
     )
-    _wait_for_phone_or_email(
-        page,
-        manual_timeout_seconds,
-        phone_number=phone_number,
-        stage_reporter=stage_reporter,
-    )
     otp_reader.connect()
+    processed_uids: set[int] = set()
+    used_otps: set[str] = set()
+    otp: str | None = None
 
-    request_button = _unique_locator(
-        page,
-        REQUEST_DYNAMIC_PASSWORD_SELECTOR,
-        "获取动态密码按钮",
-    )
-    request_button.wait_for(state="visible", timeout=10_000)
-    page.wait_for_function(
-        "() => {"
-        "const button=document.querySelector('#btnGetDynamic');"
-        "return Boolean(button && !button.disabled);"
-        "}",
-        timeout=10_000,
-    )
-
-    baseline_uid = otp_reader.current_max_uid()
-    _report_login_stage(stage_reporter, "IMAP_BASELINE_RECORDED")
-    request_button.click()
-    _report_login_stage(stage_reporter, "OTP_REQUEST_CLICKED")
-    _wait_for_slider_if_present(
-        page,
-        manual_timeout_seconds,
-        allow_manual_completion=allow_manual_slider,
-        stage_reporter=stage_reporter,
-    )
-
-    try:
-        otp = otp_reader.wait_for_new_otp(
-            baseline_uid,
-            timeout_seconds=otp_timeout_seconds,
+    for attempt in range(1, max_otp_attempts + 1):
+        _report_login_stage(
+            stage_reporter,
+            "OTP_ATTEMPT_STARTED",
+            attempt=attempt,
         )
-    except OtpTimeoutError:
-        if save_diagnostics:
-            _save_otp_timeout_screenshot(page)
-        raise
+        request_button = _confirm_dynamic_login_attempt_ready(
+            page,
+            manual_timeout_seconds=manual_timeout_seconds,
+            phone_number=phone_number,
+            stage_reporter=stage_reporter,
+        )
+        if attempt == 1:
+            _wait_for_otp_request_button_enabled(
+                page,
+                timeout_seconds=10,
+            )
+
+        otp_reader.connect()
+        baseline_uid = otp_reader.current_max_uid()
+        requested_at = datetime.now(timezone.utc)
+        _report_login_stage(
+            stage_reporter,
+            "IMAP_BASELINE_RECORDED",
+            attempt=attempt,
+        )
+        request_button.click()
+        _report_login_stage(
+            stage_reporter,
+            "OTP_REQUEST_CLICKED",
+            attempt=attempt,
+        )
+        _wait_for_slider_if_present(
+            page,
+            manual_timeout_seconds,
+            allow_manual_completion=allow_manual_slider,
+            stage_reporter=stage_reporter,
+        )
+
+        try:
+            otp = otp_reader.wait_for_new_otp(
+                baseline_uid,
+                timeout_seconds=otp_timeout_seconds,
+                poll_interval_seconds=otp_poll_interval_seconds,
+                not_before=requested_at,
+                clock_skew_seconds=OTP_CLOCK_SKEW_SECONDS,
+                processed_uids=processed_uids,
+                used_otps=used_otps,
+            )
+        except OtpTimeoutError:
+            _report_login_stage(
+                stage_reporter,
+                "OTP_ATTEMPT_TIMEOUT",
+                attempt=attempt,
+            )
+            if attempt >= max_otp_attempts:
+                if save_diagnostics:
+                    _save_otp_timeout_screenshot(page)
+                raise
+            _report_login_stage(
+                stage_reporter,
+                "OTP_RETRY_WAIT_STARTED",
+                attempt=attempt + 1,
+            )
+            _wait_for_otp_request_button_enabled(
+                page,
+                timeout_seconds=request_recovery_timeout_seconds,
+            )
+            _report_login_stage(
+                stage_reporter,
+                "OTP_RETRY_READY",
+                attempt=attempt + 1,
+            )
+            continue
+        break
+
+    if otp is None:
+        raise OtpTimeoutError("三次申请均未收到新的验证码邮件")
     if expected_otp_length is not None and len(otp) != expected_otp_length:
         raise OtpParseError("动态密码长度不符合预期")
+    used_otps.add(otp)
     _report_login_stage(
         stage_reporter,
         "OTP_MAIL_RECEIVED",

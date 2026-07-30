@@ -959,41 +959,23 @@ def _navigation_was_interrupted(exc: Exception) -> bool:
 def _wait_for_current_navigation(
     page,
     *,
-    timeout_ms: int = 15000,
-    poll_ms: int = 250,
-    stable_checks: int = 6,
+    timeout_ms: int = 5000,
 ) -> None:
-    """Wait until the current document URL stays stable after an SSO handoff."""
-    max_checks = max(stable_checks, timeout_ms // max(1, poll_ms))
-    last_url = None
-    unchanged_checks = 0
-
-    for _ in range(max_checks):
-        load_state_ready = False
-        try:
-            page.wait_for_load_state(
-                "domcontentloaded",
-                timeout=poll_ms,
-            )
-            load_state_ready = True
-        except Exception:
-            unchanged_checks = 0
-
-        current_url = str(getattr(page, "url", "") or "")
-        if not load_state_ready:
-            last_url = current_url or last_url
-        elif current_url and current_url == last_url:
-            unchanged_checks += 1
-        else:
-            last_url = current_url
-            unchanged_checks = 1 if current_url else 0
-
-        if unchanged_checks >= stable_checks:
-            return
-
-        page.wait_for_timeout(poll_ms)
-
-    raise RuntimeError("登录后的 SSO 页面导航未能稳定")
+    """Give an active SSO navigation time to finish without requiring idleness."""
+    try:
+        page.wait_for_load_state(
+            "domcontentloaded",
+            timeout=timeout_ms,
+        )
+    except Exception as exc:
+        message = str(exc).lower()
+        if (
+            "net::err_" in message
+            or "connection reset" in message
+            or "name_not_resolved" in message
+        ):
+            raise RuntimeError("登录后的页面发生明确网络错误") from exc
+        logger.info("页面仍有后台活动，直接按当前可见任务内容继续判断")
 
 
 def _wait_for_mission_content(page, *, timeout_ms: int = 15000) -> None:
@@ -1019,11 +1001,20 @@ def _wait_for_mission_content(page, *, timeout_ms: int = 15000) -> None:
 
 
 def open_mission_page(page):
-    logger.info("等待认证后的 SSO 导航完成")
+    if _mission_content_loaded(page):
+        logger.info("认证后的任务内容已经可见，立即进入正式抓取")
+        return
+
+    current_text = page_text(page)
+    if "我的任务" in current_text:
+        logger.info("认证后的任务区域已经可见，立即进入正式抓取")
+        return
+
+    logger.info("等待认证后的当前页面完成必要加载")
     _wait_for_current_navigation(page)
 
     if _mission_content_loaded(page):
-        logger.info("当前页面已经包含任务内容，不再重复导航")
+        logger.info("认证后的任务内容已经可见，立即进入正式抓取")
         return
 
     current_text = page_text(page)
@@ -1037,6 +1028,10 @@ def open_mission_page(page):
         _wait_for_mission_content(page)
         return
 
+    current_url = str(getattr(page, "url", "") or "")
+    if urlsplit(current_url).netloc.lower() == "cas.9cair.com":
+        raise RuntimeError("认证后重新跳回统一登录页")
+
     logger.info("当前尚未进入任务页，只打开一次任务网址")
     try:
         page.goto(
@@ -1048,8 +1043,7 @@ def open_mission_page(page):
         if not _navigation_was_interrupted(exc):
             raise
         logger.info("任务页导航由尚未结束的 SSO 跳转接管，等待其完成")
-
-    _wait_for_current_navigation(page)
+        _wait_for_current_navigation(page)
     _wait_for_mission_content(page)
 
 
@@ -5147,6 +5141,20 @@ def _cloud_stage_reporter(diagnostic: dict):
                 f"LOGIN_STAGE={stage} OTP_LENGTH={otp_length}",
                 flush=True,
             )
+        elif stage in {
+            "OTP_ATTEMPT_STARTED",
+            "IMAP_BASELINE_RECORDED",
+            "OTP_REQUEST_CLICKED",
+            "OTP_ATTEMPT_TIMEOUT",
+            "OTP_RETRY_WAIT_STARTED",
+            "OTP_RETRY_READY",
+        }:
+            attempt = min(3, max(1, int(details.get("attempt", 1))))
+            entry["attempt"] = attempt
+            print(
+                f"LOGIN_STAGE={stage} ATTEMPT={attempt}",
+                flush=True,
+            )
         elif stage == "LOGIN_STATE_WAIT_STARTED":
             print("LOGIN_STATE_WAIT_STARTED", flush=True)
         elif stage == "LOGIN_STATE_CONFIRMED":
@@ -5191,6 +5199,8 @@ def _cloud_error_category(diagnostic: dict) -> str:
         return "LOGIN_SWITCH_FAILED"
     if "OTP_REQUEST_CLICKED" not in stages:
         return "OTP_REQUEST_FAILED"
+    if "OTP_ATTEMPT_TIMEOUT" in stages and "OTP_FIELD_FILLED" not in stages:
+        return "OTP_TIMEOUT"
     if "OTP_FIELD_FILLED" not in stages:
         return "OTP_PARSE_FAILED"
     if "LOGIN_BUTTON_CLICKED" in stages:

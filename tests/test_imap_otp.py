@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import json
 import os
+from datetime import datetime, timedelta, timezone
 from email.message import EmailMessage
+from email.utils import format_datetime
 from pathlib import Path
 from typing import Any
 
@@ -12,7 +14,9 @@ import authenticate_crew_session as authentication
 from crew_auth_session import AuthObservation, AuthSignals, AuthStatus
 from imap_otp import (
     ImapOtpReader,
+    OtpMailboxError,
     OtpParseError,
+    OtpTimeoutError,
     extract_otp_from_message,
     extract_otp_from_text,
 )
@@ -26,11 +30,14 @@ def make_message(
     *,
     plain: str | None = None,
     html: str | None = None,
+    sent_at: datetime | None = None,
 ) -> bytes:
     message = EmailMessage()
     message["Subject"] = subject
     message["From"] = "relay@example.invalid"
     message["To"] = "receiver@example.invalid"
+    if sent_at is not None:
+        message["Date"] = format_datetime(sent_at)
     if plain is not None:
         message.set_content(plain)
     else:
@@ -201,6 +208,51 @@ def test_wait_only_fetches_uid_newer_than_baseline() -> None:
     assert otp == "638204"
 
 
+def test_wait_rejects_delayed_previous_round_mail_and_used_otp() -> None:
+    requested_at = datetime.now(timezone.utc)
+    client = FakeImap(
+        {
+            8: make_message(
+                "CREW_OTP",
+                plain="验证码：111111",
+                sent_at=requested_at - timedelta(seconds=30),
+            ),
+            9: make_message(
+                "CREW_OTP",
+                plain="验证码：111111",
+                sent_at=requested_at + timedelta(seconds=1),
+            ),
+            10: make_message(
+                "CREW_OTP",
+                plain="验证码：638204",
+                sent_at=requested_at + timedelta(seconds=1),
+            ),
+        }
+    )
+    client.current_uids = b"7 8 9 10"
+    processed_uids: set[int] = set()
+    reader = ImapOtpReader(
+        "configured@example.invalid",
+        "configured-auth-code",
+        client_factory=fake_factory(client),
+        sleeper=lambda _: None,
+    )
+
+    with reader:
+        otp = reader.wait_for_new_otp(
+            7,
+            timeout_seconds=1,
+            poll_interval_seconds=0,
+            not_before=requested_at,
+            clock_skew_seconds=5,
+            processed_uids=processed_uids,
+            used_otps={"111111"},
+        )
+
+    assert processed_uids == {8, 9, 10}
+    assert otp == "638204"
+
+
 def test_matching_new_mail_without_code_reports_parse_error() -> None:
     client = FakeImap(
         {8: make_message("CREW_OTP", plain="没有数字验证码")}
@@ -277,6 +329,95 @@ class RecordingOtpReader:
         return "482731"
 
 
+class SequencedOtpReader:
+    def __init__(self, events: list[Any], outcomes: list[Any]) -> None:
+        self.events = events
+        self.outcomes = list(outcomes)
+        self.baseline = 20
+
+    def connect(self) -> None:
+        self.events.append(("imap_connect",))
+
+    def current_max_uid(self) -> int:
+        self.baseline += 1
+        self.events.append(("baseline", self.baseline))
+        return self.baseline
+
+    def wait_for_new_otp(
+        self,
+        baseline_uid: int,
+        **options: Any,
+    ) -> str:
+        self.events.append(
+            (
+                "wait_for_otp",
+                baseline_uid,
+                options["timeout_seconds"],
+                options["poll_interval_seconds"],
+            )
+        )
+        outcome = self.outcomes.pop(0)
+        if isinstance(outcome, Exception):
+            raise outcome
+        return str(outcome)
+
+
+def install_dynamic_login_mocks(
+    monkeypatch: pytest.MonkeyPatch,
+    events: list[Any],
+    *,
+    slider_handler: Any | None = None,
+) -> dict[str, RecordingLocator]:
+    locators = {
+        authentication.DYNAMIC_LOGIN_FORM_SELECTOR: RecordingLocator(
+            "dynamic_form",
+            events,
+        ),
+        authentication.REQUEST_DYNAMIC_PASSWORD_SELECTOR: RecordingLocator(
+            "request",
+            events,
+        ),
+        authentication.DYNAMIC_PASSWORD_SELECTOR: RecordingLocator(
+            "dynamic_password",
+            events,
+        ),
+        authentication.SUBMIT_DYNAMIC_LOGIN_SELECTOR: RecordingLocator(
+            "login",
+            events,
+        ),
+    }
+    monkeypatch.setattr(
+        authentication,
+        "_switch_to_dynamic_password_login",
+        lambda _, **__: events.append(("switch_dynamic_login",)),
+    )
+    monkeypatch.setattr(
+        authentication,
+        "_wait_for_phone_or_email",
+        lambda *_, **__: events.append(("phone_ready",)),
+    )
+    monkeypatch.setattr(
+        authentication,
+        "_wait_for_slider_if_present",
+        slider_handler
+        or (lambda *_, **__: events.append(("slider_complete",))),
+    )
+    monkeypatch.setattr(
+        authentication,
+        "_unique_locator",
+        lambda _page, selector, _description: locators[selector],
+    )
+    monkeypatch.setattr(
+        authentication,
+        "navigate_and_probe",
+        lambda *_: AuthObservation(
+            AuthStatus.AUTHENTICATED,
+            AuthSignals(mission_heading=True, task_container=True),
+        ),
+    )
+    return locators
+
+
 def test_dynamic_login_records_uid_before_single_request_and_fills_otp(
     monkeypatch,
 ) -> None:
@@ -285,6 +426,10 @@ def test_dynamic_login_records_uid_before_single_request_and_fills_otp(
     page = RecordingPage(events)
     otp_reader = RecordingOtpReader(events)
     locators = {
+        authentication.DYNAMIC_LOGIN_FORM_SELECTOR: RecordingLocator(
+            "dynamic_form",
+            events,
+        ),
         authentication.REQUEST_DYNAMIC_PASSWORD_SELECTOR: RecordingLocator(
             "request",
             events,
@@ -351,8 +496,9 @@ def test_dynamic_login_records_uid_before_single_request_and_fills_otp(
     )
     assert stages == [
         ("LOGIN_FLOW_STARTED", {}),
-        ("IMAP_BASELINE_RECORDED", {}),
-        ("OTP_REQUEST_CLICKED", {}),
+        ("OTP_ATTEMPT_STARTED", {"attempt": 1}),
+        ("IMAP_BASELINE_RECORDED", {"attempt": 1}),
+        ("OTP_REQUEST_CLICKED", {"attempt": 1}),
         ("OTP_MAIL_RECEIVED", {"otp_length": 6}),
         ("OTP_FIELD_FILLED", {}),
         ("LOGIN_BUTTON_CLICKED", {}),
@@ -361,6 +507,136 @@ def test_dynamic_login_records_uid_before_single_request_and_fills_otp(
         ("FINAL_PAGE_PROBED", {}),
         ("MISSION_PAGE_AUTHENTICATED", {}),
     ]
+
+
+def test_dynamic_login_retries_timeout_at_most_twice_then_succeeds(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    events: list[Any] = []
+    stages: list[tuple[str, dict[str, Any]]] = []
+    page = RecordingPage(events)
+    otp_reader = SequencedOtpReader(
+        events,
+        [
+            OtpTimeoutError("timeout one"),
+            OtpTimeoutError("timeout two"),
+            "482731",
+        ],
+    )
+    install_dynamic_login_mocks(monkeypatch, events)
+
+    observation = authentication.complete_dynamic_password_login(
+        page,
+        otp_reader,
+        manual_timeout_seconds=60,
+        otp_timeout_seconds=45,
+        max_otp_attempts=3,
+        request_recovery_timeout_seconds=70,
+        save_diagnostics=False,
+        stage_reporter=lambda stage, details: stages.append(
+            (stage, details)
+        ),
+    )
+
+    assert observation.status == AuthStatus.AUTHENTICATED
+    assert events.count(("click", "request")) == 3
+    assert events.count(("wait_for_enabled",)) == 3
+    assert events.count(("fill", "dynamic_password", "482731")) == 1
+    assert events.count(("click", "login")) == 1
+    assert [
+        details["attempt"]
+        for stage, details in stages
+        if stage == "OTP_ATTEMPT_TIMEOUT"
+    ] == [1, 2]
+
+
+def test_dynamic_login_stops_after_three_mail_timeouts(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    events: list[Any] = []
+    page = RecordingPage(events)
+    otp_reader = SequencedOtpReader(
+        events,
+        [
+            OtpTimeoutError("timeout one"),
+            OtpTimeoutError("timeout two"),
+            OtpTimeoutError("timeout three"),
+        ],
+    )
+    install_dynamic_login_mocks(monkeypatch, events)
+
+    with pytest.raises(OtpTimeoutError, match="timeout three"):
+        authentication.complete_dynamic_password_login(
+            page,
+            otp_reader,
+            manual_timeout_seconds=60,
+            otp_timeout_seconds=45,
+            max_otp_attempts=3,
+            request_recovery_timeout_seconds=70,
+            save_diagnostics=False,
+        )
+
+    assert events.count(("click", "request")) == 3
+    assert events.count(("wait_for_enabled",)) == 3
+    assert not any(event[0] == "fill" for event in events)
+    assert ("click", "login") not in events
+
+
+def test_dynamic_login_never_retries_when_slider_appears(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    events: list[Any] = []
+    page = RecordingPage(events)
+    otp_reader = SequencedOtpReader(events, ["482731"])
+
+    def slider_required(*_: Any, **__: Any) -> None:
+        raise authentication.AdditionalVerificationRequiredError(
+            "slider required"
+        )
+
+    install_dynamic_login_mocks(
+        monkeypatch,
+        events,
+        slider_handler=slider_required,
+    )
+
+    with pytest.raises(
+        authentication.AdditionalVerificationRequiredError,
+        match="slider required",
+    ):
+        authentication.complete_dynamic_password_login(
+            page,
+            otp_reader,
+            manual_timeout_seconds=60,
+            save_diagnostics=False,
+        )
+
+    assert events.count(("click", "request")) == 1
+    assert not any(event[0] == "wait_for_otp" for event in events)
+
+
+def test_dynamic_login_never_requests_when_imap_baseline_fails(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    events: list[Any] = []
+    page = RecordingPage(events)
+
+    class BrokenReader(SequencedOtpReader):
+        def current_max_uid(self) -> int:
+            raise OtpMailboxError("imap unavailable")
+
+    otp_reader = BrokenReader(events, [])
+    install_dynamic_login_mocks(monkeypatch, events)
+
+    with pytest.raises(OtpMailboxError, match="imap unavailable"):
+        authentication.complete_dynamic_password_login(
+            page,
+            otp_reader,
+            manual_timeout_seconds=60,
+            save_diagnostics=False,
+        )
+
+    assert ("click", "request") not in events
 
 
 def test_safe_login_page_snapshot_omits_query_and_sensitive_content() -> None:

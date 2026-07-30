@@ -5,10 +5,12 @@ import os
 import re
 import ssl
 import time
+from datetime import datetime, timedelta, timezone
 from email import policy
 from email.header import decode_header
 from email.message import Message
 from email.parser import BytesParser
+from email.utils import parsedate_to_datetime
 from html import unescape
 from html.parser import HTMLParser
 from typing import Any, Callable
@@ -122,6 +124,27 @@ def extract_otp_from_message(
         if otp:
             return otp
     return None
+
+
+def _message_date_utc(message: Message) -> datetime | None:
+    raw_date = message.get("Date")
+    if not raw_date:
+        return None
+    try:
+        parsed = parsedate_to_datetime(str(raw_date))
+    except (TypeError, ValueError, OverflowError):
+        return None
+    if parsed is None:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc)
+
+
+def _as_utc(value: datetime) -> datetime:
+    if value.tzinfo is None:
+        return value.replace(tzinfo=timezone.utc)
+    return value.astimezone(timezone.utc)
 
 
 class ImapOtpReader:
@@ -285,11 +308,27 @@ class ImapOtpReader:
         *,
         timeout_seconds: float = DEFAULT_TIMEOUT_SECONDS,
         poll_interval_seconds: float = DEFAULT_POLL_INTERVAL_SECONDS,
+        not_before: datetime | None = None,
+        clock_skew_seconds: float = 5,
+        processed_uids: set[int] | None = None,
+        used_otps: set[str] | None = None,
     ) -> str:
-        if timeout_seconds <= 0 or poll_interval_seconds < 0:
+        if (
+            timeout_seconds <= 0
+            or poll_interval_seconds < 0
+            or clock_skew_seconds < 0
+        ):
             raise ValueError("验证码等待参数无效")
         deadline = self._monotonic() + timeout_seconds
-        checked_uids: set[int] = set()
+        checked_uids = (
+            processed_uids if processed_uids is not None else set()
+        )
+        rejected_otps = used_otps if used_otps is not None else set()
+        earliest_message_time = (
+            _as_utc(not_before) - timedelta(seconds=clock_skew_seconds)
+            if not_before is not None
+            else None
+        )
         matching_message_without_code = False
 
         while True:
@@ -306,8 +345,17 @@ class ImapOtpReader:
                     raise OtpParseError("新的验证码邮件无法解析") from exc
                 if OTP_SUBJECT not in _decoded_subject(message):
                     continue
+                if earliest_message_time is not None:
+                    message_time = _message_date_utc(message)
+                    if (
+                        message_time is None
+                        or message_time < earliest_message_time
+                    ):
+                        continue
                 otp = extract_otp_from_message(raw_message)
                 if otp:
+                    if otp in rejected_otps:
+                        continue
                     return otp
                 matching_message_without_code = True
 
