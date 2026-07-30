@@ -309,6 +309,44 @@ class RecordingPage:
         self.events.append(("wait_for_login_navigation",))
 
 
+class RecoveryResponse:
+    def __init__(self, status: int) -> None:
+        self.status = status
+
+
+class RecoveryPage:
+    def __init__(
+        self,
+        outcomes: list[tuple[str, int, AuthObservation]],
+    ) -> None:
+        self.url = "https://cp.9cair.com/"
+        self.outcomes = list(outcomes)
+        self.current_observation = AuthObservation(
+            AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+            AuthSignals(),
+        )
+        self.goto_calls: list[str] = []
+        self.waits: list[int] = []
+
+    def wait_for_timeout(self, timeout_ms: int) -> None:
+        self.waits.append(timeout_ms)
+
+    def goto(
+        self,
+        url: str,
+        *,
+        wait_until: str,
+        timeout: int,
+    ) -> RecoveryResponse:
+        assert wait_until == "domcontentloaded"
+        assert timeout == 90_000
+        self.goto_calls.append(url)
+        next_url, status, observation = self.outcomes.pop(0)
+        self.url = next_url
+        self.current_observation = observation
+        return RecoveryResponse(status)
+
+
 class RecordingOtpReader:
     def __init__(self, events: list[Any]) -> None:
         self.events = events
@@ -409,8 +447,8 @@ def install_dynamic_login_mocks(
     )
     monkeypatch.setattr(
         authentication,
-        "navigate_and_probe",
-        lambda *_: AuthObservation(
+        "_recover_post_login_mission_page",
+        lambda *_args, **_kwargs: AuthObservation(
             AuthStatus.AUTHENTICATED,
             AuthSignals(mission_heading=True, task_container=True),
         ),
@@ -469,8 +507,8 @@ def test_dynamic_login_records_uid_before_single_request_and_fills_otp(
     )
     monkeypatch.setattr(
         authentication,
-        "navigate_and_probe",
-        lambda *_: expected,
+        "_recover_post_login_mission_page",
+        lambda *_args, **_kwargs: expected,
     )
 
     observation = authentication.complete_dynamic_password_login(
@@ -507,6 +545,184 @@ def test_dynamic_login_records_uid_before_single_request_and_fills_otp(
         ("FINAL_PAGE_PROBED", {}),
         ("MISSION_PAGE_AUTHENTICATED", {}),
     ]
+
+
+def test_post_login_recovery_reuses_page_and_succeeds_on_second_visit(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    blank = AuthObservation(
+        AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+        AuthSignals(),
+    )
+    authenticated = AuthObservation(
+        AuthStatus.AUTHENTICATED,
+        AuthSignals(mission_heading=True, task_container=True),
+    )
+    page = RecoveryPage(
+        [
+            ("https://cp.9cair.com/", 200, blank),
+            (
+                "https://cp.9cair.com/html/task/mission.html",
+                200,
+                authenticated,
+            ),
+        ]
+    )
+    stages: list[tuple[str, dict[str, Any]]] = []
+    monkeypatch.setattr(
+        authentication,
+        "probe_page",
+        lambda current_page: current_page.current_observation,
+    )
+
+    observation = authentication._recover_post_login_mission_page(
+        page,
+        stage_reporter=lambda stage, details: stages.append(
+            (stage, details)
+        ),
+    )
+
+    assert observation.status == AuthStatus.AUTHENTICATED
+    assert page.goto_calls == [
+        authentication.MISSION_URL,
+        authentication.MISSION_URL,
+    ]
+    assert page.waits == [2_000, 2_000, 3_000, 2_000]
+    assert [
+        details["attempt"]
+        for stage, details in stages
+        if stage == "MISSION_RECOVERY_RESULT"
+    ] == [1, 2]
+    assert stages[-1] == (
+        "MISSION_RECOVERY_RESULT",
+        {
+            "attempt": 2,
+            "domain": "cp.9cair.com",
+            "path": "/html/task/mission.html",
+            "http_status": 200,
+            "task_area_visible": True,
+        },
+    )
+
+
+def test_post_login_recovery_stops_after_three_blank_root_pages(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    blank = AuthObservation(
+        AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+        AuthSignals(),
+    )
+    page = RecoveryPage(
+        [
+            ("https://cp.9cair.com/", 200, blank),
+            ("https://cp.9cair.com/", 200, blank),
+            ("https://cp.9cair.com/", 200, blank),
+        ]
+    )
+    monkeypatch.setattr(
+        authentication,
+        "probe_page",
+        lambda current_page: current_page.current_observation,
+    )
+
+    observation = authentication._recover_post_login_mission_page(
+        page,
+        stage_reporter=None,
+    )
+
+    assert observation.status == AuthStatus.PAGE_CHANGED_OR_UNKNOWN
+    assert page.goto_calls == [authentication.MISSION_URL] * 3
+    assert page.waits == [
+        2_000,
+        2_000,
+        3_000,
+        2_000,
+        3_000,
+        2_000,
+    ]
+
+
+def test_post_login_recovery_stops_when_redirected_to_cas(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    login_required = AuthObservation(
+        AuthStatus.LOGIN_REQUIRED,
+        AuthSignals(login_url_hint=True),
+    )
+    page = RecoveryPage(
+        [
+            (
+                "https://cas.9cair.com/login?service=redacted",
+                200,
+                login_required,
+            )
+        ]
+    )
+    monkeypatch.setattr(
+        authentication,
+        "probe_page",
+        lambda current_page: current_page.current_observation,
+    )
+
+    observation = authentication._recover_post_login_mission_page(
+        page,
+        stage_reporter=None,
+    )
+
+    assert observation.status == AuthStatus.LOGIN_REQUIRED
+    assert page.goto_calls == [authentication.MISSION_URL]
+
+
+def test_post_login_recovery_stops_on_explicit_network_error(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    unavailable = AuthObservation(
+        AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+        AuthSignals(),
+    )
+    page = RecoveryPage(
+        [
+            ("https://cp.9cair.com/", 503, unavailable),
+            ("https://cp.9cair.com/", 200, unavailable),
+        ]
+    )
+    monkeypatch.setattr(
+        authentication,
+        "probe_page",
+        lambda current_page: current_page.current_observation,
+    )
+
+    observation = authentication._recover_post_login_mission_page(
+        page,
+        stage_reporter=None,
+    )
+
+    assert observation.status == AuthStatus.NETWORK_OR_SITE_ERROR
+    assert page.goto_calls == [authentication.MISSION_URL]
+
+
+def test_post_login_recovery_does_not_navigate_when_task_is_visible(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    page = RecoveryPage([])
+    page.current_observation = AuthObservation(
+        AuthStatus.AUTHENTICATED,
+        AuthSignals(mission_heading=True, task_container=True),
+    )
+    monkeypatch.setattr(
+        authentication,
+        "probe_page",
+        lambda current_page: current_page.current_observation,
+    )
+
+    observation = authentication._recover_post_login_mission_page(
+        page,
+        stage_reporter=None,
+    )
+
+    assert observation.status == AuthStatus.AUTHENTICATED
+    assert page.goto_calls == []
+    assert page.waits == []
 
 
 def test_dynamic_login_retries_timeout_at_most_twice_then_succeeds(

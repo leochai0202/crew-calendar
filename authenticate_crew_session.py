@@ -11,6 +11,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
+from urllib.parse import urlsplit
 
 from crew_auth_session import (
     ALLOWED_AUTH_ORIGINS,
@@ -53,6 +54,10 @@ OTP_POLL_INTERVAL_SECONDS = 1
 OTP_MAX_ATTEMPTS = 3
 OTP_REQUEST_RECOVERY_TIMEOUT_SECONDS = 70
 OTP_CLOCK_SKEW_SECONDS = 5
+POST_LOGIN_MISSION_MAX_ATTEMPTS = 3
+POST_LOGIN_MISSION_INITIAL_DELAY_MS = 2_000
+POST_LOGIN_MISSION_RETRY_DELAY_MS = 3_000
+POST_LOGIN_MISSION_PROBE_DELAY_MS = 2_000
 OTP_DIAGNOSTIC_DIR = (
     Path("playwright")
     / ".auth-diagnostics"
@@ -121,6 +126,8 @@ LOGIN_STAGE_NAMES = frozenset(
         "SSO_HANDOFF_REACHED",
         "SSO_HANDOFF_TIMEOUT",
         "MISSION_PAGE_REQUESTED",
+        "MISSION_RECOVERY_ATTEMPT",
+        "MISSION_RECOVERY_RESULT",
         "MISSION_PAGE_AUTHENTICATED",
         "FINAL_PAGE_PROBED",
     }
@@ -147,6 +154,131 @@ class LoginPageStateError(OtpError):
     def __init__(self, category: str) -> None:
         super().__init__(category)
         self.category = category
+
+
+def _safe_page_location(page: Any) -> tuple[str, str]:
+    try:
+        parsed = urlsplit(str(getattr(page, "url", "") or ""))
+        return parsed.netloc.lower(), parsed.path or "/"
+    except Exception:
+        return "", ""
+
+
+def _safe_response_status(response: Any) -> int:
+    try:
+        status = int(response.status)
+    except (AttributeError, TypeError, ValueError):
+        return 0
+    return status if 0 <= status <= 599 else 0
+
+
+def _task_area_visible(observation: AuthObservation) -> bool:
+    return bool(
+        observation.signals.mission_heading
+        or observation.signals.task_container
+    )
+
+
+def _authenticated_observation(
+    observation: AuthObservation,
+) -> AuthObservation:
+    return AuthObservation(
+        AuthStatus.AUTHENTICATED,
+        observation.signals,
+    )
+
+
+def _recover_post_login_mission_page(
+    page: Any,
+    *,
+    stage_reporter: LoginStageReporter | None,
+    max_attempts: int = POST_LOGIN_MISSION_MAX_ATTEMPTS,
+) -> AuthObservation:
+    if not 1 <= max_attempts <= POST_LOGIN_MISSION_MAX_ATTEMPTS:
+        raise ValueError("任务页恢复次数必须为1到3")
+
+    observation = probe_page(page)
+    domain, path = _safe_page_location(page)
+    if domain == "cp.9cair.com" and _task_area_visible(observation):
+        return _authenticated_observation(observation)
+    if domain == "cas.9cair.com":
+        return AuthObservation(
+            AuthStatus.LOGIN_REQUIRED,
+            observation.signals,
+        )
+
+    for attempt in range(1, max_attempts + 1):
+        delay_ms = (
+            POST_LOGIN_MISSION_INITIAL_DELAY_MS
+            if attempt == 1
+            else POST_LOGIN_MISSION_RETRY_DELAY_MS
+        )
+        page.wait_for_timeout(delay_ms)
+        _report_login_stage(
+            stage_reporter,
+            "MISSION_RECOVERY_ATTEMPT",
+            attempt=attempt,
+            delay_ms=delay_ms,
+        )
+
+        response_status = 0
+        navigation_error = ""
+        try:
+            response = page.goto(
+                MISSION_URL,
+                wait_until="domcontentloaded",
+                timeout=90_000,
+            )
+            response_status = _safe_response_status(response)
+        except Exception as exc:
+            navigation_error = str(exc).lower()
+
+        page.wait_for_timeout(POST_LOGIN_MISSION_PROBE_DELAY_MS)
+        observation = probe_page(page)
+        domain, path = _safe_page_location(page)
+        task_area_visible = (
+            domain == "cp.9cair.com"
+            and _task_area_visible(observation)
+        )
+        _report_login_stage(
+            stage_reporter,
+            "MISSION_RECOVERY_RESULT",
+            attempt=attempt,
+            domain=domain,
+            path=path,
+            http_status=response_status,
+            task_area_visible=task_area_visible,
+        )
+
+        if task_area_visible:
+            return _authenticated_observation(observation)
+        if domain == "cas.9cair.com":
+            return AuthObservation(
+                AuthStatus.LOGIN_REQUIRED,
+                observation.signals,
+            )
+        if response_status in {401, 403}:
+            return AuthObservation(
+                AuthStatus.LOGIN_REQUIRED,
+                AuthSignals(login_url_hint=True),
+            )
+        if response_status >= 500 or any(
+            marker in navigation_error
+            for marker in (
+                "net::err_",
+                "connection reset",
+                "name_not_resolved",
+            )
+        ):
+            return AuthObservation(
+                AuthStatus.NETWORK_OR_SITE_ERROR,
+                AuthSignals(network_or_site_error=True),
+            )
+
+        if domain != "cp.9cair.com":
+            return observation
+
+    return observation
 
 
 def _report_login_stage(
@@ -1530,7 +1662,10 @@ def complete_dynamic_password_login(
     except Exception:
         _report_login_stage(stage_reporter, "SSO_HANDOFF_TIMEOUT")
     _report_login_stage(stage_reporter, "MISSION_PAGE_REQUESTED")
-    observation = navigate_and_probe(page, MISSION_URL)
+    observation = _recover_post_login_mission_page(
+        page,
+        stage_reporter=stage_reporter,
+    )
     _report_login_stage(stage_reporter, "FINAL_PAGE_PROBED")
     if observation.status == AuthStatus.AUTHENTICATED:
         _report_login_stage(

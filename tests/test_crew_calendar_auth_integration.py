@@ -626,9 +626,23 @@ def test_cloud_unknown_writes_only_safe_staged_diagnostic(
             "LOGIN_BUTTON_CLICKED",
             "SSO_HANDOFF_REACHED",
             "MISSION_PAGE_REQUESTED",
-            "FINAL_PAGE_PROBED",
         ):
             reporter(stage, {})
+        reporter(
+            "MISSION_RECOVERY_ATTEMPT",
+            {"attempt": 1, "delay_ms": 2_000},
+        )
+        reporter(
+            "MISSION_RECOVERY_RESULT",
+            {
+                "attempt": 1,
+                "domain": "cp.9cair.com",
+                "path": "/",
+                "http_status": 200,
+                "task_area_visible": False,
+            },
+        )
+        reporter("FINAL_PAGE_PROBED", {})
         return auth.AuthObservation(
             auth.AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
             auth.AuthSignals(),
@@ -669,6 +683,14 @@ def test_cloud_unknown_writes_only_safe_staged_diagnostic(
         in output
     )
     assert "LOGIN_STAGE=OTP_MAIL_RECEIVED OTP_LENGTH=6" in output
+    assert "LOGIN_STAGE=MISSION_RECOVERY_ATTEMPT ATTEMPT=1" in output
+    assert (
+        'MISSION_RECOVERY_RESULT={"attempt":1,'
+        '"domain":"cp.9cair.com","http_status":200,'
+        '"path":"/","stage":"MISSION_RECOVERY_RESULT",'
+        '"task_area_visible":false}'
+        in output
+    )
     assert (
         "LOGIN_ERROR_CATEGORY=POST_LOGIN_HANDOFF_INCOMPLETE"
         in output

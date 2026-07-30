@@ -5148,11 +5148,47 @@ def _cloud_stage_reporter(diagnostic: dict):
             "OTP_ATTEMPT_TIMEOUT",
             "OTP_RETRY_WAIT_STARTED",
             "OTP_RETRY_READY",
+            "MISSION_RECOVERY_ATTEMPT",
         }:
             attempt = min(3, max(1, int(details.get("attempt", 1))))
             entry["attempt"] = attempt
+            if stage == "MISSION_RECOVERY_ATTEMPT":
+                entry["delay_ms"] = max(
+                    0,
+                    min(3_000, int(details.get("delay_ms", 0))),
+                )
             print(
                 f"LOGIN_STAGE={stage} ATTEMPT={attempt}",
+                flush=True,
+            )
+        elif stage == "MISSION_RECOVERY_RESULT":
+            attempt = min(3, max(1, int(details.get("attempt", 1))))
+            domain = str(details.get("domain", "")).lower()
+            path = str(details.get("path", ""))
+            http_status = max(
+                0,
+                min(599, int(details.get("http_status", 0))),
+            )
+            task_area_visible = bool(
+                details.get("task_area_visible", False)
+            )
+            entry.update(
+                {
+                    "attempt": attempt,
+                    "domain": domain,
+                    "path": path,
+                    "http_status": http_status,
+                    "task_area_visible": task_area_visible,
+                }
+            )
+            print(
+                "MISSION_RECOVERY_RESULT="
+                + json.dumps(
+                    entry,
+                    ensure_ascii=False,
+                    separators=(",", ":"),
+                    sort_keys=True,
+                ),
                 flush=True,
             )
         elif stage == "LOGIN_STATE_WAIT_STARTED":
