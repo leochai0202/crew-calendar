@@ -2072,7 +2072,7 @@ UID:2f2248c55fea00ca5edf57ad1e6d8110@crew-calendar
 SUMMARY:✈️ 9C8521 上海浦东→普吉
 DTSTART;TZID=Asia/Shanghai:20260731T183000
 DTEND;TZID=Asia/Shanghai:20260731T234000
-DESCRIPTION:07月31日 周五\n类型：航班\n航班：9C8521\n航线：上海浦东 → 普吉\n地点：上海浦东\n签到：16:25｜上海浦东\n任务：18:30 - 23:40\n机型：A320｜注册号：B32AX\n\n人员名单：\n• KIM YOUNG HO(R)\n• 段洋硕\n• 程书青(R)\n• 王蕾(B)\n\n版本：2026-07-30 18:13
+DESCRIPTION:07月31日 周五\n类型：航班\n航班：9C8521\n航线：上海浦东 → 普吉\n地点：上海浦东\n签到：16:25｜上海浦东\n任务：18:30 - 23:40\n机型：A320｜注册号：B32AX\n\n人员名单：\n• KIM YOUNG HO(R)\n• 段洋硕\n• 程书青(R)\n• 王蕾(B)\n\n版本：2026-07-30 19:01
 X-CONTENT-SIGNATURE:508dea15ae360bd6aa3d60771c10b89c
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -2086,7 +2086,7 @@ UID:8134e310748b56c60e5a94683ad98e51@crew-calendar
 SUMMARY:✈️ 9C8522 普吉→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260802T003500
 DTEND;TZID=Asia/Shanghai:20260802T055500
-DESCRIPTION:08月02日 周日\n类型：航班\n航班：9C8522\n航线：普吉 → 上海浦东\n地点：普吉\n签到：22:45｜普吉\n任务：00:35 - 05:55\n机型：A320｜注册号：B329U\n\n人员名单：\n• KIM YOUNG HO(R)\n• 段洋硕\n• 程书青(R)\n• 毛佳骏(B)\n\n版本：2026-07-30 18:13
+DESCRIPTION:08月02日 周日\n类型：航班\n航班：9C8522\n航线：普吉 → 上海浦东\n地点：普吉\n签到：22:45｜普吉\n任务：00:35 - 05:55\n机型：A320｜注册号：B329U\n\n人员名单：\n• KIM YOUNG HO(R)\n• 段洋硕\n• 程书青(R)\n• 毛佳骏(B)\n\n版本：2026-07-30 19:01
 X-CONTENT-SIGNATURE:2d71a78882fd9311bb409f8c3c8c42ad
 LOCATION:普吉
 BEGIN:VALARM
@@ -2100,7 +2100,7 @@ UID:5435c24b70e069873d49767e2d7c91b4@crew-calendar
 SUMMARY:📋 考勤
 DTSTART;TZID=Asia/Shanghai:20260803T000000
 DTEND;TZID=Asia/Shanghai:20260803T235900
-DESCRIPTION:08月03日 周一\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-30 18:13
+DESCRIPTION:08月03日 周一\n类型：考勤\n事项：考勤\n任务：00:00 - 23:59\n\n说明：\n• 来源：页面摘要行，未展开到详细任务卡片\n\n版本：2026-07-30 19:01
 X-CONTENT-SIGNATURE:72c6c6d234ea27e1303eee2ff4f0644c
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -2113,7 +2113,7 @@ UID:e8ff771471bf802d30b31ff9e52b4204@crew-calendar
 SUMMARY:✈️ 9C8523 上海浦东→恩施许家坪
 DTSTART;TZID=Asia/Shanghai:20260804T070500
 DTEND;TZID=Asia/Shanghai:20260804T093500
-DESCRIPTION:08月04日 周二\n类型：航班\n航班：9C8523\n航线：上海浦东 → 恩施许家坪\n地点：上海浦东\n签到：05:15｜上海浦东\n任务：07:05 - 09:35\n机型：A320｜注册号：B8647\n\n人员名单：\n• 宋磊(T\,R)\n• 李明亮(R)\n• 段洋硕\n• 韦承贇(B)\n\n版本：2026-07-30 18:13
+DESCRIPTION:08月04日 周二\n类型：航班\n航班：9C8523\n航线：上海浦东 → 恩施许家坪\n地点：上海浦东\n签到：05:15｜上海浦东\n任务：07:05 - 09:35\n机型：A320｜注册号：B8647\n\n人员名单：\n• 宋磊(T\,R)\n• 李明亮(R)\n• 段洋硕\n• 韦承贇(B)\n\n版本：2026-07-30 19:01
 X-CONTENT-SIGNATURE:37d9e4ae53f401d2c90eda38d9b4b7cd
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -2127,7 +2127,7 @@ UID:4db64c26e832161409a6a1109ddd7db6@crew-calendar
 SUMMARY:✈️ 9C8524 恩施许家坪→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260804T102000
 DTEND;TZID=Asia/Shanghai:20260804T123500
-DESCRIPTION:08月04日 周二\n类型：航班\n航班：9C8524\n航线：恩施许家坪 → 上海浦东\n地点：恩施许家坪\n签到：08:45｜恩施许家坪\n任务：10:20 - 12:35\n机型：A320｜注册号：B8647\n\n人员名单：\n• 宋磊(T\,R)\n• 李明亮(R)\n• 段洋硕\n• 韦承贇(B)\n\n版本：2026-07-30 18:13
+DESCRIPTION:08月04日 周二\n类型：航班\n航班：9C8524\n航线：恩施许家坪 → 上海浦东\n地点：恩施许家坪\n签到：08:45｜恩施许家坪\n任务：10:20 - 12:35\n机型：A320｜注册号：B8647\n\n人员名单：\n• 宋磊(T\,R)\n• 李明亮(R)\n• 段洋硕\n• 韦承贇(B)\n\n版本：2026-07-30 19:01
 X-CONTENT-SIGNATURE:4d2b2f8e8ceecf25bf5e68bb277c64b0
 LOCATION:恩施许家坪
 BEGIN:VALARM
