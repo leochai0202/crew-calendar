@@ -24,6 +24,77 @@ class FakePage:
         self.navigation_timeout = timeout
 
 
+class MissionBodyLocator:
+    def __init__(self, page) -> None:
+        self.page = page
+
+    def inner_text(self, timeout: int) -> str:
+        return self.page.body_text
+
+
+class MissionNavigationCandidate:
+    def __init__(
+        self,
+        page,
+        *,
+        visible: bool,
+        y: int,
+        opens_list: bool = False,
+    ) -> None:
+        self.page = page
+        self.visible = visible
+        self.y = y
+        self.opens_list = opens_list
+        self.clicked = 0
+        self.scrolled = 0
+
+    def is_visible(self) -> bool:
+        return self.visible
+
+    def bounding_box(self):
+        if not self.visible:
+            return None
+        return {"x": 0, "y": self.y, "width": 100, "height": 30}
+
+    def scroll_into_view_if_needed(self) -> None:
+        self.scrolled += 1
+
+    def click(self, timeout: int) -> None:
+        self.clicked += 1
+        if self.opens_list:
+            self.page.body_text = "我的任务\n07月31日 周五"
+
+
+class MissionNavigationCandidates:
+    def __init__(self, candidates) -> None:
+        self.candidates = candidates
+
+    def count(self) -> int:
+        return len(self.candidates)
+
+    def nth(self, index: int):
+        return self.candidates[index]
+
+
+class MissionPage:
+    def __init__(self) -> None:
+        self.body_text = "首页\n我的任务"
+        self.waits: list[int] = []
+        self.candidates: list[MissionNavigationCandidate] = []
+
+    def locator(self, selector: str):
+        assert selector == "body"
+        return MissionBodyLocator(self)
+
+    def get_by_text(self, text: str, *, exact: bool):
+        assert text == "我的任务"
+        assert exact is True
+        return MissionNavigationCandidates(self.candidates)
+
+    def wait_for_timeout(self, timeout: int) -> None:
+        self.waits.append(timeout)
+
+
 class FakeContext:
     def __init__(self) -> None:
         self.page = FakePage()
@@ -119,6 +190,37 @@ def install_valid_bundle(monkeypatch) -> None:
             session_storage={},
         ),
     )
+
+
+def test_open_mission_page_clicks_top_navigation_and_waits_for_day_list() -> None:
+    page = MissionPage()
+    hidden = MissionNavigationCandidate(page, visible=False, y=0)
+    content = MissionNavigationCandidate(page, visible=True, y=300)
+    top_navigation = MissionNavigationCandidate(
+        page,
+        visible=True,
+        y=20,
+        opens_list=True,
+    )
+    page.candidates = [hidden, content, top_navigation]
+
+    calendar.open_mission_page(page)
+
+    assert top_navigation.clicked == 1
+    assert top_navigation.scrolled == 1
+    assert content.clicked == 0
+    assert "07月31日 周五" in page.body_text
+
+
+def test_open_mission_page_does_not_treat_navigation_text_as_task_list() -> None:
+    page = MissionPage()
+    navigation = MissionNavigationCandidate(page, visible=True, y=20)
+    page.candidates = [navigation]
+
+    with pytest.raises(RuntimeError, match="未能进入任务列表页"):
+        calendar.open_mission_page(page)
+
+    assert navigation.clicked == 3
 
 
 def forbid_legacy_and_processing(monkeypatch, calls: list[str]) -> None:
@@ -939,6 +1041,7 @@ def test_cloud_otp_error_reports_stage_specific_category(
 def test_processing_exception_returns_one_and_closes_resources(
     monkeypatch,
     tmp_path: Path,
+    caplog,
 ) -> None:
     monkeypatch.chdir(tmp_path)
     existing = tmp_path / "flight.ics"
@@ -955,13 +1058,19 @@ def test_processing_exception_returns_one_and_closes_resources(
     )
     monkeypatch.setattr(calendar, "snapshot_existing_calendars", lambda: None)
     monkeypatch.setattr(calendar, "rebuild_airport_indexes", lambda: None)
+    monkeypatch.setenv("IMAP_AUTH_CODE", "secret-auth-code")
     monkeypatch.setattr(
         calendar,
         "open_mission_page",
-        lambda page: (_ for _ in ()).throw(RuntimeError("page changed")),
+        lambda page: (_ for _ in ()).throw(
+            RuntimeError("page changed secret-auth-code")
+        ),
     )
 
     assert calendar.run() == 1
+    assert "RuntimeError" in caplog.text
+    assert "page changed <redacted>" in caplog.text
+    assert "secret-auth-code" not in caplog.text
     assert existing.read_text(encoding="utf-8") == "existing-calendar"
     assert context.closed is True
     assert browser.closed is True

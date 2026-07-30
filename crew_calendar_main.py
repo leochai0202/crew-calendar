@@ -567,6 +567,25 @@ def random_like_wait(page, base_ms: int, jitter_ms: int = 400):
     page.wait_for_timeout(base_ms + (hash(datetime.now().isoformat()) % max(1, jitter_ms)))
 
 
+def safe_exception_message(error: Exception) -> str:
+    message = " ".join(str(error).split())
+    for name in (
+        "CREW_STORAGE_STATE_B64",
+        "CREW_PHONE",
+        "IMAP_EMAIL",
+        "IMAP_AUTH_CODE",
+    ):
+        value = os.environ.get(name, "")
+        if value:
+            message = message.replace(value, "<redacted>")
+    message = re.sub(
+        r"(https?://[^\s?#]+)(?:\?[^\s#]*)?(?:#[^\s]*)?",
+        r"\1",
+        message,
+    )
+    return message[:300] or "无可用错误详情"
+
+
 def is_bad_title_text(text: str) -> bool:
     text = normalize_text(text)
     if not text:
@@ -1012,51 +1031,64 @@ def _wait_for_mission_content(page, *, timeout_ms: int = 15000) -> None:
     raise RuntimeError("任务页已打开，但真实任务内容未加载")
 
 
+MISSION_DAY_HEADER_PATTERN = re.compile(
+    r"\d{2}月\d{2}日\s*周[一二三四五六日天]"
+)
+
+
+def _wait_for_mission_day_list(page, timeout_ms: int = 15000) -> bool:
+    poll_ms = 250
+    for _ in range((timeout_ms // poll_ms) + 1):
+        if MISSION_DAY_HEADER_PATTERN.search(page_text(page)):
+            return True
+        page.wait_for_timeout(poll_ms)
+    return False
+
+
+def _top_visible_mission_navigation(page):
+    candidates = page.get_by_text("我的任务", exact=True)
+    visible = []
+    for index in range(candidates.count()):
+        candidate = candidates.nth(index)
+        if not candidate.is_visible():
+            continue
+        box = candidate.bounding_box()
+        if box and box["width"] > 0 and box["height"] > 0:
+            visible.append((box["y"], candidate))
+    if not visible:
+        raise RuntimeError("首页未找到可见的“我的任务”顶部导航")
+    return min(visible, key=lambda item: item[0])[1]
+
+
 def open_mission_page(page):
-    if _mission_content_loaded(page):
-        logger.info("认证后的任务内容已经可见，立即进入正式抓取")
+    if _wait_for_mission_day_list(page, timeout_ms=1000):
+        logger.info("任务列表已加载")
         return
 
-    current_text = page_text(page)
-    if "我的任务" in current_text:
-        logger.info("认证后的任务区域已经可见，立即进入正式抓取")
-        return
+    last_error = None
+    for attempt in range(1, 4):
+        try:
+            logger.info(f"从首页打开任务列表，尝试 {attempt}/3")
+            navigation = _top_visible_mission_navigation(page)
+            navigation.scroll_into_view_if_needed()
+            navigation.click(timeout=5000)
+            if _wait_for_mission_day_list(page):
+                logger.info("任务列表已加载")
+                return
+            last_error = RuntimeError("点击“我的任务”后未出现日期任务列表")
+        except Exception as error:
+            last_error = error
+            logger.error(
+                "打开任务列表失败（%s）：%s",
+                type(error).__name__,
+                safe_exception_message(error),
+            )
 
-    logger.info("等待认证后的当前页面完成必要加载")
-    _wait_for_current_navigation(page)
-
-    if _mission_content_loaded(page):
-        logger.info("认证后的任务内容已经可见，立即进入正式抓取")
-        return
-
-    current_text = page_text(page)
-    already_on_mission_page = _is_mission_url(
-        str(getattr(page, "url", "") or "")
-    )
-    mission_area_present = "我的任务" in current_text
-
-    if already_on_mission_page or mission_area_present:
-        logger.info("当前已在任务区域，不再重复打开任务网址")
-        _wait_for_mission_content(page)
-        return
-
-    current_url = str(getattr(page, "url", "") or "")
-    if urlsplit(current_url).netloc.lower() == "cas.9cair.com":
-        raise RuntimeError("认证后重新跳回统一登录页")
-
-    logger.info("当前尚未进入任务页，只打开一次任务网址")
-    try:
-        page.goto(
-            MISSION_URL,
-            wait_until="domcontentloaded",
-            timeout=90000,
-        )
-    except Exception as exc:
-        if not _navigation_was_interrupted(exc):
-            raise
-        logger.info("任务页导航由尚未结束的 SSO 跳转接管，等待其完成")
-        _wait_for_current_navigation(page)
-    _wait_for_mission_content(page)
+    if last_error is not None:
+        raise RuntimeError(
+            f"未能进入任务列表页：{safe_exception_message(last_error)}"
+        ) from last_error
+    raise RuntimeError("未能进入任务列表页")
 
 
 def get_day_headers(page) -> list:
@@ -5652,10 +5684,13 @@ def run() -> int:
                     except Exception:
                         pass
 
-    except Exception:
-        logger.error("正式抓取执行失败，现有 ICS 不会由失败步骤提交。")
+    except Exception as error:
+        logger.error(
+            "正式抓取执行失败（%s）：%s；现有 ICS 不会由失败步骤提交。",
+            type(error).__name__,
+            safe_exception_message(error),
+        )
         return 1
-
 
 if __name__ == "__main__":
     raise SystemExit(run())
