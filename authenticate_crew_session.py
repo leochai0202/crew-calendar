@@ -82,6 +82,7 @@ CLOUD_LOGIN_PHONE_ENV = "CREW_PHONE"
 LOGIN_STATE_TIMEOUT_SECONDS = 15
 LOGIN_STATE_POLL_INTERVAL_MS = 200
 LOGIN_STATE_REQUIRED_POLLS = 2
+LOGIN_STATE_ACCOUNT_GRACE_SECONDS = 1.5
 
 LOGIN_STAGE_NAMES = frozenset(
     {
@@ -837,11 +838,19 @@ def _wait_for_stable_login_page_state(
     timeout_seconds: float = LOGIN_STATE_TIMEOUT_SECONDS,
     poll_interval_ms: int = LOGIN_STATE_POLL_INTERVAL_MS,
 ) -> tuple[str, Any | None]:
+    try:
+        page.wait_for_load_state("load", timeout=5_000)
+    except Exception:
+        # The caller may already be on a fully loaded page, or a lightweight
+        # test double may not implement load-state waiting.
+        pass
+
     started = time.monotonic()
     deadline = started + timeout_seconds
     last_state: str | None = None
     consecutive_polls = 0
     qr_first_seen_reported = False
+    account_first_seen_at: float | None = None
     _report_login_stage(stage_reporter, "LOGIN_STATE_WAIT_STARTED")
 
     while time.monotonic() <= deadline:
@@ -867,9 +876,24 @@ def _wait_for_stable_login_page_state(
             last_state = None
             consecutive_polls = 0
 
+        if state == "ACCOUNT":
+            if account_first_seen_at is None:
+                account_first_seen_at = time.monotonic()
+        else:
+            account_first_seen_at = None
+
+        account_state_is_settled = (
+            state != "ACCOUNT"
+            or (
+                account_first_seen_at is not None
+                and time.monotonic() - account_first_seen_at
+                >= LOGIN_STATE_ACCOUNT_GRACE_SECONDS
+            )
+        )
         if (
             state is not None
             and consecutive_polls >= LOGIN_STATE_REQUIRED_POLLS
+            and account_state_is_settled
         ):
             _report_login_stage(
                 stage_reporter,
@@ -1029,8 +1053,10 @@ def _open_account_login_panel(
     click_intercepted = False
 
     for target, stage in (
-        (badge, "TOGGLE_CLICK_LOGIN_BADGE"),
+        # The CAS page binds its switch handler to `.login-badge > div`,
+        # not to the outer `.login-badge` container.
         (icon, "TOGGLE_CLICK_BADGE_ICON"),
+        (badge, "TOGGLE_CLICK_LOGIN_BADGE"),
     ):
         try:
             _ordinary_toggle_click(target)

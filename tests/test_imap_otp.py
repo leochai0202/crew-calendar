@@ -643,7 +643,7 @@ def test_qr_login_switches_to_account_then_dynamic_password(
                 }
             },
         )
-        stage_reporter("TOGGLE_CLICK_LOGIN_BADGE", {})
+        stage_reporter("TOGGLE_CLICK_BADGE_ICON", {})
         stage_reporter("ACCOUNT_LOGIN_TOGGLE_CLICKED", {})
         locators[authentication.PASSWORD_LOGIN_TAB_SELECTOR].visible = True
         locators[authentication.DYNAMIC_LOGIN_TAB_SELECTOR].visible = True
@@ -671,7 +671,7 @@ def test_qr_login_switches_to_account_then_dynamic_password(
         "LOGIN_STATE_CONFIRMED",
         "QR_LOGIN_PAGE_DETECTED",
         "TOGGLE_CANDIDATES_INSPECTED",
-        "TOGGLE_CLICK_LOGIN_BADGE",
+        "TOGGLE_CLICK_BADGE_ICON",
         "ACCOUNT_LOGIN_TOGGLE_CLICKED",
         "PASSWORD_TAB_VISIBLE",
         "LOGIN_PAGE_SWITCHED",
@@ -858,6 +858,29 @@ def test_transient_login_states_do_not_confirm_early(
         if stage == "LOGIN_STATE_CONFIRMED"
     ]
     assert confirmed == ["QR"]
+
+
+def test_transient_account_state_waits_for_qr_initialization(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    page = SequencedLoginStatePage(
+        [{"account"} for _ in range(5)]
+        + [{"qr"}, {"qr"}]
+    )
+    monkeypatch.setattr(
+        authentication.time,
+        "monotonic",
+        lambda: page.elapsed_ms / 1000,
+    )
+
+    state, _heading = (
+        authentication._wait_for_stable_login_page_state(
+            page,
+            stage_reporter=None,
+        )
+    )
+
+    assert state == "QR"
 
 
 def test_login_page_state_timeout_has_exact_category(
@@ -1061,7 +1084,7 @@ def test_multiple_visible_top_right_toggles_are_rejected() -> None:
     assert caught.value.diagnostic["eligible_toggle_count"] == 2
 
 
-def test_toggle_click_prefers_badge_then_visible_icon(
+def test_toggle_click_prefers_visible_icon_then_badge(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     badge = object()
@@ -1106,10 +1129,10 @@ def test_toggle_click_prefers_badge_then_visible_icon(
         stage_reporter=lambda stage, _details: stages.append(stage),
     )
 
-    assert clicks == [badge, icon]
+    assert clicks == [icon, badge]
     assert stages[-3:] == [
-        "TOGGLE_CLICK_LOGIN_BADGE",
         "TOGGLE_CLICK_BADGE_ICON",
+        "TOGGLE_CLICK_LOGIN_BADGE",
         "ACCOUNT_LOGIN_TOGGLE_CLICKED",
     ]
 
