@@ -992,7 +992,56 @@ def _switch_to_dynamic_password_login(
 ) -> None:
     try:
         form = page.locator(DYNAMIC_LOGIN_FORM_SELECTOR)
-        if form.count() == 1 and form.is_visible():
+        try:
+            qr_heading = page.get_by_text(
+                QR_LOGIN_HEADING,
+                exact=True,
+            )
+            qr_page_visible = _locator_has_visible_element(qr_heading)
+        except Exception:
+            qr_heading = None
+            qr_page_visible = False
+
+        if qr_page_visible:
+            _report_login_stage(
+                stage_reporter,
+                "QR_LOGIN_PAGE_DETECTED",
+            )
+            password_tab, dynamic_tab = _open_account_login_panel(
+                page,
+                qr_heading,
+                stage_reporter=stage_reporter,
+            )
+            password_tab.wait_for(state="visible", timeout=10_000)
+            _report_login_stage(
+                stage_reporter,
+                "PASSWORD_TAB_VISIBLE",
+            )
+            dynamic_tab.wait_for(state="visible", timeout=10_000)
+            _report_login_stage(
+                stage_reporter,
+                "LOGIN_PAGE_SWITCHED",
+            )
+            _report_login_stage(
+                stage_reporter,
+                "ACCOUNT_LOGIN_PANEL_VISIBLE",
+            )
+            dynamic_tab.click()
+            _report_login_stage(
+                stage_reporter,
+                "DYNAMIC_TAB_CLICKED",
+            )
+            form = _unique_locator(
+                page,
+                DYNAMIC_LOGIN_FORM_SELECTOR,
+                "动态密码登录表单",
+            )
+            form.wait_for(state="visible", timeout=10_000)
+            _report_login_stage(
+                stage_reporter,
+                "DYNAMIC_TAB_OPENED",
+            )
+        elif form.count() == 1 and form.is_visible():
             dynamic_tab = None
             _report_login_stage(
                 stage_reporter,
@@ -1016,30 +1065,7 @@ def _switch_to_dynamic_password_login(
                 and dynamic_tab.is_visible()
             )
             if not account_tabs_visible:
-                qr_heading = page.get_by_text(
-                    QR_LOGIN_HEADING,
-                    exact=True,
-                )
-                if (
-                    qr_heading.count() != 1
-                    or not qr_heading.is_visible()
-                ):
-                    raise OtpError("未识别到扫码登录页或账号登录页")
-                _report_login_stage(
-                    stage_reporter,
-                    "QR_LOGIN_PAGE_DETECTED",
-                )
-                password_tab, dynamic_tab = _open_account_login_panel(
-                    page,
-                    qr_heading,
-                    stage_reporter=stage_reporter,
-                )
-                password_tab.wait_for(state="visible", timeout=10_000)
-                _report_login_stage(
-                    stage_reporter,
-                    "PASSWORD_TAB_VISIBLE",
-                )
-                dynamic_tab.wait_for(state="visible", timeout=10_000)
+                raise OtpError("未识别到扫码登录页或账号登录页")
 
             _report_login_stage(
                 stage_reporter,

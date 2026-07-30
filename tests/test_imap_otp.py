@@ -580,7 +580,10 @@ def test_qr_login_switches_to_account_then_dynamic_password(
         def count(self) -> int:
             return 1
 
-        def is_visible(self) -> bool:
+        def nth(self, _index: int):
+            return self
+
+        def is_visible(self, **_: Any) -> bool:
             return self.visible
 
         def wait_for(self, **_: Any) -> None:
@@ -601,7 +604,11 @@ def test_qr_login_switches_to_account_then_dynamic_password(
     locators = {
         authentication.PASSWORD_LOGIN_TAB_SELECTOR: Locator("password_tab"),
         authentication.DYNAMIC_LOGIN_TAB_SELECTOR: Locator("dynamic_tab"),
-        authentication.DYNAMIC_LOGIN_FORM_SELECTOR: Locator("dynamic_form"),
+        # A retained visible-looking form must not override the real QR page.
+        authentication.DYNAMIC_LOGIN_FORM_SELECTOR: Locator(
+            "dynamic_form",
+            True,
+        ),
         authentication.PHONE_OR_EMAIL_SELECTOR: Locator("phone"),
         authentication.REQUEST_DYNAMIC_PASSWORD_SELECTOR: Locator("request"),
         authentication.DYNAMIC_PASSWORD_SELECTOR: Locator(
@@ -692,6 +699,9 @@ def test_toggle_candidate_filter_selects_only_visible_top_right_icon() -> None:
 
         def count(self) -> int:
             return 1
+
+        def nth(self, _index: int):
+            return self
 
         def is_visible(self, **_: Any) -> bool:
             return self.visible
