@@ -27,6 +27,7 @@ class FakePage:
 class FakeContext:
     def __init__(self) -> None:
         self.page = FakePage()
+        self.pages = [self.page]
         self.closed = False
 
     def new_page(self) -> FakePage:
@@ -56,10 +57,17 @@ class FakeChromium:
     def __init__(self, browser: FakeBrowser) -> None:
         self.browser = browser
         self.launch_options: list[dict] = []
+        self.persistent_launch_options: list[dict] = []
 
     def launch(self, **options) -> FakeBrowser:
         self.launch_options.append(options)
         return self.browser
+
+    def launch_persistent_context(self, **options) -> FakeContext:
+        self.persistent_launch_options.append(options)
+        if self.browser.context is None:
+            self.browser.context = FakeContext()
+        return self.browser.context
 
 
 class FakePlaywrightManager:
@@ -82,6 +90,11 @@ def install_fake_browser(monkeypatch):
     browser.context_options = context_options
 
     monkeypatch.setattr(calendar, "sync_playwright", lambda: manager)
+    monkeypatch.setattr(
+        calendar,
+        "resolve_persistent_profile_dir",
+        lambda: None,
+    )
 
     def fake_create_context(passed_browser, bundle, **options):
         assert passed_browser is browser
@@ -218,6 +231,145 @@ def test_authenticated_status_enters_existing_processing_flow(
     assert context_options == {"viewport": {"width": 1400, "height": 1000}}
     assert context.closed is True
     assert browser.closed is True
+
+
+def test_persistent_profile_reuses_session_without_imap_and_saves_backup(
+    monkeypatch,
+    tmp_path: Path,
+    capsys,
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    install_valid_bundle(monkeypatch)
+    manager, browser, context, _ = install_fake_browser(monkeypatch)
+    profile_dir = tmp_path / "runner-data" / "browser-profile"
+    backup_path = tmp_path / "runner-data" / "auth-backup" / "session.json"
+    calls: list[str] = []
+    monkeypatch.setenv(calendar.BROWSER_CHANNEL_ENV, "msedge")
+
+    monkeypatch.setattr(
+        calendar,
+        "resolve_persistent_profile_dir",
+        lambda: profile_dir,
+    )
+    monkeypatch.setattr(
+        calendar,
+        "resolve_auth_backup_path",
+        lambda _profile: backup_path,
+    )
+    monkeypatch.setattr(
+        calendar,
+        "restore_auth_bundle_to_existing_context",
+        lambda *_args: calls.append("restore-backup"),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "navigate_and_probe",
+        lambda _page: auth.AuthObservation(
+            auth.AuthStatus.AUTHENTICATED,
+            auth.AuthSignals(mission_heading=True, task_container=True),
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "attempt_cloud_dynamic_password_login",
+        lambda _page: (_ for _ in ()).throw(
+            AssertionError("valid persistent session must not use QQ IMAP")
+        ),
+    )
+    monkeypatch.setattr(calendar, "snapshot_existing_calendars", lambda: None)
+    monkeypatch.setattr(calendar, "rebuild_airport_indexes", lambda: None)
+    monkeypatch.setattr(calendar, "open_mission_page", lambda _page: None)
+    monkeypatch.setattr(
+        calendar,
+        "_write_filtered_auth_backup",
+        lambda passed_context, path: calls.append(
+            f"backup:{passed_context is context}:{path == backup_path}"
+        ),
+    )
+    monkeypatch.setattr(calendar, "detect_page_year", lambda _page: 2026)
+    monkeypatch.setattr(
+        calendar,
+        "collect_day_blocks",
+        lambda _page: ["day-block"],
+    )
+    monkeypatch.setattr(
+        calendar,
+        "create_multi_calendars_from_blocks",
+        lambda _blocks, _year: None,
+    )
+
+    assert calendar.run() == 0
+
+    assert capsys.readouterr().out == "AUTH_STATUS=AUTHENTICATED\n"
+    assert manager.chromium.launch_options == []
+    assert manager.chromium.persistent_launch_options == [
+        {
+            "user_data_dir": str(profile_dir),
+            "headless": True,
+            "viewport": {"width": 1400, "height": 1000},
+            "channel": "msedge",
+        }
+    ]
+    assert calls == ["restore-backup", "backup:True:True"]
+    assert context.closed is True
+    assert browser.closed is False
+
+
+def test_filtered_auth_backup_is_atomic_and_excludes_other_origins(
+    monkeypatch,
+    tmp_path: Path,
+) -> None:
+    backup_path = tmp_path / "auth-backup" / "session.json"
+    monkeypatch.setattr(
+        calendar,
+        "capture_storage_state",
+        lambda _context: {
+            "cookies": [
+                {
+                    "name": "CP_SESSION",
+                    "value": "test-session-value",
+                    "domain": ".9cair.com",
+                    "path": "/",
+                },
+                {
+                    "name": "OTHER",
+                    "value": "other-value",
+                    "domain": ".example.com",
+                    "path": "/",
+                },
+            ],
+            "origins": [
+                {
+                    "origin": "https://cp.9cair.com",
+                    "localStorage": [{"name": "cp", "value": "saved"}],
+                },
+                {
+                    "origin": "https://example.com",
+                    "localStorage": [{"name": "other", "value": "drop"}],
+                },
+            ],
+        },
+    )
+    monkeypatch.setattr(
+        calendar,
+        "capture_session_storage",
+        lambda _context: {
+            "https://cp.9cair.com": {"cp-key": "cp-value"},
+            "https://example.com": {"other-key": "drop"},
+        },
+    )
+
+    calendar._write_filtered_auth_backup(object(), backup_path)
+
+    payload = json.loads(backup_path.read_text(encoding="utf-8"))
+    assert [item["name"] for item in payload["storage_state"]["cookies"]] == [
+        "CP_SESSION"
+    ]
+    assert [
+        item["origin"] for item in payload["storage_state"]["origins"]
+    ] == ["https://cp.9cair.com"]
+    assert set(payload["session_storage"]) == {"https://cp.9cair.com"}
+    assert not backup_path.with_suffix(".json.tmp").exists()
 
 
 @pytest.mark.parametrize(
@@ -625,19 +777,32 @@ def test_cloud_unknown_writes_only_safe_staged_diagnostic(
             "OTP_FIELD_FILLED",
             "LOGIN_BUTTON_CLICKED",
             "SSO_HANDOFF_REACHED",
-            "MISSION_PAGE_REQUESTED",
         ):
             reporter(stage, {})
         reporter(
-            "MISSION_RECOVERY_ATTEMPT",
-            {"attempt": 1, "delay_ms": 2_000},
-        )
-        reporter(
-            "MISSION_RECOVERY_RESULT",
+            "SSO_SESSION_PROBE",
             {
-                "attempt": 1,
                 "domain": "cp.9cair.com",
                 "path": "/",
+                "main_frame_domain": "cp.9cair.com",
+                "main_frame_path": "/",
+                "cp_cookie_names": ["CP_SESSION"],
+                "business_cookie_names": ["CP_SESSION"],
+                "task_area_visible": False,
+            },
+        )
+        reporter(
+            "SSO_BUSINESS_COOKIE_READY",
+            {"cookie_names": ["CP_SESSION"]},
+        )
+        reporter("MISSION_PAGE_REQUESTED", {})
+        reporter(
+            "MISSION_SINGLE_NAVIGATION_RESULT",
+            {
+                "domain": "cp.9cair.com",
+                "path": "/",
+                "main_frame_domain": "cp.9cair.com",
+                "main_frame_path": "/",
                 "http_status": 200,
                 "task_area_visible": False,
             },
@@ -683,11 +848,19 @@ def test_cloud_unknown_writes_only_safe_staged_diagnostic(
         in output
     )
     assert "LOGIN_STAGE=OTP_MAIL_RECEIVED OTP_LENGTH=6" in output
-    assert "LOGIN_STAGE=MISSION_RECOVERY_ATTEMPT ATTEMPT=1" in output
     assert (
-        'MISSION_RECOVERY_RESULT={"attempt":1,'
-        '"domain":"cp.9cair.com","http_status":200,'
-        '"path":"/","stage":"MISSION_RECOVERY_RESULT",'
+        'SSO_SESSION_PROBE={"business_cookie_names":["CP_SESSION"],'
+        '"cp_cookie_names":["CP_SESSION"],"domain":"cp.9cair.com",'
+        '"http_status":0,"main_frame_domain":"cp.9cair.com",'
+        '"main_frame_path":"/","path":"/","stage":"SSO_SESSION_PROBE",'
+        '"task_area_visible":false}'
+        in output
+    )
+    assert (
+        'MISSION_SINGLE_NAVIGATION_RESULT={"domain":"cp.9cair.com",'
+        '"http_status":200,"main_frame_domain":"cp.9cair.com",'
+        '"main_frame_path":"/","path":"/",'
+        '"stage":"MISSION_SINGLE_NAVIGATION_RESULT",'
         '"task_area_visible":false}'
         in output
     )
@@ -707,7 +880,7 @@ def test_cloud_unknown_writes_only_safe_staged_diagnostic(
         "crew@example.invalid",
         "test-auth-code",
         "token",
-        "cookie",
+        "cookie-value",
         "otp_value",
     ):
         assert sensitive not in serialized.lower()

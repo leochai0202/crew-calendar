@@ -54,9 +54,9 @@ OTP_POLL_INTERVAL_SECONDS = 1
 OTP_MAX_ATTEMPTS = 3
 OTP_REQUEST_RECOVERY_TIMEOUT_SECONDS = 70
 OTP_CLOCK_SKEW_SECONDS = 5
-POST_LOGIN_MISSION_MAX_ATTEMPTS = 3
-POST_LOGIN_MISSION_INITIAL_DELAY_MS = 2_000
-POST_LOGIN_MISSION_RETRY_DELAY_MS = 3_000
+POST_LOGIN_SESSION_TIMEOUT_SECONDS = 30
+POST_LOGIN_SESSION_SETTLE_MS = 2_000
+POST_LOGIN_SESSION_POLL_INTERVAL_MS = 500
 POST_LOGIN_MISSION_PROBE_DELAY_MS = 2_000
 OTP_DIAGNOSTIC_DIR = (
     Path("playwright")
@@ -125,9 +125,10 @@ LOGIN_STAGE_NAMES = frozenset(
         "LOGIN_BUTTON_CLICKED",
         "SSO_HANDOFF_REACHED",
         "SSO_HANDOFF_TIMEOUT",
+        "SSO_SESSION_PROBE",
+        "SSO_BUSINESS_COOKIE_READY",
         "MISSION_PAGE_REQUESTED",
-        "MISSION_RECOVERY_ATTEMPT",
-        "MISSION_RECOVERY_RESULT",
+        "MISSION_SINGLE_NAVIGATION_RESULT",
         "MISSION_PAGE_AUTHENTICATED",
         "FINAL_PAGE_PROBED",
     }
@@ -188,96 +189,208 @@ def _authenticated_observation(
     )
 
 
+def _safe_main_frame_location(page: Any) -> tuple[str, str]:
+    try:
+        main_frame = page.main_frame
+        parsed = urlsplit(str(getattr(main_frame, "url", "") or ""))
+        return parsed.netloc.lower(), parsed.path or "/"
+    except Exception:
+        return "", ""
+
+
+def _cp_cookie_state(page: Any) -> tuple[dict[str, str], list[str]]:
+    """Return comparable CP cookie state while keeping values in memory only."""
+    try:
+        cookies = page.context.cookies([MISSION_URL])
+    except Exception:
+        return {}, []
+
+    state: dict[str, str] = {}
+    names: set[str] = set()
+    for cookie in cookies:
+        if not isinstance(cookie, dict):
+            continue
+        name = str(cookie.get("name", "")).strip()
+        domain = str(cookie.get("domain", "")).lstrip(".").lower()
+        path = str(cookie.get("path", "/") or "/")
+        if not name or not (
+            domain == "9cair.com" or domain.endswith(".9cair.com")
+        ):
+            continue
+        key = f"{domain}|{path}|{name}"
+        state[key] = str(cookie.get("value", ""))
+        names.add(name)
+    return state, sorted(names)
+
+
+def _changed_cp_cookie_names(
+    baseline: dict[str, str],
+    current: dict[str, str],
+) -> list[str]:
+    changed: set[str] = set()
+    for key, value in current.items():
+        if baseline.get(key) == value:
+            continue
+        try:
+            name = key.rsplit("|", 1)[1]
+        except (IndexError, AttributeError):
+            continue
+        if name:
+            changed.add(name)
+    return sorted(changed)
+
+
 def _recover_post_login_mission_page(
     page: Any,
     *,
     stage_reporter: LoginStageReporter | None,
-    max_attempts: int = POST_LOGIN_MISSION_MAX_ATTEMPTS,
+    baseline_cp_cookies: dict[str, str] | None = None,
+    timeout_seconds: int = POST_LOGIN_SESSION_TIMEOUT_SECONDS,
 ) -> AuthObservation:
-    if not 1 <= max_attempts <= POST_LOGIN_MISSION_MAX_ATTEMPTS:
-        raise ValueError("任务页恢复次数必须为1到3")
+    if timeout_seconds <= 0:
+        raise ValueError("SSO业务会话等待时间必须大于0")
 
+    baseline = dict(baseline_cp_cookies or {})
+    poll_count = max(
+        1,
+        int(
+            timeout_seconds
+            * 1_000
+            / POST_LOGIN_SESSION_POLL_INTERVAL_MS
+        ),
+    )
+    last_signature: tuple[Any, ...] | None = None
     observation = probe_page(page)
-    domain, path = _safe_page_location(page)
+    domain, _ = _safe_page_location(page)
+    main_frame_domain, _ = _safe_main_frame_location(page)
     if domain == "cp.9cair.com" and _task_area_visible(observation):
         return _authenticated_observation(observation)
-    if domain == "cas.9cair.com":
+    if (
+        domain == "cas.9cair.com"
+        or main_frame_domain == "cas.9cair.com"
+    ):
         return AuthObservation(
             AuthStatus.LOGIN_REQUIRED,
             observation.signals,
         )
+    page.wait_for_timeout(POST_LOGIN_SESSION_SETTLE_MS)
 
-    for attempt in range(1, max_attempts + 1):
-        delay_ms = (
-            POST_LOGIN_MISSION_INITIAL_DELAY_MS
-            if attempt == 1
-            else POST_LOGIN_MISSION_RETRY_DELAY_MS
-        )
-        page.wait_for_timeout(delay_ms)
-        _report_login_stage(
-            stage_reporter,
-            "MISSION_RECOVERY_ATTEMPT",
-            attempt=attempt,
-            delay_ms=delay_ms,
-        )
-
-        response_status = 0
-        navigation_error = ""
-        try:
-            response = page.goto(
-                MISSION_URL,
-                wait_until="domcontentloaded",
-                timeout=90_000,
-            )
-            response_status = _safe_response_status(response)
-        except Exception as exc:
-            navigation_error = str(exc).lower()
-
-        page.wait_for_timeout(POST_LOGIN_MISSION_PROBE_DELAY_MS)
+    for _ in range(poll_count):
         observation = probe_page(page)
         domain, path = _safe_page_location(page)
-        task_area_visible = (
-            domain == "cp.9cair.com"
-            and _task_area_visible(observation)
+        main_frame_domain, main_frame_path = _safe_main_frame_location(page)
+        cookie_state, cookie_names = _cp_cookie_state(page)
+        business_cookie_names = _changed_cp_cookie_names(
+            baseline,
+            cookie_state,
         )
-        _report_login_stage(
-            stage_reporter,
-            "MISSION_RECOVERY_RESULT",
-            attempt=attempt,
-            domain=domain,
-            path=path,
-            http_status=response_status,
-            task_area_visible=task_area_visible,
+        task_area_visible = _task_area_visible(observation)
+        signature = (
+            domain,
+            path,
+            main_frame_domain,
+            main_frame_path,
+            tuple(cookie_names),
+            tuple(business_cookie_names),
+            task_area_visible,
         )
+        if signature != last_signature:
+            _report_login_stage(
+                stage_reporter,
+                "SSO_SESSION_PROBE",
+                domain=domain,
+                path=path,
+                main_frame_domain=main_frame_domain,
+                main_frame_path=main_frame_path,
+                cp_cookie_names=cookie_names,
+                business_cookie_names=business_cookie_names,
+                task_area_visible=task_area_visible,
+            )
+            last_signature = signature
 
-        if task_area_visible:
+        if domain == "cp.9cair.com" and task_area_visible:
             return _authenticated_observation(observation)
-        if domain == "cas.9cair.com":
+        if (
+            domain == "cas.9cair.com"
+            or main_frame_domain == "cas.9cair.com"
+        ):
             return AuthObservation(
                 AuthStatus.LOGIN_REQUIRED,
                 observation.signals,
             )
-        if response_status in {401, 403}:
-            return AuthObservation(
-                AuthStatus.LOGIN_REQUIRED,
-                AuthSignals(login_url_hint=True),
-            )
-        if response_status >= 500 or any(
-            marker in navigation_error
-            for marker in (
-                "net::err_",
-                "connection reset",
-                "name_not_resolved",
-            )
-        ):
-            return AuthObservation(
-                AuthStatus.NETWORK_OR_SITE_ERROR,
-                AuthSignals(network_or_site_error=True),
-            )
 
-        if domain != "cp.9cair.com":
+        if domain == "cp.9cair.com" and business_cookie_names:
+            _report_login_stage(
+                stage_reporter,
+                "SSO_BUSINESS_COOKIE_READY",
+                cookie_names=business_cookie_names,
+            )
+            _report_login_stage(stage_reporter, "MISSION_PAGE_REQUESTED")
+            response_status = 0
+            navigation_error = ""
+            try:
+                response = page.goto(
+                    MISSION_URL,
+                    wait_until="domcontentloaded",
+                    timeout=90_000,
+                )
+                response_status = _safe_response_status(response)
+            except Exception as exc:
+                navigation_error = str(exc).lower()
+
+            page.wait_for_timeout(POST_LOGIN_MISSION_PROBE_DELAY_MS)
+            observation = probe_page(page)
+            domain, path = _safe_page_location(page)
+            main_frame_domain, main_frame_path = (
+                _safe_main_frame_location(page)
+            )
+            task_area_visible = _task_area_visible(observation)
+            _report_login_stage(
+                stage_reporter,
+                "MISSION_SINGLE_NAVIGATION_RESULT",
+                domain=domain,
+                path=path,
+                main_frame_domain=main_frame_domain,
+                main_frame_path=main_frame_path,
+                http_status=response_status,
+                task_area_visible=task_area_visible,
+            )
+            if domain == "cp.9cair.com" and task_area_visible:
+                return _authenticated_observation(observation)
+            if (
+                domain == "cas.9cair.com"
+                or main_frame_domain == "cas.9cair.com"
+            ):
+                return AuthObservation(
+                    AuthStatus.LOGIN_REQUIRED,
+                    AuthSignals(login_url_hint=True),
+                )
+            if response_status >= 500 or any(
+                marker in navigation_error
+                for marker in (
+                    "net::err_",
+                    "connection reset",
+                    "name_not_resolved",
+                )
+            ):
+                return AuthObservation(
+                    AuthStatus.NETWORK_OR_SITE_ERROR,
+                    AuthSignals(network_or_site_error=True),
+                )
+            if observation.status == AuthStatus.LOGIN_REQUIRED:
+                return AuthObservation(
+                    AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+                    observation.signals,
+                )
             return observation
 
+        page.wait_for_timeout(POST_LOGIN_SESSION_POLL_INTERVAL_MS)
+
+    if observation.status == AuthStatus.LOGIN_REQUIRED:
+        return AuthObservation(
+            AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+            observation.signals,
+        )
     return observation
 
 
@@ -1650,6 +1763,7 @@ def complete_dynamic_password_login(
         SUBMIT_DYNAMIC_LOGIN_SELECTOR,
         "登录按钮",
     )
+    baseline_cp_cookies, _ = _cp_cookie_state(page)
     login_button.click()
     _report_login_stage(stage_reporter, "LOGIN_BUTTON_CLICKED")
     try:
@@ -1661,10 +1775,10 @@ def complete_dynamic_password_login(
         _report_login_stage(stage_reporter, "SSO_HANDOFF_REACHED")
     except Exception:
         _report_login_stage(stage_reporter, "SSO_HANDOFF_TIMEOUT")
-    _report_login_stage(stage_reporter, "MISSION_PAGE_REQUESTED")
     observation = _recover_post_login_mission_page(
         page,
         stage_reporter=stage_reporter,
+        baseline_cp_cookies=baseline_cp_cookies,
     )
     _report_login_stage(stage_reporter, "FINAL_PAGE_PROBED")
     if observation.status == AuthStatus.AUTHENTICATED:

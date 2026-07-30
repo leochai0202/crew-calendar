@@ -18,20 +18,26 @@ import pytesseract
 from playwright.sync_api import sync_playwright
 
 from crew_auth_session import (
+    AuthBundle,
     AuthObservation,
     AuthSignals,
     AuthBundleError,
     AuthStatus,
     STATUS_EXIT_CODES,
+    auth_bundle_to_dict,
     create_context_from_auth_bundle,
     decode_auth_bundle,
+    load_auth_bundle_file,
     navigate_and_probe,
+    restore_auth_bundle_to_existing_context,
 )
 from authenticate_crew_session import (
     AdditionalVerificationRequiredError,
     LOGIN_STAGE_NAMES,
     LoginPageStateError,
     LoginToggleError,
+    capture_session_storage,
+    capture_storage_state,
     collect_safe_login_page_snapshot,
     complete_dynamic_password_login,
 )
@@ -75,6 +81,12 @@ ALARM_MINUTES = 90
 LOAD_MORE_MAX_ROUNDS = 8
 SEGMENT_CARD_MARKER = "__SEGMENT_CARD__"
 AUTH_DIAGNOSTIC_PATH_ENV = "CREW_AUTH_DIAGNOSTIC_PATH"
+PERSISTENT_PROFILE_DIR_ENV = "CREW_PERSISTENT_PROFILE_DIR"
+AUTH_BACKUP_PATH_ENV = "CREW_AUTH_BACKUP_PATH"
+BROWSER_CHANNEL_ENV = "CREW_BROWSER_CHANNEL"
+WINDOWS_DEFAULT_PROFILE_DIR = Path(
+    r"C:\crew-calendar-data\browser-profile"
+)
 
 
 def ensure_artifact_dir() -> bool:
@@ -5129,6 +5141,15 @@ def _new_cloud_login_diagnostic() -> dict:
     }
 
 
+def _safe_cookie_names(values) -> list[str]:
+    names: set[str] = set()
+    for value in values or []:
+        name = str(value)[:64]
+        if re.fullmatch(r"[A-Za-z0-9_.-]+", name):
+            names.add(name)
+    return sorted(names)[:20]
+
+
 def _cloud_stage_reporter(diagnostic: dict):
     def report(stage: str, details: dict) -> None:
         if stage not in LOGIN_STAGE_NAMES:
@@ -5148,23 +5169,23 @@ def _cloud_stage_reporter(diagnostic: dict):
             "OTP_ATTEMPT_TIMEOUT",
             "OTP_RETRY_WAIT_STARTED",
             "OTP_RETRY_READY",
-            "MISSION_RECOVERY_ATTEMPT",
         }:
             attempt = min(3, max(1, int(details.get("attempt", 1))))
             entry["attempt"] = attempt
-            if stage == "MISSION_RECOVERY_ATTEMPT":
-                entry["delay_ms"] = max(
-                    0,
-                    min(3_000, int(details.get("delay_ms", 0))),
-                )
             print(
                 f"LOGIN_STAGE={stage} ATTEMPT={attempt}",
                 flush=True,
             )
-        elif stage == "MISSION_RECOVERY_RESULT":
-            attempt = min(3, max(1, int(details.get("attempt", 1))))
+        elif stage in {
+            "SSO_SESSION_PROBE",
+            "MISSION_SINGLE_NAVIGATION_RESULT",
+        }:
             domain = str(details.get("domain", "")).lower()
             path = str(details.get("path", ""))
+            main_frame_domain = str(
+                details.get("main_frame_domain", "")
+            ).lower()
+            main_frame_path = str(details.get("main_frame_path", ""))
             http_status = max(
                 0,
                 min(599, int(details.get("http_status", 0))),
@@ -5174,15 +5195,37 @@ def _cloud_stage_reporter(diagnostic: dict):
             )
             entry.update(
                 {
-                    "attempt": attempt,
                     "domain": domain,
                     "path": path,
+                    "main_frame_domain": main_frame_domain,
+                    "main_frame_path": main_frame_path,
                     "http_status": http_status,
                     "task_area_visible": task_area_visible,
                 }
             )
+            if stage == "SSO_SESSION_PROBE":
+                entry["cp_cookie_names"] = _safe_cookie_names(
+                    details.get("cp_cookie_names", [])
+                )
+                entry["business_cookie_names"] = _safe_cookie_names(
+                    details.get("business_cookie_names", [])
+                )
             print(
-                "MISSION_RECOVERY_RESULT="
+                f"{stage}="
+                + json.dumps(
+                    entry,
+                    ensure_ascii=False,
+                    separators=(",", ":"),
+                    sort_keys=True,
+                ),
+                flush=True,
+            )
+        elif stage == "SSO_BUSINESS_COOKIE_READY":
+            entry["cookie_names"] = _safe_cookie_names(
+                details.get("cookie_names", [])
+            )
+            print(
+                "SSO_BUSINESS_COOKIE_READY="
                 + json.dumps(
                     entry,
                     ensure_ascii=False,
@@ -5399,6 +5442,84 @@ def attempt_cloud_dynamic_password_login(page) -> AuthObservation:
     return observation
 
 
+def resolve_persistent_profile_dir() -> Path | None:
+    configured = os.environ.get(PERSISTENT_PROFILE_DIR_ENV, "").strip()
+    if configured:
+        return Path(configured).expanduser().resolve()
+    if os.name == "nt":
+        return WINDOWS_DEFAULT_PROFILE_DIR
+    return None
+
+
+def _path_is_within(path: Path, parent: Path) -> bool:
+    try:
+        path.resolve().relative_to(parent.resolve())
+        return True
+    except ValueError:
+        return False
+
+
+def _validate_persistent_profile_dir(profile_dir: Path) -> None:
+    repository_dir = Path(__file__).resolve().parent
+    if _path_is_within(profile_dir, repository_dir):
+        raise RuntimeError("持久浏览器目录必须位于Git仓库之外")
+
+    local_app_data = os.environ.get("LOCALAPPDATA", "").strip()
+    if local_app_data:
+        daily_edge_dir = (
+            Path(local_app_data)
+            / "Microsoft"
+            / "Edge"
+            / "User Data"
+        )
+        if _path_is_within(profile_dir, daily_edge_dir):
+            raise RuntimeError("不得使用日常Edge用户目录作为自动化profile")
+
+
+def resolve_auth_backup_path(profile_dir: Path | None) -> Path | None:
+    configured = os.environ.get(AUTH_BACKUP_PATH_ENV, "").strip()
+    if configured:
+        return Path(configured).expanduser().resolve()
+    if profile_dir is None:
+        return None
+    return profile_dir.parent / "auth-backup" / "crew-auth-session.json"
+
+
+def _load_local_auth_backup(path: Path | None) -> AuthBundle | None:
+    if path is None or not path.exists():
+        return None
+    try:
+        return load_auth_bundle_file(path)
+    except AuthBundleError:
+        return None
+
+
+def _write_filtered_auth_backup(context, path: Path | None) -> None:
+    if path is None:
+        return
+    repository_dir = Path(__file__).resolve().parent
+    if _path_is_within(path, repository_dir):
+        raise RuntimeError("本地认证备份必须位于Git仓库之外")
+
+    bundle = AuthBundle(
+        capture_storage_state(context),
+        capture_session_storage(context),
+    )
+    payload = json.dumps(
+        auth_bundle_to_dict(bundle),
+        ensure_ascii=False,
+        indent=2,
+        sort_keys=True,
+    ) + "\n"
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        temporary.write_text(payload, encoding="utf-8")
+        os.replace(temporary, path)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
 def run() -> int:
     logger.info("=" * 60)
     logger.info("开始执行航班日历爬虫")
@@ -5413,26 +5534,65 @@ def run() -> int:
     except AuthBundleError:
         pass
 
+    profile_dir = resolve_persistent_profile_dir()
+    backup_path = resolve_auth_backup_path(profile_dir)
+    if profile_dir is not None:
+        _validate_persistent_profile_dir(profile_dir)
+        if bundle is None:
+            bundle = _load_local_auth_backup(backup_path)
+
     browser = None
     context = None
 
     try:
         with sync_playwright() as p:
             try:
-                browser = p.chromium.launch(headless=True)
-
-                if bundle is None:
-                    context = browser.new_context(
-                        viewport={"width": 1400, "height": 1000},
+                if profile_dir is not None:
+                    profile_existed = (
+                        profile_dir.exists()
+                        and any(profile_dir.iterdir())
                     )
+                    profile_dir.mkdir(parents=True, exist_ok=True)
+                    configured_channel = os.environ.get(
+                        BROWSER_CHANNEL_ENV,
+                        "",
+                    ).strip()
+                    channel = (
+                        configured_channel
+                        or ("msedge" if os.name == "nt" else "")
+                    )
+                    launch_options = {
+                        "user_data_dir": str(profile_dir),
+                        "headless": HEADLESS,
+                        "viewport": {"width": 1400, "height": 1000},
+                    }
+                    if channel:
+                        launch_options["channel"] = channel
+                    context = p.chromium.launch_persistent_context(
+                        **launch_options
+                    )
+                    if not profile_existed and bundle is not None:
+                        restore_auth_bundle_to_existing_context(
+                            context,
+                            bundle,
+                        )
                 else:
-                    context = create_context_from_auth_bundle(
-                        browser,
-                        bundle,
-                        viewport={"width": 1400, "height": 1000},
-                    )
+                    browser = p.chromium.launch(headless=HEADLESS)
+                    if bundle is None:
+                        context = browser.new_context(
+                            viewport={"width": 1400, "height": 1000},
+                        )
+                    else:
+                        context = create_context_from_auth_bundle(
+                            browser,
+                            bundle,
+                            viewport={"width": 1400, "height": 1000},
+                        )
 
-                page = context.new_page()
+                if profile_dir is not None and context.pages:
+                    page = context.pages[0]
+                else:
+                    page = context.new_page()
                 page.set_default_timeout(90000)
                 page.set_default_navigation_timeout(90000)
 
@@ -5460,6 +5620,8 @@ def run() -> int:
                 snapshot_existing_calendars()
                 rebuild_airport_indexes()
                 open_mission_page(page)
+                if profile_dir is not None:
+                    _write_filtered_auth_backup(context, backup_path)
 
                 page_year = detect_page_year(page)
                 save_text("page_year.txt", str(page_year))

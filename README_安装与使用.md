@@ -125,3 +125,34 @@ airport_aliases.json
 ```
 
 维护 Agent 也不会直接提交候选修复。你确认候选文件后，再自行改回正式文件名覆盖。
+
+## 七、Windows self-hosted runner
+
+正式的 `Update Crew Calendar` 只在专用 Windows runner 上运行，浏览器
+profile 保存在仓库外的：
+
+```text
+C:\crew-calendar-data\browser-profile
+```
+
+最简安装步骤：
+
+1. 在 GitHub 仓库进入 `Settings → Actions → Runners → New self-hosted runner`，
+   生成一次性注册 Token。
+2. 在准备用作 runner 的 Windows 电脑上，以管理员身份打开 PowerShell。
+3. 在仓库目录执行：
+
+```powershell
+.\scripts\setup_self_hosted_runner.ps1 `
+  -RepositoryUrl "https://github.com/leochai0202/crew-calendar"
+```
+
+脚本会隐藏提示输入一次性 Token，安装依赖、注册
+`self-hosted, Windows, X64, crew-calendar` runner，并启动服务。
+
+runner 注册完成后只做两次验收：
+
+1. 第一次允许动态密码登录并写入持久 profile；
+2. 第二次必须直接复用会话，不连接 QQ IMAP、不再申请验证码。
+
+两次都成功后，才把分支合并到 `main` 并启用正式定时。

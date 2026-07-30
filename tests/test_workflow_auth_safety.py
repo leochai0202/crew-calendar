@@ -3,6 +3,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).parents[1]
 SCHEDULE = ROOT / ".github" / "workflows" / "schedule.yml"
+CODE_TESTS = ROOT / ".github" / "workflows" / "auth-session-check.yml"
+RUNNER_SETUP = ROOT / "scripts" / "setup_self_hosted_runner.ps1"
 MAINTENANCE_WORKFLOW = (
     ROOT
     / ".github"
@@ -36,8 +38,18 @@ def test_schedule_keeps_three_times_and_uses_expected_secrets() -> None:
         assert f"${{{{ secrets.{secret_name} }}}}" in workflow
     assert "GMAIL_NOTIFY_TO" not in workflow
     assert "imap.163.com" not in workflow
-    assert "pip install -r requirements.txt" in workflow
-    assert "playwright install --with-deps chromium" in workflow
+    assert "runs-on: [self-hosted, Windows, X64, crew-calendar]" in workflow
+    assert "shell: pwsh" in workflow
+    assert "shell: bash" not in workflow
+    assert "cancel-in-progress: false" in workflow
+    assert (
+        "CREW_PERSISTENT_PROFILE_DIR: "
+        r"C:\crew-calendar-data\browser-profile" in workflow
+    )
+    assert "CREW_BROWSER_CHANNEL: msedge" in workflow
+    assert "playwright install" not in workflow
+    assert "apt-get" not in workflow
+    assert "actions/setup-python" not in workflow
     for forbidden in (
         "CREW_USERNAME",
         "CREW_PASSWORD",
@@ -47,7 +59,7 @@ def test_schedule_keeps_three_times_and_uses_expected_secrets() -> None:
     ):
         assert forbidden not in workflow
     assert "actions/upload-artifact@v4" in workflow
-    assert "${{ runner.temp }}/crew-auth-diagnostic.json" in workflow
+    assert r"${{ runner.temp }}\crew-auth-diagnostic.json" in workflow
     assert "if-no-files-found: ignore" in workflow
     for forbidden_artifact in (
         "screenshot",
@@ -62,16 +74,17 @@ def test_schedule_maps_auth_status_and_gates_clean_and_commit() -> None:
     workflow = SCHEDULE.read_text(encoding="utf-8")
 
     expected_mappings = (
-        '0) auth_status="AUTHENTICATED"',
-        '3) auth_status="LOGIN_REQUIRED"',
-        '4) auth_status="ADDITIONAL_VERIFICATION_REQUIRED"',
-        '5) auth_status="PAGE_CHANGED_OR_UNKNOWN"',
-        '6) auth_status="NETWORK_OR_SITE_ERROR"',
-        '*) auth_status="SCRAPER_ERROR"',
+        '0 { "AUTHENTICATED" }',
+        '3 { "LOGIN_REQUIRED" }',
+        '4 { "ADDITIONAL_VERIFICATION_REQUIRED" }',
+        '5 { "PAGE_CHANGED_OR_UNKNOWN" }',
+        '6 { "NETWORK_OR_SITE_ERROR" }',
+        'default { "SCRAPER_ERROR" }',
     )
     for mapping in expected_mappings:
         assert mapping in workflow
-    assert 'echo "auth_status=$auth_status" >> "$GITHUB_OUTPUT"' in workflow
+    assert '"auth_status=$authStatus"' in workflow
+    assert "$env:GITHUB_OUTPUT" in workflow
     gate = (
         "steps.scraper.outcome == 'success' && "
         "steps.scraper.outputs.auth_status == 'AUTHENTICATED'"
@@ -90,7 +103,7 @@ def test_auth_notification_is_non_blocking_and_persists_only_safe_state() -> Non
         in workflow
     )
     assert (
-        "git add -- state/auth_notification_state.json"
+        'git add -- $stateFile'
         in workflow
     )
     assert "git add -A" not in workflow
@@ -152,8 +165,46 @@ def test_gitignore_excludes_debug_output_without_removing_auth_rules() -> None:
         "/debug_output/",
         "playwright/.auth/",
         "playwright/.auth-diagnostics/",
+        "/browser-profile/",
+        "/auth-backup/",
+        "/crew-calendar-data/",
         "*.storage-state.json",
         "crew-auth-session*.json",
         ".env",
     ):
         assert pattern in content
+
+
+def test_github_hosted_workflow_only_runs_code_tests() -> None:
+    workflow = CODE_TESTS.read_text(encoding="utf-8")
+
+    assert "runs-on: ubuntu-latest" in workflow
+    assert "python -m pytest" in workflow
+    assert "crew_calendar_main.py" not in workflow
+    for forbidden in (
+        "CREW_PHONE",
+        "IMAP_EMAIL",
+        "IMAP_AUTH_CODE",
+        "CREW_STORAGE_STATE_B64",
+        "playwright install",
+        "workflow_dispatch inputs",
+    ):
+        assert forbidden not in workflow
+
+
+def test_self_hosted_setup_script_registers_dedicated_windows_runner() -> None:
+    script = RUNNER_SETUP.read_text(encoding="utf-8")
+
+    for required in (
+        "actions-runner-win-x64-",
+        '--labels "crew-calendar"',
+        "browser-profile",
+        "auth-backup",
+        "svc.cmd install",
+        "svc.cmd start",
+        "channel='msedge'",
+    ):
+        assert required in script
+    assert "Write-Host $RegistrationToken" not in script
+    assert "CREW_PHONE" not in script
+    assert "IMAP_AUTH_CODE" not in script

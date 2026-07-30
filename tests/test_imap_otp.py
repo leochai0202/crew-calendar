@@ -541,13 +541,12 @@ def test_dynamic_login_records_uid_before_single_request_and_fills_otp(
         ("OTP_FIELD_FILLED", {}),
         ("LOGIN_BUTTON_CLICKED", {}),
         ("SSO_HANDOFF_REACHED", {}),
-        ("MISSION_PAGE_REQUESTED", {}),
         ("FINAL_PAGE_PROBED", {}),
         ("MISSION_PAGE_AUTHENTICATED", {}),
     ]
 
 
-def test_post_login_recovery_reuses_page_and_succeeds_on_second_visit(
+def test_post_login_handoff_waits_for_business_cookie_then_navigates_once(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     blank = AuthObservation(
@@ -560,7 +559,6 @@ def test_post_login_recovery_reuses_page_and_succeeds_on_second_visit(
     )
     page = RecoveryPage(
         [
-            ("https://cp.9cair.com/", 200, blank),
             (
                 "https://cp.9cair.com/html/task/mission.html",
                 200,
@@ -574,38 +572,52 @@ def test_post_login_recovery_reuses_page_and_succeeds_on_second_visit(
         "probe_page",
         lambda current_page: current_page.current_observation,
     )
+    cookie_states = iter(
+        [
+            (
+                {"cp.9cair.com|/|CP_SESSION": "new-value"},
+                ["CP_SESSION"],
+            )
+        ]
+    )
+    monkeypatch.setattr(
+        authentication,
+        "_cp_cookie_state",
+        lambda _page: next(cookie_states),
+    )
 
     observation = authentication._recover_post_login_mission_page(
         page,
         stage_reporter=lambda stage, details: stages.append(
             (stage, details)
         ),
+        baseline_cp_cookies={
+            "cp.9cair.com|/|CP_SESSION": "old-value",
+        },
     )
 
     assert observation.status == AuthStatus.AUTHENTICATED
-    assert page.goto_calls == [
-        authentication.MISSION_URL,
-        authentication.MISSION_URL,
-    ]
-    assert page.waits == [2_000, 2_000, 3_000, 2_000]
-    assert [
-        details["attempt"]
+    assert page.goto_calls == [authentication.MISSION_URL]
+    assert page.waits == [2_000, 2_000]
+    assert any(
+        stage == "SSO_BUSINESS_COOKIE_READY"
+        and details["cookie_names"] == ["CP_SESSION"]
         for stage, details in stages
-        if stage == "MISSION_RECOVERY_RESULT"
-    ] == [1, 2]
+    )
     assert stages[-1] == (
-        "MISSION_RECOVERY_RESULT",
+        "MISSION_SINGLE_NAVIGATION_RESULT",
         {
-            "attempt": 2,
             "domain": "cp.9cair.com",
             "path": "/html/task/mission.html",
+            "main_frame_domain": "",
+            "main_frame_path": "",
             "http_status": 200,
             "task_area_visible": True,
         },
     )
 
 
-def test_post_login_recovery_stops_after_three_blank_root_pages(
+def test_post_login_handoff_does_not_navigate_without_business_cookie(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     blank = AuthObservation(
@@ -613,51 +625,45 @@ def test_post_login_recovery_stops_after_three_blank_root_pages(
         AuthSignals(),
     )
     page = RecoveryPage(
-        [
-            ("https://cp.9cair.com/", 200, blank),
-            ("https://cp.9cair.com/", 200, blank),
-            ("https://cp.9cair.com/", 200, blank),
-        ]
+        []
     )
     monkeypatch.setattr(
         authentication,
         "probe_page",
         lambda current_page: current_page.current_observation,
     )
+    monkeypatch.setattr(
+        authentication,
+        "_cp_cookie_state",
+        lambda _page: (
+            {"cp.9cair.com|/|CP_SESSION": "unchanged"},
+            ["CP_SESSION"],
+        ),
+    )
 
     observation = authentication._recover_post_login_mission_page(
         page,
         stage_reporter=None,
+        baseline_cp_cookies={
+            "cp.9cair.com|/|CP_SESSION": "unchanged",
+        },
+        timeout_seconds=1,
     )
 
     assert observation.status == AuthStatus.PAGE_CHANGED_OR_UNKNOWN
-    assert page.goto_calls == [authentication.MISSION_URL] * 3
-    assert page.waits == [
-        2_000,
-        2_000,
-        3_000,
-        2_000,
-        3_000,
-        2_000,
-    ]
+    assert page.goto_calls == []
 
 
-def test_post_login_recovery_stops_when_redirected_to_cas(
+def test_post_login_handoff_stops_when_redirected_to_cas(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     login_required = AuthObservation(
         AuthStatus.LOGIN_REQUIRED,
         AuthSignals(login_url_hint=True),
     )
-    page = RecoveryPage(
-        [
-            (
-                "https://cas.9cair.com/login?service=redacted",
-                200,
-                login_required,
-            )
-        ]
-    )
+    page = RecoveryPage([])
+    page.url = "https://cas.9cair.com/login?service=redacted"
+    page.current_observation = login_required
     monkeypatch.setattr(
         authentication,
         "probe_page",
@@ -670,10 +676,44 @@ def test_post_login_recovery_stops_when_redirected_to_cas(
     )
 
     assert observation.status == AuthStatus.LOGIN_REQUIRED
+    assert page.goto_calls == []
+
+
+def test_post_login_handoff_does_not_call_cp_401_login_expired(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    unknown = AuthObservation(
+        AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+        AuthSignals(),
+    )
+    page = RecoveryPage(
+        [("https://cp.9cair.com/", 401, unknown)]
+    )
+    monkeypatch.setattr(
+        authentication,
+        "probe_page",
+        lambda current_page: current_page.current_observation,
+    )
+    monkeypatch.setattr(
+        authentication,
+        "_cp_cookie_state",
+        lambda _page: (
+            {"cp.9cair.com|/|CP_SESSION": "new-value"},
+            ["CP_SESSION"],
+        ),
+    )
+
+    observation = authentication._recover_post_login_mission_page(
+        page,
+        stage_reporter=None,
+        baseline_cp_cookies={},
+    )
+
+    assert observation.status == AuthStatus.PAGE_CHANGED_OR_UNKNOWN
     assert page.goto_calls == [authentication.MISSION_URL]
 
 
-def test_post_login_recovery_stops_on_explicit_network_error(
+def test_post_login_handoff_stops_on_explicit_network_error(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     unavailable = AuthObservation(
@@ -683,7 +723,6 @@ def test_post_login_recovery_stops_on_explicit_network_error(
     page = RecoveryPage(
         [
             ("https://cp.9cair.com/", 503, unavailable),
-            ("https://cp.9cair.com/", 200, unavailable),
         ]
     )
     monkeypatch.setattr(
@@ -691,17 +730,26 @@ def test_post_login_recovery_stops_on_explicit_network_error(
         "probe_page",
         lambda current_page: current_page.current_observation,
     )
+    monkeypatch.setattr(
+        authentication,
+        "_cp_cookie_state",
+        lambda _page: (
+            {"cp.9cair.com|/|CP_SESSION": "new-value"},
+            ["CP_SESSION"],
+        ),
+    )
 
     observation = authentication._recover_post_login_mission_page(
         page,
         stage_reporter=None,
+        baseline_cp_cookies={},
     )
 
     assert observation.status == AuthStatus.NETWORK_OR_SITE_ERROR
     assert page.goto_calls == [authentication.MISSION_URL]
 
 
-def test_post_login_recovery_does_not_navigate_when_task_is_visible(
+def test_post_login_handoff_does_not_navigate_when_task_is_visible(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     page = RecoveryPage([])
@@ -927,6 +975,11 @@ def test_environment_example_and_gitignore_contain_no_real_values() -> None:
         "IMAP_EMAIL=\n"
         "IMAP_AUTH_CODE=\n"
         "CREW_LOGIN_PHONE=\n"
+        "CREW_PERSISTENT_PROFILE_DIR="
+        "C:\\crew-calendar-data\\browser-profile\n"
+        "CREW_AUTH_BACKUP_PATH="
+        "C:\\crew-calendar-data\\auth-backup\\crew-auth-session.json\n"
+        "CREW_BROWSER_CHANNEL=msedge\n"
     )
     gitignore = (ROOT / ".gitignore").read_text(encoding="utf-8")
     assert ".env" in gitignore

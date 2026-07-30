@@ -501,7 +501,7 @@ def test_fresh_process_command_only_uses_headless_validation(
     assert captured["kwargs"]["stderr"] == local_auth.subprocess.DEVNULL
 
 
-def test_workflow_is_manual_read_only_and_has_no_artifacts() -> None:
+def test_github_hosted_workflow_is_read_only_code_test_only() -> None:
     workflow = (
         Path(__file__).parents[1]
         / ".github"
@@ -511,15 +511,19 @@ def test_workflow_is_manual_read_only_and_has_no_artifacts() -> None:
 
     assert "workflow_dispatch:" in workflow
     assert "schedule:" not in workflow
-    assert "pull_request:" not in workflow
-    assert "\n  push:" not in workflow
+    assert "pull_request:" in workflow
+    assert "\n  push:" in workflow
     assert "contents: read" in workflow
-    assert "CREW_STORAGE_STATE_B64" in workflow
+    assert "python -m pytest" in workflow
     for forbidden in (
         "upload-artifact",
         "debug_output",
         "flight.ics",
         "crew_calendar_main.py",
+        "CREW_STORAGE_STATE_B64",
+        "CREW_PHONE",
+        "IMAP_AUTH_CODE",
+        "playwright install",
     ):
         assert forbidden not in workflow
 
