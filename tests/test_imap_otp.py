@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import os
 from email.message import EmailMessage
 from pathlib import Path
@@ -277,6 +278,7 @@ def test_dynamic_login_records_uid_before_single_request_and_fills_otp(
     monkeypatch,
 ) -> None:
     events: list[Any] = []
+    stages: list[tuple[str, dict[str, Any]]] = []
     page = RecordingPage(events)
     otp_reader = RecordingOtpReader(events)
     locators = {
@@ -327,6 +329,9 @@ def test_dynamic_login_records_uid_before_single_request_and_fills_otp(
         page,
         otp_reader,
         manual_timeout_seconds=60,
+        stage_reporter=lambda stage, details: stages.append(
+            (stage, details)
+        ),
     )
 
     assert observation == expected
@@ -341,6 +346,62 @@ def test_dynamic_login_records_uid_before_single_request_and_fills_otp(
     assert events.index(("fill", "dynamic_password", "482731")) < (
         events.index(("click", "login"))
     )
+    assert stages == [
+        ("IMAP_BASELINE_RECORDED", {}),
+        ("OTP_REQUEST_CLICKED", {}),
+        ("OTP_MAIL_RECEIVED", {"otp_length": 6}),
+        ("OTP_FIELD_FILLED", {}),
+        ("LOGIN_BUTTON_CLICKED", {}),
+        ("FINAL_PAGE_PROBED", {}),
+    ]
+
+
+def test_safe_login_page_snapshot_omits_query_and_sensitive_content() -> None:
+    class Locator:
+        def __init__(self, visible: bool) -> None:
+            self.visible = visible
+
+        def count(self) -> int:
+            return 1
+
+        def nth(self, _index: int):
+            return self
+
+        def is_visible(self, **_: Any) -> bool:
+            return self.visible
+
+    class Page:
+        url = (
+            "https://cas.9cair.com/login/path"
+            "?phone=13000000000&token=secret"
+        )
+        frames: list[Any] = []
+
+        def title(self) -> str:
+            return "统一认证中心"
+
+        def locator(self, selector: str) -> Locator:
+            return Locator(
+                selector
+                in {
+                    authentication.DYNAMIC_LOGIN_TAB_SELECTOR,
+                    authentication.PHONE_OR_EMAIL_SELECTOR,
+                }
+            )
+
+        def get_by_text(self, text: str, *, exact: bool) -> Locator:
+            assert exact is True
+            return Locator(text == authentication.QR_LOGIN_HEADING)
+
+    snapshot = authentication.collect_safe_login_page_snapshot(Page())
+
+    assert snapshot["domain"] == "cas.9cair.com"
+    assert snapshot["path"] == "/login/path"
+    assert snapshot["title"] == "统一认证中心"
+    assert snapshot["visible_elements"]["qr_login_page"] is True
+    serialized = json.dumps(snapshot, ensure_ascii=False)
+    assert "13000000000" not in serialized
+    assert "secret" not in serialized
 
 
 def test_dynamic_login_selectors_match_verified_dom_contract() -> None:

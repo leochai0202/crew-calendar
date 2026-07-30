@@ -9,7 +9,7 @@ import sys
 import tempfile
 import time
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 from crew_auth_session import (
     ALLOWED_AUTH_ORIGINS,
@@ -79,9 +79,108 @@ IMAP_PORT_ENV = "IMAP_PORT"
 LOGIN_PHONE_ENV = "CREW_LOGIN_PHONE"
 CLOUD_LOGIN_PHONE_ENV = "CREW_PHONE"
 
+LOGIN_STAGE_NAMES = frozenset(
+    {
+        "LOGIN_PAGE_SWITCHED",
+        "DYNAMIC_TAB_OPENED",
+        "PHONE_FILLED",
+        "IMAP_BASELINE_RECORDED",
+        "OTP_REQUEST_CLICKED",
+        "SLIDER_PRESENT",
+        "SLIDER_ABSENT",
+        "OTP_MAIL_RECEIVED",
+        "OTP_FIELD_FILLED",
+        "LOGIN_BUTTON_CLICKED",
+        "FINAL_PAGE_PROBED",
+    }
+)
+LoginStageReporter = Callable[[str, dict[str, Any]], None]
+
 
 class AdditionalVerificationRequiredError(OtpError):
     pass
+
+
+def _report_login_stage(
+    reporter: LoginStageReporter | None,
+    stage: str,
+    **details: Any,
+) -> None:
+    if reporter is not None:
+        reporter(stage, details)
+
+
+def _locator_has_visible_element(locator: Any) -> bool:
+    try:
+        return any(
+            locator.nth(index).is_visible(timeout=500)
+            for index in range(min(locator.count(), 5))
+        )
+    except Exception:
+        return False
+
+
+def collect_safe_login_page_snapshot(page: Any) -> dict[str, Any]:
+    try:
+        from urllib.parse import urlsplit
+
+        parsed = urlsplit(str(page.url))
+        domain = parsed.netloc
+        path = parsed.path or "/"
+    except Exception:
+        domain = ""
+        path = ""
+
+    try:
+        title = " ".join(str(page.title()).split())[:200]
+    except Exception:
+        title = ""
+
+    def visible(selector: str) -> bool:
+        try:
+            return _locator_has_visible_element(page.locator(selector))
+        except Exception:
+            return False
+
+    try:
+        qr_page = _locator_has_visible_element(
+            page.get_by_text(QR_LOGIN_HEADING, exact=True)
+        )
+    except Exception:
+        qr_page = False
+
+    slider = False
+    for target in list(getattr(page, "frames", ())) or [page]:
+        try:
+            if _locator_has_visible_element(
+                target.locator(SHUMEI_SLIDER_SELECTOR)
+            ):
+                slider = True
+                break
+        except Exception:
+            continue
+
+    return {
+        "domain": domain,
+        "path": path,
+        "title": title,
+        "visible_elements": {
+            "qr_login_page": qr_page,
+            "password_login_tab": visible(PASSWORD_LOGIN_TAB_SELECTOR),
+            "dynamic_login_tab": visible(DYNAMIC_LOGIN_TAB_SELECTOR),
+            "phone_field": visible(PHONE_OR_EMAIL_SELECTOR),
+            "otp_request_button": visible(
+                REQUEST_DYNAMIC_PASSWORD_SELECTOR
+            ),
+            "otp_field": visible(DYNAMIC_PASSWORD_SELECTOR),
+            "slider": slider,
+            "mission_area": visible("text=我的任务")
+            or visible(
+                "[class*='mission' i], [class*='task-list' i], "
+                "[data-testid*='task' i]"
+            ),
+        },
+    }
 
 
 def _decode_env_value(raw_value: str) -> str:
@@ -607,11 +706,20 @@ def _switch_to_dynamic_password_login(
     page: Any,
     *,
     save_diagnostics: bool = True,
+    stage_reporter: LoginStageReporter | None = None,
 ) -> None:
     try:
         form = page.locator(DYNAMIC_LOGIN_FORM_SELECTOR)
         if form.count() == 1 and form.is_visible():
             dynamic_tab = None
+            _report_login_stage(
+                stage_reporter,
+                "LOGIN_PAGE_SWITCHED",
+            )
+            _report_login_stage(
+                stage_reporter,
+                "DYNAMIC_TAB_OPENED",
+            )
         else:
             password_tab = page.locator(PASSWORD_LOGIN_TAB_SELECTOR)
             dynamic_tab = page.locator(DYNAMIC_LOGIN_TAB_SELECTOR)
@@ -651,6 +759,10 @@ def _switch_to_dynamic_password_login(
                 password_tab.wait_for(state="visible", timeout=10_000)
                 dynamic_tab.wait_for(state="visible", timeout=10_000)
 
+            _report_login_stage(
+                stage_reporter,
+                "LOGIN_PAGE_SWITCHED",
+            )
             dynamic_tab.click()
             form = _unique_locator(
                 page,
@@ -658,6 +770,10 @@ def _switch_to_dynamic_password_login(
                 "动态密码登录表单",
             )
             form.wait_for(state="visible", timeout=10_000)
+            _report_login_stage(
+                stage_reporter,
+                "DYNAMIC_TAB_OPENED",
+            )
 
         _unique_locator(
             page,
@@ -687,6 +803,7 @@ def _wait_for_phone_or_email(
     timeout_seconds: int,
     *,
     phone_number: str | None = None,
+    stage_reporter: LoginStageReporter | None = None,
 ) -> None:
     del timeout_seconds
     phone = _unique_locator(
@@ -704,6 +821,7 @@ def _wait_for_phone_or_email(
         configured_phone = ensure_local_login_phone()
     if phone.input_value().strip() != configured_phone:
         phone.fill(configured_phone)
+    _report_login_stage(stage_reporter, "PHONE_FILLED")
 
 
 def _find_visible_slider(
@@ -733,13 +851,16 @@ def _wait_for_slider_if_present(
     *,
     detection_timeout_seconds: float = 3,
     allow_manual_completion: bool = True,
+    stage_reporter: LoginStageReporter | None = None,
 ) -> None:
     slider = _find_visible_slider(
         page,
         detection_timeout_seconds=detection_timeout_seconds,
     )
     if slider is None:
+        _report_login_stage(stage_reporter, "SLIDER_ABSENT")
         return
+    _report_login_stage(stage_reporter, "SLIDER_PRESENT")
     if not allow_manual_completion:
         raise AdditionalVerificationRequiredError(
             "登录需要人工完成滑块验证"
@@ -785,15 +906,18 @@ def complete_dynamic_password_login(
     phone_number: str | None = None,
     allow_manual_slider: bool = True,
     save_diagnostics: bool = True,
+    stage_reporter: LoginStageReporter | None = None,
 ) -> AuthObservation:
     _switch_to_dynamic_password_login(
         page,
         save_diagnostics=save_diagnostics,
+        stage_reporter=stage_reporter,
     )
     _wait_for_phone_or_email(
         page,
         manual_timeout_seconds,
         phone_number=phone_number,
+        stage_reporter=stage_reporter,
     )
 
     request_button = _unique_locator(
@@ -811,11 +935,14 @@ def complete_dynamic_password_login(
     )
 
     baseline_uid = otp_reader.current_max_uid()
+    _report_login_stage(stage_reporter, "IMAP_BASELINE_RECORDED")
     request_button.click()
+    _report_login_stage(stage_reporter, "OTP_REQUEST_CLICKED")
     _wait_for_slider_if_present(
         page,
         manual_timeout_seconds,
         allow_manual_completion=allow_manual_slider,
+        stage_reporter=stage_reporter,
     )
 
     try:
@@ -827,6 +954,11 @@ def complete_dynamic_password_login(
         if save_diagnostics:
             _save_otp_timeout_screenshot(page)
         raise
+    _report_login_stage(
+        stage_reporter,
+        "OTP_MAIL_RECEIVED",
+        otp_length=len(otp),
+    )
 
     dynamic_password = _unique_locator(
         page,
@@ -834,6 +966,7 @@ def complete_dynamic_password_login(
         "动态密码输入框",
     )
     dynamic_password.fill(otp)
+    _report_login_stage(stage_reporter, "OTP_FIELD_FILLED")
 
     login_button = _unique_locator(
         page,
@@ -841,6 +974,7 @@ def complete_dynamic_password_login(
         "登录按钮",
     )
     login_button.click()
+    _report_login_stage(stage_reporter, "LOGIN_BUTTON_CLICKED")
     try:
         page.wait_for_url(
             "https://cp.9cair.com/**",
@@ -849,7 +983,9 @@ def complete_dynamic_password_login(
         )
     except Exception:
         pass
-    return navigate_and_probe(page, MISSION_URL)
+    observation = navigate_and_probe(page, MISSION_URL)
+    _report_login_stage(stage_reporter, "FINAL_PAGE_PROBED")
+    return observation
 
 
 def _imap_otp_environment_present() -> bool:

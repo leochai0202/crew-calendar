@@ -9,6 +9,7 @@ import hashlib
 import logging
 from itertools import product
 from datetime import datetime, timedelta
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from PIL import Image, ImageOps, ImageFilter
@@ -27,6 +28,8 @@ from crew_auth_session import (
 )
 from authenticate_crew_session import (
     AdditionalVerificationRequiredError,
+    LOGIN_STAGE_NAMES,
+    collect_safe_login_page_snapshot,
     complete_dynamic_password_login,
 )
 from imap_otp import (
@@ -36,6 +39,7 @@ from imap_otp import (
     OtpConfigurationError,
     OtpError,
     OtpMailboxError,
+    OtpParseError,
     OtpTimeoutError,
 )
 
@@ -67,6 +71,7 @@ HEADLESS = os.environ.get("HEADLESS", "1") != "0"
 ALARM_MINUTES = 90
 LOAD_MORE_MAX_ROUNDS = 8
 SEGMENT_CARD_MARKER = "__SEGMENT_CARD__"
+AUTH_DIAGNOSTIC_PATH_ENV = "CREW_AUTH_DIAGNOSTIC_PATH"
 
 
 def ensure_artifact_dir() -> bool:
@@ -5022,15 +5027,129 @@ def emit_auth_status(status: AuthStatus) -> None:
     print(f"AUTH_STATUS={status.value}", flush=True)
 
 
+def _new_cloud_login_diagnostic() -> dict:
+    return {
+        "format": "crew-cloud-login-diagnostic-v1",
+        "stages": [],
+        "last_stage": "",
+        "error_category": "",
+        "auth_status": "",
+        "page": {},
+    }
+
+
+def _cloud_stage_reporter(diagnostic: dict):
+    def report(stage: str, details: dict) -> None:
+        if stage not in LOGIN_STAGE_NAMES:
+            return
+        entry = {"stage": stage}
+        if stage == "OTP_MAIL_RECEIVED":
+            otp_length = int(details.get("otp_length", 0))
+            entry["otp_length"] = otp_length
+            print(
+                f"LOGIN_STAGE={stage} OTP_LENGTH={otp_length}",
+                flush=True,
+            )
+        else:
+            print(f"LOGIN_STAGE={stage}", flush=True)
+        diagnostic["stages"].append(entry)
+        diagnostic["last_stage"] = stage
+
+    return report
+
+
+def _cloud_error_category(diagnostic: dict) -> str:
+    stages = {
+        item.get("stage")
+        for item in diagnostic.get("stages", ())
+        if isinstance(item, dict)
+    }
+    if "DYNAMIC_TAB_OPENED" not in stages:
+        return "LOGIN_SWITCH_FAILED"
+    if "OTP_REQUEST_CLICKED" not in stages:
+        return "OTP_REQUEST_FAILED"
+    if "OTP_FIELD_FILLED" not in stages:
+        return "OTP_PARSE_FAILED"
+    return "LOGIN_RESULT_UNKNOWN"
+
+
+def _emit_page_changed_snapshot(snapshot: dict) -> None:
+    print(f"LOGIN_PAGE_DOMAIN={snapshot.get('domain', '')}", flush=True)
+    print(f"LOGIN_PAGE_PATH={snapshot.get('path', '')}", flush=True)
+    print(f"LOGIN_PAGE_TITLE={snapshot.get('title', '')}", flush=True)
+    visible = snapshot.get("visible_elements", {})
+    for key in (
+        "qr_login_page",
+        "password_login_tab",
+        "dynamic_login_tab",
+        "phone_field",
+        "otp_request_button",
+        "otp_field",
+        "slider",
+        "mission_area",
+    ):
+        value = "true" if bool(visible.get(key)) else "false"
+        print(f"LOGIN_VISIBLE_{key.upper()}={value}", flush=True)
+
+
+def _write_cloud_auth_diagnostic(
+    page,
+    diagnostic: dict,
+    observation: AuthObservation,
+    error_category: str = "",
+) -> None:
+    diagnostic["auth_status"] = observation.status.value
+    diagnostic["error_category"] = error_category
+    diagnostic["page"] = collect_safe_login_page_snapshot(page)
+    if error_category:
+        print(f"LOGIN_ERROR_CATEGORY={error_category}", flush=True)
+    if observation.status == AuthStatus.PAGE_CHANGED_OR_UNKNOWN:
+        _emit_page_changed_snapshot(diagnostic["page"])
+
+    configured_path = os.environ.get(AUTH_DIAGNOSTIC_PATH_ENV, "").strip()
+    if not configured_path:
+        return
+    path = Path(configured_path)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        temporary.write_text(
+            json.dumps(
+                diagnostic,
+                ensure_ascii=False,
+                indent=2,
+                sort_keys=True,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        os.replace(temporary, path)
+    except Exception:
+        print("AUTH_DIAGNOSTIC_WRITE_FAILED", flush=True)
+        try:
+            temporary.unlink(missing_ok=True)
+        except Exception:
+            pass
+
+
 def attempt_cloud_dynamic_password_login(page) -> AuthObservation:
+    diagnostic = _new_cloud_login_diagnostic()
+    stage_reporter = _cloud_stage_reporter(diagnostic)
     phone_number = os.environ.get("CREW_PHONE", "").strip()
     email_address = os.environ.get("IMAP_EMAIL", "").strip()
     auth_code = os.environ.get("IMAP_AUTH_CODE", "")
     if not phone_number or not email_address or not auth_code:
-        return AuthObservation(
+        observation = AuthObservation(
             AuthStatus.LOGIN_REQUIRED,
             AuthSignals(login_url_hint=True),
         )
+        _write_cloud_auth_diagnostic(
+            page,
+            diagnostic,
+            observation,
+            "OTP_REQUEST_FAILED",
+        )
+        return observation
 
     try:
         with ImapOtpReader(
@@ -5039,34 +5158,59 @@ def attempt_cloud_dynamic_password_login(page) -> AuthObservation:
             host=IMAP_HOST,
             port=IMAP_PORT,
         ) as otp_reader:
-            return complete_dynamic_password_login(
+            observation = complete_dynamic_password_login(
                 page,
                 otp_reader,
                 manual_timeout_seconds=1,
                 phone_number=phone_number,
                 allow_manual_slider=False,
                 save_diagnostics=False,
+                stage_reporter=stage_reporter,
             )
     except AdditionalVerificationRequiredError:
-        return AuthObservation(
+        observation = AuthObservation(
             AuthStatus.ADDITIONAL_VERIFICATION_REQUIRED,
             AuthSignals(additional_verification=True),
         )
-    except (OtpConfigurationError, OtpMailboxError, OtpTimeoutError):
-        return AuthObservation(
-            AuthStatus.NETWORK_OR_SITE_ERROR,
-            AuthSignals(network_or_site_error=True),
-        )
-    except OtpError:
-        return AuthObservation(
+        error_category = "ADDITIONAL_VERIFICATION_REQUIRED"
+    except OtpParseError:
+        observation = AuthObservation(
             AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
             AuthSignals(),
         )
-    except Exception:
-        return AuthObservation(
+        error_category = "OTP_PARSE_FAILED"
+    except (OtpConfigurationError, OtpMailboxError, OtpTimeoutError):
+        observation = AuthObservation(
             AuthStatus.NETWORK_OR_SITE_ERROR,
             AuthSignals(network_or_site_error=True),
         )
+        error_category = _cloud_error_category(diagnostic)
+    except OtpError:
+        observation = AuthObservation(
+            AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+            AuthSignals(),
+        )
+        error_category = _cloud_error_category(diagnostic)
+    except Exception:
+        observation = AuthObservation(
+            AuthStatus.NETWORK_OR_SITE_ERROR,
+            AuthSignals(network_or_site_error=True),
+        )
+        error_category = _cloud_error_category(diagnostic)
+    else:
+        error_category = (
+            "LOGIN_RESULT_UNKNOWN"
+            if observation.status == AuthStatus.PAGE_CHANGED_OR_UNKNOWN
+            else ""
+        )
+
+    _write_cloud_auth_diagnostic(
+        page,
+        diagnostic,
+        observation,
+        error_category,
+    )
+    return observation
 
 
 def run() -> int:
@@ -5107,8 +5251,22 @@ def run() -> int:
                 page.set_default_navigation_timeout(90000)
 
                 observation = navigate_and_probe(page)
+                used_cloud_fallback = False
                 if observation.status == AuthStatus.LOGIN_REQUIRED:
+                    used_cloud_fallback = True
                     observation = attempt_cloud_dynamic_password_login(page)
+                if (
+                    observation.status
+                    == AuthStatus.PAGE_CHANGED_OR_UNKNOWN
+                    and not used_cloud_fallback
+                ):
+                    diagnostic = _new_cloud_login_diagnostic()
+                    _write_cloud_auth_diagnostic(
+                        page,
+                        diagnostic,
+                        observation,
+                        "LOGIN_RESULT_UNKNOWN",
+                    )
                 emit_auth_status(observation.status)
                 if observation.status != AuthStatus.AUTHENTICATED:
                     return STATUS_EXIT_CODES[observation.status]

@@ -43,10 +43,19 @@ def test_schedule_keeps_three_times_and_uses_expected_secrets() -> None:
         "CREW_PASSWORD",
         "tesseract-ocr",
         "ddddocr",
-        "upload-artifact",
         "debug_output",
     ):
         assert forbidden not in workflow
+    assert "actions/upload-artifact@v4" in workflow
+    assert "${{ runner.temp }}/crew-auth-diagnostic.json" in workflow
+    assert "if-no-files-found: ignore" in workflow
+    for forbidden_artifact in (
+        "screenshot",
+        "page.html",
+        "debug_output/",
+        "playwright/.auth/",
+    ):
+        assert forbidden_artifact not in workflow
 
 
 def test_schedule_maps_auth_status_and_gates_clean_and_commit() -> None:

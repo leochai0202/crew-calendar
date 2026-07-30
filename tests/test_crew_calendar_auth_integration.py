@@ -1,5 +1,6 @@
 import os
 import inspect
+import json
 import subprocess
 import sys
 from pathlib import Path
@@ -256,7 +257,14 @@ def test_non_authenticated_status_never_processes_or_writes_ics(
 
     assert calendar.run() == exit_code
 
-    assert capsys.readouterr().out == f"AUTH_STATUS={status.value}\n"
+    output = capsys.readouterr().out
+    assert output.endswith(f"AUTH_STATUS={status.value}\n")
+    if status == auth.AuthStatus.PAGE_CHANGED_OR_UNKNOWN:
+        assert "LOGIN_ERROR_CATEGORY=LOGIN_RESULT_UNKNOWN" in output
+        assert "LOGIN_PAGE_PATH=" in output
+        assert "LOGIN_VISIBLE_MISSION_AREA=false" in output
+    else:
+        assert output == f"AUTH_STATUS={status.value}\n"
     assert calls == []
     assert existing.read_text(encoding="utf-8") == "existing-calendar"
     assert context.closed is True
@@ -470,6 +478,156 @@ def test_cloud_slider_requires_additional_verification(
         observation.status
         == auth.AuthStatus.ADDITIONAL_VERIFICATION_REQUIRED
     )
+
+
+def test_cloud_unknown_writes_only_safe_staged_diagnostic(
+    monkeypatch,
+    tmp_path: Path,
+    capsys,
+) -> None:
+    diagnostic_path = tmp_path / "crew-auth-diagnostic.json"
+    monkeypatch.setenv("CREW_PHONE", "13000000000")
+    monkeypatch.setenv("IMAP_EMAIL", "crew@example.invalid")
+    monkeypatch.setenv("IMAP_AUTH_CODE", "test-auth-code")
+    monkeypatch.setenv(
+        calendar.AUTH_DIAGNOSTIC_PATH_ENV,
+        str(diagnostic_path),
+    )
+
+    class Reader:
+        def __init__(self, *args, **kwargs) -> None:
+            return None
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args) -> None:
+            return None
+
+    def fake_login(_page, _reader, **options):
+        reporter = options["stage_reporter"]
+        for stage in (
+            "LOGIN_PAGE_SWITCHED",
+            "DYNAMIC_TAB_OPENED",
+            "PHONE_FILLED",
+            "IMAP_BASELINE_RECORDED",
+            "OTP_REQUEST_CLICKED",
+            "SLIDER_ABSENT",
+        ):
+            reporter(stage, {})
+        reporter("OTP_MAIL_RECEIVED", {"otp_length": 6})
+        for stage in (
+            "OTP_FIELD_FILLED",
+            "LOGIN_BUTTON_CLICKED",
+            "FINAL_PAGE_PROBED",
+        ):
+            reporter(stage, {})
+        return auth.AuthObservation(
+            auth.AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+            auth.AuthSignals(),
+        )
+
+    monkeypatch.setattr(calendar, "ImapOtpReader", Reader)
+    monkeypatch.setattr(
+        calendar,
+        "complete_dynamic_password_login",
+        fake_login,
+    )
+    monkeypatch.setattr(
+        calendar,
+        "collect_safe_login_page_snapshot",
+        lambda _page: {
+            "domain": "cas.9cair.com",
+            "path": "/login",
+            "title": "统一认证中心",
+            "visible_elements": {
+                "qr_login_page": False,
+                "password_login_tab": True,
+                "dynamic_login_tab": True,
+                "phone_field": True,
+                "otp_request_button": True,
+                "otp_field": True,
+                "slider": False,
+                "mission_area": False,
+            },
+        },
+    )
+
+    observation = calendar.attempt_cloud_dynamic_password_login(object())
+
+    assert observation.status == auth.AuthStatus.PAGE_CHANGED_OR_UNKNOWN
+    output = capsys.readouterr().out
+    assert "LOGIN_STAGE=OTP_MAIL_RECEIVED OTP_LENGTH=6" in output
+    assert "LOGIN_ERROR_CATEGORY=LOGIN_RESULT_UNKNOWN" in output
+    assert "LOGIN_PAGE_DOMAIN=cas.9cair.com" in output
+    assert "LOGIN_PAGE_PATH=/login" in output
+    payload = json.loads(diagnostic_path.read_text(encoding="utf-8"))
+    assert payload["last_stage"] == "FINAL_PAGE_PROBED"
+    assert payload["error_category"] == "LOGIN_RESULT_UNKNOWN"
+    assert payload["auth_status"] == "PAGE_CHANGED_OR_UNKNOWN"
+    serialized = json.dumps(payload, ensure_ascii=False)
+    for sensitive in (
+        "13000000000",
+        "crew@example.invalid",
+        "test-auth-code",
+        "token",
+        "cookie",
+        "otp_value",
+    ):
+        assert sensitive not in serialized.lower()
+
+
+def test_cloud_otp_error_reports_stage_specific_category(
+    monkeypatch,
+    tmp_path: Path,
+    capsys,
+) -> None:
+    diagnostic_path = tmp_path / "crew-auth-diagnostic.json"
+    monkeypatch.setenv("CREW_PHONE", "13000000000")
+    monkeypatch.setenv("IMAP_EMAIL", "crew@example.invalid")
+    monkeypatch.setenv("IMAP_AUTH_CODE", "test-auth-code")
+    monkeypatch.setenv(
+        calendar.AUTH_DIAGNOSTIC_PATH_ENV,
+        str(diagnostic_path),
+    )
+
+    class Reader:
+        def __init__(self, *args, **kwargs) -> None:
+            return None
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args) -> None:
+            return None
+
+    monkeypatch.setattr(calendar, "ImapOtpReader", Reader)
+    monkeypatch.setattr(
+        calendar,
+        "complete_dynamic_password_login",
+        lambda *args, **kwargs: (_ for _ in ()).throw(
+            calendar.OtpError("safe test failure")
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "collect_safe_login_page_snapshot",
+        lambda _page: {
+            "domain": "cas.9cair.com",
+            "path": "/login",
+            "title": "",
+            "visible_elements": {},
+        },
+    )
+
+    observation = calendar.attempt_cloud_dynamic_password_login(object())
+
+    assert observation.status == auth.AuthStatus.PAGE_CHANGED_OR_UNKNOWN
+    assert "LOGIN_ERROR_CATEGORY=LOGIN_SWITCH_FAILED" in (
+        capsys.readouterr().out
+    )
+    payload = json.loads(diagnostic_path.read_text(encoding="utf-8"))
+    assert payload["error_category"] == "LOGIN_SWITCH_FAILED"
 
 
 def test_processing_exception_returns_one_and_closes_resources(
