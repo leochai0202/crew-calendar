@@ -1,5 +1,7 @@
 playwright
+pypdf
 pytesseract
 pillow
 ics
 requests
+tzdata

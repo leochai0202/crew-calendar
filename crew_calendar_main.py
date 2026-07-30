@@ -9,6 +9,8 @@ import hashlib
 import logging
 from itertools import product
 from datetime import datetime, timedelta
+from pathlib import Path
+from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
 
 from PIL import Image, ImageOps, ImageFilter
@@ -16,12 +18,38 @@ import pytesseract
 from playwright.sync_api import sync_playwright
 
 from crew_auth_session import (
+    AuthBundle,
+    AuthObservation,
+    AuthSignals,
     AuthBundleError,
     AuthStatus,
     STATUS_EXIT_CODES,
+    auth_bundle_to_dict,
     create_context_from_auth_bundle,
     decode_auth_bundle,
+    load_auth_bundle_file,
     navigate_and_probe,
+    restore_auth_bundle_to_existing_context,
+)
+from authenticate_crew_session import (
+    AdditionalVerificationRequiredError,
+    LOGIN_STAGE_NAMES,
+    LoginPageStateError,
+    LoginToggleError,
+    capture_session_storage,
+    capture_storage_state,
+    collect_safe_login_page_snapshot,
+    complete_dynamic_password_login,
+)
+from imap_otp import (
+    IMAP_HOST,
+    IMAP_PORT,
+    ImapOtpReader,
+    OtpConfigurationError,
+    OtpError,
+    OtpMailboxError,
+    OtpParseError,
+    OtpTimeoutError,
 )
 
 try:
@@ -52,6 +80,13 @@ HEADLESS = os.environ.get("HEADLESS", "1") != "0"
 ALARM_MINUTES = 90
 LOAD_MORE_MAX_ROUNDS = 8
 SEGMENT_CARD_MARKER = "__SEGMENT_CARD__"
+AUTH_DIAGNOSTIC_PATH_ENV = "CREW_AUTH_DIAGNOSTIC_PATH"
+PERSISTENT_PROFILE_DIR_ENV = "CREW_PERSISTENT_PROFILE_DIR"
+AUTH_BACKUP_PATH_ENV = "CREW_AUTH_BACKUP_PATH"
+BROWSER_CHANNEL_ENV = "CREW_BROWSER_CHANNEL"
+WINDOWS_DEFAULT_PROFILE_DIR = Path(
+    r"C:\crew-calendar-data\browser-profile"
+)
 
 
 def ensure_artifact_dir() -> bool:
@@ -532,6 +567,25 @@ def random_like_wait(page, base_ms: int, jitter_ms: int = 400):
     page.wait_for_timeout(base_ms + (hash(datetime.now().isoformat()) % max(1, jitter_ms)))
 
 
+def safe_exception_message(error: Exception) -> str:
+    message = " ".join(str(error).split())
+    for name in (
+        "CREW_STORAGE_STATE_B64",
+        "CREW_PHONE",
+        "IMAP_EMAIL",
+        "IMAP_AUTH_CODE",
+    ):
+        value = os.environ.get(name, "")
+        if value:
+            message = message.replace(value, "<redacted>")
+    message = re.sub(
+        r"(https?://[^\s?#]+)(?:\?[^\s#]*)?(?:#[^\s]*)?",
+        r"\1",
+        message,
+    )
+    return message[:300] or "无可用错误详情"
+
+
 def is_bad_title_text(text: str) -> bool:
     text = normalize_text(text)
     if not text:
@@ -909,30 +963,149 @@ def login(page, max_retries: int = 10):
     raise RuntimeError("多次尝试后仍无法登录")
 
 
-def open_mission_page(page):
-    for i in range(3):
-        try:
-            logger.info(f"打开任务页面，尝试 {i + 1}/3")
-            page.goto(MISSION_URL, wait_until="domcontentloaded", timeout=90000)
-            random_like_wait(page, 4500, 1200)
+def _is_mission_url(url: str) -> bool:
+    try:
+        current = urlsplit(url)
+        target = urlsplit(MISSION_URL)
+        return (
+            current.netloc.lower() == target.netloc.lower()
+            and current.path.rstrip("/") == target.path.rstrip("/")
+        )
+    except Exception:
+        return False
 
+
+def _mission_content_loaded(page) -> bool:
+    return re.search(r"\d{2}月\d{2}日\s*周.", page_text(page)) is not None
+
+
+def _navigation_was_interrupted(exc: Exception) -> bool:
+    message = str(exc).lower()
+    return (
+        "interrupted by another navigation" in message
+        or "another navigation started" in message
+    )
+
+
+def _wait_for_current_navigation(
+    page,
+    *,
+    timeout_ms: int = 5000,
+) -> None:
+    """Give an active SSO navigation time to finish without requiring idleness."""
+    try:
+        page.wait_for_load_state(
+            "domcontentloaded",
+            timeout=timeout_ms,
+        )
+    except Exception as exc:
+        message = str(exc).lower()
+        if (
+            "net::err_" in message
+            or "connection reset" in message
+            or "name_not_resolved" in message
+        ):
+            raise RuntimeError("登录后的页面发生明确网络错误") from exc
+        logger.info("页面仍有后台活动，直接按当前可见任务内容继续判断")
+
+
+def _wait_for_mission_content(page, *, timeout_ms: int = 15000) -> None:
+    checks = max(1, timeout_ms // 500)
+    clicked_mission_tab = False
+
+    for _ in range(checks):
+        body_text = page_text(page)
+        if re.search(r"\d{2}月\d{2}日\s*周.", body_text):
+            logger.info("任务页面已加载")
+            return
+
+        if "我的任务" in body_text and not clicked_mission_tab:
             try:
                 page.locator("text=我的任务").first.click(timeout=5000)
-                random_like_wait(page, 2600, 900)
+                clicked_mission_tab = True
             except Exception:
                 pass
 
-            body_text = page_text(page)
+        page.wait_for_timeout(500)
 
-            if re.search(r"\d{2}月\d{2}日\s*周.", body_text):
-                logger.info("任务页面已加载")
+    raise RuntimeError("任务页已打开，但真实任务内容未加载")
+
+
+MISSION_DAY_HEADER_PATTERN = re.compile(
+    r"\d{2}月\d{2}日\s*周[一二三四五六日天]"
+)
+
+
+def _wait_for_mission_day_list(page, timeout_ms: int = 15000) -> bool:
+    poll_ms = 250
+    for _ in range((timeout_ms // poll_ms) + 1):
+        if (
+            _is_mission_url(page.url)
+            and MISSION_DAY_HEADER_PATTERN.search(page_text(page))
+        ):
+            return True
+        page.wait_for_timeout(poll_ms)
+    return False
+
+
+def _wait_for_mission_url(page, timeout_ms: int = 15000) -> bool:
+    poll_ms = 250
+    for _ in range((timeout_ms // poll_ms) + 1):
+        if _is_mission_url(page.url):
+            return True
+        page.wait_for_timeout(poll_ms)
+    return False
+
+
+def _top_visible_mission_navigation(page):
+    candidates = page.get_by_text("我的任务", exact=True)
+    visible = []
+    for index in range(candidates.count()):
+        candidate = candidates.nth(index)
+        if not candidate.is_visible():
+            continue
+        box = candidate.bounding_box()
+        if box and box["width"] > 0 and box["height"] > 0:
+            visible.append((box["y"], candidate))
+    if not visible:
+        raise RuntimeError("首页未找到可见的“我的任务”顶部导航")
+    return min(visible, key=lambda item: item[0])[1]
+
+
+def open_mission_page(page):
+    if _is_mission_url(page.url) and _wait_for_mission_day_list(page):
+        logger.info("任务列表已加载")
+        return
+
+    last_error = None
+    for attempt in range(1, 4):
+        try:
+            logger.info(f"从首页打开任务列表，尝试 {attempt}/3")
+            if not _is_mission_url(page.url):
+                navigation = _top_visible_mission_navigation(page)
+                navigation.scroll_into_view_if_needed()
+                navigation.click(timeout=5000)
+                if not _wait_for_mission_url(page):
+                    last_error = RuntimeError(
+                        "点击“我的任务”后 URL 未进入任务页"
+                    )
+                    continue
+            if _wait_for_mission_day_list(page):
+                logger.info("任务列表已加载")
                 return
+            last_error = RuntimeError("点击“我的任务”后未出现日期任务列表")
+        except Exception as error:
+            last_error = error
+            logger.error(
+                "打开任务列表失败（%s）：%s",
+                type(error).__name__,
+                safe_exception_message(error),
+            )
 
-        except Exception as e:
-            logger.error(f"打开任务页面失败: {e}")
-            if i == 2:
-                raise
-
+    if last_error is not None:
+        raise RuntimeError(
+            f"未能进入任务列表页：{safe_exception_message(last_error)}"
+        ) from last_error
     raise RuntimeError("未能进入任务列表页")
 
 
@@ -5007,20 +5180,416 @@ def emit_auth_status(status: AuthStatus) -> None:
     print(f"AUTH_STATUS={status.value}", flush=True)
 
 
+def _new_cloud_login_diagnostic() -> dict:
+    return {
+        "format": "crew-cloud-login-diagnostic-v1",
+        "stages": [],
+        "last_stage": "",
+        "error_category": "",
+        "auth_status": "",
+        "page": {},
+    }
+
+
+def _safe_cookie_names(values) -> list[str]:
+    names: set[str] = set()
+    for value in values or []:
+        name = str(value)[:64]
+        if re.fullmatch(r"[A-Za-z0-9_.-]+", name):
+            names.add(name)
+    return sorted(names)[:20]
+
+
+def _cloud_stage_reporter(diagnostic: dict):
+    def report(stage: str, details: dict) -> None:
+        if stage not in LOGIN_STAGE_NAMES:
+            return
+        entry = {"stage": stage}
+        if stage == "OTP_MAIL_RECEIVED":
+            otp_length = int(details.get("otp_length", 0))
+            entry["otp_length"] = otp_length
+            print(
+                f"LOGIN_STAGE={stage} OTP_LENGTH={otp_length}",
+                flush=True,
+            )
+        elif stage in {
+            "OTP_ATTEMPT_STARTED",
+            "IMAP_BASELINE_RECORDED",
+            "OTP_REQUEST_CLICKED",
+            "OTP_ATTEMPT_TIMEOUT",
+            "OTP_RETRY_WAIT_STARTED",
+            "OTP_RETRY_READY",
+        }:
+            attempt = min(3, max(1, int(details.get("attempt", 1))))
+            entry["attempt"] = attempt
+            print(
+                f"LOGIN_STAGE={stage} ATTEMPT={attempt}",
+                flush=True,
+            )
+        elif stage in {
+            "SSO_SESSION_PROBE",
+            "MISSION_SINGLE_NAVIGATION_RESULT",
+        }:
+            domain = str(details.get("domain", "")).lower()
+            path = str(details.get("path", ""))
+            main_frame_domain = str(
+                details.get("main_frame_domain", "")
+            ).lower()
+            main_frame_path = str(details.get("main_frame_path", ""))
+            http_status = max(
+                0,
+                min(599, int(details.get("http_status", 0))),
+            )
+            task_area_visible = bool(
+                details.get("task_area_visible", False)
+            )
+            entry.update(
+                {
+                    "domain": domain,
+                    "path": path,
+                    "main_frame_domain": main_frame_domain,
+                    "main_frame_path": main_frame_path,
+                    "http_status": http_status,
+                    "task_area_visible": task_area_visible,
+                }
+            )
+            if stage == "SSO_SESSION_PROBE":
+                entry["cp_cookie_names"] = _safe_cookie_names(
+                    details.get("cp_cookie_names", [])
+                )
+                entry["business_cookie_names"] = _safe_cookie_names(
+                    details.get("business_cookie_names", [])
+                )
+            print(
+                f"{stage}="
+                + json.dumps(
+                    entry,
+                    ensure_ascii=False,
+                    separators=(",", ":"),
+                    sort_keys=True,
+                ),
+                flush=True,
+            )
+        elif stage == "SSO_BUSINESS_COOKIE_READY":
+            entry["cookie_names"] = _safe_cookie_names(
+                details.get("cookie_names", [])
+            )
+            print(
+                "SSO_BUSINESS_COOKIE_READY="
+                + json.dumps(
+                    entry,
+                    ensure_ascii=False,
+                    separators=(",", ":"),
+                    sort_keys=True,
+                ),
+                flush=True,
+            )
+        elif stage == "LOGIN_STATE_WAIT_STARTED":
+            print("LOGIN_STATE_WAIT_STARTED", flush=True)
+        elif stage == "LOGIN_STATE_CONFIRMED":
+            state = str(details.get("state", ""))
+            entry["state"] = state
+            print(f"LOGIN_STATE_CONFIRMED={state}", flush=True)
+        elif stage == "QR_HEADING_FIRST_SEEN_MS":
+            elapsed_ms = max(0, int(details.get("elapsed_ms", 0)))
+            entry["elapsed_ms"] = elapsed_ms
+            print(
+                f"QR_HEADING_FIRST_SEEN_MS={elapsed_ms}",
+                flush=True,
+            )
+        elif stage == "TOGGLE_CANDIDATES_INSPECTED":
+            safe_diagnostic = details.get("diagnostic", {})
+            entry["diagnostic"] = safe_diagnostic
+            print(
+                "LOGIN_TOGGLE_DIAGNOSTIC="
+                + json.dumps(
+                    safe_diagnostic,
+                    ensure_ascii=False,
+                    separators=(",", ":"),
+                    sort_keys=True,
+                ),
+                flush=True,
+            )
+        else:
+            print(f"LOGIN_STAGE={stage}", flush=True)
+        diagnostic["stages"].append(entry)
+        diagnostic["last_stage"] = stage
+
+    return report
+
+
+def _cloud_error_category(diagnostic: dict) -> str:
+    stages = {
+        item.get("stage")
+        for item in diagnostic.get("stages", ())
+        if isinstance(item, dict)
+    }
+    if "DYNAMIC_TAB_OPENED" not in stages:
+        return "LOGIN_SWITCH_FAILED"
+    if "OTP_REQUEST_CLICKED" not in stages:
+        return "OTP_REQUEST_FAILED"
+    if "OTP_ATTEMPT_TIMEOUT" in stages and "OTP_FIELD_FILLED" not in stages:
+        return "OTP_TIMEOUT"
+    if "OTP_FIELD_FILLED" not in stages:
+        return "OTP_PARSE_FAILED"
+    if "LOGIN_BUTTON_CLICKED" in stages:
+        return "POST_LOGIN_HANDOFF_INCOMPLETE"
+    return "LOGIN_RESULT_UNKNOWN"
+
+
+def _emit_page_changed_snapshot(snapshot: dict) -> None:
+    print(f"LOGIN_PAGE_DOMAIN={snapshot.get('domain', '')}", flush=True)
+    print(f"LOGIN_PAGE_PATH={snapshot.get('path', '')}", flush=True)
+    print(f"LOGIN_PAGE_TITLE={snapshot.get('title', '')}", flush=True)
+    visible = snapshot.get("visible_elements", {})
+    for key in (
+        "qr_login_page",
+        "password_login_tab",
+        "dynamic_login_tab",
+        "phone_field",
+        "otp_request_button",
+        "otp_field",
+        "slider",
+        "mission_area",
+    ):
+        value = "true" if bool(visible.get(key)) else "false"
+        print(f"LOGIN_VISIBLE_{key.upper()}={value}", flush=True)
+
+
+def _write_cloud_auth_diagnostic(
+    page,
+    diagnostic: dict,
+    observation: AuthObservation,
+    error_category: str = "",
+) -> None:
+    diagnostic["auth_status"] = observation.status.value
+    diagnostic["error_category"] = error_category
+    diagnostic["page"] = collect_safe_login_page_snapshot(page)
+    if error_category:
+        print(f"LOGIN_ERROR_CATEGORY={error_category}", flush=True)
+    if observation.status == AuthStatus.PAGE_CHANGED_OR_UNKNOWN:
+        _emit_page_changed_snapshot(diagnostic["page"])
+
+    configured_path = os.environ.get(AUTH_DIAGNOSTIC_PATH_ENV, "").strip()
+    if not configured_path:
+        return
+    path = Path(configured_path)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        temporary.write_text(
+            json.dumps(
+                diagnostic,
+                ensure_ascii=False,
+                indent=2,
+                sort_keys=True,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        os.replace(temporary, path)
+    except Exception:
+        print("AUTH_DIAGNOSTIC_WRITE_FAILED", flush=True)
+        try:
+            temporary.unlink(missing_ok=True)
+        except Exception:
+            pass
+
+
+def attempt_cloud_dynamic_password_login(page) -> AuthObservation:
+    diagnostic = _new_cloud_login_diagnostic()
+    stage_reporter = _cloud_stage_reporter(diagnostic)
+    phone_number = os.environ.get("CREW_PHONE", "").strip()
+    email_address = os.environ.get("IMAP_EMAIL", "").strip()
+    auth_code = os.environ.get("IMAP_AUTH_CODE", "")
+    if not phone_number or not email_address or not auth_code:
+        observation = AuthObservation(
+            AuthStatus.LOGIN_REQUIRED,
+            AuthSignals(login_url_hint=True),
+        )
+        _write_cloud_auth_diagnostic(
+            page,
+            diagnostic,
+            observation,
+            "OTP_REQUEST_FAILED",
+        )
+        return observation
+
+    otp_reader = ImapOtpReader(
+        email_address,
+        auth_code,
+        host=IMAP_HOST,
+        port=IMAP_PORT,
+    )
+    try:
+        observation = complete_dynamic_password_login(
+            page,
+            otp_reader,
+            manual_timeout_seconds=1,
+            phone_number=phone_number,
+            allow_manual_slider=False,
+            save_diagnostics=False,
+            stage_reporter=stage_reporter,
+            expected_otp_length=6,
+        )
+    except LoginToggleError as exc:
+        observation = AuthObservation(
+            AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+            AuthSignals(),
+        )
+        error_category = exc.category
+    except LoginPageStateError as exc:
+        observation = AuthObservation(
+            AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+            AuthSignals(),
+        )
+        error_category = exc.category
+    except AdditionalVerificationRequiredError:
+        observation = AuthObservation(
+            AuthStatus.ADDITIONAL_VERIFICATION_REQUIRED,
+            AuthSignals(additional_verification=True),
+        )
+        error_category = "ADDITIONAL_VERIFICATION_REQUIRED"
+    except OtpParseError:
+        observation = AuthObservation(
+            AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+            AuthSignals(),
+        )
+        error_category = "OTP_PARSE_FAILED"
+    except (OtpConfigurationError, OtpMailboxError, OtpTimeoutError):
+        observation = AuthObservation(
+            AuthStatus.NETWORK_OR_SITE_ERROR,
+            AuthSignals(network_or_site_error=True),
+        )
+        error_category = _cloud_error_category(diagnostic)
+    except OtpError:
+        observation = AuthObservation(
+            AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+            AuthSignals(),
+        )
+        error_category = _cloud_error_category(diagnostic)
+    except Exception:
+        observation = AuthObservation(
+            AuthStatus.NETWORK_OR_SITE_ERROR,
+            AuthSignals(network_or_site_error=True),
+        )
+        error_category = _cloud_error_category(diagnostic)
+    else:
+        error_category = (
+            _cloud_error_category(diagnostic)
+            if observation.status == AuthStatus.PAGE_CHANGED_OR_UNKNOWN
+            else ""
+        )
+    finally:
+        otp_reader.close()
+
+    _write_cloud_auth_diagnostic(
+        page,
+        diagnostic,
+        observation,
+        error_category,
+    )
+    return observation
+
+
+def resolve_persistent_profile_dir() -> Path | None:
+    configured = os.environ.get(PERSISTENT_PROFILE_DIR_ENV, "").strip()
+    if configured:
+        return Path(configured).expanduser().resolve()
+    if os.name == "nt":
+        return WINDOWS_DEFAULT_PROFILE_DIR
+    return None
+
+
+def _path_is_within(path: Path, parent: Path) -> bool:
+    try:
+        path.resolve().relative_to(parent.resolve())
+        return True
+    except ValueError:
+        return False
+
+
+def _validate_persistent_profile_dir(profile_dir: Path) -> None:
+    repository_dir = Path(__file__).resolve().parent
+    if _path_is_within(profile_dir, repository_dir):
+        raise RuntimeError("持久浏览器目录必须位于Git仓库之外")
+
+    local_app_data = os.environ.get("LOCALAPPDATA", "").strip()
+    if local_app_data:
+        daily_edge_dir = (
+            Path(local_app_data)
+            / "Microsoft"
+            / "Edge"
+            / "User Data"
+        )
+        if _path_is_within(profile_dir, daily_edge_dir):
+            raise RuntimeError("不得使用日常Edge用户目录作为自动化profile")
+
+
+def resolve_auth_backup_path(profile_dir: Path | None) -> Path | None:
+    configured = os.environ.get(AUTH_BACKUP_PATH_ENV, "").strip()
+    if configured:
+        return Path(configured).expanduser().resolve()
+    if profile_dir is None:
+        return None
+    return profile_dir.parent / "auth-backup" / "crew-auth-session.json"
+
+
+def _load_local_auth_backup(path: Path | None) -> AuthBundle | None:
+    if path is None or not path.exists():
+        return None
+    try:
+        return load_auth_bundle_file(path)
+    except AuthBundleError:
+        return None
+
+
+def _write_filtered_auth_backup(context, path: Path | None) -> None:
+    if path is None:
+        return
+    repository_dir = Path(__file__).resolve().parent
+    if _path_is_within(path, repository_dir):
+        raise RuntimeError("本地认证备份必须位于Git仓库之外")
+
+    bundle = AuthBundle(
+        capture_storage_state(context),
+        capture_session_storage(context),
+    )
+    payload = json.dumps(
+        auth_bundle_to_dict(bundle),
+        ensure_ascii=False,
+        indent=2,
+        sort_keys=True,
+    ) + "\n"
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        temporary.write_text(payload, encoding="utf-8")
+        os.replace(temporary, path)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
 def run() -> int:
     logger.info("=" * 60)
     logger.info("开始执行航班日历爬虫")
     logger.info("代码版本: multi-task-v15-positioning-time-bound")
     logger.info("=" * 60)
 
+    bundle = None
     try:
         bundle = decode_auth_bundle(
             os.environ.get("CREW_STORAGE_STATE_B64", "")
         )
     except AuthBundleError:
-        status = AuthStatus.LOGIN_REQUIRED
-        emit_auth_status(status)
-        return STATUS_EXIT_CODES[status]
+        pass
+
+    profile_dir = resolve_persistent_profile_dir()
+    backup_path = resolve_auth_backup_path(profile_dir)
+    if profile_dir is not None:
+        _validate_persistent_profile_dir(profile_dir)
+        if bundle is None:
+            bundle = _load_local_auth_backup(backup_path)
 
     browser = None
     context = None
@@ -5028,19 +5597,72 @@ def run() -> int:
     try:
         with sync_playwright() as p:
             try:
-                browser = p.chromium.launch(headless=True)
+                if profile_dir is not None:
+                    profile_existed = (
+                        profile_dir.exists()
+                        and any(profile_dir.iterdir())
+                    )
+                    profile_dir.mkdir(parents=True, exist_ok=True)
+                    configured_channel = os.environ.get(
+                        BROWSER_CHANNEL_ENV,
+                        "",
+                    ).strip()
+                    channel = (
+                        configured_channel
+                        or ("msedge" if os.name == "nt" else "")
+                    )
+                    launch_options = {
+                        "user_data_dir": str(profile_dir),
+                        "headless": HEADLESS,
+                        "viewport": {"width": 1400, "height": 1000},
+                    }
+                    if channel:
+                        launch_options["channel"] = channel
+                    context = p.chromium.launch_persistent_context(
+                        **launch_options
+                    )
+                    if not profile_existed and bundle is not None:
+                        restore_auth_bundle_to_existing_context(
+                            context,
+                            bundle,
+                        )
+                else:
+                    browser = p.chromium.launch(headless=HEADLESS)
+                    if bundle is None:
+                        context = browser.new_context(
+                            viewport={"width": 1400, "height": 1000},
+                        )
+                    else:
+                        context = create_context_from_auth_bundle(
+                            browser,
+                            bundle,
+                            viewport={"width": 1400, "height": 1000},
+                        )
 
-                context = create_context_from_auth_bundle(
-                    browser,
-                    bundle,
-                    viewport={"width": 1400, "height": 1000},
-                )
-
-                page = context.new_page()
+                if profile_dir is not None and context.pages:
+                    page = context.pages[0]
+                else:
+                    page = context.new_page()
                 page.set_default_timeout(90000)
                 page.set_default_navigation_timeout(90000)
 
                 observation = navigate_and_probe(page)
+                used_cloud_fallback = False
+                if observation.status == AuthStatus.LOGIN_REQUIRED:
+                    used_cloud_fallback = True
+                    observation = attempt_cloud_dynamic_password_login(page)
+                if (
+                    observation.status
+                    == AuthStatus.PAGE_CHANGED_OR_UNKNOWN
+                    and not used_cloud_fallback
+                ):
+                    diagnostic = _new_cloud_login_diagnostic()
+                    _write_cloud_auth_diagnostic(
+                        page,
+                        diagnostic,
+                        observation,
+                        "LOGIN_RESULT_UNKNOWN",
+                    )
                 emit_auth_status(observation.status)
                 if observation.status != AuthStatus.AUTHENTICATED:
                     return STATUS_EXIT_CODES[observation.status]
@@ -5048,13 +5670,26 @@ def run() -> int:
                 snapshot_existing_calendars()
                 rebuild_airport_indexes()
                 open_mission_page(page)
+                if profile_dir is not None:
+                    _write_filtered_auth_backup(context, backup_path)
 
                 page_year = detect_page_year(page)
                 save_text("page_year.txt", str(page_year))
                 logger.info(f"页面年份: {page_year}")
 
+                recognized_day_headers = get_day_headers(page)
                 day_blocks = collect_day_blocks(page)
+                total_cards = sum(
+                    len(day.get("cards") or [])
+                    for day in day_blocks
+                    if isinstance(day, dict)
+                )
 
+                if recognized_day_headers and total_cards == 0:
+                    raise RuntimeError(
+                        "已识别日期块但未抓到任何任务卡片，"
+                        "停止写入，保护现有 ICS"
+                    )
                 if not day_blocks:
                     raise RuntimeError(
                         "未抓到任何任务块，停止写入，保护现有 ICS"
@@ -5078,10 +5713,13 @@ def run() -> int:
                     except Exception:
                         pass
 
-    except Exception:
-        logger.error("正式抓取执行失败，现有 ICS 不会由失败步骤提交。")
+    except Exception as error:
+        logger.error(
+            "正式抓取执行失败（%s）：%s；现有 ICS 不会由失败步骤提交。",
+            type(error).__name__,
+            safe_exception_message(error),
+        )
         return 1
-
 
 if __name__ == "__main__":
     raise SystemExit(run())

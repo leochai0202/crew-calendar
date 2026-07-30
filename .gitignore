@@ -1,6 +1,9 @@
 playwright/.auth/
 playwright/.auth-diagnostics/
 /debug_output/
+/browser-profile/
+/auth-backup/
+/crew-calendar-data/
 *.storage-state.json
 crew-auth-session*.json
 .env

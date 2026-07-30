@@ -270,6 +270,46 @@ def add_session_storage_init_script(
     )
 
 
+def restore_auth_bundle_to_existing_context(
+    context: Any,
+    bundle: AuthBundle,
+) -> None:
+    storage_state = filter_storage_state(bundle.storage_state)
+    cookies = storage_state.get("cookies", [])
+    if cookies:
+        context.add_cookies(cookies)
+
+    local_storage: dict[str, dict[str, str]] = {}
+    for origin_data in storage_state.get("origins", []):
+        origin = str(origin_data.get("origin", ""))
+        entries = origin_data.get("localStorage", [])
+        if not origin or not isinstance(entries, list):
+            continue
+        local_storage[origin] = {
+            str(entry.get("name", "")): str(entry.get("value", ""))
+            for entry in entries
+            if isinstance(entry, dict) and entry.get("name")
+        }
+    if any(local_storage.values()):
+        serialized = json.dumps(
+            local_storage,
+            ensure_ascii=False,
+            separators=(",", ":"),
+        )
+        context.add_init_script(
+            script=(
+                "(() => {"
+                f"const states={serialized};"
+                "const origin=window.location.origin;"
+                "if(!Object.prototype.hasOwnProperty.call(states,origin))return;"
+                "for(const [key,value] of Object.entries(states[origin]))"
+                "window.localStorage.setItem(key,value);"
+                "})();"
+            )
+        )
+    add_session_storage_init_script(context, bundle.session_storage)
+
+
 def create_context_from_auth_bundle(
     browser: Any,
     bundle: AuthBundle,

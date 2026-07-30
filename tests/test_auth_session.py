@@ -69,7 +69,11 @@ class FakeContext:
         self.storage_state = storage_state
         self.context_options = context_options
         self.init_scripts: list[str] = []
+        self.cookies: list[dict] = []
         self.closed = False
+
+    def add_cookies(self, cookies: list[dict]) -> None:
+        self.cookies.extend(cookies)
 
     def add_init_script(self, *, script: str) -> None:
         self.init_scripts.append(script)
@@ -191,6 +195,28 @@ def test_shared_context_factory_restores_scoped_session_storage() -> None:
     assert "example.com" not in context.init_scripts[0]
 
 
+def test_existing_context_restores_only_scoped_auth_material() -> None:
+    context = FakeContext({})
+    bundle = auth.AuthBundle(
+        sample_storage_state(),
+        {
+            "https://cp.9cair.com": {"cp-key": "cp-value"},
+            "https://example.com": {"forbidden": "value"},
+        },
+    )
+
+    auth.restore_auth_bundle_to_existing_context(context, bundle)
+
+    assert [cookie["domain"] for cookie in context.cookies] == [
+        ".9cair.com",
+        "cas.9cair.com",
+    ]
+    scripts = "\n".join(context.init_scripts)
+    assert "https://cp.9cair.com" in scripts
+    assert "https://cas.9cair.com" in scripts
+    assert "example.com" not in scripts
+
+
 def test_verify_closes_browser_when_context_creation_fails(
     monkeypatch,
 ) -> None:
@@ -260,6 +286,50 @@ def test_missing_corrupt_and_invalid_bundle_are_login_required(
 
     monkeypatch.delenv("CREW_STORAGE_STATE_B64", raising=False)
     assert auth.check_secret_environment("CREW_STORAGE_STATE_B64") == 3
+
+
+def test_loaded_bundle_is_verified_before_session_recovery(
+    monkeypatch,
+) -> None:
+    expected_bundle = sample_bundle()
+    expected_observation = auth.AuthObservation(
+        auth.AuthStatus.AUTHENTICATED,
+        auth.AuthSignals(mission_heading=True, task_container=True),
+    )
+    events: list[str] = []
+    monkeypatch.setattr(
+        local_auth,
+        "verify_auth_bundle",
+        lambda playwright, bundle, *, channel: (
+            events.append(f"verify:{channel}") or expected_observation
+        ),
+    )
+
+    observation = local_auth.verify_loaded_auth_bundle(
+        object(),
+        expected_bundle,
+        channel="msedge",
+    )
+
+    assert observation == expected_observation
+    assert events == ["verify:msedge"]
+
+
+@pytest.mark.parametrize(
+    ("status", "expected"),
+    [
+        (auth.AuthStatus.LOGIN_REQUIRED, True),
+        (auth.AuthStatus.AUTHENTICATED, False),
+        (auth.AuthStatus.ADDITIONAL_VERIFICATION_REQUIRED, False),
+        (auth.AuthStatus.PAGE_CHANGED_OR_UNKNOWN, False),
+        (auth.AuthStatus.NETWORK_OR_SITE_ERROR, False),
+    ],
+)
+def test_only_confirmed_login_required_starts_dynamic_password_login(
+    status: auth.AuthStatus,
+    expected: bool,
+) -> None:
+    assert local_auth.should_start_dynamic_password_login(status) is expected
 
 
 def test_expired_state_redirect_is_login_required() -> None:
@@ -394,7 +464,7 @@ def test_failed_validation_does_not_overwrite_old_bundle(
 def test_headless_validation_never_falls_back_to_manual_authentication(
     monkeypatch,
 ) -> None:
-    args = SimpleNamespace(validate_existing=True)
+    args = SimpleNamespace(validate_imap=False, validate_existing=True)
     monkeypatch.setattr(local_auth, "validate_existing_file", lambda _: 3)
 
     def fail_if_called(_):
@@ -431,7 +501,7 @@ def test_fresh_process_command_only_uses_headless_validation(
     assert captured["kwargs"]["stderr"] == local_auth.subprocess.DEVNULL
 
 
-def test_workflow_is_manual_read_only_and_has_no_artifacts() -> None:
+def test_github_hosted_workflow_is_read_only_code_test_only() -> None:
     workflow = (
         Path(__file__).parents[1]
         / ".github"
@@ -441,15 +511,19 @@ def test_workflow_is_manual_read_only_and_has_no_artifacts() -> None:
 
     assert "workflow_dispatch:" in workflow
     assert "schedule:" not in workflow
-    assert "pull_request:" not in workflow
-    assert "\n  push:" not in workflow
+    assert "pull_request:" in workflow
+    assert "\n  push:" in workflow
     assert "contents: read" in workflow
-    assert "CREW_STORAGE_STATE_B64" in workflow
+    assert "python -m pytest" in workflow
     for forbidden in (
         "upload-artifact",
         "debug_output",
         "flight.ics",
         "crew_calendar_main.py",
+        "CREW_STORAGE_STATE_B64",
+        "CREW_PHONE",
+        "IMAP_AUTH_CODE",
+        "playwright install",
     ):
         assert forbidden not in workflow
 

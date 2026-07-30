@@ -13,15 +13,19 @@ on:
 
 concurrency:
   group: crew-calendar
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
   contents: write
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Windows, X64, crew-calendar]
     timeout-minutes: 20
+
+    defaults:
+      run:
+        shell: pwsh
 
     steps:
       - name: Checkout
@@ -29,60 +33,83 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install Python packages
+      - name: Verify self-hosted runtime
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          playwright install --with-deps chromium
+          $ErrorActionPreference = "Stop"
+          python --version
+          python -c "import playwright, PIL, pytesseract, ics, requests"
 
       - name: Run scraper
         id: scraper
         env:
           CREW_STORAGE_STATE_B64: ${{ secrets.CREW_STORAGE_STATE_B64 }}
-        shell: bash
+          CREW_PHONE: ${{ secrets.CREW_PHONE }}
+          IMAP_EMAIL: ${{ secrets.IMAP_EMAIL }}
+          IMAP_AUTH_CODE: ${{ secrets.IMAP_AUTH_CODE }}
+          CREW_PERSISTENT_PROFILE_DIR: C:\crew-calendar-data\browser-profile
+          CREW_AUTH_BACKUP_PATH: C:\crew-calendar-data\auth-backup\crew-auth-session.json
+          CREW_BROWSER_CHANNEL: msedge
+          HEADLESS: '1'
+          CREW_AUTH_DIAGNOSTIC_PATH: ${{ runner.temp }}\crew-auth-diagnostic.json
         run: |
-          set +e
+          $PSNativeCommandUseErrorActionPreference = $false
           python crew_calendar_main.py
-          exit_code=$?
-          set -e
+          $exitCode = $LASTEXITCODE
 
-          case "$exit_code" in
-            0) auth_status="AUTHENTICATED" ;;
-            3) auth_status="LOGIN_REQUIRED" ;;
-            4) auth_status="ADDITIONAL_VERIFICATION_REQUIRED" ;;
-            5) auth_status="PAGE_CHANGED_OR_UNKNOWN" ;;
-            6) auth_status="NETWORK_OR_SITE_ERROR" ;;
-            *) auth_status="SCRAPER_ERROR" ;;
-          esac
+          $authStatus = switch ($exitCode) {
+            0 { "AUTHENTICATED" }
+            3 { "LOGIN_REQUIRED" }
+            4 { "ADDITIONAL_VERIFICATION_REQUIRED" }
+            5 { "PAGE_CHANGED_OR_UNKNOWN" }
+            6 { "NETWORK_OR_SITE_ERROR" }
+            default { "SCRAPER_ERROR" }
+          }
 
-          echo "auth_status=$auth_status" >> "$GITHUB_OUTPUT"
-          exit "$exit_code"
+          "auth_status=$authStatus" |
+            Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          exit $exitCode
+
+      - name: Upload safe authentication diagnostic
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: crew-auth-diagnostic-${{ github.run_id }}
+          path: ${{ runner.temp }}\crew-auth-diagnostic.json
+          if-no-files-found: ignore
+          retention-days: 7
 
       - name: Clean ICS people lists
         if: ${{ steps.scraper.outcome == 'success' && steps.scraper.outputs.auth_status == 'AUTHENTICATED' }}
         run: |
           python clean_ics_people.py
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+          }
 
       - name: Commit and push ICS files
         if: ${{ steps.scraper.outcome == 'success' && steps.scraper.outputs.auth_status == 'AUTHENTICATED' }}
         run: |
+          $ErrorActionPreference = "Stop"
+          $PSNativeCommandUseErrorActionPreference = $false
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- *.ics airport_aliases.json
 
-          git add *.ics airport_aliases.json || true
-
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
+          git diff --cached --quiet
+          if ($LASTEXITCODE -eq 0) {
+            Write-Host "No changes to commit"
             exit 0
-          fi
+          }
+          if ($LASTEXITCODE -ne 1) {
+            exit $LASTEXITCODE
+          }
 
           git commit -m "Update crew calendar"
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+          }
           git push
+          exit $LASTEXITCODE
 
       - name: Send authentication status notification
         id: auth_notification
@@ -93,28 +120,42 @@ jobs:
           GMAIL_SMTP_USER: ${{ secrets.GMAIL_SMTP_USER }}
           GMAIL_SMTP_APP_PASSWORD: ${{ secrets.GMAIL_SMTP_APP_PASSWORD }}
           CREW_NOTIFY_EMAIL: ${{ secrets.CREW_NOTIFY_EMAIL }}
-        shell: bash
         run: |
-          python crew_auth_notification.py \
-            --auth-status "${AUTH_STATUS:-SCRAPER_ERROR}" \
+          $authStatus = if ($env:AUTH_STATUS) {
+            $env:AUTH_STATUS
+          } else {
+            "SCRAPER_ERROR"
+          }
+          python crew_auth_notification.py `
+            --auth-status $authStatus `
             --state-file state/auth_notification_state.json
+          exit $LASTEXITCODE
 
       - name: Commit authentication notification state
         if: ${{ always() && steps.auth_notification.outcome == 'success' }}
         continue-on-error: true
-        shell: bash
         run: |
-          if [ ! -f state/auth_notification_state.json ]; then
+          $ErrorActionPreference = "Stop"
+          $PSNativeCommandUseErrorActionPreference = $false
+          $stateFile = "state/auth_notification_state.json"
+          if (-not (Test-Path -LiteralPath $stateFile)) {
             exit 0
-          fi
+          }
 
-          git add -- state/auth_notification_state.json
-
-          if git diff --cached --quiet; then
+          git add -- $stateFile
+          git diff --cached --quiet
+          if ($LASTEXITCODE -eq 0) {
             exit 0
-          fi
+          }
+          if ($LASTEXITCODE -ne 1) {
+            exit $LASTEXITCODE
+          }
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Update authentication notification state"
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+          }
           git push
+          exit $LASTEXITCODE
