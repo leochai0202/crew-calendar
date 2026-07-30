@@ -79,10 +79,16 @@ IMAP_HOST_ENV = "IMAP_HOST"
 IMAP_PORT_ENV = "IMAP_PORT"
 LOGIN_PHONE_ENV = "CREW_LOGIN_PHONE"
 CLOUD_LOGIN_PHONE_ENV = "CREW_PHONE"
+LOGIN_STATE_TIMEOUT_SECONDS = 15
+LOGIN_STATE_POLL_INTERVAL_MS = 200
+LOGIN_STATE_REQUIRED_POLLS = 2
 
 LOGIN_STAGE_NAMES = frozenset(
     {
         "LOGIN_FLOW_STARTED",
+        "LOGIN_STATE_WAIT_STARTED",
+        "LOGIN_STATE_CONFIRMED",
+        "QR_HEADING_FIRST_SEEN_MS",
         "LOGIN_PAGE_SWITCHED",
         "QR_LOGIN_PAGE_DETECTED",
         "TOGGLE_CANDIDATES_INSPECTED",
@@ -125,6 +131,12 @@ class LoginToggleError(OtpError):
         super().__init__(category)
         self.category = category
         self.diagnostic = diagnostic or {}
+
+
+class LoginPageStateError(OtpError):
+    def __init__(self, category: str) -> None:
+        super().__init__(category)
+        self.category = category
 
 
 def _report_login_stage(
@@ -779,6 +791,101 @@ def _is_top_right_toggle(
     )
 
 
+def _detect_login_page_state(
+    page: Any,
+) -> tuple[str | None, Any | None]:
+    try:
+        qr_heading = page.get_by_text(
+            QR_LOGIN_HEADING,
+            exact=True,
+        )
+        if _locator_has_visible_element(qr_heading):
+            return "QR", qr_heading
+    except Exception:
+        pass
+
+    try:
+        password_tab = page.locator(PASSWORD_LOGIN_TAB_SELECTOR)
+        dynamic_tab = page.locator(DYNAMIC_LOGIN_TAB_SELECTOR)
+        if (
+            _locator_has_visible_element(password_tab)
+            and _locator_has_visible_element(dynamic_tab)
+        ):
+            return "ACCOUNT", None
+    except Exception:
+        pass
+
+    try:
+        form = page.locator(DYNAMIC_LOGIN_FORM_SELECTOR)
+        phone = page.locator(PHONE_OR_EMAIL_SELECTOR)
+        dynamic_password = page.locator(DYNAMIC_PASSWORD_SELECTOR)
+        if (
+            _locator_has_visible_element(form)
+            and _locator_has_visible_element(phone)
+            and _locator_has_visible_element(dynamic_password)
+        ):
+            return "DYNAMIC", None
+    except Exception:
+        pass
+    return None, None
+
+
+def _wait_for_stable_login_page_state(
+    page: Any,
+    *,
+    stage_reporter: LoginStageReporter | None,
+    timeout_seconds: float = LOGIN_STATE_TIMEOUT_SECONDS,
+    poll_interval_ms: int = LOGIN_STATE_POLL_INTERVAL_MS,
+) -> tuple[str, Any | None]:
+    started = time.monotonic()
+    deadline = started + timeout_seconds
+    last_state: str | None = None
+    consecutive_polls = 0
+    qr_first_seen_reported = False
+    _report_login_stage(stage_reporter, "LOGIN_STATE_WAIT_STARTED")
+
+    while time.monotonic() <= deadline:
+        state, qr_heading = _detect_login_page_state(page)
+        if state == "QR" and not qr_first_seen_reported:
+            elapsed_ms = max(
+                0,
+                int(round((time.monotonic() - started) * 1000)),
+            )
+            _report_login_stage(
+                stage_reporter,
+                "QR_HEADING_FIRST_SEEN_MS",
+                elapsed_ms=elapsed_ms,
+            )
+            qr_first_seen_reported = True
+
+        if state is not None and state == last_state:
+            consecutive_polls += 1
+        elif state is not None:
+            last_state = state
+            consecutive_polls = 1
+        else:
+            last_state = None
+            consecutive_polls = 0
+
+        if (
+            state is not None
+            and consecutive_polls >= LOGIN_STATE_REQUIRED_POLLS
+        ):
+            _report_login_stage(
+                stage_reporter,
+                "LOGIN_STATE_CONFIRMED",
+                state=state,
+            )
+            return state, qr_heading
+
+        try:
+            page.wait_for_timeout(poll_interval_ms)
+        except Exception:
+            time.sleep(poll_interval_ms / 1000)
+
+    raise LoginPageStateError("LOGIN_PAGE_STATE_TIMEOUT")
+
+
 def _inspect_toggle_candidates(
     page: Any,
     qr_heading: Any,
@@ -991,18 +1098,12 @@ def _switch_to_dynamic_password_login(
     stage_reporter: LoginStageReporter | None = None,
 ) -> None:
     try:
+        state, qr_heading = _wait_for_stable_login_page_state(
+            page,
+            stage_reporter=stage_reporter,
+        )
         form = page.locator(DYNAMIC_LOGIN_FORM_SELECTOR)
-        try:
-            qr_heading = page.get_by_text(
-                QR_LOGIN_HEADING,
-                exact=True,
-            )
-            qr_page_visible = _locator_has_visible_element(qr_heading)
-        except Exception:
-            qr_heading = None
-            qr_page_visible = False
-
-        if qr_page_visible:
+        if state == "QR":
             _report_login_stage(
                 stage_reporter,
                 "QR_LOGIN_PAGE_DETECTED",
@@ -1041,7 +1142,7 @@ def _switch_to_dynamic_password_login(
                 stage_reporter,
                 "DYNAMIC_TAB_OPENED",
             )
-        elif form.count() == 1 and form.is_visible():
+        elif state == "DYNAMIC":
             dynamic_tab = None
             _report_login_stage(
                 stage_reporter,
@@ -1055,18 +1156,9 @@ def _switch_to_dynamic_password_login(
                 stage_reporter,
                 "DYNAMIC_TAB_OPENED",
             )
-        else:
+        elif state == "ACCOUNT":
             password_tab = page.locator(PASSWORD_LOGIN_TAB_SELECTOR)
             dynamic_tab = page.locator(DYNAMIC_LOGIN_TAB_SELECTOR)
-            account_tabs_visible = (
-                password_tab.count() == 1
-                and dynamic_tab.count() == 1
-                and password_tab.is_visible()
-                and dynamic_tab.is_visible()
-            )
-            if not account_tabs_visible:
-                raise OtpError("未识别到扫码登录页或账号登录页")
-
             _report_login_stage(
                 stage_reporter,
                 "LOGIN_PAGE_SWITCHED",
@@ -1090,6 +1182,8 @@ def _switch_to_dynamic_password_login(
                 stage_reporter,
                 "DYNAMIC_TAB_OPENED",
             )
+        else:
+            raise LoginPageStateError("LOGIN_PAGE_STATE_TIMEOUT")
 
         _unique_locator(
             page,

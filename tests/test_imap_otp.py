@@ -666,6 +666,9 @@ def test_qr_login_switches_to_account_then_dynamic_password(
     assert ("wait", "phone") in events
     assert ("wait", "request") in events
     assert stages == [
+        "LOGIN_STATE_WAIT_STARTED",
+        "QR_HEADING_FIRST_SEEN_MS",
+        "LOGIN_STATE_CONFIRMED",
         "QR_LOGIN_PAGE_DETECTED",
         "TOGGLE_CANDIDATES_INSPECTED",
         "TOGGLE_CLICK_LOGIN_BADGE",
@@ -676,6 +679,205 @@ def test_qr_login_switches_to_account_then_dynamic_password(
         "DYNAMIC_TAB_CLICKED",
         "DYNAMIC_TAB_OPENED",
     ]
+
+
+class SequencedLoginStatePage:
+    def __init__(self, states: list[set[str]]) -> None:
+        self.states = states
+        self.index = 0
+        self.elapsed_ms = 0
+
+    @property
+    def current(self) -> set[str]:
+        return self.states[min(self.index, len(self.states) - 1)]
+
+    def wait_for_timeout(self, milliseconds: int) -> None:
+        assert milliseconds == authentication.LOGIN_STATE_POLL_INTERVAL_MS
+        self.elapsed_ms += milliseconds
+        self.index = min(self.index + 1, len(self.states) - 1)
+
+    def locator(self, selector: str):
+        mapping = {
+            authentication.PASSWORD_LOGIN_TAB_SELECTOR: "account",
+            authentication.DYNAMIC_LOGIN_TAB_SELECTOR: "account",
+            authentication.DYNAMIC_LOGIN_FORM_SELECTOR: "dynamic",
+            authentication.PHONE_OR_EMAIL_SELECTOR: "dynamic",
+            authentication.DYNAMIC_PASSWORD_SELECTOR: "dynamic",
+            authentication.REQUEST_DYNAMIC_PASSWORD_SELECTOR: "dynamic",
+        }
+        return SequencedLoginStateLocator(
+            self,
+            mapping.get(selector, ""),
+        )
+
+    def get_by_text(self, text: str, *, exact: bool):
+        assert text == authentication.QR_LOGIN_HEADING
+        assert exact is True
+        return SequencedLoginStateLocator(self, "qr")
+
+
+class SequencedLoginStateLocator:
+    def __init__(
+        self,
+        page: SequencedLoginStatePage,
+        state_name: str,
+    ) -> None:
+        self.page = page
+        self.state_name = state_name
+
+    def count(self) -> int:
+        return 1
+
+    def nth(self, _index: int):
+        return self
+
+    def is_visible(self, **_: Any) -> bool:
+        return self.state_name in self.page.current
+
+    def wait_for(self, **_: Any) -> None:
+        return None
+
+    def click(self) -> None:
+        return None
+
+
+def test_qr_heading_delayed_two_seconds_is_confirmed_and_clicked(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    page = SequencedLoginStatePage(
+        [set() for _ in range(10)]
+        + [{"qr"}, {"qr"}]
+    )
+    stages: list[tuple[str, dict[str, Any]]] = []
+    opened: list[bool] = []
+    monkeypatch.setattr(
+        authentication.time,
+        "monotonic",
+        lambda: page.elapsed_ms / 1000,
+    )
+
+    def fake_open(
+        _page: Any,
+        _heading: Any,
+        *,
+        stage_reporter: Any,
+    ):
+        opened.append(True)
+        stage_reporter(
+            "TOGGLE_CANDIDATES_INSPECTED",
+            {"diagnostic": {}},
+        )
+        stage_reporter("TOGGLE_CLICK_LOGIN_BADGE", {})
+        stage_reporter("ACCOUNT_LOGIN_TOGGLE_CLICKED", {})
+        return (
+            SequencedLoginStateLocator(page, "account"),
+            SequencedLoginStateLocator(page, "account"),
+        )
+
+    monkeypatch.setattr(
+        authentication,
+        "_open_account_login_panel",
+        fake_open,
+    )
+
+    authentication._switch_to_dynamic_password_login(
+        page,
+        stage_reporter=lambda stage, details: stages.append(
+            (stage, details)
+        ),
+    )
+
+    assert opened == [True]
+    assert (
+        "QR_HEADING_FIRST_SEEN_MS",
+        {"elapsed_ms": 2000},
+    ) in stages
+    assert (
+        "LOGIN_STATE_CONFIRMED",
+        {"state": "QR"},
+    ) in stages
+
+
+def test_qr_state_wins_over_residual_dynamic_form(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    page = SequencedLoginStatePage(
+        [
+            {"qr", "dynamic"},
+            {"qr", "dynamic"},
+        ]
+    )
+    monkeypatch.setattr(
+        authentication.time,
+        "monotonic",
+        lambda: page.elapsed_ms / 1000,
+    )
+
+    state, _heading = (
+        authentication._wait_for_stable_login_page_state(
+            page,
+            stage_reporter=None,
+        )
+    )
+
+    assert state == "QR"
+
+
+def test_transient_login_states_do_not_confirm_early(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    page = SequencedLoginStatePage(
+        [
+            {"account"},
+            set(),
+            {"dynamic"},
+            {"qr"},
+            {"qr"},
+        ]
+    )
+    reports: list[tuple[str, dict[str, Any]]] = []
+    monkeypatch.setattr(
+        authentication.time,
+        "monotonic",
+        lambda: page.elapsed_ms / 1000,
+    )
+
+    state, _heading = (
+        authentication._wait_for_stable_login_page_state(
+            page,
+            stage_reporter=lambda stage, details: reports.append(
+                (stage, details)
+            ),
+        )
+    )
+
+    assert state == "QR"
+    confirmed = [
+        details["state"]
+        for stage, details in reports
+        if stage == "LOGIN_STATE_CONFIRMED"
+    ]
+    assert confirmed == ["QR"]
+
+
+def test_login_page_state_timeout_has_exact_category(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    page = SequencedLoginStatePage([set()])
+    monkeypatch.setattr(
+        authentication.time,
+        "monotonic",
+        lambda: page.elapsed_ms / 1000,
+    )
+
+    with pytest.raises(authentication.LoginPageStateError) as caught:
+        authentication._wait_for_stable_login_page_state(
+            page,
+            stage_reporter=None,
+            timeout_seconds=0.4,
+        )
+
+    assert caught.value.category == "LOGIN_PAGE_STATE_TIMEOUT"
 
 
 def test_toggle_candidate_filter_selects_only_visible_top_right_icon() -> None:
@@ -950,7 +1152,10 @@ def test_already_dynamic_login_does_not_repeat_switch() -> None:
         def count(self) -> int:
             return 1
 
-        def is_visible(self) -> bool:
+        def nth(self, _index: int):
+            return self
+
+        def is_visible(self, **_: Any) -> bool:
             return self.visible
 
         def wait_for(self, **_: Any) -> None:
@@ -975,6 +1180,9 @@ def test_already_dynamic_login_does_not_repeat_switch() -> None:
             if selector == authentication.DYNAMIC_LOGIN_TAB_SELECTOR:
                 raise AssertionError("dynamic tab must not be clicked again")
             return locators[selector]
+
+        def wait_for_timeout(self, _milliseconds: int) -> None:
+            return None
 
     authentication._switch_to_dynamic_password_login(Page())
 

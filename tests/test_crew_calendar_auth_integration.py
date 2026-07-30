@@ -522,6 +522,48 @@ def test_cloud_toggle_failure_keeps_exact_category_and_closes_reader(
     )
 
 
+def test_cloud_login_state_timeout_keeps_exact_category(
+    monkeypatch,
+    capsys,
+) -> None:
+    monkeypatch.setenv("CREW_PHONE", "13000000000")
+    monkeypatch.setenv("IMAP_EMAIL", "crew@example.invalid")
+    monkeypatch.setenv("IMAP_AUTH_CODE", "test-auth-code")
+
+    class Reader:
+        def __init__(self, *args, **kwargs) -> None:
+            return None
+
+        def close(self) -> None:
+            return None
+
+    monkeypatch.setattr(calendar, "ImapOtpReader", Reader)
+    monkeypatch.setattr(
+        calendar,
+        "complete_dynamic_password_login",
+        lambda *args, **kwargs: (_ for _ in ()).throw(
+            calendar.LoginPageStateError("LOGIN_PAGE_STATE_TIMEOUT")
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "collect_safe_login_page_snapshot",
+        lambda _page: {
+            "domain": "cas.9cair.com",
+            "path": "/login",
+            "title": "登录春秋统一认证",
+            "visible_elements": {},
+        },
+    )
+
+    observation = calendar.attempt_cloud_dynamic_password_login(object())
+
+    assert observation.status == auth.AuthStatus.PAGE_CHANGED_OR_UNKNOWN
+    assert "LOGIN_ERROR_CATEGORY=LOGIN_PAGE_STATE_TIMEOUT" in (
+        capsys.readouterr().out
+    )
+
+
 def test_cloud_unknown_writes_only_safe_staged_diagnostic(
     monkeypatch,
     tmp_path: Path,

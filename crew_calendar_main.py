@@ -29,6 +29,7 @@ from crew_auth_session import (
 from authenticate_crew_session import (
     AdditionalVerificationRequiredError,
     LOGIN_STAGE_NAMES,
+    LoginPageStateError,
     LoginToggleError,
     collect_safe_login_page_snapshot,
     complete_dynamic_password_login,
@@ -5051,6 +5052,19 @@ def _cloud_stage_reporter(diagnostic: dict):
                 f"LOGIN_STAGE={stage} OTP_LENGTH={otp_length}",
                 flush=True,
             )
+        elif stage == "LOGIN_STATE_WAIT_STARTED":
+            print("LOGIN_STATE_WAIT_STARTED", flush=True)
+        elif stage == "LOGIN_STATE_CONFIRMED":
+            state = str(details.get("state", ""))
+            entry["state"] = state
+            print(f"LOGIN_STATE_CONFIRMED={state}", flush=True)
+        elif stage == "QR_HEADING_FIRST_SEEN_MS":
+            elapsed_ms = max(0, int(details.get("elapsed_ms", 0)))
+            entry["elapsed_ms"] = elapsed_ms
+            print(
+                f"QR_HEADING_FIRST_SEEN_MS={elapsed_ms}",
+                flush=True,
+            )
         elif stage == "TOGGLE_CANDIDATES_INSPECTED":
             safe_diagnostic = details.get("diagnostic", {})
             entry["diagnostic"] = safe_diagnostic
@@ -5185,6 +5199,12 @@ def attempt_cloud_dynamic_password_login(page) -> AuthObservation:
             expected_otp_length=6,
         )
     except LoginToggleError as exc:
+        observation = AuthObservation(
+            AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+            AuthSignals(),
+        )
+        error_category = exc.category
+    except LoginPageStateError as exc:
         observation = AuthObservation(
             AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
             AuthSignals(),
