@@ -10,6 +10,7 @@ import logging
 from itertools import product
 from datetime import datetime, timedelta
 from pathlib import Path
+from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
 
 from PIL import Image, ImageOps, ImageFilter
@@ -931,31 +932,125 @@ def login(page, max_retries: int = 10):
     raise RuntimeError("多次尝试后仍无法登录")
 
 
-def open_mission_page(page):
-    for i in range(3):
-        try:
-            logger.info(f"打开任务页面，尝试 {i + 1}/3")
-            page.goto(MISSION_URL, wait_until="domcontentloaded", timeout=90000)
-            random_like_wait(page, 4500, 1200)
+def _is_mission_url(url: str) -> bool:
+    try:
+        current = urlsplit(url)
+        target = urlsplit(MISSION_URL)
+        return (
+            current.netloc.lower() == target.netloc.lower()
+            and current.path.rstrip("/") == target.path.rstrip("/")
+        )
+    except Exception:
+        return False
 
+
+def _mission_content_loaded(page) -> bool:
+    return re.search(r"\d{2}月\d{2}日\s*周.", page_text(page)) is not None
+
+
+def _navigation_was_interrupted(exc: Exception) -> bool:
+    message = str(exc).lower()
+    return (
+        "interrupted by another navigation" in message
+        or "another navigation started" in message
+    )
+
+
+def _wait_for_current_navigation(
+    page,
+    *,
+    timeout_ms: int = 15000,
+    poll_ms: int = 250,
+    stable_checks: int = 6,
+) -> None:
+    """Wait until the current document URL stays stable after an SSO handoff."""
+    max_checks = max(stable_checks, timeout_ms // max(1, poll_ms))
+    last_url = None
+    unchanged_checks = 0
+
+    for _ in range(max_checks):
+        load_state_ready = False
+        try:
+            page.wait_for_load_state(
+                "domcontentloaded",
+                timeout=poll_ms,
+            )
+            load_state_ready = True
+        except Exception:
+            unchanged_checks = 0
+
+        current_url = str(getattr(page, "url", "") or "")
+        if not load_state_ready:
+            last_url = current_url or last_url
+        elif current_url and current_url == last_url:
+            unchanged_checks += 1
+        else:
+            last_url = current_url
+            unchanged_checks = 1 if current_url else 0
+
+        if unchanged_checks >= stable_checks:
+            return
+
+        page.wait_for_timeout(poll_ms)
+
+    raise RuntimeError("登录后的 SSO 页面导航未能稳定")
+
+
+def _wait_for_mission_content(page, *, timeout_ms: int = 15000) -> None:
+    checks = max(1, timeout_ms // 500)
+    clicked_mission_tab = False
+
+    for _ in range(checks):
+        body_text = page_text(page)
+        if re.search(r"\d{2}月\d{2}日\s*周.", body_text):
+            logger.info("任务页面已加载")
+            return
+
+        if "我的任务" in body_text and not clicked_mission_tab:
             try:
                 page.locator("text=我的任务").first.click(timeout=5000)
-                random_like_wait(page, 2600, 900)
+                clicked_mission_tab = True
             except Exception:
                 pass
 
-            body_text = page_text(page)
+        page.wait_for_timeout(500)
 
-            if re.search(r"\d{2}月\d{2}日\s*周.", body_text):
-                logger.info("任务页面已加载")
-                return
+    raise RuntimeError("任务页已打开，但真实任务内容未加载")
 
-        except Exception as e:
-            logger.error(f"打开任务页面失败: {e}")
-            if i == 2:
-                raise
 
-    raise RuntimeError("未能进入任务列表页")
+def open_mission_page(page):
+    logger.info("等待认证后的 SSO 导航完成")
+    _wait_for_current_navigation(page)
+
+    if _mission_content_loaded(page):
+        logger.info("当前页面已经包含任务内容，不再重复导航")
+        return
+
+    current_text = page_text(page)
+    already_on_mission_page = _is_mission_url(
+        str(getattr(page, "url", "") or "")
+    )
+    mission_area_present = "我的任务" in current_text
+
+    if already_on_mission_page or mission_area_present:
+        logger.info("当前已在任务区域，不再重复打开任务网址")
+        _wait_for_mission_content(page)
+        return
+
+    logger.info("当前尚未进入任务页，只打开一次任务网址")
+    try:
+        page.goto(
+            MISSION_URL,
+            wait_until="domcontentloaded",
+            timeout=90000,
+        )
+    except Exception as exc:
+        if not _navigation_was_interrupted(exc):
+            raise
+        logger.info("任务页导航由尚未结束的 SSO 跳转接管，等待其完成")
+
+    _wait_for_current_navigation(page)
+    _wait_for_mission_content(page)
 
 
 def get_day_headers(page) -> list:
