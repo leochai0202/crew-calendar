@@ -265,6 +265,9 @@ class RecordingOtpReader:
         self.events.append(("baseline",))
         return 21
 
+    def connect(self) -> None:
+        self.events.append(("imap_connect",))
+
     def wait_for_new_otp(
         self,
         baseline_uid: int,
@@ -563,7 +566,9 @@ def test_saving_local_imap_configuration_preserves_unrelated_entries(
     assert "old-test-code" not in saved
 
 
-def test_qr_login_switches_to_account_then_dynamic_password() -> None:
+def test_qr_login_switches_to_account_then_dynamic_password(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     events: list[tuple[str, str]] = []
     stages: list[str] = []
 
@@ -595,10 +600,6 @@ def test_qr_login_switches_to_account_then_dynamic_password() -> None:
 
     locators = {
         authentication.PASSWORD_LOGIN_TAB_SELECTOR: Locator("password_tab"),
-        authentication.ACCOUNT_LOGIN_TOGGLE_SELECTOR: Locator(
-            "account_toggle",
-            True,
-        ),
         authentication.DYNAMIC_LOGIN_TAB_SELECTOR: Locator("dynamic_tab"),
         authentication.DYNAMIC_LOGIN_FORM_SELECTOR: Locator("dynamic_form"),
         authentication.PHONE_OR_EMAIL_SELECTOR: Locator("phone"),
@@ -617,18 +618,50 @@ def test_qr_login_switches_to_account_then_dynamic_password() -> None:
             assert exact is True
             return Locator("qr_heading", True)
 
+    def fake_open_account_panel(
+        _page: Any,
+        _heading: Any,
+        *,
+        stage_reporter: Any,
+    ) -> tuple[Locator, Locator]:
+        stage_reporter(
+            "TOGGLE_CANDIDATES_INSPECTED",
+            {
+                "diagnostic": {
+                    "login_badge_count": 2,
+                    "badge_icon_count": 2,
+                    "visible_badge_icon_count": 1,
+                    "eligible_toggle_count": 1,
+                    "candidates": [],
+                }
+            },
+        )
+        stage_reporter("TOGGLE_CLICK_LOGIN_BADGE", {})
+        stage_reporter("ACCOUNT_LOGIN_TOGGLE_CLICKED", {})
+        locators[authentication.PASSWORD_LOGIN_TAB_SELECTOR].visible = True
+        locators[authentication.DYNAMIC_LOGIN_TAB_SELECTOR].visible = True
+        return (
+            locators[authentication.PASSWORD_LOGIN_TAB_SELECTOR],
+            locators[authentication.DYNAMIC_LOGIN_TAB_SELECTOR],
+        )
+
+    monkeypatch.setattr(
+        authentication,
+        "_open_account_login_panel",
+        fake_open_account_panel,
+    )
+
     authentication._switch_to_dynamic_password_login(
         Page(),
         stage_reporter=lambda stage, _details: stages.append(stage),
     )
 
-    assert events.index(("click", "account_toggle")) < events.index(
-        ("click", "dynamic_tab")
-    )
     assert ("wait", "phone") in events
     assert ("wait", "request") in events
     assert stages == [
         "QR_LOGIN_PAGE_DETECTED",
+        "TOGGLE_CANDIDATES_INSPECTED",
+        "TOGGLE_CLICK_LOGIN_BADGE",
         "ACCOUNT_LOGIN_TOGGLE_CLICKED",
         "PASSWORD_TAB_VISIBLE",
         "LOGIN_PAGE_SWITCHED",
@@ -636,6 +669,264 @@ def test_qr_login_switches_to_account_then_dynamic_password() -> None:
         "DYNAMIC_TAB_CLICKED",
         "DYNAMIC_TAB_OPENED",
     ]
+
+
+def test_toggle_candidate_filter_selects_only_visible_top_right_icon() -> None:
+    class Element:
+        def __init__(
+            self,
+            *,
+            visible: bool,
+            box: dict[str, float] | None,
+            style: dict[str, str] | None = None,
+            parent: Any = None,
+        ) -> None:
+            self.visible = visible
+            self.box = box
+            self.style = style or {
+                "display": "block",
+                "visibility": "visible",
+                "pointer_events": "auto",
+            }
+            self.parent = parent
+
+        def count(self) -> int:
+            return 1
+
+        def is_visible(self, **_: Any) -> bool:
+            return self.visible
+
+        def bounding_box(self):
+            return self.box
+
+        def evaluate(self, _script: str):
+            return self.style
+
+        def locator(self, selector: str):
+            assert selector.startswith("xpath=ancestor::")
+            return self.parent
+
+    class Collection:
+        def __init__(self, items: list[Element]) -> None:
+            self.items = items
+
+        def count(self) -> int:
+            return len(self.items)
+
+        def nth(self, index: int) -> Element:
+            return self.items[index]
+
+    hidden_badge = Element(
+        visible=False,
+        box=None,
+    )
+    visible_badge = Element(
+        visible=True,
+        box={"x": 180, "y": 75, "width": 50, "height": 50},
+    )
+    hidden_icon = Element(
+        visible=False,
+        box={"x": 190, "y": 85, "width": 20, "height": 20},
+        style={
+            "display": "none",
+            "visibility": "hidden",
+            "pointer_events": "none",
+        },
+        parent=hidden_badge,
+    )
+    visible_icon = Element(
+        visible=True,
+        box={"x": 195, "y": 90, "width": 20, "height": 20},
+        parent=visible_badge,
+    )
+    badges = Collection([hidden_badge, visible_badge])
+    icons = Collection([hidden_icon, visible_icon])
+
+    class Page:
+        def locator(self, selector: str):
+            if selector == ".login-badge":
+                return badges
+            if selector == ".badge-icon":
+                return icons
+            raise AssertionError(selector)
+
+    heading = Element(
+        visible=True,
+        box={"x": 100, "y": 100, "width": 100, "height": 20},
+    )
+
+    icon, badge, diagnostic = (
+        authentication._inspect_toggle_candidates(Page(), heading)
+    )
+
+    assert icon is visible_icon
+    assert badge is visible_badge
+    assert diagnostic["login_badge_count"] == 2
+    assert diagnostic["badge_icon_count"] == 2
+    assert diagnostic["visible_badge_icon_count"] == 1
+    assert diagnostic["eligible_toggle_count"] == 1
+    assert diagnostic["candidates"][0] == {
+        "index": 0,
+        "visible": False,
+        "bounding_box_exists": True,
+        "display": "none",
+        "visibility": "hidden",
+        "pointer_events": "none",
+        "inside_login_badge": True,
+        "top_right_region": False,
+    }
+
+
+def test_multiple_visible_top_right_toggles_are_rejected() -> None:
+    class Element:
+        def __init__(self, x: float) -> None:
+            self.x = x
+            self.parent: Any = None
+
+        def count(self) -> int:
+            return 1
+
+        def is_visible(self, **_: Any) -> bool:
+            return True
+
+        def bounding_box(self):
+            return {
+                "x": self.x,
+                "y": 90,
+                "width": 20,
+                "height": 20,
+            }
+
+        def evaluate(self, _script: str):
+            return {
+                "display": "block",
+                "visibility": "visible",
+                "pointer_events": "auto",
+            }
+
+        def locator(self, _selector: str):
+            return self.parent
+
+    class Collection:
+        def __init__(self, items: list[Element]) -> None:
+            self.items = items
+
+        def count(self) -> int:
+            return len(self.items)
+
+        def nth(self, index: int):
+            return self.items[index]
+
+    icons = [Element(190), Element(215)]
+    badges = [Element(180), Element(205)]
+    for icon, badge in zip(icons, badges):
+        badge.bounding_box = lambda badge=badge: {
+            "x": badge.x,
+            "y": 75,
+            "width": 50,
+            "height": 50,
+        }
+        icon.parent = badge
+
+    class Page:
+        def locator(self, selector: str):
+            return Collection(
+                badges if selector == ".login-badge" else icons
+            )
+
+    heading = Element(100)
+    heading.bounding_box = lambda: {
+        "x": 100,
+        "y": 100,
+        "width": 100,
+        "height": 20,
+    }
+
+    with pytest.raises(authentication.LoginToggleError) as caught:
+        authentication._inspect_toggle_candidates(Page(), heading)
+
+    assert caught.value.category == "MULTIPLE_VISIBLE_TOGGLES"
+    assert caught.value.diagnostic["eligible_toggle_count"] == 2
+
+
+def test_toggle_click_prefers_badge_then_visible_icon(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    badge = object()
+    icon = object()
+    clicks: list[object] = []
+    stages: list[str] = []
+    checks = iter((False, True))
+
+    monkeypatch.setattr(
+        authentication,
+        "_inspect_toggle_candidates",
+        lambda *_: (
+            icon,
+            badge,
+            {
+                "login_badge_count": 2,
+                "badge_icon_count": 2,
+                "visible_badge_icon_count": 1,
+                "eligible_toggle_count": 1,
+                "candidates": [],
+            },
+        ),
+    )
+    monkeypatch.setattr(
+        authentication,
+        "_ordinary_toggle_click",
+        lambda target: clicks.append(target),
+    )
+    monkeypatch.setattr(
+        authentication,
+        "_wait_for_account_tabs",
+        lambda *args, **kwargs: next(checks),
+    )
+
+    class Page:
+        def locator(self, _selector: str):
+            return object()
+
+    authentication._open_account_login_panel(
+        Page(),
+        object(),
+        stage_reporter=lambda stage, _details: stages.append(stage),
+    )
+
+    assert clicks == [badge, icon]
+    assert stages[-3:] == [
+        "TOGGLE_CLICK_LOGIN_BADGE",
+        "TOGGLE_CLICK_BADGE_ICON",
+        "ACCOUNT_LOGIN_TOGGLE_CLICKED",
+    ]
+
+
+def test_toggle_failure_happens_before_imap_connect(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    events: list[str] = []
+
+    class Reader:
+        def connect(self) -> None:
+            events.append("connect")
+
+    monkeypatch.setattr(
+        authentication,
+        "_switch_to_dynamic_password_login",
+        lambda *args, **kwargs: (_ for _ in ()).throw(
+            authentication.LoginToggleError("TOGGLE_NOT_FOUND")
+        ),
+    )
+
+    with pytest.raises(authentication.LoginToggleError):
+        authentication.complete_dynamic_password_login(
+            object(),
+            Reader(),
+            manual_timeout_seconds=1,
+        )
+
+    assert events == []
 
 
 def test_already_dynamic_login_does_not_repeat_switch() -> None:

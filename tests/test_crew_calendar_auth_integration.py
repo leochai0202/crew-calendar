@@ -394,10 +394,7 @@ def test_cloud_fallback_uses_fixed_qq_imap_and_secret_phone(
         def __init__(self, email, auth_code, *, host, port) -> None:
             captured["reader"] = (email, auth_code, host, port)
 
-        def __enter__(self):
-            return self
-
-        def __exit__(self, *args) -> None:
+        def close(self) -> None:
             return None
 
     monkeypatch.setattr(calendar, "ImapOtpReader", Reader)
@@ -456,10 +453,7 @@ def test_cloud_slider_requires_additional_verification(
         def __init__(self, *args, **kwargs) -> None:
             return None
 
-        def __enter__(self):
-            return self
-
-        def __exit__(self, *args) -> None:
+        def close(self) -> None:
             return None
 
     monkeypatch.setattr(calendar, "ImapOtpReader", Reader)
@@ -481,6 +475,53 @@ def test_cloud_slider_requires_additional_verification(
     )
 
 
+def test_cloud_toggle_failure_keeps_exact_category_and_closes_reader(
+    monkeypatch,
+    capsys,
+) -> None:
+    monkeypatch.setenv("CREW_PHONE", "13000000000")
+    monkeypatch.setenv("IMAP_EMAIL", "crew@example.invalid")
+    monkeypatch.setenv("IMAP_AUTH_CODE", "test-auth-code")
+    events: list[str] = []
+
+    class Reader:
+        def __init__(self, *args, **kwargs) -> None:
+            return None
+
+        def connect(self) -> None:
+            events.append("connect")
+
+        def close(self) -> None:
+            events.append("close")
+
+    monkeypatch.setattr(calendar, "ImapOtpReader", Reader)
+    monkeypatch.setattr(
+        calendar,
+        "complete_dynamic_password_login",
+        lambda *args, **kwargs: (_ for _ in ()).throw(
+            calendar.LoginToggleError("ACCOUNT_PANEL_NOT_OPENED")
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "collect_safe_login_page_snapshot",
+        lambda _page: {
+            "domain": "cas.9cair.com",
+            "path": "/login",
+            "title": "登录春秋统一认证",
+            "visible_elements": {},
+        },
+    )
+
+    observation = calendar.attempt_cloud_dynamic_password_login(object())
+
+    assert observation.status == auth.AuthStatus.PAGE_CHANGED_OR_UNKNOWN
+    assert events == ["close"]
+    assert "LOGIN_ERROR_CATEGORY=ACCOUNT_PANEL_NOT_OPENED" in (
+        capsys.readouterr().out
+    )
+
+
 def test_cloud_unknown_writes_only_safe_staged_diagnostic(
     monkeypatch,
     tmp_path: Path,
@@ -499,14 +540,34 @@ def test_cloud_unknown_writes_only_safe_staged_diagnostic(
         def __init__(self, *args, **kwargs) -> None:
             return None
 
-        def __enter__(self):
-            return self
-
-        def __exit__(self, *args) -> None:
+        def close(self) -> None:
             return None
 
     def fake_login(_page, _reader, **options):
         reporter = options["stage_reporter"]
+        reporter(
+            "TOGGLE_CANDIDATES_INSPECTED",
+            {
+                "diagnostic": {
+                    "login_badge_count": 2,
+                    "badge_icon_count": 2,
+                    "visible_badge_icon_count": 1,
+                    "eligible_toggle_count": 1,
+                    "candidates": [
+                        {
+                            "index": 0,
+                            "visible": False,
+                            "bounding_box_exists": False,
+                            "display": "none",
+                            "visibility": "hidden",
+                            "pointer_events": "none",
+                            "inside_login_badge": True,
+                            "top_right_region": False,
+                        }
+                    ],
+                }
+            },
+        )
         for stage in (
             "LOGIN_FLOW_STARTED",
             "LOGIN_PAGE_SWITCHED",
@@ -561,6 +622,10 @@ def test_cloud_unknown_writes_only_safe_staged_diagnostic(
 
     assert observation.status == auth.AuthStatus.PAGE_CHANGED_OR_UNKNOWN
     output = capsys.readouterr().out
+    assert (
+        'LOGIN_TOGGLE_DIAGNOSTIC={"badge_icon_count":2'
+        in output
+    )
     assert "LOGIN_STAGE=OTP_MAIL_RECEIVED OTP_LENGTH=6" in output
     assert (
         "LOGIN_ERROR_CATEGORY=POST_LOGIN_HANDOFF_INCOMPLETE"
@@ -602,10 +667,7 @@ def test_cloud_otp_error_reports_stage_specific_category(
         def __init__(self, *args, **kwargs) -> None:
             return None
 
-        def __enter__(self):
-            return self
-
-        def __exit__(self, *args) -> None:
+        def close(self) -> None:
             return None
 
     monkeypatch.setattr(calendar, "ImapOtpReader", Reader)

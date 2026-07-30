@@ -85,6 +85,10 @@ LOGIN_STAGE_NAMES = frozenset(
         "LOGIN_FLOW_STARTED",
         "LOGIN_PAGE_SWITCHED",
         "QR_LOGIN_PAGE_DETECTED",
+        "TOGGLE_CANDIDATES_INSPECTED",
+        "TOGGLE_CLICK_LOGIN_BADGE",
+        "TOGGLE_CLICK_BADGE_ICON",
+        "TOGGLE_DOM_CLICK_BADGE_ICON",
         "ACCOUNT_LOGIN_TOGGLE_CLICKED",
         "ACCOUNT_LOGIN_PANEL_VISIBLE",
         "PASSWORD_TAB_VISIBLE",
@@ -110,6 +114,17 @@ LoginStageReporter = Callable[[str, dict[str, Any]], None]
 
 class AdditionalVerificationRequiredError(OtpError):
     pass
+
+
+class LoginToggleError(OtpError):
+    def __init__(
+        self,
+        category: str,
+        diagnostic: dict[str, Any] | None = None,
+    ) -> None:
+        super().__init__(category)
+        self.category = category
+        self.diagnostic = diagnostic or {}
 
 
 def _report_login_stage(
@@ -688,6 +703,262 @@ def _unique_locator(page: Any, selector: str, description: str) -> Any:
     return locator
 
 
+def _element_style(locator: Any) -> dict[str, str]:
+    try:
+        style = locator.evaluate(
+            "(element) => {"
+            "const value = window.getComputedStyle(element);"
+            "return {"
+            "display: value.display,"
+            "visibility: value.visibility,"
+            "pointer_events: value.pointerEvents"
+            "};"
+            "}"
+        )
+    except Exception:
+        return {
+            "display": "",
+            "visibility": "",
+            "pointer_events": "",
+        }
+    return {
+        "display": str(style.get("display", "")),
+        "visibility": str(style.get("visibility", "")),
+        "pointer_events": str(style.get("pointer_events", "")),
+    }
+
+
+def _positive_bounding_box(locator: Any) -> dict[str, float] | None:
+    try:
+        box = locator.bounding_box()
+    except Exception:
+        return None
+    if not isinstance(box, dict):
+        return None
+    try:
+        normalized = {
+            key: float(box[key])
+            for key in ("x", "y", "width", "height")
+        }
+    except (KeyError, TypeError, ValueError):
+        return None
+    if normalized["width"] <= 0 or normalized["height"] <= 0:
+        return None
+    return normalized
+
+
+def _nearest_login_badge(icon: Any) -> Any:
+    return icon.locator(
+        "xpath=ancestor::*["
+        "contains(concat(' ', normalize-space(@class), ' '),"
+        " ' login-badge ')"
+        "][1]"
+    )
+
+
+def _is_top_right_toggle(
+    icon_box: dict[str, float],
+    badge_box: dict[str, float],
+    heading_box: dict[str, float] | None,
+) -> bool:
+    icon_center_x = icon_box["x"] + icon_box["width"] / 2
+    icon_center_y = icon_box["y"] + icon_box["height"] / 2
+    inside_badge = (
+        badge_box["x"] <= icon_center_x
+        <= badge_box["x"] + badge_box["width"]
+        and badge_box["y"] <= icon_center_y
+        <= badge_box["y"] + badge_box["height"]
+    )
+    if not inside_badge or heading_box is None:
+        return False
+    heading_center_x = heading_box["x"] + heading_box["width"] / 2
+    heading_bottom = heading_box["y"] + heading_box["height"] * 2
+    return (
+        icon_center_x >= heading_center_x
+        and icon_center_y <= heading_bottom
+    )
+
+
+def _inspect_toggle_candidates(
+    page: Any,
+    qr_heading: Any,
+) -> tuple[Any, Any, dict[str, Any]]:
+    badges = page.locator(".login-badge")
+    icons = page.locator(".badge-icon")
+    heading_box = _positive_bounding_box(qr_heading)
+    candidates: list[dict[str, Any]] = []
+    eligible: list[tuple[Any, Any]] = []
+
+    for index in range(icons.count()):
+        icon = icons.nth(index)
+        visible = False
+        try:
+            visible = icon.is_visible()
+        except Exception:
+            pass
+        icon_box = _positive_bounding_box(icon)
+        style = _element_style(icon)
+        badge = _nearest_login_badge(icon)
+        badge_exists = badge.count() > 0
+        badge_visible = False
+        badge_box = None
+        if badge_exists:
+            try:
+                badge_visible = badge.is_visible()
+            except Exception:
+                pass
+            badge_box = _positive_bounding_box(badge)
+        style_allows_click = (
+            style["display"] != "none"
+            and style["visibility"] not in {"hidden", "collapse"}
+            and style["pointer_events"] != "none"
+        )
+        top_right = bool(
+            visible
+            and icon_box
+            and badge_visible
+            and badge_box
+            and style_allows_click
+            and _is_top_right_toggle(
+                icon_box,
+                badge_box,
+                heading_box,
+            )
+        )
+        candidates.append(
+            {
+                "index": index,
+                "visible": visible,
+                "bounding_box_exists": icon_box is not None,
+                "display": style["display"],
+                "visibility": style["visibility"],
+                "pointer_events": style["pointer_events"],
+                "inside_login_badge": badge_exists,
+                "top_right_region": top_right,
+            }
+        )
+        if top_right:
+            eligible.append((icon, badge))
+
+    diagnostic = {
+        "login_badge_count": badges.count(),
+        "badge_icon_count": icons.count(),
+        "visible_badge_icon_count": sum(
+            1 for candidate in candidates if candidate["visible"]
+        ),
+        "eligible_toggle_count": len(eligible),
+        "candidates": candidates,
+    }
+    if not eligible:
+        raise LoginToggleError("TOGGLE_NOT_FOUND", diagnostic)
+    if len(eligible) > 1:
+        raise LoginToggleError(
+            "MULTIPLE_VISIBLE_TOGGLES",
+            diagnostic,
+        )
+    icon, badge = eligible[0]
+    return icon, badge, diagnostic
+
+
+def _account_tabs_visible(password_tab: Any, dynamic_tab: Any) -> bool:
+    return (
+        _locator_has_visible_element(password_tab)
+        and _locator_has_visible_element(dynamic_tab)
+    )
+
+
+def _wait_for_account_tabs(
+    page: Any,
+    password_tab: Any,
+    dynamic_tab: Any,
+    timeout_seconds: float = 2,
+) -> bool:
+    deadline = time.monotonic() + timeout_seconds
+    while True:
+        if _account_tabs_visible(password_tab, dynamic_tab):
+            return True
+        if time.monotonic() >= deadline:
+            return False
+        try:
+            page.wait_for_timeout(100)
+        except Exception:
+            time.sleep(0.1)
+
+
+def _ordinary_toggle_click(target: Any) -> None:
+    target.scroll_into_view_if_needed(timeout=5_000)
+    target.wait_for(state="visible", timeout=5_000)
+    target.click(trial=True, timeout=5_000)
+    target.click(timeout=5_000)
+
+
+def _open_account_login_panel(
+    page: Any,
+    qr_heading: Any,
+    *,
+    stage_reporter: LoginStageReporter | None,
+) -> tuple[Any, Any]:
+    try:
+        icon, badge, diagnostic = _inspect_toggle_candidates(
+            page,
+            qr_heading,
+        )
+    except LoginToggleError as exc:
+        _report_login_stage(
+            stage_reporter,
+            "TOGGLE_CANDIDATES_INSPECTED",
+            diagnostic=exc.diagnostic,
+        )
+        raise exc
+
+    _report_login_stage(
+        stage_reporter,
+        "TOGGLE_CANDIDATES_INSPECTED",
+        diagnostic=diagnostic,
+    )
+    password_tab = page.locator(PASSWORD_LOGIN_TAB_SELECTOR)
+    dynamic_tab = page.locator(DYNAMIC_LOGIN_TAB_SELECTOR)
+    click_succeeded = False
+    click_intercepted = False
+
+    for target, stage in (
+        (badge, "TOGGLE_CLICK_LOGIN_BADGE"),
+        (icon, "TOGGLE_CLICK_BADGE_ICON"),
+    ):
+        try:
+            _ordinary_toggle_click(target)
+            click_succeeded = True
+            _report_login_stage(stage_reporter, stage)
+        except Exception:
+            click_intercepted = True
+            continue
+        if _wait_for_account_tabs(page, password_tab, dynamic_tab):
+            _report_login_stage(
+                stage_reporter,
+                "ACCOUNT_LOGIN_TOGGLE_CLICKED",
+            )
+            return password_tab, dynamic_tab
+
+    try:
+        icon.evaluate("(element) => element.click()")
+        click_succeeded = True
+        _report_login_stage(
+            stage_reporter,
+            "TOGGLE_DOM_CLICK_BADGE_ICON",
+        )
+    except Exception:
+        click_intercepted = True
+    if _wait_for_account_tabs(page, password_tab, dynamic_tab):
+        _report_login_stage(
+            stage_reporter,
+            "ACCOUNT_LOGIN_TOGGLE_CLICKED",
+        )
+        return password_tab, dynamic_tab
+    if not click_succeeded and click_intercepted:
+        raise LoginToggleError("TOGGLE_CLICK_INTERCEPTED")
+    raise LoginToggleError("ACCOUNT_PANEL_NOT_OPENED")
+
+
 def _save_login_switch_diagnostics(page: Any, reason: str) -> None:
     try:
         LOGIN_SWITCH_DIAGNOSTIC_DIR.mkdir(parents=True, exist_ok=True)
@@ -758,26 +1029,10 @@ def _switch_to_dynamic_password_login(
                     stage_reporter,
                     "QR_LOGIN_PAGE_DETECTED",
                 )
-                toggle = _unique_locator(
+                password_tab, dynamic_tab = _open_account_login_panel(
                     page,
-                    ACCOUNT_LOGIN_TOGGLE_SELECTOR,
-                    "二维码面板电脑登录切换控件",
-                )
-                toggle.wait_for(state="visible", timeout=10_000)
-                toggle.click()
-                _report_login_stage(
-                    stage_reporter,
-                    "ACCOUNT_LOGIN_TOGGLE_CLICKED",
-                )
-                password_tab = _unique_locator(
-                    page,
-                    PASSWORD_LOGIN_TAB_SELECTOR,
-                    "密码登录页签",
-                )
-                dynamic_tab = _unique_locator(
-                    page,
-                    DYNAMIC_LOGIN_TAB_SELECTOR,
-                    "动态密码登录页签",
+                    qr_heading,
+                    stage_reporter=stage_reporter,
                 )
                 password_tab.wait_for(state="visible", timeout=10_000)
                 _report_login_stage(
@@ -956,6 +1211,7 @@ def complete_dynamic_password_login(
         phone_number=phone_number,
         stage_reporter=stage_reporter,
     )
+    otp_reader.connect()
 
     request_button = _unique_locator(
         page,

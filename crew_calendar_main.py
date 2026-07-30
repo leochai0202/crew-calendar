@@ -29,6 +29,7 @@ from crew_auth_session import (
 from authenticate_crew_session import (
     AdditionalVerificationRequiredError,
     LOGIN_STAGE_NAMES,
+    LoginToggleError,
     collect_safe_login_page_snapshot,
     complete_dynamic_password_login,
 )
@@ -5050,6 +5051,19 @@ def _cloud_stage_reporter(diagnostic: dict):
                 f"LOGIN_STAGE={stage} OTP_LENGTH={otp_length}",
                 flush=True,
             )
+        elif stage == "TOGGLE_CANDIDATES_INSPECTED":
+            safe_diagnostic = details.get("diagnostic", {})
+            entry["diagnostic"] = safe_diagnostic
+            print(
+                "LOGIN_TOGGLE_DIAGNOSTIC="
+                + json.dumps(
+                    safe_diagnostic,
+                    ensure_ascii=False,
+                    separators=(",", ":"),
+                    sort_keys=True,
+                ),
+                flush=True,
+            )
         else:
             print(f"LOGIN_STAGE={stage}", flush=True)
         diagnostic["stages"].append(entry)
@@ -5153,23 +5167,29 @@ def attempt_cloud_dynamic_password_login(page) -> AuthObservation:
         )
         return observation
 
+    otp_reader = ImapOtpReader(
+        email_address,
+        auth_code,
+        host=IMAP_HOST,
+        port=IMAP_PORT,
+    )
     try:
-        with ImapOtpReader(
-            email_address,
-            auth_code,
-            host=IMAP_HOST,
-            port=IMAP_PORT,
-        ) as otp_reader:
-            observation = complete_dynamic_password_login(
-                page,
-                otp_reader,
-                manual_timeout_seconds=1,
-                phone_number=phone_number,
-                allow_manual_slider=False,
-                save_diagnostics=False,
-                stage_reporter=stage_reporter,
-                expected_otp_length=6,
-            )
+        observation = complete_dynamic_password_login(
+            page,
+            otp_reader,
+            manual_timeout_seconds=1,
+            phone_number=phone_number,
+            allow_manual_slider=False,
+            save_diagnostics=False,
+            stage_reporter=stage_reporter,
+            expected_otp_length=6,
+        )
+    except LoginToggleError as exc:
+        observation = AuthObservation(
+            AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+            AuthSignals(),
+        )
+        error_category = exc.category
     except AdditionalVerificationRequiredError:
         observation = AuthObservation(
             AuthStatus.ADDITIONAL_VERIFICATION_REQUIRED,
@@ -5206,6 +5226,8 @@ def attempt_cloud_dynamic_password_login(page) -> AuthObservation:
             if observation.status == AuthStatus.PAGE_CHANGED_OR_UNKNOWN
             else ""
         )
+    finally:
+        otp_reader.close()
 
     _write_cloud_auth_diagnostic(
         page,
