@@ -62,6 +62,7 @@ class MissionNavigationCandidate:
     def click(self, timeout: int) -> None:
         self.clicked += 1
         if self.opens_list:
+            self.page.url = calendar.MISSION_URL
             self.page.body_text = "我的任务\n07月31日 周五"
 
 
@@ -78,6 +79,7 @@ class MissionNavigationCandidates:
 
 class MissionPage:
     def __init__(self) -> None:
+        self.url = "https://cp.9cair.com/index.html"
         self.body_text = "首页\n我的任务"
         self.waits: list[int] = []
         self.candidates: list[MissionNavigationCandidate] = []
@@ -209,6 +211,24 @@ def test_open_mission_page_clicks_top_navigation_and_waits_for_day_list() -> Non
     assert top_navigation.clicked == 1
     assert top_navigation.scrolled == 1
     assert content.clicked == 0
+    assert "07月31日 周五" in page.body_text
+
+
+def test_homepage_date_does_not_bypass_mission_navigation() -> None:
+    page = MissionPage()
+    page.body_text = "首页\n我的任务\n07月30日 周四"
+    top_navigation = MissionNavigationCandidate(
+        page,
+        visible=True,
+        y=20,
+        opens_list=True,
+    )
+    page.candidates = [top_navigation]
+
+    calendar.open_mission_page(page)
+
+    assert top_navigation.clicked == 1
+    assert page.url == calendar.MISSION_URL
     assert "07月31日 周五" in page.body_text
 
 
@@ -1071,6 +1091,47 @@ def test_processing_exception_returns_one_and_closes_resources(
     assert "RuntimeError" in caplog.text
     assert "page changed <redacted>" in caplog.text
     assert "secret-auth-code" not in caplog.text
+    assert existing.read_text(encoding="utf-8") == "existing-calendar"
+    assert context.closed is True
+    assert browser.closed is True
+
+
+def test_recognized_days_with_zero_cards_stop_before_ics_write(
+    monkeypatch,
+    tmp_path: Path,
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    existing = tmp_path / "flight.ics"
+    existing.write_text("existing-calendar", encoding="utf-8")
+    install_valid_bundle(monkeypatch)
+    _, browser, context, _ = install_fake_browser(monkeypatch)
+    monkeypatch.setattr(
+        calendar,
+        "navigate_and_probe",
+        lambda page: auth.AuthObservation(
+            auth.AuthStatus.AUTHENTICATED,
+            auth.AuthSignals(),
+        ),
+    )
+    monkeypatch.setattr(calendar, "snapshot_existing_calendars", lambda: None)
+    monkeypatch.setattr(calendar, "rebuild_airport_indexes", lambda: None)
+    monkeypatch.setattr(calendar, "open_mission_page", lambda page: None)
+    monkeypatch.setattr(calendar, "detect_page_year", lambda page: 2026)
+    monkeypatch.setattr(
+        calendar,
+        "get_day_headers",
+        lambda page: ["07月31日 周五"],
+    )
+    monkeypatch.setattr(calendar, "collect_day_blocks", lambda page: [])
+    monkeypatch.setattr(
+        calendar,
+        "create_multi_calendars_from_blocks",
+        lambda *args: (_ for _ in ()).throw(
+            AssertionError("zero cards must not write ICS")
+        ),
+    )
+
+    assert calendar.run() == 1
     assert existing.read_text(encoding="utf-8") == "existing-calendar"
     assert context.closed is True
     assert browser.closed is True

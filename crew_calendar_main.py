@@ -1039,7 +1039,19 @@ MISSION_DAY_HEADER_PATTERN = re.compile(
 def _wait_for_mission_day_list(page, timeout_ms: int = 15000) -> bool:
     poll_ms = 250
     for _ in range((timeout_ms // poll_ms) + 1):
-        if MISSION_DAY_HEADER_PATTERN.search(page_text(page)):
+        if (
+            _is_mission_url(page.url)
+            and MISSION_DAY_HEADER_PATTERN.search(page_text(page))
+        ):
+            return True
+        page.wait_for_timeout(poll_ms)
+    return False
+
+
+def _wait_for_mission_url(page, timeout_ms: int = 15000) -> bool:
+    poll_ms = 250
+    for _ in range((timeout_ms // poll_ms) + 1):
+        if _is_mission_url(page.url):
             return True
         page.wait_for_timeout(poll_ms)
     return False
@@ -1061,7 +1073,7 @@ def _top_visible_mission_navigation(page):
 
 
 def open_mission_page(page):
-    if _wait_for_mission_day_list(page, timeout_ms=1000):
+    if _is_mission_url(page.url) and _wait_for_mission_day_list(page):
         logger.info("任务列表已加载")
         return
 
@@ -1069,9 +1081,15 @@ def open_mission_page(page):
     for attempt in range(1, 4):
         try:
             logger.info(f"从首页打开任务列表，尝试 {attempt}/3")
-            navigation = _top_visible_mission_navigation(page)
-            navigation.scroll_into_view_if_needed()
-            navigation.click(timeout=5000)
+            if not _is_mission_url(page.url):
+                navigation = _top_visible_mission_navigation(page)
+                navigation.scroll_into_view_if_needed()
+                navigation.click(timeout=5000)
+                if not _wait_for_mission_url(page):
+                    last_error = RuntimeError(
+                        "点击“我的任务”后 URL 未进入任务页"
+                    )
+                    continue
             if _wait_for_mission_day_list(page):
                 logger.info("任务列表已加载")
                 return
@@ -5659,8 +5677,19 @@ def run() -> int:
                 save_text("page_year.txt", str(page_year))
                 logger.info(f"页面年份: {page_year}")
 
+                recognized_day_headers = get_day_headers(page)
                 day_blocks = collect_day_blocks(page)
+                total_cards = sum(
+                    len(day.get("cards") or [])
+                    for day in day_blocks
+                    if isinstance(day, dict)
+                )
 
+                if recognized_day_headers and total_cards == 0:
+                    raise RuntimeError(
+                        "已识别日期块但未抓到任何任务卡片，"
+                        "停止写入，保护现有 ICS"
+                    )
                 if not day_blocks:
                     raise RuntimeError(
                         "未抓到任何任务块，停止写入，保护现有 ICS"
