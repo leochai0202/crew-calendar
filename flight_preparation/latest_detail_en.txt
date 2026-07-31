@@ -1,0 +1,31 @@
+I am Duan Yangshuo, a First Officer in Flight Squadron 15. My current technical level is A2, and my promotion date is January 13. In this qualification stage, I have 65 hours and 9 takeoffs and landings. I have completed 9 landings in the last 90 days and 8 in the last month; both figures include simulator sessions. Within the past three months, I have operated at Shanghai Pudong. Within the past three months, I have not operated at 普吉. My most recent landing as PF was at Shanghai Pudong Airport on June 6.
+
+Latest PF/PM feedback: as PF, the instructor noted that below 30 ft I should use slightly more aft-stick input and, after landing, decelerate below 30 kt before entering the rapid-exit taxiway; as PM, the captain noted that I should improve SOP proficiency and make standard callouts more audible; additional feedback was that at 180 kt on final I should monitor Config 2 and the aircraft state before the threshold.
+
+Risks I have identified for this flight:
+For departure from 普吉, we have identified an operational risk: We must plan descent, deceleration, and configuration early. For arrival at Shanghai Pudong, we have identified an arrival and energy-management risk: Pudong has multiple arrival procedures that may change at short notice, and direct clearances may be issued outside busy periods. For arrival at Shanghai Pudong, we have identified an approach risk: Multiple TA/RA events have occurred during approach to Pudong.
+
+普吉 Airport typical unsafe events:
+1. Late descent or a high profile can lead to overspeed, delayed configuration, and an unstable approach.
+
+Shanghai Pudong Airport typical unsafe events:
+1. A low-altitude bird strike has caused radome damage.
+2. An approach has continued after visual reference was lost at low altitude.
+3. TA/RA events have occurred during approach.
+4. Complex taxi routes and multiple hotspots create wrong-turn and runway-incursion risks.
+
+Core threats and control measures:
+
+普吉 (departure):
+1. We must plan descent, deceleration, and configuration early. After a direct clearance, radar vector, or shortened final, reassess remaining distance and energy and go around if stabilization criteria cannot be met.
+
+Shanghai Pudong (arrival):
+1. Pudong has multiple arrival procedures that may change at short notice, and direct clearances may be issued outside busy periods. Before arrival, we must cross-check the actual runway, STAR, approach, first relevant waypoint, and all altitude and speed constraints. After any direct clearance, radar vector, or runway change, update the MCDU and reassess the remaining distance, descent profile, deceleration, and configuration; go around if the approach cannot be stabilized.
+2. Multiple TA/RA events have occurred during approach to Pudong. Within the last 2000 ft before the cleared altitude, when nearby traffic is present, we must manage the vertical rate and monitor the conflict trend; comply strictly with the current RA procedure if an RA occurs.
+3. Bird activity along the coast east of Pudong may overlap the low-altitude approach path. We must monitor ATIS, ATC, and airport bird advisories and maintain an effective external scan at low altitude; after sighting a flock or sustaining a bird strike, apply the appropriate procedure for the aircraft condition and report promptly.
+4. Summer thunderstorms at Pudong may bring low cloud, reduced visibility, a wet runway, and windshear. We must use the weather radar appropriately throughout the flight and assess deviation, holding, landing performance, and diversion fuel early; execute the prescribed go-around for a windshear warning or an unstable condition.
+5. When entering a stand equipped with ADGS, if the guidance is doubtful or the ground reception personnel are not in position at a manually guided stand, we must stop, notify ATC, and keep the engines running while awaiting further action.
+
+Recent attention points:
+1. Manage configuration timing carefully. Before selecting Config 1, we must confirm that we are below FL200 (20000 ft), the approach phase is active, managed speed is selected, and the current speed is below VFE NEXT; the PM must cross-check altitude and speed.
+2. In summer, consider the lightning risk. We must keep the weather radar operating and use it appropriately throughout the flight, request deviations early from the echo trend, and avoid reactive manoeuvring at low altitude.

@@ -1,60 +1,290 @@
 {
   "status": "SUCCESS",
-  "target_date": "2026-07-23",
-  "generated_at_beijing": "2026-07-22T12:27:36.745650+08:00",
-  "generator": "flight-prep-free-v12.5-airport-specific-20260705",
+  "target_date": "2026-08-02",
+  "generated_at_beijing": "2026-07-31T20:22:06.636387+08:00",
+  "generator": "flight-prep-free-v13.1-source-bound-airport-facts",
   "flight_numbers": [
-    "9C8552"
+    "9C8522"
   ],
   "airports": [
-    "新加坡樟宜",
+    "普吉",
     "上海浦东"
   ],
-  "group_output": "2026-07-23_航前准备.txt",
-  "detail_output": "2026-07-23_航前准备_详细版.txt",
+  "group_output": "2026-08-02_航前准备.txt",
+  "detail_output": "2026-08-02_航前准备_详细版.txt",
+  "english_output": "2026-08-02_航前准备_EN.txt",
+  "english_detail_output": "2026-08-02_航前准备_详细版_EN.txt",
+  "english_generated": true,
+  "english_trigger_names": [
+    "KIM YOUNG HO(R)"
+  ],
+  "matched_event_uid": "8134e310748b56c60e5a94683ad98e51@crew-calendar",
+  "matched_flight_number": "9C8522",
+  "matched_departure": "普吉",
+  "matched_arrival": "上海浦东",
+  "matched_people": [
+    "KIM YOUNG HO(R)",
+    "段洋硕",
+    "程书青(R)",
+    "毛佳骏(B)"
+  ],
   "warnings": [
-    "新加坡樟宜匹配最新机场特点章节：新加坡樟宜机场（SIN/WSSS）威胁识别及缓解（WSSS）",
-    "上海浦东匹配最新机场特点章节：上海浦东机场（PVG/ZSPD）威胁识别及缓解措 + 上 海 / 浦 东 机 场 运 行 特 点（ZSPD）"
+    "普吉匹配最新机场特点章节：普吉机场运行特点 PHUKET(HKT/VTSP)（VTSP）",
+    "上海浦东匹配最新机场特点章节：上 海 / 浦 东 机 场 运 行 特 点（ZSPD）"
   ],
   "weather": {
-    "新加坡樟宜": {
-      "icao": "WSSS",
+    "普吉": {
+      "icao": "VTSP",
       "source_used": "TAF",
       "taf_validity_utc": [
-        "2026-07-22T03:00:00+00:00",
-        "2026-07-23T06:00:00+00:00"
+        "2026-07-31T12:00:00+00:00",
+        "2026-08-01T18:00:00+00:00"
       ],
       "relevant_times": [
-        "2026-07-23T06:15:00+08:00"
+        "2026-08-02T00:35:00+08:00"
       ],
       "decoded": [
-        "能见度1900米",
-        "雷雨",
-        "多云，云底约1500英尺"
+        "能见度106米"
       ],
       "fetch_error": ""
     },
     "上海浦东": {
       "icao": "ZSPD",
-      "source_used": "TAF",
+      "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-07-22T06:00:00+00:00",
-        "2026-07-23T12:00:00+00:00"
+        "2026-07-31T12:00:00+00:00",
+        "2026-08-01T18:00:00+00:00"
       ],
       "relevant_times": [
-        "2026-07-23T11:40:00+08:00"
+        "2026-08-02T05:55:00+08:00"
       ],
-      "decoded": [
-        "能见度1900米",
-        "雷雨"
-      ],
+      "decoded": [],
       "fetch_error": ""
     }
   },
   "airport_experience_changes": [
-    "上海浦东: 2026-07-18 -> 2026-07-21",
-    "新加坡樟宜: - -> 2026-07-21"
+    "新加坡樟宜: 2026-07-21 -> 2026-07-23",
+    "上海浦东: 2026-07-21 -> 2026-07-23",
+    "上海浦东: 2026-07-23 -> 2026-07-26",
+    "西宁曹家堡: 2026-07-13 -> 2026-07-26",
+    "南昌昌北: 2026-07-13 -> 2026-07-26",
+    "南昌昌北: 2026-07-26 -> 2026-07-27",
+    "西宁曹家堡: 2026-07-26 -> 2026-07-27",
+    "上海浦东: 2026-07-26 -> 2026-07-27",
+    "上海浦东: 2026-07-27 -> 2026-07-28",
+    "丽江三义: 2026-06-19 -> 2026-07-28"
   ],
-  "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/airport_information_20260615.txt",
-  "airport_information_version": 20260615
+  "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+  "airport_information_version": 20260720,
+  "airport_information_type": "PDF",
+  "airport_fact_ids": {
+    "普吉": {
+      "typical": [
+        "普吉_typical_approach_energy"
+      ],
+      "core": [
+        "普吉_core_approach_energy"
+      ]
+    },
+    "上海浦东": {
+      "typical": [
+        "上海浦东_typical_1",
+        "上海浦东_typical_2",
+        "上海浦东_typical_3",
+        "上海浦东_typical_4"
+      ],
+      "core": [
+        "zspd_arrival_change_energy",
+        "zspd_tcas",
+        "zspd_bird",
+        "zspd_thunderstorm",
+        "zspd_adgs_entry"
+      ]
+    }
+  },
+  "english_airport_fact_ids": {
+    "普吉": {
+      "typical": [
+        "普吉_typical_approach_energy"
+      ],
+      "core": [
+        "普吉_core_approach_energy"
+      ]
+    },
+    "上海浦东": {
+      "typical": [
+        "上海浦东_typical_1",
+        "上海浦东_typical_2",
+        "上海浦东_typical_3",
+        "上海浦东_typical_4"
+      ],
+      "core": [
+        "zspd_arrival_change_energy",
+        "zspd_tcas",
+        "zspd_bird",
+        "zspd_thunderstorm",
+        "zspd_adgs_entry"
+      ]
+    }
+  },
+  "airport_fact_sources": {
+    "普吉": [
+      {
+        "fact_id": "普吉_typical_approach_energy",
+        "airport": "普吉",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "普吉机场运行特点 PHUKET(HKT/VTSP)",
+        "source_section": "普吉机场运行特点 PHUKET(HKT/VTSP)／典型不安全事件",
+        "operational_phase": "incident",
+        "text_zh": "进近阶段可能因下降指挥偏晚或剖面偏高出现超速、构型建立偏晚和不稳定进近。",
+        "text_en": "Late descent or a high profile can lead to overspeed, delayed configuration, and an unstable approach.",
+        "airport_specific": true,
+        "category": "typical"
+      },
+      {
+        "fact_id": "普吉_core_approach_energy",
+        "airport": "普吉",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "普吉机场运行特点 PHUKET(HKT/VTSP)",
+        "source_section": "普吉机场运行特点 PHUKET(HKT/VTSP)／核心威胁与运行特点",
+        "operational_phase": "unspecified",
+        "text_zh": "进近前应提前完成下降、减速和构型计划，收到直飞、雷达引导或五边内切指令后重新评估剩余距离和高距比；无法在规定高度达到稳定进近标准时应果断复飞。",
+        "text_en": "We must plan descent, deceleration, and configuration early. After a direct clearance, radar vector, or shortened final, reassess remaining distance and energy and go around if stabilization criteria cannot be met.",
+        "airport_specific": true,
+        "category": "core"
+      }
+    ],
+    "上海浦东": [
+      {
+        "fact_id": "上海浦东_typical_1",
+        "airport": "上海浦东",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "CURATED",
+        "source_page": "448-451",
+        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
+        "source_section": "上海浦东人工精选／典型不安全事件",
+        "operational_phase": "incident",
+        "text_zh": "曾发生低高度鸟击并造成雷达罩损伤事件。",
+        "text_en": "A low-altitude bird strike has caused radome damage.",
+        "airport_specific": true,
+        "category": "typical"
+      },
+      {
+        "fact_id": "上海浦东_typical_2",
+        "airport": "上海浦东",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "CURATED",
+        "source_page": "448-451",
+        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
+        "source_section": "上海浦东人工精选／典型不安全事件",
+        "operational_phase": "incident",
+        "text_zh": "曾发生低高度失去目视参考后继续进近事件。",
+        "text_en": "An approach has continued after visual reference was lost at low altitude.",
+        "airport_specific": true,
+        "category": "typical"
+      },
+      {
+        "fact_id": "上海浦东_typical_3",
+        "airport": "上海浦东",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "CURATED",
+        "source_page": "448-451",
+        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
+        "source_section": "上海浦东人工精选／典型不安全事件",
+        "operational_phase": "incident",
+        "text_zh": "曾发生进近阶段TA/RA事件。",
+        "text_en": "TA/RA events have occurred during approach.",
+        "airport_specific": true,
+        "category": "typical"
+      },
+      {
+        "fact_id": "上海浦东_typical_4",
+        "airport": "上海浦东",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "CURATED",
+        "source_page": "448-451",
+        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
+        "source_section": "上海浦东人工精选／典型不安全事件",
+        "operational_phase": "incident",
+        "text_zh": "地面滑行路线复杂、热点较多，存在滑错路线和跑道侵入风险。",
+        "text_en": "Complex taxi routes and multiple hotspots create wrong-turn and runway-incursion risks.",
+        "airport_specific": true,
+        "category": "typical"
+      },
+      {
+        "fact_id": "zspd_arrival_change_energy",
+        "airport": "上海浦东",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "450-451",
+        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
+        "source_section": "20260720手册第450-451页／进场程序、临时更改与直飞",
+        "operational_phase": "arrival",
+        "text_zh": "浦东进场程序较多且有时临时更改，非繁忙时段可能收到直飞。进场前我们应核对实际跑道、STAR、进近方式、第一相关航路点及全部高度速度限制；收到直飞、雷达引导或跑道变化后立即修改MCDU并重新评估剩余距离、下降剖面、减速和构型，不能稳定时复飞。",
+        "text_en": "Pudong has multiple arrival procedures that may change at short notice, and direct clearances may be issued outside busy periods. Before arrival, we must cross-check the actual runway, STAR, approach, first relevant waypoint, and all altitude and speed constraints. After any direct clearance, radar vector, or runway change, update the MCDU and reassess the remaining distance, descent profile, deceleration, and configuration; go around if the approach cannot be stabilized.",
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "zspd_tcas",
+        "airport": "上海浦东",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "448,451",
+        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
+        "source_section": "20260720手册第448、451页／其他威胁：进近TA/RA",
+        "operational_phase": "approach",
+        "text_zh": "浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
+        "text_en": "Multiple TA/RA events have occurred during approach to Pudong. Within the last 2000 ft before the cleared altitude, when nearby traffic is present, we must manage the vertical rate and monitor the conflict trend; comply strictly with the current RA procedure if an RA occurs.",
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "zspd_bird",
+        "airport": "上海浦东",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "448",
+        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
+        "source_section": "20260720手册第448页／其他威胁：东侧海岸鸟类活动",
+        "operational_phase": "approach",
+        "text_zh": "浦东东侧海岸鸟类活动与低高度进近航迹可能重叠。我们应关注ATIS、ATC和机场鸟情通报，加强低高度外部观察；发现鸟群或发生鸟击后，根据飞机状态执行程序并及时报告。",
+        "text_en": "Bird activity along the coast east of Pudong may overlap the low-altitude approach path. We must monitor ATIS, ATC, and airport bird advisories and maintain an effective external scan at low altitude; after sighting a flock or sustaining a bird strike, apply the appropriate procedure for the aircraft condition and report promptly.",
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "zspd_thunderstorm",
+        "airport": "上海浦东",
+        "source_file": "config/airport_supplements.json",
+        "source": "supplement",
+        "source_page": "N/A",
+        "source_heading": "上海浦东",
+        "source_section": "airport_supplements.json／上海浦东／core_threats／夏季雷雨",
+        "operational_phase": "weather",
+        "text_zh": "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
+        "text_en": "Summer thunderstorms at Pudong may bring low cloud, reduced visibility, a wet runway, and windshear. We must use the weather radar appropriately throughout the flight and assess deviation, holding, landing performance, and diversion fuel early; execute the prescribed go-around for a windshear warning or an unstable condition.",
+        "airport_specific": false,
+        "category": "core"
+      },
+      {
+        "fact_id": "zspd_adgs_entry",
+        "airport": "上海浦东",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "448",
+        "source_heading": "上海/浦东机场运行特点",
+        "source_section": "二、核心威胁／4.其他威胁／第(3)项",
+        "operational_phase": "ground",
+        "text_zh": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。",
+        "text_en": "When entering a stand equipped with ADGS, if the guidance is doubtful or the ground reception personnel are not in position at a manually guided stand, we must stop, notify ATC, and keep the engines running while awaiting further action.",
+        "airport_specific": true,
+        "category": "core"
+      }
+    ]
+  }
 }
