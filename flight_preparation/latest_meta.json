@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-08-02",
-  "generated_at_beijing": "2026-08-01T02:08:52.217705+08:00",
+  "generated_at_beijing": "2026-08-01T12:30:00.691775+08:00",
   "generator": "flight-prep-free-v13.1-source-bound-airport-facts",
   "flight_numbers": [
     "9C8522"
@@ -35,29 +35,37 @@
   "weather": {
     "普吉": {
       "icao": "VTSP",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-08-01T00:00:00+00:00",
+        "2026-08-02T06:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-08-02T00:35:00+08:00"
       ],
-      "decoded": [],
+      "decoded": [
+        "能见度100米"
+      ],
       "fetch_error": ""
     },
     "上海浦东": {
       "icao": "ZSPD",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-08-01T06:00:00+00:00",
+        "2026-08-02T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-08-02T05:55:00+08:00"
       ],
-      "decoded": [],
+      "decoded": [
+        "能见度103米",
+        "强雷雨"
+      ],
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [
-    "上海浦东: 2026-07-28 -> 2026-07-31",
-    "普吉: - -> 2026-07-31"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
   "airport_information_version": 20260720,
   "airport_information_type": "PDF",
