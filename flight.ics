@@ -1702,7 +1702,7 @@ UID:8134e310748b56c60e5a94683ad98e51@crew-calendar
 SUMMARY:✈️ 9C8522 普吉→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260802T003500
 DTEND;TZID=Asia/Shanghai:20260802T055500
-DESCRIPTION:08月02日 周日\n类型：航班\n航班：9C8522\n航线：普吉 → 上海浦东\n地点：普吉\n签到：22:45｜普吉\n任务：00:35 - 05:55\n机型：A320｜注册号：B329U\n\n人员名单：\n• KIM YOUNG HO(R)\n• 段洋硕\n• 程书青(R)\n• 毛佳骏(B)\n\n版本：2026-08-02 19:02
+DESCRIPTION:08月02日 周日\n类型：航班\n航班：9C8522\n航线：普吉 → 上海浦东\n地点：普吉\n签到：22:45｜普吉\n任务：00:35 - 05:55\n机型：A320｜注册号：B329U\n\n人员名单：\n• KIM YOUNG HO(R)\n• 段洋硕\n• 程书青(R)\n• 毛佳骏(B)\n\n版本：2026-08-02 19:45
 X-CONTENT-SIGNATURE:2d71a78882fd9311bb409f8c3c8c42ad
 LOCATION:普吉
 BEGIN:VALARM
@@ -1716,7 +1716,7 @@ UID:f04a1d91822c4ab0c05f4346066c10bb@crew-calendar
 SUMMARY:✈️ 9C8523 上海浦东→恩施许家坪
 DTSTART;TZID=Asia/Shanghai:20260804T070500
 DTEND;TZID=Asia/Shanghai:20260804T093500
-DESCRIPTION:08月04日 周二\n类型：航班\n航班：9C8523\n航线：上海浦东 → 恩施许家坪\n地点：上海浦东\n签到：05:15｜上海浦东\n任务：07:05 - 09:35\n机型：A320｜注册号：B32HK\n\n人员名单：\n• 宋磊(T\,R)\n• 李明亮(R)\n• 段洋硕\n• 韦承贇(B)\n\n版本：2026-08-02 19:02
+DESCRIPTION:08月04日 周二\n类型：航班\n航班：9C8523\n航线：上海浦东 → 恩施许家坪\n地点：上海浦东\n签到：05:15｜上海浦东\n任务：07:05 - 09:35\n机型：A320｜注册号：B32HK\n\n人员名单：\n• 宋磊(T\,R)\n• 李明亮(R)\n• 段洋硕\n• 韦承贇(B)\n\n版本：2026-08-02 19:45
 X-CONTENT-SIGNATURE:295086145a748244b77c46267d2f7f10
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -1730,7 +1730,7 @@ UID:066db756d0137e8b89e1ef6b8d0d2962@crew-calendar
 SUMMARY:✈️ 9C8524 恩施许家坪→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260804T102000
 DTEND;TZID=Asia/Shanghai:20260804T123500
-DESCRIPTION:08月04日 周二\n类型：航班\n航班：9C8524\n航线：恩施许家坪 → 上海浦东\n地点：恩施许家坪\n签到：08:45｜恩施许家坪\n任务：10:20 - 12:35\n机型：A320｜注册号：B32HK\n\n人员名单：\n• 宋磊(T\,R)\n• 李明亮(R)\n• 段洋硕\n• 韦承贇(B)\n\n版本：2026-08-02 19:02
+DESCRIPTION:08月04日 周二\n类型：航班\n航班：9C8524\n航线：恩施许家坪 → 上海浦东\n地点：恩施许家坪\n签到：08:45｜恩施许家坪\n任务：10:20 - 12:35\n机型：A320｜注册号：B32HK\n\n人员名单：\n• 宋磊(T\,R)\n• 李明亮(R)\n• 段洋硕\n• 韦承贇(B)\n\n版本：2026-08-02 19:45
 X-CONTENT-SIGNATURE:dbc927d541a88d5c87ee89e5a0a3b796
 LOCATION:恩施许家坪
 BEGIN:VALARM
@@ -1744,7 +1744,7 @@ UID:b5e89d57d0ad1683bf6d5ae6002032d0@crew-calendar
 SUMMARY:✈️ 9C7021 上海浦东→沈阳桃仙(+1)
 DTSTART;TZID=Asia/Shanghai:20260807T213500
 DTEND;TZID=Asia/Shanghai:20260808T000500
-DESCRIPTION:08月07日 周五\n类型：航班\n航班：9C7021\n航线：上海浦东 → 沈阳桃仙(+1)\n地点：上海浦东\n签到：19:45｜上海浦东\n任务：21:35 - 00:05\n机型：A320｜注册号：B1627\n\n人员名单：\n• 王谊晨\n• 李易聪\n• 段洋硕\n• 秦梦(B)\n\n版本：2026-08-02 19:02
+DESCRIPTION:08月07日 周五\n类型：航班\n航班：9C7021\n航线：上海浦东 → 沈阳桃仙(+1)\n地点：上海浦东\n签到：19:45｜上海浦东\n任务：21:35 - 00:05\n机型：A320｜注册号：B1627\n\n人员名单：\n• 王谊晨\n• 李易聪\n• 段洋硕\n• 秦梦(B)\n\n版本：2026-08-02 19:45
 X-CONTENT-SIGNATURE:39ca76b4ce31c765827554bc769d7519
 LOCATION:上海浦东
 BEGIN:VALARM
