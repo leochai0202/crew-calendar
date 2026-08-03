@@ -147,6 +147,14 @@ class BilingualFact:
     role_scope: tuple[str, ...] = ()
     importance: int = 50
     semantic_key: str = ""
+    source_text_zh: str = ""
+    operational_condition: tuple[str, ...] = ()
+    applicability: tuple[str, ...] = ()
+    risk: tuple[str, ...] = ()
+    mitigation: tuple[str, ...] = ()
+    restriction: tuple[str, ...] = ()
+    excluded_source_clauses: tuple[str, ...] = ()
+    exclusion_reasons: tuple[str, ...] = ()
 
     # Compatibility aliases keep the rendering code and older tests readable while
     # the structured names above make provenance explicit.
@@ -161,6 +169,15 @@ class BilingualFact:
     @property
     def en(self) -> str:
         return self.text_en
+
+
+@dataclass(frozen=True)
+class SourceSemantics:
+    operational_condition: tuple[str, ...] = ()
+    applicability: tuple[str, ...] = ()
+    risk: tuple[str, ...] = ()
+    mitigation: tuple[str, ...] = ()
+    restriction: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -3343,7 +3360,7 @@ def bind_catalog_fact(fact: BilingualFact) -> BilingualFact:
         "semantic_key": fact.fact_id,
         **metadata,
     }
-    return replace(fact, **resolved)
+    return attach_source_semantics(replace(fact, **resolved))
 
 
 def _text_bigrams(value: str) -> set[str]:
@@ -3400,6 +3417,197 @@ def best_source_record(
     }
 
 
+SOURCE_RESTRICTION_RE = re.compile(r"禁止|只能|仅允许|必须|不得|严禁|限制")
+SOURCE_MITIGATION_RE = re.compile(r"应|建议|注意|需|请|防止|避免|控制|确认|使用|采取")
+SOURCE_RISK_RE = re.compile(r"风险|易|可能|导致|触发|威胁|危险")
+SOURCE_APPLICABILITY_RE = re.compile(
+    r"\d{2}号(?:跑道)?|跑道|起飞|离场|进场|进近|着陆|落地|滑行|经停|过站"
+)
+COMPOUND_LANDING_DISTANCE_RE = re.compile(
+    r"(?P<runways>\d{2}(?:\s*和\s*\d{2})+)号(?:跑道)?的?"
+    r"实际着陆可用距离为"
+    r"(?P<distances>\d+\s*米(?:\s*和\s*\d+\s*米)+)"
+)
+RUNWAY_ENTRY_DISPLACEMENT_RE = re.compile(
+    r"(?:跑道)?(?:两头|两端|两侧)?(?:均|都)?(?:有)?(?:跑道)?入口(?:有)?内移"
+)
+
+
+def source_semantics(text: str) -> SourceSemantics:
+    clauses = tuple(
+        unique(
+            [
+                clause.strip()
+                for clause in re.split(r"[，,；;。]+", normalize_text(text))
+                if clause.strip()
+            ]
+        )
+    )
+    restriction = tuple(
+        clause for clause in clauses if SOURCE_RESTRICTION_RE.search(clause)
+    )
+    mitigation = tuple(
+        clause
+        for clause in clauses
+        if clause not in restriction and SOURCE_MITIGATION_RE.search(clause)
+    )
+    risk = tuple(
+        clause
+        for clause in clauses
+        if clause not in restriction
+        and clause not in mitigation
+        and SOURCE_RISK_RE.search(clause)
+    )
+    operational_condition = tuple(
+        clause
+        for clause in clauses
+        if clause not in restriction and clause not in mitigation and clause not in risk
+    )
+    applicability = tuple(
+        unique(SOURCE_APPLICABILITY_RE.findall(normalize_text(text)))
+    )
+    return SourceSemantics(
+        operational_condition=operational_condition,
+        applicability=applicability,
+        risk=risk,
+        mitigation=mitigation,
+        restriction=restriction,
+    )
+
+
+def attach_source_semantics(fact: BilingualFact) -> BilingualFact:
+    original = fact.source_text_zh or fact.text_zh
+    semantics = source_semantics(original)
+    return replace(
+        fact,
+        source_text_zh=original,
+        operational_condition=(
+            fact.operational_condition or semantics.operational_condition
+        ),
+        applicability=fact.applicability or semantics.applicability,
+        risk=fact.risk or semantics.risk,
+        mitigation=fact.mitigation or semantics.mitigation,
+        restriction=fact.restriction or semantics.restriction,
+    )
+
+
+def landing_prohibited_runways(
+    airport: str,
+    records: list[dict[str, object]],
+) -> set[str]:
+    canonical = canonical_airport_name(airport)
+    runways: set[str] = set()
+    for record in records:
+        if canonical_airport_name(str(record.get("airport", ""))) != canonical:
+            continue
+        if str(record.get("category", "")) != "core":
+            continue
+        text = normalize_text(str(record.get("text_zh", "")))
+        record_runways = set(
+            re.findall(r"(?<!\d)(\d{2})号(?:跑道)?", text)
+        )
+        clauses = [
+            clause.strip()
+            for clause in re.split(r"[，,；;。]+", text)
+            if clause.strip()
+        ]
+        for clause in clauses:
+            landing_prohibited = bool(
+                ("禁止" in clause and ("进近" in clause or "着陆" in clause))
+                or ("只能" in clause and "起飞" in clause)
+                or ("仅允许" in clause and "起飞" in clause)
+            )
+            if not landing_prohibited:
+                continue
+            clause_runways = set(
+                re.findall(r"(?<!\d)(\d{2})号(?:跑道)?", clause)
+            )
+            if clause_runways:
+                runways.update(clause_runways)
+            elif len(record_runways) == 1:
+                runways.update(record_runways)
+    return runways
+
+
+def project_source_fact_for_applicability(
+    text: str,
+    *,
+    landing_prohibited: set[str],
+) -> tuple[str, tuple[str, ...], tuple[str, ...]]:
+    """Conservatively remove inapplicable runway-distance pairs.
+
+    Only an explicitly paired runway/distance list is projected, and only when a
+    separate source restriction prohibits landing on one of those runways. All
+    remaining clauses, especially mitigations and restrictions, stay verbatim.
+    Unrecognised structures are returned unchanged.
+    """
+    original = strip_terminal_punct(normalize_text(text))
+    rewritten = original
+    excluded: list[str] = []
+    reasons: list[str] = []
+    match = COMPOUND_LANDING_DISTANCE_RE.search(original)
+    if match:
+        runways = re.findall(r"\d{2}", match.group("runways"))
+        distances = re.findall(r"\d+\s*米", match.group("distances"))
+        if len(runways) == len(distances):
+            retained = [
+                (runway, distance.replace(" ", ""))
+                for runway, distance in zip(runways, distances)
+                if runway not in landing_prohibited
+            ]
+            removed = [
+                (runway, distance.replace(" ", ""))
+                for runway, distance in zip(runways, distances)
+                if runway in landing_prohibited
+            ]
+            if retained and removed:
+                if len(retained) == 1:
+                    runway_text = f"{retained[0][0]}号跑道"
+                    distance_text = retained[0][1]
+                else:
+                    runway_text = "和".join(item[0] for item in retained) + "号跑道"
+                    distance_text = "和".join(item[1] for item in retained)
+                replacement = (
+                    f"{runway_text}的实际着陆可用距离为{distance_text}"
+                )
+                rewritten = (
+                    original[: match.start()]
+                    + replacement
+                    + original[match.end() :]
+                )
+                if RUNWAY_ENTRY_DISPLACEMENT_RE.search(rewritten):
+                    rewritten = RUNWAY_ENTRY_DISPLACEMENT_RE.sub(
+                        f"{runway_text}入口内移",
+                        rewritten,
+                        count=1,
+                    )
+                    rewritten = rewritten.replace(
+                        f"，{runway_text}的实际着陆可用距离",
+                        "，实际着陆可用距离",
+                        1,
+                    )
+                for runway, distance in removed:
+                    excluded.append(
+                        f"{runway}号跑道实际着陆可用距离为{distance}"
+                    )
+                    reasons.append(
+                        f"同一机场来源限制明确{runway}号跑道禁止进近着陆"
+                    )
+
+    conditional_measure = re.compile(
+        r"请结合(?P<basis>[^，。；（）()]*?(?:计算)?结果)"
+        r"采取(?:相关)?措施[（(](?P<measure>[^）)]+)[）)]"
+    )
+    rewritten = conditional_measure.sub(
+        lambda item: (
+            f"应结合{item.group('basis')}采取措施，"
+            f"如计算需要再{item.group('measure')}"
+        ),
+        rewritten,
+    )
+    return rewritten.rstrip("。") + "。", tuple(excluded), tuple(reasons)
+
+
 def source_record_facts(
     airport: str,
     records: list[dict[str, object]],
@@ -3414,6 +3622,7 @@ def source_record_facts(
     filled with a generic airport template.
     """
     canonical = canonical_airport_name(airport)
+    prohibited_runways = landing_prohibited_runways(canonical, records)
     facts_by_semantic: dict[str, BilingualFact] = {}
     ordered_records = sorted(
         enumerate(records, start=1),
@@ -3427,34 +3636,16 @@ def source_record_facts(
             continue
         if str(record.get("category", "")) != category:
             continue
-        text_zh = str(record.get("text_zh", "")).strip()
+        source_text_zh = str(record.get("text_zh", "")).strip()
+        text_zh, excluded_clauses, exclusion_reasons = (
+            project_source_fact_for_applicability(
+                source_text_zh,
+                landing_prohibited=prohibited_runways,
+            )
+        )
         text_en = str(record.get("text_en", "")).strip()
-        if canonical == "恩施许家坪" and category == "core":
-            if "01号跑道起飞有载重限制" in text_zh:
-                text_zh = (
-                    "01号跑道起飞有载重限制，应结合FLY SMART计算结果采取措施，"
-                    "如计算需要再关空调起飞。"
-                )
-                text_en = (
-                    "Runway 01 takeoff is payload limited. Apply the FLY SMART result "
-                    "and, if the calculation requires it, take off with the air "
-                    "conditioning off."
-                )
-            elif (
-                "2410米和2350米" in text_zh
-                and "实际着陆可用距离" in text_zh
-            ):
-                text_zh = "01号跑道入口内移，实际着陆可用距离为2410米。"
-                text_en = (
-                    "The Runway 01 threshold is displaced; the actual landing distance "
-                    "available is 2,410 m."
-                )
-            elif "19号跑道只能" in text_zh and "禁止进近" in text_zh:
-                text_zh = "19号跑道只能起飞，禁止进近着陆。"
-                text_en = (
-                    "Runway 19 is restricted to takeoff only; approaches and landings "
-                    "are prohibited."
-                )
+        original_semantics = source_semantics(source_text_zh)
+        rendered_semantics = source_semantics(text_zh)
         concept_name = str(record.get("semantic_key", "")).strip()
         phase = str(record.get("operational_phase") or "unspecified")
         if not (text_zh and text_en):
@@ -3519,6 +3710,14 @@ def source_record_facts(
             role_scope=tuple(record.get("role_scope") or ()),
             importance=importance,
             semantic_key=semantic_key,
+            source_text_zh=source_text_zh,
+            operational_condition=rendered_semantics.operational_condition,
+            applicability=rendered_semantics.applicability,
+            risk=original_semantics.risk,
+            mitigation=original_semantics.mitigation,
+            restriction=original_semantics.restriction,
+            excluded_source_clauses=excluded_clauses,
+            exclusion_reasons=exclusion_reasons,
         )
     return list(facts_by_semantic.values())
 
@@ -3647,40 +3846,48 @@ def airport_operational_facts(
         source_pages = CURATED_CORE_SOURCE_PAGES.get(canonical, ())
         location = AIRPORT_SOURCE_LOCATIONS.get(canonical, {})
         candidates = [
-            BilingualFact(
-                f"{canonical}_core_{index}",
-                zh,
-                en,
-                airport=canonical,
-                source_file=str(location.get("source_file", AIRPORT_MANUAL_FILE)),
-                source="CURATED",
-                source_page=(
-                    source_pages[index - 1]
-                    if index <= len(source_pages)
-                    else str(location.get("source_page", "N/A"))
-                ),
-                source_heading=str(location.get("source_heading", canonical)),
-                source_section=f"{canonical}人工精选／核心威胁第{index}条",
-                operational_phase=phases[index - 1] if index <= len(phases) else "unspecified",
-                airport_specific=True,
-                category="core",
-                importance=(
-                    99
-                    if any(
-                        token in zh
-                        for token in (
-                            "GPS",
-                            "禁止",
-                            "必须",
-                            "高度限制",
-                            "速度限制",
-                            "地形",
-                            "CFIT",
+            attach_source_semantics(
+                BilingualFact(
+                    f"{canonical}_core_{index}",
+                    zh,
+                    en,
+                    airport=canonical,
+                    source_file=str(
+                        location.get("source_file", AIRPORT_MANUAL_FILE)
+                    ),
+                    source="CURATED",
+                    source_page=(
+                        source_pages[index - 1]
+                        if index <= len(source_pages)
+                        else str(location.get("source_page", "N/A"))
+                    ),
+                    source_heading=str(location.get("source_heading", canonical)),
+                    source_section=f"{canonical}人工精选／核心威胁第{index}条",
+                    operational_phase=(
+                        phases[index - 1]
+                        if index <= len(phases)
+                        else "unspecified"
+                    ),
+                    airport_specific=True,
+                    category="core",
+                    importance=(
+                        99
+                        if any(
+                            token in zh
+                            for token in (
+                                "GPS",
+                                "禁止",
+                                "必须",
+                                "高度限制",
+                                "速度限制",
+                                "地形",
+                                "CFIT",
+                            )
                         )
-                    )
-                    else (90 if index <= 2 else 75)
-                ),
-                semantic_key=f"{canonical}_core_{index}",
+                        else (90 if index <= 2 else 75)
+                    ),
+                    semantic_key=f"{canonical}_core_{index}",
+                )
             )
             for index, (zh, en) in enumerate(zip(chinese, english), start=1)
         ]
@@ -3923,6 +4130,93 @@ def critical_fact_tokens(value: str) -> set[str]:
     return tokens
 
 
+SOURCE_OPERATIONAL_ANCHORS = (
+    "中档刹车",
+    "关空调",
+    "FLY SMART",
+    "滑行速度",
+    "入口内移",
+    "着陆可用距离",
+    "载重限制",
+    "地形",
+    "程序",
+    "起飞",
+    "离场",
+    "进场",
+    "进近",
+    "着陆",
+    "滑行",
+    "速度",
+    "高度",
+    "距离",
+    "刹车",
+    "PAPI",
+    "VOR",
+    "CFIT",
+)
+
+
+def source_semantic_anchors(value: str) -> set[str]:
+    text = normalize_text(value)
+    upper = text.upper()
+    anchors = {
+        token.upper()
+        for token in SOURCE_OPERATIONAL_ANCHORS
+        if token.upper() in upper
+    }
+    anchors.update(
+        match.upper().replace(" ", "")
+        for match in re.findall(
+            r"(?<!\d)\d{2}号(?:跑道)?|"
+            r"(?<!\d)\d+(?:\.\d+)?\s*(?:米|英尺|FT|M|节|秒|分钟|公里|%)",
+            text,
+            flags=re.IGNORECASE,
+        )
+    )
+    anchors.update(
+        f"{runway}号"
+        for runway in re.findall(
+            r"(?<!\d)(\d{2})(?=号|和\d{2}号|、\d{2}号)",
+            text,
+        )
+    )
+    return anchors
+
+
+def validate_source_semantic_preservation(fact: BilingualFact) -> list[str]:
+    """Ensure a rendered source fact retains explicit source controls and facts."""
+    if not fact.source_text_zh.strip():
+        return []
+
+    rendered = normalize_text(fact.text_zh)
+    excluded_anchors: set[str] = set()
+    for clause in fact.excluded_source_clauses:
+        excluded_anchors.update(source_semantic_anchors(clause))
+    required_anchors = (
+        source_semantic_anchors(fact.source_text_zh) - excluded_anchors
+    )
+    rendered_anchors = source_semantic_anchors(rendered)
+    missing_anchors = sorted(required_anchors - rendered_anchors)
+    errors = [
+        f"来源语义未完整保留：{fact.fact_id}缺少{','.join(missing_anchors)}"
+    ] if missing_anchors else []
+
+    source_controls = "；".join([*fact.mitigation, *fact.restriction])
+    control_groups = (
+        (r"禁止|不得|严禁", r"禁止|不得|严禁", "禁止性要求"),
+        (r"只能|仅允许", r"只能|仅允许", "唯一允许范围"),
+        (r"必须", r"必须", "强制要求"),
+        (r"限制", r"限制", "限制条件"),
+        (r"应|建议|注意|需", r"应|建议|注意|需", "控制措施"),
+    )
+    for source_pattern, rendered_pattern, label in control_groups:
+        if re.search(source_pattern, source_controls) and not re.search(
+            rendered_pattern, rendered
+        ):
+            errors.append(f"来源语义未完整保留：{fact.fact_id}缺少{label}")
+    return errors
+
+
 def validate_bilingual_facts(facts: list[BilingualFact]) -> list[str]:
     errors: list[str] = []
     for fact in facts:
@@ -3960,6 +4254,8 @@ def validate_airport_fact_bindings(
             errors.append(f"机场事实缺少运行阶段：{fact.fact_id}")
         if not fact.text_zh.strip():
             errors.append(f"机场事实缺少中文内容：{fact.fact_id}")
+        if len(fact.excluded_source_clauses) != len(fact.exclusion_reasons):
+            errors.append(f"机场事实排除条款缺少原因：{fact.fact_id}")
     return errors
 
 
@@ -4425,6 +4721,8 @@ def main() -> int:
                     [*typical_facts[airport], *core_facts[airport]],
                 )
             )
+            for fact in [*typical_facts[airport], *core_facts[airport]]:
+                errors.extend(validate_source_semantic_preservation(fact))
         if english_required:
             errors.extend(validate_bilingual_facts(all_facts))
             errors.extend(
@@ -4499,7 +4797,26 @@ def main() -> int:
                             "source_page": fact.source_page,
                             "source_heading": fact.source_heading,
                             "source_section": fact.source_section,
+                            "source_text_zh": fact.source_text_zh,
                             "operational_phase": fact.operational_phase,
+                            "operational_condition": list(fact.operational_condition),
+                            "applicability": list(fact.applicability),
+                            "risk": list(fact.risk),
+                            "mitigation": list(fact.mitigation),
+                            "restriction": list(fact.restriction),
+                            "excluded_source_clauses": [
+                                {
+                                    "clause": clause,
+                                    "reason": (
+                                        fact.exclusion_reasons[index]
+                                        if index < len(fact.exclusion_reasons)
+                                        else "明确记录为不适用于当前运行"
+                                    ),
+                                }
+                                for index, clause in enumerate(
+                                    fact.excluded_source_clauses
+                                )
+                            ],
                             "text_zh": fact.text_zh,
                             "text_en": fact.text_en,
                             "airport_specific": fact.airport_specific,
@@ -4509,6 +4826,21 @@ def main() -> int:
                     ]
                     for airport in airports
                 },
+                "excluded_source_clauses": [
+                    {
+                        "airport": airport,
+                        "fact_id": fact.fact_id,
+                        "clause": clause,
+                        "reason": (
+                            fact.exclusion_reasons[index]
+                            if index < len(fact.exclusion_reasons)
+                            else "明确记录为不适用于当前运行"
+                        ),
+                    }
+                    for airport in airports
+                    for fact in core_facts[airport]
+                    for index, clause in enumerate(fact.excluded_source_clauses)
+                ],
             },
         )
         atomic_write_text(success_marker, "SUCCESS\n")

@@ -365,6 +365,112 @@ def test_structurally_complete_briefing_has_no_length_floor() -> None:
     ) == []
 
 
+def test_source_semantics_preserve_controls_without_airport_special_cases() -> None:
+    def record(airport: str, fact_id: str, text: str) -> dict[str, object]:
+        return {
+            "airport": airport,
+            "fact_id": fact_id,
+            "source_file": "knowledge/test-airport-manual.pdf",
+            "source": "PDF",
+            "source_page": "10",
+            "source_heading": f"{airport}运行特点",
+            "source_section": "核心威胁",
+            "operational_phase": "landing",
+            "airport_specific": True,
+            "category": "core",
+            "text_zh": text,
+            "text_en": "",
+        }
+
+    distance_airport = "测试甲机场"
+    terrain_airport = "测试乙机场"
+    taxi_airport = "测试丙机场"
+    records = [
+        record(
+            distance_airport,
+            "distance-control",
+            "跑道两头均有跑道入口内移，01和19号的实际着陆可用距离为"
+            "2410米和2350米，应使用中档刹车。",
+        ),
+        record(
+            distance_airport,
+            "landing-restriction",
+            "19号跑道只能用于起飞，禁止进近及着陆。",
+        ),
+        record(
+            terrain_airport,
+            "terrain-control",
+            "机场北侧地形复杂，必须严格按程序飞行。",
+        ),
+        record(
+            taxi_airport,
+            "taxi-control",
+            "滑行道宽度较窄，需严格控制滑行速度。",
+        ),
+    ]
+
+    distance_facts = agent.source_record_facts(
+        distance_airport, records, category="core"
+    )
+    distance = next(fact for fact in distance_facts if fact.fact_id == "distance-control")
+    assert "01号跑道入口内移" in distance.zh
+    assert "实际着陆可用距离为2410米" in distance.zh
+    assert "应使用中档刹车" in distance.zh
+    assert "19号" not in distance.zh and "2350米" not in distance.zh
+    assert distance.excluded_source_clauses
+    assert distance.exclusion_reasons
+    assert agent.validate_source_semantic_preservation(distance) == []
+    assert all(fact.airport == agent.canonical_airport_name(distance_airport) for fact in distance_facts)
+    assert all("地形复杂" not in fact.zh for fact in distance_facts)
+    assert all("滑行道宽度" not in fact.zh for fact in distance_facts)
+
+    terrain = agent.source_record_facts(
+        terrain_airport, records, category="core"
+    )[0]
+    assert "机场北侧地形复杂" in terrain.zh
+    assert "必须严格按程序飞行" in terrain.zh
+    assert agent.validate_source_semantic_preservation(terrain) == []
+
+    taxi = agent.source_record_facts(taxi_airport, records, category="core")[0]
+    assert "滑行道宽度较窄" in taxi.zh
+    assert "需严格控制滑行速度" in taxi.zh
+    assert agent.validate_source_semantic_preservation(taxi) == []
+
+    no_measure = agent.source_record_facts(
+        "测试丁机场",
+        [record("测试丁机场", "no-measure", "滑行道宽度为18米。")],
+        category="core",
+    )[0]
+    assert no_measure.zh == "滑行道宽度为18米。"
+    assert no_measure.mitigation == ()
+    assert not any(token in no_measure.zh for token in ("应", "建议", "注意", "需"))
+
+
+def test_source_semantic_validation_detects_removed_measure() -> None:
+    fact = agent.BilingualFact(
+        "removed-measure",
+        "01号跑道实际着陆可用距离为2410米。",
+        "",
+        airport="测试甲机场",
+        source_file="knowledge/test-airport-manual.pdf",
+        source="PDF",
+        source_page="10",
+        source_heading="测试甲机场运行特点",
+        source_section="核心威胁",
+        category="core",
+        source_text_zh=(
+            "01号跑道实际着陆可用距离为2410米，应使用中档刹车。"
+        ),
+        operational_condition=("01号跑道实际着陆可用距离为2410米",),
+        applicability=("01号跑道", "着陆"),
+        mitigation=("应使用中档刹车",),
+    )
+
+    errors = agent.validate_source_semantic_preservation(fact)
+    assert any("中档刹车" in error for error in errors)
+    assert any("控制措施" in error for error in errors)
+
+
 def test_each_repeated_airport_time_is_evaluated(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -507,8 +613,11 @@ def test_real_august_four_final_confirmed_format(
         "运行特点：",
     ):
         assert raw_heading not in content
-    assert "01号跑道入口内移，实际着陆可用距离为2410米" in content
-    assert "19号跑道只能起飞，禁止进近着陆" in content
+    assert (
+        "01号跑道入口内移，实际着陆可用距离为2410米，应使用中档刹车"
+        in content
+    )
+    assert "19号跑道只能用于起飞，禁止进近及着陆" in content
     assert "2350米" not in content
     assert (
         "01号跑道起飞有载重限制，应结合FLY SMART计算结果采取措施，"
@@ -524,4 +633,11 @@ def test_real_august_four_final_confirmed_format(
     assert meta["english_generated"] is False
     assert not (output / "latest_en.txt").exists()
     assert not (output / "2026-08-04_航前准备_详细版.txt").exists()
+    excluded = meta["excluded_source_clauses"]
+    assert any(
+        item["airport"] == "恩施许家坪"
+        and "19号跑道" in item["clause"]
+        and "禁止进近着陆" in item["reason"]
+        for item in excluded
+    )
     assert hashlib.sha256((REPO_ROOT / "flight.ics").read_bytes()).hexdigest() == original_hash
