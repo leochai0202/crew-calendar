@@ -1191,19 +1191,22 @@ def _taf_fm_time(marker: str, reference: datetime) -> datetime | None:
     return min(candidates, key=lambda value: abs((value - ref).total_seconds()))
 
 
-def taf_text_for_time(raw: str, operational_time: datetime) -> str:
+def _taf_components_for_time(
+    raw: str,
+    operational_time: datetime,
+) -> list[tuple[str, str]]:
     report = normalize_text(raw).upper()
     validity = parse_taf_validity(report, operational_time)
     moment = operational_time.astimezone(timezone.utc)
     if not validity or not (validity[0] <= moment <= validity[1]):
-        return ""
+        return []
 
     markers = list(TAF_CHANGE_MARKER_RE.finditer(report))
     if not markers:
-        return report
+        return [("", report)]
 
     persistent = [report[: markers[0].start()].strip()]
-    temporary: list[str] = []
+    temporary: list[tuple[str, str]] = []
     for index, marker_match in enumerate(markers):
         end = markers[index + 1].start() if index + 1 < len(markers) else len(report)
         marker = marker_match.group(0)
@@ -1215,17 +1218,40 @@ def taf_text_for_time(raw: str, operational_time: datetime) -> str:
                 persistent = [body]
         elif marker == "BECMG":
             period = _taf_period(group_text, operational_time)
-            if period and moment >= period[0]:
+            if period and period[0] <= moment < period[1]:
+                # During the transition, retain both states so risk extraction is
+                # conservative. After the transition, the new state replaces the
+                # old state and obsolete restrictions are no longer reported.
                 persistent.append(body)
+            elif period and moment >= period[1]:
+                persistent = [body]
         else:
             period = _taf_period(group_text, operational_time)
             if period and period[0] <= moment <= period[1]:
-                temporary.append(body)
-    return " ".join(part for part in [*persistent, *temporary] if part)
+                temporary.append((marker, body))
+    return [("", part) for part in persistent if part] + temporary
+
+
+def taf_text_for_time(raw: str, operational_time: datetime) -> str:
+    return " ".join(
+        f"{qualifier} {body}".strip()
+        for qualifier, body in _taf_components_for_time(raw, operational_time)
+        if body
+    )
 
 
 def decode_taf_for_time(raw: str, operational_time: datetime) -> list[str]:
-    return decode_weather_report(taf_text_for_time(raw, operational_time))
+    decoded: list[str] = []
+    for qualifier, body in _taf_components_for_time(raw, operational_time):
+        items = decode_weather_report(body)
+        if qualifier.startswith("PROB30"):
+            prefix = "30%概率短时" if "TEMPO" in qualifier else "30%概率"
+            items = [prefix + item for item in items]
+        elif qualifier.startswith("PROB40"):
+            prefix = "40%概率短时" if "TEMPO" in qualifier else "40%概率"
+            items = [prefix + item for item in items]
+        decoded.extend(items)
+    return unique(decoded)
 
 
 def parse_metar_observation(raw: str, reference: datetime) -> datetime | None:
@@ -1267,8 +1293,6 @@ def weather_risk_sentence(
     metadata: dict[str, dict] = {}
     now = now_beijing()
     relevant_map = relevant_airport_times(flights or [])
-    fallback_needed = False
-
     for airport in airports:
         icao = icao_map.get(airport, "")
         result = fetch_airport_weather(icao, timeout=timeout)
@@ -1335,7 +1359,9 @@ def weather_risk_sentence(
             else:
                 sentences.append(short + "当前METAR未识别出需特别提示的天气现象，最终以航前最新报文、放行资料及ATIS为准")
         else:
-            fallback_needed = True
+            sentences.append(
+                short + "航班时段天气以航前最新TAF/METAR及放行资料为准"
+            )
 
         if result.error:
             warnings.append(f"{airport}天气获取提示：{result.error}")
@@ -1349,10 +1375,7 @@ def weather_risk_sentence(
             "fetch_error": result.error,
         }
 
-    if fallback_needed:
-        sentences.append("航班时段天气以航前最新TAF/METAR及放行资料为准")
-
-    return "；".join(sentences) + ("。" if sentences else ""), warnings, metadata
+    return "。".join(sentences) + ("。" if sentences else ""), warnings, metadata
 
 def expand_incident_items(items: list[str]) -> list[str]:
     out: list[str] = []
@@ -3406,6 +3429,32 @@ def source_record_facts(
             continue
         text_zh = str(record.get("text_zh", "")).strip()
         text_en = str(record.get("text_en", "")).strip()
+        if canonical == "恩施许家坪" and category == "core":
+            if "01号跑道起飞有载重限制" in text_zh:
+                text_zh = (
+                    "01号跑道起飞有载重限制，应结合FLY SMART计算结果采取措施，"
+                    "如计算需要再关空调起飞。"
+                )
+                text_en = (
+                    "Runway 01 takeoff is payload limited. Apply the FLY SMART result "
+                    "and, if the calculation requires it, take off with the air "
+                    "conditioning off."
+                )
+            elif (
+                "2410米和2350米" in text_zh
+                and "实际着陆可用距离" in text_zh
+            ):
+                text_zh = "01号跑道入口内移，实际着陆可用距离为2410米。"
+                text_en = (
+                    "The Runway 01 threshold is displaced; the actual landing distance "
+                    "available is 2,410 m."
+                )
+            elif "19号跑道只能" in text_zh and "禁止进近" in text_zh:
+                text_zh = "19号跑道只能起飞，禁止进近着陆。"
+                text_en = (
+                    "Runway 19 is restricted to takeoff only; approaches and landings "
+                    "are prohibited."
+                )
         concept_name = str(record.get("semantic_key", "")).strip()
         phase = str(record.get("operational_phase") or "unspecified")
         if not (text_zh and text_en):
@@ -3753,6 +3802,7 @@ def duty_risk_text(
     core_facts: dict[str, list[BilingualFact]],
     weather_sentence: str,
 ) -> str:
+    del core_facts  # Core airport facts belong only in the dedicated threat section.
     flights = list(duty.events) if isinstance(duty, DutyContext) else [duty]
     sentences: list[str] = []
     first, last = flights[0], flights[-1]
@@ -3789,26 +3839,22 @@ def duty_risk_text(
                 f"{airport_with_suffix(record.get('airport', ''))}，"
                 "应重点复习最新机场特点和有效程序"
             )
-    for airport in duty.route:
-        selected = core_facts.get(airport, [])[:1]
-        if selected:
-            summary = _first_operational_sentence(
-                clean_output_fact(selected[0].zh)
-            )
-            if summary:
-                sentences.append(
-                    f"我们识别到{airport_with_suffix(airport)}"
-                    f"的主要运行风险为{strip_terminal_punct(summary)}"
-                )
-    weather = strip_terminal_punct(weather_sentence)
-    if weather:
-        sentences.append(weather)
-    else:
-        sentences.append("航班时段天气以航前最新TAF/METAR及放行资料为准")
-    sentences.append(
-        "最新有效PIB/NOTAM以航前放行资料为准，不对尚未取得的通告内容作推断"
+    paragraphs: list[str] = []
+    if sentences:
+        paragraphs.append("；".join(unique(sentences)) + "。")
+    weather = weather_sentence.strip()
+    if not weather:
+        weather = "。".join(
+            f"{airport_with_suffix(airport)}航班时段天气以航前最新TAF/METAR及放行资料为准"
+            for airport in duty.route
+        ) + "。"
+    elif not weather.endswith("。"):
+        weather += "。"
+    paragraphs.append(weather)
+    paragraphs.append(
+        "最新有效PIB/NOTAM以航前放行资料为准，不对尚未取得的通告内容作推断。"
     )
-    return "；".join(unique(sentences)) + "。"
+    return "".join(paragraphs)
 
 
 FACT_GUARD_TOKENS = (
@@ -3981,7 +4027,7 @@ def render_english_briefing(
 
     airports = unique([airport for airport in event.route if airport])
     for airport in airports:
-        items = typical_facts[airport][:5]
+        items = typical_facts[airport]
         numbered = "\n".join(
             f"{index}. {fact.en.strip().rstrip('.')}."
             for index, fact in enumerate(items, start=1)
@@ -4173,9 +4219,19 @@ def validate_content(
     ):
         errors.append("正文仍包含旧版栏目或黑点列表")
 
-    minimum = 700
-    if len(content.strip()) < minimum:
-        errors.append("正文过短，疑似生成不完整")
+    for airport in airports:
+        if language == "zh":
+            typical_title = f"{airport_with_suffix(airport)}典型不安全事件："
+            core_title = f"{airport_with_suffix(airport)}："
+        else:
+            typical_title = (
+                f"{english_airport_name(airport)} Airport typical unsafe events:"
+            )
+            core_title = f"{english_airport_name(airport)} Airport:"
+        if not re.search(rf"(?m)^{re.escape(typical_title)}\n1\.\s*\S", content):
+            errors.append(f"{typical_title}缺少编号事件内容")
+        if not re.search(rf"(?m)^{re.escape(core_title)}\n\S", content):
+            errors.append(f"{core_title}缺少核心威胁内容")
     return errors
 
 
@@ -4259,7 +4315,10 @@ def main() -> int:
         icao_map = {airport: resolve_icao(airport, mapping) for airport in airports}
 
         weather_meta: dict[str, dict] = {}
-        weather_sentence = "航班时段天气以航前最新TAF/METAR及放行资料为准。"
+        weather_sentence = "。".join(
+            f"{airport_with_suffix(airport)}航班时段天气以航前最新TAF/METAR及放行资料为准"
+            for airport in airports
+        ) + "。"
         warnings: list[str] = []
         if settings.get("include_weather_section", True):
             weather_sentence, weather_warnings, weather_meta = weather_risk_sentence(

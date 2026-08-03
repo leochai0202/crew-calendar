@@ -363,8 +363,9 @@ def test_bilingual_render_hides_internal_flight_metadata() -> None:
         assert value not in english
     assert "机组" not in chinese
     risk_paragraph = _paragraph(chinese, "个人对本次航班中识别的风险：")
-    assert "我们识别到新加坡" in risk_paragraph
-    assert "我们识别到上海浦东" in risk_paragraph
+    assert "我们识别到本次为早班" in risk_paragraph
+    assert "最新有效PIB/NOTAM" in risk_paragraph
+    assert "主要运行风险为" not in risk_paragraph
     assert agent.validate_bilingual_facts(facts) == []
 
 

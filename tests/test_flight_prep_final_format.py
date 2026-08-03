@@ -194,7 +194,9 @@ def test_taf_change_groups_apply_only_to_each_operational_time() -> None:
         "PROB30 TEMPO 0102/0104 2000 TSRA BKN010"
     )
     cross_day_time = datetime(2026, 8, 1, 10, 30, tzinfo=BEIJING)
-    assert "雷雨" in agent.decode_taf_for_time(cross_day, cross_day_time)
+    probability = agent.decode_taf_for_time(cross_day, cross_day_time)
+    assert "30%概率短时雷雨" in probability
+    assert "雷雨" not in probability
 
     becoming = (
         "TAF ZSPD 030500Z 0306/0412 9999 SCT020 "
@@ -204,6 +206,163 @@ def test_taf_change_groups_apply_only_to_each_operational_time() -> None:
     during_becoming = datetime(2026, 8, 3, 17, 0, tzinfo=BEIJING)
     assert "能见度3000米" not in agent.decode_taf_for_time(becoming, before_becoming)
     assert "能见度3000米" in agent.decode_taf_for_time(becoming, during_becoming)
+
+    improving = (
+        "TAF ZSPD 030500Z 0306/0412 3000 BR BKN008 "
+        "BECMG 0308/0310 9999 SCT020"
+    )
+    after_improving = datetime(2026, 8, 3, 18, 30, tzinfo=BEIJING)
+    improved = agent.decode_taf_for_time(improving, after_improving)
+    assert "能见度3000米" not in improved
+    assert "能见度10公里以上" in improved
+
+
+def test_weather_fallback_is_named_for_each_uncovered_airport(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    first = _event(
+        "one",
+        "9C1001",
+        "上海浦东",
+        "恩施许家坪",
+        datetime(2026, 8, 4, 7, 0, tzinfo=BEIJING),
+        datetime(2026, 8, 4, 9, 30, tzinfo=BEIJING),
+    )
+    monkeypatch.setattr(
+        agent,
+        "fetch_airport_weather",
+        lambda *args, **kwargs: SimpleNamespace(
+            icao="", metar="", taf="", error="weather unavailable"
+        ),
+    )
+
+    sentence, _, _ = agent.weather_risk_sentence(
+        ["上海浦东", "恩施许家坪"],
+        {"上海浦东": "ZSPD", "恩施许家坪": "ZHES"},
+        1,
+        target=TARGET,
+        flights=[first],
+    )
+
+    assert sentence == (
+        "上海浦东机场航班时段天气以航前最新TAF/METAR及放行资料为准。"
+        "恩施许家坪机场航班时段天气以航前最新TAF/METAR及放行资料为准。"
+    )
+
+
+def test_personal_risk_does_not_repeat_first_core_fact() -> None:
+    first = _event(
+        "one",
+        "9C1001",
+        "上海浦东",
+        "恩施许家坪",
+        datetime(2026, 8, 4, 7, 0, tzinfo=BEIJING),
+        datetime(2026, 8, 4, 9, 0, tzinfo=BEIJING),
+    )
+    second = _event(
+        "two",
+        "9C1002",
+        "恩施许家坪",
+        "上海浦东",
+        datetime(2026, 8, 4, 10, 0, tzinfo=BEIJING),
+        datetime(2026, 8, 4, 12, 0, tzinfo=BEIJING),
+    )
+    sentinel = agent.BilingualFact(
+        "sentinel",
+        "不应重复到个人风险的机场核心事实",
+        "Core fact that must not be repeated in personal risks",
+        airport="上海浦东",
+    )
+
+    text = agent.duty_risk_text(
+        agent.DutyContext((first, second)),
+        [{"airport": "恩施许家坪", "within": False}],
+        {"上海浦东": [sentinel], "恩施许家坪": []},
+        "上海浦东机场航班时段天气以航前最新TAF/METAR及放行资料为准。",
+    )
+
+    assert "不应重复到个人风险的机场核心事实" not in text
+    assert "2段连续任务" in text
+    assert "近3个月未运行过恩施许家坪机场" in text
+    assert "最新有效PIB/NOTAM" in text
+
+
+def test_english_typical_events_are_not_truncated() -> None:
+    event = _event(
+        "one",
+        "9C1001",
+        "上海浦东",
+        "恩施许家坪",
+        datetime(2026, 8, 4, 7, 0, tzinfo=BEIJING),
+        datetime(2026, 8, 4, 9, 0, tzinfo=BEIJING),
+    )
+    airports = ["上海浦东", "恩施许家坪"]
+    typical = {
+        airport: [
+            agent.BilingualFact(
+                f"{airport}-{index}",
+                f"事件{index}",
+                f"Event {index}",
+                airport=airport,
+            )
+            for index in range(1, 7)
+        ]
+        for airport in airports
+    }
+    core = {
+        airport: [
+            agent.BilingualFact(
+                f"{airport}-core",
+                "核心事实",
+                "Core fact",
+                airport=airport,
+            )
+        ]
+        for airport in airports
+    }
+    profile = json.loads(
+        (REPO_ROOT / "config" / "pilot_profile.json").read_text(encoding="utf-8")
+    )
+
+    content = agent.render_english_briefing(
+        event,
+        TARGET,
+        profile,
+        [],
+        typical,
+        core,
+    )
+
+    assert content.count("6. Event 6.") == 2
+
+
+def test_structurally_complete_briefing_has_no_length_floor() -> None:
+    event = _event(
+        "one",
+        "9C1001",
+        "上海浦东",
+        "恩施许家坪",
+        datetime(2026, 8, 4, 7, 0, tzinfo=BEIJING),
+        datetime(2026, 8, 4, 9, 0, tzinfo=BEIJING),
+    )
+    content = (
+        "我是来自飞行十五中队的副驾驶段洋硕。\n\n"
+        "个人对本次航班中识别的风险：\n风险以有效资料为准。\n\n"
+        "上海浦东机场典型不安全事件：\n1.事件。\n\n"
+        "恩施许家坪机场典型不安全事件：\n1.事件。\n\n"
+        "核心威胁：\n\n"
+        "上海浦东机场：\n来源事实。\n\n"
+        "恩施许家坪机场：\n来源事实。\n"
+    )
+
+    assert len(content) < 700
+    assert agent.validate_content(
+        content,
+        event,
+        {"name": "段洋硕"},
+        ["上海浦东", "恩施许家坪"],
+        language="zh",
+    ) == []
 
 
 def test_each_repeated_airport_time_is_evaluated(
@@ -321,6 +480,10 @@ def test_real_august_four_final_confirmed_format(
     assert "最新有效PIB/NOTAM以航前放行资料为准" in content
     assert "•" not in content
     assert "None" not in content and "null" not in content
+    risk_section = content.split("个人对本次航班中识别的风险：", 1)[1].split(
+        "上海浦东机场典型不安全事件：", 1
+    )[0]
+    assert "主要运行风险为" not in risk_section
     assert (
         "上一次作为PF教员评价：RNP进近五边速度180节时注意形态二，"
         "入口前关注飞机状态；作为PM机长评价：增加SOP熟练度，"
@@ -344,6 +507,13 @@ def test_real_august_four_final_confirmed_format(
         "运行特点：",
     ):
         assert raw_heading not in content
+    assert "01号跑道入口内移，实际着陆可用距离为2410米" in content
+    assert "19号跑道只能起飞，禁止进近着陆" in content
+    assert "2350米" not in content
+    assert (
+        "01号跑道起飞有载重限制，应结合FLY SMART计算结果采取措施，"
+        "如计算需要再关空调起飞"
+    ) in content
 
     assert meta["flight_numbers"] == ["9C8523", "9C8524"]
     assert meta["airports"] == ["上海浦东", "恩施许家坪"]
