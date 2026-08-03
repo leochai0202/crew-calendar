@@ -86,18 +86,6 @@
       "flight_number": "9C7257",
       "within_90_days": true
     },
-    "西宁": {
-      "last_operated": "2026-04-09",
-      "source": "completed_schedule_event",
-      "flight_number": "9C6834",
-      "within_90_days": false
-    },
-    "曹家堡上海虹桥": {
-      "last_operated": "2026-04-09",
-      "source": "completed_schedule_event",
-      "flight_number": "9C6834",
-      "within_90_days": false
-    },
     "宁波栎社": {
       "last_operated": "2026-07-18",
       "source": "completed_schedule_event",
@@ -109,18 +97,6 @@
       "source": "completed_schedule_event",
       "flight_number": "9C8994",
       "within_90_days": true
-    },
-    "石家": {
-      "last_operated": "2026-04-18",
-      "source": "completed_schedule_event",
-      "flight_number": "9C6319",
-      "within_90_days": false
-    },
-    "庄正定泉州晋江": {
-      "last_operated": "2026-04-18",
-      "source": "completed_schedule_event",
-      "flight_number": "9C6319",
-      "within_90_days": false
     },
     "天津滨海": {
       "last_operated": "2026-04-19",
@@ -171,9 +147,9 @@
       "within_90_days": true
     },
     "大连周水子": {
-      "last_operated": "2026-06-27",
+      "last_operated": "2026-06-30",
       "source": "completed_schedule_event",
-      "flight_number": "9C6595Y",
+      "flight_number": "9C6777X",
       "within_90_days": true
     },
     "济南遥墙": {
@@ -189,9 +165,9 @@
       "within_90_days": true
     },
     "扬州泰州": {
-      "last_operated": "2026-06-15",
+      "last_operated": "2026-06-30",
       "source": "completed_schedule_event",
-      "flight_number": "9C7603Y",
+      "flight_number": "9C6777X",
       "within_90_days": true
     },
     "郑州新郑": {
@@ -222,18 +198,6 @@
       "last_operated": "2026-06-22",
       "source": "completed_schedule_event",
       "flight_number": "9C8574",
-      "within_90_days": true
-    },
-    "ZYTL": {
-      "last_operated": "2026-06-30",
-      "source": "completed_schedule_event",
-      "flight_number": "9C6777X",
-      "within_90_days": true
-    },
-    "ZSYA": {
-      "last_operated": "2026-06-30",
-      "source": "completed_schedule_event",
-      "flight_number": "9C6777X",
       "within_90_days": true
     },
     "杭州萧山": {

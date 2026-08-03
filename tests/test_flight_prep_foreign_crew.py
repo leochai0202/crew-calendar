@@ -168,8 +168,14 @@ def _run_stubbed_main(
     monkeypatch: pytest.MonkeyPatch,
     repo: Path,
     event: CalendarEvent,
+    *,
+    existing_english: str = "",
 ) -> Path:
     _prepare_stub_repo(repo, [event])
+    if existing_english:
+        output = repo / "flight_preparation"
+        output.mkdir()
+        (output / "latest_en.txt").write_text(existing_english, encoding="utf-8")
     monkeypatch.setattr(agent, "airport_risks", _stub_airport_risks)
     monkeypatch.setattr(
         agent,
@@ -237,7 +243,7 @@ def test_international_flight_without_foreign_name_does_not_trigger_english(
     assert not (output / "latest_detail_en.txt").exists()
 
 
-def test_domestic_flight_with_latin_name_generates_english(
+def test_domestic_flight_with_latin_name_requires_english_confirmation(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
 ) -> None:
@@ -250,13 +256,42 @@ def test_domestic_flight_with_latin_name_generates_english(
         checkin="08:00｜上海浦东",
     )
 
-    output = _run_stubbed_main(monkeypatch, tmp_path / "domestic", event)
+    output = _run_stubbed_main(
+        monkeypatch,
+        tmp_path / "domestic",
+        event,
+        existing_english="existing confirmed English briefing\n",
+    )
     meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
 
     assert agent.should_generate_english(event)
     assert foreign_crew_names(event) == ["JOHN SMITH(R)"]
-    assert meta["english_generated"] is True
-    assert (output / "latest_en.txt").exists()
+    assert meta["foreign_crew_detected"] is True
+    assert meta["foreign_crew_names"] == ["JOHN SMITH(R)"]
+    assert meta["english_confirmation_required"] is True
+    assert meta["english_generated"] is False
+    assert (output / "latest_en.txt").read_text(encoding="utf-8") == (
+        "existing confirmed English briefing\n"
+    )
+
+
+def test_legacy_automatic_english_setting_cannot_bypass_confirmation() -> None:
+    event = _event(
+        uid="foreign-confirmation",
+        number="9C1001",
+        departure="上海浦东",
+        arrival="南昌昌北",
+        people=["JOHN SMITH(R)", "段洋硕"],
+    )
+
+    generate, confirmation, names = agent.english_generation_decision(
+        event,
+        {"foreign_crew_english_mode": "always"},
+    )
+
+    assert generate is False
+    assert confirmation is True
+    assert names == ["JOHN SMITH(R)"]
 
 
 def test_bilingual_render_hides_internal_flight_metadata() -> None:
@@ -290,7 +325,7 @@ def test_bilingual_render_hides_internal_flight_metadata() -> None:
         event, TARGET_DATE, profile, records, typical, core
     )
 
-    assert chinese.startswith("我是飞行十五中队副驾驶段洋硕")
+    assert chinese.startswith("我是来自飞行十五中队的副驾驶段洋硕")
     assert english.startswith("I am Duan Yangshuo")
     assert "a First Officer in Flight Squadron 15" in english
     assert (
@@ -300,23 +335,20 @@ def test_bilingual_render_hides_internal_flight_metadata() -> None:
     assert "None of the airports on this flight lacks recent experience." not in english
     chinese_order = [
         chinese.index("上一次飞行中机长/教员对我优缺点的评价"),
-        chinese.index("个人对本次航班识别的风险："),
+        chinese.index("个人对本次航班中识别的风险："),
         chinese.index("新加坡樟宜机场典型不安全事件："),
-        chinese.index("核心威胁与控制措施："),
-        chinese.index("近期注意点："),
+        chinese.index("核心威胁："),
     ]
     english_order = [
         english.index("Latest PF/PM feedback:"),
         english.index("Risks I have identified for this flight:"),
         english.index("Singapore Changi Airport typical unsafe events:"),
-        english.index("Core threats and control measures:"),
-        english.index("Recent attention points:"),
+        english.index("Core threats:"),
     ]
     assert chinese_order == sorted(chinese_order)
     assert english_order == sorted(english_order)
     for value in (
         "9C8552",
-        "04:25",
         "B32D6",
         "MARQUES SANTANNA HELIO",
         "左争世",
@@ -325,19 +357,18 @@ def test_bilingual_render_hides_internal_flight_metadata() -> None:
         "新加坡樟宜至上海浦东",
         "Singapore Changi-Shanghai Pudong",
         "人员名单",
-        "签到",
         "注册号",
     ):
         assert value not in chinese
         assert value not in english
     assert "机组" not in chinese
-    risk_paragraph = _paragraph(chinese, "个人对本次航班识别的风险：")
+    risk_paragraph = _paragraph(chinese, "个人对本次航班中识别的风险：")
     assert "我们识别到新加坡" in risk_paragraph
-    assert "我们识别到浦东" in risk_paragraph
+    assert "我们识别到上海浦东" in risk_paragraph
     assert agent.validate_bilingual_facts(facts) == []
 
 
-def test_singapore_irs_is_first_core_fact_and_airports_are_capped_at_five() -> None:
+def test_singapore_irs_is_first_core_fact_and_content_stays_role_scoped() -> None:
     event = _event(
         uid="roles",
         number="9C8552",
@@ -364,8 +395,7 @@ def test_singapore_irs_is_first_core_fact_and_airports_are_capped_at_five() -> N
         "As Singapore is a low-latitude airport, confirm a full IRS alignment during cockpit preparation. "
         "Cross-check the runway, SID, initial altitude, first waypoint, and all altitude and speed constraints."
     )
-    assert all(1 <= len(items) <= 5 for items in core.values())
-    assert all(len(items) <= 5 for items in typical.values())
+    assert all(items for items in core.values())
     assert agent.validate_bilingual_facts(facts) == []
 
 
@@ -750,7 +780,6 @@ def test_xining_nanchang_real_route_keeps_own_special_limits() -> None:
     for foreign_fact in ("FOLLOW GREEN", "IRS完全校准", "full IRS alignment", "浦东"):
         assert foreign_fact not in combined
     for airport in event.route:
-        assert len(core[airport]) <= 5
         assert agent.validate_airport_fact_bindings(
             airport,
             [*typical[airport], *core[airport]],
@@ -758,7 +787,7 @@ def test_xining_nanchang_real_route_keeps_own_special_limits() -> None:
 
 
 @pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含20260720机场手册PDF")
-def test_real_9c8552_exact_event_bilingual_regression(
+def test_real_9c8552_exact_event_requires_english_confirmation(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
 ) -> None:
@@ -817,21 +846,21 @@ def test_real_9c8552_exact_event_bilingual_regression(
 
     output = repo / "flight_preparation"
     chinese = (output / "latest.txt").read_text(encoding="utf-8")
-    english = (output / "latest_en.txt").read_text(encoding="utf-8")
     meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
 
-    assert meta["matched_flight_number"] == "9C8552"
-    assert meta["matched_departure"] == "新加坡樟宜"
-    assert meta["matched_arrival"] == "上海浦东"
+    assert meta["flight_numbers"] == ["9C8552"]
+    assert meta["matched_event_uids"]
     assert meta["matched_people"] == EXPECTED_PEOPLE
     assert meta["english_trigger_names"] == ["MARQUES SANTANNA HELIO(R)"]
-    assert meta["english_generated"] is True
+    assert meta["foreign_crew_detected"] is True
+    assert meta["english_confirmation_required"] is True
+    assert meta["english_generated"] is False
     assert meta["airport_information_version"] == 20260720
     assert meta["airport_information_type"] == "PDF"
+    assert not (output / "latest_en.txt").exists()
 
     for value in (
         "9C8552",
-        "04:25",
         "B32D6",
         "MARQUES SANTANNA HELIO",
         "左争世",
@@ -840,31 +869,19 @@ def test_real_9c8552_exact_event_bilingual_regression(
         "新加坡樟宜至上海浦东",
         "Singapore Changi-Shanghai Pudong",
         "人员名单",
-        "签到",
         "注册号",
     ):
         assert value not in chinese
-        assert value not in english
-    assert chinese.startswith("我是飞行十五中队副驾驶段洋硕")
-    assert english.startswith("I am Duan Yangshuo")
+    assert chinese.startswith("我是来自飞行十五中队的副驾驶段洋硕")
     assert "刘总好" not in chinese
     assert "机组" not in chinese
 
     assert "新加坡属于低纬度机场" in chinese
     assert "确认完成IRS完全校准" in chinese
-    assert "As Singapore is a low-latitude airport" in english
-    assert "confirm a full IRS alignment" in english
-    assert _numbered_count(chinese, "新加坡樟宜（起飞）：") == 5
-    assert _numbered_count(chinese, "浦东（落地）：") == 5
-    assert _numbered_count(english, "Singapore Changi (departure):") == 5
-    assert _numbered_count(english, "Shanghai Pudong (arrival):") == 5
-    assert "FOLLOW GREEN" not in _paragraph(chinese, "浦东（落地）：")
-    assert "FOLLOW GREEN" not in _paragraph(english, "Shanghai Pudong (arrival):")
-    assert "50秒" not in _paragraph(chinese, "浦东（落地）：")
-    assert "50 seconds" not in _paragraph(english, "Shanghai Pudong (arrival):")
+    assert "FOLLOW GREEN" not in _paragraph(chinese, "上海浦东机场：")
+    assert "50秒" not in _paragraph(chinese, "上海浦东机场：")
     assert "zspd_adgs_entry" in meta["airport_fact_ids"]["上海浦东"]["core"]
     assert "zspd_runway_occupancy" not in meta["airport_fact_ids"]["上海浦东"]["core"]
-    assert meta["airport_fact_ids"] == meta["english_airport_fact_ids"]
     assert set(meta["airport_fact_sources"]) == {"新加坡樟宜", "上海浦东"}
     for airport, facts in meta["airport_fact_sources"].items():
         assert all(item["airport"] == airport for item in facts)
@@ -874,17 +891,9 @@ def test_real_9c8552_exact_event_bilingual_regression(
         assert all(item["source_section"] for item in facts)
         assert all(item["fact_id"] for item in facts)
 
+    pudong_core = chinese.split("核心威胁：", 1)[1].split("上海浦东机场：", 1)[1]
     for token in ("进场", "雷雨", "TA/RA", "鸟击", "下降剖面", "ADGS"):
-        assert token in _paragraph(chinese, "浦东（落地）：")
-    for token in (
-        "arrival",
-        "thunderstorms",
-        "TA/RA",
-        "bird",
-        "descent profile",
-        "ADGS",
-    ):
-        assert token in _paragraph(english, "Shanghai Pudong (arrival):")
+        assert token in pudong_core
 
     for artifact in (
         "非受控文件",
@@ -901,7 +910,6 @@ def test_real_9c8552_exact_event_bilingual_regression(
         "丽江",
     ):
         assert artifact not in chinese
-        assert artifact not in english
 
     selected = select_exact_flight_event(
         parse_ics(repo / "flight.ics"),

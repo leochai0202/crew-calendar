@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -103,10 +104,10 @@ def test_pdf_failure_falls_back_to_txt(
     pdf_dir.mkdir(parents=True)
     pdf = pdf_dir / "AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
     pdf.write_bytes(b"%PDF-broken")
-    txt = knowledge / "airport_information_20260615.txt"
+    txt = knowledge / "airport_information_20260720.txt"
     txt_text = "\n".join(
         [
-            "版本号 20260615",
+            "版本号 20260720",
             "上海 / 浦东 机场运行特点（ZSPD）",
             "典型不安全事件",
             "1. 曾发生鸟击事件。",
@@ -131,10 +132,44 @@ def test_pdf_failure_falls_back_to_txt(
 
     assert "上海浦东" in data
     assert Path(source) == txt.resolve()
-    assert version == 20260615
+    assert version == 20260720
     assert source_type == "TXT"
     assert any("模拟PDF读取失败" in warning for warning in warnings)
     assert any("已安全回退" in warning for warning in warnings)
+
+
+def test_pdf_failure_does_not_fall_back_to_older_txt(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    knowledge = tmp_path / "knowledge"
+    pdf_dir = knowledge / "pdf"
+    pdf_dir.mkdir(parents=True)
+    pdf = pdf_dir / "AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
+    pdf.write_bytes(b"%PDF-broken")
+    older = knowledge / "airport_information_20260615.txt"
+    older.write_text(
+        "版本号 20260615\n上海浦东机场运行特点\n典型不安全事件\n1. 旧事件。",
+        encoding="utf-8",
+    )
+
+    monkeypatch.setattr(
+        agent,
+        "read_manual_text",
+        lambda path: (_ for _ in ()).throw(RuntimeError("模拟PDF读取失败")),
+    )
+    data, source, version, source_type, warnings = agent.manual_airport_data(
+        knowledge,
+        ["上海浦东"],
+        {"上海浦东": "ZSPD"},
+        max_items=5,
+    )
+
+    assert data == {}
+    assert source == ""
+    assert version == 0
+    assert source_type == ""
+    assert any("模拟PDF读取失败" in warning for warning in warnings)
 
 
 @pytest.mark.parametrize(
@@ -214,7 +249,7 @@ def _copy_real_runtime_repo(destination: Path, *, include_pdf: bool) -> None:
 def _run_real_task(
     monkeypatch: pytest.MonkeyPatch,
     repo: Path,
-) -> tuple[str, str, dict]:
+) -> tuple[str, dict]:
     monkeypatch.setattr(
         agent,
         "fetch_airport_weather",
@@ -249,9 +284,9 @@ def _run_real_task(
 
     output = repo / "flight_preparation"
     group = (output / "latest.txt").read_text(encoding="utf-8")
-    detail = (output / "latest_detail.txt").read_text(encoding="utf-8")
     meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
-    return group, detail, meta
+    assert not (output / f"{REAL_TARGET_DATE}_航前准备_详细版.txt").exists()
+    return group, meta
 
 
 def _paragraphs(text: str) -> list[str]:
@@ -284,11 +319,11 @@ def test_real_flight_before_after_pdf_regression(
     _copy_real_runtime_repo(baseline_repo, include_pdf=False)
     _copy_real_runtime_repo(upgraded_repo, include_pdf=True)
 
-    baseline_group, baseline_detail, baseline_meta = _run_real_task(
+    baseline_group, baseline_meta = _run_real_task(
         monkeypatch,
         baseline_repo,
     )
-    upgraded_group, upgraded_detail, upgraded_meta = _run_real_task(
+    upgraded_group, upgraded_meta = _run_real_task(
         monkeypatch,
         upgraded_repo,
     )
@@ -299,22 +334,19 @@ def test_real_flight_before_after_pdf_regression(
     assert upgraded_meta["airport_information_version"] == 20260720
 
     assert _paragraphs(upgraded_group)[:2] == _paragraphs(baseline_group)[:2]
-    assert _paragraphs(upgraded_detail)[:2] == _paragraphs(baseline_detail)[:2]
     assert "作为PF/PM各取最近一次" in _paragraphs(upgraded_group)[1]
     assert _headings(upgraded_group) == _headings(baseline_group)
-    assert _headings(upgraded_detail) == _headings(baseline_detail)
 
     for airport in KEY_AIRPORTS:
-        assert _section(
+        typical_section = _section(
             upgraded_group,
-            f"{airport.replace('上海', '') if airport == '上海浦东' else airport}机场典型不安全事件：",
-        ) == _section(
-            baseline_group,
-            f"{airport.replace('上海', '') if airport == '上海浦东' else airport}机场典型不安全事件：",
+            f"{airport}机场典型不安全事件：",
         )
+        assert re.search(r"(?m)^1\.", typical_section)
+        assert "责任中队" not in typical_section
+        assert "机场运行特点" not in typical_section
 
-    for heading in ("浦东（起飞）：", "西宁曹家堡（落地）："):
+    for heading in ("上海浦东机场：", "西宁曹家堡机场："):
         assert _section(upgraded_group, heading) == _section(baseline_group, heading)
 
     assert len(upgraded_group) <= int(len(baseline_group) * 1.15)
-    assert len(upgraded_detail) <= int(len(baseline_detail) * 1.15)

@@ -16,8 +16,9 @@
   "include_people_names_in_output": false,
   "typical_incidents_per_airport": {
     "min": 2,
-    "max": 5
+    "max": 100
   },
+  "foreign_crew_english_mode": "confirm",
   "schedule_beijing": {
     "draft_d_minus_2": "18:17",
     "refresh_d_minus_1": "00:37",

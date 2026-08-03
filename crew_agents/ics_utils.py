@@ -54,8 +54,8 @@ class CalendarEvent:
         for pattern in patterns:
             m = re.search(pattern, text)
             if m:
-                dep = clean_airport_name(m.group(1))
-                arr = clean_airport_name(m.group(2))
+                dep = canonical_airport_name(m.group(1))
+                arr = canonical_airport_name(m.group(2))
                 if dep and arr:
                     return dep, arr
         return "", ""
@@ -119,6 +119,33 @@ def clean_airport_name(value: str) -> str:
     value = re.sub(r"^[✈️\s]+", "", value)
     value = re.sub(r"\s+", " ", value)
     return value.strip(" -｜|")
+
+
+AIRPORT_NAME_ALIASES = {
+    "浦东": "上海浦东",
+    "虹桥": "上海虹桥",
+    "西宁": "西宁曹家堡",
+    "曹家堡上海虹桥": "上海虹桥",
+    "石家": "石家庄正定",
+    "庄正定泉州晋江": "泉州晋江",
+    "ZYTL": "大连周水子",
+    "ZSYA": "扬州泰州",
+    "南昌": "南昌昌北",
+    "丽江": "丽江三义",
+}
+
+
+def canonical_airport_name(value: str) -> str:
+    cleaned = clean_airport_name(value)
+    without_suffix = cleaned.removesuffix("国际机场").removesuffix("机场")
+    canonical_values = set(AIRPORT_NAME_ALIASES.values())
+    return AIRPORT_NAME_ALIASES.get(
+        cleaned,
+        AIRPORT_NAME_ALIASES.get(
+            without_suffix,
+            without_suffix if without_suffix in canonical_values else cleaned,
+        ),
+    )
 
 
 def unfold_ics(text: str) -> list[str]:
@@ -241,7 +268,7 @@ def normalize_flight_number(value: str) -> str:
 
 
 def normalize_route_airport(value: str) -> str:
-    return re.sub(r"\s+", "", clean_airport_name(value or ""))
+    return re.sub(r"\s+", "", canonical_airport_name(value or ""))
 
 
 def select_exact_flight_event(
@@ -313,6 +340,78 @@ def select_exact_flight_event(
     return selected
 
 
+def build_continuous_flight_groups(
+    events: Iterable[CalendarEvent],
+    target: date,
+) -> list[list[CalendarEvent]]:
+    flights = [
+        event
+        for event in events_for_date(events, target)
+        if event.is_flight
+        and not event.is_positioning
+        and all(event.route)
+    ]
+    groups: list[list[CalendarEvent]] = []
+    for event in flights:
+        if not groups:
+            groups.append([event])
+            continue
+        previous = groups[-1][-1]
+        if normalize_route_airport(previous.route[1]) == normalize_route_airport(
+            event.route[0]
+        ):
+            groups[-1].append(event)
+        else:
+            groups.append([event])
+    return groups
+
+
+def select_continuous_flight_group(
+    events: Iterable[CalendarEvent],
+    target: date,
+    *,
+    flight_number: str = "",
+    departure: str = "",
+    arrival: str = "",
+) -> list[CalendarEvent]:
+    event_list = list(events)
+    groups = build_continuous_flight_groups(event_list, target)
+    if not groups:
+        raise FlightSelectionError(f"{target.isoformat()} 未找到非置位航班")
+
+    selectors_supplied = any((flight_number, departure, arrival))
+    if selectors_supplied:
+        anchor = select_exact_flight_event(
+            event_list,
+            target,
+            flight_number=flight_number,
+            departure=departure,
+            arrival=arrival,
+        )
+        matches = [
+            group
+            for group in groups
+            if any(event.uid == anchor.uid for event in group)
+        ]
+        if len(matches) != 1:
+            raise AmbiguousFlightSelectionError(
+                "已匹配航段无法唯一归入连续任务"
+            )
+        return matches[0]
+
+    if len(groups) != 1:
+        details = [
+            [event.flight_number for event in group]
+            for group in groups
+        ]
+        raise AmbiguousFlightSelectionError(
+            f"{target.isoformat()} 存在{len(groups)}组互不连续任务，"
+            "需要人工指定："
+            + " | ".join("/".join(group) for group in details)
+        )
+    return groups[0]
+
+
 CREW_ROLE_SUFFIX_RE = re.compile(
     r"\s*[\(（][A-Za-z0-9,\s/、+\-]+[\)）]\s*$"
 )
@@ -358,7 +457,7 @@ def extract_airport_mapping(main_py: str | Path) -> dict[str, str]:
 
 
 def resolve_icao(airport_name: str, mapping: dict[str, str]) -> str:
-    airport_name = clean_airport_name(airport_name)
+    airport_name = canonical_airport_name(airport_name)
     if airport_name in mapping:
         return mapping[airport_name]
     candidates = [(name, code) for name, code in mapping.items() if name and (name in airport_name or airport_name in name)]
@@ -366,6 +465,36 @@ def resolve_icao(airport_name: str, mapping: dict[str, str]) -> str:
         return ""
     candidates.sort(key=lambda item: len(item[0]), reverse=True)
     return candidates[0][1]
+
+
+def _newer_experience_record(left: object, right: object) -> dict:
+    candidates = [value for value in (left, right) if isinstance(value, dict)]
+    if not candidates:
+        return {}
+    return dict(
+        max(
+            candidates,
+            key=lambda value: str(value.get("last_operated") or ""),
+        )
+    )
+
+
+def normalize_airport_experience_records(
+    airports: dict,
+) -> tuple[dict, list[str]]:
+    normalized: dict = {}
+    changes: list[str] = []
+    for raw_name, raw_record in airports.items():
+        canonical = canonical_airport_name(str(raw_name))
+        if not canonical:
+            continue
+        if canonical != raw_name:
+            changes.append(f"机场经历迁移：{raw_name} -> {canonical}")
+        normalized[canonical] = _newer_experience_record(
+            normalized.get(canonical),
+            raw_record,
+        )
+    return normalized, changes
 
 
 def update_airport_experience(
@@ -376,8 +505,9 @@ def update_airport_experience(
     rolling_days: int = 90,
 ) -> tuple[dict, list[str]]:
     result = dict(experience or {})
-    airports = dict(result.get("airports") or {})
-    changes: list[str] = []
+    airports, changes = normalize_airport_experience_records(
+        dict(result.get("airports") or {})
+    )
     cutoff = as_of.date() - timedelta(days=rolling_days)
 
     for event in sorted(events, key=lambda e: e.end):
@@ -388,6 +518,7 @@ def update_airport_experience(
         dep, arr = event.route
         operation_date = event.start.date().isoformat()
         for airport in (dep, arr):
+            airport = canonical_airport_name(airport)
             if not airport:
                 continue
             old = airports.get(airport, {}).get("last_operated") if isinstance(airports.get(airport), dict) else None

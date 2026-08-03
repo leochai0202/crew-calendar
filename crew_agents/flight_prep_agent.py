@@ -29,17 +29,18 @@ from crew_agents.ics_utils import (
     AmbiguousFlightSelectionError,
     CalendarEvent,
     FlightSelectionError,
+    canonical_airport_name as normalize_ics_airport_name,
     extract_airport_mapping,
     foreign_crew_names,
     parse_ics,
     resolve_icao,
-    select_exact_flight_event,
+    select_continuous_flight_group,
     strip_crew_role_markers,
     update_airport_experience,
 )
 from crew_agents.weather import fetch_airport_weather
 
-VERSION = "flight-prep-free-v13.1-source-bound-airport-facts"
+VERSION = "flight-prep-free-v14-final-confirmed-format"
 RISK_KEYWORDS = (
     "跑道", "滑行", "进近", "离场", "复飞", "盲降", "双截获", "高截获", "风切变",
     "乱流", "雷雨", "鸟击", "GPS", "地形", "气压", "灯光", "军航", "高度", "速度",
@@ -160,6 +161,76 @@ class BilingualFact:
     @property
     def en(self) -> str:
         return self.text_en
+
+
+@dataclass(frozen=True)
+class DutyContext:
+    events: tuple[CalendarEvent, ...]
+
+    @property
+    def route(self) -> tuple[str, ...]:
+        airports: list[str] = []
+        seen: set[str] = set()
+        for event in self.events:
+            for airport in event.route:
+                canonical = canonical_airport_name(airport)
+                if canonical and canonical not in seen:
+                    seen.add(canonical)
+                    airports.append(canonical)
+        return tuple(airports)
+
+    @property
+    def role_map(self) -> dict[str, tuple[str, ...]]:
+        roles: dict[str, set[str]] = {}
+        for event in self.events:
+            departure, arrival = event.route
+            if departure:
+                roles.setdefault(
+                    canonical_airport_name(departure), set()
+                ).add("departure")
+            if arrival:
+                roles.setdefault(
+                    canonical_airport_name(arrival), set()
+                ).add("arrival")
+        role_order = {"departure": 0, "arrival": 1}
+        return {
+            airport: tuple(sorted(values, key=role_order.get))
+            for airport, values in roles.items()
+        }
+
+    @property
+    def uid(self) -> str:
+        return "+".join(event.uid for event in self.events)
+
+    @property
+    def flight_number(self) -> str:
+        return "/".join(
+            unique(
+                [event.flight_number for event in self.events if event.flight_number]
+            )
+        )
+
+    @property
+    def registration(self) -> str:
+        return "/".join(
+            unique(
+                [event.registration for event in self.events if event.registration]
+            )
+        )
+
+    @property
+    def people(self) -> list[str]:
+        return unique(
+            [person for event in self.events for person in event.people]
+        )
+
+    @property
+    def start(self) -> datetime:
+        return self.events[0].start
+
+    @property
+    def end(self) -> datetime:
+        return self.events[-1].end
 
 
 AIRPORT_MANUAL_FILE = (
@@ -683,21 +754,22 @@ ROLE_PHASE_PRIORITY = {
         "departure": 21,
         "initial_climb": 22,
     },
+    "transit": {
+        "preparation": 0,
+        "clearance": 1,
+        "ground": 2,
+        "departure": 3,
+        "initial_climb": 4,
+        "arrival": 5,
+        "approach": 6,
+        "weather": 7,
+        "terrain": 8,
+        "landing": 9,
+        "landing_ground": 10,
+        "navigation": 11,
+        "unspecified": 12,
+    },
 }
-
-RECENT_ATTENTION_FACTS = (
-    BilingualFact(
-        "flap_configuration",
-        "注意放形态时机。选择形态一前，我们应确认低于FL200（20000ft）、进近阶段已经启用、速度处于管理方式且低于VFE NEXT，由PM完成高度和速度复核。",
-        "Manage configuration timing carefully. Before selecting Config 1, we must confirm that we are below FL200 (20000 ft), the approach phase is active, managed speed is selected, and the current speed is below VFE NEXT; the PM must cross-check altitude and speed.",
-    ),
-    BilingualFact(
-        "weather_radar",
-        "夏季注意雷击风险，我们应全程打开并合理使用气象雷达，根据回波趋势尽早申请绕飞，避免在低高度被动处置。",
-        "In summer, consider the lightning risk. We must keep the weather radar operating and use it appropriately throughout the flight, request deviations early from the echo trend, and avoid reactive manoeuvring at low altitude.",
-    ),
-)
-
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Generate rule-based flight preparation text without API.")
@@ -707,6 +779,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--flight-number", default="")
     parser.add_argument("--departure", default="")
     parser.add_argument("--arrival", default="")
+    parser.add_argument(
+        "--generate-english",
+        choices=("auto", "yes", "no"),
+        default="auto",
+    )
     return parser.parse_args()
 
 
@@ -746,6 +823,14 @@ def format_date_cn_padded(value: str) -> str:
         return f"{d.month:02d}月{d.day:02d}日"
     except Exception:
         return value
+
+
+def format_profile_date_cn(value: str) -> str:
+    value = (value or "").strip()
+    match = re.fullmatch(r"0?(\d{1,2})月0?(\d{1,2})日", value)
+    if match:
+        return f"{int(match.group(1))}月{int(match.group(2))}日"
+    return format_date_cn(value)
 
 
 def profile_intro(profile: dict, aircraft_types: list[str]) -> str:
@@ -789,12 +874,8 @@ def experience_records(experience: dict, airports: list[str], target: date) -> l
     rolling_days = int(experience.get("rolling_days") or 90)
     cutoff = target - timedelta(days=rolling_days)
     for airport in airports:
-        record = airport_map.get(airport)
-        if not record:
-            for known, value in airport_map.items():
-                if known in airport or airport in known:
-                    record = value
-                    break
+        canonical = canonical_airport_name(airport)
+        record = airport_map.get(canonical)
         last = record.get("last_operated", "") if isinstance(record, dict) else ""
         within = False
         if last:
@@ -802,7 +883,7 @@ def experience_records(experience: dict, airports: list[str], target: date) -> l
                 within = date.fromisoformat(last) >= cutoff
             except Exception:
                 within = False
-        records.append({"airport": airport, "last": last, "within": within})
+        records.append({"airport": canonical, "last": last, "within": within})
     return records
 
 
@@ -829,21 +910,20 @@ def strip_terminal_punct(value: str) -> str:
 
 def feedback_text(profile: dict) -> str:
     feedback = profile.get("recent_feedback") or {}
-    pf = strip_terminal_punct(feedback.get("PF", ""))
+    pf = strip_terminal_punct(
+        feedback.get("RNP", "") or feedback.get("PF", "")
+    )
     pm = strip_terminal_punct(feedback.get("PM", ""))
-    rnp = strip_terminal_punct(feedback.get("RNP", ""))
-    if not pf and not pm and not rnp:
+    if not pf and not pm:
         return ""
 
     parts = []
     if pf:
-        parts.append(f"上一次作为PF教员评价{pf}")
+        parts.append(f"上一次作为PF教员评价：{pf}")
     if pm:
-        parts.append(f"作为PM机长评价{pm}")
-    text = "上一次飞行中机长/教员对我优缺点的评价（作为PF/PM各取最近一次）：" + "；".join(parts)
-    if rnp:
-        text += f"；补充讲评：{rnp}"
-    return text.rstrip("；") + "。"
+        parts.append(f"作为PM机长评价：{pm}")
+    heading = "上一次飞行中机长/教员对我优缺点的评价（作为PF/PM各取最近一次）："
+    return heading + "\n" + "；".join(parts).rstrip("；") + "。"
 
 
 
@@ -899,7 +979,10 @@ def short_airport_name(airport: str) -> str:
 
 
 def airport_with_suffix(airport: str) -> str:
-    return short_airport_name(airport) + "机场"
+    name = canonical_airport_name(airport).strip()
+    if not name:
+        return ""
+    return name.removesuffix("国际机场").removesuffix("机场") + "机场"
 
 
 def personal_intro(profile: dict, records: list[dict], aircraft_types: list[str]) -> str:
@@ -958,17 +1041,44 @@ def decode_weather_report(raw: str) -> list[str]:
     if not raw:
         return []
 
-    tokens = re.findall(r"[A-Z+\-]{2,8}|\d{4}|(?:FEW|SCT|BKN|OVC)\d{3}", raw)
+    tokens = [token.strip("=,") for token in raw.split()]
     token_set = set(tokens)
     out: list[str] = []
 
-    vis_values = [int(token) for token in tokens if re.fullmatch(r"(?:[0-8]\d{3}|9999)", token)]
-    if vis_values:
-        vis = min(vis_values)
-        if vis < 5000:
-            out.append(f"能见度{vis}米")
-        elif vis == 9999:
+    if "CAVOK" in token_set:
+        out.append("CAVOK")
+    metric_visibility = [
+        int(token)
+        for token in tokens
+        if re.fullmatch(r"\d{4}", token)
+    ]
+    if metric_visibility:
+        visibility = min(metric_visibility)
+        if visibility == 9999:
             out.append("能见度10公里以上")
+        elif visibility < 5000:
+            out.append(f"能见度{visibility}米")
+
+    statute_match = re.search(
+        r"(?<!\S)(P?\d+(?:/\d+)?|\d+\s+\d+/\d+)SM(?!\S)",
+        raw,
+    )
+    if statute_match:
+        value = statute_match.group(1)
+        more_than = value.startswith("P")
+        value = value.removeprefix("P")
+        miles = 0.0
+        for part in value.split():
+            if "/" in part:
+                numerator, denominator = part.split("/", 1)
+                miles += int(numerator) / int(denominator)
+            else:
+                miles += float(part)
+        metres = round(miles * 1609.344)
+        if more_than or miles >= 6:
+            out.append("能见度10公里以上")
+        elif metres < 5000:
+            out.append(f"能见度约{metres}米")
 
     phenomena = [
         ("+TSRA", "强雷雨"), ("TSRA", "雷雨"), ("TS", "雷暴"),
@@ -1043,6 +1153,81 @@ def parse_taf_validity(raw: str, reference: datetime) -> tuple[datetime, datetim
     return start, end
 
 
+TAF_CHANGE_MARKER_RE = re.compile(
+    r"\b(?:FM\d{6}|BECMG|TEMPO|PROB(?:30|40)(?:\s+TEMPO)?)\b"
+)
+
+
+def _taf_period(
+    text: str,
+    reference: datetime,
+) -> tuple[datetime, datetime] | None:
+    match = re.search(r"\b(\d{2})(\d{2})/(\d{2})(\d{2})\b", text)
+    if not match:
+        return None
+    start_day, start_hour, end_day, end_hour = map(int, match.groups())
+    start = _nearest_day_hour(start_day, start_hour, reference)
+    if start is None:
+        return None
+    end_candidates = [
+        candidate
+        for candidate in _day_hour_candidates(end_day, end_hour, start)
+        if candidate > start
+    ]
+    return (start, min(end_candidates)) if end_candidates else None
+
+
+def _taf_fm_time(marker: str, reference: datetime) -> datetime | None:
+    match = re.fullmatch(r"FM(\d{2})(\d{2})(\d{2})", marker)
+    if not match:
+        return None
+    day, hour, minute = map(int, match.groups())
+    candidates = []
+    for candidate in _day_hour_candidates(day, hour, reference):
+        candidates.append(candidate.replace(minute=minute))
+    if not candidates:
+        return None
+    ref = reference.astimezone(timezone.utc)
+    return min(candidates, key=lambda value: abs((value - ref).total_seconds()))
+
+
+def taf_text_for_time(raw: str, operational_time: datetime) -> str:
+    report = normalize_text(raw).upper()
+    validity = parse_taf_validity(report, operational_time)
+    moment = operational_time.astimezone(timezone.utc)
+    if not validity or not (validity[0] <= moment <= validity[1]):
+        return ""
+
+    markers = list(TAF_CHANGE_MARKER_RE.finditer(report))
+    if not markers:
+        return report
+
+    persistent = [report[: markers[0].start()].strip()]
+    temporary: list[str] = []
+    for index, marker_match in enumerate(markers):
+        end = markers[index + 1].start() if index + 1 < len(markers) else len(report)
+        marker = marker_match.group(0)
+        body = report[marker_match.end() : end].strip()
+        group_text = f"{marker} {body}".strip()
+        if marker.startswith("FM"):
+            effective = _taf_fm_time(marker, operational_time)
+            if effective and moment >= effective:
+                persistent = [body]
+        elif marker == "BECMG":
+            period = _taf_period(group_text, operational_time)
+            if period and moment >= period[0]:
+                persistent.append(body)
+        else:
+            period = _taf_period(group_text, operational_time)
+            if period and period[0] <= moment <= period[1]:
+                temporary.append(body)
+    return " ".join(part for part in [*persistent, *temporary] if part)
+
+
+def decode_taf_for_time(raw: str, operational_time: datetime) -> list[str]:
+    return decode_weather_report(taf_text_for_time(raw, operational_time))
+
+
 def parse_metar_observation(raw: str, reference: datetime) -> datetime | None:
     match = re.search(r"\b(\d{2})(\d{2})(\d{2})Z\b", (raw or "").upper())
     if not match:
@@ -1082,6 +1267,7 @@ def weather_risk_sentence(
     metadata: dict[str, dict] = {}
     now = now_beijing()
     relevant_map = relevant_airport_times(flights or [])
+    fallback_needed = False
 
     for airport in airports:
         icao = icao_map.get(airport, "")
@@ -1092,30 +1278,55 @@ def weather_risk_sentence(
         short = airport_with_suffix(airport)
 
         taf_period = parse_taf_validity(result.taf, reference)
-        taf_covers = bool(
-            taf_period
-            and relevant_utc
-            and any(taf_period[0] <= value <= taf_period[1] for value in relevant_utc)
-        )
+        covered_times = [
+            value
+            for value in relevant
+            if taf_period
+            and taf_period[0] <= value.astimezone(timezone.utc) <= taf_period[1]
+        ]
+        decoded_by_time = [
+            {
+                "time": value.isoformat(),
+                "decoded": decode_taf_for_time(result.taf, value),
+            }
+            for value in covered_times
+        ]
 
         metar_time = parse_metar_observation(result.metar, now)
         metar_relevant = bool(
             result.metar
             and metar_time
             and relevant_utc
-            and min(abs((value - now.astimezone(timezone.utc)).total_seconds()) for value in relevant_utc) <= 6 * 3600
+            and all(value <= now.astimezone(timezone.utc) for value in relevant_utc)
+            and max(abs((value - now.astimezone(timezone.utc)).total_seconds()) for value in relevant_utc) <= 3 * 3600
             and abs((now.astimezone(timezone.utc) - metar_time).total_seconds()) <= 3 * 3600
         )
 
         source = "OUTSIDE_VALID_WINDOW"
         decoded: list[str] = []
-        if taf_covers:
+        if relevant and len(covered_times) == len(relevant):
             source = "TAF"
-            decoded = decode_weather_report(result.taf)
+            decoded = unique(
+                [
+                    item
+                    for period in decoded_by_time
+                    for item in period["decoded"]
+                ]
+            )
             if decoded:
-                sentences.append(short + "有效TAF提示" + "、".join(decoded[:4]) + "，最终以航前最新报文、放行资料及ATIS为准")
+                sentences.append(
+                    short
+                    + "航班时段TAF提示"
+                    + "、".join(decoded[:4])
+                    + "，最终以航前最新报文、放行资料及ATIS为准"
+                )
             else:
-                sentences.append(short + "已取得覆盖航班时段的TAF，未识别出需特别提示的天气现象，最终以航前最新报文、放行资料及ATIS为准")
+                sentences.append(
+                    short
+                    + "已取得覆盖各运行时刻的TAF，"
+                    "未识别出需特别提示的天气现象，"
+                    "最终以航前最新报文、放行资料及ATIS为准"
+                )
         elif metar_relevant:
             source = "METAR"
             decoded = decode_weather_report(result.metar)
@@ -1124,7 +1335,7 @@ def weather_risk_sentence(
             else:
                 sentences.append(short + "当前METAR未识别出需特别提示的天气现象，最终以航前最新报文、放行资料及ATIS为准")
         else:
-            sentences.append(short + "尚未进入覆盖本次航班的有效预报时段，后续结合最新METAR、TAF、放行资料及ATIS持续更新")
+            fallback_needed = True
 
         if result.error:
             warnings.append(f"{airport}天气获取提示：{result.error}")
@@ -1133,17 +1344,13 @@ def weather_risk_sentence(
             "source_used": source,
             "taf_validity_utc": [x.isoformat() for x in taf_period] if taf_period else [],
             "relevant_times": [x.isoformat() for x in relevant],
+            "taf_decoded_by_time": decoded_by_time,
             "decoded": decoded,
             "fetch_error": result.error,
         }
 
-    if metadata and all(item.get("source_used") == "OUTSIDE_VALID_WINDOW" for item in metadata.values()):
-        names = "、".join(short_airport_name(airport) for airport in airports)
-        combined = (
-            f"本次航班尚未进入有效天气预报时段，后续结合{names}最新METAR、TAF、"
-            "放行资料及ATIS持续更新。"
-        )
-        return combined, warnings, metadata
+    if fallback_needed:
+        sentences.append("航班时段天气以航前最新TAF/METAR及放行资料为准")
 
     return "；".join(sentences) + ("。" if sentences else ""), warnings, metadata
 
@@ -1394,6 +1601,21 @@ def find_airport_manual_candidates(knowledge_dir: Path) -> list[Path]:
 def find_latest_airport_manual(knowledge_dir: Path) -> Path | None:
     candidates = find_airport_manual_candidates(knowledge_dir)
     return candidates[0] if candidates else None
+
+
+def airport_manual_candidate_chain(knowledge_dir: Path) -> list[Path]:
+    candidates = find_airport_manual_candidates(knowledge_dir)
+    if not candidates:
+        return []
+    preferred = candidates[0]
+    if preferred.suffix.lower() != ".pdf":
+        return candidates
+    preferred_version = manual_version(preferred)
+    return [
+        path
+        for path in candidates
+        if manual_version(path) == preferred_version
+    ]
 
 
 def _find_manual_header_marker(value: str) -> tuple[int, str]:
@@ -1921,7 +2143,7 @@ def manual_airport_data(
     max_items: int,
 ) -> tuple[dict[str, dict], str, int, str, list[str]]:
     failures: list[str] = []
-    for source in find_airport_manual_candidates(knowledge_dir):
+    for source in airport_manual_candidate_chain(knowledge_dir):
         try:
             text, source_warnings = read_manual_text(source)
             index = build_manual_index(text)
@@ -1976,6 +2198,42 @@ def supplements_for_airport(supplements: dict, airport: str) -> tuple[dict, str]
     return {}, ""
 
 
+def split_manual_fact_item(value: str) -> list[tuple[str, str, str]]:
+    text = normalize_text(value)
+    heading = ""
+    heading_match = re.match(
+        r"^(指挥特点|注意事项|气象特点|道面特点|其他威胁|运行特点)\s*[:：]?\s*",
+        text,
+    )
+    if heading_match:
+        heading = heading_match.group(1)
+        text = text[heading_match.end() :].strip()
+    pieces = re.split(r"(?=[（(]\d+[）)])", text)
+    output: list[tuple[str, str, str]] = []
+    for piece in pieces:
+        cleaned = re.sub(r"^[（(]\d+[）)]\s*", "", piece).strip(" ；。")
+        if not cleaned:
+            continue
+        if heading == "气象特点":
+            phase = "weather"
+        elif "滑行" in cleaned or "等待道口" in cleaned or "机位" in cleaned:
+            phase = "ground"
+        elif "起飞" in cleaned and not any(
+            token in cleaned for token in ("进近", "着陆", "落地")
+        ):
+            phase = "departure"
+        elif any(token in cleaned for token in ("进近", "着陆", "落地", "五边", "下滑道")):
+            phase = "approach"
+        elif any(token in cleaned for token in ("地形", "CFIT")):
+            phase = "terrain"
+        elif heading == "指挥特点":
+            phase = "arrival"
+        else:
+            phase = "unspecified"
+        output.append((cleaned + "。", heading, phase))
+    return output
+
+
 def airport_risks(
     repo: Path,
     airports: list[str],
@@ -2022,21 +2280,28 @@ def airport_risks(
             category: str,
         ) -> None:
             for item in items:
-                records.append(
-                    {
-                        "airport": canonical_airport_name(airport),
-                        "source_file": source_file,
-                        "source": source,
-                        "source_page": source_page,
-                        "source_heading": source_heading,
-                        "source_section": source_section,
-                        "operational_phase": "incident" if category == "typical" else "unspecified",
-                        "airport_specific": True,
-                        "category": category,
-                        "text_zh": item,
-                        "text_en": "",
-                    }
+                split_items = (
+                    [(strip_terminal_punct(item) + "。", "", "incident")]
+                    if category == "typical"
+                    else split_manual_fact_item(item)
                 )
+                for text_zh, item_heading, phase in split_items:
+                    records.append(
+                        {
+                            "airport": canonical_airport_name(airport),
+                            "source_file": source_file,
+                            "source": source,
+                            "source_page": source_page,
+                            "source_heading": source_heading,
+                            "source_section": source_section
+                            + (f"／{item_heading}" if item_heading else ""),
+                            "operational_phase": phase,
+                            "airport_specific": True,
+                            "category": category,
+                            "text_zh": text_zh,
+                            "text_en": "",
+                        }
+                    )
 
         add_records(
             manual_risks,
@@ -2125,8 +2390,6 @@ def airport_risks(
         # two generic legacy sentences. Curated airport-specific wording remains
         # available through CURATED_TYPICAL_INCIDENTS and dedicated core builders.
         merged_risks = unique([*manual_risks, *structured_risks])
-        if len(merged_risks) < 2:
-            merged_risks = unique([*merged_risks, *manual_threats])
         merged_risks = merged_risks[:max_items]
 
         merged_threats = unique([*manual_threats, *structured_threats])[:max_items]
@@ -2171,16 +2434,7 @@ def global_threats(operational_focus: dict, month: int) -> list[str]:
 
 
 def canonical_airport_name(airport: str) -> str:
-    short = short_airport_name(airport)
-    if short == "浦东":
-        return "上海浦东"
-    if short == "丽江":
-        return "丽江三义"
-    if short in ("西宁", "西宁曹家堡"):
-        return "西宁曹家堡"
-    if short in ("南昌", "南昌昌北"):
-        return "南昌昌北"
-    return airport
+    return normalize_ics_airport_name(airport)
 
 
 def is_airport(airport: str, target_name: str) -> bool:
@@ -2226,13 +2480,6 @@ def flight_overview_text(flights: list[CalendarEvent], target: date) -> str:
     return prefix + details + "。" if details else ""
 
 
-FLAP_CONFIGURATION_NOTE = (
-    "注意放形态时机，确认低于20000尺、进近阶段已经启用、速度管理且当前速度低于VFE NEXT后，再选择形态一。"
-)
-
-SUMMER_RADAR_NOTE = "夏季注意雷击风险，气象雷达需要飞行全程打开并合理使用。"
-
-
 def full_flight_numbers(flights: list[CalendarEvent]) -> str:
     return "/".join(unique([e.flight_number for e in flights if e.flight_number]))
 
@@ -2257,36 +2504,42 @@ def group_personal_intro(profile: dict, records: list[dict]) -> str:
     name = profile.get("name", "")
     unit = profile.get("unit", "")
     role = profile.get("role", "")
-    parts = [f"我是{unit}{role}{name}" if name else f"{unit}{role}".strip()]
+    parts = [
+        f"我是来自{unit}的{role}{name}"
+        if name
+        else f"我是来自{unit}的{role}".strip()
+    ]
     if profile.get("technical_level"):
         parts.append(f"目前技术级别{profile['technical_level']}")
     if profile.get("promotion_date"):
-        parts.append(f"晋级日期{profile['promotion_date']}")
+        parts.append(
+            f"晋级日期{format_profile_date_cn(profile['promotion_date'])}"
+        )
     if profile.get("stage_hours") is not None:
         parts.append(f"本阶段经历时间{profile['stage_hours']}小时")
     if profile.get("stage_landings") is not None:
         parts.append(f"起落{profile['stage_landings']}个")
     sim_suffix = "（含模拟机）" if profile.get("simulation_included") else ""
     if profile.get("landings_90_days") is not None:
-        parts.append(f"近90天起落数{profile['landings_90_days']}个{sim_suffix}")
+        parts.append(f"近90天起落{profile['landings_90_days']}个{sim_suffix}")
     if profile.get("landings_30_days") is not None:
         parts.append(f"近一个月起落{profile['landings_30_days']}个{sim_suffix}")
     if profile.get("duty_day"):
         parts.append(f"明日为本人本次值勤期第{profile['duty_day']}天")
 
-    operated = [short_airport_name(r["airport"]) for r in records if r.get("within")]
-    pending = [short_airport_name(r["airport"]) for r in records if not r.get("within")]
-    if operated:
-        parts.append("近3个月执行过本次航线涉及的机场" + "、".join(operated))
-    if pending:
-        parts.append("近3个月未执行过本次航线涉及的机场" + "、".join(pending))
-    elif operated:
-        parts.append("无3个月内未执行")
+    for record in records:
+        airport = airport_with_suffix(record.get("airport", ""))
+        if airport:
+            status = "已运行过" if record.get("within") else "未运行过"
+            parts.append(f"近3个月{status}{airport}")
 
     last = profile.get("last_operated_landing") or {}
     if last.get("airport"):
-        date_text = format_date_cn_padded(last.get("date", "")) if last.get("date") else ""
-        parts.append(f"上一次操纵起落为{date_text}{airport_with_suffix(last['airport'])}")
+        date_text = format_date_cn(last.get("date", "")) if last.get("date") else ""
+        parts.append(
+            f"上一次实际操纵落地为{date_text}"
+            f"{airport_with_suffix(last['airport'])}"
+        )
     return "，".join(p for p in parts if p) + "。"
 
 
@@ -2405,6 +2658,9 @@ FEEDBACK_ENGLISH_TRANSLATIONS = {
     "五边速度180时注意形态二，入口前关注飞机状态": (
         "at 180 kt on final I should monitor Config 2 and the aircraft state before the threshold"
     ),
+    "RNP进近五边速度180节时注意形态二，入口前关注飞机状态": (
+        "at 180 kt on final during an RNP approach I should monitor Config 2 and the aircraft state before the threshold"
+    ),
 }
 
 
@@ -2421,18 +2677,17 @@ def english_feedback_item(value: str) -> str:
 def feedback_text_en(profile: dict) -> str:
     feedback = profile.get("recent_feedback") or {}
     parts: list[str] = []
-    if feedback.get("PF"):
+    pf = feedback.get("RNP") or feedback.get("PF")
+    if pf:
         parts.append(
-            f"as PF, the instructor noted that {english_feedback_item(feedback['PF'])}"
+            f"as PF, the instructor noted that {english_feedback_item(pf)}"
         )
     if feedback.get("PM"):
         parts.append(
             f"as PM, the captain noted that {english_feedback_item(feedback['PM'])}"
         )
     text = "Latest PF/PM feedback: " + "; ".join(parts)
-    if feedback.get("RNP"):
-        text += f"; additional feedback was that {english_feedback_item(feedback['RNP'])}"
-    return text.rstrip("; ") + "." if parts or feedback.get("RNP") else ""
+    return text.rstrip("; ") + "." if parts else ""
 
 
 
@@ -3004,18 +3259,49 @@ def airport_core_items(
     return generic_core_items(source_items, target.month, max_items=6 if detail else 4)
 
 
-def should_generate_english(event: CalendarEvent) -> bool:
+def english_generation_decision(
+    event: CalendarEvent | DutyContext,
+    settings: dict,
+    override: str = "auto",
+) -> tuple[bool, bool, list[str]]:
+    del settings
+    names = foreign_crew_names(event)
+    if override == "yes":
+        return True, False, names
+    if not names:
+        return False, False, names
+    return False, True, names
+
+
+def should_generate_english(event: CalendarEvent | DutyContext) -> bool:
     return bool(foreign_crew_names(event))
 
 
-def airport_role(event: CalendarEvent, airport: str) -> str:
-    departure, arrival = event.route
+def airport_roles(
+    event: CalendarEvent | DutyContext,
+    airport: str,
+) -> tuple[str, ...]:
     canonical = canonical_airport_name(airport)
+    if isinstance(event, DutyContext):
+        roles = event.role_map.get(canonical, ())
+        if roles:
+            return roles
+    departure, arrival = event.route[:2]
+    roles: list[str] = []
     if canonical == canonical_airport_name(departure):
-        return "departure"
+        roles.append("departure")
     if canonical == canonical_airport_name(arrival):
-        return "arrival"
-    raise ValueError(f"机场不属于精确匹配事件：{airport}")
+        roles.append("arrival")
+    if not roles:
+        raise ValueError(f"机场不属于已匹配任务：{airport}")
+    return tuple(roles)
+
+
+def airport_role(event: CalendarEvent | DutyContext, airport: str) -> str:
+    roles = set(airport_roles(event, airport))
+    if roles == {"departure", "arrival"}:
+        return "transit"
+    return next(iter(roles))
 
 
 def bind_catalog_fact(fact: BilingualFact) -> BilingualFact:
@@ -3124,34 +3410,49 @@ def source_record_facts(
         phase = str(record.get("operational_phase") or "unspecified")
         if not (text_zh and text_en):
             concepts = detected_group_concepts(text_zh)
-            if not concepts:
-                continue
-            concept = concepts[0]
-            concept_name = str(concept["name"])
-            english = CONCEPT_ENGLISH.get(concept_name)
-            if not english:
-                continue
-            text_zh = str(concept["typical"] if category == "typical" else concept["core"])
-            text_en = english[0 if category == "typical" else 1]
-            phase = {
-                "ground": "ground",
-                "terrain": "terrain",
-                "weather": "weather",
-                "windshear": "weather",
-                "energy": "arrival",
-                "tcas": "approach",
-                "bird": "approach",
-            }.get(concept_name, phase)
-        semantic_key = concept_name or str(record.get("fact_id") or f"record_{index}")
+            if concepts:
+                concept = concepts[0]
+                concept_name = str(concept["name"])
+                english = CONCEPT_ENGLISH.get(concept_name)
+                if english:
+                    text_en = english[0 if category == "typical" else 1]
+                phase = {
+                    "ground": "ground",
+                    "terrain": "terrain",
+                    "weather": "weather",
+                    "windshear": "weather",
+                    "energy": "arrival",
+                    "tcas": "approach",
+                    "bird": "approach",
+                }.get(concept_name, phase)
+        semantic_key = str(record.get("semantic_key") or record.get("fact_id") or "")
+        if not semantic_key:
+            normalized_fact = re.sub(r"[^A-Za-z0-9\u4e00-\u9fff]+", "", text_zh).upper()
+            if (
+                category == "core"
+                and "跑道入口" in text_zh
+                and "着陆" in text_zh
+                and "距离" in text_zh
+            ):
+                semantic_key = "runway_landing_distance"
+            else:
+                semantic_key = f"text:{normalized_fact}"
         source = str(record.get("source") or "CURATED")
         importance = int(record.get("importance", 50))
         if source == "CURATED":
             importance = max(importance, 85)
         elif source == "supplement":
             importance = max(importance, 65)
+        if any(
+            token in text_zh
+            for token in ("禁止", "只能", "高度", "速度", "距离", "跑道")
+        ):
+            importance = max(importance, 92)
+        elif any(token in text_zh for token in ("地形", "CFIT", "风切变")):
+            importance = max(importance, 88)
         fact_id = str(
             record.get("fact_id")
-            or f"{canonical}_{category}_{semantic_key}"
+            or f"{canonical}_{category}_record_{index}"
         )
         facts_by_semantic[semantic_key] = BilingualFact(
             fact_id,
@@ -3209,7 +3510,10 @@ def select_airport_facts(
         if canonical_airport_name(fact.airport) != canonical:
             continue
         if fact.role_scope and role not in fact.role_scope:
-            continue
+            if role != "transit" or not set(fact.role_scope).intersection(
+                {"departure", "arrival"}
+            ):
+                continue
         eligible.append(fact)
 
     phase_order = ROLE_PHASE_PRIORITY[role]
@@ -3223,7 +3527,7 @@ def select_airport_facts(
             fact.fact_id,
         )
     )
-    selected = selection_order[: min(max_items, 5)]
+    selected = selection_order[:max_items]
     return sorted(
         selected,
         key=lambda fact: (
@@ -3245,50 +3549,21 @@ def bilingual_typical_facts(
 ) -> list[BilingualFact]:
     del risks, threats, month
     canonical = canonical_airport_name(airport)
-    curated = CURATED_TYPICAL_INCIDENTS.get(canonical) or []
-    curated_en = CURATED_TYPICAL_ENGLISH.get(canonical) or []
-    if curated and len(curated) == len(curated_en):
-        facts: list[BilingualFact] = []
-        for index, (zh, en) in enumerate(zip(curated, curated_en), start=1):
-            support = best_source_record(
-                canonical,
-                zh,
-                source_records or [],
-                category="typical",
-            )
-            facts.append(
-                BilingualFact(
-                    f"{canonical}_typical_{index}",
-                    zh,
-                    en,
-                    airport=canonical,
-                    source_file=str(support.get("source_file") or ""),
-                    source=str(support.get("source") or "CURATED"),
-                    source_page=str(support.get("source_page") or "N/A"),
-                    source_heading=str(
-                        support.get("source_heading") or f"{canonical}人工精选"
-                    ),
-                    source_section=str(
-                        support.get("source_section")
-                        or f"{canonical}人工精选／典型不安全事件"
-                    ),
-                    operational_phase="incident",
-                    airport_specific=True,
-                    category="typical",
-                    importance=70,
-                    semantic_key=f"{canonical}_typical_{index}",
-                )
-            )
-        return facts[: min(max_items, 5)]
+    manual_records = [
+        record
+        for record in (source_records or [])
+        if str(record.get("source")) in {"PDF", "TXT"}
+        and str(record.get("category")) == "typical"
+    ]
     return source_record_facts(
         canonical,
-        source_records or [],
+        manual_records,
         category="typical",
-    )[: min(max_items, 5)]
+    )[:max_items]
 
 
 def airport_operational_facts(
-    event: CalendarEvent,
+    event: CalendarEvent | DutyContext,
     airport: str,
     source_items: list[str],
     target: date,
@@ -3297,15 +3572,25 @@ def airport_operational_facts(
     del source_items, target
     canonical = canonical_airport_name(airport)
     role = airport_role(event, airport)
-    if canonical == "新加坡樟宜" and role == "departure":
+    if canonical == "新加坡樟宜" and role in ("departure", "transit"):
         candidates = [bind_catalog_fact(fact) for fact in SINGAPORE_DEPARTURE_FACTS]
         return select_airport_facts(canonical, role, candidates)
-    if canonical == "上海浦东" and role == "arrival":
-        candidates = [bind_catalog_fact(fact) for fact in PUDONG_ARRIVAL_FACTS]
-        return select_airport_facts(canonical, role, candidates)
-    if canonical == "上海浦东" and role == "departure":
-        candidates = [bind_catalog_fact(fact) for fact in PUDONG_DEPARTURE_FACTS]
-        return select_airport_facts(canonical, role, candidates)
+    if canonical == "上海浦东":
+        candidates: list[BilingualFact] = []
+        if role in ("arrival", "transit"):
+            candidates.extend(
+                bind_catalog_fact(fact) for fact in PUDONG_ARRIVAL_FACTS
+            )
+        if role in ("departure", "transit"):
+            candidates.extend(
+                bind_catalog_fact(fact) for fact in PUDONG_DEPARTURE_FACTS
+            )
+        return select_airport_facts(
+            canonical,
+            role,
+            candidates,
+            max_items=8 if role == "transit" else 5,
+        )
     if canonical in CURATED_CORE_THREATS and canonical in CURATED_CORE_ENGLISH:
         chinese = CURATED_CORE_THREATS[canonical]
         english = CURATED_CORE_ENGLISH[canonical]
@@ -3330,12 +3615,32 @@ def airport_operational_facts(
                 operational_phase=phases[index - 1] if index <= len(phases) else "unspecified",
                 airport_specific=True,
                 category="core",
-                importance=90 if index <= 2 else 75,
+                importance=(
+                    99
+                    if any(
+                        token in zh
+                        for token in (
+                            "GPS",
+                            "禁止",
+                            "必须",
+                            "高度限制",
+                            "速度限制",
+                            "地形",
+                            "CFIT",
+                        )
+                    )
+                    else (90 if index <= 2 else 75)
+                ),
                 semantic_key=f"{canonical}_core_{index}",
             )
             for index, (zh, en) in enumerate(zip(chinese, english), start=1)
         ]
-        return select_airport_facts(canonical, role, candidates)
+        return select_airport_facts(
+            canonical,
+            role,
+            candidates,
+            max_items=8 if role == "transit" else 5,
+        )
     if canonical == "丽江三义":
         candidates = [bind_catalog_fact(fact) for fact in LIJIANG_CORE_FACTS]
         return select_airport_facts(canonical, role, candidates)
@@ -3344,7 +3649,12 @@ def airport_operational_facts(
         source_records or [],
         category="core",
     )
-    return select_airport_facts(canonical, role, candidates)
+    return select_airport_facts(
+        canonical,
+        role,
+        candidates,
+        max_items=8 if role == "transit" else 5,
+    )
 
 
 def _first_operational_sentence(value: str) -> str:
@@ -3352,7 +3662,7 @@ def _first_operational_sentence(value: str) -> str:
 
 
 def flight_risk_facts(
-    event: CalendarEvent,
+    event: CalendarEvent | DutyContext,
     target: date,
     core_facts: dict[str, list[BilingualFact]] | None = None,
 ) -> list[BilingualFact]:
@@ -3412,6 +3722,93 @@ def flight_risk_facts(
                 )
             )
     return facts[:5]
+
+
+def _checkin_time(event: CalendarEvent) -> str:
+    match = re.search(r"\b(\d{2}:\d{2})\b", event.checkin or "")
+    return match.group(1) if match else ""
+
+
+def clean_output_fact(value: str) -> str:
+    text = strip_terminal_punct(value)
+    text = re.sub(
+        r"^(?:常用程序|指挥特点|注意事项|气象特点|道面特点|其他威胁|运行特点)\s*[:：]\s*",
+        "",
+        text,
+    )
+    text = re.sub(r"^[（(]?\d+[）).、]\s*", "", text)
+    text = re.sub(r"/\s+", "/", text)
+    text = (
+        text.replace("请机组", "我们应")
+        .replace("机组应", "我们应")
+        .replace("有机组反应", "据运行反馈")
+        .replace("机组", "我们")
+    )
+    return normalize_text(text)
+
+
+def duty_risk_text(
+    duty: CalendarEvent | DutyContext,
+    records: list[dict],
+    core_facts: dict[str, list[BilingualFact]],
+    weather_sentence: str,
+) -> str:
+    flights = list(duty.events) if isinstance(duty, DutyContext) else [duty]
+    sentences: list[str] = []
+    first, last = flights[0], flights[-1]
+    checkin = _checkin_time(first)
+    if checkin and int(checkin.split(":", 1)[0]) < 6:
+        sentences.append(
+            f"我们识别到本次为早班，{checkin}签到，"
+            f"任务时段{first.start:%H:%M}-{last.end:%H:%M}，"
+            "应提前做好休息和精力管理"
+        )
+    elif last.end.date() > first.start.date():
+        sentences.append(
+            f"我们识别到本次任务从{first.start:%H:%M}"
+            f"持续至次日{last.end:%H:%M}，应重点做好跨夜精力管理"
+        )
+    if len(flights) > 1:
+        turnarounds = []
+        for previous, following in zip(flights, flights[1:]):
+            minutes = int((following.start - previous.end).total_seconds() // 60)
+            if minutes >= 0:
+                turnarounds.append(
+                    f"{airport_with_suffix(previous.route[1])}过站{minutes}分钟"
+                )
+        detail = "、".join(turnarounds)
+        sentences.append(
+            f"我们识别到本次为{len(flights)}段连续任务"
+            + (f"，{detail}" if detail else "")
+            + "，应在过站期间合理分配准备和恢复时间"
+        )
+    for record in records:
+        if not record.get("within"):
+            sentences.append(
+                f"我们识别到近3个月未运行过"
+                f"{airport_with_suffix(record.get('airport', ''))}，"
+                "应重点复习最新机场特点和有效程序"
+            )
+    for airport in duty.route:
+        selected = core_facts.get(airport, [])[:1]
+        if selected:
+            summary = _first_operational_sentence(
+                clean_output_fact(selected[0].zh)
+            )
+            if summary:
+                sentences.append(
+                    f"我们识别到{airport_with_suffix(airport)}"
+                    f"的主要运行风险为{strip_terminal_punct(summary)}"
+                )
+    weather = strip_terminal_punct(weather_sentence)
+    if weather:
+        sentences.append(weather)
+    else:
+        sentences.append("航班时段天气以航前最新TAF/METAR及放行资料为准")
+    sentences.append(
+        "最新有效PIB/NOTAM以航前放行资料为准，不对尚未取得的通告内容作推断"
+    )
+    return "；".join(unique(sentences)) + "。"
 
 
 FACT_GUARD_TOKENS = (
@@ -3515,57 +3912,58 @@ def validate_airport_fact_bindings(
             errors.append(f"机场事实缺少来源章节：{fact.fact_id}")
         if not fact.operational_phase.strip():
             errors.append(f"机场事实缺少运行阶段：{fact.fact_id}")
-        if not fact.text_zh.strip() or not fact.text_en.strip():
-            errors.append(f"机场事实缺少中英文成对内容：{fact.fact_id}")
+        if not fact.text_zh.strip():
+            errors.append(f"机场事实缺少中文内容：{fact.fact_id}")
     return errors
 
 
 def render_chinese_briefing(
-    event: CalendarEvent,
+    event: CalendarEvent | DutyContext,
     target: date,
     profile: dict,
     records: list[dict],
     typical_facts: dict[str, list[BilingualFact]],
     core_facts: dict[str, list[BilingualFact]],
+    weather_sentence: str = "",
 ) -> str:
     sections: list[str] = [group_personal_intro(profile, records)]
     feedback = feedback_text(profile)
     if feedback:
         sections.append(feedback)
 
-    risks = flight_risk_facts(event, target, core_facts)
-    risk_text = "；".join(strip_terminal_punct(fact.zh) for fact in risks)
-    sections.append("个人对本次航班识别的风险：\n" + risk_text + "。")
+    sections.append(
+        "个人对本次航班中识别的风险：\n"
+        + duty_risk_text(
+            event,
+            records,
+            core_facts,
+            weather_sentence,
+        )
+    )
 
     airports = unique([airport for airport in event.route if airport])
     for airport in airports:
-        items = typical_facts[airport][:5]
+        items = typical_facts[airport]
         numbered = "\n".join(
-            f"{index}.{strip_terminal_punct(fact.zh)}。"
+            f"{index}.{clean_output_fact(fact.zh)}。"
             for index, fact in enumerate(items, start=1)
         )
         sections.append(f"{airport_with_suffix(airport)}典型不安全事件：\n{numbered}")
 
-    core_lines = ["核心威胁与控制措施："]
+    core_lines = ["核心威胁："]
     for airport in airports:
-        role = "起飞" if airport_role(event, airport) == "departure" else "落地"
-        numbered = "\n".join(
-            f"{index}、{strip_terminal_punct(fact.zh)}。"
-            for index, fact in enumerate(core_facts[airport][:5], start=1)
+        paragraphs = "\n\n".join(
+            clean_output_fact(fact.zh) + "。"
+            for fact in core_facts[airport]
+            if clean_output_fact(fact.zh)
         )
-        core_lines.append(f"{short_airport_name(airport)}（{role}）：\n{numbered}")
+        core_lines.append(f"{airport_with_suffix(airport)}：\n{paragraphs}")
     sections.append("\n\n".join(core_lines))
-
-    recent = "\n".join(
-        f"{index}.{strip_terminal_punct(fact.zh)}。"
-        for index, fact in enumerate(RECENT_ATTENTION_FACTS, start=1)
-    )
-    sections.append("近期注意点：\n" + recent)
     return "\n\n".join(section.strip() for section in sections if section.strip()).strip() + "\n"
 
 
 def render_english_briefing(
-    event: CalendarEvent,
+    event: CalendarEvent | DutyContext,
     target: date,
     profile: dict,
     records: list[dict],
@@ -3592,26 +3990,20 @@ def render_english_briefing(
             f"{english_airport_name(airport)} Airport typical unsafe events:\n{numbered}"
         )
 
-    core_lines = ["Core threats and control measures:"]
+    core_lines = ["Core threats:"]
     for airport in airports:
-        role = "departure" if airport_role(event, airport) == "departure" else "arrival"
-        numbered = "\n".join(
-            f"{index}. {fact.en.strip().rstrip('.')}."
-            for index, fact in enumerate(core_facts[airport][:5], start=1)
+        paragraphs = "\n\n".join(
+            fact.en.strip().rstrip(".") + "."
+            for fact in core_facts[airport]
+            if fact.en.strip()
         )
-        core_lines.append(f"{english_airport_name(airport)} ({role}):\n{numbered}")
+        core_lines.append(f"{english_airport_name(airport)} Airport:\n{paragraphs}")
     sections.append("\n\n".join(core_lines))
-
-    recent = "\n".join(
-        f"{index}. {fact.en.strip().rstrip('.')}."
-        for index, fact in enumerate(RECENT_ATTENTION_FACTS, start=1)
-    )
-    sections.append("Recent attention points:\n" + recent)
     return "\n\n".join(section.strip() for section in sections if section.strip()).strip() + "\n"
 
 
 def briefing_fact_sets(
-    event: CalendarEvent,
+    event: CalendarEvent | DutyContext,
     target: date,
     risks: dict[str, list[str]],
     threats: dict[str, list[str]],
@@ -3626,7 +4018,7 @@ def briefing_fact_sets(
             risks.get(airport, []),
             threats.get(airport, []),
             target.month,
-            max_items=min(max_items, 5),
+            max_items=max_items,
             source_records=source_records.get(airport, []),
         )
         for airport in airports
@@ -3642,10 +4034,8 @@ def briefing_fact_sets(
         for airport in airports
     }
     all_facts = [
-        *flight_risk_facts(event, target, core),
         *(fact for airport in airports for fact in typical[airport]),
         *(fact for airport in airports for fact in core[airport]),
-        *RECENT_ATTENTION_FACTS,
     ]
     return typical, core, all_facts
 
@@ -3691,7 +4081,7 @@ def general_control_items(
 
 def validate_content(
     content: str,
-    event: CalendarEvent,
+    event: CalendarEvent | DutyContext,
     profile: dict,
     airports: list[str],
     *,
@@ -3701,15 +4091,13 @@ def validate_content(
     if language == "zh":
         expected_name = profile.get("name", "")
         expected_start = "我是"
-        risk_heading = "个人对本次航班识别的风险："
-        core_heading = "核心威胁与控制措施："
-        recent_heading = "近期注意点："
+        risk_heading = "个人对本次航班中识别的风险："
+        core_heading = "核心威胁："
     else:
         expected_name = PILOT_ENGLISH_NAMES.get(profile.get("name", ""), profile.get("name", ""))
         expected_start = "I am "
         risk_heading = "Risks I have identified for this flight:"
-        core_heading = "Core threats and control measures:"
-        recent_heading = "Recent attention points:"
+        core_heading = "Core threats:"
 
     if expected_name and expected_name not in content:
         errors.append("正文缺少姓名")
@@ -3719,8 +4107,6 @@ def validate_content(
         errors.append("正文缺少个人风险识别标题")
     if core_heading not in content:
         errors.append("正文缺少核心威胁标题")
-    if recent_heading not in content:
-        errors.append("正文缺少近期注意点")
 
     forbidden_metadata = [
         event.flight_number,
@@ -3748,12 +4134,10 @@ def validate_content(
     for airport in airports:
         if language == "zh":
             typical_title = f"{airport_with_suffix(airport)}典型不安全事件："
-            role = "起飞" if airport_role(event, airport) == "departure" else "落地"
-            core_title = f"{short_airport_name(airport)}（{role}）："
+            core_title = f"{airport_with_suffix(airport)}："
         else:
             typical_title = f"{english_airport_name(airport)} Airport typical unsafe events:"
-            role = "departure" if airport_role(event, airport) == "departure" else "arrival"
-            core_title = f"{english_airport_name(airport)} ({role}):"
+            core_title = f"{english_airport_name(airport)} Airport:"
         if typical_title not in content:
             errors.append(f"正文漏掉{typical_title}")
         if core_title not in content:
@@ -3783,6 +4167,11 @@ def validate_content(
         errors.append("正文仍包含资料出处、页眉页脚或表格标题")
     if language == "zh" and "机组" in content:
         errors.append("中文正文使用了“机组”作为主体")
+    if language == "zh" and any(
+        token in content
+        for token in ("近期注意点：", "•", "核心威胁与控制措施：")
+    ):
+        errors.append("正文仍包含旧版栏目或黑点列表")
 
     minimum = 700
     if len(content.strip()) < minimum:
@@ -3832,7 +4221,7 @@ def main() -> int:
             return 0
 
         try:
-            flight = select_exact_flight_event(
+            flights = select_continuous_flight_group(
                 all_events,
                 target,
                 flight_number=args.flight_number,
@@ -3841,19 +4230,20 @@ def main() -> int:
             )
         except (AmbiguousFlightSelectionError, FlightSelectionError) as exc:
             status = {
-                "status": "FAILED_SAFE",
+                "status": "NEEDS_SELECTION",
                 "target_date": target.isoformat(),
                 "message": str(exc),
                 "version": VERSION,
-                "note": "未能唯一匹配当前航班事件，正式准备稿未覆盖。",
+                "note": "存在多组互不连续任务，需要人工指定；正式准备稿未覆盖。",
             }
             write_status(repo, status)
+            atomic_write_json(output_dir / "latest_meta.json", status)
             append_github_summary(
                 f"## 免费航前准备\n\n**FAILED_SAFE**：{exc}\n\n正式准备稿未覆盖。"
             )
             return 2
 
-        flights = [flight]
+        duty = DutyContext(tuple(flights))
         changes: list[str] = []
         if settings.get("auto_update_airport_experience", True):
             experience, changes = update_airport_experience(
@@ -3864,14 +4254,15 @@ def main() -> int:
             )
             atomic_write_json(repo / "config" / "airport_experience.json", experience)
 
-        airports = unique([airport for airport in flight.route if airport])
+        airports = list(duty.route)
         mapping = extract_airport_mapping(repo / "crew_calendar_main.py")
         icao_map = {airport: resolve_icao(airport, mapping) for airport in airports}
 
         weather_meta: dict[str, dict] = {}
+        weather_sentence = "航班时段天气以航前最新TAF/METAR及放行资料为准。"
         warnings: list[str] = []
         if settings.get("include_weather_section", True):
-            _, weather_warnings, weather_meta = weather_risk_sentence(
+            weather_sentence, weather_warnings, weather_meta = weather_risk_sentence(
                 airports,
                 icao_map,
                 int(settings.get("weather_timeout_seconds", 20)),
@@ -3880,7 +4271,13 @@ def main() -> int:
             )
             warnings.extend(weather_warnings)
 
-        max_items = int((settings.get("typical_incidents_per_airport") or {}).get("max", 5))
+        configured_max = int(
+            (settings.get("typical_incidents_per_airport") or {}).get(
+                "max", 100
+            )
+            or 100
+        )
+        max_items = max(100, configured_max)
         (
             risks,
             airport_threat_map,
@@ -3916,28 +4313,35 @@ def main() -> int:
 
         exp_records = experience_records(experience, airports, target)
         typical_facts, core_facts, all_facts = briefing_fact_sets(
-            flight,
+            duty,
             target,
             risks,
             airport_threat_map,
             max_items=max_items,
             source_records=airport_source_records,
         )
-        english_names = foreign_crew_names(flight)
-        english_required = should_generate_english(flight)
+        (
+            english_required,
+            english_confirmation_required,
+            english_names,
+        ) = english_generation_decision(
+            duty,
+            settings,
+            args.generate_english,
+        )
 
         group_content = render_chinese_briefing(
-            flight,
+            duty,
             target,
             profile,
             exp_records,
             typical_facts,
             core_facts,
+            weather_sentence,
         )
-        detail_content = group_content
         english_content = (
             render_english_briefing(
-                flight,
+                duty,
                 target,
                 profile,
                 exp_records,
@@ -3947,31 +4351,15 @@ def main() -> int:
             if english_required
             else ""
         )
-        english_detail_content = english_content
 
         errors = [
-            *validate_bilingual_facts(all_facts),
-            *validate_content(group_content, flight, profile, airports, language="zh"),
-            *[
-                "详细版：" + item
-                for item in validate_content(
-                    detail_content,
-                    flight,
-                    profile,
-                    airports,
-                    language="zh",
-                )
-            ],
+            *validate_content(group_content, duty, profile, airports, language="zh"),
         ]
         for airport in airports:
             if not core_facts[airport]:
-                errors.append(f"{airport}没有可追溯的双语核心运行事实")
-            if len(core_facts[airport]) > 5:
-                errors.append(f"{airport}核心威胁与控制措施超过5条")
+                errors.append(f"{airport}没有可追溯的核心运行事实")
             if not typical_facts[airport]:
-                errors.append(f"{airport}没有可追溯的双语典型事件事实")
-            if len(typical_facts[airport]) > 5:
-                errors.append(f"{airport}典型不安全事件超过5条")
+                errors.append(f"{airport}没有可追溯的典型事件事实")
             errors.extend(
                 validate_airport_fact_bindings(
                     airport,
@@ -3979,11 +4367,12 @@ def main() -> int:
                 )
             )
         if english_required:
+            errors.extend(validate_bilingual_facts(all_facts))
             errors.extend(
                 "英文版：" + item
                 for item in validate_content(
                     english_content,
-                    flight,
+                    duty,
                     profile,
                     airports,
                     language="en",
@@ -4002,25 +4391,12 @@ def main() -> int:
             return 2
 
         dated_group_name = f"{target.isoformat()}_航前准备.txt"
-        dated_detail_name = f"{target.isoformat()}_航前准备_详细版.txt"
         dated_english_name = f"{target.isoformat()}_航前准备_EN.txt" if english_required else ""
-        dated_english_detail_name = (
-            f"{target.isoformat()}_航前准备_详细版_EN.txt" if english_required else ""
-        )
         atomic_write_text(output_dir / dated_group_name, group_content)
-        atomic_write_text(output_dir / dated_detail_name, detail_content)
         atomic_write_text(output_dir / "latest.txt", group_content)
-        atomic_write_text(output_dir / "latest_detail.txt", detail_content)
         if english_required:
             atomic_write_text(output_dir / dated_english_name, english_content)
-            atomic_write_text(output_dir / dated_english_detail_name, english_detail_content)
             atomic_write_text(output_dir / "latest_en.txt", english_content)
-            atomic_write_text(output_dir / "latest_detail_en.txt", english_detail_content)
-        else:
-            for stale_name in ("latest_en.txt", "latest_detail_en.txt"):
-                stale_path = output_dir / stale_name
-                if stale_path.exists():
-                    stale_path.unlink()
 
         atomic_write_json(
             output_dir / "latest_meta.json",
@@ -4029,19 +4405,18 @@ def main() -> int:
                 "target_date": target.isoformat(),
                 "generated_at_beijing": now_beijing().isoformat(),
                 "generator": VERSION,
-                "flight_numbers": [flight.flight_number],
+                "flight_numbers": [event.flight_number for event in flights],
                 "airports": airports,
                 "group_output": dated_group_name,
-                "detail_output": dated_detail_name,
                 "english_output": dated_english_name,
-                "english_detail_output": dated_english_detail_name,
                 "english_generated": english_required,
+                "foreign_crew_detected": bool(english_names),
+                "foreign_crew_names": english_names,
+                "english_confirmation_required": english_confirmation_required,
                 "english_trigger_names": english_names,
-                "matched_event_uid": flight.uid,
-                "matched_flight_number": flight.flight_number,
-                "matched_departure": flight.route[0],
-                "matched_arrival": flight.route[1],
-                "matched_people": flight.people,
+                "matched_event_uids": [event.uid for event in flights],
+                "matched_flights": [event.to_dict() for event in flights],
+                "matched_people": duty.people,
                 "warnings": unique(warnings),
                 "weather": weather_meta,
                 "airport_experience_changes": changes,
@@ -4049,13 +4424,6 @@ def main() -> int:
                 "airport_information_version": manual_ver,
                 "airport_information_type": manual_type,
                 "airport_fact_ids": {
-                    airport: {
-                        "typical": [fact.fact_id for fact in typical_facts[airport]],
-                        "core": [fact.fact_id for fact in core_facts[airport]],
-                    }
-                    for airport in airports
-                },
-                "english_airport_fact_ids": {
                     airport: {
                         "typical": [fact.fact_id for fact in typical_facts[airport]],
                         "core": [fact.fact_id for fact in core_facts[airport]],
@@ -4091,15 +4459,14 @@ def main() -> int:
                 "status": "SUCCESS",
                 "target_date": target.isoformat(),
                 "group_output": str(output_dir / dated_group_name),
-                "detail_output": str(output_dir / dated_detail_name),
                 "english_output": str(output_dir / dated_english_name) if english_required else "",
+                "english_confirmation_required": english_confirmation_required,
                 "version": VERSION,
             },
         )
         summary = (
-            f"## {target.isoformat()} 航前准备（群发精简版）\n\n"
-            f"```text\n{group_content}```\n\n"
-            f"详细备查稿：`flight_preparation/{dated_detail_name}`"
+            f"## {target.isoformat()} 航前准备\n\n"
+            f"```text\n{group_content}```"
         )
         if english_required:
             summary += f"\n\n英文版：`flight_preparation/{dated_english_name}`"
@@ -4107,7 +4474,6 @@ def main() -> int:
             summary += "\n\n### 系统提示\n" + "\n".join(f"- {w}" for w in unique(warnings))
         append_github_summary(summary)
         print(f"SUCCESS: {output_dir / dated_group_name}")
-        print(f"DETAIL: {output_dir / dated_detail_name}")
         if english_required:
             print(f"ENGLISH: {output_dir / dated_english_name}")
         return 0
