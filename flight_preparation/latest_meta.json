@@ -1,211 +1,341 @@
 {
   "status": "SUCCESS",
-  "target_date": "2026-08-02",
-  "generated_at_beijing": "2026-08-01T12:30:00.691775+08:00",
-  "generator": "flight-prep-free-v13.1-source-bound-airport-facts",
+  "target_date": "2026-08-04",
+  "generated_at_beijing": "2026-08-04T15:54:05.586995+08:00",
+  "generator": "flight-prep-free-v14-final-confirmed-format",
   "flight_numbers": [
-    "9C8522"
+    "9C8523",
+    "9C8524"
   ],
   "airports": [
-    "普吉",
-    "上海浦东"
+    "上海浦东",
+    "恩施许家坪"
   ],
-  "group_output": "2026-08-02_航前准备.txt",
-  "detail_output": "2026-08-02_航前准备_详细版.txt",
-  "english_output": "2026-08-02_航前准备_EN.txt",
-  "english_detail_output": "2026-08-02_航前准备_详细版_EN.txt",
-  "english_generated": true,
-  "english_trigger_names": [
-    "KIM YOUNG HO(R)"
+  "group_output": "2026-08-04_航前准备.txt",
+  "english_output": "",
+  "english_generated": false,
+  "foreign_crew_detected": false,
+  "foreign_crew_names": [],
+  "english_confirmation_required": false,
+  "english_trigger_names": [],
+  "matched_event_uids": [
+    "f04a1d91822c4ab0c05f4346066c10bb@crew-calendar",
+    "066db756d0137e8b89e1ef6b8d0d2962@crew-calendar"
   ],
-  "matched_event_uid": "8134e310748b56c60e5a94683ad98e51@crew-calendar",
-  "matched_flight_number": "9C8522",
-  "matched_departure": "普吉",
-  "matched_arrival": "上海浦东",
+  "matched_flights": [
+    {
+      "uid": "f04a1d91822c4ab0c05f4346066c10bb@crew-calendar",
+      "summary": "✈️ 9C8523 上海浦东→恩施许家坪",
+      "start": "2026-08-04T07:05:00+08:00",
+      "end": "2026-08-04T09:35:00+08:00",
+      "description": "08月04日 周二\n类型：航班\n航班：9C8523\n航线：上海浦东 → 恩施许家坪\n地点：上海浦东\n签到：05:15｜上海浦东\n任务：07:05 - 09:35\n机型：A320｜注册号：B32HK\n\n人员名单：\n• 宋磊(T,R)\n• 李明亮(R)\n• 段洋硕\n• 韦承贇(B)\n\n版本：2026-08-03 22:00",
+      "location": "上海浦东",
+      "properties": {
+        "UID": "f04a1d91822c4ab0c05f4346066c10bb@crew-calendar",
+        "SUMMARY": "✈️ 9C8523 上海浦东→恩施许家坪",
+        "DTSTART": "20260804T070500",
+        "DTEND": "20260804T093500",
+        "DESCRIPTION": "08月04日 周二\\n类型：航班\\n航班：9C8523\\n航线：上海浦东 → 恩施许家坪\\n地点：上海浦东\\n签到：05:15｜上海浦东\\n任务：07:05 - 09:35\\n机型：A320｜注册号：B32HK\\n\\n人员名单：\\n• 宋磊(T\\,R)\\n• 李明亮(R)\\n• 段洋硕\\n• 韦承贇(B)\\n\\n版本：2026-08-03 22:00",
+        "X-CONTENT-SIGNATURE": "295086145a748244b77c46267d2f7f10",
+        "LOCATION": "上海浦东"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C8523",
+      "departure": "上海浦东",
+      "arrival": "恩施许家坪",
+      "aircraft_type": "A320",
+      "registration": "B32HK",
+      "checkin": "05:15｜上海浦东",
+      "people": [
+        "宋磊(T,R)",
+        "李明亮(R)",
+        "段洋硕",
+        "韦承贇(B)"
+      ],
+      "cross_day": false
+    },
+    {
+      "uid": "066db756d0137e8b89e1ef6b8d0d2962@crew-calendar",
+      "summary": "✈️ 9C8524 恩施许家坪→上海浦东",
+      "start": "2026-08-04T10:20:00+08:00",
+      "end": "2026-08-04T12:35:00+08:00",
+      "description": "08月04日 周二\n类型：航班\n航班：9C8524\n航线：恩施许家坪 → 上海浦东\n地点：恩施许家坪\n签到：08:45｜恩施许家坪\n任务：10:20 - 12:35\n机型：A320｜注册号：B32HK\n\n人员名单：\n• 宋磊(T,R)\n• 李明亮(R)\n• 段洋硕\n• 韦承贇(B)\n\n版本：2026-08-03 22:00",
+      "location": "恩施许家坪",
+      "properties": {
+        "UID": "066db756d0137e8b89e1ef6b8d0d2962@crew-calendar",
+        "SUMMARY": "✈️ 9C8524 恩施许家坪→上海浦东",
+        "DTSTART": "20260804T102000",
+        "DTEND": "20260804T123500",
+        "DESCRIPTION": "08月04日 周二\\n类型：航班\\n航班：9C8524\\n航线：恩施许家坪 → 上海浦东\\n地点：恩施许家坪\\n签到：08:45｜恩施许家坪\\n任务：10:20 - 12:35\\n机型：A320｜注册号：B32HK\\n\\n人员名单：\\n• 宋磊(T\\,R)\\n• 李明亮(R)\\n• 段洋硕\\n• 韦承贇(B)\\n\\n版本：2026-08-03 22:00",
+        "X-CONTENT-SIGNATURE": "dbc927d541a88d5c87ee89e5a0a3b796",
+        "LOCATION": "恩施许家坪"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C8524",
+      "departure": "恩施许家坪",
+      "arrival": "上海浦东",
+      "aircraft_type": "A320",
+      "registration": "B32HK",
+      "checkin": "08:45｜恩施许家坪",
+      "people": [
+        "宋磊(T,R)",
+        "李明亮(R)",
+        "段洋硕",
+        "韦承贇(B)"
+      ],
+      "cross_day": false
+    }
+  ],
   "matched_people": [
-    "KIM YOUNG HO(R)",
+    "宋磊(T,R)",
+    "李明亮(R)",
     "段洋硕",
-    "程书青(R)",
-    "毛佳骏(B)"
+    "韦承贇(B)"
   ],
   "warnings": [
-    "普吉匹配最新机场特点章节：普吉机场运行特点 PHUKET(HKT/VTSP)（VTSP）",
-    "上海浦东匹配最新机场特点章节：上 海 / 浦 东 机 场 运 行 特 点（ZSPD）"
+    "恩施许家坪天气获取提示：机场 ICAO 未识别",
+    "上海浦东匹配最新机场特点章节：上 海 / 浦 东 机 场 运 行 特 点（ZSPD）",
+    "恩施许家坪匹配最新机场特点章节：恩 施 / 许 家 坪 机 场 运 行 特 点（ZHES）"
   ],
   "weather": {
-    "普吉": {
-      "icao": "VTSP",
-      "source_used": "TAF",
-      "taf_validity_utc": [
-        "2026-08-01T00:00:00+00:00",
-        "2026-08-02T06:00:00+00:00"
-      ],
-      "relevant_times": [
-        "2026-08-02T00:35:00+08:00"
-      ],
-      "decoded": [
-        "能见度100米"
-      ],
-      "fetch_error": ""
-    },
     "上海浦东": {
       "icao": "ZSPD",
-      "source_used": "TAF",
+      "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-08-01T06:00:00+00:00",
-        "2026-08-02T12:00:00+00:00"
+        "2026-08-04T06:00:00+00:00",
+        "2026-08-05T12:00:00+00:00"
       ],
       "relevant_times": [
-        "2026-08-02T05:55:00+08:00"
+        "2026-08-04T07:05:00+08:00",
+        "2026-08-04T12:35:00+08:00"
       ],
-      "decoded": [
-        "能见度103米",
-        "强雷雨"
-      ],
+      "taf_decoded_by_time": [],
+      "decoded": [],
       "fetch_error": ""
+    },
+    "恩施许家坪": {
+      "icao": "",
+      "source_used": "OUTSIDE_VALID_WINDOW",
+      "taf_validity_utc": [],
+      "relevant_times": [
+        "2026-08-04T09:35:00+08:00",
+        "2026-08-04T10:20:00+08:00"
+      ],
+      "taf_decoded_by_time": [],
+      "decoded": [],
+      "fetch_error": "机场 ICAO 未识别"
     }
   },
-  "airport_experience_changes": [],
+  "airport_experience_changes": [
+    "普吉: 2026-07-31 -> 2026-08-02",
+    "上海浦东: 2026-07-31 -> 2026-08-02",
+    "上海浦东: 2026-08-02 -> 2026-08-04",
+    "恩施许家坪: - -> 2026-08-04"
+  ],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
   "airport_information_version": 20260720,
   "airport_information_type": "PDF",
   "airport_fact_ids": {
-    "普吉": {
-      "typical": [
-        "普吉_typical_approach_energy"
-      ],
-      "core": [
-        "普吉_core_approach_energy"
-      ]
-    },
     "上海浦东": {
       "typical": [
-        "上海浦东_typical_1",
-        "上海浦东_typical_2",
-        "上海浦东_typical_3",
-        "上海浦东_typical_4"
+        "上海浦东_typical_record_1",
+        "上海浦东_typical_record_2"
       ],
       "core": [
+        "zspd_departure_procedure",
+        "zspd_adgs_entry",
+        "zspd_departure_ground",
+        "zspd_departure_navigation",
         "zspd_arrival_change_energy",
         "zspd_tcas",
         "zspd_bird",
-        "zspd_thunderstorm",
-        "zspd_adgs_entry"
-      ]
-    }
-  },
-  "english_airport_fact_ids": {
-    "普吉": {
-      "typical": [
-        "普吉_typical_approach_energy"
-      ],
-      "core": [
-        "普吉_core_approach_energy"
+        "zspd_thunderstorm"
       ]
     },
-    "上海浦东": {
+    "恩施许家坪": {
       "typical": [
-        "上海浦东_typical_1",
-        "上海浦东_typical_2",
-        "上海浦东_typical_3",
-        "上海浦东_typical_4"
+        "恩施许家坪_typical_record_1"
       ],
       "core": [
-        "zspd_arrival_change_energy",
-        "zspd_tcas",
-        "zspd_bird",
-        "zspd_thunderstorm",
-        "zspd_adgs_entry"
+        "恩施许家坪_core_record_9",
+        "恩施许家坪_core_record_8",
+        "恩施许家坪_core_record_2",
+        "恩施许家坪_core_record_10",
+        "恩施许家坪_core_record_4",
+        "恩施许家坪_core_record_7",
+        "恩施许家坪_core_record_5",
+        "恩施许家坪_core_record_6"
       ]
     }
   },
   "airport_fact_sources": {
-    "普吉": [
-      {
-        "fact_id": "普吉_typical_approach_energy",
-        "airport": "普吉",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "普吉机场运行特点 PHUKET(HKT/VTSP)",
-        "source_section": "普吉机场运行特点 PHUKET(HKT/VTSP)／典型不安全事件",
-        "operational_phase": "incident",
-        "text_zh": "进近阶段可能因下降指挥偏晚或剖面偏高出现超速、构型建立偏晚和不稳定进近。",
-        "text_en": "Late descent or a high profile can lead to overspeed, delayed configuration, and an unstable approach.",
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "普吉_core_approach_energy",
-        "airport": "普吉",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "普吉机场运行特点 PHUKET(HKT/VTSP)",
-        "source_section": "普吉机场运行特点 PHUKET(HKT/VTSP)／核心威胁与运行特点",
-        "operational_phase": "unspecified",
-        "text_zh": "进近前应提前完成下降、减速和构型计划，收到直飞、雷达引导或五边内切指令后重新评估剩余距离和高距比；无法在规定高度达到稳定进近标准时应果断复飞。",
-        "text_en": "We must plan descent, deceleration, and configuration early. After a direct clearance, radar vector, or shortened final, reassess remaining distance and energy and go around if stabilization criteria cannot be met.",
-        "airport_specific": true,
-        "category": "core"
-      }
-    ],
     "上海浦东": [
       {
-        "fact_id": "上海浦东_typical_1",
+        "fact_id": "上海浦东_typical_record_1",
         "airport": "上海浦东",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "CURATED",
+        "source": "PDF",
         "source_page": "448-451",
-        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-        "source_section": "上海浦东人工精选／典型不安全事件",
+        "source_heading": "上 海 / 浦 东 机 场 运 行 特 点",
+        "source_section": "上 海 / 浦 东 机 场 运 行 特 点／典型不安全事件",
+        "source_text_zh": "曾因低高度失去目视参考导致复飞。",
         "operational_phase": "incident",
-        "text_zh": "曾发生低高度鸟击并造成雷达罩损伤事件。",
-        "text_en": "A low-altitude bird strike has caused radome damage.",
+        "operational_condition": [],
+        "applicability": [],
+        "risk": [
+          "曾因低高度失去目视参考导致复飞"
+        ],
+        "mitigation": [],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "曾因低高度失去目视参考导致复飞。",
+        "text_en": "",
         "airport_specific": true,
         "category": "typical"
       },
       {
-        "fact_id": "上海浦东_typical_2",
+        "fact_id": "上海浦东_typical_record_2",
         "airport": "上海浦东",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "CURATED",
+        "source": "PDF",
         "source_page": "448-451",
-        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-        "source_section": "上海浦东人工精选／典型不安全事件",
-        "operational_phase": "incident",
-        "text_zh": "曾发生低高度失去目视参考后继续进近事件。",
-        "text_en": "An approach has continued after visual reference was lost at low altitude.",
+        "source_heading": "上 海 / 浦 东 机 场 运 行 特 点",
+        "source_section": "上 海 / 浦 东 机 场 运 行 特 点／典型不安全事件",
+        "source_text_zh": "曾因低高度鸟击导致雷达罩处损伤超标。",
+        "operational_phase": "approach",
+        "operational_condition": [],
+        "applicability": [],
+        "risk": [
+          "曾因低高度鸟击导致雷达罩处损伤超标"
+        ],
+        "mitigation": [],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "曾因低高度鸟击导致雷达罩处损伤超标。",
+        "text_en": "Bird activity around the airport can create a low-altitude bird-strike risk during departure, approach, and landing.",
         "airport_specific": true,
         "category": "typical"
       },
       {
-        "fact_id": "上海浦东_typical_3",
+        "fact_id": "zspd_departure_procedure",
         "airport": "上海浦东",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
         "source": "CURATED",
-        "source_page": "448-451",
+        "source_page": "450",
         "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-        "source_section": "上海浦东人工精选／典型不安全事件",
-        "operational_phase": "incident",
-        "text_zh": "曾发生进近阶段TA/RA事件。",
-        "text_en": "TA/RA events have occurred during approach.",
+        "source_section": "浦东人工精选／2606离场程序核对",
+        "source_text_zh": "浦东2606期程序已经调整。驾驶舱准备阶段我们应核对实际跑道、SID、跑道过渡、离场公共段、第一航路点及全部高度速度限制，PF和PM独立检查MCDU，防止新旧程序混淆。",
+        "operational_phase": "preparation",
+        "operational_condition": [
+          "浦东2606期程序已经调整",
+          "PF和PM独立检查MCDU"
+        ],
+        "applicability": [
+          "跑道",
+          "离场"
+        ],
+        "risk": [],
+        "mitigation": [
+          "防止新旧程序混淆"
+        ],
+        "restriction": [
+          "驾驶舱准备阶段我们应核对实际跑道、SID、跑道过渡、离场公共段、第一航路点及全部高度速度限制"
+        ],
+        "excluded_source_clauses": [],
+        "text_zh": "浦东2606期程序已经调整。驾驶舱准备阶段我们应核对实际跑道、SID、跑道过渡、离场公共段、第一航路点及全部高度速度限制，PF和PM独立检查MCDU，防止新旧程序混淆。",
+        "text_en": "Pudong procedures changed in cycle 2606. During cockpit preparation, we must cross-check the actual runway, SID, runway transition, common departure segment, first waypoint, and all altitude and speed constraints, with independent PF and PM verification of the MCDU to prevent old/new procedure confusion.",
         "airport_specific": true,
-        "category": "typical"
+        "category": "core"
       },
       {
-        "fact_id": "上海浦东_typical_4",
+        "fact_id": "zspd_adgs_entry",
+        "airport": "上海浦东",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "448",
+        "source_heading": "上海/浦东机场运行特点",
+        "source_section": "二、核心威胁／4.其他威胁／第(3)项",
+        "source_text_zh": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。",
+        "operational_phase": "ground",
+        "operational_condition": [
+          "进入设有ADGS的机位时",
+          "如引导指示有疑问",
+          "或人工引导机位的地面接机人员未就位",
+          "并保持发动机运转等待处置"
+        ],
+        "applicability": [
+          "滑行"
+        ],
+        "risk": [],
+        "mitigation": [
+          "我们应立即停止滑行、通知ATC"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。",
+        "text_en": "When entering a stand equipped with ADGS, if the guidance is doubtful or the ground reception personnel are not in position at a manually guided stand, we must stop, notify ATC, and keep the engines running while awaiting further action.",
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "zspd_departure_ground",
+        "airport": "上海浦东",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "448-449",
+        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
+        "source_section": "20260720手册第448-449页／指挥特点与地面滑行引导车",
+        "source_text_zh": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
+        "operational_phase": "ground",
+        "operational_condition": [
+          "滑行中如发现地面滑行引导车"
+        ],
+        "applicability": [
+          "滑行"
+        ],
+        "risk": [
+          "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令"
+        ],
+        "mitigation": [
+          "我们应准确区分并完整复诵",
+          "应按机场细则关闭滑行灯并跟随引导车滑行"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
+        "text_en": "At Pudong, the apron may issue either a push-and-start clearance or an instruction to report after pushback. We must distinguish and read back the instruction accurately. If a ground follow-me vehicle is encountered during taxi, switch off the taxi light and follow the vehicle as required by the airport rules.",
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "zspd_departure_navigation",
         "airport": "上海浦东",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
         "source": "CURATED",
-        "source_page": "448-451",
+        "source_page": "450-451",
         "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-        "source_section": "上海浦东人工精选／典型不安全事件",
-        "operational_phase": "incident",
-        "text_zh": "地面滑行路线复杂、热点较多，存在滑错路线和跑道侵入风险。",
-        "text_en": "Complex taxi routes and multiple hotspots create wrong-turn and runway-incursion risks.",
+        "source_section": "浦东人工精选／导航标准与航图勘误",
+        "source_text_zh": "如实际涉及16L、17R、34R或35L跑道，我们应使用最新有效导航标准和航图勘误；执行VOR 17L或VOR 35R相关程序时，重点核对导航数据库修正内容和高度限制。",
+        "operational_phase": "departure",
+        "operational_condition": [
+          "如实际涉及16L、17R、34R或35L跑道",
+          "执行VOR 17L或VOR 35R相关程序时"
+        ],
+        "applicability": [
+          "跑道"
+        ],
+        "risk": [],
+        "mitigation": [
+          "我们应使用最新有效导航标准和航图勘误"
+        ],
+        "restriction": [
+          "重点核对导航数据库修正内容和高度限制"
+        ],
+        "excluded_source_clauses": [],
+        "text_zh": "如实际涉及16L、17R、34R或35L跑道，我们应使用最新有效导航标准和航图勘误；执行VOR 17L或VOR 35R相关程序时，重点核对导航数据库修正内容和高度限制。",
+        "text_en": "If operations involve runways 16L, 17R, 34R, or 35L, we must use the latest valid navigation criteria and chart corrections. For procedures associated with VOR 17L or VOR 35R, cross-check navigation-database corrections and altitude constraints.",
         "airport_specific": true,
-        "category": "typical"
+        "category": "core"
       },
       {
         "fact_id": "zspd_arrival_change_energy",
@@ -215,7 +345,26 @@
         "source_page": "450-451",
         "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
         "source_section": "20260720手册第450-451页／进场程序、临时更改与直飞",
+        "source_text_zh": "浦东进场程序较多且有时临时更改，非繁忙时段可能收到直飞。进场前我们应核对实际跑道、STAR、进近方式、第一相关航路点及全部高度速度限制；收到直飞、雷达引导或跑道变化后立即修改MCDU并重新评估剩余距离、下降剖面、减速和构型，不能稳定时复飞。",
         "operational_phase": "arrival",
+        "operational_condition": [
+          "浦东进场程序较多且有时临时更改",
+          "收到直飞、雷达引导或跑道变化后立即修改MCDU并重新评估剩余距离、下降剖面、减速和构型",
+          "不能稳定时复飞"
+        ],
+        "applicability": [
+          "进场",
+          "跑道",
+          "进近"
+        ],
+        "risk": [
+          "非繁忙时段可能收到直飞"
+        ],
+        "mitigation": [],
+        "restriction": [
+          "进场前我们应核对实际跑道、STAR、进近方式、第一相关航路点及全部高度速度限制"
+        ],
+        "excluded_source_clauses": [],
         "text_zh": "浦东进场程序较多且有时临时更改，非繁忙时段可能收到直飞。进场前我们应核对实际跑道、STAR、进近方式、第一相关航路点及全部高度速度限制；收到直飞、雷达引导或跑道变化后立即修改MCDU并重新评估剩余距离、下降剖面、减速和构型，不能稳定时复飞。",
         "text_en": "Pudong has multiple arrival procedures that may change at short notice, and direct clearances may be issued outside busy periods. Before arrival, we must cross-check the actual runway, STAR, approach, first relevant waypoint, and all altitude and speed constraints. After any direct clearance, radar vector, or runway change, update the MCDU and reassess the remaining distance, descent profile, deceleration, and configuration; go around if the approach cannot be stabilized.",
         "airport_specific": true,
@@ -229,7 +378,23 @@
         "source_page": "448,451",
         "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
         "source_section": "20260720手册第448、451页／其他威胁：进近TA/RA",
+        "source_text_zh": "浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
         "operational_phase": "approach",
+        "operational_condition": [
+          "接近目标高度最后2000ft且有邻近航空器时",
+          "发生RA时严格执行现行程序"
+        ],
+        "applicability": [
+          "进近"
+        ],
+        "risk": [
+          "浦东进近阶段曾多次触发TA/RA"
+        ],
+        "mitigation": [
+          "我们应合理控制升降率并持续监控冲突趋势"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [],
         "text_zh": "浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
         "text_en": "Multiple TA/RA events have occurred during approach to Pudong. Within the last 2000 ft before the cleared altitude, when nearby traffic is present, we must manage the vertical rate and monitor the conflict trend; comply strictly with the current RA procedure if an RA occurs.",
         "airport_specific": true,
@@ -243,7 +408,24 @@
         "source_page": "448",
         "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
         "source_section": "20260720手册第448页／其他威胁：东侧海岸鸟类活动",
+        "source_text_zh": "浦东东侧海岸鸟类活动与低高度进近航迹可能重叠。我们应关注ATIS、ATC和机场鸟情通报，加强低高度外部观察；发现鸟群或发生鸟击后，根据飞机状态执行程序并及时报告。",
         "operational_phase": "approach",
+        "operational_condition": [
+          "加强低高度外部观察",
+          "发现鸟群或发生鸟击后",
+          "根据飞机状态执行程序并及时报告"
+        ],
+        "applicability": [
+          "进近"
+        ],
+        "risk": [
+          "浦东东侧海岸鸟类活动与低高度进近航迹可能重叠"
+        ],
+        "mitigation": [
+          "我们应关注ATIS、ATC和机场鸟情通报"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [],
         "text_zh": "浦东东侧海岸鸟类活动与低高度进近航迹可能重叠。我们应关注ATIS、ATC和机场鸟情通报，加强低高度外部观察；发现鸟群或发生鸟击后，根据飞机状态执行程序并及时报告。",
         "text_en": "Bird activity along the coast east of Pudong may overlap the low-altitude approach path. We must monitor ATIS, ATC, and airport bird advisories and maintain an effective external scan at low altitude; after sighting a flock or sustaining a bird strike, apply the appropriate procedure for the aircraft condition and report promptly.",
         "airport_specific": true,
@@ -257,26 +439,296 @@
         "source_page": "N/A",
         "source_heading": "上海浦东",
         "source_section": "airport_supplements.json／上海浦东／core_threats／夏季雷雨",
+        "source_text_zh": "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
         "operational_phase": "weather",
+        "operational_condition": [
+          "提前评估绕飞、等待、着陆性能和备降油量",
+          "出现风切变警告或状态不稳定时按程序复飞"
+        ],
+        "applicability": [
+          "跑道",
+          "着陆"
+        ],
+        "risk": [
+          "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变"
+        ],
+        "mitigation": [
+          "我们应全程合理使用气象雷达"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [],
         "text_zh": "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
         "text_en": "Summer thunderstorms at Pudong may bring low cloud, reduced visibility, a wet runway, and windshear. We must use the weather radar appropriately throughout the flight and assess deviation, holding, landing performance, and diversion fuel early; execute the prescribed go-around for a windshear warning or an unstable condition.",
         "airport_specific": false,
         "category": "core"
-      },
+      }
+    ],
+    "恩施许家坪": [
       {
-        "fact_id": "zspd_adgs_entry",
-        "airport": "上海浦东",
+        "fact_id": "恩施许家坪_typical_record_1",
+        "airport": "恩施许家坪",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
         "source": "PDF",
-        "source_page": "448",
-        "source_heading": "上海/浦东机场运行特点",
-        "source_section": "二、核心威胁／4.其他威胁／第(3)项",
+        "source_page": "N/A",
+        "source_heading": "恩 施 / 许 家 坪 机 场 运 行 特 点",
+        "source_section": "恩 施 / 许 家 坪 机 场 运 行 特 点／典型不安全事件",
+        "source_text_zh": "该机场因道面特点和地形易发生不稳定进近导致终止进近/ 复飞。",
+        "operational_phase": "incident",
+        "operational_condition": [],
+        "applicability": [
+          "进近"
+        ],
+        "risk": [
+          "该机场因道面特点和地形易发生不稳定进近导致终止进近/ 复飞"
+        ],
+        "mitigation": [],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "该机场因道面特点和地形易发生不稳定进近导致终止进近/ 复飞。",
+        "text_en": "Late descent or a high profile can lead to overspeed, delayed configuration, and an unstable approach.",
+        "airport_specific": true,
+        "category": "typical"
+      },
+      {
+        "fact_id": "恩施许家坪_core_record_9",
+        "airport": "恩施许家坪",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "恩 施 / 许 家 坪 机 场 运 行 特 点",
+        "source_section": "恩 施 / 许 家 坪 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+        "source_text_zh": "跑道等待道口B、C、D宽度较窄，需严格控制滑行速度，谨防误撞边灯风险。",
         "operational_phase": "ground",
-        "text_zh": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。",
-        "text_en": "When entering a stand equipped with ADGS, if the guidance is doubtful or the ground reception personnel are not in position at a manually guided stand, we must stop, notify ATC, and keep the engines running while awaiting further action.",
+        "operational_condition": [
+          "跑道等待道口B、C、D宽度较窄"
+        ],
+        "applicability": [
+          "跑道",
+          "滑行"
+        ],
+        "risk": [
+          "谨防误撞边灯风险"
+        ],
+        "mitigation": [
+          "需严格控制滑行速度"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "跑道等待道口B、C、D宽度较窄，需严格控制滑行速度，谨防误撞边灯风险。",
+        "text_en": "",
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "恩施许家坪_core_record_8",
+        "airport": "恩施许家坪",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "恩 施 / 许 家 坪 机 场 运 行 特 点",
+        "source_section": "恩 施 / 许 家 坪 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+        "source_text_zh": "01号跑道起飞有载重限制，请结合FLY SMART计算结果采取措施（关空调起飞）。",
+        "operational_phase": "departure",
+        "operational_condition": [],
+        "applicability": [
+          "01号跑道",
+          "起飞"
+        ],
+        "risk": [],
+        "mitigation": [
+          "请结合FLY SMART计算结果采取措施（关空调起飞）"
+        ],
+        "restriction": [
+          "01号跑道起飞有载重限制"
+        ],
+        "excluded_source_clauses": [],
+        "text_zh": "01号跑道起飞有载重限制，应结合FLY SMART计算结果采取措施，如计算需要再关空调起飞。",
+        "text_en": "",
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "恩施许家坪_core_record_2",
+        "airport": "恩施许家坪",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "恩 施 / 许 家 坪 机 场 运 行 特 点",
+        "source_section": "恩 施 / 许 家 坪 机 场 运 行 特 点／核心威胁与运行特点／指挥特点",
+        "source_text_zh": "直飞本场VOR(DYK)容易造成剖面高，ENH台不在本场上空，注意识别。",
+        "operational_phase": "arrival",
+        "operational_condition": [
+          "ENH台不在本场上空"
+        ],
+        "applicability": [],
+        "risk": [
+          "直飞本场VOR(DYK)容易造成剖面高"
+        ],
+        "mitigation": [
+          "注意识别"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "直飞本场VOR(DYK)容易造成剖面高，ENH台不在本场上空，注意识别。",
+        "text_en": "We must plan descent, deceleration, and configuration early. After a direct clearance, radar vector, or shortened final, reassess remaining distance and energy and go around if stabilization criteria cannot be met.",
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "恩施许家坪_core_record_10",
+        "airport": "恩施许家坪",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "恩 施 / 许 家 坪 机 场 运 行 特 点",
+        "source_section": "恩 施 / 许 家 坪 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+        "source_text_zh": "有机组反应，低高度100米以下，下滑道与PAPI灯不匹配，如果只参考PAPI灯，有可能触发G/S警告的风险。",
+        "operational_phase": "approach",
+        "operational_condition": [
+          "低高度100米以下",
+          "下滑道与PAPI灯不匹配",
+          "如果只参考PAPI灯"
+        ],
+        "applicability": [],
+        "risk": [
+          "有可能触发G/S警告的风险"
+        ],
+        "mitigation": [
+          "有机组反应"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "有机组反应，低高度100米以下，下滑道与PAPI灯不匹配，如果只参考PAPI灯，有可能触发G/S警告的风险。",
+        "text_en": "Before intercept, we must verify position, intercept angle, altitude, and distance and monitor LOC/GS, FMA, descent rate, and speed; apply the procedure for false or unstable capture and go around if necessary.",
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "恩施许家坪_core_record_4",
+        "airport": "恩施许家坪",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "恩 施 / 许 家 坪 机 场 运 行 特 点",
+        "source_section": "恩 施 / 许 家 坪 机 场 运 行 特 点／核心威胁与运行特点／道面特点",
+        "source_text_zh": "跑道两头均有跑道入口内移，01和19号的实际着陆可用距离为2410米和2350米，应使用中档刹车。",
+        "operational_phase": "approach",
+        "operational_condition": [
+          "01号跑道入口内移",
+          "实际着陆可用距离为2410米"
+        ],
+        "applicability": [
+          "01号跑道",
+          "着陆"
+        ],
+        "risk": [],
+        "mitigation": [
+          "应使用中档刹车"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [
+          {
+            "clause": "19号跑道实际着陆可用距离为2350米",
+            "reason": "同一机场来源限制明确19号跑道禁止进近着陆"
+          }
+        ],
+        "text_zh": "01号跑道入口内移，实际着陆可用距离为2410米，应使用中档刹车。",
+        "text_en": "During approach and landing, we must use instruments, PAPI, runway markings, and lighting together rather than a single visual impression; go around for a long touchdown, abnormal descent rate, or uncertain runway identification.",
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "恩施许家坪_core_record_7",
+        "airport": "恩施许家坪",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "恩 施 / 许 家 坪 机 场 运 行 特 点",
+        "source_section": "恩 施 / 许 家 坪 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+        "source_text_zh": "19号跑道只能用于起飞，禁止进近及着陆。",
+        "operational_phase": "approach",
+        "operational_condition": [],
+        "applicability": [
+          "19号跑道",
+          "起飞",
+          "进近",
+          "着陆"
+        ],
+        "risk": [],
+        "mitigation": [],
+        "restriction": [
+          "19号跑道只能用于起飞",
+          "禁止进近及着陆"
+        ],
+        "excluded_source_clauses": [],
+        "text_zh": "19号跑道只能用于起飞，禁止进近及着陆。",
+        "text_en": "",
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "恩施许家坪_core_record_5",
+        "airport": "恩施许家坪",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "恩 施 / 许 家 坪 机 场 运 行 特 点",
+        "source_section": "恩 施 / 许 家 坪 机 场 运 行 特 点／核心威胁与运行特点／气象特点",
+        "source_text_zh": "01号五边常有顺风且下降梯度大（3.2度），注意能量管理，避免不稳定。",
+        "operational_phase": "weather",
+        "operational_condition": [
+          "01号五边常有顺风且下降梯度大（3.2度）"
+        ],
+        "applicability": [
+          "01号"
+        ],
+        "risk": [],
+        "mitigation": [
+          "注意能量管理",
+          "避免不稳定"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "01号五边常有顺风且下降梯度大（3.2度），注意能量管理，避免不稳定。",
+        "text_en": "",
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "恩施许家坪_core_record_6",
+        "airport": "恩施许家坪",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "恩 施 / 许 家 坪 机 场 运 行 特 点",
+        "source_section": "恩 施 / 许 家 坪 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+        "source_text_zh": "机场处于山沟之中，地形复杂，注意控制轨迹及下降率，避免CFIT。",
+        "operational_phase": "terrain",
+        "operational_condition": [
+          "机场处于山沟之中",
+          "地形复杂"
+        ],
+        "applicability": [],
+        "risk": [],
+        "mitigation": [
+          "注意控制轨迹及下降率",
+          "避免CFIT"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "机场处于山沟之中，地形复杂，注意控制轨迹及下降率，避免CFIT。",
+        "text_en": "",
         "airport_specific": true,
         "category": "core"
       }
     ]
-  }
+  },
+  "excluded_source_clauses": [
+    {
+      "airport": "恩施许家坪",
+      "fact_id": "恩施许家坪_core_record_4",
+      "clause": "19号跑道实际着陆可用距离为2350米",
+      "reason": "同一机场来源限制明确19号跑道禁止进近着陆"
+    }
+  ]
 }

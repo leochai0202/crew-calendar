@@ -1,6 +1,6 @@
 {
   "rolling_days": 90,
-  "as_of": "2026-08-01",
+  "as_of": "2026-08-04",
   "airports": {
     "西安咸阳": {
       "last_operated": "2026-05-26",
@@ -21,9 +21,9 @@
       "within_90_days": true
     },
     "上海浦东": {
-      "last_operated": "2026-07-31",
+      "last_operated": "2026-08-04",
       "source": "completed_schedule_event",
-      "flight_number": "9C8521",
+      "flight_number": "9C8523",
       "within_90_days": true
     },
     "札幌新千岁": {
@@ -225,9 +225,15 @@
       "within_90_days": true
     },
     "普吉": {
-      "last_operated": "2026-07-31",
+      "last_operated": "2026-08-02",
       "source": "completed_schedule_event",
-      "flight_number": "9C8521",
+      "flight_number": "9C8522",
+      "within_90_days": true
+    },
+    "恩施许家坪": {
+      "last_operated": "2026-08-04",
+      "source": "completed_schedule_event",
+      "flight_number": "9C8523",
       "within_90_days": true
     }
   },
