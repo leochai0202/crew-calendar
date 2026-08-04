@@ -7,3 +7,6 @@ playwright/.auth-diagnostics/
 *.storage-state.json
 crew-auth-session*.json
 .env
+__pycache__/
+*.py[cod]
+flight_preparation/.success
