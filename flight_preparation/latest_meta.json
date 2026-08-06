@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-08-07",
-  "generated_at_beijing": "2026-08-06T02:09:23.391111+08:00",
+  "generated_at_beijing": "2026-08-06T12:24:51.403697+08:00",
   "generator": "flight-prep-free-v14-final-confirmed-format",
   "flight_numbers": [
     "9C7021"
@@ -61,7 +61,10 @@
     "上海浦东": {
       "icao": "ZSPD",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-08-06T06:00:00+00:00",
+        "2026-08-07T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-08-07T21:35:00+08:00"
       ],
@@ -73,8 +76,8 @@
       "icao": "ZYTX",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-08-05T18:00:00+00:00",
-        "2026-08-06T18:00:00+00:00"
+        "2026-08-06T06:00:00+00:00",
+        "2026-08-07T06:00:00+00:00"
       ],
       "relevant_times": [
         "2026-08-08T00:05:00+08:00"
