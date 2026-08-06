@@ -288,7 +288,10 @@ BASE_AIRPORT_CN_TO_ICAO = {
     "格尔木": "ZLGM",
     "敦煌莫高": "ZLDH",
     "莫高": "ZLDH",
+    "嘉峪关酒泉": "ZLJQ",
+    "嘉峪关酒泉机场": "ZLJQ",
     "嘉峪关": "ZLJQ",
+    "酒泉": "ZLJQ",
     "庆阳西峰": "ZLQY",
     "西峰": "ZLQY",
     "榆林榆阳": "ZLYL",
@@ -377,6 +380,13 @@ BASE_AIRPORT_CN_TO_ICAO = {
     "台北松山": "RCSS",
     "松山": "RCSS",
     "高雄": "RCKH",
+}
+
+
+# ICAO 反向映射的首选显示名。别名可以比首选名更长（例如带“机场”
+# 后缀），因此不能简单地用最长字符串决定日历中的正式显示名称。
+PREFERRED_AIRPORT_CN_BY_ICAO = {
+    "ZLJQ": "嘉峪关酒泉",
 }
 
 
@@ -703,7 +713,16 @@ def rebuild_airport_indexes():
     AIRPORT_CN_TO_ICAO = merged
 
     AIRPORT_ICAO_TO_CN = {}
+    for icao, preferred_name in PREFERRED_AIRPORT_CN_BY_ICAO.items():
+        if AIRPORT_CN_TO_ICAO.get(preferred_name) == icao:
+            AIRPORT_ICAO_TO_CN[icao] = preferred_name
+
     for name, icao in AIRPORT_CN_TO_ICAO.items():
+        if (
+            icao in PREFERRED_AIRPORT_CN_BY_ICAO
+            and icao in AIRPORT_ICAO_TO_CN
+        ):
+            continue
         if icao not in AIRPORT_ICAO_TO_CN or len(name) > len(AIRPORT_ICAO_TO_CN[icao]):
             AIRPORT_ICAO_TO_CN[icao] = name
 
@@ -4255,6 +4274,10 @@ def split_concat_airport_route(text: str):
     if not text or not re.fullmatch(r"[\u4e00-\u9fff]{4,40}", text):
         return "", ""
 
+    def preferred_name(name: str) -> str:
+        icao = AIRPORT_CN_TO_ICAO.get(name, "")
+        return AIRPORT_ICAO_TO_CN.get(icao, name) if icao else name
+
     # 第一优先级：完整前缀 + 完整后缀。
     # 例如：上海浦东 + 乌兰巴托成吉思汗。
     for dep_name in AIRPORT_NAMES:
@@ -4265,7 +4288,7 @@ def split_concat_airport_route(text: str):
             continue
         for arr_name in AIRPORT_NAMES:
             if arr_name and rest == arr_name:
-                return dep_name, arr_name
+                return preferred_name(dep_name), preferred_name(arr_name)
 
     # 第二优先级：枚举两个不重叠机场名，要求拼起来正好覆盖全文。
     # 这样可以避免“上海浦东...浦东”这种子串误判。
@@ -4290,7 +4313,20 @@ def split_concat_airport_route(text: str):
 
     if candidates:
         candidates.sort(reverse=True)
-        return candidates[0][1], candidates[0][2]
+        return preferred_name(candidates[0][1]), preferred_name(candidates[0][2])
+
+    def contains_known_airport_fragment(candidate: str) -> bool:
+        """Reject an unknown endpoint that already contains a known airport.
+
+        Such a value is usually a failed boundary, for example
+        ``酒泉沈阳桃仙``. Returning no route is safer than inventing an airport.
+        """
+        return any(
+            name
+            and name != candidate
+            and (candidate.startswith(name) or candidate.endswith(name))
+            for name in AIRPORT_NAMES
+        )
 
     # 第三优先级：已知机场 + 未知机场。
     # 这是为了以后遇到机场字典里暂时没有的新机场，也能按页面原文拆。
@@ -4304,17 +4340,25 @@ def split_concat_airport_route(text: str):
                 if not dep_name or not text.startswith(dep_name):
                     continue
                 rest = normalize_text(text[len(dep_name):])
-                if 2 <= len(rest) <= 20 and re.fullmatch(r"[\u4e00-\u9fff]{2,20}", rest):
+                if (
+                    2 <= len(rest) <= 20
+                    and re.fullmatch(r"[\u4e00-\u9fff]{2,20}", rest)
+                    and not contains_known_airport_fragment(rest)
+                ):
                     if rest not in ROLE_WORDS and rest not in TASK_TITLE_WORDS:
-                        return dep_name, rest
+                        return preferred_name(dep_name), rest
 
             for arr_name in AIRPORT_NAMES:
                 if not arr_name or not text.endswith(arr_name):
                     continue
                 prefix = normalize_text(text[:len(text) - len(arr_name)])
-                if 2 <= len(prefix) <= 20 and re.fullmatch(r"[\u4e00-\u9fff]{2,20}", prefix):
+                if (
+                    2 <= len(prefix) <= 20
+                    and re.fullmatch(r"[\u4e00-\u9fff]{2,20}", prefix)
+                    and not contains_known_airport_fragment(prefix)
+                ):
                     if prefix not in ROLE_WORDS and prefix not in TASK_TITLE_WORDS:
-                        return prefix, arr_name
+                        return prefix, preferred_name(arr_name)
 
     return "", ""
 
@@ -4561,6 +4605,30 @@ def extract_segment_details_from_day_block(day_block: str, flight_numbers: list)
         people_lines = normalize_people_output(extract_people_lines_flight(card))
         card_segments = extract_route_time_segments_from_day_block(card)
         card_segment = card_segments[0] if card_segments else {}
+        start_time, end_time = extract_start_end_time(card)
+        dep_icao, arr_icao = extract_icao_pairs_from_card(card)
+        dep_cn = card_segment.get("dep_cn", "")
+        arr_cn = card_segment.get("arr_cn", "")
+
+        if dep_icao and arr_icao:
+            icao_dep_cn, icao_arr_cn = resolve_airport_names(
+                dep_icao,
+                arr_icao,
+                card,
+                checkin_place=checkin_place,
+            )
+            parsed_dep_icao = AIRPORT_CN_TO_ICAO.get(dep_cn, "")
+            parsed_arr_icao = AIRPORT_CN_TO_ICAO.get(arr_cn, "")
+            if (
+                (parsed_dep_icao and parsed_dep_icao != dep_icao)
+                or (parsed_arr_icao and parsed_arr_icao != arr_icao)
+            ):
+                logger.warning(
+                    "任务卡中文航线与ICAO端点冲突，保留ICAO端点："
+                    f"{dep_icao}→{arr_icao}"
+                )
+            if icao_dep_cn and icao_arr_cn:
+                dep_cn, arr_cn = icao_dep_cn, icao_arr_cn
 
         detail = {
             "flight_no": flight_no,
@@ -4569,10 +4637,13 @@ def extract_segment_details_from_day_block(day_block: str, flight_numbers: list)
             "checkin_time": checkin_time,
             "checkin_place": checkin_place,
             "people_lines": people_lines,
-            "dep_cn": card_segment.get("dep_cn", ""),
-            "arr_cn": card_segment.get("arr_cn", ""),
-            "start_time": card_segment.get("start_time", ""),
-            "end_time": card_segment.get("end_time", ""),
+            "dep": dep_icao or card_segment.get("dep", ""),
+            "arr": arr_icao or card_segment.get("arr", ""),
+            "dep_cn": dep_cn,
+            "arr_cn": arr_cn,
+            "start_time": start_time or card_segment.get("start_time", ""),
+            "end_time": end_time or card_segment.get("end_time", ""),
+            "raw_line": card_segment.get("raw_line", card),
             "raw_card_text": card,
         }
 
@@ -4609,7 +4680,27 @@ def parse_multi_segment_flight_items(day_header: str, day_block: str, page_year:
 
     year, month, day_num = date_info
     flight_numbers = extract_flight_numbers_from_day_block(day_block)
-    segments = extract_route_time_segments_from_day_block(day_block)
+    segment_details = extract_segment_details_from_day_block(day_block, flight_numbers)
+    detailed_segments = [
+        {
+            "dep": detail.get("dep", ""),
+            "arr": detail.get("arr", ""),
+            "dep_cn": detail.get("dep_cn", ""),
+            "arr_cn": detail.get("arr_cn", ""),
+            "start_time": detail.get("start_time", ""),
+            "end_time": detail.get("end_time", ""),
+            "raw_line": detail.get("raw_line", ""),
+        }
+        for detail in segment_details
+        if all(
+            detail.get(key)
+            for key in ("dep", "arr", "dep_cn", "arr_cn", "start_time", "end_time")
+        )
+    ]
+    if len(detailed_segments) == len(flight_numbers) and len(detailed_segments) >= 2:
+        segments = detailed_segments
+    else:
+        segments = extract_route_time_segments_from_day_block(day_block)
 
     if len(flight_numbers) < 2 or len(segments) < 2:
         return []
@@ -4621,7 +4712,6 @@ def parse_multi_segment_flight_items(day_header: str, day_block: str, page_year:
     day_reg, day_model = extract_reg_and_model(day_block)
     day_people = normalize_people_output(extract_people_lines_flight(day_block))
     segment_checkins = extract_segment_checkins_from_day_block(day_block, segments)
-    segment_details = extract_segment_details_from_day_block(day_block, flight_numbers)
 
     items = []
 
