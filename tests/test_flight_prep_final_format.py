@@ -471,6 +471,36 @@ def test_source_semantic_validation_detects_removed_measure() -> None:
     assert any("控制措施" in error for error in errors)
 
 
+def test_source_reference_is_removed_but_operational_fact_is_preserved() -> None:
+    record = {
+        "airport": "测试机场",
+        "fact_id": "complex-airport-category",
+        "source_file": "knowledge/test-airport-manual.pdf",
+        "source": "PDF",
+        "source_page": "10",
+        "source_heading": "测试机场运行特点",
+        "source_section": "核心威胁",
+        "operational_phase": "unspecified",
+        "airport_specific": True,
+        "category": "core",
+        "text_zh": (
+            "机场分类：一类操纵复杂机场"
+            "（请参考 EFB中机场特点汇总- 复杂机场操作权限规则）。"
+        ),
+        "text_en": "",
+    }
+
+    fact = agent.source_record_facts("测试机场", [record], category="core")[0]
+
+    assert fact.zh == "机场分类：一类操纵复杂机场。"
+    assert "参考" not in fact.zh
+    assert "EFB" not in fact.zh
+    assert "机场特点汇总-" not in fact.zh
+    assert any("参考 EFB" in clause for clause in fact.excluded_source_clauses)
+    assert "资料交叉引用不进入运行正文" in fact.exclusion_reasons
+    assert agent.validate_source_semantic_preservation(fact) == []
+
+
 def test_each_repeated_airport_time_is_evaluated(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:

@@ -3608,6 +3608,40 @@ def project_source_fact_for_applicability(
     return rewritten.rstrip("。") + "。", tuple(excluded), tuple(reasons)
 
 
+SOURCE_REFERENCE_PAREN_RE = re.compile(
+    r"[（(][^）)]*(?:参考|详见)\s*(?:EFB|航图|机场特点(?:汇总)?)[^）)]*[）)]",
+    re.IGNORECASE,
+)
+SOURCE_REFERENCE_CLAUSE_RE = re.compile(
+    r"(?:请)?(?:参考|详见)\s*(?:EFB|航图|机场特点(?:汇总)?)[^；。]*",
+    re.IGNORECASE,
+)
+
+
+def strip_source_reference_clauses(text: str) -> tuple[str, tuple[str, ...]]:
+    """Remove manual cross-references while preserving the operational fact.
+
+    Source references are provenance rather than cockpit content. The removed
+    clause is retained in fact metadata so the transformation stays auditable.
+    """
+    excluded: list[str] = []
+
+    def drop(match: re.Match[str]) -> str:
+        clause = match.group(0).strip(" （）()。；;，,")
+        if clause:
+            excluded.append(clause)
+        return ""
+
+    cleaned = SOURCE_REFERENCE_PAREN_RE.sub(drop, normalize_text(text))
+    cleaned = SOURCE_REFERENCE_CLAUSE_RE.sub(drop, cleaned)
+    cleaned = re.sub(r"\s+", " ", cleaned)
+    cleaned = re.sub(r"[，,；;]+(?=。|$)", "", cleaned).strip(" ；;，,")
+    return (
+        cleaned.rstrip("。") + "。" if cleaned.strip("。") else "",
+        tuple(unique(excluded)),
+    )
+
+
 def source_record_facts(
     airport: str,
     records: list[dict[str, object]],
@@ -3643,6 +3677,17 @@ def source_record_facts(
                 landing_prohibited=prohibited_runways,
             )
         )
+        text_zh, reference_clauses = strip_source_reference_clauses(text_zh)
+        if reference_clauses:
+            excluded_clauses = tuple([*excluded_clauses, *reference_clauses])
+            exclusion_reasons = tuple(
+                [
+                    *exclusion_reasons,
+                    *("资料交叉引用不进入运行正文" for _ in reference_clauses),
+                ]
+            )
+        if not text_zh:
+            continue
         text_en = str(record.get("text_en", "")).strip()
         original_semantics = source_semantics(source_text_zh)
         rendered_semantics = source_semantics(text_zh)
