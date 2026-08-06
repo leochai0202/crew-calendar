@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-08-08",
-  "generated_at_beijing": "2026-08-06T22:05:33.956835+08:00",
+  "generated_at_beijing": "2026-08-06T23:13:24.827048+08:00",
   "generator": "flight-prep-free-v14-final-confirmed-format",
   "flight_numbers": [
     "9C6499",
@@ -139,22 +139,16 @@
         "沈阳桃仙_core_record_8",
         "沈阳桃仙_core_record_3",
         "沈阳桃仙_core_record_4",
-        "沈阳桃仙_core_record_12",
-        "沈阳桃仙_core_record_6",
-        "沈阳桃仙_core_record_5",
-        "沈阳桃仙_core_record_7"
+        "沈阳桃仙_core_record_12"
       ]
     },
     "嘉峪关酒泉": {
       "typical": [
-        "嘉峪关酒泉_typical_record_1"
+        "嘉峪关酒泉_typical_no_data"
       ],
       "core": [
-        "嘉峪关酒泉_core_record_6",
-        "嘉峪关酒泉_core_record_5",
-        "嘉峪关酒泉_core_record_2",
+        "paragraph:嘉峪关酒泉_core_record_5+嘉峪关酒泉_core_record_2+嘉峪关酒泉_core_record_4",
         "嘉峪关酒泉_core_record_3",
-        "嘉峪关酒泉_core_record_4",
         "嘉峪关酒泉_core_record_7"
       ]
     }
@@ -181,6 +175,13 @@
         "excluded_source_clauses": [],
         "text_zh": "曾因在五边GPS 信号丢失触发虚假地形警告。",
         "text_en": "",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "terrain",
+        "source_fact_ids": [
+          "沈阳桃仙_typical_record_1"
+        ],
         "airport_specific": true,
         "category": "typical"
       },
@@ -204,6 +205,13 @@
         "excluded_source_clauses": [],
         "text_zh": "曾因风切变导致低空不稳定状态后机组复飞。",
         "text_en": "Strong wind, turbulence, or windshear can cause speed fluctuation, high descent rate, and an unstable landing condition.",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "weather",
+        "source_fact_ids": [
+          "沈阳桃仙_typical_record_2"
+        ],
         "airport_specific": true,
         "category": "typical"
       },
@@ -234,6 +242,13 @@
         "excluded_source_clauses": [],
         "text_zh": "沈阳机场近期频发离地姿态大事件，起飞擦机尾风险增高，建议机组操纵起飞时保持较低的拉杆速率，确保飞机完全离地（无线电高度表数值增加）方可继续带杆增加姿态。",
         "text_en": "",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "departure",
+        "source_fact_ids": [
+          "沈阳桃仙_core_record_8"
+        ],
         "airport_specific": true,
         "category": "core"
       },
@@ -282,6 +297,13 @@
         "excluded_source_clauses": [],
         "text_zh": "通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
         "text_en": "Before intercept, we must verify position, intercept angle, altitude, and distance and monitor LOC/GS, FMA, descent rate, and speed; apply the procedure for false or unstable capture and go around if necessary.",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "approach",
+        "source_fact_ids": [
+          "沈阳桃仙_core_record_3"
+        ],
         "airport_specific": true,
         "category": "core"
       },
@@ -296,8 +318,6 @@
         "source_text_zh": "冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案。24 号向阳落地，对着陆目视有影响。",
         "operational_phase": "weather",
         "operational_condition": [
-          "冬春季大风乱流明显",
-          "尤其是 06 号短五边气流明显",
           "24 号向阳落地",
           "对着陆目视有影响"
         ],
@@ -305,16 +325,31 @@
           "落地",
           "着陆"
         ],
-        "risk": [
-          "做好出现风切变或者状态不稳定导致复飞的预案"
-        ],
-        "mitigation": [
-          "机组应多关注风向风速变化"
-        ],
+        "risk": [],
+        "mitigation": [],
         "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案。24 号向阳落地，对着陆目视有影响。",
-        "text_en": "We must verify mean wind, gust, and crosswind components and monitor speed trend, descent rate, and attitude; apply the prescribed procedure and go around for a windshear warning or an unstable low-altitude condition.",
+        "excluded_source_clauses": [
+          {
+            "clause": "冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案",
+            "reason": "目标月份为8月，不在资料明确季节适用月份1,2,3,4,5,12月内"
+          }
+        ],
+        "text_zh": "24 号向阳落地，对着陆目视有影响。",
+        "text_en": "",
+        "season_scope": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          12
+        ],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "weather",
+        "source_fact_ids": [
+          "沈阳桃仙_core_record_4"
+        ],
         "airport_specific": true,
         "category": "core"
       },
@@ -343,96 +378,20 @@
         "excluded_source_clauses": [],
         "text_zh": "严防程序、跑道和离场点输入错误；任何变化均需补充简令和交叉检查。",
         "text_en": "",
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "沈阳桃仙_core_record_6",
-        "airport": "沈阳桃仙",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
-        "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
-        "source_text_zh": "沈阳机场为了提高冬季运行效率，严禁在跑道里进行甩冰/暖车操作，需要甩冰必须提前联系管制员获得许可后方可执行。",
-        "operational_phase": "unspecified",
-        "operational_condition": [
-          "沈阳机场为了提高冬季运行效率"
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "departure",
+        "source_fact_ids": [
+          "沈阳桃仙_core_record_12"
         ],
-        "applicability": [
-          "跑道"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [
-          "严禁在跑道里进行甩冰/暖车操作",
-          "需要甩冰必须提前联系管制员获得许可后方可执行"
-        ],
-        "excluded_source_clauses": [],
-        "text_zh": "沈阳机场为了提高冬季运行效率，严禁在跑道里进行甩冰/暖车操作，需要甩冰必须提前联系管制员获得许可后方可执行。",
-        "text_en": "",
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "沈阳桃仙_core_record_5",
-        "airport": "沈阳桃仙",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
-        "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
-        "source_text_zh": "沈阳机场发布了最新的《冬季运行保障方案》，其中对于除防冰的要求是春秋及其除冰代理航班原则上停放115-117 区域，根据航班小时峰谷波动情况向 114 方向动态调整；沈阳机场为本公司自行除防冰，如果一步除冰法用的是 I 型防冰液，如果是两步法，第一步是用 I 型除冰，第二步用 IV型，需要根据手册的相关能见度的表查询保持时间。",
-        "operational_phase": "unspecified",
-        "operational_condition": [
-          "沈阳机场发布了最新的《冬季运行保障方案》",
-          "其中对于除防冰的要求是春秋及其除冰代理航班原则上停放115-117 区域",
-          "根据航班小时峰谷波动情况向 114 方向动态调整",
-          "沈阳机场为本公司自行除防冰",
-          "如果一步除冰法用的是 I 型防冰液",
-          "如果是两步法",
-          "第一步是用 I 型除冰",
-          "第二步用 IV型"
-        ],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [
-          "需要根据手册的相关能见度的表查询保持时间"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "沈阳机场发布了最新的《冬季运行保障方案》，其中对于除防冰的要求是春秋及其除冰代理航班原则上停放115-117 区域，根据航班小时峰谷波动情况向 114 方向动态调整；沈阳机场为本公司自行除防冰，如果一步除冰法用的是 I 型防冰液，如果是两步法，第一步是用 I 型除冰，第二步用 IV型，需要根据手册的相关能见度的表查询保持时间。",
-        "text_en": "",
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "沈阳桃仙_core_record_7",
-        "airport": "沈阳桃仙",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
-        "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
-        "source_text_zh": "9C7635 和 浦东-白山 9C6135 同时刻同行路 注意相识航班号和管制指令 避免误听指令。",
-        "operational_phase": "unspecified",
-        "operational_condition": [],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [
-          "9C7635 和 浦东-白山 9C6135 同时刻同行路 注意相识航班号和管制指令 避免误听指令"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "9C7635 和 浦东-白山 9C6135 同时刻同行路 注意相识航班号和管制指令 避免误听指令。",
-        "text_en": "",
         "airport_specific": true,
         "category": "core"
       }
     ],
     "嘉峪关酒泉": [
       {
-        "fact_id": "嘉峪关酒泉_typical_record_1",
+        "fact_id": "嘉峪关酒泉_typical_no_data",
         "airport": "嘉峪关酒泉",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
         "source": "PDF",
@@ -449,78 +408,37 @@
         "mitigation": [],
         "restriction": [],
         "excluded_source_clauses": [],
-        "text_zh": "目前数据库中无数据。",
-        "text_en": "",
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "嘉峪关酒泉_core_record_6",
-        "airport": "嘉峪关酒泉",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "嘉 峪 关 机 场 运 行 特 点",
-        "source_section": "嘉 峪 关 机 场 运 行 特 点／核心威胁与运行特点／气象特点",
-        "source_text_zh": "冬春季节多大风，沙尘暴，风切变等极端天气。",
-        "operational_phase": "weather",
-        "operational_condition": [
-          "冬春季节多大风",
-          "沙尘暴",
-          "风切变等极端天气"
+        "text_zh": "当前资料未列出明确典型不安全事件。",
+        "text_en": "The current source does not list a specific typical unsafe event.",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "special",
+        "source_fact_ids": [
+          "嘉峪关酒泉_typical_record_1"
         ],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "冬春季节多大风，沙尘暴，风切变等极端天气。",
-        "text_en": "We must verify mean wind, gust, and crosswind components and monitor speed trend, descent rate, and attitude; apply the prescribed procedure and go around for a windshear warning or an unstable low-altitude condition.",
         "airport_specific": true,
-        "category": "core"
+        "category": "typical_no_data"
       },
       {
-        "fact_id": "嘉峪关酒泉_core_record_5",
+        "fact_id": "paragraph:嘉峪关酒泉_core_record_5+嘉峪关酒泉_core_record_2+嘉峪关酒泉_core_record_4",
         "airport": "嘉峪关酒泉",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
         "source": "PDF",
         "source_page": "N/A",
         "source_heading": "嘉 峪 关 机 场 运 行 特 点",
         "source_section": "嘉 峪 关 机 场 运 行 特 点／核心威胁与运行特点",
-        "source_text_zh": "地形：150°～320°，且MSA根据距离有3300米和6000米不等。",
+        "source_text_zh": "地形：150°～320°，且MSA根据距离有3300米和6000米不等。 机场分类：一类操纵复杂机场（请参考 EFB中机场特点汇总- 复杂机场操作权限规则）。 高原机场：一般高原机场。",
         "operational_phase": "terrain",
         "operational_condition": [
           "地形：150°～320°",
-          "且MSA根据距离有3300米和6000米不等"
+          "且MSA根据距离有3300米和6000米不等",
+          "机场分类：一类操纵复杂机场",
+          "高原机场：一般高原机场"
         ],
         "applicability": [],
         "risk": [],
         "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "地形：150°～320°，且MSA根据距离有3300米和6000米不等。",
-        "text_en": "",
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "嘉峪关酒泉_core_record_2",
-        "airport": "嘉峪关酒泉",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "嘉 峪 关 机 场 运 行 特 点",
-        "source_section": "嘉 峪 关 机 场 运 行 特 点／核心威胁与运行特点",
-        "source_text_zh": "机场分类：一类操纵复杂机场（请参考 EFB中机场特点汇总- 复杂机场操作权限规则）。",
-        "operational_phase": "unspecified",
-        "operational_condition": [
-          "机场分类：一类操纵复杂机场"
-        ],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [
-          "机场分类：一类操纵复杂机场（请参考 EFB中机场特点汇总- 复杂机场操作权限规则）"
-        ],
         "restriction": [],
         "excluded_source_clauses": [
           {
@@ -528,8 +446,17 @@
             "reason": "资料交叉引用不进入运行正文"
           }
         ],
-        "text_zh": "机场分类：一类操纵复杂机场。",
-        "text_en": "",
+        "text_zh": "该机场属于一般高原机场和一类操纵复杂机场。150°至320°方向存在地形，且MSA根据距离有3300米和6000米不等。",
+        "text_en": "We must verify takeoff performance, bleed configuration, and engine-start condition. The PM must call rotation speed accurately and the PF must rotate normally; do not depart with inadequate performance or an abnormal start.",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "terrain",
+        "source_fact_ids": [
+          "嘉峪关酒泉_core_record_5",
+          "嘉峪关酒泉_core_record_2",
+          "嘉峪关酒泉_core_record_4"
+        ],
         "airport_specific": true,
         "category": "core"
       },
@@ -551,31 +478,15 @@
         "mitigation": [],
         "restriction": [],
         "excluded_source_clauses": [],
-        "text_zh": "特殊复杂程序：涉及释压程序。",
+        "text_zh": "特殊程序涉及释压程序。",
         "text_en": "",
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "嘉峪关酒泉_core_record_4",
-        "airport": "嘉峪关酒泉",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "嘉 峪 关 机 场 运 行 特 点",
-        "source_section": "嘉 峪 关 机 场 运 行 特 点／核心威胁与运行特点",
-        "source_text_zh": "高原机场：一般高原机场。",
-        "operational_phase": "unspecified",
-        "operational_condition": [
-          "高原机场：一般高原机场"
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "special",
+        "source_fact_ids": [
+          "嘉峪关酒泉_core_record_3"
         ],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "高原机场：一般高原机场。",
-        "text_en": "We must verify takeoff performance, bleed configuration, and engine-start condition. The PM must call rotation speed accurately and the PF must rotate normally; do not depart with inadequate performance or an abnormal start.",
         "airport_specific": true,
         "category": "core"
       },
@@ -597,8 +508,15 @@
           "注意襟缝翼操作限制2万英尺"
         ],
         "excluded_source_clauses": [],
-        "text_zh": "注意襟缝翼操作限制2万英尺。",
+        "text_zh": "注意襟缝翼操作限制20000英尺。",
         "text_en": "",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "performance",
+        "source_fact_ids": [
+          "嘉峪关酒泉_core_record_7"
+        ],
         "airport_specific": true,
         "category": "core"
       }
@@ -606,10 +524,95 @@
   },
   "excluded_source_clauses": [
     {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_4",
+      "clause": "冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案",
+      "reason": "目标月份为8月，不在资料明确季节适用月份1,2,3,4,5,12月内"
+    },
+    {
       "airport": "嘉峪关酒泉",
-      "fact_id": "嘉峪关酒泉_core_record_2",
+      "fact_id": "paragraph:嘉峪关酒泉_core_record_5+嘉峪关酒泉_core_record_2+嘉峪关酒泉_core_record_4",
       "clause": "请参考 EFB中机场特点汇总- 复杂机场操作权限规则",
       "reason": "资料交叉引用不进入运行正文"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_5",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+      "clause": "沈阳机场发布了最新的《冬季运行保障方案》，其中对于除防冰的要求是春秋及其除冰代理航班原则上停放115-117 区域，根据航班小时峰谷波动情况向 114 方向动态调整",
+      "reason": "目标月份为8月，不在资料明确季节适用月份1,2,12月内"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_5",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+      "clause": "沈阳机场为本公司自行除防冰，如果一步除冰法用的是 I 型防冰液，如果是两步法，第一步是用 I 型除冰，第二步用 IV型，需要根据手册的相关能见度的表查询保持时间",
+      "reason": "目标月份为8月，不在资料明确季节适用月份1,2,12月内"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_6",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+      "clause": "沈阳机场为了提高冬季运行效率，严禁在跑道里进行甩冰/暖车操作，需要甩冰必须提前联系管制员获得许可后方可执行",
+      "reason": "目标月份为8月，不在资料明确季节适用月份1,2,12月内"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_7",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+      "clause": "9C7635 和 浦东-白山 9C6135 同时刻同行路 注意相识航班号和管制指令 避免误听指令。",
+      "reason": "与当前航班/航线不匹配"
+    },
+    {
+      "airport": "嘉峪关酒泉",
+      "fact_id": "嘉峪关酒泉_core_record_6",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "嘉 峪 关 机 场 运 行 特 点",
+      "source_section": "嘉 峪 关 机 场 运 行 特 点／核心威胁与运行特点／气象特点",
+      "clause": "冬春季节多大风，沙尘暴，风切变等极端天气",
+      "reason": "目标月份为8月，不在资料明确季节适用月份1,2,3,4,5,12月内"
     }
-  ]
+  ],
+  "core_paragraph_fact_ids": {
+    "沈阳桃仙": [
+      [
+        "沈阳桃仙_core_record_8"
+      ],
+      [
+        "沈阳桃仙_core_record_3"
+      ],
+      [
+        "沈阳桃仙_core_record_4"
+      ],
+      [
+        "沈阳桃仙_core_record_12"
+      ]
+    ],
+    "嘉峪关酒泉": [
+      [
+        "嘉峪关酒泉_core_record_5",
+        "嘉峪关酒泉_core_record_2",
+        "嘉峪关酒泉_core_record_4"
+      ],
+      [
+        "嘉峪关酒泉_core_record_3"
+      ],
+      [
+        "嘉峪关酒泉_core_record_7"
+      ]
+    ]
+  }
 }
