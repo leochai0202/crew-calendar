@@ -501,6 +501,308 @@ def test_source_reference_is_removed_but_operational_fact_is_preserved() -> None
     assert agent.validate_source_semantic_preservation(fact) == []
 
 
+def _quality_record(
+    airport: str,
+    fact_id: str,
+    text: str,
+    *,
+    phase: str = "unspecified",
+    category: str = "core",
+) -> dict[str, object]:
+    return {
+        "airport": airport,
+        "fact_id": fact_id,
+        "source_file": agent.AIRPORT_MANUAL_FILE,
+        "source": "PDF",
+        "source_page": "10",
+        "source_heading": f"{airport}运行特点",
+        "source_section": f"{airport}／核心威胁",
+        "operational_phase": phase,
+        "airport_specific": True,
+        "category": category,
+        "text_zh": text,
+        "text_en": "",
+    }
+
+
+def _quality_duty(
+    airport: str = "测试机场",
+    flight_number: str = "9C6499",
+) -> agent.DutyContext:
+    outbound = _event(
+        "quality-out",
+        flight_number,
+        airport,
+        "另一测试机场",
+        datetime(2026, 8, 8, 10, 0, tzinfo=BEIJING),
+        datetime(2026, 8, 8, 12, 0, tzinfo=BEIJING),
+    )
+    inbound = _event(
+        "quality-in",
+        "9C6500",
+        "另一测试机场",
+        airport,
+        datetime(2026, 8, 8, 13, 0, tzinfo=BEIJING),
+        datetime(2026, 8, 8, 15, 0, tzinfo=BEIJING),
+    )
+    return agent.DutyContext((outbound, inbound))
+
+
+@pytest.mark.parametrize("season", ["冬季", "冬春季"])
+def test_august_excludes_winter_scoped_fact(season: str) -> None:
+    fact = agent.source_record_facts(
+        "测试机场",
+        [_quality_record("测试机场", "seasonal", f"{season}大风明显。")],
+        category="core",
+    )[0]
+    exclusions: list[dict[str, object]] = []
+
+    selected = agent.filter_fact_for_duty(
+        fact,
+        _quality_duty(),
+        date(2026, 8, 8),
+        exclusions,
+    )
+
+    assert selected is None
+    assert exclusions and "不在资料明确季节适用月份" in str(exclusions[0]["reason"])
+
+
+def test_season_mapping_and_explicit_month_ranges_are_centralized() -> None:
+    assert agent.SEASON_MONTHS["春季"] == (3, 4, 5)
+    assert agent.SEASON_MONTHS["夏季"] == (6, 7, 8)
+    assert agent.SEASON_MONTHS["秋季"] == (9, 10, 11)
+    assert agent.SEASON_MONTHS["冬季"] == (12, 1, 2)
+    assert agent.SEASON_MONTHS["冬春季"] == (12, 1, 2, 3, 4, 5)
+    assert agent.detected_season_scope("1—4月执行限制") == (1, 2, 3, 4)
+    assert agent.detected_season_scope("5至9月执行限制") == (5, 6, 7, 8, 9)
+
+
+def test_january_excludes_summer_scoped_fact() -> None:
+    fact = agent.source_record_facts(
+        "测试机场",
+        [_quality_record("测试机场", "summer", "夏季雷雨频繁。")],
+        category="core",
+    )[0]
+
+    assert agent.filter_fact_for_duty(
+        fact,
+        _quality_duty(),
+        date(2026, 1, 8),
+        [],
+    ) is None
+
+
+def test_mixed_annual_and_seasonal_clause_keeps_annual_fact() -> None:
+    fact = agent.source_record_facts(
+        "测试机场",
+        [
+            _quality_record(
+                "测试机场",
+                "mixed-season",
+                "全年需核对最低安全高度，冬季需关注结冰。",
+            )
+        ],
+        category="core",
+    )[0]
+
+    selected = agent.filter_fact_for_duty(
+        fact,
+        _quality_duty(),
+        date(2026, 8, 8),
+        [],
+    )
+
+    assert selected is not None
+    assert "全年需核对最低安全高度" in selected.zh
+    assert "冬季" not in selected.zh and "结冰" not in selected.zh
+    assert any("冬季" in clause for clause in selected.excluded_source_clauses)
+
+
+def test_season_scope_carries_across_semicolon_within_same_source_sentence() -> None:
+    fact = agent.source_record_facts(
+        "测试机场",
+        [
+            _quality_record(
+                "测试机场",
+                "winter-plan",
+                "冬季运行保障方案要求集中除冰；除冰液使用按冬季方案执行。",
+            )
+        ],
+        category="core",
+    )[0]
+
+    assert agent.filter_fact_for_duty(
+        fact,
+        _quality_duty(),
+        date(2026, 8, 8),
+        [],
+    ) is None
+
+
+def test_specific_flight_fact_requires_current_flight_match() -> None:
+    records = [
+        _quality_record(
+            "测试机场",
+            "flight-specific",
+            "9C7635和9C6135同时刻同行路，注意防止误听指令。",
+        )
+    ]
+    fact = agent.source_record_facts("测试机场", records, category="core")[0]
+    exclusions: list[dict[str, object]] = []
+
+    assert agent.filter_fact_for_duty(
+        fact,
+        _quality_duty(flight_number="9C6499"),
+        date(2026, 8, 8),
+        exclusions,
+    ) is None
+    assert exclusions[0]["reason"] == "与当前航班/航线不匹配"
+
+    matching = _quality_duty(flight_number="9C7635")
+    assert agent.filter_fact_for_duty(
+        fact,
+        matching,
+        date(2026, 8, 8),
+        [],
+    ) is not None
+
+
+def test_explicit_route_scope_requires_current_route_match() -> None:
+    record = _quality_record("测试机场", "route-specific", "特定航线运行提醒。")
+    record["route_scope"] = [("测试机场", "另一测试机场")]
+    fact = agent.source_record_facts("测试机场", [record], category="core")[0]
+    assert agent.filter_fact_for_duty(
+        fact,
+        _quality_duty(),
+        date(2026, 8, 8),
+        [],
+    ) is not None
+
+    mismatch = _quality_record("测试机场", "route-mismatch", "另一特定航线提醒。")
+    mismatch["route_scope"] = [("测试机场", "第三测试机场")]
+    mismatch_fact = agent.source_record_facts(
+        "测试机场", [mismatch], category="core"
+    )[0]
+    assert agent.filter_fact_for_duty(
+        mismatch_fact,
+        _quality_duty(),
+        date(2026, 8, 8),
+        [],
+    ) is None
+
+
+@pytest.mark.parametrize(
+    "placeholder",
+    ["目前数据库中无数据", "暂无数据", "未收录", "无", "N/A", "未发现明确事件"],
+)
+def test_typical_placeholder_renders_as_unnumbered_no_data(placeholder: str) -> None:
+    airport = "测试机场"
+    records = [
+        _quality_record(
+            airport,
+            "placeholder",
+            placeholder,
+            phase="incident",
+            category="typical",
+        )
+    ]
+    facts = agent.bilingual_typical_facts(
+        airport,
+        [],
+        [],
+        8,
+        5,
+        source_records=records,
+        event=_quality_duty(airport),
+        target=date(2026, 8, 8),
+    )
+
+    assert len(facts) == 1
+    assert facts[0].category == "typical_no_data"
+    assert facts[0].zh == agent.TYPICAL_NO_DATA_TEXT_ZH
+
+
+def test_profile_labels_become_one_traceable_natural_paragraph() -> None:
+    airport = "测试机场"
+    records = [
+        _quality_record(airport, "classification", "机场分类：一类操纵复杂机场。"),
+        _quality_record(airport, "highland", "高原机场：一般高原机场。"),
+        _quality_record(
+            airport,
+            "terrain",
+            "地形：150°～320°，且MSA根据距离有3300米和6000米不等。",
+            phase="terrain",
+        ),
+    ]
+
+    paragraphs = agent.airport_operational_facts(
+        _quality_duty(airport),
+        airport,
+        [],
+        date(2026, 8, 8),
+        source_records=records,
+    )
+
+    assert len(paragraphs) == 1
+    paragraph = paragraphs[0]
+    assert "该机场属于一般高原机场和一类操纵复杂机场" in paragraph.zh
+    assert "150°至320°方向存在地形" in paragraph.zh
+    assert "3300米" in paragraph.zh and "6000米" in paragraph.zh
+    assert not any(label in paragraph.zh for label in ("机场分类：", "高原机场：", "地形："))
+    assert set(paragraph.source_fact_ids) == {"classification", "highland", "terrain"}
+    assert agent.validate_source_semantic_preservation(paragraph) == []
+
+
+def test_same_topic_merge_preserves_numbers_units_and_source_control() -> None:
+    airport = "测试机场"
+    records = [
+        _quality_record(
+            airport,
+            "taxi-width",
+            "滑行道宽度为18米。",
+            phase="ground",
+        ),
+        _quality_record(
+            airport,
+            "taxi-speed",
+            "资料要求需严格控制滑行速度。",
+            phase="ground",
+        ),
+    ]
+    paragraphs = agent.airport_operational_facts(
+        _quality_duty(airport),
+        airport,
+        [],
+        date(2026, 8, 8),
+        source_records=records,
+    )
+
+    assert len(paragraphs) == 1
+    assert "18米" in paragraphs[0].zh
+    assert "需严格控制滑行速度" in paragraphs[0].zh
+    assert set(paragraphs[0].source_fact_ids) == {"taxi-width", "taxi-speed"}
+    assert agent.validate_source_semantic_preservation(paragraphs[0]) == []
+
+
+def test_topic_organization_does_not_invent_control_measure_or_cross_airport() -> None:
+    records = [
+        _quality_record("甲机场", "plain-a", "滑行道宽度为18米。", phase="ground"),
+        _quality_record("乙机场", "plain-b", "滑行道宽度为20米。", phase="ground"),
+    ]
+    paragraphs = agent.airport_operational_facts(
+        _quality_duty("甲机场"),
+        "甲机场",
+        [],
+        date(2026, 8, 8),
+        source_records=records,
+    )
+    content = "".join(fact.zh for fact in paragraphs)
+
+    assert "18米" in content and "20米" not in content
+    assert not any(word in content for word in ("应", "建议", "注意", "需", "必须"))
+
+
 def test_each_repeated_airport_time_is_evaluated(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -608,6 +910,10 @@ def test_real_august_four_final_confirmed_format(
     output = repo / "flight_preparation"
     content = (output / "latest.txt").read_text(encoding="utf-8")
     meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
+    expected_content = (
+        REPO_ROOT / "flight_preparation" / "2026-08-04_航前准备.txt"
+    ).read_text(encoding="utf-8")
+    assert content == expected_content
     assert content.startswith("我是来自飞行十五中队的副驾驶段洋硕")
     intro = content.split("\n\n", 1)[0]
     assert "A320" not in intro
@@ -670,4 +976,75 @@ def test_real_august_four_final_confirmed_format(
         and "禁止进近着陆" in item["reason"]
         for item in excluded
     )
+    assert hashlib.sha256((REPO_ROOT / "flight.ics").read_bytes()).hexdigest() == original_hash
+
+
+@pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含20260720机场手册PDF")
+def test_real_august_eight_applies_season_task_and_topic_quality(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    original_hash = hashlib.sha256((REPO_ROOT / "flight.ics").read_bytes()).hexdigest()
+    repo = tmp_path / "real-august-eight"
+    _copy_runtime_repo(repo)
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        ["flight_prep_agent.py", "--repo", str(repo), "--target-date", "2026-08-08"],
+    )
+    monkeypatch.delenv("GITHUB_STEP_SUMMARY", raising=False)
+    agent.extract_pdf_text.cache_clear()
+
+    assert agent.main() == 0
+
+    output = repo / "flight_preparation"
+    content = (output / "latest.txt").read_text(encoding="utf-8")
+    meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
+    assert meta["status"] == "SUCCESS"
+    assert meta["flight_numbers"] == ["9C6499", "9C6500"]
+    assert meta["airports"] == ["沈阳桃仙", "嘉峪关酒泉"]
+
+    shenyang = content.split("沈阳桃仙机场：", 1)[1].split(
+        "嘉峪关酒泉机场：", 1
+    )[0]
+    jiayuguan = content.split("嘉峪关酒泉机场：", 1)[1]
+    for required in (
+        "离地姿态大",
+        "擦机尾",
+        "A2",
+        "A8",
+        "FLYSMART",
+        "雷达引导",
+        "高截获",
+        "ILS",
+        "程序、跑道和离场点",
+    ):
+        assert required in shenyang
+    for forbidden in (
+        "冬春季",
+        "冬季甩冰",
+        "冬季运行保障方案",
+        "除防冰",
+        "防冰液",
+        "9C7635",
+        "9C6135",
+    ):
+        assert forbidden not in shenyang
+
+    assert "嘉峪关酒泉机场典型不安全事件：\n当前资料未列出明确典型不安全事件。" in content
+    assert "嘉峪关酒泉机场典型不安全事件：\n1." not in content
+    assert "一般高原机场" in jiayuguan
+    assert "一类操纵复杂机场" in jiayuguan
+    assert "150°至320°" in jiayuguan
+    assert "3300米" in jiayuguan and "6000米" in jiayuguan
+    assert "释压程序" in jiayuguan
+    assert "20000英尺" in jiayuguan
+    assert "冬春季" not in jiayuguan
+    for label in ("机场分类：", "高原机场：", "特殊复杂程序：", "地形："):
+        assert label not in jiayuguan
+
+    excluded = meta["excluded_source_clauses"]
+    assert any("冬春季" in item["clause"] and "目标月份为8月" in item["reason"] for item in excluded)
+    assert any("9C7635" in item["clause"] and item["reason"] == "与当前航班/航线不匹配" for item in excluded)
+    assert any(len(ids) > 1 for ids in meta["core_paragraph_fact_ids"]["嘉峪关酒泉"])
     assert hashlib.sha256((REPO_ROOT / "flight.ics").read_bytes()).hexdigest() == original_hash
