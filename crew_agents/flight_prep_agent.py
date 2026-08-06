@@ -155,6 +155,11 @@ class BilingualFact:
     restriction: tuple[str, ...] = ()
     excluded_source_clauses: tuple[str, ...] = ()
     exclusion_reasons: tuple[str, ...] = ()
+    season_scope: tuple[int, ...] = ()
+    flight_scope: tuple[str, ...] = ()
+    route_scope: tuple[tuple[str, str], ...] = ()
+    topic: str = ""
+    source_fact_ids: tuple[str, ...] = ()
 
     # Compatibility aliases keep the rendering code and older tests readable while
     # the structured names above make provenance explicit.
@@ -743,6 +748,70 @@ CURATED_CORE_SOURCE_PAGES: dict[str, tuple[str, ...]] = {
 
 SOURCE_PRIORITY = {"CURATED": 0, "supplement": 1, "PDF": 2, "TXT": 3}
 SOURCE_BUILD_PRIORITY = {"PDF": 0, "TXT": 0, "supplement": 1, "CURATED": 2}
+SEASON_MONTHS: dict[str, tuple[int, ...]] = {
+    "春季": (3, 4, 5),
+    "夏季": (6, 7, 8),
+    "秋季": (9, 10, 11),
+    "冬季": (12, 1, 2),
+    "冬春季": (12, 1, 2, 3, 4, 5),
+    "春夏季": (3, 4, 5, 6, 7, 8),
+    "夏秋季": (6, 7, 8, 9, 10, 11),
+}
+SEASON_LABELS = tuple(sorted(SEASON_MONTHS, key=len, reverse=True))
+SEASON_LABEL_RE = re.compile("|".join(map(re.escape, SEASON_LABELS)))
+MONTH_SCOPE_RE = re.compile(
+    r"(?<!\d)(?P<start>1[0-2]|[1-9])\s*"
+    r"(?:—|–|-|至|到|~|～)\s*"
+    r"(?P<end>1[0-2]|[1-9])\s*月"
+)
+SINGLE_MONTH_SCOPE_RE = re.compile(r"(?<!\d)(?P<month>1[0-2]|[1-9])\s*月")
+
+CORE_TOPIC_ORDER = (
+    "preparation",
+    "ground",
+    "departure",
+    "arrival",
+    "approach",
+    "terrain",
+    "performance",
+    "weather",
+    "special",
+)
+ROLE_TOPIC_PRIORITY = {
+    "departure": (
+        "preparation",
+        "ground",
+        "departure",
+        "performance",
+        "weather",
+        "terrain",
+        "special",
+        "arrival",
+        "approach",
+    ),
+    "arrival": (
+        "arrival",
+        "approach",
+        "terrain",
+        "weather",
+        "ground",
+        "special",
+        "performance",
+        "preparation",
+        "departure",
+    ),
+    "transit": (
+        "arrival",
+        "approach",
+        "ground",
+        "departure",
+        "preparation",
+        "terrain",
+        "performance",
+        "weather",
+        "special",
+    ),
+}
 ROLE_PHASE_PRIORITY = {
     "departure": {
         "preparation": 0,
@@ -3478,7 +3547,7 @@ def source_semantics(text: str) -> SourceSemantics:
 def attach_source_semantics(fact: BilingualFact) -> BilingualFact:
     original = fact.source_text_zh or fact.text_zh
     semantics = source_semantics(original)
-    return replace(
+    enriched = replace(
         fact,
         source_text_zh=original,
         operational_condition=(
@@ -3488,7 +3557,10 @@ def attach_source_semantics(fact: BilingualFact) -> BilingualFact:
         risk=fact.risk or semantics.risk,
         mitigation=fact.mitigation or semantics.mitigation,
         restriction=fact.restriction or semantics.restriction,
+        season_scope=fact.season_scope or detected_season_scope(original),
+        source_fact_ids=fact.source_fact_ids or (fact.fact_id,),
     )
+    return replace(enriched, topic=classify_fact_topic(enriched))
 
 
 def landing_prohibited_runways(
@@ -3642,6 +3714,259 @@ def strip_source_reference_clauses(text: str) -> tuple[str, tuple[str, ...]]:
     )
 
 
+def _month_range(start: int, end: int) -> tuple[int, ...]:
+    if start <= end:
+        return tuple(range(start, end + 1))
+    return tuple([*range(start, 13), *range(1, end + 1)])
+
+
+def detected_season_scope(text: str) -> tuple[int, ...]:
+    """Return explicit applicable months without inferring an unspecified season."""
+    normalized = normalize_text(text)
+    months: set[int] = set()
+    for label in SEASON_LABELS:
+        if label in normalized:
+            months.update(SEASON_MONTHS[label])
+    range_spans: list[tuple[int, int]] = []
+    for match in MONTH_SCOPE_RE.finditer(normalized):
+        months.update(_month_range(int(match.group("start")), int(match.group("end"))))
+        range_spans.append(match.span())
+    for match in SINGLE_MONTH_SCOPE_RE.finditer(normalized):
+        if any(start <= match.start() < end for start, end in range_spans):
+            continue
+        months.add(int(match.group("month")))
+    return tuple(month for month in range(1, 13) if month in months)
+
+
+def filter_seasonal_text(
+    text: str,
+    month: int,
+) -> tuple[str, tuple[str, ...], tuple[str, ...], tuple[int, ...]]:
+    """Conservatively remove only clauses with an explicit mismatched season.
+
+    A seasonal marker embedded in a clause applies to that whole clause. An
+    annual prefix is retained only when punctuation clearly separates it from
+    the seasonal suffix; otherwise the complete clause is excluded.
+    """
+    normalized = normalize_text(text)
+    full_scope = detected_season_scope(normalized)
+    if not full_scope:
+        return normalized, (), (), full_scope
+
+    kept: list[str] = []
+    excluded: list[str] = []
+    reasons: list[str] = []
+    changed = False
+    segments = [item for item in re.findall(r"[^；。]+[；。]?", normalized) if item.strip()]
+    inherited_scope: tuple[int, ...] = ()
+    for raw_segment in segments:
+        punctuation = raw_segment[-1] if raw_segment[-1:] in "；。" else ""
+        segment = raw_segment.rstrip("；。").strip()
+        explicit_scope = detected_season_scope(segment)
+        scope = explicit_scope or inherited_scope
+        if not explicit_scope and any(
+            marker in segment for marker in ("全年", "常年", "四季")
+        ):
+            scope = ()
+        if not scope or month in scope:
+            kept.append(segment + punctuation)
+            inherited_scope = scope if punctuation == "；" else ()
+            continue
+
+        marker_matches = [
+            *SEASON_LABEL_RE.finditer(segment),
+            *MONTH_SCOPE_RE.finditer(segment),
+            *SINGLE_MONTH_SCOPE_RE.finditer(segment),
+        ]
+        marker = min(marker_matches, key=lambda item: item.start()) if marker_matches else None
+        prefix = ""
+        seasonal_clause = segment
+        if marker and marker.start() > 0:
+            boundary = segment.rfind("，", 0, marker.start())
+            ascii_boundary = segment.rfind(",", 0, marker.start())
+            boundary = max(boundary, ascii_boundary)
+            if boundary >= 0 and not segment[boundary + 1 : marker.start()].strip():
+                prefix = segment[:boundary].strip(" ，,")
+                seasonal_clause = segment[boundary + 1 :].strip(" ，,")
+        if prefix:
+            kept.append(prefix + punctuation)
+        excluded.append(seasonal_clause)
+        reasons.append(
+            f"目标月份为{month}月，不在资料明确季节适用月份"
+            f"{','.join(str(value) for value in scope)}月内"
+        )
+        changed = True
+        inherited_scope = scope if punctuation == "；" else ()
+
+    if not changed:
+        return normalized, (), (), full_scope
+    cleaned = "".join(kept).strip(" ；。")
+    return (
+        cleaned + "。" if cleaned else "",
+        tuple(unique(excluded)),
+        tuple(reasons),
+        full_scope,
+    )
+
+
+FLIGHT_SCOPE_RE = re.compile(r"(?<![A-Z0-9])(?:[A-Z0-9]{2})\d{3,4}[A-Z]?(?![A-Z0-9])", re.IGNORECASE)
+ROUTE_SCOPE_RE = re.compile(
+    r"(?:航线|航段)\s*[:：]?\s*"
+    r"(?P<departure>[\u4e00-\u9fffA-Za-z0-9]{2,20})\s*"
+    r"(?:→|至|-)\s*"
+    r"(?P<arrival>[\u4e00-\u9fffA-Za-z0-9]{2,20})"
+)
+
+
+def record_flight_scope(record: dict[str, object], text: str) -> tuple[str, ...]:
+    configured = record.get("flight_scope") or record.get("flight_numbers") or ()
+    if isinstance(configured, str):
+        configured = re.split(r"[,，/\s]+", configured)
+    values = [str(value).strip().upper() for value in configured if str(value).strip()]
+    values.extend(match.group(0).upper() for match in FLIGHT_SCOPE_RE.finditer(text))
+    return tuple(unique(values))
+
+
+def record_route_scope(
+    record: dict[str, object],
+    text: str,
+) -> tuple[tuple[str, str], ...]:
+    routes: list[tuple[str, str]] = []
+    configured = record.get("route_scope") or record.get("routes") or ()
+    if isinstance(configured, (str, tuple)) and not (
+        isinstance(configured, tuple) and len(configured) == 2
+    ):
+        configured = [configured]
+    if isinstance(configured, tuple) and len(configured) == 2:
+        configured = [configured]
+    for value in configured:
+        if isinstance(value, (list, tuple)) and len(value) == 2:
+            departure, arrival = value
+        else:
+            match = re.search(r"(.+?)\s*(?:→|至|-)\s*(.+)", str(value))
+            if not match:
+                continue
+            departure, arrival = match.groups()
+        routes.append(
+            (
+                canonical_airport_name(str(departure)),
+                canonical_airport_name(str(arrival)),
+            )
+        )
+    for match in ROUTE_SCOPE_RE.finditer(text):
+        routes.append(
+            (
+                canonical_airport_name(match.group("departure")),
+                canonical_airport_name(match.group("arrival")),
+            )
+        )
+    return tuple(dict.fromkeys(routes))
+
+
+def classify_fact_topic(fact: BilingualFact) -> str:
+    if fact.topic:
+        return fact.topic
+    phase_topics = {
+        "preparation": "preparation",
+        "clearance": "preparation",
+        "ground": "ground",
+        "landing_ground": "ground",
+        "departure": "departure",
+        "initial_climb": "departure",
+        "arrival": "arrival",
+        "approach": "approach",
+        "landing": "approach",
+        "terrain": "terrain",
+        "weather": "weather",
+        "navigation": "preparation",
+        "special": "special",
+    }
+    if fact.operational_phase in phase_topics:
+        return phase_topics[fact.operational_phase]
+    text = normalize_text(fact.text_zh)
+    keyword_topics = (
+        ("terrain", ("地形", "MSA", "CFIT", "最低安全高度")),
+        ("performance", ("高原", "性能", "FLYSMART", "FLY SMART", "载重", "襟缝翼")),
+        ("weather", ("天气", "雷暴", "风切变", "大风", "沙尘", "结冰", "低云")),
+        ("ground", ("滑行", "推出", "机位", "道面", "地面")),
+        ("departure", ("起飞", "离场", "SID", "初始爬升")),
+        ("arrival", ("进场", "雷达引导", "高截获", "能量管理")),
+        ("approach", ("进近", "着陆", "盲降", "ILS", "PAPI")),
+        ("preparation", ("驾驶舱准备", "程序核对", "航路点", "MCDU")),
+    )
+    for topic, keywords in keyword_topics:
+        if any(keyword.upper() in text.upper() for keyword in keywords):
+            return topic
+    return "special"
+
+
+def exclusion_log_entry(
+    fact: BilingualFact,
+    clause: str,
+    reason: str,
+) -> dict[str, object]:
+    return {
+        "airport": fact.airport,
+        "fact_id": fact.fact_id,
+        "source_file": fact.source_file,
+        "source_page": fact.source_page,
+        "source_heading": fact.source_heading,
+        "source_section": fact.source_section,
+        "clause": clause,
+        "reason": reason,
+    }
+
+
+def filter_fact_for_duty(
+    fact: BilingualFact,
+    event: CalendarEvent | DutyContext,
+    target: date,
+    exclusion_log: list[dict[str, object]] | None = None,
+) -> BilingualFact | None:
+    flights = {
+        item.flight_number.upper()
+        for item in (event.events if isinstance(event, DutyContext) else (event,))
+        if item.flight_number
+    }
+    duty_routes = {
+        tuple(canonical_airport_name(value) for value in item.route)
+        for item in (event.events if isinstance(event, DutyContext) else (event,))
+    }
+    if fact.flight_scope and flights.isdisjoint(fact.flight_scope):
+        reason = "与当前航班/航线不匹配"
+        if exclusion_log is not None:
+            exclusion_log.append(exclusion_log_entry(fact, fact.source_text_zh or fact.zh, reason))
+        return None
+    if fact.route_scope and duty_routes.isdisjoint(set(fact.route_scope)):
+        reason = "与当前航班/航线不匹配"
+        if exclusion_log is not None:
+            exclusion_log.append(exclusion_log_entry(fact, fact.source_text_zh or fact.zh, reason))
+        return None
+
+    filtered, clauses, reasons, scope = filter_seasonal_text(fact.zh, target.month)
+    if not filtered:
+        if exclusion_log is not None:
+            for clause, reason in zip(clauses or (fact.zh,), reasons or ("季节范围不适用",)):
+                exclusion_log.append(exclusion_log_entry(fact, clause, reason))
+        return None
+    rendered_semantics = source_semantics(filtered)
+    return replace(
+        fact,
+        text_zh=filtered,
+        text_en="" if clauses and filtered != fact.zh else fact.text_en,
+        season_scope=scope,
+        topic=classify_fact_topic(replace(fact, text_zh=filtered)),
+        operational_condition=rendered_semantics.operational_condition,
+        applicability=rendered_semantics.applicability,
+        risk=rendered_semantics.risk,
+        mitigation=rendered_semantics.mitigation,
+        restriction=rendered_semantics.restriction,
+        excluded_source_clauses=tuple([*fact.excluded_source_clauses, *clauses]),
+        exclusion_reasons=tuple([*fact.exclusion_reasons, *reasons]),
+        source_fact_ids=fact.source_fact_ids or (fact.fact_id,),
+    )
+
+
 def source_record_facts(
     airport: str,
     records: list[dict[str, object]],
@@ -3739,6 +4064,15 @@ def source_record_facts(
             record.get("fact_id")
             or f"{canonical}_{category}_record_{index}"
         )
+        flight_scope = record_flight_scope(record, source_text_zh)
+        route_scope = record_route_scope(record, source_text_zh)
+        provisional = BilingualFact(
+            fact_id,
+            text_zh,
+            text_en,
+            airport=canonical,
+            operational_phase=phase,
+        )
         facts_by_semantic[semantic_key] = BilingualFact(
             fact_id,
             text_zh,
@@ -3763,6 +4097,11 @@ def source_record_facts(
             restriction=original_semantics.restriction,
             excluded_source_clauses=excluded_clauses,
             exclusion_reasons=exclusion_reasons,
+            season_scope=detected_season_scope(text_zh),
+            flight_scope=flight_scope,
+            route_scope=route_scope,
+            topic=classify_fact_topic(provisional),
+            source_fact_ids=(fact_id,),
         )
     return list(facts_by_semantic.values())
 
@@ -3807,7 +4146,13 @@ def select_airport_facts(
                 {"departure", "arrival"}
             ):
                 continue
-        eligible.append(fact)
+        eligible.append(
+            replace(
+                fact,
+                topic=classify_fact_topic(fact),
+                source_fact_ids=fact.source_fact_ids or (fact.fact_id,),
+            )
+        )
 
     phase_order = ROLE_PHASE_PRIORITY[role]
     selection_order = sorted(
@@ -3820,7 +4165,44 @@ def select_airport_facts(
             fact.fact_id,
         )
     )
-    selected = selection_order[:max_items]
+    selected: list[BilingualFact] = []
+    selected_ids: set[str] = set()
+
+    # Explicit restrictions, source controls, and high-importance operational
+    # facts are protected before topic coverage is considered.
+    for fact in selection_order:
+        if len(selected) >= max_items:
+            break
+        if fact.restriction or fact.importance >= 92:
+            selected.append(fact)
+            selected_ids.add(fact.fact_id)
+
+    # Then retain the strongest available fact for each role-relevant topic.
+    # This is intentionally done after protected controls so topic diversity
+    # cannot evict a mandatory restriction.
+    for topic in ROLE_TOPIC_PRIORITY[role]:
+        if len(selected) >= max_items:
+            break
+        candidate = next(
+            (
+                fact
+                for fact in selection_order
+                if fact.fact_id not in selected_ids and fact.topic == topic
+            ),
+            None,
+        )
+        if candidate is None:
+            continue
+        selected.append(candidate)
+        selected_ids.add(candidate.fact_id)
+
+    for fact in selection_order:
+        if len(selected) >= max_items:
+            break
+        if fact.fact_id in selected_ids:
+            continue
+        selected.append(fact)
+        selected_ids.add(fact.fact_id)
     return sorted(
         selected,
         key=lambda fact: (
@@ -3832,6 +4214,21 @@ def select_airport_facts(
     )
 
 
+TYPICAL_NO_DATA_TEXT_ZH = "当前资料未列出明确典型不安全事件。"
+TYPICAL_NO_DATA_TEXT_EN = (
+    "The current source does not list a specific typical unsafe event."
+)
+TYPICAL_NO_DATA_RE = re.compile(
+    r"^(?:目前数据库中)?(?:无数据|暂无数据|未收录|无|N/?A|未发现明确事件)$",
+    re.IGNORECASE,
+)
+
+
+def is_typical_no_data(value: str) -> bool:
+    compact = re.sub(r"[\s。；;，,]+", "", normalize_text(value))
+    return bool(TYPICAL_NO_DATA_RE.fullmatch(compact))
+
+
 def bilingual_typical_facts(
     airport: str,
     risks: list[str],
@@ -3839,8 +4236,11 @@ def bilingual_typical_facts(
     month: int,
     max_items: int,
     source_records: list[dict[str, object]] | None = None,
+    event: CalendarEvent | DutyContext | None = None,
+    target: date | None = None,
+    exclusion_log: list[dict[str, object]] | None = None,
 ) -> list[BilingualFact]:
-    del risks, threats, month
+    del risks, threats
     canonical = canonical_airport_name(airport)
     manual_records = [
         record
@@ -3848,11 +4248,278 @@ def bilingual_typical_facts(
         if str(record.get("source")) in {"PDF", "TXT"}
         and str(record.get("category")) == "typical"
     ]
-    return source_record_facts(
+    facts = source_record_facts(
         canonical,
         manual_records,
         category="typical",
-    )[:max_items]
+    )
+    placeholders = [fact for fact in facts if is_typical_no_data(fact.zh)]
+    real_facts = [fact for fact in facts if not is_typical_no_data(fact.zh)]
+    if event is not None:
+        applicable: list[BilingualFact] = []
+        for fact in real_facts:
+            filtered = filter_fact_for_duty(
+                fact,
+                event,
+                target or date(2000, month, 1),
+                exclusion_log,
+            )
+            if filtered is not None:
+                applicable.append(filtered)
+        real_facts = applicable
+    if real_facts:
+        return real_facts[:max_items]
+    if placeholders:
+        source = placeholders[0]
+        return [
+            replace(
+                source,
+                fact_id=f"{canonical}_typical_no_data",
+                text_zh=TYPICAL_NO_DATA_TEXT_ZH,
+                text_en=TYPICAL_NO_DATA_TEXT_EN,
+                category="typical_no_data",
+                source_fact_ids=tuple(
+                    unique(
+                        [
+                            fact_id
+                            for fact in placeholders
+                            for fact_id in (fact.source_fact_ids or (fact.fact_id,))
+                        ]
+                    )
+                ),
+            )
+        ]
+    return []
+
+
+PROFILE_LABEL_RE = re.compile(
+    r"^(?P<label>机场分类|高原机场|地形)\s*[:：]\s*(?P<value>.+)$"
+)
+SOURCE_LABEL_RE = re.compile(
+    r"^(?P<label>机场分类|高原机场|特殊复杂程序|地形)\s*[:：]\s*(?P<value>.+)$"
+)
+
+
+def _expand_chinese_unit(value: str) -> str:
+    def expand(match: re.Match[str]) -> str:
+        return f"{int(match.group('amount')) * 10000}{match.group('unit')}"
+
+    return re.sub(
+        r"(?<!\d)(?P<amount>\d+)\s*万\s*(?P<unit>英尺|米)",
+        expand,
+        value,
+    )
+
+
+def naturalize_source_fact(value: str) -> str:
+    text = strip_terminal_punct(normalize_text(value))
+    match = SOURCE_LABEL_RE.match(text)
+    if not match:
+        return _expand_chinese_unit(text).rstrip("。") + "。"
+    label = match.group("label")
+    detail = _expand_chinese_unit(match.group("value").strip(" 。"))
+    if label in {"机场分类", "高原机场"}:
+        return f"该机场属于{detail}。"
+    if label == "特殊复杂程序":
+        return f"特殊程序{detail}。"
+    detail = detail.replace("～", "至").replace("—", "至")
+    sector = re.match(r"(?P<sector>\d+°至\d+°)(?P<rest>.*)", detail)
+    if sector and "地形" not in detail:
+        rest = sector.group("rest").lstrip("，,")
+        return (
+            f"{sector.group('sector')}方向存在地形"
+            + (f"，{rest}" if rest else "")
+            + "。"
+        )
+    return f"地形方面，{detail}。"
+
+
+def merge_fact_paragraph(
+    facts: list[BilingualFact],
+    text_zh: str,
+    *,
+    topic: str,
+) -> BilingualFact:
+    source_fact_ids = tuple(
+        unique(
+            [
+                fact_id
+                for fact in facts
+                for fact_id in (fact.source_fact_ids or (fact.fact_id,))
+            ]
+        )
+    )
+    source_text = " ".join(
+        unique([fact.source_text_zh or fact.text_zh for fact in facts])
+    )
+    source = min(facts, key=lambda fact: SOURCE_PRIORITY.get(fact.source, 9)).source
+    english_parts = [fact.text_en.strip().rstrip(".") for fact in facts if fact.text_en.strip()]
+    excluded_pairs = [
+        (clause, fact.exclusion_reasons[index])
+        for fact in facts
+        for index, clause in enumerate(fact.excluded_source_clauses)
+        if index < len(fact.exclusion_reasons)
+    ]
+    first = facts[0]
+    return BilingualFact(
+        fact_id="paragraph:" + "+".join(source_fact_ids),
+        text_zh=text_zh.rstrip("。") + "。",
+        text_en=". ".join(english_parts) + ("." if english_parts else ""),
+        airport=first.airport,
+        source_file=" | ".join(unique([fact.source_file for fact in facts if fact.source_file])),
+        source=source,
+        source_page=",".join(unique([fact.source_page for fact in facts if fact.source_page])),
+        source_heading=" | ".join(unique([fact.source_heading for fact in facts if fact.source_heading])),
+        source_section=" | ".join(unique([fact.source_section for fact in facts if fact.source_section])),
+        operational_phase=first.operational_phase,
+        airport_specific=all(fact.airport_specific for fact in facts),
+        category="core",
+        role_scope=tuple(unique([role for fact in facts for role in fact.role_scope])),
+        importance=max(fact.importance for fact in facts),
+        semantic_key="paragraph:" + "+".join(source_fact_ids),
+        source_text_zh=source_text,
+        operational_condition=tuple(
+            unique([item for fact in facts for item in fact.operational_condition])
+        ),
+        applicability=tuple(
+            unique([item for fact in facts for item in fact.applicability])
+        ),
+        risk=tuple(unique([item for fact in facts for item in fact.risk])),
+        mitigation=tuple(
+            unique([item for fact in facts for item in fact.mitigation])
+        ),
+        restriction=tuple(
+            unique([item for fact in facts for item in fact.restriction])
+        ),
+        excluded_source_clauses=tuple(pair[0] for pair in excluded_pairs),
+        exclusion_reasons=tuple(pair[1] for pair in excluded_pairs),
+        season_scope=tuple(
+            month
+            for month in range(1, 13)
+            if any(month in fact.season_scope for fact in facts)
+        ),
+        flight_scope=tuple(unique([number for fact in facts for number in fact.flight_scope])),
+        route_scope=tuple(
+            dict.fromkeys([route for fact in facts for route in fact.route_scope])
+        ),
+        topic=topic,
+        source_fact_ids=source_fact_ids,
+    )
+
+
+def organize_core_fact_paragraphs(facts: list[BilingualFact]) -> list[BilingualFact]:
+    """Naturalize source labels and conservatively merge supported topic facts."""
+    if not facts:
+        return []
+    profile_indexes: list[int] = []
+    profile_facts: list[BilingualFact] = []
+    classification_values: list[str] = []
+    terrain_sentences: list[str] = []
+    for index, fact in enumerate(facts):
+        raw = strip_terminal_punct(normalize_text(fact.text_zh))
+        match = PROFILE_LABEL_RE.match(raw)
+        if not match:
+            continue
+        profile_indexes.append(index)
+        profile_facts.append(fact)
+        if match.group("label") in {"机场分类", "高原机场"}:
+            classification_values.append(
+                _expand_chinese_unit(match.group("value").strip(" 。"))
+            )
+        else:
+            terrain_sentences.append(naturalize_source_fact(fact.text_zh))
+
+    profile_fact: BilingualFact | None = None
+    if profile_facts:
+        parts: list[str] = []
+        # Operational type reads naturally with the highland classification first.
+        classifications = unique(classification_values)
+        classifications.sort(key=lambda value: (0 if "高原" in value else 1, value))
+        if classifications:
+            parts.append(f"该机场属于{'和'.join(classifications)}。")
+        parts.extend(terrain_sentences)
+        profile_fact = merge_fact_paragraph(
+            profile_facts,
+            "".join(parts),
+            topic="terrain",
+        )
+
+    organized: list[BilingualFact] = []
+    profile_inserted = False
+    for index, fact in enumerate(facts):
+        if index in profile_indexes:
+            if not profile_inserted and index == min(profile_indexes):
+                organized.append(profile_fact)  # type: ignore[arg-type]
+                profile_inserted = True
+            continue
+        naturalized = naturalize_source_fact(fact.text_zh)
+        organized.append(replace(fact, text_zh=naturalized, topic=classify_fact_topic(fact)))
+
+    merged: list[BilingualFact] = []
+    for fact in organized:
+        previous_anchors = (
+            {
+                token
+                for token in SOURCE_OPERATIONAL_ANCHORS
+                if token.upper() in merged[-1].text_zh.upper()
+            }
+            if merged
+            else set()
+        )
+        current_anchors = {
+            token
+            for token in SOURCE_OPERATIONAL_ANCHORS
+            if token.upper() in fact.text_zh.upper()
+        }
+        if (
+            merged
+            and merged[-1].topic == fact.topic
+            and bool(previous_anchors & current_anchors)
+            and not merged[-1].restriction
+            and not fact.restriction
+            and len(strip_terminal_punct(merged[-1].text_zh)) <= 55
+            and len(strip_terminal_punct(fact.text_zh)) <= 55
+            and len(merged[-1].text_zh) + len(fact.text_zh) <= 130
+        ):
+            combined = (
+                strip_terminal_punct(merged[-1].text_zh)
+                + "；"
+                + strip_terminal_punct(fact.text_zh)
+                + "。"
+            )
+            merged[-1] = merge_fact_paragraph(
+                [merged[-1], fact],
+                combined,
+                topic=fact.topic,
+            )
+        else:
+            merged.append(fact)
+    return merged
+
+
+def prepare_operational_facts(
+    event: CalendarEvent | DutyContext,
+    airport: str,
+    target: date,
+    candidates: list[BilingualFact],
+    *,
+    max_items: int,
+    exclusion_log: list[dict[str, object]] | None,
+) -> list[BilingualFact]:
+    role = airport_role(event, airport)
+    applicable: list[BilingualFact] = []
+    for candidate in candidates:
+        prepared = attach_source_semantics(candidate)
+        filtered = filter_fact_for_duty(prepared, event, target, exclusion_log)
+        if filtered is not None:
+            applicable.append(filtered)
+    selected = select_airport_facts(
+        airport,
+        role,
+        applicable,
+        max_items=max_items,
+    )
+    return organize_core_fact_paragraphs(selected)
 
 
 def airport_operational_facts(
@@ -3861,14 +4528,14 @@ def airport_operational_facts(
     source_items: list[str],
     target: date,
     source_records: list[dict[str, object]] | None = None,
+    exclusion_log: list[dict[str, object]] | None = None,
 ) -> list[BilingualFact]:
-    del source_items, target
+    del source_items
     canonical = canonical_airport_name(airport)
     role = airport_role(event, airport)
     if canonical == "新加坡樟宜" and role in ("departure", "transit"):
         candidates = [bind_catalog_fact(fact) for fact in SINGAPORE_DEPARTURE_FACTS]
-        return select_airport_facts(canonical, role, candidates)
-    if canonical == "上海浦东":
+    elif canonical == "上海浦东":
         candidates: list[BilingualFact] = []
         if role in ("arrival", "transit"):
             candidates.extend(
@@ -3878,13 +4545,7 @@ def airport_operational_facts(
             candidates.extend(
                 bind_catalog_fact(fact) for fact in PUDONG_DEPARTURE_FACTS
             )
-        return select_airport_facts(
-            canonical,
-            role,
-            candidates,
-            max_items=8 if role == "transit" else 5,
-        )
-    if canonical in CURATED_CORE_THREATS and canonical in CURATED_CORE_ENGLISH:
+    elif canonical in CURATED_CORE_THREATS and canonical in CURATED_CORE_ENGLISH:
         chinese = CURATED_CORE_THREATS[canonical]
         english = CURATED_CORE_ENGLISH[canonical]
         phases = CURATED_CORE_PHASES.get(canonical, ())
@@ -3936,25 +4597,21 @@ def airport_operational_facts(
             )
             for index, (zh, en) in enumerate(zip(chinese, english), start=1)
         ]
-        return select_airport_facts(
-            canonical,
-            role,
-            candidates,
-            max_items=8 if role == "transit" else 5,
-        )
-    if canonical == "丽江三义":
+    elif canonical == "丽江三义":
         candidates = [bind_catalog_fact(fact) for fact in LIJIANG_CORE_FACTS]
-        return select_airport_facts(canonical, role, candidates)
-    candidates = source_record_facts(
+    else:
+        candidates = source_record_facts(
+            canonical,
+            source_records or [],
+            category="core",
+        )
+    return prepare_operational_facts(
+        event,
         canonical,
-        source_records or [],
-        category="core",
-    )
-    return select_airport_facts(
-        canonical,
-        role,
+        target,
         candidates,
         max_items=8 if role == "transit" else 5,
+        exclusion_log=exclusion_log,
     )
 
 
@@ -4331,11 +4988,16 @@ def render_chinese_briefing(
     airports = unique([airport for airport in event.route if airport])
     for airport in airports:
         items = typical_facts[airport]
-        numbered = "\n".join(
-            f"{index}.{clean_output_fact(fact.zh)}。"
-            for index, fact in enumerate(items, start=1)
+        if len(items) == 1 and items[0].category == "typical_no_data":
+            typical_text = TYPICAL_NO_DATA_TEXT_ZH
+        else:
+            typical_text = "\n".join(
+                f"{index}.{clean_output_fact(fact.zh)}。"
+                for index, fact in enumerate(items, start=1)
+            )
+        sections.append(
+            f"{airport_with_suffix(airport)}典型不安全事件：\n{typical_text}"
         )
-        sections.append(f"{airport_with_suffix(airport)}典型不安全事件：\n{numbered}")
 
     core_lines = ["核心威胁："]
     for airport in airports:
@@ -4369,10 +5031,13 @@ def render_english_briefing(
     airports = unique([airport for airport in event.route if airport])
     for airport in airports:
         items = typical_facts[airport]
-        numbered = "\n".join(
-            f"{index}. {fact.en.strip().rstrip('.')}."
-            for index, fact in enumerate(items, start=1)
-        )
+        if len(items) == 1 and items[0].category == "typical_no_data":
+            numbered = TYPICAL_NO_DATA_TEXT_EN
+        else:
+            numbered = "\n".join(
+                f"{index}. {fact.en.strip().rstrip('.')}."
+                for index, fact in enumerate(items, start=1)
+            )
         sections.append(
             f"{english_airport_name(airport)} Airport typical unsafe events:\n{numbered}"
         )
@@ -4396,6 +5061,7 @@ def briefing_fact_sets(
     threats: dict[str, list[str]],
     max_items: int,
     source_records: dict[str, list[dict[str, object]]] | None = None,
+    exclusion_log: list[dict[str, object]] | None = None,
 ) -> tuple[dict[str, list[BilingualFact]], dict[str, list[BilingualFact]], list[BilingualFact]]:
     airports = unique([airport for airport in event.route if airport])
     source_records = source_records or {}
@@ -4407,6 +5073,9 @@ def briefing_fact_sets(
             target.month,
             max_items=max_items,
             source_records=source_records.get(airport, []),
+            event=event,
+            target=target,
+            exclusion_log=exclusion_log,
         )
         for airport in airports
     }
@@ -4417,6 +5086,7 @@ def briefing_fact_sets(
             threats.get(airport, []),
             target,
             source_records=source_records.get(airport, []),
+            exclusion_log=exclusion_log,
         )
         for airport in airports
     }
@@ -4544,6 +5214,10 @@ def validate_content(
         "指挥特点：",
         "气象特点：",
         "道面特点：",
+        "机场分类：",
+        "高原机场：",
+        "特殊复杂程序：",
+        "地形：",
         "Airport Information",
         "Command characteristics:",
         "Weather characteristics:",
@@ -4569,8 +5243,27 @@ def validate_content(
                 f"{english_airport_name(airport)} Airport typical unsafe events:"
             )
             core_title = f"{english_airport_name(airport)} Airport:"
-        if not re.search(rf"(?m)^{re.escape(typical_title)}\n1\.\s*\S", content):
-            errors.append(f"{typical_title}缺少编号事件内容")
+        numbered_event = re.search(
+            rf"(?m)^{re.escape(typical_title)}\n1\.\s*\S",
+            content,
+        )
+        no_data_statement = (
+            language == "zh"
+            and re.search(
+                rf"(?m)^{re.escape(typical_title)}\n"
+                rf"{re.escape(TYPICAL_NO_DATA_TEXT_ZH)}$",
+                content,
+            )
+        ) or (
+            language == "en"
+            and re.search(
+                rf"(?m)^{re.escape(typical_title)}\n"
+                rf"{re.escape(TYPICAL_NO_DATA_TEXT_EN)}$",
+                content,
+            )
+        )
+        if not numbered_event and not no_data_statement:
+            errors.append(f"{typical_title}缺少编号事件或明确无数据说明")
         if not re.search(rf"(?m)^{re.escape(core_title)}\n\S", content):
             errors.append(f"{core_title}缺少核心威胁内容")
     return errors
@@ -4712,6 +5405,7 @@ def main() -> int:
             return 2
 
         exp_records = experience_records(experience, airports, target)
+        fact_exclusions: list[dict[str, object]] = []
         typical_facts, core_facts, all_facts = briefing_fact_sets(
             duty,
             target,
@@ -4719,6 +5413,7 @@ def main() -> int:
             airport_threat_map,
             max_items=max_items,
             source_records=airport_source_records,
+            exclusion_log=fact_exclusions,
         )
         (
             english_required,
@@ -4864,6 +5559,13 @@ def main() -> int:
                             ],
                             "text_zh": fact.text_zh,
                             "text_en": fact.text_en,
+                            "season_scope": list(fact.season_scope),
+                            "flight_scope": list(fact.flight_scope),
+                            "route_scope": [list(route) for route in fact.route_scope],
+                            "topic": fact.topic,
+                            "source_fact_ids": list(
+                                fact.source_fact_ids or (fact.fact_id,)
+                            ),
                             "airport_specific": fact.airport_specific,
                             "category": fact.category,
                         }
@@ -4883,9 +5585,16 @@ def main() -> int:
                         ),
                     }
                     for airport in airports
-                    for fact in core_facts[airport]
+                    for fact in [*typical_facts[airport], *core_facts[airport]]
                     for index, clause in enumerate(fact.excluded_source_clauses)
-                ],
+                ] + fact_exclusions,
+                "core_paragraph_fact_ids": {
+                    airport: [
+                        list(fact.source_fact_ids or (fact.fact_id,))
+                        for fact in core_facts[airport]
+                    ]
+                    for airport in airports
+                },
             },
         )
         atomic_write_text(success_marker, "SUCCESS\n")
