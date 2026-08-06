@@ -7,6 +7,8 @@ import pytest
 from crew_agents.ics_utils import (
     AmbiguousFlightSelectionError,
     FlightSelectionError,
+    build_continuous_flight_groups,
+    canonical_airport_name,
     events_for_date,
     has_latin_crew_name,
     parse_ics,
@@ -46,6 +48,84 @@ END:VCALENDAR\r
     assert "陈飞(T2,R)" in events[0].people
     assert events[1].end.date().isoformat() == "2026-05-30"
     assert len(events_for_date(events, events[0].start.date())) == 2
+
+
+@pytest.mark.parametrize(
+    "alias",
+    ["嘉峪关", "酒泉", "嘉峪关酒泉", "嘉峪关酒泉机场", "ZLJQ"],
+)
+def test_jiayuguan_aliases_share_one_canonical_name(alias: str) -> None:
+    assert canonical_airport_name(alias) == "嘉峪关酒泉"
+
+
+def test_jiayuguan_round_trip_is_one_continuous_duty(tmp_path: Path) -> None:
+    ics = """BEGIN:VCALENDAR
+BEGIN:VEVENT
+UID:9c6499
+SUMMARY:✈️ 9C6499 沈阳桃仙→嘉峪关酒泉
+DTSTART;TZID=Asia/Shanghai:20260808T155000
+DTEND;TZID=Asia/Shanghai:20260808T200500
+DESCRIPTION:类型：航班\\n航班：9C6499\\n航线：沈阳桃仙 → 嘉峪关酒泉
+END:VEVENT
+BEGIN:VEVENT
+UID:9c6500
+SUMMARY:✈️ 9C6500 酒泉→沈阳桃仙(+1)
+DTSTART;TZID=Asia/Shanghai:20260808T205000
+DTEND;TZID=Asia/Shanghai:20260809T003000
+DESCRIPTION:类型：航班\\n航班：9C6500\\n航线：酒泉 → 沈阳桃仙(+1)
+END:VEVENT
+END:VCALENDAR
+"""
+    path = tmp_path / "flight.ics"
+    path.write_text(ics, encoding="utf-8")
+
+    events = parse_ics(path)
+    groups = build_continuous_flight_groups(events, datetime(2026, 8, 8).date())
+
+    assert [event.route for event in events] == [
+        ("沈阳桃仙", "嘉峪关酒泉"),
+        ("嘉峪关酒泉", "沈阳桃仙"),
+    ]
+    assert [[event.flight_number for event in group] for group in groups] == [
+        ["9C6499", "9C6500"]
+    ]
+
+
+def test_unrelated_unknown_airports_are_not_forced_continuous(tmp_path: Path) -> None:
+    ics = """BEGIN:VCALENDAR
+BEGIN:VEVENT
+UID:first
+SUMMARY:✈️ 9C1001 未知甲→未知乙
+DTSTART;TZID=Asia/Shanghai:20260808T080000
+DTEND;TZID=Asia/Shanghai:20260808T100000
+DESCRIPTION:类型：航班
+END:VEVENT
+BEGIN:VEVENT
+UID:second
+SUMMARY:✈️ 9C1002 未知丙→未知丁
+DTSTART;TZID=Asia/Shanghai:20260808T110000
+DTEND;TZID=Asia/Shanghai:20260808T130000
+DESCRIPTION:类型：航班
+END:VEVENT
+END:VCALENDAR
+"""
+    path = tmp_path / "flight.ics"
+    path.write_text(ics, encoding="utf-8")
+
+    groups = build_continuous_flight_groups(
+        parse_ics(path),
+        datetime(2026, 8, 8).date(),
+    )
+
+    assert len(groups) == 2
+
+
+@pytest.mark.parametrize(
+    "airport",
+    ["上海浦东", "沈阳桃仙", "恩施许家坪", "乌兰巴托成吉思汗", "札幌新千岁"],
+)
+def test_unrelated_multiword_airport_names_remain_unchanged(airport: str) -> None:
+    assert canonical_airport_name(airport) == airport
 
 
 def test_airport_experience_only_completed_flights(tmp_path: Path):

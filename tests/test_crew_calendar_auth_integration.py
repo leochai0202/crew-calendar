@@ -232,6 +232,108 @@ def test_homepage_date_does_not_bypass_mission_navigation() -> None:
     assert "07月31日 周五" in page.body_text
 
 
+def test_jiayuguan_routes_use_longest_known_airport_names() -> None:
+    calendar.rebuild_airport_indexes()
+
+    assert calendar.AIRPORT_CN_TO_ICAO["嘉峪关"] == "ZLJQ"
+    assert calendar.AIRPORT_CN_TO_ICAO["酒泉"] == "ZLJQ"
+    assert calendar.AIRPORT_CN_TO_ICAO["嘉峪关酒泉机场"] == "ZLJQ"
+    assert calendar.AIRPORT_ICAO_TO_CN["ZLJQ"] == "嘉峪关酒泉"
+    assert calendar.split_concat_airport_route("沈阳桃仙嘉峪关酒泉") == (
+        "沈阳桃仙",
+        "嘉峪关酒泉",
+    )
+    assert calendar.split_concat_airport_route("嘉峪关酒泉沈阳桃仙") == (
+        "嘉峪关酒泉",
+        "沈阳桃仙",
+    )
+    assert calendar.split_concat_airport_route("酒泉沈阳桃仙") == (
+        "嘉峪关酒泉",
+        "沈阳桃仙",
+    )
+    assert calendar.split_concat_airport_route("嘉峪关酒泉机场沈阳桃仙") == (
+        "嘉峪关酒泉",
+        "沈阳桃仙",
+    )
+    assert calendar.split_concat_airport_route("嘉峪关酒泉沈阳桃仙") != (
+        "嘉峪关",
+        "酒泉沈阳桃仙",
+    )
+
+
+def test_segment_card_icao_pair_overrides_conflicting_chinese_route() -> None:
+    calendar.rebuild_airport_indexes()
+    day_block = "\n".join(
+        [
+            calendar.SEGMENT_CARD_MARKER,
+            "9C6500",
+            "上海浦东沈阳桃仙 20:50-00:30(+1)",
+            "ZLJQ",
+            "ZYTX",
+        ]
+    )
+
+    details = calendar.extract_segment_details_from_day_block(day_block, ["9C6500"])
+
+    assert len(details) == 1
+    assert details[0]["dep"] == "ZLJQ"
+    assert details[0]["arr"] == "ZYTX"
+    assert details[0]["dep_cn"] == "嘉峪关酒泉"
+    assert details[0]["arr_cn"] == "沈阳桃仙"
+
+
+def test_jiayuguan_round_trip_cards_keep_icao_endpoint_order() -> None:
+    calendar.rebuild_airport_indexes()
+    day_block = "\n".join(
+        [
+            "08月08日 周六",
+            calendar.SEGMENT_CARD_MARKER,
+            "9C6499",
+            "沈阳桃仙嘉峪关酒泉 15:50-20:05",
+            "ZYTX",
+            "ZLJQ",
+            calendar.SEGMENT_CARD_MARKER,
+            "9C6500",
+            "嘉峪关酒泉沈阳桃仙 20:50-00:30(+1)",
+            "ZLJQ",
+            "ZYTX",
+        ]
+    )
+
+    items = calendar.parse_multi_segment_flight_items(
+        "08月08日 周六",
+        day_block,
+        2026,
+    )
+
+    assert [item["flight_no"] for item in items] == ["9C6499", "9C6500"]
+    assert [
+        (item["dep"], item["arr"], item["dep_cn"], item["arr_cn"])
+        for item in items
+    ] == [
+        ("ZYTX", "ZLJQ", "沈阳桃仙", "嘉峪关酒泉"),
+        ("ZLJQ", "ZYTX", "嘉峪关酒泉", "沈阳桃仙"),
+    ]
+
+
+def test_unknown_route_without_known_endpoint_stays_unresolved() -> None:
+    calendar.rebuild_airport_indexes()
+    assert calendar.split_concat_airport_route("未知甲未知乙") == ("", "")
+
+
+@pytest.mark.parametrize(
+    ("route_text", "expected"),
+    [
+        ("上海浦东沈阳桃仙", ("上海浦东", "沈阳桃仙")),
+        ("乌兰巴托成吉思汗上海浦东", ("乌兰巴托成吉思汗", "上海浦东")),
+        ("札幌新千岁上海浦东", ("札幌新千岁", "上海浦东")),
+    ],
+)
+def test_long_airport_names_remain_intact(route_text: str, expected: tuple[str, str]) -> None:
+    calendar.rebuild_airport_indexes()
+    assert calendar.split_concat_airport_route(route_text) == expected
+
+
 def test_open_mission_page_does_not_treat_navigation_text_as_task_list() -> None:
     page = MissionPage()
     navigation = MissionNavigationCandidate(page, visible=True, y=20)
