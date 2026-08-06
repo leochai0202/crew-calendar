@@ -1,16 +1,17 @@
 {
   "status": "SUCCESS",
-  "target_date": "2026-08-07",
-  "generated_at_beijing": "2026-08-06T12:24:51.403697+08:00",
+  "target_date": "2026-08-08",
+  "generated_at_beijing": "2026-08-06T22:05:33.956835+08:00",
   "generator": "flight-prep-free-v14-final-confirmed-format",
   "flight_numbers": [
-    "9C7021"
+    "9C6499",
+    "9C6500"
   ],
   "airports": [
-    "上海浦东",
-    "沈阳桃仙"
+    "沈阳桃仙",
+    "嘉峪关酒泉"
   ],
-  "group_output": "2026-08-07_航前准备.txt",
+  "group_output": "2026-08-08_航前准备.txt",
   "english_output": "",
   "english_generated": false,
   "foreign_crew_detected": false,
@@ -18,69 +19,106 @@
   "english_confirmation_required": false,
   "english_trigger_names": [],
   "matched_event_uids": [
-    "c243a574582d0d59a90bb1a3918e5d7f@crew-calendar"
+    "b7d196ea087b0ce5cf607842ff630b62@crew-calendar",
+    "83b94c0b9cb261105deb4c4afe1d073f@crew-calendar"
   ],
   "matched_flights": [
     {
-      "uid": "c243a574582d0d59a90bb1a3918e5d7f@crew-calendar",
-      "summary": "✈️ 9C7021 上海浦东→沈阳桃仙(+1)",
-      "start": "2026-08-07T21:35:00+08:00",
-      "end": "2026-08-08T00:05:00+08:00",
-      "description": "08月07日 周五\n类型：航班\n航班：9C7021\n航线：上海浦东 → 沈阳桃仙(+1)\n地点：上海浦东\n签到：19:45｜上海浦东\n任务：21:35 - 00:05\n机型：A320｜注册号：B328T\n\n人员名单：\n• 秦梦(B)\n\n版本：2026-08-05 21:09",
-      "location": "上海浦东",
+      "uid": "b7d196ea087b0ce5cf607842ff630b62@crew-calendar",
+      "summary": "✈️ 9C6499 沈阳桃仙→嘉峪关酒泉",
+      "start": "2026-08-08T15:50:00+08:00",
+      "end": "2026-08-08T20:05:00+08:00",
+      "description": "08月08日 周六\n类型：航班\n航班：9C6499\n航线：沈阳桃仙 → 嘉峪关酒泉\n地点：沈阳桃仙\n签到：14:00｜沈阳桃仙\n任务：15:50 - 20:05\n机型：A320｜注册号：B328T\n\n人员名单：\n• 王谊晨\n• 李易聪\n• 段洋硕\n• 邢雪桐(B)\n\n版本：2026-08-06 21:34",
+      "location": "沈阳桃仙",
       "properties": {
-        "UID": "c243a574582d0d59a90bb1a3918e5d7f@crew-calendar",
-        "SUMMARY": "✈️ 9C7021 上海浦东→沈阳桃仙(+1)",
-        "DTSTART": "20260807T213500",
-        "DTEND": "20260808T000500",
-        "DESCRIPTION": "08月07日 周五\\n类型：航班\\n航班：9C7021\\n航线：上海浦东 → 沈阳桃仙(+1)\\n地点：上海浦东\\n签到：19:45｜上海浦东\\n任务：21:35 - 00:05\\n机型：A320｜注册号：B328T\\n\\n人员名单：\\n• 秦梦(B)\\n\\n版本：2026-08-05 21:09",
-        "X-CONTENT-SIGNATURE": "ccb9c5b07cf7f293574217668cd62a80",
-        "LOCATION": "上海浦东"
+        "UID": "b7d196ea087b0ce5cf607842ff630b62@crew-calendar",
+        "SUMMARY": "✈️ 9C6499 沈阳桃仙→嘉峪关酒泉",
+        "DTSTART": "20260808T155000",
+        "DTEND": "20260808T200500",
+        "DESCRIPTION": "08月08日 周六\\n类型：航班\\n航班：9C6499\\n航线：沈阳桃仙 → 嘉峪关酒泉\\n地点：沈阳桃仙\\n签到：14:00｜沈阳桃仙\\n任务：15:50 - 20:05\\n机型：A320｜注册号：B328T\\n\\n人员名单：\\n• 王谊晨\\n• 李易聪\\n• 段洋硕\\n• 邢雪桐(B)\\n\\n版本：2026-08-06 21:34",
+        "X-CONTENT-SIGNATURE": "02efdeede8f1e4a4c9be04711c43671d",
+        "LOCATION": "沈阳桃仙"
       },
       "source_file": "flight.ics",
-      "flight_number": "9C7021",
-      "departure": "上海浦东",
+      "flight_number": "9C6499",
+      "departure": "沈阳桃仙",
+      "arrival": "嘉峪关酒泉",
+      "aircraft_type": "A320",
+      "registration": "B328T",
+      "checkin": "14:00｜沈阳桃仙",
+      "people": [
+        "王谊晨",
+        "李易聪",
+        "段洋硕",
+        "邢雪桐(B)"
+      ],
+      "cross_day": false
+    },
+    {
+      "uid": "83b94c0b9cb261105deb4c4afe1d073f@crew-calendar",
+      "summary": "✈️ 9C6500 嘉峪关酒泉→沈阳桃仙(+1)",
+      "start": "2026-08-08T20:50:00+08:00",
+      "end": "2026-08-09T00:30:00+08:00",
+      "description": "08月08日 周六\n类型：航班\n航班：9C6500\n航线：嘉峪关酒泉 → 沈阳桃仙(+1)\n地点：嘉峪关酒泉\n签到：19:15｜嘉峪关酒泉\n任务：20:50 - 00:30\n机型：A320｜注册号：B328T\n\n人员名单：\n• 王谊晨\n• 李易聪\n• 段洋硕\n• 邢雪桐(B)\n\n版本：2026-08-06 21:34",
+      "location": "嘉峪关酒泉",
+      "properties": {
+        "UID": "83b94c0b9cb261105deb4c4afe1d073f@crew-calendar",
+        "SUMMARY": "✈️ 9C6500 嘉峪关酒泉→沈阳桃仙(+1)",
+        "DTSTART": "20260808T205000",
+        "DTEND": "20260809T003000",
+        "DESCRIPTION": "08月08日 周六\\n类型：航班\\n航班：9C6500\\n航线：嘉峪关酒泉 → 沈阳桃仙(+1)\\n地点：嘉峪关酒泉\\n签到：19:15｜嘉峪关酒泉\\n任务：20:50 - 00:30\\n机型：A320｜注册号：B328T\\n\\n人员名单：\\n• 王谊晨\\n• 李易聪\\n• 段洋硕\\n• 邢雪桐(B)\\n\\n版本：2026-08-06 21:34",
+        "X-CONTENT-SIGNATURE": "65e9a3f74846960e97df18b176238dd0",
+        "LOCATION": "嘉峪关酒泉"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C6500",
+      "departure": "嘉峪关酒泉",
       "arrival": "沈阳桃仙",
       "aircraft_type": "A320",
       "registration": "B328T",
-      "checkin": "19:45｜上海浦东",
+      "checkin": "19:15｜嘉峪关酒泉",
       "people": [
-        "秦梦(B)"
+        "王谊晨",
+        "李易聪",
+        "段洋硕",
+        "邢雪桐(B)"
       ],
       "cross_day": true
     }
   ],
   "matched_people": [
-    "秦梦(B)"
+    "王谊晨",
+    "李易聪",
+    "段洋硕",
+    "邢雪桐(B)"
   ],
   "warnings": [
-    "上海浦东匹配最新机场特点章节：上 海 / 浦 东 机 场 运 行 特 点（ZSPD）",
-    "沈阳桃仙匹配最新机场特点章节：沈 阳 / 桃 仙 机 场 运 行 特 点（ZYTX）"
+    "沈阳桃仙匹配最新机场特点章节：沈 阳 / 桃 仙 机 场 运 行 特 点（ZYTX）",
+    "嘉峪关酒泉匹配最新机场特点章节：嘉 峪 关 机 场 运 行 特 点（ZLJQ）"
   ],
   "weather": {
-    "上海浦东": {
-      "icao": "ZSPD",
+    "沈阳桃仙": {
+      "icao": "ZYTX",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-08-06T06:00:00+00:00",
+        "2026-08-06T12:00:00+00:00",
         "2026-08-07T12:00:00+00:00"
       ],
       "relevant_times": [
-        "2026-08-07T21:35:00+08:00"
+        "2026-08-08T15:50:00+08:00",
+        "2026-08-09T00:30:00+08:00"
       ],
       "taf_decoded_by_time": [],
       "decoded": [],
       "fetch_error": ""
     },
-    "沈阳桃仙": {
-      "icao": "ZYTX",
+    "嘉峪关酒泉": {
+      "icao": "ZLJQ",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-08-06T06:00:00+00:00",
-        "2026-08-07T06:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
-        "2026-08-08T00:05:00+08:00"
+        "2026-08-08T20:05:00+08:00",
+        "2026-08-08T20:50:00+08:00"
       ],
       "taf_decoded_by_time": [],
       "decoded": [],
@@ -92,204 +130,36 @@
   "airport_information_version": 20260720,
   "airport_information_type": "PDF",
   "airport_fact_ids": {
-    "上海浦东": {
-      "typical": [
-        "上海浦东_typical_record_1",
-        "上海浦东_typical_record_2"
-      ],
-      "core": [
-        "zspd_departure_procedure",
-        "zspd_departure_ground",
-        "zspd_departure_navigation",
-        "zspd_departure_weather_bird"
-      ]
-    },
     "沈阳桃仙": {
       "typical": [
         "沈阳桃仙_typical_record_1",
         "沈阳桃仙_typical_record_2"
       ],
       "core": [
+        "沈阳桃仙_core_record_8",
         "沈阳桃仙_core_record_3",
         "沈阳桃仙_core_record_4",
         "沈阳桃仙_core_record_12",
         "沈阳桃仙_core_record_6",
-        "沈阳桃仙_core_record_5"
+        "沈阳桃仙_core_record_5",
+        "沈阳桃仙_core_record_7"
+      ]
+    },
+    "嘉峪关酒泉": {
+      "typical": [
+        "嘉峪关酒泉_typical_record_1"
+      ],
+      "core": [
+        "嘉峪关酒泉_core_record_6",
+        "嘉峪关酒泉_core_record_5",
+        "嘉峪关酒泉_core_record_2",
+        "嘉峪关酒泉_core_record_3",
+        "嘉峪关酒泉_core_record_4",
+        "嘉峪关酒泉_core_record_7"
       ]
     }
   },
   "airport_fact_sources": {
-    "上海浦东": [
-      {
-        "fact_id": "上海浦东_typical_record_1",
-        "airport": "上海浦东",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "PDF",
-        "source_page": "448-451",
-        "source_heading": "上 海 / 浦 东 机 场 运 行 特 点",
-        "source_section": "上 海 / 浦 东 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "曾因低高度失去目视参考导致复飞。",
-        "operational_phase": "incident",
-        "operational_condition": [],
-        "applicability": [],
-        "risk": [
-          "曾因低高度失去目视参考导致复飞"
-        ],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "曾因低高度失去目视参考导致复飞。",
-        "text_en": "",
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "上海浦东_typical_record_2",
-        "airport": "上海浦东",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "PDF",
-        "source_page": "448-451",
-        "source_heading": "上 海 / 浦 东 机 场 运 行 特 点",
-        "source_section": "上 海 / 浦 东 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "曾因低高度鸟击导致雷达罩处损伤超标。",
-        "operational_phase": "approach",
-        "operational_condition": [],
-        "applicability": [],
-        "risk": [
-          "曾因低高度鸟击导致雷达罩处损伤超标"
-        ],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "曾因低高度鸟击导致雷达罩处损伤超标。",
-        "text_en": "Bird activity around the airport can create a low-altitude bird-strike risk during departure, approach, and landing.",
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "zspd_departure_procedure",
-        "airport": "上海浦东",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "CURATED",
-        "source_page": "450",
-        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-        "source_section": "浦东人工精选／2606离场程序核对",
-        "source_text_zh": "浦东2606期程序已经调整。驾驶舱准备阶段我们应核对实际跑道、SID、跑道过渡、离场公共段、第一航路点及全部高度速度限制，PF和PM独立检查MCDU，防止新旧程序混淆。",
-        "operational_phase": "preparation",
-        "operational_condition": [
-          "浦东2606期程序已经调整",
-          "PF和PM独立检查MCDU"
-        ],
-        "applicability": [
-          "跑道",
-          "离场"
-        ],
-        "risk": [],
-        "mitigation": [
-          "防止新旧程序混淆"
-        ],
-        "restriction": [
-          "驾驶舱准备阶段我们应核对实际跑道、SID、跑道过渡、离场公共段、第一航路点及全部高度速度限制"
-        ],
-        "excluded_source_clauses": [],
-        "text_zh": "浦东2606期程序已经调整。驾驶舱准备阶段我们应核对实际跑道、SID、跑道过渡、离场公共段、第一航路点及全部高度速度限制，PF和PM独立检查MCDU，防止新旧程序混淆。",
-        "text_en": "Pudong procedures changed in cycle 2606. During cockpit preparation, we must cross-check the actual runway, SID, runway transition, common departure segment, first waypoint, and all altitude and speed constraints, with independent PF and PM verification of the MCDU to prevent old/new procedure confusion.",
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "zspd_departure_ground",
-        "airport": "上海浦东",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "PDF",
-        "source_page": "448-449",
-        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-        "source_section": "20260720手册第448-449页／指挥特点与地面滑行引导车",
-        "source_text_zh": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
-        "operational_phase": "ground",
-        "operational_condition": [
-          "滑行中如发现地面滑行引导车"
-        ],
-        "applicability": [
-          "滑行"
-        ],
-        "risk": [
-          "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令"
-        ],
-        "mitigation": [
-          "我们应准确区分并完整复诵",
-          "应按机场细则关闭滑行灯并跟随引导车滑行"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
-        "text_en": "At Pudong, the apron may issue either a push-and-start clearance or an instruction to report after pushback. We must distinguish and read back the instruction accurately. If a ground follow-me vehicle is encountered during taxi, switch off the taxi light and follow the vehicle as required by the airport rules.",
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "zspd_departure_navigation",
-        "airport": "上海浦东",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "CURATED",
-        "source_page": "450-451",
-        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-        "source_section": "浦东人工精选／导航标准与航图勘误",
-        "source_text_zh": "如实际涉及16L、17R、34R或35L跑道，我们应使用最新有效导航标准和航图勘误；执行VOR 17L或VOR 35R相关程序时，重点核对导航数据库修正内容和高度限制。",
-        "operational_phase": "departure",
-        "operational_condition": [
-          "如实际涉及16L、17R、34R或35L跑道",
-          "执行VOR 17L或VOR 35R相关程序时"
-        ],
-        "applicability": [
-          "跑道"
-        ],
-        "risk": [],
-        "mitigation": [
-          "我们应使用最新有效导航标准和航图勘误"
-        ],
-        "restriction": [
-          "重点核对导航数据库修正内容和高度限制"
-        ],
-        "excluded_source_clauses": [],
-        "text_zh": "如实际涉及16L、17R、34R或35L跑道，我们应使用最新有效导航标准和航图勘误；执行VOR 17L或VOR 35R相关程序时，重点核对导航数据库修正内容和高度限制。",
-        "text_en": "If operations involve runways 16L, 17R, 34R, or 35L, we must use the latest valid navigation criteria and chart corrections. For procedures associated with VOR 17L or VOR 35R, cross-check navigation-database corrections and altitude constraints.",
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "zspd_departure_weather_bird",
-        "airport": "上海浦东",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "PDF",
-        "source_page": "448",
-        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-        "source_section": "20260720手册第448页／东侧海岸鸟情；补充知识库／夏季雷雨",
-        "source_text_zh": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
-        "operational_phase": "weather",
-        "operational_condition": [
-          "提前制定绕飞和返场预案",
-          "并关注ATIS、ATC和机场鸟情通报"
-        ],
-        "applicability": [
-          "跑道",
-          "离场"
-        ],
-        "risk": [
-          "浦东夏季雷雨可能伴随低云、湿跑道和风切变",
-          "东侧海岸鸟类活动也可能与低高度离场航迹重叠"
-        ],
-        "mitigation": [
-          "我们应全程合理使用气象雷达"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
-        "text_en": "Summer thunderstorms at Pudong may bring low cloud, a wet runway, and windshear, while coastal bird activity east of the airport may overlap the low-altitude departure path. We must use the weather radar appropriately throughout the flight, prepare deviation and return plans early, and monitor ATIS, ATC, and airport bird advisories.",
-        "airport_specific": true,
-        "category": "core"
-      }
-    ],
     "沈阳桃仙": [
       {
         "fact_id": "沈阳桃仙_typical_record_1",
@@ -336,6 +206,36 @@
         "text_en": "Strong wind, turbulence, or windshear can cause speed fluctuation, high descent rate, and an unstable landing condition.",
         "airport_specific": true,
         "category": "typical"
+      },
+      {
+        "fact_id": "沈阳桃仙_core_record_8",
+        "airport": "沈阳桃仙",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+        "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+        "source_text_zh": "沈阳机场近期频发离地姿态大事件，起飞擦机尾风险增高，建议机组操纵起飞时保持较低的拉杆速率，确保飞机完全离地（无线电高度表数值增加）方可继续带杆增加姿态。",
+        "operational_phase": "departure",
+        "operational_condition": [
+          "沈阳机场近期频发离地姿态大事件",
+          "确保飞机完全离地（无线电高度表数值增加）方可继续带杆增加姿态"
+        ],
+        "applicability": [
+          "起飞"
+        ],
+        "risk": [
+          "起飞擦机尾风险增高"
+        ],
+        "mitigation": [
+          "建议机组操纵起飞时保持较低的拉杆速率"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "沈阳机场近期频发离地姿态大事件，起飞擦机尾风险增高，建议机组操纵起飞时保持较低的拉杆速率，确保飞机完全离地（无线电高度表数值增加）方可继续带杆增加姿态。",
+        "text_en": "",
+        "airport_specific": true,
+        "category": "core"
       },
       {
         "fact_id": "沈阳桃仙_core_record_3",
@@ -505,8 +405,211 @@
         "text_en": "",
         "airport_specific": true,
         "category": "core"
+      },
+      {
+        "fact_id": "沈阳桃仙_core_record_7",
+        "airport": "沈阳桃仙",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+        "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+        "source_text_zh": "9C7635 和 浦东-白山 9C6135 同时刻同行路 注意相识航班号和管制指令 避免误听指令。",
+        "operational_phase": "unspecified",
+        "operational_condition": [],
+        "applicability": [],
+        "risk": [],
+        "mitigation": [
+          "9C7635 和 浦东-白山 9C6135 同时刻同行路 注意相识航班号和管制指令 避免误听指令"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "9C7635 和 浦东-白山 9C6135 同时刻同行路 注意相识航班号和管制指令 避免误听指令。",
+        "text_en": "",
+        "airport_specific": true,
+        "category": "core"
+      }
+    ],
+    "嘉峪关酒泉": [
+      {
+        "fact_id": "嘉峪关酒泉_typical_record_1",
+        "airport": "嘉峪关酒泉",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "嘉 峪 关 机 场 运 行 特 点",
+        "source_section": "嘉 峪 关 机 场 运 行 特 点／典型不安全事件",
+        "source_text_zh": "目前数据库中无数据。",
+        "operational_phase": "incident",
+        "operational_condition": [
+          "目前数据库中无数据"
+        ],
+        "applicability": [],
+        "risk": [],
+        "mitigation": [],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "目前数据库中无数据。",
+        "text_en": "",
+        "airport_specific": true,
+        "category": "typical"
+      },
+      {
+        "fact_id": "嘉峪关酒泉_core_record_6",
+        "airport": "嘉峪关酒泉",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "嘉 峪 关 机 场 运 行 特 点",
+        "source_section": "嘉 峪 关 机 场 运 行 特 点／核心威胁与运行特点／气象特点",
+        "source_text_zh": "冬春季节多大风，沙尘暴，风切变等极端天气。",
+        "operational_phase": "weather",
+        "operational_condition": [
+          "冬春季节多大风",
+          "沙尘暴",
+          "风切变等极端天气"
+        ],
+        "applicability": [],
+        "risk": [],
+        "mitigation": [],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "冬春季节多大风，沙尘暴，风切变等极端天气。",
+        "text_en": "We must verify mean wind, gust, and crosswind components and monitor speed trend, descent rate, and attitude; apply the prescribed procedure and go around for a windshear warning or an unstable low-altitude condition.",
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "嘉峪关酒泉_core_record_5",
+        "airport": "嘉峪关酒泉",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "嘉 峪 关 机 场 运 行 特 点",
+        "source_section": "嘉 峪 关 机 场 运 行 特 点／核心威胁与运行特点",
+        "source_text_zh": "地形：150°～320°，且MSA根据距离有3300米和6000米不等。",
+        "operational_phase": "terrain",
+        "operational_condition": [
+          "地形：150°～320°",
+          "且MSA根据距离有3300米和6000米不等"
+        ],
+        "applicability": [],
+        "risk": [],
+        "mitigation": [],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "地形：150°～320°，且MSA根据距离有3300米和6000米不等。",
+        "text_en": "",
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "嘉峪关酒泉_core_record_2",
+        "airport": "嘉峪关酒泉",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "嘉 峪 关 机 场 运 行 特 点",
+        "source_section": "嘉 峪 关 机 场 运 行 特 点／核心威胁与运行特点",
+        "source_text_zh": "机场分类：一类操纵复杂机场（请参考 EFB中机场特点汇总- 复杂机场操作权限规则）。",
+        "operational_phase": "unspecified",
+        "operational_condition": [
+          "机场分类：一类操纵复杂机场"
+        ],
+        "applicability": [],
+        "risk": [],
+        "mitigation": [
+          "机场分类：一类操纵复杂机场（请参考 EFB中机场特点汇总- 复杂机场操作权限规则）"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [
+          {
+            "clause": "请参考 EFB中机场特点汇总- 复杂机场操作权限规则",
+            "reason": "资料交叉引用不进入运行正文"
+          }
+        ],
+        "text_zh": "机场分类：一类操纵复杂机场。",
+        "text_en": "",
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "嘉峪关酒泉_core_record_3",
+        "airport": "嘉峪关酒泉",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "嘉 峪 关 机 场 运 行 特 点",
+        "source_section": "嘉 峪 关 机 场 运 行 特 点／核心威胁与运行特点",
+        "source_text_zh": "特殊复杂程序：涉及释压程序。",
+        "operational_phase": "unspecified",
+        "operational_condition": [
+          "特殊复杂程序：涉及释压程序"
+        ],
+        "applicability": [],
+        "risk": [],
+        "mitigation": [],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "特殊复杂程序：涉及释压程序。",
+        "text_en": "",
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "嘉峪关酒泉_core_record_4",
+        "airport": "嘉峪关酒泉",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "嘉 峪 关 机 场 运 行 特 点",
+        "source_section": "嘉 峪 关 机 场 运 行 特 点／核心威胁与运行特点",
+        "source_text_zh": "高原机场：一般高原机场。",
+        "operational_phase": "unspecified",
+        "operational_condition": [
+          "高原机场：一般高原机场"
+        ],
+        "applicability": [],
+        "risk": [],
+        "mitigation": [],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "高原机场：一般高原机场。",
+        "text_en": "We must verify takeoff performance, bleed configuration, and engine-start condition. The PM must call rotation speed accurately and the PF must rotate normally; do not depart with inadequate performance or an abnormal start.",
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "嘉峪关酒泉_core_record_7",
+        "airport": "嘉峪关酒泉",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "嘉 峪 关 机 场 运 行 特 点",
+        "source_section": "嘉 峪 关 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+        "source_text_zh": "注意襟缝翼操作限制2万英尺。",
+        "operational_phase": "unspecified",
+        "operational_condition": [],
+        "applicability": [],
+        "risk": [],
+        "mitigation": [],
+        "restriction": [
+          "注意襟缝翼操作限制2万英尺"
+        ],
+        "excluded_source_clauses": [],
+        "text_zh": "注意襟缝翼操作限制2万英尺。",
+        "text_en": "",
+        "airport_specific": true,
+        "category": "core"
       }
     ]
   },
-  "excluded_source_clauses": []
+  "excluded_source_clauses": [
+    {
+      "airport": "嘉峪关酒泉",
+      "fact_id": "嘉峪关酒泉_core_record_2",
+      "clause": "请参考 EFB中机场特点汇总- 复杂机场操作权限规则",
+      "reason": "资料交叉引用不进入运行正文"
+    }
+  ]
 }
