@@ -1,0 +1,4 @@
+{
+  "source_folder": "${AIRPORT_MANUAL_SOURCE_FOLDER}",
+  "target_folder": "knowledge/pdf"
+}
