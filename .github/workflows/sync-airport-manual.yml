@@ -1,0 +1,76 @@
+name: Sync Airport Manual
+
+on:
+  workflow_dispatch:
+  schedule:
+    # GitHub Actions使用UTC；北京时间17:00 = UTC 09:00
+    - cron: '0 9 * * *'
+
+concurrency:
+  group: crew-calendar
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: [self-hosted, Windows, X64, crew-calendar]
+    timeout-minutes: 15
+
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install PDF validation dependency
+        run: python -m pip install -r requirements-agent.txt
+
+      - name: Validate and synchronize airport manual
+        id: sync_manual
+        env:
+          AIRPORT_MANUAL_SOURCE_FOLDER: ${{ vars.AIRPORT_MANUAL_SOURCE_FOLDER }}
+        run: |
+          $ErrorActionPreference = "Stop"
+          python tools/sync_airport_manual.py `
+            --config config/airport_manual_sync.json `
+            --github-output $env:GITHUB_OUTPUT
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+          }
+
+      - name: Commit and push updated airport manual
+        if: ${{ steps.sync_manual.outputs.changed == 'true' }}
+        run: |
+          $ErrorActionPreference = "Stop"
+          $PSNativeCommandUseErrorActionPreference = $false
+
+          git add --all -- knowledge/pdf
+          git diff --cached --quiet
+          if ($LASTEXITCODE -eq 0) {
+            Write-Host "No repository change detected"
+            exit 0
+          }
+          if ($LASTEXITCODE -ne 1) {
+            exit $LASTEXITCODE
+          }
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update airport manual"
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+          }
+
+          git pull --rebase origin main
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+          }
+          git push origin HEAD:main
+          exit $LASTEXITCODE
