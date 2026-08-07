@@ -26,6 +26,10 @@ MANUAL_KEYWORDS = (
     "核心威胁",
     "运行特点",
 )
+AIRPORT_MANUAL_FILENAME_MARKERS = (
+    "机场特点汇总",
+    "airport information",
+)
 
 
 class SyncError(RuntimeError):
@@ -39,12 +43,21 @@ class SyncConfig:
 
 
 @dataclass(frozen=True)
+class SourceSelection:
+    source_pdf: Path
+    top_level_pdf_count: int
+    ignored_pdf_count: int
+
+
+@dataclass(frozen=True)
 class SyncResult:
     changed: bool
     status: str
     source_name: str
     sha256: str
     target_path: Path | None
+    top_level_pdf_count: int
+    ignored_pdf_count: int
 
 
 def _resolve_config_value(value: Any, field_name: str) -> str:
@@ -110,7 +123,16 @@ def load_config(
     )
 
 
-def find_single_source_pdf(source_folder: Path) -> Path:
+def is_airport_manual_candidate(path: Path) -> bool:
+    if path.is_symlink() or not path.is_file():
+        return False
+    if path.suffix.casefold() != ".pdf":
+        return False
+    filename = path.name.casefold()
+    return all(marker.casefold() in filename for marker in AIRPORT_MANUAL_FILENAME_MARKERS)
+
+
+def find_single_source_pdf(source_folder: Path) -> SourceSelection:
     if not source_folder.is_dir():
         raise SyncError("Flight Data源目录不存在或不是目录")
 
@@ -119,19 +141,32 @@ def find_single_source_pdf(source_folder: Path) -> Path:
             (
                 path
                 for path in source_folder.iterdir()
-                if path.is_file() and path.suffix.casefold() == ".pdf"
+                if not path.is_symlink()
+                and path.is_file()
+                and path.suffix.casefold() == ".pdf"
             ),
             key=lambda path: path.name.casefold(),
         )
     except OSError as exc:
         raise SyncError(f"无法读取Flight Data源目录：{type(exc).__name__}") from exc
 
-    if len(pdf_files) != 1:
+    candidates = [path for path in pdf_files if is_airport_manual_candidate(path)]
+    if not candidates:
         raise SyncError(
-            "Flight Data源目录必须且只能包含一个PDF，"
-            f"当前检测到{len(pdf_files)}个"
+            "未找到文件名同时包含“机场特点汇总”和"
+            "“Airport Information”的顶层PDF"
         )
-    return pdf_files[0]
+    if len(candidates) > 1:
+        candidate_names = "、".join(path.name for path in candidates)
+        raise SyncError(
+            "检测到多个机场特点汇总候选文件，请人工清理后重试："
+            f"{candidate_names}"
+        )
+    return SourceSelection(
+        source_pdf=candidates[0],
+        top_level_pdf_count=len(pdf_files),
+        ignored_pdf_count=len(pdf_files) - len(candidates),
+    )
 
 
 def validate_airport_manual_pdf(pdf_path: Path) -> None:
@@ -190,6 +225,15 @@ def _target_pdfs(target_folder: Path) -> list[Path]:
         )
     except OSError as exc:
         raise SyncError(f"无法读取目标PDF目录：{type(exc).__name__}") from exc
+    unexpected_pdfs = [
+        path for path in pdf_files if not is_airport_manual_candidate(path)
+    ]
+    if unexpected_pdfs:
+        unexpected_names = "、".join(path.name for path in unexpected_pdfs)
+        raise SyncError(
+            "目标目录包含非机场特点汇总PDF，无法安全替换："
+            f"{unexpected_names}"
+        )
     if len(pdf_files) > 1:
         raise SyncError("目标目录存在多个PDF，无法安全确定应替换的正式手册")
     return pdf_files
@@ -254,7 +298,8 @@ def sync_airport_manual(
     repo_root: Path = REPO_ROOT,
 ) -> SyncResult:
     config = load_config(config_path, repo_root=repo_root)
-    source_pdf = find_single_source_pdf(config.source_folder)
+    selection = find_single_source_pdf(config.source_folder)
+    source_pdf = selection.source_pdf
     validate_airport_manual_pdf(source_pdf)
     source_hash = sha256_file(source_pdf)
 
@@ -266,6 +311,8 @@ def sync_airport_manual(
                 source_name=source_pdf.name,
                 sha256=source_hash,
                 target_path=existing_pdf,
+                top_level_pdf_count=selection.top_level_pdf_count,
+                ignored_pdf_count=selection.ignored_pdf_count,
             )
 
     destination = _install_pdf_atomically(
@@ -279,6 +326,8 @@ def sync_airport_manual(
         source_name=source_pdf.name,
         sha256=source_hash,
         target_path=destination,
+        top_level_pdf_count=selection.top_level_pdf_count,
+        ignored_pdf_count=selection.ignored_pdf_count,
     )
 
 
@@ -286,6 +335,7 @@ def _append_github_output(output_path: Path, result: SyncResult) -> None:
     with output_path.open("a", encoding="utf-8", newline="\n") as stream:
         stream.write(f"changed={'true' if result.changed else 'false'}\n")
         stream.write(f"sync_result={result.status}\n")
+        stream.write(f"ignored_pdf_count={result.ignored_pdf_count}\n")
 
 
 def build_argument_parser() -> argparse.ArgumentParser:
@@ -309,12 +359,14 @@ def main(argv: list[str] | None = None) -> int:
     try:
         result = sync_airport_manual(args.config)
     except SyncError as exc:
-        print("SYNC_RESULT=ERROR")
+        print("SYNC_RESULT=FAILED_SAFE")
         print(f"SYNC_ERROR={exc}")
         return 1
 
     print(f"SYNC_RESULT={result.status}")
     print(f"SOURCE_PDF={result.source_name}")
+    print(f"TOP_LEVEL_PDF_COUNT={result.top_level_pdf_count}")
+    print(f"IGNORED_OTHER_PDF_COUNT={result.ignored_pdf_count}")
     print(f"SHA256={result.sha256}")
     if args.github_output is not None:
         _append_github_output(args.github_output, result)
