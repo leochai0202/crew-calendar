@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-08-08",
-  "generated_at_beijing": "2026-08-06T23:13:24.827048+08:00",
+  "generated_at_beijing": "2026-08-07T12:02:27.580805+08:00",
   "generator": "flight-prep-free-v14-final-confirmed-format",
   "flight_numbers": [
     "9C6499",
@@ -101,8 +101,8 @@
       "icao": "ZYTX",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-08-06T12:00:00+00:00",
-        "2026-08-07T12:00:00+00:00"
+        "2026-08-07T06:00:00+00:00",
+        "2026-08-08T06:00:00+00:00"
       ],
       "relevant_times": [
         "2026-08-08T15:50:00+08:00",
