@@ -1744,7 +1744,7 @@ UID:c243a574582d0d59a90bb1a3918e5d7f@crew-calendar
 SUMMARY:✈️ 9C7021 上海浦东→沈阳桃仙(+1)
 DTSTART;TZID=Asia/Shanghai:20260807T213500
 DTEND;TZID=Asia/Shanghai:20260808T000500
-DESCRIPTION:08月07日 周五\n类型：航班\n航班：9C7021\n航线：上海浦东 → 沈阳桃仙(+1)\n地点：上海浦东\n签到：19:45｜上海浦东\n任务：21:35 - 00:05\n机型：A320｜注册号：B328T\n\n人员名单：\n• 邢晋(R)\n• 李易聪(R)\n• 段洋硕\n• 秦梦(B)\n\n版本：2026-08-07 18:27
+DESCRIPTION:08月07日 周五\n类型：航班\n航班：9C7021\n航线：上海浦东 → 沈阳桃仙(+1)\n地点：上海浦东\n签到：19:45｜上海浦东\n任务：21:35 - 00:05\n机型：A320｜注册号：B328T\n\n人员名单：\n• 邢晋(R)\n• 李易聪(R)\n• 段洋硕\n• 秦梦(B)\n\n版本：2026-08-07 19:23
 X-CONTENT-SIGNATURE:d3366231e729df4fd839b6f46a51aba5
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -1758,7 +1758,7 @@ UID:b7d196ea087b0ce5cf607842ff630b62@crew-calendar
 SUMMARY:✈️ 9C6499 沈阳桃仙→嘉峪关酒泉
 DTSTART;TZID=Asia/Shanghai:20260808T155000
 DTEND;TZID=Asia/Shanghai:20260808T200500
-DESCRIPTION:08月08日 周六\n类型：航班\n航班：9C6499\n航线：沈阳桃仙 → 嘉峪关酒泉\n地点：沈阳桃仙\n签到：14:00｜沈阳桃仙\n任务：15:50 - 20:05\n机型：A320｜注册号：B328T\n\n人员名单：\n• 王谊晨\n• 李易聪\n• 段洋硕\n• 邢雪桐(B)\n\n版本：2026-08-07 18:27
+DESCRIPTION:08月08日 周六\n类型：航班\n航班：9C6499\n航线：沈阳桃仙 → 嘉峪关酒泉\n地点：沈阳桃仙\n签到：14:00｜沈阳桃仙\n任务：15:50 - 20:05\n机型：A320｜注册号：B328T\n\n人员名单：\n• 王谊晨\n• 李易聪\n• 段洋硕\n• 邢雪桐(B)\n\n版本：2026-08-07 19:23
 X-CONTENT-SIGNATURE:02efdeede8f1e4a4c9be04711c43671d
 LOCATION:沈阳桃仙
 BEGIN:VALARM
@@ -1772,7 +1772,7 @@ UID:83b94c0b9cb261105deb4c4afe1d073f@crew-calendar
 SUMMARY:✈️ 9C6500 嘉峪关酒泉→沈阳桃仙(+1)
 DTSTART;TZID=Asia/Shanghai:20260808T205000
 DTEND;TZID=Asia/Shanghai:20260809T003000
-DESCRIPTION:08月08日 周六\n类型：航班\n航班：9C6500\n航线：嘉峪关酒泉 → 沈阳桃仙(+1)\n地点：嘉峪关酒泉\n签到：19:15｜嘉峪关酒泉\n任务：20:50 - 00:30\n机型：A320｜注册号：B328T\n\n人员名单：\n• 王谊晨\n• 李易聪\n• 段洋硕\n• 邢雪桐(B)\n\n版本：2026-08-07 18:27
+DESCRIPTION:08月08日 周六\n类型：航班\n航班：9C6500\n航线：嘉峪关酒泉 → 沈阳桃仙(+1)\n地点：嘉峪关酒泉\n签到：19:15｜嘉峪关酒泉\n任务：20:50 - 00:30\n机型：A320｜注册号：B328T\n\n人员名单：\n• 王谊晨\n• 李易聪\n• 段洋硕\n• 邢雪桐(B)\n\n版本：2026-08-07 19:23
 X-CONTENT-SIGNATURE:65e9a3f74846960e97df18b176238dd0
 LOCATION:嘉峪关酒泉
 BEGIN:VALARM
@@ -1786,7 +1786,7 @@ UID:92c8aeac924cd816c0bc3ae4ebbd9711@crew-calendar
 SUMMARY:✈️ 9C8920 沈阳桃仙→杭州萧山
 DTSTART;TZID=Asia/Shanghai:20260809T170000
 DTEND;TZID=Asia/Shanghai:20260809T195000
-DESCRIPTION:08月09日 周日\n类型：航班\n航班：9C8920\n航线：沈阳桃仙 → 杭州萧山\n地点：沈阳桃仙\n签到：15:10｜沈阳桃仙\n任务：17:00 - 19:50\n机型：A320｜注册号：B8647\n\n人员名单：\n• 王谊晨\n• 李易聪\n• 段洋硕\n• 祝海龙(B)\n\n版本：2026-08-07 18:27
+DESCRIPTION:08月09日 周日\n类型：航班\n航班：9C8920\n航线：沈阳桃仙 → 杭州萧山\n地点：沈阳桃仙\n签到：15:10｜沈阳桃仙\n任务：17:00 - 19:50\n机型：A320｜注册号：B8647\n\n人员名单：\n• 王谊晨\n• 李易聪\n• 段洋硕\n• 祝海龙(B)\n\n版本：2026-08-07 19:23
 X-CONTENT-SIGNATURE:cf7bd9ba4c4b82ae079268185c975a9e
 LOCATION:沈阳桃仙
 BEGIN:VALARM
@@ -1800,7 +1800,7 @@ UID:b32d18b57b6655a0d611022c6a3dfd18@crew-calendar
 SUMMARY:✈️ 9C8919 杭州萧山→沈阳桃仙
 DTSTART;TZID=Asia/Shanghai:20260809T211000
 DTEND;TZID=Asia/Shanghai:20260809T234500
-DESCRIPTION:08月09日 周日\n类型：航班\n航班：9C8919\n航线：杭州萧山 → 沈阳桃仙\n地点：杭州萧山\n签到：19:35｜杭州萧山\n任务：21:10 - 23:45\n机型：A320｜注册号：B8647\n\n人员名单：\n• 王谊晨\n• 李易聪\n• 段洋硕\n• 祝海龙(B)\n\n版本：2026-08-07 18:27
+DESCRIPTION:08月09日 周日\n类型：航班\n航班：9C8919\n航线：杭州萧山 → 沈阳桃仙\n地点：杭州萧山\n签到：19:35｜杭州萧山\n任务：21:10 - 23:45\n机型：A320｜注册号：B8647\n\n人员名单：\n• 王谊晨\n• 李易聪\n• 段洋硕\n• 祝海龙(B)\n\n版本：2026-08-07 19:23
 X-CONTENT-SIGNATURE:a1a35831d12f474f843e6fa306f4e46f
 LOCATION:杭州萧山
 BEGIN:VALARM
@@ -1814,7 +1814,7 @@ UID:e90ac5562c61b96d568db2bcc798262b@crew-calendar
 SUMMARY:✈️ 9C6760 沈阳桃仙→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260810T175000
 DTEND;TZID=Asia/Shanghai:20260810T203500
-DESCRIPTION:08月10日 周一\n类型：航班\n航班：9C6760\n航线：沈阳桃仙 → 上海浦东\n地点：沈阳桃仙\n签到：16:00｜沈阳桃仙\n任务：17:50 - 20:35\n机型：A320｜注册号：B9965\n\n人员名单：\n• 虞诗忠(R)\n• 王亚东(R)\n• 段洋硕\n• 宋文林(B)\n\n版本：2026-08-07 18:27
+DESCRIPTION:08月10日 周一\n类型：航班\n航班：9C6760\n航线：沈阳桃仙 → 上海浦东\n地点：沈阳桃仙\n签到：16:00｜沈阳桃仙\n任务：17:50 - 20:35\n机型：A320｜注册号：B9965\n\n人员名单：\n• 虞诗忠(R)\n• 王亚东(R)\n• 段洋硕\n• 宋文林(B)\n\n版本：2026-08-07 19:23
 X-CONTENT-SIGNATURE:87ea61e7c85a5f5fb8c5761223ed4fdf
 LOCATION:沈阳桃仙
 BEGIN:VALARM
