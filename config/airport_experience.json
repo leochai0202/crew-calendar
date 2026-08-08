@@ -1,6 +1,6 @@
 {
   "rolling_days": 90,
-  "as_of": "2026-08-08",
+  "as_of": "2026-08-09",
   "airports": {
     "西安咸阳": {
       "last_operated": "2026-05-26",
@@ -129,9 +129,9 @@
       "within_90_days": true
     },
     "沈阳桃仙": {
-      "last_operated": "2026-08-07",
+      "last_operated": "2026-08-08",
       "source": "completed_schedule_event",
-      "flight_number": "9C7021",
+      "flight_number": "9C6499",
       "within_90_days": true
     },
     "兰州中川": {
@@ -234,6 +234,12 @@
       "last_operated": "2026-08-04",
       "source": "completed_schedule_event",
       "flight_number": "9C8523",
+      "within_90_days": true
+    },
+    "嘉峪关酒泉": {
+      "last_operated": "2026-08-08",
+      "source": "completed_schedule_event",
+      "flight_number": "9C6499",
       "within_90_days": true
     }
   },
