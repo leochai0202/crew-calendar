@@ -1758,7 +1758,7 @@ UID:b7d196ea087b0ce5cf607842ff630b62@crew-calendar
 SUMMARY:✈️ 9C6499 沈阳桃仙→嘉峪关酒泉
 DTSTART;TZID=Asia/Shanghai:20260808T155000
 DTEND;TZID=Asia/Shanghai:20260808T200500
-DESCRIPTION:08月08日 周六\n类型：航班\n航班：9C6499\n航线：沈阳桃仙 → 嘉峪关酒泉\n地点：沈阳桃仙\n签到：14:00｜沈阳桃仙\n任务：15:50 - 20:05\n机型：A320｜注册号：B328T\n\n人员名单：\n• 王谊晨\n• 李易聪\n• 段洋硕\n• 邢雪桐(B)\n\n版本：2026-08-07 20:05
+DESCRIPTION:08月08日 周六\n类型：航班\n航班：9C6499\n航线：沈阳桃仙 → 嘉峪关酒泉\n地点：沈阳桃仙\n签到：14:00｜沈阳桃仙\n任务：15:50 - 20:05\n机型：A320｜注册号：B328T\n\n人员名单：\n• 王谊晨\n• 李易聪\n• 段洋硕\n• 邢雪桐(B)\n\n版本：2026-08-08 19:50
 X-CONTENT-SIGNATURE:02efdeede8f1e4a4c9be04711c43671d
 LOCATION:沈阳桃仙
 BEGIN:VALARM
@@ -1772,7 +1772,7 @@ UID:83b94c0b9cb261105deb4c4afe1d073f@crew-calendar
 SUMMARY:✈️ 9C6500 嘉峪关酒泉→沈阳桃仙(+1)
 DTSTART;TZID=Asia/Shanghai:20260808T205000
 DTEND;TZID=Asia/Shanghai:20260809T003000
-DESCRIPTION:08月08日 周六\n类型：航班\n航班：9C6500\n航线：嘉峪关酒泉 → 沈阳桃仙(+1)\n地点：嘉峪关酒泉\n签到：19:15｜嘉峪关酒泉\n任务：20:50 - 00:30\n机型：A320｜注册号：B328T\n\n人员名单：\n• 王谊晨\n• 李易聪\n• 段洋硕\n• 邢雪桐(B)\n\n版本：2026-08-07 20:05
+DESCRIPTION:08月08日 周六\n类型：航班\n航班：9C6500\n航线：嘉峪关酒泉 → 沈阳桃仙(+1)\n地点：嘉峪关酒泉\n签到：19:15｜嘉峪关酒泉\n任务：20:50 - 00:30\n机型：A320｜注册号：B328T\n\n人员名单：\n• 王谊晨\n• 李易聪\n• 段洋硕\n• 邢雪桐(B)\n\n版本：2026-08-08 19:50
 X-CONTENT-SIGNATURE:65e9a3f74846960e97df18b176238dd0
 LOCATION:嘉峪关酒泉
 BEGIN:VALARM
@@ -1810,12 +1810,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:e90ac5562c61b96d568db2bcc798262b@crew-calendar
+UID:7b3996217afcf463e67fd30f13c92dcf@crew-calendar
 SUMMARY:✈️ 9C6760 沈阳桃仙→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260810T175000
 DTEND;TZID=Asia/Shanghai:20260810T203500
-DESCRIPTION:08月10日 周一\n类型：航班\n航班：9C6760\n航线：沈阳桃仙 → 上海浦东\n地点：沈阳桃仙\n签到：16:00｜沈阳桃仙\n任务：17:50 - 20:35\n机型：A320｜注册号：B9965\n\n人员名单：\n• 虞诗忠(R)\n• 王亚东(R)\n• 段洋硕\n• 宋文林(B)\n\n版本：2026-08-07 20:05
-X-CONTENT-SIGNATURE:87ea61e7c85a5f5fb8c5761223ed4fdf
+DESCRIPTION:08月10日 周一\n类型：航班\n航班：9C6760\n航线：沈阳桃仙 → 上海浦东\n地点：沈阳桃仙\n签到：16:00｜沈阳桃仙\n任务：17:50 - 20:35\n机型：A320｜注册号：B324F\n\n人员名单：\n• 虞诗忠(R)\n• 王亚东(R)\n• 段洋硕\n\n版本：2026-08-08 19:50
+X-CONTENT-SIGNATURE:6bac58fafd936011df0989d8d2f88ac2
 LOCATION:沈阳桃仙
 BEGIN:VALARM
 TRIGGER:-PT90M
