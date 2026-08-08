@@ -1,17 +1,16 @@
 {
   "status": "SUCCESS",
-  "target_date": "2026-08-09",
-  "generated_at_beijing": "2026-08-08T10:59:42.757110+08:00",
+  "target_date": "2026-08-10",
+  "generated_at_beijing": "2026-08-08T18:55:13.253117+08:00",
   "generator": "flight-prep-free-v14-final-confirmed-format",
   "flight_numbers": [
-    "9C8920",
-    "9C8919"
+    "9C6760"
   ],
   "airports": [
     "沈阳桃仙",
-    "杭州萧山"
+    "上海浦东"
   ],
-  "group_output": "2026-08-09_航前准备.txt",
+  "group_output": "2026-08-10_航前准备.txt",
   "english_output": "",
   "english_generated": false,
   "foreign_crew_detected": false,
@@ -19,103 +18,75 @@
   "english_confirmation_required": false,
   "english_trigger_names": [],
   "matched_event_uids": [
-    "92c8aeac924cd816c0bc3ae4ebbd9711@crew-calendar",
-    "b32d18b57b6655a0d611022c6a3dfd18@crew-calendar"
+    "e90ac5562c61b96d568db2bcc798262b@crew-calendar"
   ],
   "matched_flights": [
     {
-      "uid": "92c8aeac924cd816c0bc3ae4ebbd9711@crew-calendar",
-      "summary": "✈️ 9C8920 沈阳桃仙→杭州萧山",
-      "start": "2026-08-09T17:00:00+08:00",
-      "end": "2026-08-09T19:50:00+08:00",
-      "description": "08月09日 周日\n类型：航班\n航班：9C8920\n航线：沈阳桃仙 → 杭州萧山\n地点：沈阳桃仙\n签到：15:10｜沈阳桃仙\n任务：17:00 - 19:50\n机型：A320｜注册号：B8647\n\n人员名单：\n• 王谊晨\n• 李易聪\n• 段洋硕\n• 祝海龙(B)\n\n版本：2026-08-07 20:05",
+      "uid": "e90ac5562c61b96d568db2bcc798262b@crew-calendar",
+      "summary": "✈️ 9C6760 沈阳桃仙→上海浦东",
+      "start": "2026-08-10T17:50:00+08:00",
+      "end": "2026-08-10T20:35:00+08:00",
+      "description": "08月10日 周一\n类型：航班\n航班：9C6760\n航线：沈阳桃仙 → 上海浦东\n地点：沈阳桃仙\n签到：16:00｜沈阳桃仙\n任务：17:50 - 20:35\n机型：A320｜注册号：B9965\n\n人员名单：\n• 虞诗忠(R)\n• 王亚东(R)\n• 段洋硕\n• 宋文林(B)\n\n版本：2026-08-07 20:05",
       "location": "沈阳桃仙",
       "properties": {
-        "UID": "92c8aeac924cd816c0bc3ae4ebbd9711@crew-calendar",
-        "SUMMARY": "✈️ 9C8920 沈阳桃仙→杭州萧山",
-        "DTSTART": "20260809T170000",
-        "DTEND": "20260809T195000",
-        "DESCRIPTION": "08月09日 周日\\n类型：航班\\n航班：9C8920\\n航线：沈阳桃仙 → 杭州萧山\\n地点：沈阳桃仙\\n签到：15:10｜沈阳桃仙\\n任务：17:00 - 19:50\\n机型：A320｜注册号：B8647\\n\\n人员名单：\\n• 王谊晨\\n• 李易聪\\n• 段洋硕\\n• 祝海龙(B)\\n\\n版本：2026-08-07 20:05",
-        "X-CONTENT-SIGNATURE": "cf7bd9ba4c4b82ae079268185c975a9e",
+        "UID": "e90ac5562c61b96d568db2bcc798262b@crew-calendar",
+        "SUMMARY": "✈️ 9C6760 沈阳桃仙→上海浦东",
+        "DTSTART": "20260810T175000",
+        "DTEND": "20260810T203500",
+        "DESCRIPTION": "08月10日 周一\\n类型：航班\\n航班：9C6760\\n航线：沈阳桃仙 → 上海浦东\\n地点：沈阳桃仙\\n签到：16:00｜沈阳桃仙\\n任务：17:50 - 20:35\\n机型：A320｜注册号：B9965\\n\\n人员名单：\\n• 虞诗忠(R)\\n• 王亚东(R)\\n• 段洋硕\\n• 宋文林(B)\\n\\n版本：2026-08-07 20:05",
+        "X-CONTENT-SIGNATURE": "87ea61e7c85a5f5fb8c5761223ed4fdf",
         "LOCATION": "沈阳桃仙"
       },
       "source_file": "flight.ics",
-      "flight_number": "9C8920",
+      "flight_number": "9C6760",
       "departure": "沈阳桃仙",
-      "arrival": "杭州萧山",
+      "arrival": "上海浦东",
       "aircraft_type": "A320",
-      "registration": "B8647",
-      "checkin": "15:10｜沈阳桃仙",
+      "registration": "B9965",
+      "checkin": "16:00｜沈阳桃仙",
       "people": [
-        "王谊晨",
-        "李易聪",
+        "虞诗忠(R)",
+        "王亚东(R)",
         "段洋硕",
-        "祝海龙(B)"
-      ],
-      "cross_day": false
-    },
-    {
-      "uid": "b32d18b57b6655a0d611022c6a3dfd18@crew-calendar",
-      "summary": "✈️ 9C8919 杭州萧山→沈阳桃仙",
-      "start": "2026-08-09T21:10:00+08:00",
-      "end": "2026-08-09T23:45:00+08:00",
-      "description": "08月09日 周日\n类型：航班\n航班：9C8919\n航线：杭州萧山 → 沈阳桃仙\n地点：杭州萧山\n签到：19:35｜杭州萧山\n任务：21:10 - 23:45\n机型：A320｜注册号：B8647\n\n人员名单：\n• 王谊晨\n• 李易聪\n• 段洋硕\n• 祝海龙(B)\n\n版本：2026-08-07 20:05",
-      "location": "杭州萧山",
-      "properties": {
-        "UID": "b32d18b57b6655a0d611022c6a3dfd18@crew-calendar",
-        "SUMMARY": "✈️ 9C8919 杭州萧山→沈阳桃仙",
-        "DTSTART": "20260809T211000",
-        "DTEND": "20260809T234500",
-        "DESCRIPTION": "08月09日 周日\\n类型：航班\\n航班：9C8919\\n航线：杭州萧山 → 沈阳桃仙\\n地点：杭州萧山\\n签到：19:35｜杭州萧山\\n任务：21:10 - 23:45\\n机型：A320｜注册号：B8647\\n\\n人员名单：\\n• 王谊晨\\n• 李易聪\\n• 段洋硕\\n• 祝海龙(B)\\n\\n版本：2026-08-07 20:05",
-        "X-CONTENT-SIGNATURE": "a1a35831d12f474f843e6fa306f4e46f",
-        "LOCATION": "杭州萧山"
-      },
-      "source_file": "flight.ics",
-      "flight_number": "9C8919",
-      "departure": "杭州萧山",
-      "arrival": "沈阳桃仙",
-      "aircraft_type": "A320",
-      "registration": "B8647",
-      "checkin": "19:35｜杭州萧山",
-      "people": [
-        "王谊晨",
-        "李易聪",
-        "段洋硕",
-        "祝海龙(B)"
+        "宋文林(B)"
       ],
       "cross_day": false
     }
   ],
   "matched_people": [
-    "王谊晨",
-    "李易聪",
+    "虞诗忠(R)",
+    "王亚东(R)",
     "段洋硕",
-    "祝海龙(B)"
+    "宋文林(B)"
   ],
   "warnings": [
     "沈阳桃仙匹配最新机场特点章节：沈 阳 / 桃 仙 机 场 运 行 特 点（ZYTX）",
-    "杭州萧山匹配最新机场特点章节：杭 州 / 萧 山 机 场 运 行 特 点（ZSHC）"
+    "上海浦东匹配最新机场特点章节：上 海 / 浦 东 机 场 运 行 特 点（ZSPD）"
   ],
   "weather": {
     "沈阳桃仙": {
       "icao": "ZYTX",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-08-08T12:00:00+00:00",
+        "2026-08-09T12:00:00+00:00"
+      ],
       "relevant_times": [
-        "2026-08-09T17:00:00+08:00",
-        "2026-08-09T23:45:00+08:00"
+        "2026-08-10T17:50:00+08:00"
       ],
       "taf_decoded_by_time": [],
       "decoded": [],
       "fetch_error": ""
     },
-    "杭州萧山": {
-      "icao": "ZSHC",
+    "上海浦东": {
+      "icao": "ZSPD",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-08-08T12:00:00+00:00",
+        "2026-08-09T18:00:00+00:00"
+      ],
       "relevant_times": [
-        "2026-08-09T19:50:00+08:00",
-        "2026-08-09T21:10:00+08:00"
+        "2026-08-10T20:35:00+08:00"
       ],
       "taf_decoded_by_time": [],
       "decoded": [],
@@ -134,53 +105,22 @@
       ],
       "core": [
         "沈阳桃仙_core_record_8",
-        "沈阳桃仙_core_record_3",
         "沈阳桃仙_core_record_4",
-        "沈阳桃仙_core_record_12"
+        "沈阳桃仙_core_record_12",
+        "沈阳桃仙_core_record_3"
       ]
     },
-    "杭州萧山": {
+    "上海浦东": {
       "typical": [
-        "杭州萧山_typical_record_1",
-        "杭州萧山_typical_record_2",
-        "杭州萧山_typical_record_3",
-        "杭州萧山_typical_record_4",
-        "杭州萧山_typical_record_5",
-        "杭州萧山_typical_record_6",
-        "杭州萧山_typical_record_7",
-        "杭州萧山_typical_record_8",
-        "杭州萧山_typical_record_9",
-        "杭州萧山_typical_record_10",
-        "杭州萧山_typical_record_11",
-        "杭州萧山_typical_record_12",
-        "杭州萧山_typical_record_13",
-        "杭州萧山_typical_record_14",
-        "杭州萧山_typical_record_15",
-        "杭州萧山_typical_record_16",
-        "杭州萧山_typical_record_17",
-        "杭州萧山_typical_record_18",
-        "杭州萧山_typical_record_19",
-        "杭州萧山_typical_record_21",
-        "杭州萧山_typical_record_22",
-        "杭州萧山_typical_record_23",
-        "杭州萧山_typical_record_24",
-        "杭州萧山_typical_record_25",
-        "杭州萧山_typical_record_26",
-        "杭州萧山_typical_record_27",
-        "杭州萧山_typical_record_28",
-        "杭州萧山_typical_record_30",
-        "杭州萧山_typical_record_31",
-        "杭州萧山_typical_record_32",
-        "杭州萧山_typical_record_34",
-        "杭州萧山_typical_record_35",
-        "杭州萧山_typical_record_36",
-        "杭州萧山_typical_record_37"
+        "上海浦东_typical_record_1",
+        "上海浦东_typical_record_2"
       ],
       "core": [
-        "杭州萧山_core_record_39",
-        "杭州萧山_core_record_38",
-        "paragraph:杭州萧山_core_record_40",
-        "杭州萧山_core_record_41"
+        "zspd_arrival_change_energy",
+        "zspd_tcas",
+        "zspd_bird",
+        "zspd_thunderstorm",
+        "zspd_adgs_entry"
       ]
     }
   },
@@ -284,61 +224,6 @@
         "category": "core"
       },
       {
-        "fact_id": "沈阳桃仙_core_record_3",
-        "airport": "沈阳桃仙",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
-        "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／指挥特点",
-        "source_text_zh": "通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
-        "operational_phase": "approach",
-        "operational_condition": [
-          "地面通常会让A2/A8 前等待",
-          "然后换频塔台后再给跑道外等待指令",
-          "进近时",
-          "经常不会飞完整的进场程序",
-          "根据前后机排序间隔等雷达引导",
-          "第二会雷达引导或指挥自行转向五边",
-          "干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近"
-        ],
-        "applicability": [
-          "跑道",
-          "离场",
-          "进近",
-          "进场",
-          "起飞"
-        ],
-        "risk": [
-          "ILS06/24 下滑道信号易受到干扰"
-        ],
-        "mitigation": [
-          "通常 06 号跑道离场使用 A2 离场",
-          "24 号跑道使用 A8 离场",
-          "机组注意 FLYSMART性能计算",
-          "第一注意能量管理",
-          "机组一定注意判断切入点位置",
-          "避免出现高截获",
-          "尤其有飞机使用全跑道起飞跑道外等时",
-          "机组注意做好盲降信号异常时的处置",
-          "同时注意内外结合",
-          "防止丢失状态"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
-        "text_en": "Before intercept, we must verify position, intercept angle, altitude, and distance and monitor LOC/GS, FMA, descent rate, and speed; apply the procedure for false or unstable capture and go around if necessary.",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "approach",
-        "source_fact_ids": [
-          "沈阳桃仙_core_record_3"
-        ],
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
         "fact_id": "沈阳桃仙_core_record_4",
         "airport": "沈阳桃仙",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
@@ -418,1262 +303,314 @@
         ],
         "airport_specific": true,
         "category": "core"
-      }
-    ],
-    "杭州萧山": [
+      },
       {
-        "fact_id": "杭州萧山_typical_record_1",
-        "airport": "杭州萧山",
+        "fact_id": "沈阳桃仙_core_record_3",
+        "airport": "沈阳桃仙",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
         "source": "PDF",
         "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "指挥特点：跑道、进离场方式经常改变；注意SUPAR和OKTUG。",
-        "operational_phase": "incident",
+        "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+        "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／指挥特点",
+        "source_text_zh": "通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+        "operational_phase": "approach",
         "operational_condition": [
-          "指挥特点：跑道、进离场方式经常改变"
-        ],
-        "applicability": [
-          "跑道",
-          "离场"
-        ],
-        "risk": [],
-        "mitigation": [
-          "注意SUPAR和OKTUG"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "指挥特点：跑道、进离场方式经常改变；注意SUPAR和OKTUG。",
-        "text_en": "Runway, arrival, departure, or routing changes can produce a wrong procedure, route discontinuity, or misunderstood missed-approach altitude.",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "departure",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_1"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_2",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "道面特点：部分滑行道交叉口无等待线。",
-        "operational_phase": "ground",
-        "operational_condition": [
-          "道面特点：部分滑行道交叉口无等待线"
-        ],
-        "applicability": [
-          "滑行"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "道面特点：部分滑行道交叉口无等待线。",
-        "text_en": "Complex taxi routes, work areas, or holding positions can create wrong-turn and runway-incursion risks.",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "ground",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_2"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_3",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "地形:07/25号跑道南侧5.5公里处有海拔高度317.3的航坞。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "地形:07/25号跑道南侧5.5公里处有海拔高度317.3的航坞"
-        ],
-        "applicability": [
-          "25号跑道"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "地形:07/25号跑道南侧5.5公里处有海拔高度317.3的航坞。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "terrain",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_3"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_4",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "其他威胁：各个跑道的复飞高度可能与航图不一致，请机。",
-        "operational_phase": "incident",
-        "operational_condition": [],
-        "applicability": [
-          "跑道"
-        ],
-        "risk": [
-          "其他威胁：各个跑道的复飞高度可能与航图不一致"
-        ],
-        "mitigation": [
-          "请机"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "其他威胁：各个跑道的复飞高度可能与航图不一致，请机。",
-        "text_en": "Runway, arrival, departure, or routing changes can produce a wrong procedure, route discontinuity, or misunderstood missed-approach altitude.",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "special",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_4"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_5",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "短跑道（2500m（含）以下）：不涉及。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "短跑道（2500m（含）以下）：不涉及"
-        ],
-        "applicability": [
-          "跑道"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "短跑道（2500m（含）以下）：不涉及。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "special",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_5"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_6",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "跑道坡度（高度差超过10m）：不涉及。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "跑道坡度（高度差超过10m）：不涉及"
-        ],
-        "applicability": [
-          "跑道"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "跑道坡度（高度差超过10m）：不涉及。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "special",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_6"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_7",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "机场标高：6.7M/22Ft。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "机场标高：6.7M/22Ft"
-        ],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "机场标高：6.7M/22Ft。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "special",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_7"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_8",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "杭州机坪向杭州塔台以道口移交的方式移交出港航空器。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "杭州机坪向杭州塔台以道口移交的方式移交出港航空器"
-        ],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "杭州机坪向杭州塔台以道口移交的方式移交出港航空器。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "special",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_8"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_9",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "航空器驾驶员必须严格遵守机坪管理规定或听从管制员指令滑。",
-        "operational_phase": "incident",
-        "operational_condition": [],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [
-          "航空器驾驶员必须严格遵守机坪管理规定或听从管制员指令滑"
-        ],
-        "excluded_source_clauses": [],
-        "text_zh": "航空器驾驶员必须严格遵守机坪管理规定或听从管制员指令滑。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "special",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_9"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_10",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "管制指挥滑行等待时部分滑行道口无等待线，请机组注。",
-        "operational_phase": "ground",
-        "operational_condition": [
-          "管制指挥滑行等待时部分滑行道口无等待线"
-        ],
-        "applicability": [
-          "滑行"
-        ],
-        "risk": [],
-        "mitigation": [
-          "请机组注"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "管制指挥滑行等待时部分滑行道口无等待线，请机组注。",
-        "text_en": "Complex taxi routes, work areas, or holding positions can create wrong-turn and runway-incursion risks.",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "ground",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_10"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_11",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "认滑行道的偏离管制指令事件。请提醒贵公司飞行部门，本场不。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "认滑行道的偏离管制指令事件",
-          "本场不"
-        ],
-        "applicability": [
-          "滑行"
-        ],
-        "risk": [],
-        "mitigation": [
-          "请提醒贵公司飞行部门"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "认滑行道的偏离管制指令事件。请提醒贵公司飞行部门，本场不。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "ground",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_11"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_12",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "主要变化为取消原有的“进港航空器脱离主滑行道A、C就跟引导。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "主要变化为取消原有的“进港航空器脱离主滑行道A、C就跟引导"
-        ],
-        "applicability": [
-          "滑行"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "主要变化为取消原有的“进港航空器脱离主滑行道A、C就跟引导。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "ground",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_12"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_13",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "车”的进港移交道口引导模式，采用“航空器脱离主滑A、C后滑。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "车”的进港移交道口引导模式",
-          "采用“航空器脱离主滑A、C后滑"
-        ],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "车”的进港移交道口引导模式，采用“航空器脱离主滑A、C后滑。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "special",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_13"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_14",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "航图，注意滑行路线，避免滑错。",
-        "operational_phase": "ground",
-        "operational_condition": [
-          "航图"
-        ],
-        "applicability": [
-          "滑行"
-        ],
-        "risk": [],
-        "mitigation": [
-          "注意滑行路线",
-          "避免滑错"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "航图，注意滑行路线，避免滑错。",
-        "text_en": "Complex taxi routes, work areas, or holding positions can create wrong-turn and runway-incursion risks.",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "ground",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_14"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_15",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "杭州06号落地通常使用C5或C6右转脱离跑道，然后沿C。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "然后沿C"
-        ],
-        "applicability": [
-          "06号",
-          "落地",
-          "跑道"
-        ],
-        "risk": [],
-        "mitigation": [
-          "杭州06号落地通常使用C5或C6右转脱离跑道"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "杭州06号落地通常使用C5或C6右转脱离跑道，然后沿C。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "special",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_15"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_16",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "向东滑行至L道口等待。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "向东滑行至L道口等待"
-        ],
-        "applicability": [
-          "滑行"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "向东滑行至L道口等待。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "ground",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_16"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_17",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "地面滑行指挥L-J6前等，在J6前有Z14的标识牌，后面就。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "地面滑行指挥L-J6前等",
-          "在J6前有Z14的标识牌",
-          "后面就"
-        ],
-        "applicability": [
-          "滑行"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "地面滑行指挥L-J6前等，在J6前有Z14的标识牌，后面就。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "ground",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_17"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_18",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "（二）离场：。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "（二）离场："
-        ],
-        "applicability": [
-          "离场"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "（二）离场：。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "departure",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_18"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_19",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "常用程序：常用程序：通常使用RNAV离场。",
-        "operational_phase": "incident",
-        "operational_condition": [],
-        "applicability": [
-          "离场"
-        ],
-        "risk": [],
-        "mitigation": [
-          "常用程序：常用程序：通常使用RNAV离场"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "常用程序：常用程序：通常使用RNAV离场。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "departure",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_19"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_21",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "限制，该限制值205节比较小，可能需要保持形态一转弯，程序。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "程序"
-        ],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [
-          "可能需要保持形态一转弯"
-        ],
-        "restriction": [
-          "限制",
-          "该限制值205节比较小"
-        ],
-        "excluded_source_clauses": [],
-        "text_zh": "限制，该限制值205节比较小，可能需要保持形态一转弯，程序。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "special",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_21"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_22",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "要求禁止向北偏航，速度大了会甩到北侧。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "速度大了会甩到北侧"
-        ],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [
-          "要求禁止向北偏航"
-        ],
-        "excluded_source_clauses": [],
-        "text_zh": "要求禁止向北偏航，速度大了会甩到北侧。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "special",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_22"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_23",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "SUPAR走向的航路,实际放行可能给OKTUG离场，需核实后。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "SUPAR走向的航路"
-        ],
-        "applicability": [
-          "离场"
-        ],
-        "risk": [
-          "实际放行可能给OKTUG离场"
-        ],
-        "mitigation": [
-          "需核实后"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "SUPAR走向的航路,实际放行可能给OKTUG离场，需核实后。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "departure",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_23"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_24",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "位，管制指挥J3上J，地面无引导线，且滑行道J3和J无标识，容。",
-        "operational_phase": "ground",
-        "operational_condition": [
-          "位",
-          "管制指挥J3上J",
-          "地面无引导线",
-          "且滑行道J3和J无标识",
-          "容"
-        ],
-        "applicability": [
-          "滑行"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "位，管制指挥J3上J，地面无引导线，且滑行道J3和J无标识，容。",
-        "text_en": "Complex taxi routes, work areas, or holding positions can create wrong-turn and runway-incursion risks.",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "ground",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_24"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_25",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "D8 在 C 滑行道上无等待线，若指挥 C、D8 前等，机。",
-        "operational_phase": "ground",
-        "operational_condition": [
-          "D8 在 C 滑行道上无等待线",
-          "若指挥 C、D8 前等",
-          "机"
-        ],
-        "applicability": [
-          "滑行"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "D8 在 C 滑行道上无等待线，若指挥 C、D8 前等，机。",
-        "text_en": "Complex taxi routes, work areas, or holding positions can create wrong-turn and runway-incursion risks.",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "ground",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_25"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_26",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "组需控制好余度，防止与 C5 脱离飞机造成冲突。",
-        "operational_phase": "incident",
-        "operational_condition": [],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [
-          "组需控制好余度",
-          "防止与 C5 脱离飞机造成冲突"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "组需控制好余度，防止与 C5 脱离飞机造成冲突。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "special",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_26"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_27",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "实施RNAV运行时，由IGRAT方向至07号跑道落地的航空器。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "实施RNAV运行时",
-          "由IGRAT方向至07号跑道落地的航空器"
-        ],
-        "applicability": [
-          "07号跑道",
-          "落地"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "实施RNAV运行时，由IGRAT方向至07号跑道落地的航空器。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "special",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_27"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_28",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "号ILS/DME进近。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "号ILS/DME进近"
-        ],
-        "applicability": [
-          "进近"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "号ILS/DME进近。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "approach",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_28"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_30",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "塔台常指挥可自主转弯建立盲降，机组可提前做好相关。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "塔台常指挥可自主转弯建立盲降",
-          "机组可提前做好相关"
-        ],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "塔台常指挥可自主转弯建立盲降，机组可提前做好相关。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "approach",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_30"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_31",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "预案，也可以参考公司目视进近造点方案，防止发生不安全事件。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "预案",
-          "也可以参考公司目视进近造点方案"
-        ],
-        "applicability": [
-          "进近"
-        ],
-        "risk": [],
-        "mitigation": [
-          "防止发生不安全事件"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "预案，也可以参考公司目视进近造点方案，防止发生不安全事件。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "approach",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_31"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_32",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "杭州复飞高度调整，实际运行参照数字通播执行。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "杭州复飞高度调整",
-          "实际运行参照数字通播执行"
-        ],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "杭州复飞高度调整，实际运行参照数字通播执行。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "special",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_32"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_34",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "杭州25号跑 道落地，由于盲降频率108.5与衢州24号盲。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "杭州25号跑 道落地",
-          "由于盲降频率108.5与衢州24号盲"
-        ],
-        "applicability": [
-          "25号",
-          "落地",
-          "24号"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "杭州25号跑 道落地，由于盲降频率108.5与衢州24号盲。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "approach",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_34"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_35",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "RWY25号落地A4脱离，通常指挥沿A向东滑行在J前等待。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "RWY25号落地A4脱离",
-          "通常指挥沿A向东滑行在J前等待"
-        ],
-        "applicability": [
-          "25号",
-          "落地",
-          "滑行"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "RWY25号落地A4脱离，通常指挥沿A向东滑行在J前等待。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "ground",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_35"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_36",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "J前有2条横向虚线且第二条虚线是J等待线，如在夜间或是低能。",
-        "operational_phase": "ground",
-        "operational_condition": [
-          "J前有2条横向虚线且第二条虚线是J等待线",
-          "如在夜间或是低能"
-        ],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "J前有2条横向虚线且第二条虚线是J等待线，如在夜间或是低能。",
-        "text_en": "Complex taxi routes, work areas, or holding positions can create wrong-turn and runway-incursion risks.",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "ground",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_36"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_typical_record_37",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "处发布的飞行操作技术信息通告，“关于《低温运行进近方式速。",
-        "operational_phase": "incident",
-        "operational_condition": [
-          "处发布的飞行操作技术信息通告",
-          "“关于《低温运行进近方式速"
-        ],
-        "applicability": [
-          "进近"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "处发布的飞行操作技术信息通告，“关于《低温运行进近方式速。",
-        "text_en": "",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "approach",
-        "source_fact_ids": [
-          "杭州萧山_typical_record_37"
-        ],
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "杭州萧山_core_record_39",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／核心威胁与运行特点／道面特点",
-        "source_text_zh": "部分滑行道交叉口无等待线。",
-        "operational_phase": "ground",
-        "operational_condition": [
-          "部分滑行道交叉口无等待线"
-        ],
-        "applicability": [
-          "滑行"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "部分滑行道交叉口无等待线。",
-        "text_en": "Before pushback and taxi, we must confirm the clearance, route, holding position, and runway entry and continuously cross-check charts, signs, lights, and outside visual cues; stop and confirm with ATC whenever position or clearance is uncertain.",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "ground",
-        "source_fact_ids": [
-          "杭州萧山_core_record_39"
-        ],
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "杭州萧山_core_record_38",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／核心威胁与运行特点／指挥特点",
-        "source_text_zh": "跑道、进离场方式经常改变；注意SUPAR和OKTUG 进场点的选择。",
-        "operational_phase": "arrival",
-        "operational_condition": [
-          "跑道、进离场方式经常改变"
+          "地面通常会让A2/A8 前等待",
+          "然后换频塔台后再给跑道外等待指令",
+          "进近时",
+          "经常不会飞完整的进场程序",
+          "根据前后机排序间隔等雷达引导",
+          "第二会雷达引导或指挥自行转向五边",
+          "干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近"
         ],
         "applicability": [
           "跑道",
           "离场",
-          "进场"
+          "进近",
+          "进场",
+          "起飞"
         ],
-        "risk": [],
+        "risk": [
+          "ILS06/24 下滑道信号易受到干扰"
+        ],
         "mitigation": [
-          "注意SUPAR和OKTUG 进场点的选择"
+          "通常 06 号跑道离场使用 A2 离场",
+          "24 号跑道使用 A8 离场",
+          "机组注意 FLYSMART性能计算",
+          "第一注意能量管理",
+          "机组一定注意判断切入点位置",
+          "避免出现高截获",
+          "尤其有飞机使用全跑道起飞跑道外等时",
+          "机组注意做好盲降信号异常时的处置",
+          "同时注意内外结合",
+          "防止丢失状态"
         ],
         "restriction": [],
         "excluded_source_clauses": [],
-        "text_zh": "跑道、进离场方式经常改变；注意SUPAR和OKTUG 进场点的选择。",
-        "text_en": "After any runway, procedure, or routing change, we must update the MCDU and cross-check the transition, discontinuities, altitude and speed constraints, and missed approach before continuing.",
+        "text_zh": "通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+        "text_en": "Before intercept, we must verify position, intercept angle, altitude, and distance and monitor LOC/GS, FMA, descent rate, and speed; apply the procedure for false or unstable capture and go around if necessary.",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "approach",
+        "source_fact_ids": [
+          "沈阳桃仙_core_record_3"
+        ],
+        "airport_specific": true,
+        "category": "core"
+      }
+    ],
+    "上海浦东": [
+      {
+        "fact_id": "上海浦东_typical_record_1",
+        "airport": "上海浦东",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+        "source": "PDF",
+        "source_page": "448-451",
+        "source_heading": "上 海 / 浦 东 机 场 运 行 特 点",
+        "source_section": "上 海 / 浦 东 机 场 运 行 特 点／典型不安全事件",
+        "source_text_zh": "曾因低高度失去目视参考导致复飞。",
+        "operational_phase": "incident",
+        "operational_condition": [],
+        "applicability": [],
+        "risk": [
+          "曾因低高度失去目视参考导致复飞"
+        ],
+        "mitigation": [],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "曾因低高度失去目视参考导致复飞。",
+        "text_en": "",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "special",
+        "source_fact_ids": [
+          "上海浦东_typical_record_1"
+        ],
+        "airport_specific": true,
+        "category": "typical"
+      },
+      {
+        "fact_id": "上海浦东_typical_record_2",
+        "airport": "上海浦东",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+        "source": "PDF",
+        "source_page": "448-451",
+        "source_heading": "上 海 / 浦 东 机 场 运 行 特 点",
+        "source_section": "上 海 / 浦 东 机 场 运 行 特 点／典型不安全事件",
+        "source_text_zh": "曾因低高度鸟击导致雷达罩处损伤超标。",
+        "operational_phase": "approach",
+        "operational_condition": [],
+        "applicability": [],
+        "risk": [
+          "曾因低高度鸟击导致雷达罩处损伤超标"
+        ],
+        "mitigation": [],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "曾因低高度鸟击导致雷达罩处损伤超标。",
+        "text_en": "Bird activity around the airport can create a low-altitude bird-strike risk during departure, approach, and landing.",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "approach",
+        "source_fact_ids": [
+          "上海浦东_typical_record_2"
+        ],
+        "airport_specific": true,
+        "category": "typical"
+      },
+      {
+        "fact_id": "zspd_arrival_change_energy",
+        "airport": "上海浦东",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "450-451",
+        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
+        "source_section": "20260720手册第450-451页／进场程序、临时更改与直飞",
+        "source_text_zh": "浦东进场程序较多且有时临时更改，非繁忙时段可能收到直飞。进场前我们应核对实际跑道、STAR、进近方式、第一相关航路点及全部高度速度限制；收到直飞、雷达引导或跑道变化后立即修改MCDU并重新评估剩余距离、下降剖面、减速和构型，不能稳定时复飞。",
+        "operational_phase": "arrival",
+        "operational_condition": [
+          "浦东进场程序较多且有时临时更改",
+          "收到直飞、雷达引导或跑道变化后立即修改MCDU并重新评估剩余距离、下降剖面、减速和构型",
+          "不能稳定时复飞"
+        ],
+        "applicability": [
+          "进场",
+          "跑道",
+          "进近"
+        ],
+        "risk": [
+          "非繁忙时段可能收到直飞"
+        ],
+        "mitigation": [],
+        "restriction": [
+          "进场前我们应核对实际跑道、STAR、进近方式、第一相关航路点及全部高度速度限制"
+        ],
+        "excluded_source_clauses": [],
+        "text_zh": "浦东进场程序较多且有时临时更改，非繁忙时段可能收到直飞。进场前我们应核对实际跑道、STAR、进近方式、第一相关航路点及全部高度速度限制；收到直飞、雷达引导或跑道变化后立即修改MCDU并重新评估剩余距离、下降剖面、减速和构型，不能稳定时复飞。",
+        "text_en": "Pudong has multiple arrival procedures that may change at short notice, and direct clearances may be issued outside busy periods. Before arrival, we must cross-check the actual runway, STAR, approach, first relevant waypoint, and all altitude and speed constraints. After any direct clearance, radar vector, or runway change, update the MCDU and reassess the remaining distance, descent profile, deceleration, and configuration; go around if the approach cannot be stabilized.",
         "season_scope": [],
         "flight_scope": [],
         "route_scope": [],
         "topic": "arrival",
         "source_fact_ids": [
-          "杭州萧山_core_record_38"
+          "zspd_arrival_change_energy"
         ],
         "airport_specific": true,
         "category": "core"
       },
       {
-        "fact_id": "paragraph:杭州萧山_core_record_40",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+        "fact_id": "zspd_tcas",
+        "airport": "上海浦东",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
         "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／核心威胁与运行特点",
-        "source_text_zh": "地形:07/25号跑道南侧5.5公里处有海拔高度317.3的航坞山。",
-        "operational_phase": "terrain",
+        "source_page": "448,451",
+        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
+        "source_section": "20260720手册第448、451页／其他威胁：进近TA/RA",
+        "source_text_zh": "浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
+        "operational_phase": "approach",
         "operational_condition": [
-          "地形:07/25号跑道南侧5.5公里处有海拔高度317.3的航坞山"
+          "接近目标高度最后2000ft且有邻近航空器时",
+          "发生RA时严格执行现行程序"
         ],
         "applicability": [
-          "25号跑道"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "地形方面，07/25号跑道南侧5.5公里处有海拔高度317.3的航坞山。",
-        "text_en": "We must remain on the published track, altitude, and climb gradient and monitor terrain, MSA, and navigation accuracy; before accepting a direct clearance, radar vector, or low-altitude deviation, confirm terrain clearance.",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "terrain",
-        "source_fact_ids": [
-          "杭州萧山_core_record_40"
-        ],
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "杭州萧山_core_record_41",
-        "airport": "杭州萧山",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-        "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
-        "source_text_zh": "各个跑道的复飞高度可能与航图不一致，请机组注意参考ATIS和通告，不确定时及时和管制证实。",
-        "operational_phase": "unspecified",
-        "operational_condition": [
-          "不确定时及时和管制证实"
-        ],
-        "applicability": [
-          "跑道"
+          "进近"
         ],
         "risk": [
-          "各个跑道的复飞高度可能与航图不一致"
+          "浦东进近阶段曾多次触发TA/RA"
         ],
         "mitigation": [
-          "请机组注意参考ATIS和通告"
+          "我们应合理控制升降率并持续监控冲突趋势"
         ],
         "restriction": [],
         "excluded_source_clauses": [],
-        "text_zh": "各个跑道的复飞高度可能与航图不一致，请机组注意参考ATIS和通告，不确定时及时和管制证实。",
-        "text_en": "After any runway, procedure, or routing change, we must update the MCDU and cross-check the transition, discontinuities, altitude and speed constraints, and missed approach before continuing.",
+        "text_zh": "浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
+        "text_en": "Multiple TA/RA events have occurred during approach to Pudong. Within the last 2000 ft before the cleared altitude, when nearby traffic is present, we must manage the vertical rate and monitor the conflict trend; comply strictly with the current RA procedure if an RA occurs.",
         "season_scope": [],
         "flight_scope": [],
         "route_scope": [],
-        "topic": "special",
+        "topic": "approach",
         "source_fact_ids": [
-          "杭州萧山_core_record_41"
+          "zspd_tcas"
+        ],
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "zspd_bird",
+        "airport": "上海浦东",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "448",
+        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
+        "source_section": "20260720手册第448页／其他威胁：东侧海岸鸟类活动",
+        "source_text_zh": "浦东东侧海岸鸟类活动与低高度进近航迹可能重叠。我们应关注ATIS、ATC和机场鸟情通报，加强低高度外部观察；发现鸟群或发生鸟击后，根据飞机状态执行程序并及时报告。",
+        "operational_phase": "approach",
+        "operational_condition": [
+          "加强低高度外部观察",
+          "发现鸟群或发生鸟击后",
+          "根据飞机状态执行程序并及时报告"
+        ],
+        "applicability": [
+          "进近"
+        ],
+        "risk": [
+          "浦东东侧海岸鸟类活动与低高度进近航迹可能重叠"
+        ],
+        "mitigation": [
+          "我们应关注ATIS、ATC和机场鸟情通报"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "浦东东侧海岸鸟类活动与低高度进近航迹可能重叠。我们应关注ATIS、ATC和机场鸟情通报，加强低高度外部观察；发现鸟群或发生鸟击后，根据飞机状态执行程序并及时报告。",
+        "text_en": "Bird activity along the coast east of Pudong may overlap the low-altitude approach path. We must monitor ATIS, ATC, and airport bird advisories and maintain an effective external scan at low altitude; after sighting a flock or sustaining a bird strike, apply the appropriate procedure for the aircraft condition and report promptly.",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "approach",
+        "source_fact_ids": [
+          "zspd_bird"
+        ],
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "zspd_thunderstorm",
+        "airport": "上海浦东",
+        "source_file": "config/airport_supplements.json",
+        "source": "supplement",
+        "source_page": "N/A",
+        "source_heading": "上海浦东",
+        "source_section": "airport_supplements.json／上海浦东／core_threats／夏季雷雨",
+        "source_text_zh": "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
+        "operational_phase": "weather",
+        "operational_condition": [
+          "提前评估绕飞、等待、着陆性能和备降油量",
+          "出现风切变警告或状态不稳定时按程序复飞"
+        ],
+        "applicability": [
+          "跑道",
+          "着陆"
+        ],
+        "risk": [
+          "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变"
+        ],
+        "mitigation": [
+          "我们应全程合理使用气象雷达"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
+        "text_en": "Summer thunderstorms at Pudong may bring low cloud, reduced visibility, a wet runway, and windshear. We must use the weather radar appropriately throughout the flight and assess deviation, holding, landing performance, and diversion fuel early; execute the prescribed go-around for a windshear warning or an unstable condition.",
+        "season_scope": [
+          6,
+          7,
+          8
+        ],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "weather",
+        "source_fact_ids": [
+          "zspd_thunderstorm"
+        ],
+        "airport_specific": false,
+        "category": "core"
+      },
+      {
+        "fact_id": "zspd_adgs_entry",
+        "airport": "上海浦东",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
+        "source": "PDF",
+        "source_page": "448",
+        "source_heading": "上海/浦东机场运行特点",
+        "source_section": "二、核心威胁／4.其他威胁／第(3)项",
+        "source_text_zh": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。",
+        "operational_phase": "ground",
+        "operational_condition": [
+          "进入设有ADGS的机位时",
+          "如引导指示有疑问",
+          "或人工引导机位的地面接机人员未就位",
+          "并保持发动机运转等待处置"
+        ],
+        "applicability": [
+          "滑行"
+        ],
+        "risk": [],
+        "mitigation": [
+          "我们应立即停止滑行、通知ATC"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。",
+        "text_en": "When entering a stand equipped with ADGS, if the guidance is doubtful or the ground reception personnel are not in position at a manually guided stand, we must stop, notify ATC, and keep the engines running while awaiting further action.",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "ground",
+        "source_fact_ids": [
+          "zspd_adgs_entry"
         ],
         "airport_specific": true,
         "category": "core"
@@ -1686,36 +623,6 @@
       "fact_id": "沈阳桃仙_core_record_4",
       "clause": "冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案",
       "reason": "目标月份为8月，不在资料明确季节适用月份1,2,3,4,5,12月内"
-    },
-    {
-      "airport": "杭州萧山",
-      "fact_id": "杭州萧山_typical_record_20",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-      "source_page": "N/A",
-      "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-      "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-      "clause": "06号跑道左转离港时注意核实是否需要遵循HC211的速度。",
-      "reason": "与当前航班/航线不匹配"
-    },
-    {
-      "airport": "杭州萧山",
-      "fact_id": "杭州萧山_typical_record_29",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-      "source_page": "N/A",
-      "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-      "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-      "clause": "跑道06，过了TOL可能指挥直飞五边HC204，注意剖面。",
-      "reason": "与当前航班/航线不匹配"
-    },
-    {
-      "airport": "杭州萧山",
-      "fact_id": "杭州萧山_typical_record_33",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-      "source_page": "N/A",
-      "source_heading": "杭 州 / 萧 山 机 场 运 行 特 点",
-      "source_section": "杭 州 / 萧 山 机 场 运 行 特 点／典型不安全事件",
-      "clause": "06号跑道，IGRAT91A进场需要遵守HC212高度在2100（含。",
-      "reason": "与当前航班/航线不匹配"
     },
     {
       "airport": "沈阳桃仙",
@@ -1764,27 +671,30 @@
         "沈阳桃仙_core_record_8"
       ],
       [
-        "沈阳桃仙_core_record_3"
-      ],
-      [
         "沈阳桃仙_core_record_4"
       ],
       [
         "沈阳桃仙_core_record_12"
+      ],
+      [
+        "沈阳桃仙_core_record_3"
       ]
     ],
-    "杭州萧山": [
+    "上海浦东": [
       [
-        "杭州萧山_core_record_39"
+        "zspd_arrival_change_energy"
       ],
       [
-        "杭州萧山_core_record_38"
+        "zspd_tcas"
       ],
       [
-        "杭州萧山_core_record_40"
+        "zspd_bird"
       ],
       [
-        "杭州萧山_core_record_41"
+        "zspd_thunderstorm"
+      ],
+      [
+        "zspd_adgs_entry"
       ]
     ]
   }
