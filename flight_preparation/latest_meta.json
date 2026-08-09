@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-08-10",
-  "generated_at_beijing": "2026-08-09T01:06:24.245372+08:00",
+  "generated_at_beijing": "2026-08-09T11:07:08.087003+08:00",
   "generator": "flight-prep-free-v14-final-confirmed-format",
   "flight_numbers": [
     "9C6760"
@@ -65,10 +65,7 @@
     "沈阳桃仙": {
       "icao": "ZYTX",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-08-08T18:00:00+00:00",
-        "2026-08-09T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-08-10T17:50:00+08:00"
       ],
@@ -79,7 +76,10 @@
     "上海浦东": {
       "icao": "ZSPD",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-08-09T00:00:00+00:00",
+        "2026-08-10T06:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-08-10T20:35:00+08:00"
       ],
@@ -88,10 +88,7 @@
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [
-    "沈阳桃仙: 2026-08-07 -> 2026-08-08",
-    "嘉峪关酒泉: - -> 2026-08-08"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
   "airport_information_version": 20260803,
   "airport_information_type": "PDF",
