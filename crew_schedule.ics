@@ -2225,7 +2225,7 @@ UID:2ead63683ff0a44d9fb3687ce7b29b19@crew-calendar
 SUMMARY:✈️ 9C6809 沈阳桃仙→桂林两江
 DTSTART;TZID=Asia/Shanghai:20260811T065000
 DTEND;TZID=Asia/Shanghai:20260811T104000
-DESCRIPTION:08月11日 周二\n类型：航班\n航班：9C6809\n航线：沈阳桃仙 → 桂林两江\n地点：沈阳桃仙\n签到：05:00｜沈阳桃仙\n任务：06:50 - 10:40\n机型：A320｜注册号：B6562\n\n人员名单：\n• 裘彬\n• 宋晋羿\n• 段洋硕\n• 陈月焜\n\n版本：2026-08-10 11:40
+DESCRIPTION:08月11日 周二\n类型：航班\n航班：9C6809\n航线：沈阳桃仙 → 桂林两江\n地点：沈阳桃仙\n签到：05:00｜沈阳桃仙\n任务：06:50 - 10:40\n机型：A320｜注册号：B6562\n\n人员名单：\n• 裘彬\n• 宋晋羿\n• 段洋硕\n• 陈月焜\n\n版本：2026-08-10 18:44
 X-CONTENT-SIGNATURE:a0399dae96289f306073fd86690a541d
 LOCATION:沈阳桃仙
 BEGIN:VALARM
@@ -2239,12 +2239,54 @@ UID:537105c272f47ae226f738dfea5764aa@crew-calendar
 SUMMARY:✈️ 9C7080 桂林两江→扬州泰州
 DTSTART;TZID=Asia/Shanghai:20260811T112500
 DTEND;TZID=Asia/Shanghai:20260811T134500
-DESCRIPTION:08月11日 周二\n类型：航班\n航班：9C7080\n航线：桂林两江 → 扬州泰州\n地点：桂林两江\n签到：09:55｜桂林两江\n任务：11:25 - 13:45\n机型：A320｜注册号：B6562\n\n人员名单：\n• 裘彬\n• 宋晋羿\n• 段洋硕\n• 陈月焜\n\n版本：2026-08-10 11:40
+DESCRIPTION:08月11日 周二\n类型：航班\n航班：9C7080\n航线：桂林两江 → 扬州泰州\n地点：桂林两江\n签到：09:55｜桂林两江\n任务：11:25 - 13:45\n机型：A320｜注册号：B6562\n\n人员名单：\n• 裘彬\n• 宋晋羿\n• 段洋硕\n• 陈月焜\n\n版本：2026-08-10 18:44
 X-CONTENT-SIGNATURE:477185b521526e6f4834250a47bf4123
 LOCATION:桂林两江
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C7080 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:794ece70d864a1c17a5110099ae2674c@crew-calendar
+SUMMARY:✈️ 9C6195 扬州泰州→重庆江北
+DTSTART;TZID=Asia/Shanghai:20260812T070000
+DTEND;TZID=Asia/Shanghai:20260812T094000
+DESCRIPTION:08月12日 周三\n类型：航班\n航班：9C6195\n航线：扬州泰州 → 重庆江北\n地点：扬州泰州\n签到：05:20｜扬州泰州\n任务：07:00 - 09:40\n机型：A320｜注册号：B8580\n\n人员名单：\n• 裘彬\n• 宋晋羿\n• 段洋硕\n• 傅霞(B)\n\n版本：2026-08-10 18:44
+X-CONTENT-SIGNATURE:e3dae0fcc2a7d93a2e39788ec366c25a
+LOCATION:扬州泰州
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C6195 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:3eff629811eadb792d3ca32fafada91e@crew-calendar
+SUMMARY:✈️ 9C6196 重庆江北→扬州泰州
+DTSTART;TZID=Asia/Shanghai:20260812T104500
+DTEND;TZID=Asia/Shanghai:20260812T131000
+DESCRIPTION:08月12日 周三\n类型：航班\n航班：9C6196\n航线：重庆江北 → 扬州泰州\n地点：重庆江北\n签到：09:10｜重庆江北\n任务：10:45 - 13:10\n机型：A320｜注册号：B8580\n\n人员名单：\n• 裘彬\n• 宋晋羿\n• 段洋硕\n• 傅霞(B)\n\n版本：2026-08-10 18:44
+X-CONTENT-SIGNATURE:ae7bdb0950362d126e48eee76c7bdf3a
+LOCATION:重庆江北
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C6196 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:031b240d244c7a3bcabf5f6bc9875912@crew-calendar
+SUMMARY:✈️ 9C7594 扬州泰州→沈阳桃仙
+DTSTART;TZID=Asia/Shanghai:20260812T203000
+DTEND;TZID=Asia/Shanghai:20260812T223500
+DESCRIPTION:08月12日 周三\n类型：航班\n航班：9C7594\n航线：扬州泰州 → 沈阳桃仙\n地点：扬州泰州\n签到：18:50｜扬州泰州\n任务：20:30 - 22:35\n机型：A320｜注册号：B8580\n\n人员名单：\n• 裘彬\n• 宋晋羿\n• 段洋硕\n• 陈月焜\n\n版本：2026-08-10 18:44
+X-CONTENT-SIGNATURE:b63257cfbc27d2cd70a944652fecb17d
+LOCATION:扬州泰州
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C7594 签到提醒
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
