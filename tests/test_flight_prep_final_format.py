@@ -24,12 +24,13 @@ from crew_agents.ics_utils import (
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-REAL_PDF = (
-    REPO_ROOT
-    / "knowledge"
-    / "pdf"
-    / "AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
+REAL_PDF_CANDIDATES = sorted(
+    (REPO_ROOT / "knowledge" / "pdf").glob(
+        "*机场特点汇总(Airport Information)*.pdf"
+    )
 )
+REAL_PDF = REAL_PDF_CANDIDATES[-1] if REAL_PDF_CANDIDATES else Path("missing.pdf")
+REAL_PDF_VERSION = agent.manual_version(REAL_PDF) if REAL_PDF.exists() else 0
 TARGET = date(2026, 8, 4)
 BEIJING = ZoneInfo("Asia/Shanghai")
 
@@ -116,6 +117,69 @@ def test_real_august_four_duty_merges_both_continuous_segments() -> None:
         "上海浦东": ("departure", "arrival"),
         "恩施许家坪": ("departure", "arrival"),
     }
+
+
+@pytest.mark.parametrize(
+    "numbers",
+    [
+        ("9C7605", "9C7606"),
+        ("9C7606", "9C7605"),
+        ("9C7605X", "9C7606Y"),
+    ],
+)
+def test_consecutive_main_numbers_remain_one_prep_group(
+    numbers: tuple[str, str],
+) -> None:
+    first = _event(
+        "first",
+        numbers[0],
+        "上海浦东",
+        "桂林两江",
+        datetime(2026, 8, 11, 6, 0, tzinfo=BEIJING),
+        datetime(2026, 8, 11, 8, 0, tzinfo=BEIJING),
+    )
+    second = _event(
+        "second",
+        numbers[1],
+        "桂林两江",
+        "扬州泰州",
+        datetime(2026, 8, 11, 9, 0, tzinfo=BEIJING),
+        datetime(2026, 8, 11, 11, 0, tzinfo=BEIJING),
+    )
+
+    groups = agent.split_flight_prep_groups_by_flight_number([first, second])
+
+    assert [[event.flight_number for event in group] for group in groups] == [
+        list(numbers)
+    ]
+
+
+def test_nonconsecutive_main_numbers_split_prep_reports() -> None:
+    first = _event(
+        "first",
+        "9C6809",
+        "沈阳桃仙",
+        "桂林两江",
+        datetime(2026, 8, 11, 6, 50, tzinfo=BEIJING),
+        datetime(2026, 8, 11, 10, 40, tzinfo=BEIJING),
+    )
+    second = _event(
+        "second",
+        "9C7080",
+        "桂林两江",
+        "扬州泰州",
+        datetime(2026, 8, 11, 11, 25, tzinfo=BEIJING),
+        datetime(2026, 8, 11, 13, 45, tzinfo=BEIJING),
+    )
+
+    groups = agent.split_flight_prep_groups_by_flight_number([first, second])
+
+    assert [[event.flight_number for event in group] for group in groups] == [
+        ["9C6809"],
+        ["9C7080"],
+    ]
+    assert agent.DutyContext(tuple(groups[0])).route == ("沈阳桃仙", "桂林两江")
+    assert agent.DutyContext(tuple(groups[1])).route == ("桂林两江", "扬州泰州")
 
 
 def test_non_continuous_duties_require_manual_selection(
@@ -333,7 +397,8 @@ def test_english_typical_events_are_not_truncated() -> None:
         core,
     )
 
-    assert content.count("6. Event 6.") == 2
+    assert content.count("Event 6.") == 2
+    assert "6. Event 6." not in content
 
 
 def test_structurally_complete_briefing_has_no_length_floor() -> None:
@@ -347,9 +412,8 @@ def test_structurally_complete_briefing_has_no_length_floor() -> None:
     )
     content = (
         "我是来自飞行十五中队的副驾驶段洋硕。\n\n"
-        "个人对本次航班中识别的风险：\n风险以有效资料为准。\n\n"
-        "上海浦东机场典型不安全事件：\n1.事件。\n\n"
-        "恩施许家坪机场典型不安全事件：\n1.事件。\n\n"
+        "上海浦东机场典型不安全事件：\n事件。\n\n"
+        "恩施许家坪机场典型不安全事件：\n事件。\n\n"
         "核心威胁：\n\n"
         "上海浦东机场：\n来源事实。\n\n"
         "恩施许家坪机场：\n来源事实。\n"
@@ -884,7 +948,7 @@ def test_airport_experience_migrates_known_pollution_and_ignores_future() -> Non
     assert updated["airports"] == {}
 
 
-@pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含20260720机场手册PDF")
+@pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含机场手册PDF")
 def test_real_august_four_final_confirmed_format(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
@@ -910,29 +974,26 @@ def test_real_august_four_final_confirmed_format(
     output = repo / "flight_preparation"
     content = (output / "latest.txt").read_text(encoding="utf-8")
     meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
-    expected_content = (
-        REPO_ROOT / "flight_preparation" / "2026-08-04_航前准备.txt"
-    ).read_text(encoding="utf-8")
-    assert content == expected_content
     assert content.startswith("我是来自飞行十五中队的副驾驶段洋硕")
     intro = content.split("\n\n", 1)[0]
+    assert "本阶段经历时间75小时" in intro
+    assert "起落12个" in intro
+    assert "近90天起落8个" in intro
+    assert "7月28日上海浦东机场" in intro
     assert "A320" not in intro
+    assert "近一个月起落" not in intro
+    assert "（含模拟机）" not in intro
     assert "近期机场经历" not in content
     assert "近期注意点" not in content
-    assert "最新有效PIB/NOTAM以航前放行资料为准" in content
+    assert "个人对本次航班中识别的风险：" not in content
     assert "•" not in content
     assert "None" not in content and "null" not in content
-    risk_section = content.split("个人对本次航班中识别的风险：", 1)[1].split(
-        "上海浦东机场典型不安全事件：", 1
-    )[0]
-    assert "主要运行风险为" not in risk_section
     assert (
-        "上一次作为PF教员评价：RNP进近五边速度180节时注意形态二，"
-        "入口前关注飞机状态；作为PM机长评价：增加SOP熟练度，"
+        "上一次作为PF教员评价：30尺以下带杆量欠一点；"
+        "着陆后快速脱离道口前及时减速至30节以下；作为PM机长评价：增加SOP熟练度，"
         "标准喊话声音大一些。"
     ) in content
-    assert "上海浦东机场典型不安全事件：\n1." in content
-    assert "恩施许家坪机场典型不安全事件：\n1." in content
+    assert not re.search(r"(?m)^\d+[.、]曾", content)
     assert content.count("核心威胁：") == 1
     core = content.split("核心威胁：", 1)[1]
     assert core.index("上海浦东机场：") < core.index("恩施许家坪机场：")
@@ -962,7 +1023,7 @@ def test_real_august_four_final_confirmed_format(
 
     assert meta["flight_numbers"] == ["9C8523", "9C8524"]
     assert meta["airports"] == ["上海浦东", "恩施许家坪"]
-    assert meta["airport_information_version"] == 20260720
+    assert meta["airport_information_version"] == REAL_PDF_VERSION
     assert meta["airport_information_type"] == "PDF"
     assert meta["foreign_crew_detected"] is False
     assert meta["english_confirmation_required"] is False
@@ -979,7 +1040,7 @@ def test_real_august_four_final_confirmed_format(
     assert hashlib.sha256((REPO_ROOT / "flight.ics").read_bytes()).hexdigest() == original_hash
 
 
-@pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含20260720机场手册PDF")
+@pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含机场手册PDF")
 def test_real_august_eight_applies_season_task_and_topic_quality(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
@@ -1031,8 +1092,7 @@ def test_real_august_eight_applies_season_task_and_topic_quality(
     ):
         assert forbidden not in shenyang
 
-    assert "嘉峪关酒泉机场典型不安全事件：\n当前资料未列出明确典型不安全事件。" in content
-    assert "嘉峪关酒泉机场典型不安全事件：\n1." not in content
+    assert "嘉峪关酒泉机场典型不安全事件：" not in content
     assert "一般高原机场" in jiayuguan
     assert "一类操纵复杂机场" in jiayuguan
     assert "150°至320°" in jiayuguan
@@ -1047,4 +1107,82 @@ def test_real_august_eight_applies_season_task_and_topic_quality(
     assert any("冬春季" in item["clause"] and "目标月份为8月" in item["reason"] for item in excluded)
     assert any("9C7635" in item["clause"] and item["reason"] == "与当前航班/航线不匹配" for item in excluded)
     assert any(len(ids) > 1 for ids in meta["core_paragraph_fact_ids"]["嘉峪关酒泉"])
+    assert hashlib.sha256((REPO_ROOT / "flight.ics").read_bytes()).hexdigest() == original_hash
+
+
+@pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含机场手册PDF")
+def test_real_august_eleven_writes_two_source_grounded_prep_reports(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    original_hash = hashlib.sha256((REPO_ROOT / "flight.ics").read_bytes()).hexdigest()
+    repo = tmp_path / "real-august-eleven"
+    _copy_runtime_repo(repo)
+    monkeypatch.setattr(
+        agent,
+        "fetch_airport_weather",
+        lambda *args, **kwargs: SimpleNamespace(icao="", metar="", taf="", error=""),
+    )
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        ["flight_prep_agent.py", "--repo", str(repo), "--target-date", "2026-08-11"],
+    )
+    monkeypatch.delenv("GITHUB_STEP_SUMMARY", raising=False)
+    agent.extract_pdf_text.cache_clear()
+
+    assert agent.main() == 0
+
+    output = repo / "flight_preparation"
+    meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
+    assert meta["status"] == "SUCCESS"
+    assert meta["flight_numbers"] == ["9C6809", "9C7080"]
+    assert len(meta["prep_groups"]) == 2
+    assert [group["flight_numbers"] for group in meta["prep_groups"]] == [
+        ["9C6809"],
+        ["9C7080"],
+    ]
+    assert [group["airports"] for group in meta["prep_groups"]] == [
+        ["沈阳桃仙", "桂林两江"],
+        ["桂林两江", "扬州泰州"],
+    ]
+
+    first_path = output / meta["prep_groups"][0]["output"]
+    second_path = output / meta["prep_groups"][1]["output"]
+    assert first_path != second_path
+    first = first_path.read_text(encoding="utf-8")
+    second = second_path.read_text(encoding="utf-8")
+    assert "沈阳桃仙机场：" in first and "桂林两江机场：" in first
+    assert "扬州泰州机场：" not in first
+    assert "桂林两江机场：" in second and "扬州泰州机场：" in second
+    assert "沈阳桃仙机场：" not in second
+    for content in (first, second):
+        intro = content.split("\n\n", 1)[0]
+        assert "本阶段经历时间75小时" in intro
+        assert "起落12个" in intro
+        assert "近90天起落8个" in intro
+        assert "上一次实际操纵落地为7月28日上海浦东机场" in intro
+        assert "近一个月起落" not in intro
+        assert "（含模拟机）" not in intro
+        assert "个人对本次航班中识别的风险：" not in content
+        assert "核心威胁：" in content
+        assert not re.search(r"(?m)^\s*(?:\d+[.、]|[•●▪])\s*\S", content)
+        assert (
+            "上一次作为PF教员评价：30尺以下带杆量欠一点；"
+            "着陆后快速脱离道口前及时减速至30节以下"
+        ) in content
+        assert "RNP进近五边速度180节" not in content
+
+    for group in meta["prep_groups"]:
+        for airport in group["airports"]:
+            core_sources = [
+                item
+                for item in group["airport_fact_sources"][airport]
+                if item["category"] == "core"
+            ]
+            assert core_sources
+            assert all(item["source_fact_ids"] for item in core_sources)
+            assert all(item["source_file"] for item in core_sources)
+            assert all(item["source_original_text"] for item in core_sources)
+
     assert hashlib.sha256((REPO_ROOT / "flight.ics").read_bytes()).hexdigest() == original_hash

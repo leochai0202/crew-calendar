@@ -13,12 +13,13 @@ from crew_agents import flight_prep_agent as agent
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-REAL_PDF = (
-    REPO_ROOT
-    / "knowledge"
-    / "pdf"
-    / "AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
+REAL_PDF_CANDIDATES = sorted(
+    (REPO_ROOT / "knowledge" / "pdf").glob(
+        "*机场特点汇总(Airport Information)*.pdf"
+    )
 )
+REAL_PDF = REAL_PDF_CANDIDATES[-1] if REAL_PDF_CANDIDATES else Path("missing.pdf")
+REAL_PDF_VERSION = agent.manual_version(REAL_PDF) if REAL_PDF.exists() else 0
 REAL_TARGET_DATE = "2026-07-08"
 REAL_FLIGHT_NUMBER = "9C7165"
 REAL_DEPARTURE = "上海浦东"
@@ -309,7 +310,7 @@ def _section(text: str, heading: str) -> str:
     )
 
 
-@pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含20260720机场手册PDF")
+@pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含机场手册PDF")
 def test_real_flight_before_after_pdf_regression(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
@@ -331,7 +332,7 @@ def test_real_flight_before_after_pdf_regression(
     assert baseline_meta["airport_information_type"] == "TXT"
     assert baseline_meta["airport_information_version"] == 20260615
     assert upgraded_meta["airport_information_type"] == "PDF"
-    assert upgraded_meta["airport_information_version"] == 20260720
+    assert upgraded_meta["airport_information_version"] == REAL_PDF_VERSION
 
     assert _paragraphs(upgraded_group)[:2] == _paragraphs(baseline_group)[:2]
     assert "作为PF/PM各取最近一次" in _paragraphs(upgraded_group)[1]
@@ -342,7 +343,7 @@ def test_real_flight_before_after_pdf_regression(
             upgraded_group,
             f"{airport}机场典型不安全事件：",
         )
-        assert re.search(r"(?m)^1\.", typical_section)
+        assert not re.search(r"(?m)^\d+[.、]", typical_section)
         assert "责任中队" not in typical_section
         assert "机场运行特点" not in typical_section
 

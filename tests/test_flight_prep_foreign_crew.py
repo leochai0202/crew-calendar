@@ -22,12 +22,13 @@ from crew_agents.ics_utils import (
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-REAL_PDF = (
-    REPO_ROOT
-    / "knowledge"
-    / "pdf"
-    / "AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
+REAL_PDF_CANDIDATES = sorted(
+    (REPO_ROOT / "knowledge" / "pdf").glob(
+        "*机场特点汇总(Airport Information)*.pdf"
+    )
 )
+REAL_PDF = REAL_PDF_CANDIDATES[-1] if REAL_PDF_CANDIDATES else Path("missing.pdf")
+REAL_PDF_VERSION = agent.manual_version(REAL_PDF) if REAL_PDF.exists() else 0
 TARGET_DATE = date(2026, 7, 23)
 EXPECTED_PEOPLE = [
     "MARQUES SANTANNA HELIO(R)",
@@ -335,14 +336,10 @@ def test_bilingual_render_hides_internal_flight_metadata() -> None:
     assert "None of the airports on this flight lacks recent experience." not in english
     chinese_order = [
         chinese.index("上一次飞行中机长/教员对我优缺点的评价"),
-        chinese.index("个人对本次航班中识别的风险："),
-        chinese.index("新加坡樟宜机场典型不安全事件："),
         chinese.index("核心威胁："),
     ]
     english_order = [
         english.index("Latest PF/PM feedback:"),
-        english.index("Risks I have identified for this flight:"),
-        english.index("Singapore Changi Airport typical unsafe events:"),
         english.index("Core threats:"),
     ]
     assert chinese_order == sorted(chinese_order)
@@ -362,10 +359,10 @@ def test_bilingual_render_hides_internal_flight_metadata() -> None:
         assert value not in chinese
         assert value not in english
     assert "机组" not in chinese
-    risk_paragraph = _paragraph(chinese, "个人对本次航班中识别的风险：")
-    assert "我们识别到本次为早班" in risk_paragraph
-    assert "最新有效PIB/NOTAM" in risk_paragraph
-    assert "主要运行风险为" not in risk_paragraph
+    assert "个人对本次航班中识别的风险：" not in chinese
+    assert "Risks I have identified for this flight:" not in english
+    assert "新加坡樟宜机场典型不安全事件：" not in chinese
+    assert "Singapore Changi Airport typical unsafe events:" not in english
     assert agent.validate_bilingual_facts(facts) == []
 
 
@@ -787,7 +784,7 @@ def test_xining_nanchang_real_route_keeps_own_special_limits() -> None:
         ) == []
 
 
-@pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含20260720机场手册PDF")
+@pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含机场手册PDF")
 def test_real_9c8552_exact_event_requires_english_confirmation(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
@@ -856,7 +853,7 @@ def test_real_9c8552_exact_event_requires_english_confirmation(
     assert meta["foreign_crew_detected"] is True
     assert meta["english_confirmation_required"] is True
     assert meta["english_generated"] is False
-    assert meta["airport_information_version"] == 20260720
+    assert meta["airport_information_version"] == REAL_PDF_VERSION
     assert meta["airport_information_type"] == "PDF"
     assert not (output / "latest_en.txt").exists()
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import sys
@@ -40,7 +41,7 @@ from crew_agents.ics_utils import (
 )
 from crew_agents.weather import fetch_airport_weather
 
-VERSION = "flight-prep-free-v14-final-confirmed-format"
+VERSION = "flight-prep-free-v15-final-group-format"
 RISK_KEYWORDS = (
     "跑道", "滑行", "进近", "离场", "复飞", "盲降", "双截获", "高截获", "风切变",
     "乱流", "雷雨", "鸟击", "GPS", "地形", "气压", "灯光", "军航", "高度", "速度",
@@ -253,6 +254,48 @@ class DutyContext:
     @property
     def end(self) -> datetime:
         return self.events[-1].end
+
+
+FLIGHT_NUMBER_PARTS_RE = re.compile(
+    r"^([A-Z0-9]*[A-Z])(\d{4})(?:[A-Z]+)?$",
+    re.IGNORECASE,
+)
+
+
+def flight_number_parts(value: str) -> tuple[str, int] | None:
+    """Return the carrier prefix and four-digit main number when unambiguous."""
+    normalized = re.sub(r"\s+", "", value or "").upper()
+    match = FLIGHT_NUMBER_PARTS_RE.fullmatch(normalized)
+    if not match:
+        return None
+    return match.group(1), int(match.group(2))
+
+
+def flight_numbers_are_consecutive(first: str, second: str) -> bool:
+    first_parts = flight_number_parts(first)
+    second_parts = flight_number_parts(second)
+    return bool(
+        first_parts
+        and second_parts
+        and first_parts[0] == second_parts[0]
+        and abs(first_parts[1] - second_parts[1]) == 1
+    )
+
+
+def split_flight_prep_groups_by_flight_number(
+    flights: list[CalendarEvent],
+) -> list[list[CalendarEvent]]:
+    """Split one already-continuous duty into independently rendered prep reports."""
+    if not flights:
+        return []
+    groups: list[list[CalendarEvent]] = [[flights[0]]]
+    for event in flights[1:]:
+        previous = groups[-1][-1]
+        if flight_numbers_are_consecutive(previous.flight_number, event.flight_number):
+            groups[-1].append(event)
+        else:
+            groups.append([event])
+    return groups
 
 
 AIRPORT_MANUAL_FILE = (
@@ -996,9 +1039,7 @@ def strip_terminal_punct(value: str) -> str:
 
 def feedback_text(profile: dict) -> str:
     feedback = profile.get("recent_feedback") or {}
-    pf = strip_terminal_punct(
-        feedback.get("RNP", "") or feedback.get("PF", "")
-    )
+    pf = strip_terminal_punct(feedback.get("PF", ""))
     pm = strip_terminal_punct(feedback.get("PM", ""))
     if not pf and not pm:
         return ""
@@ -2628,11 +2669,8 @@ def group_personal_intro(profile: dict, records: list[dict]) -> str:
         parts.append(f"本阶段经历时间{profile['stage_hours']}小时")
     if profile.get("stage_landings") is not None:
         parts.append(f"起落{profile['stage_landings']}个")
-    sim_suffix = "（含模拟机）" if profile.get("simulation_included") else ""
     if profile.get("landings_90_days") is not None:
-        parts.append(f"近90天起落{profile['landings_90_days']}个{sim_suffix}")
-    if profile.get("landings_30_days") is not None:
-        parts.append(f"近一个月起落{profile['landings_30_days']}个{sim_suffix}")
+        parts.append(f"近90天起落{profile['landings_90_days']}个")
     if profile.get("duty_day"):
         parts.append(f"明日为本人本次值勤期第{profile['duty_day']}天")
 
@@ -2706,14 +2744,8 @@ def english_personal_intro(profile: dict, records: list[dict]) -> str:
         recent.append(
             f"{profile['landings_90_days']} landings in the last 90 days"
         )
-    if profile.get("landings_30_days") is not None:
-        recent.append(
-            f"{profile['landings_30_days']} in the last month"
-        )
     if recent:
         recent_text = "I have completed " + " and ".join(recent)
-        if profile.get("simulation_included"):
-            recent_text += "; both figures include simulator sessions"
         sentences.append(recent_text + ".")
     if profile.get("duty_day"):
         sentences.append(f"This is day {profile['duty_day']} of my current duty period.")
@@ -2786,7 +2818,7 @@ def english_feedback_item(value: str) -> str:
 def feedback_text_en(profile: dict) -> str:
     feedback = profile.get("recent_feedback") or {}
     parts: list[str] = []
-    pf = feedback.get("RNP") or feedback.get("PF")
+    pf = feedback.get("PF")
     if pf:
         parts.append(
             f"as PF, the instructor noted that {english_feedback_item(pf)}"
@@ -4689,6 +4721,7 @@ def _checkin_time(event: CalendarEvent) -> str:
 
 def clean_output_fact(value: str) -> str:
     text = strip_terminal_punct(value)
+    text = re.sub(r"^[.。；;，,\s]+", "", text)
     text = re.sub(
         r"^(?:常用程序|指挥特点|注意事项|气象特点|道面特点|其他威胁|运行特点)\s*[:：]\s*",
         "",
@@ -4975,26 +5008,20 @@ def render_chinese_briefing(
     if feedback:
         sections.append(feedback)
 
-    sections.append(
-        "个人对本次航班中识别的风险：\n"
-        + duty_risk_text(
-            event,
-            records,
-            core_facts,
-            weather_sentence,
-        )
-    )
+    del target, weather_sentence
 
     airports = unique([airport for airport in event.route if airport])
     for airport in airports:
-        items = typical_facts[airport]
-        if len(items) == 1 and items[0].category == "typical_no_data":
-            typical_text = TYPICAL_NO_DATA_TEXT_ZH
-        else:
-            typical_text = "\n".join(
-                f"{index}.{clean_output_fact(fact.zh)}。"
-                for index, fact in enumerate(items, start=1)
-            )
+        items = [
+            fact
+            for fact in typical_facts.get(airport, [])
+            if fact.category != "typical_no_data" and clean_output_fact(fact.zh)
+        ]
+        if not items:
+            continue
+        typical_text = "\n\n".join(
+            clean_output_fact(fact.zh) + "。" for fact in items
+        )
         sections.append(
             f"{airport_with_suffix(airport)}典型不安全事件：\n{typical_text}"
         )
@@ -5024,22 +5051,22 @@ def render_english_briefing(
     if feedback:
         sections.append(feedback)
 
-    risks = flight_risk_facts(event, target, core_facts)
-    risk_text = " ".join(fact.en.strip().rstrip(".") + "." for fact in risks)
-    sections.append("Risks I have identified for this flight:\n" + risk_text)
+    del target
 
     airports = unique([airport for airport in event.route if airport])
     for airport in airports:
-        items = typical_facts[airport]
-        if len(items) == 1 and items[0].category == "typical_no_data":
-            numbered = TYPICAL_NO_DATA_TEXT_EN
-        else:
-            numbered = "\n".join(
-                f"{index}. {fact.en.strip().rstrip('.')}."
-                for index, fact in enumerate(items, start=1)
-            )
+        items = [
+            fact
+            for fact in typical_facts.get(airport, [])
+            if fact.category != "typical_no_data" and fact.en.strip()
+        ]
+        if not items:
+            continue
+        paragraphs = "\n\n".join(
+            fact.en.strip().rstrip(".") + "." for fact in items
+        )
         sections.append(
-            f"{english_airport_name(airport)} Airport typical unsafe events:\n{numbered}"
+            f"{english_airport_name(airport)} Airport typical unsafe events:\n{paragraphs}"
         )
 
     core_lines = ["Core threats:"]
@@ -5143,6 +5170,7 @@ def validate_content(
     airports: list[str],
     *,
     language: str,
+    typical_facts: dict[str, list[BilingualFact]] | None = None,
 ) -> list[str]:
     errors: list[str] = []
     if language == "zh":
@@ -5160,8 +5188,8 @@ def validate_content(
         errors.append("正文缺少姓名")
     if not content.lstrip().startswith(expected_start):
         errors.append("正文未直接从个人信息开始")
-    if risk_heading not in content:
-        errors.append("正文缺少个人风险识别标题")
+    if risk_heading in content:
+        errors.append("正文仍包含已取消的个人风险识别栏目")
     if core_heading not in content:
         errors.append("正文缺少核心威胁标题")
 
@@ -5195,8 +5223,22 @@ def validate_content(
         else:
             typical_title = f"{english_airport_name(airport)} Airport typical unsafe events:"
             core_title = f"{english_airport_name(airport)} Airport:"
-        if typical_title not in content:
-            errors.append(f"正文漏掉{typical_title}")
+        real_typical = None
+        if typical_facts is not None:
+            real_typical = [
+                fact
+                for fact in typical_facts.get(airport, [])
+                if fact.category != "typical_no_data"
+                and (
+                    clean_output_fact(fact.zh)
+                    if language == "zh"
+                    else fact.en.strip()
+                )
+            ]
+            if real_typical and typical_title not in content:
+                errors.append(f"正文漏掉{typical_title}")
+            if not real_typical and typical_title in content:
+                errors.append(f"正文不应显示无可靠事件的{typical_title}")
         if core_title not in content:
             errors.append(f"正文漏掉{core_title}")
 
@@ -5233,6 +5275,8 @@ def validate_content(
         for token in ("近期注意点：", "•", "核心威胁与控制措施：")
     ):
         errors.append("正文仍包含旧版栏目或黑点列表")
+    if re.search(r"(?m)^\s*(?:\d+[.、]|[•●▪])\s*\S", content):
+        errors.append("正式正文仍包含编号或项目符号")
 
     for airport in airports:
         if language == "zh":
@@ -5243,30 +5287,137 @@ def validate_content(
                 f"{english_airport_name(airport)} Airport typical unsafe events:"
             )
             core_title = f"{english_airport_name(airport)} Airport:"
-        numbered_event = re.search(
-            rf"(?m)^{re.escape(typical_title)}\n1\.\s*\S",
-            content,
-        )
-        no_data_statement = (
-            language == "zh"
-            and re.search(
-                rf"(?m)^{re.escape(typical_title)}\n"
-                rf"{re.escape(TYPICAL_NO_DATA_TEXT_ZH)}$",
-                content,
-            )
-        ) or (
-            language == "en"
-            and re.search(
-                rf"(?m)^{re.escape(typical_title)}\n"
-                rf"{re.escape(TYPICAL_NO_DATA_TEXT_EN)}$",
-                content,
-            )
-        )
-        if not numbered_event and not no_data_statement:
-            errors.append(f"{typical_title}缺少编号事件或明确无数据说明")
+        if typical_title in content and not re.search(
+            rf"(?m)^{re.escape(typical_title)}\n\S", content
+        ):
+            errors.append(f"{typical_title}缺少事件内容")
         if not re.search(rf"(?m)^{re.escape(core_title)}\n\S", content):
             errors.append(f"{core_title}缺少核心威胁内容")
     return errors
+
+
+def prep_group_output_name(
+    target: date,
+    group_index: int,
+    group_count: int,
+    flights: list[CalendarEvent],
+    *,
+    english: bool = False,
+) -> str:
+    language_suffix = "_EN" if english else ""
+    if group_count == 1:
+        return f"{target.isoformat()}_航前准备{language_suffix}.txt"
+    number_slug = "-".join(
+        re.sub(r"[^A-Z0-9]", "", event.flight_number.upper())
+        for event in flights
+        if event.flight_number
+    ) or f"GROUP{group_index:02d}"
+    return (
+        f"{target.isoformat()}_航前准备_{group_index:02d}_{number_slug}"
+        f"{language_suffix}.txt"
+    )
+
+
+def fact_source_metadata(fact: BilingualFact) -> dict[str, object]:
+    return {
+        "fact_id": fact.fact_id,
+        "airport": fact.airport,
+        "source_file": fact.source_file,
+        "source": fact.source,
+        "source_page": fact.source_page,
+        "source_heading": fact.source_heading,
+        "source_section": fact.source_section,
+        "source_text_zh": fact.source_text_zh,
+        "source_original_text": fact.source_text_zh,
+        "operational_phase": fact.operational_phase,
+        "operational_condition": list(fact.operational_condition),
+        "applicability": list(fact.applicability),
+        "risk": list(fact.risk),
+        "mitigation": list(fact.mitigation),
+        "restriction": list(fact.restriction),
+        "excluded_source_clauses": [
+            {
+                "clause": clause,
+                "reason": (
+                    fact.exclusion_reasons[index]
+                    if index < len(fact.exclusion_reasons)
+                    else "明确记录为不适用于当前运行"
+                ),
+            }
+            for index, clause in enumerate(fact.excluded_source_clauses)
+        ],
+        "text_zh": fact.text_zh,
+        "text_en": fact.text_en,
+        "rendered_text": fact.text_zh,
+        "season_scope": list(fact.season_scope),
+        "flight_scope": list(fact.flight_scope),
+        "route_scope": [list(route) for route in fact.route_scope],
+        "topic": fact.topic,
+        "source_fact_ids": list(fact.source_fact_ids or (fact.fact_id,)),
+        "airport_specific": fact.airport_specific,
+        "category": fact.category,
+    }
+
+
+def selected_fact_exclusions(
+    airports: list[str],
+    typical_facts: dict[str, list[BilingualFact]],
+    core_facts: dict[str, list[BilingualFact]],
+) -> list[dict[str, object]]:
+    return [
+        {
+            "airport": airport,
+            "fact_id": fact.fact_id,
+            "clause": clause,
+            "reason": (
+                fact.exclusion_reasons[index]
+                if index < len(fact.exclusion_reasons)
+                else "明确记录为不适用于当前运行"
+            ),
+        }
+        for airport in airports
+        for fact in [*typical_facts[airport], *core_facts[airport]]
+        for index, clause in enumerate(fact.excluded_source_clauses)
+    ]
+
+
+def merge_group_airport_metadata(
+    prep_groups: list[dict[str, object]],
+    field: str,
+) -> dict[str, object]:
+    merged: dict[str, object] = {}
+    for group in prep_groups:
+        group_data = group.get(field, {})
+        if not isinstance(group_data, dict):
+            continue
+        for airport, value in group_data.items():
+            if field == "airport_fact_ids":
+                destination = merged.setdefault(airport, {"typical": [], "core": []})
+                if not isinstance(destination, dict) or not isinstance(value, dict):
+                    continue
+                for category in ("typical", "core"):
+                    current = destination.setdefault(category, [])
+                    for fact_id in value.get(category, []):
+                        if fact_id not in current:
+                            current.append(fact_id)
+            elif field == "core_paragraph_fact_ids":
+                destination = merged.setdefault(airport, [])
+                for source_ids in value:
+                    if source_ids not in destination:
+                        destination.append(source_ids)
+            else:
+                destination = merged.setdefault(airport, [])
+                known = {
+                    (item.get("fact_id"), tuple(item.get("source_fact_ids", [])))
+                    for item in destination
+                    if isinstance(item, dict)
+                }
+                for item in value:
+                    key = (item.get("fact_id"), tuple(item.get("source_fact_ids", [])))
+                    if key not in known:
+                        destination.append(item)
+                        known.add(key)
+    return merged
 
 
 
@@ -5333,6 +5484,7 @@ def main() -> int:
             )
             return 2
 
+        prep_flight_groups = split_flight_prep_groups_by_flight_number(flights)
         duty = DutyContext(tuple(flights))
         changes: list[str] = []
         if settings.get("auto_update_airport_experience", True):
@@ -5384,7 +5536,7 @@ def main() -> int:
 
         missing_airports = [
             airport for airport in airports
-            if not risks.get(airport) or not airport_threat_map.get(airport)
+            if not airport_threat_map.get(airport)
         ]
         if missing_airports:
             status = {
@@ -5395,7 +5547,7 @@ def main() -> int:
                 "airport_information_file": manual_source,
                 "airport_information_version": manual_ver,
                 "airport_information_type": manual_type,
-                "note": "任一涉及机场缺少典型风险或核心威胁，正式准备稿不覆盖。",
+                "note": "任一涉及机场缺少核心运行事实，正式准备稿不覆盖。",
             }
             write_status(repo, status)
             append_github_summary(
@@ -5404,76 +5556,169 @@ def main() -> int:
             )
             return 2
 
-        exp_records = experience_records(experience, airports, target)
-        fact_exclusions: list[dict[str, object]] = []
-        typical_facts, core_facts, all_facts = briefing_fact_sets(
-            duty,
-            target,
-            risks,
-            airport_threat_map,
-            max_items=max_items,
-            source_records=airport_source_records,
-            exclusion_log=fact_exclusions,
-        )
-        (
-            english_required,
-            english_confirmation_required,
-            english_names,
-        ) = english_generation_decision(
-            duty,
-            settings,
-            args.generate_english,
-        )
-
-        group_content = render_chinese_briefing(
-            duty,
-            target,
-            profile,
-            exp_records,
-            typical_facts,
-            core_facts,
-            weather_sentence,
-        )
-        english_content = (
-            render_english_briefing(
-                duty,
+        rendered_groups: list[dict[str, object]] = []
+        errors: list[str] = []
+        group_count = len(prep_flight_groups)
+        for group_index, group_flights in enumerate(prep_flight_groups, start=1):
+            group_duty = DutyContext(tuple(group_flights))
+            group_airports = list(group_duty.route)
+            group_records = experience_records(experience, group_airports, target)
+            fact_exclusions: list[dict[str, object]] = []
+            typical_facts, core_facts, all_facts = briefing_fact_sets(
+                group_duty,
+                target,
+                risks,
+                airport_threat_map,
+                max_items=max_items,
+                source_records=airport_source_records,
+                exclusion_log=fact_exclusions,
+            )
+            (
+                english_required,
+                english_confirmation_required,
+                english_names,
+            ) = english_generation_decision(
+                group_duty,
+                settings,
+                args.generate_english,
+            )
+            group_content = render_chinese_briefing(
+                group_duty,
                 target,
                 profile,
-                exp_records,
+                group_records,
                 typical_facts,
                 core_facts,
+                weather_sentence,
             )
-            if english_required
-            else ""
-        )
-
-        errors = [
-            *validate_content(group_content, duty, profile, airports, language="zh"),
-        ]
-        for airport in airports:
-            if not core_facts[airport]:
-                errors.append(f"{airport}没有可追溯的核心运行事实")
-            if not typical_facts[airport]:
-                errors.append(f"{airport}没有可追溯的典型事件事实")
-            errors.extend(
-                validate_airport_fact_bindings(
-                    airport,
-                    [*typical_facts[airport], *core_facts[airport]],
-                )
-            )
-            for fact in [*typical_facts[airport], *core_facts[airport]]:
-                errors.extend(validate_source_semantic_preservation(fact))
-        if english_required:
-            errors.extend(validate_bilingual_facts(all_facts))
-            errors.extend(
-                "英文版：" + item
-                for item in validate_content(
-                    english_content,
-                    duty,
+            english_content = (
+                render_english_briefing(
+                    group_duty,
+                    target,
                     profile,
-                    airports,
-                    language="en",
+                    group_records,
+                    typical_facts,
+                    core_facts,
                 )
+                if english_required
+                else ""
+            )
+            group_label = "/".join(
+                event.flight_number for event in group_flights
+            )
+            errors.extend(
+                f"{group_label}：{item}"
+                for item in validate_content(
+                    group_content,
+                    group_duty,
+                    profile,
+                    group_airports,
+                    language="zh",
+                    typical_facts=typical_facts,
+                )
+            )
+            for airport in group_airports:
+                if not core_facts[airport]:
+                    errors.append(f"{group_label}：{airport}没有可追溯的核心运行事实")
+                bound_facts = [*typical_facts[airport], *core_facts[airport]]
+                errors.extend(
+                    f"{group_label}：{item}"
+                    for item in validate_airport_fact_bindings(airport, bound_facts)
+                )
+                for fact in bound_facts:
+                    errors.extend(
+                        f"{group_label}：{item}"
+                        for item in validate_source_semantic_preservation(fact)
+                    )
+            if english_required:
+                errors.extend(
+                    f"{group_label}：{item}"
+                    for item in validate_bilingual_facts(all_facts)
+                )
+                errors.extend(
+                    f"{group_label}英文版：{item}"
+                    for item in validate_content(
+                        english_content,
+                        group_duty,
+                        profile,
+                        group_airports,
+                        language="en",
+                        typical_facts=typical_facts,
+                    )
+                )
+
+            output_name = prep_group_output_name(
+                target,
+                group_index,
+                group_count,
+                group_flights,
+            )
+            english_output_name = (
+                prep_group_output_name(
+                    target,
+                    group_index,
+                    group_count,
+                    group_flights,
+                    english=True,
+                )
+                if english_required
+                else ""
+            )
+            group_exclusions = (
+                selected_fact_exclusions(
+                    group_airports,
+                    typical_facts,
+                    core_facts,
+                )
+                + fact_exclusions
+            )
+            rendered_groups.append(
+                {
+                    "group_index": group_index,
+                    "flight_numbers": [event.flight_number for event in group_flights],
+                    "airports": group_airports,
+                    "output": output_name,
+                    "english_output": english_output_name,
+                    "english_generated": english_required,
+                    "foreign_crew_detected": bool(english_names),
+                    "foreign_crew_names": english_names,
+                    "english_confirmation_required": english_confirmation_required,
+                    "matched_event_uids": [event.uid for event in group_flights],
+                    "matched_flights": [event.to_dict() for event in group_flights],
+                    "matched_people": group_duty.people,
+                    "weather": {
+                        airport: weather_meta[airport]
+                        for airport in group_airports
+                        if airport in weather_meta
+                    },
+                    "airport_fact_ids": {
+                        airport: {
+                            "typical": [fact.fact_id for fact in typical_facts[airport]],
+                            "core": [fact.fact_id for fact in core_facts[airport]],
+                        }
+                        for airport in group_airports
+                    },
+                    "airport_fact_sources": {
+                        airport: [
+                            fact_source_metadata(fact)
+                            for fact in [*typical_facts[airport], *core_facts[airport]]
+                        ]
+                        for airport in group_airports
+                    },
+                    "excluded_source_clauses": group_exclusions,
+                    "core_paragraph_fact_ids": {
+                        airport: [
+                            list(fact.source_fact_ids or (fact.fact_id,))
+                            for fact in core_facts[airport]
+                        ]
+                        for airport in group_airports
+                    },
+                    "content_sha256": hashlib.sha256(
+                        group_content.encode("utf-8")
+                    ).hexdigest(),
+                    "_content": group_content,
+                    "_english_content": english_content,
+                }
             )
         if errors:
             status = {
@@ -5487,13 +5732,81 @@ def main() -> int:
             append_github_summary("## 免费航前准备\n\n**FAILED_SAFE**：\n" + "\n".join(f"- {e}" for e in errors))
             return 2
 
+        group_contents = [str(group.pop("_content")) for group in rendered_groups]
+        english_group_contents = [
+            str(group.pop("_english_content"))
+            for group in rendered_groups
+            if group.get("english_generated")
+        ]
+        aggregate_content = "\n\n====================\n\n".join(
+            content.rstrip() for content in group_contents
+        ) + "\n"
+        aggregate_english = (
+            "\n\n====================\n\n".join(
+                content.rstrip() for content in english_group_contents
+            ) + "\n"
+            if english_group_contents
+            else ""
+        )
         dated_group_name = f"{target.isoformat()}_航前准备.txt"
-        dated_english_name = f"{target.isoformat()}_航前准备_EN.txt" if english_required else ""
-        atomic_write_text(output_dir / dated_group_name, group_content)
-        atomic_write_text(output_dir / "latest.txt", group_content)
-        if english_required:
-            atomic_write_text(output_dir / dated_english_name, english_content)
-            atomic_write_text(output_dir / "latest_en.txt", english_content)
+        dated_english_name = (
+            f"{target.isoformat()}_航前准备_EN.txt"
+            if aggregate_english
+            else ""
+        )
+        desired_outputs = {
+            dated_group_name,
+            *(str(group["output"]) for group in rendered_groups),
+            *(str(group["english_output"]) for group in rendered_groups if group["english_output"]),
+        }
+        if dated_english_name:
+            desired_outputs.add(dated_english_name)
+        for group, content in zip(rendered_groups, group_contents):
+            atomic_write_text(output_dir / str(group["output"]), content)
+        atomic_write_text(output_dir / dated_group_name, aggregate_content)
+        atomic_write_text(output_dir / "latest.txt", aggregate_content)
+        english_index = 0
+        for group in rendered_groups:
+            if not group["english_generated"]:
+                continue
+            atomic_write_text(
+                output_dir / str(group["english_output"]),
+                english_group_contents[english_index],
+            )
+            english_index += 1
+        if aggregate_english:
+            atomic_write_text(output_dir / dated_english_name, aggregate_english)
+            atomic_write_text(output_dir / "latest_en.txt", aggregate_english)
+        for stale in output_dir.glob(f"{target.isoformat()}_航前准备_*.txt"):
+            if stale.name not in desired_outputs:
+                stale.unlink()
+
+        top_airport_fact_ids = merge_group_airport_metadata(
+            rendered_groups, "airport_fact_ids"
+        )
+        top_airport_fact_sources = merge_group_airport_metadata(
+            rendered_groups, "airport_fact_sources"
+        )
+        top_core_paragraph_ids = merge_group_airport_metadata(
+            rendered_groups, "core_paragraph_fact_ids"
+        )
+        all_exclusions = [
+            exclusion
+            for group in rendered_groups
+            for exclusion in group["excluded_source_clauses"]
+        ]
+        english_names = unique(
+            name
+            for group in rendered_groups
+            for name in group["foreign_crew_names"]
+        )
+        english_required = any(
+            bool(group["english_generated"]) for group in rendered_groups
+        )
+        english_confirmation_required = any(
+            bool(group["english_confirmation_required"])
+            for group in rendered_groups
+        )
 
         atomic_write_json(
             output_dir / "latest_meta.json",
@@ -5514,87 +5827,17 @@ def main() -> int:
                 "matched_event_uids": [event.uid for event in flights],
                 "matched_flights": [event.to_dict() for event in flights],
                 "matched_people": duty.people,
+                "prep_groups": rendered_groups,
                 "warnings": unique(warnings),
                 "weather": weather_meta,
                 "airport_experience_changes": changes,
                 "airport_information_file": manual_source,
                 "airport_information_version": manual_ver,
                 "airport_information_type": manual_type,
-                "airport_fact_ids": {
-                    airport: {
-                        "typical": [fact.fact_id for fact in typical_facts[airport]],
-                        "core": [fact.fact_id for fact in core_facts[airport]],
-                    }
-                    for airport in airports
-                },
-                "airport_fact_sources": {
-                    airport: [
-                        {
-                            "fact_id": fact.fact_id,
-                            "airport": fact.airport,
-                            "source_file": fact.source_file,
-                            "source": fact.source,
-                            "source_page": fact.source_page,
-                            "source_heading": fact.source_heading,
-                            "source_section": fact.source_section,
-                            "source_text_zh": fact.source_text_zh,
-                            "operational_phase": fact.operational_phase,
-                            "operational_condition": list(fact.operational_condition),
-                            "applicability": list(fact.applicability),
-                            "risk": list(fact.risk),
-                            "mitigation": list(fact.mitigation),
-                            "restriction": list(fact.restriction),
-                            "excluded_source_clauses": [
-                                {
-                                    "clause": clause,
-                                    "reason": (
-                                        fact.exclusion_reasons[index]
-                                        if index < len(fact.exclusion_reasons)
-                                        else "明确记录为不适用于当前运行"
-                                    ),
-                                }
-                                for index, clause in enumerate(
-                                    fact.excluded_source_clauses
-                                )
-                            ],
-                            "text_zh": fact.text_zh,
-                            "text_en": fact.text_en,
-                            "season_scope": list(fact.season_scope),
-                            "flight_scope": list(fact.flight_scope),
-                            "route_scope": [list(route) for route in fact.route_scope],
-                            "topic": fact.topic,
-                            "source_fact_ids": list(
-                                fact.source_fact_ids or (fact.fact_id,)
-                            ),
-                            "airport_specific": fact.airport_specific,
-                            "category": fact.category,
-                        }
-                        for fact in [*typical_facts[airport], *core_facts[airport]]
-                    ]
-                    for airport in airports
-                },
-                "excluded_source_clauses": [
-                    {
-                        "airport": airport,
-                        "fact_id": fact.fact_id,
-                        "clause": clause,
-                        "reason": (
-                            fact.exclusion_reasons[index]
-                            if index < len(fact.exclusion_reasons)
-                            else "明确记录为不适用于当前运行"
-                        ),
-                    }
-                    for airport in airports
-                    for fact in [*typical_facts[airport], *core_facts[airport]]
-                    for index, clause in enumerate(fact.excluded_source_clauses)
-                ] + fact_exclusions,
-                "core_paragraph_fact_ids": {
-                    airport: [
-                        list(fact.source_fact_ids or (fact.fact_id,))
-                        for fact in core_facts[airport]
-                    ]
-                    for airport in airports
-                },
+                "airport_fact_ids": top_airport_fact_ids,
+                "airport_fact_sources": top_airport_fact_sources,
+                "excluded_source_clauses": all_exclusions,
+                "core_paragraph_fact_ids": top_core_paragraph_ids,
             },
         )
         atomic_write_text(success_marker, "SUCCESS\n")
@@ -5604,21 +5847,30 @@ def main() -> int:
                 "status": "SUCCESS",
                 "target_date": target.isoformat(),
                 "group_output": str(output_dir / dated_group_name),
+                "group_outputs": [
+                    str(output_dir / str(group["output"]))
+                    for group in rendered_groups
+                ],
                 "english_output": str(output_dir / dated_english_name) if english_required else "",
                 "english_confirmation_required": english_confirmation_required,
                 "version": VERSION,
             },
         )
-        summary = (
-            f"## {target.isoformat()} 航前准备\n\n"
-            f"```text\n{group_content}```"
-        )
+        summary = f"## {target.isoformat()} 航前准备\n"
+        for group, content in zip(rendered_groups, group_contents):
+            summary += (
+                f"\n### 第{group['group_index']}组 "
+                f"{'/'.join(group['flight_numbers'])}\n\n"
+                f"```text\n{content}```\n"
+            )
         if english_required:
             summary += f"\n\n英文版：`flight_preparation/{dated_english_name}`"
         if warnings:
             summary += "\n\n### 系统提示\n" + "\n".join(f"- {w}" for w in unique(warnings))
         append_github_summary(summary)
         print(f"SUCCESS: {output_dir / dated_group_name}")
+        for group in rendered_groups:
+            print(f"GROUP: {output_dir / str(group['output'])}")
         if english_required:
             print(f"ENGLISH: {output_dir / dated_english_name}")
         return 0
