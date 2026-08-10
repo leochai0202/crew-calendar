@@ -478,6 +478,12 @@ DETAIL_SIGNAL_KEYWORDS = [
     "候振",
 ]
 
+DATE_SELECTED = "DATE_SELECTED"
+DETAIL_EXPANDED = "DETAIL_EXPANDED"
+DETAIL_COLLAPSED = "DETAIL_COLLAPSED"
+CLICK_SENT = "CLICK_SENT"
+DETAIL_READY = "DETAIL_READY"
+
 TRANSPORT_HINT_WORDS = ["搭乘", "乘坐", "火车", "高铁", "动车", "去", "前往", "至", "返回"]
 
 BAD_TITLE_WORDS = {
@@ -1239,148 +1245,190 @@ def load_all_visible_tasks(page, max_rounds: int = LOAD_MORE_MAX_ROUNDS):
         prev_signature = signature_after
 
 
-def click_day_toggle(page, header: str, strategy: int = 0) -> bool:
+def inspect_day_detail_panel(page, header: str) -> dict:
+    """Return a safe DOM snapshot for one date without changing toggle state."""
     try:
-        row = page.locator(f"text={header}").first
-        row.scroll_into_view_if_needed(timeout=5000)
-        random_like_wait(page, 300, 200)
-
-        info = row.evaluate(
+        result = page.evaluate(
             """
-            (el, strategy) => {
-                function rectInfo(r) {
+            (header) => {
+                function norm(value) {
+                    return String(value || "")
+                        .replace(/\\u00a0/g, " ")
+                        .replace(/[ \\t]+/g, " ")
+                        .replace(/\\r/g, "")
+                        .trim();
+                }
+
+                function visible(element) {
+                    if (!element) return false;
+                    const style = window.getComputedStyle(element);
+                    const rect = element.getBoundingClientRect();
+                    return style.display !== "none"
+                        && style.visibility !== "hidden"
+                        && Number(style.opacity) !== 0
+                        && rect.width > 0
+                        && rect.height > 0;
+                }
+
+                const rows = Array.from(document.querySelectorAll(".cal_outlist"));
+                const row = rows.find((candidate) => {
+                    const head = candidate.querySelector(".cal-head");
+                    return visible(head) && norm(head.innerText || head.textContent).startsWith(header);
+                });
+
+                if (!row) {
                     return {
-                        x: r.x,
-                        y: r.y,
-                        width: r.width,
-                        height: r.height,
-                        left: r.left,
-                        right: r.right,
-                        top: r.top,
-                        bottom: r.bottom
+                        state: "DATE_NOT_FOUND",
+                        date_selected: false,
+                        detail_visible: false,
+                        toggle_found: false,
+                        cards: []
                     };
                 }
 
-                let textRect = el.getBoundingClientRect();
-                let node = el;
+                const detail = row.querySelector(".cal-cnt");
+                const toggle = row.querySelector(".cal-head > i, .cal-head [aria-expanded]");
+                const expectedFlights = Array.from(
+                    new Set((norm(row.textContent).match(/9C\\d{3,4}[A-Z]?/g) || []))
+                );
+                const selectedClasses = `${row.className || ""} ${(row.querySelector(".cal-head") || {}).className || ""}`;
 
-                for (let i = 0; i < 10; i++) {
-                    if (!node) break;
+                const localCards = Array.from(row.querySelectorAll(".cal-schedule"));
+                const independentCards = Array.from(document.querySelectorAll(".cal-schedule"))
+                    .filter((card) => !row.contains(card))
+                    .filter(visible)
+                    .filter((card) => {
+                        if (!expectedFlights.length) return false;
+                        const text = norm(card.innerText || card.textContent);
+                        return expectedFlights.some((flight) => text.includes(flight));
+                    });
 
-                    let r = node.getBoundingClientRect();
-
-                    if (r.width >= 350 && r.height >= 25) {
-                        break;
-                    }
-
-                    if (!node.parentElement) break;
-                    node = node.parentElement;
+                const seen = new Set();
+                const cards = [];
+                for (const card of [...localCards, ...independentCards]) {
+                    if (!visible(card)) continue;
+                    const text = norm(card.innerText || card.textContent);
+                    if (!text || seen.has(text)) continue;
+                    seen.add(text);
+                    cards.push({text});
                 }
 
-                let r = node.getBoundingClientRect();
-
-                let x = r.right - 24;
-                let y = r.top + r.height / 2;
-
-                if (strategy === 1) {
-                    x = r.right - 70;
-                    y = r.top + r.height / 2;
-                } else if (strategy === 2) {
-                    x = r.left + r.width / 2;
-                    y = r.top + r.height / 2;
-                } else if (strategy === 3) {
-                    x = textRect.left + textRect.width / 2;
-                    y = textRect.top + textRect.height / 2;
-                } else if (strategy === 4) {
-                    x = window.innerWidth - 38;
-                    y = textRect.top + textRect.height / 2;
-                }
-
-                x = Math.max(5, Math.min(window.innerWidth - 5, x));
-                y = Math.max(5, Math.min(window.innerHeight - 5, y));
-
-                let target = document.elementFromPoint(x, y);
-
-                if (target) {
-                    target.click();
-                } else {
-                    node.click();
+                const detailVisible = visible(detail);
+                let state = "DATE_SELECTED";
+                if (cards.length) {
+                    state = "DETAIL_EXPANDED";
+                } else if (detail && !detailVisible) {
+                    state = "DETAIL_COLLAPSED";
+                } else if (detailVisible) {
+                    state = "DETAIL_EXPANDED";
                 }
 
                 return {
-                    ok: true,
-                    strategy: strategy,
-                    clickedX: x,
-                    clickedY: y,
-                    textRect: rectInfo(textRect),
-                    rowRect: rectInfo(r),
-                    targetTag: target ? target.tagName : "",
-                    targetClass: target ? String(target.className || "") : "",
-                    targetText: target ? String(target.innerText || target.textContent || "").slice(0, 80) : ""
+                    state,
+                    date_selected: true,
+                    detail_visible: detailVisible,
+                    toggle_found: Boolean(toggle),
+                    toggle_class: toggle ? String(toggle.className || "") : "",
+                    toggle_aria_expanded: toggle ? toggle.getAttribute("aria-expanded") : null,
+                    row_class: String(row.className || ""),
+                    selected_class_hint: /(?:active|selected|current|open|expand)/i.test(selectedClasses),
+                    expected_flights: expectedFlights,
+                    cards
                 };
             }
             """,
-            strategy,
+            header,
         )
-
-        save_text(
-            f"click_{safe_name(header)}_strategy_{strategy}.json",
-            json.dumps(info, ensure_ascii=False, indent=2),
+    except Exception as error:
+        logger.warning(
+            "%s 详情面板状态读取失败（%s）：%s",
+            header,
+            type(error).__name__,
+            safe_exception_message(error),
         )
+        return {
+            "state": "PAGE_READ_ERROR",
+            "date_selected": False,
+            "detail_visible": False,
+            "toggle_found": False,
+            "cards": [],
+        }
 
-        random_like_wait(page, 1000, 500)
-        return True
+    if not isinstance(result, dict):
+        return {
+            "state": "PAGE_READ_ERROR",
+            "date_selected": False,
+            "detail_visible": False,
+            "toggle_found": False,
+            "cards": [],
+        }
+    return result
 
-    except Exception as e:
-        logger.warning(f"{header} JS 点击策略 {strategy} 失败：{e}")
+
+def get_selected_day_detail_cards(page, header: str) -> list:
+    snapshot = inspect_day_detail_panel(page, header)
+    cards = []
+    for card in snapshot.get("cards") or []:
+        text = normalize_text(card.get("text", "")) if isinstance(card, dict) else ""
+        if text:
+            cards.append({"text": text})
+    return cards
+
+
+def click_day_toggle(page, header: str, strategy: int = 0) -> bool:
+    """Click the real date toggle once, and only while detail is collapsed."""
+    del strategy  # Compatibility with older callers; coordinate strategies are retired.
+    before = inspect_day_detail_panel(page, header)
+    if before.get("state") != DETAIL_COLLAPSED:
+        logger.info(
+            "%s toggle未点击：当前状态=%s",
+            header,
+            before.get("state", "UNKNOWN"),
+        )
+        return False
 
     try:
-        row = page.locator(f"text={header}").first
-        box = row.bounding_box()
+        rows = page.locator(".cal_outlist")
+        for index in range(rows.count()):
+            row = rows.nth(index)
+            head = row.locator(".cal-head")
+            if not head.count() or not head.first.is_visible():
+                continue
+            if not normalize_text(head.first.inner_text()).startswith(header):
+                continue
 
-        if not box:
-            return False
+            toggles = row.locator(".cal-head > i, .cal-head [aria-expanded]")
+            for toggle_index in range(toggles.count()):
+                toggle = toggles.nth(toggle_index)
+                if not toggle.is_visible():
+                    continue
+                box = toggle.bounding_box()
+                if not box or box.get("width", 0) <= 0 or box.get("height", 0) <= 0:
+                    continue
+                toggle.scroll_into_view_if_needed(timeout=5000)
+                toggle.click(timeout=5000)
+                logger.info("%s 状态=%s", header, CLICK_SENT)
+                return True
 
-        viewport = page.viewport_size or {"width": 1400, "height": 1000}
-        vw = viewport.get("width", 1400)
-
-        y = box["y"] + box["height"] / 2
-
-        points = [
-            (vw - 45, y),
-            (vw - 100, y),
-            (box["x"] + box["width"] + 60, y),
-            (box["x"] + box["width"] / 2, y),
-        ]
-
-        x, y = points[strategy % len(points)]
-        x = max(5, min(vw - 5, x))
-
-        page.mouse.click(x, y)
-        random_like_wait(page, 1000, 500)
-        return True
-
-    except Exception as e:
-        logger.warning(f"{header} 坐标点击策略 {strategy} 失败：{e}")
+        logger.warning("%s 已确认收起，但未找到可见toggle", header)
+        return False
+    except Exception as error:
+        logger.warning(
+            "%s toggle点击失败（%s）：%s",
+            header,
+            type(error).__name__,
+            safe_exception_message(error),
+        )
         return False
 
 
 def expand_day(page, header: str, strategy: int = 0) -> bool:
-    ok = click_day_toggle(page, header, strategy=strategy)
-
-    if ok:
-        random_like_wait(page, 1200, 600)
-
-    return ok
+    return click_day_toggle(page, header, strategy=strategy)
 
 
 def collapse_day(page, header: str):
-    try:
-        ok = click_day_toggle(page, header, strategy=0)
-        if ok:
-            random_like_wait(page, 700, 300)
-    except Exception:
-        pass
+    """Legacy helper retained for compatibility; formal collection never calls it."""
+    logger.info("%s 保持当前详情状态，不执行自动收起", header)
 
 
 def get_day_block_by_body_text(page, header: str, next_header=None) -> str:
@@ -2072,10 +2120,36 @@ def cards_have_real_detail(cards: list, header: str, fallback_text: str = "") ->
         if not text:
             continue
 
+        flight_number = FLIGHT_NO_RE.search(text)
+        if flight_number:
+            has_time = TIME_RANGE_RE.search(text) is not None
+            icao_codes = set(ICAO_RE.findall(text))
+            airport_mapping = {
+                **BASE_AIRPORT_CN_TO_ICAO,
+                **AIRPORT_CN_TO_ICAO,
+            }
+            airport_codes = {
+                code
+                for name, code in airport_mapping.items()
+                if name in text and code
+            }
+            if has_time and (len(icao_codes) >= 2 or len(airport_codes) >= 2):
+                return True
+            continue
+
         if day_block_has_real_detail(text, header, fallback_text=fallback_text):
             return True
 
     return False
+
+
+def build_day_block_from_detail_cards(header: str, cards: list) -> str:
+    parts = [normalize_text(header)]
+    for card in cards:
+        text = normalize_text(card.get("text", ""))
+        if text:
+            parts.append(f"{SEGMENT_CARD_MARKER}\n{text}")
+    return "\n".join(part for part in parts if part).strip()
 
 
 def wait_for_real_day_detail(page, header: str, next_header=None, fallback_text: str = "", max_wait_ms: int = 10000):
@@ -2087,6 +2161,21 @@ def wait_for_real_day_detail(page, header: str, next_header=None, fallback_text:
 
     while datetime.now() < deadline:
         try:
+            visible_cards = get_selected_day_detail_cards(page, header)
+            if visible_cards:
+                visible_block = build_day_block_from_detail_cards(
+                    header,
+                    visible_cards,
+                )
+                last_block = visible_block
+                last_cards = visible_cards
+                if cards_have_real_detail(
+                    visible_cards,
+                    header,
+                    fallback_text=fallback_text,
+                ):
+                    return last_block, last_cards, True
+
             day_block = get_day_block(
                 page,
                 header,
@@ -2114,69 +2203,47 @@ def wait_for_real_day_detail(page, header: str, next_header=None, fallback_text:
         except Exception as e:
             logger.warning(f"等待 {header} 详情时读取失败: {e}")
 
-        random_like_wait(page, 800, 400)
+        page.wait_for_timeout(250)
 
     return last_block, last_cards, has_real_detail
 
 
-def expand_day_get_real_detail(page, header: str, next_header=None, fallback_text: str = "", retries: int = 5):
-    best_block = ""
-    best_cards = []
-    expanded_final = False
+def expand_day_get_real_detail(page, header: str, next_header=None, fallback_text: str = "", retries: int = 1):
+    del retries  # Blind multi-click retries can invert a correct expanded state.
 
-    for attempt in range(1, retries + 1):
-        strategy = (attempt - 1) % 5
-        logger.info(f"展开 {header} 尝试 {attempt}/{retries}，点击策略 {strategy}")
+    # Highest priority: consume detail already visible on entry. Never toggle first.
+    day_block, cards, has_real_detail = wait_for_real_day_detail(
+        page,
+        header,
+        next_header=next_header,
+        fallback_text=fallback_text,
+        max_wait_ms=1500,
+    )
+    if has_real_detail:
+        logger.info("%s 状态=%s；直接读取，不点击toggle", header, DETAIL_READY)
+        return False, day_block, cards, True
 
-        expanded = expand_day(page, header, strategy=strategy)
+    state = inspect_day_detail_panel(page, header).get("state", "UNKNOWN")
+    logger.info("%s 当前详情状态=%s", header, state)
+    if state != DETAIL_COLLAPSED:
+        return False, day_block, cards, False
 
-        if not expanded:
-            logger.warning(f"{header} 点击展开失败，strategy={strategy}")
-            random_like_wait(page, 800, 300)
-            continue
+    click_sent = click_day_toggle(page, header)
+    if not click_sent:
+        return False, day_block, cards, False
 
-        expanded_final = True
-
-        try:
-            save_page_screenshot(
-                page,
-                f"expand_{safe_name(header)}_attempt_{attempt}_strategy_{strategy}.png",
-            )
-        except Exception:
-            pass
-
-        day_block, cards, has_real_detail = wait_for_real_day_detail(
-            page,
-            header,
-            next_header=next_header,
-            fallback_text=fallback_text,
-            max_wait_ms=12000 + attempt * 2500,
-        )
-
-        save_text(
-            f"expand_{safe_name(header)}_attempt_{attempt}_block.txt",
-            day_block,
-        )
-
-        save_text(
-            f"expand_{safe_name(header)}_attempt_{attempt}_cards.txt",
-            "\n\n==========\n\n".join([f"[card]\n{c.get('text', '')}" for c in cards]),
-        )
-
-        if day_block:
-            best_block = day_block
-        if cards:
-            best_cards = cards
-
-        if has_real_detail:
-            logger.info(f"{header} 已抓到真实详情")
-            return True, best_block, best_cards, True
-
-        logger.warning(f"{header} 本次只抓到摘要或空内容，准备换策略重试")
-
-        random_like_wait(page, 800 + attempt * 250, 500)
-
-    return expanded_final, best_block, best_cards, False
+    opened_block, opened_cards, opened_real_detail = wait_for_real_day_detail(
+        page,
+        header,
+        next_header=next_header,
+        fallback_text=fallback_text,
+        max_wait_ms=15000,
+    )
+    if opened_real_detail:
+        logger.info("%s 状态=%s", header, DETAIL_READY)
+    else:
+        logger.warning("%s 已发送点击，但未达到%s", header, DETAIL_READY)
+    return click_sent, opened_block, opened_cards, opened_real_detail
 
 
 def classify_card_kind(card_text: str, day_header: str = "") -> str:
@@ -4876,6 +4943,11 @@ def prepare_items(day_blocks, page_year: int) -> list:
 
         for idx, card in enumerate(cards, start=1):
             card_text = card["text"]
+            if card.get("summary_fallback"):
+                classification_log.append(
+                    f"{day_header} | card#{idx} | title=SKIPPED_SUMMARY_FALLBACK\n{card_text}\n---"
+                )
+                continue
             kind = classify_card_kind(card_text, day_header)
             forced_summary_kind = None
 
@@ -5118,8 +5190,44 @@ def create_multi_calendars_from_blocks(day_blocks, page_year: int):
     )
 
 
-def collect_day_blocks(page) -> list:
+def existing_last_good_detail_for_day(day_header: str, page_year: int) -> bool:
+    date_info = extract_date(day_header, page_year)
+    if not date_info:
+        return False
+    year, month, day_num = date_info
+    target_date = f"{year:04d}{month:02d}{day_num:02d}"
+
+    for filename in ("flight.ics", "crew_schedule.ics"):
+        for block in read_existing_events(filename).values():
+            if extract_event_date_from_block(block) != target_date:
+                continue
+            summary = normalize_text(extract_summary_from_vevent(block))
+            if "页面摘要行" in block or "航班详情待同步" in summary:
+                continue
+            if summary in {"航班", "🗂 航班"} and not FLIGHT_NO_RE.search(summary):
+                continue
+            return True
+    return False
+
+
+def log_detail_refresh_failure(day_header: str, page_year: int) -> None:
+    if existing_last_good_detail_for_day(day_header, page_year):
+        logger.warning(
+            "DETAIL_REFRESH_FAILED_USING_LAST_GOOD_DATA date=%s",
+            day_header,
+        )
+    else:
+        logger.warning(
+            "DETAIL_REFRESH_FAILED_NO_LAST_GOOD_DATA date=%s",
+            day_header,
+        )
+
+
+def collect_day_blocks(page, page_year: int | None = None) -> list:
     load_all_visible_tasks(page)
+
+    if page_year is None:
+        page_year = detect_page_year(page)
 
     day_headers = get_day_headers(page)
     save_text("day_headers.txt", "\n".join(day_headers))
@@ -5132,7 +5240,6 @@ def collect_day_blocks(page) -> list:
         next_header = day_headers[idx + 1] if idx + 1 < len(day_headers) else None
         key = safe_name(header)
 
-        expanded = False
         day_block = ""
         cards = []
         has_real_detail = False
@@ -5140,45 +5247,21 @@ def collect_day_blocks(page) -> list:
         fallback_text = normalize_text(summary_task_map.get(header, ""))
 
         try:
-            expanded, day_block, cards, has_real_detail = expand_day_get_real_detail(
+            _, day_block, cards, has_real_detail = expand_day_get_real_detail(
                 page,
                 header,
                 next_header=next_header,
                 fallback_text=fallback_text,
-                retries=5,
+                retries=1,
             )
 
             if has_real_detail:
                 logger.info(f"日期 {header} 使用真实详情卡片")
             else:
-                logger.warning(f"日期 {header} 未确认真实详情，检查是否需要摘要兜底")
-
-            if not has_real_detail or not cards:
-                if fallback_text:
-                    logger.warning(f"日期 {header} 最终使用摘要行兜底：{fallback_text}")
-
-                    fallback_cards = split_day_block_into_cards(
-                        header,
-                        f"{header}\n{fallback_text}",
-                    )
-
-                    if fallback_cards:
-                        for c in fallback_cards:
-                            c["summary_fallback"] = True
-                        cards = fallback_cards
-                    else:
-                        cards = [
-                            {
-                                "text": fallback_text,
-                                "summary_fallback": True,
-                            }
-                        ]
-
-                    if not day_block:
-                        day_block = f"{header}\n{fallback_text}"
-                else:
-                    logger.warning(f"日期 {header} 没有真实详情，也没有可用摘要兜底")
-                    cards = []
+                logger.warning(f"日期 {header} 未确认真实详情；摘要不写入ICS")
+                log_detail_refresh_failure(header, page_year)
+                day_block = ""
+                cards = []
 
             save_text(f"block_{key}.txt", day_block)
 
@@ -5192,7 +5275,7 @@ def collect_day_blocks(page) -> list:
                 ),
             )
 
-            if cards:
+            if has_real_detail and cards:
                 result.append(
                     {
                         "day_header": header,
@@ -5203,42 +5286,7 @@ def collect_day_blocks(page) -> list:
 
         except Exception as e:
             logger.error(f"处理日期 {header} 失败: {e}", exc_info=True)
-
-            fallback_text = normalize_text(summary_task_map.get(header, ""))
-
-            if fallback_text:
-                logger.warning(f"日期 {header} 异常后使用摘要行兜底：{fallback_text}")
-
-                cards = [
-                    {
-                        "text": fallback_text,
-                        "summary_fallback": True,
-                    }
-                ]
-
-                day_block = f"{header}\n{fallback_text}"
-
-                save_text(f"block_{key}.txt", day_block)
-
-                save_text(
-                    f"cards_{key}.txt",
-                    f"[card] SUMMARY_FALLBACK\n{fallback_text}",
-                )
-
-                result.append(
-                    {
-                        "day_header": header,
-                        "day_block": day_block,
-                        "cards": cards,
-                    }
-                )
-
-        finally:
-            if expanded:
-                try:
-                    collapse_day(page, header)
-                except Exception:
-                    pass
+            log_detail_refresh_failure(header, page_year)
 
     logger.info(f"收集了 {len(result)} 个日期的数据")
     return result
