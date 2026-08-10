@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-08-11",
-  "generated_at_beijing": "2026-08-10T15:26:33.622884+08:00",
+  "generated_at_beijing": "2026-08-10T15:48:53.760464+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C6809",
@@ -203,10 +203,9 @@
             "沈阳桃仙_typical_record_2"
           ],
           "core": [
-            "沈阳桃仙_core_record_10",
-            "沈阳桃仙_core_record_12",
-            "沈阳桃仙_core_record_21",
+            "沈阳桃仙_core_record_11",
             "沈阳桃仙_core_record_8",
+            "沈阳桃仙_core_record_23",
             "沈阳桃仙_core_record_37"
           ]
         },
@@ -217,11 +216,11 @@
             "桂林两江_typical_record_3"
           ],
           "core": [
-            "桂林两江_core_record_15",
+            "桂林两江_core_record_16",
             "桂林两江_core_record_4",
             "桂林两江_core_record_6",
             "桂林两江_core_record_5",
-            "桂林两江_core_record_10"
+            "桂林两江_core_record_11"
           ]
         }
       },
@@ -294,115 +293,34 @@
             "category": "typical"
           },
           {
-            "fact_id": "沈阳桃仙_core_record_10",
+            "fact_id": "沈阳桃仙_core_record_11",
             "airport": "沈阳桃仙",
             "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
             "source": "PDF",
             "source_page": "N/A",
             "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
             "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
-            "source_text_zh": "现场/签派频率：132.0。",
-            "source_original_text": "现场/签派频率：132.0。",
+            "source_text_zh": "指挥特点：。",
+            "source_original_text": "指挥特点：。",
             "operational_phase": "ground",
             "role_scope": [],
             "operational_condition": [
-              "现场/签派频率：132.0"
+              "指挥特点："
             ],
             "applicability": [],
             "risk": [],
             "mitigation": [],
             "restriction": [],
             "excluded_source_clauses": [],
-            "text_zh": "现场/签派频率：132.0。",
+            "text_zh": "指挥特点：。",
             "text_en": "",
-            "rendered_text": "现场/签派频率：132.0。",
+            "rendered_text": "指挥特点：。",
             "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
             "topic": "ground",
             "source_fact_ids": [
-              "沈阳桃仙_core_record_10"
-            ],
-            "airport_specific": true,
-            "category": "core"
-          },
-          {
-            "fact_id": "沈阳桃仙_core_record_12",
-            "airport": "沈阳桃仙",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-            "source": "PDF",
-            "source_page": "N/A",
-            "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
-            "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
-            "source_text_zh": "有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。",
-            "source_original_text": "有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。",
-            "operational_phase": "ground",
-            "role_scope": [],
-            "operational_condition": [
-              "有时飞机推至远机位开车",
-              "在获得离场时间后",
-              "塔台给出开车指令",
-              "未经塔台明确许可"
-            ],
-            "applicability": [
-              "离场",
-              "滑行"
-            ],
-            "risk": [],
-            "mitigation": [],
-            "restriction": [
-              "不得在滑行道上开车"
-            ],
-            "excluded_source_clauses": [],
-            "text_zh": "有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。",
-            "text_en": "",
-            "rendered_text": "有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "ground",
-            "source_fact_ids": [
-              "沈阳桃仙_core_record_12"
-            ],
-            "airport_specific": true,
-            "category": "core"
-          },
-          {
-            "fact_id": "沈阳桃仙_core_record_21",
-            "airport": "沈阳桃仙",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-            "source": "PDF",
-            "source_page": "N/A",
-            "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
-            "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
-            "source_text_zh": "注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后，方可操作。 2 指令必须分离：管制员不得将执行指令与起飞指令合并发布。机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令。……。",
-            "source_original_text": "注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后，方可操作。 2 指令必须分离：管制员不得将执行指令与起飞指令合并发布。机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令。……。",
-            "operational_phase": "ground",
-            "role_scope": [],
-            "operational_condition": [
-              "方可操作",
-              "机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令",
-              "……"
-            ],
-            "applicability": [
-              "起飞"
-            ],
-            "risk": [],
-            "mitigation": [],
-            "restriction": [
-              "注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后",
-              "2 指令必须分离：管制员不得将执行指令与起飞指令合并发布"
-            ],
-            "excluded_source_clauses": [],
-            "text_zh": "注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后，方可操作。 2 指令必须分离：管制员不得将执行指令与起飞指令合并发布。机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令。……。",
-            "text_en": "",
-            "rendered_text": "注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后，方可操作。 2 指令必须分离：管制员不得将执行指令与起飞指令合并发布。机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令。……。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "ground",
-            "source_fact_ids": [
-              "沈阳桃仙_core_record_21"
+              "沈阳桃仙_core_record_11"
             ],
             "airport_specific": true,
             "category": "core"
@@ -450,6 +368,45 @@
             "category": "core"
           },
           {
+            "fact_id": "沈阳桃仙_core_record_23",
+            "airport": "沈阳桃仙",
+            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+            "source": "PDF",
+            "source_page": "N/A",
+            "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+            "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／离场",
+            "source_text_zh": "指挥特点：现沈机场实施离地自动脱播，放行中会提示，航行通告中也明确，若塔台提示换频，机组可不回复。",
+            "source_original_text": "指挥特点：现沈机场实施离地自动脱播，放行中会提示，航行通告中也明确，若塔台提示换频，机组可不回复。",
+            "operational_phase": "departure",
+            "role_scope": [
+              "departure"
+            ],
+            "operational_condition": [
+              "指挥特点：现沈机场实施离地自动脱播",
+              "放行中会提示",
+              "航行通告中也明确",
+              "若塔台提示换频",
+              "机组可不回复"
+            ],
+            "applicability": [],
+            "risk": [],
+            "mitigation": [],
+            "restriction": [],
+            "excluded_source_clauses": [],
+            "text_zh": "指挥特点：现沈机场实施离地自动脱播，放行中会提示，航行通告中也明确，若塔台提示换频，机组可不回复。",
+            "text_en": "",
+            "rendered_text": "指挥特点：现沈机场实施离地自动脱播，放行中会提示，航行通告中也明确，若塔台提示换频，机组可不回复。",
+            "season_scope": [],
+            "flight_scope": [],
+            "route_scope": [],
+            "topic": "departure",
+            "source_fact_ids": [
+              "沈阳桃仙_core_record_23"
+            ],
+            "airport_specific": true,
+            "category": "core"
+          },
+          {
             "fact_id": "沈阳桃仙_core_record_37",
             "airport": "沈阳桃仙",
             "source_file": "config/airport_supplements.json",
@@ -460,7 +417,9 @@
             "source_text_zh": "严防程序、跑道和离场点输入错误；任何变化均需补充简令和交叉检查。",
             "source_original_text": "严防程序、跑道和离场点输入错误；任何变化均需补充简令和交叉检查。",
             "operational_phase": "unspecified",
-            "role_scope": [],
+            "role_scope": [
+              "departure"
+            ],
             "operational_condition": [
               "严防程序、跑道和离场点输入错误"
             ],
@@ -596,40 +555,36 @@
             "category": "typical"
           },
           {
-            "fact_id": "桂林两江_core_record_15",
+            "fact_id": "桂林两江_core_record_16",
             "airport": "桂林两江",
             "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
             "source": "PDF",
             "source_page": "N/A",
             "source_heading": "桂 林 / 两 江 机 场 运 行 特 点",
             "source_section": "桂 林 / 两 江 机 场 运 行 特 点／核心威胁与运行特点／进场",
-            "source_text_zh": "常用程序：进/离场通常会用by ATC程序，提前与管制证实。",
-            "source_original_text": "常用程序：进/离场通常会用by ATC程序，提前与管制证实。",
+            "source_text_zh": "指挥特点：。",
+            "source_original_text": "指挥特点：。",
             "operational_phase": "arrival",
             "role_scope": [
-              "departure",
               "arrival"
             ],
             "operational_condition": [
-              "常用程序：进/离场通常会用by ATC程序",
-              "提前与管制证实"
+              "指挥特点："
             ],
-            "applicability": [
-              "离场"
-            ],
+            "applicability": [],
             "risk": [],
             "mitigation": [],
             "restriction": [],
             "excluded_source_clauses": [],
-            "text_zh": "常用程序：进/离场通常会用by ATC程序，提前与管制证实。",
+            "text_zh": "指挥特点：。",
             "text_en": "",
-            "rendered_text": "常用程序：进/离场通常会用by ATC程序，提前与管制证实。",
+            "rendered_text": "指挥特点：。",
             "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
             "topic": "arrival",
             "source_fact_ids": [
-              "桂林两江_core_record_15"
+              "桂林两江_core_record_16"
             ],
             "airport_specific": true,
             "category": "core"
@@ -757,35 +712,38 @@
             "category": "core"
           },
           {
-            "fact_id": "桂林两江_core_record_10",
+            "fact_id": "桂林两江_core_record_11",
             "airport": "桂林两江",
             "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
             "source": "PDF",
             "source_page": "N/A",
             "source_heading": "桂 林 / 两 江 机 场 运 行 特 点",
             "source_section": "桂 林 / 两 江 机 场 运 行 特 点／核心威胁与运行特点／地面",
-            "source_text_zh": "ACARS确认，无需复诵PDC。",
-            "source_original_text": "ACARS确认，无需复诵PDC。",
+            "source_text_zh": "桂林两江机场目视泊位引导系统与常见的不同，请提前参阅航图。",
+            "source_original_text": "桂林两江机场目视泊位引导系统与常见的不同，请提前参阅航图。",
             "operational_phase": "ground",
-            "role_scope": [],
-            "operational_condition": [],
+            "role_scope": [
+              "arrival"
+            ],
+            "operational_condition": [
+              "桂林两江机场目视泊位引导系统与常见的不同"
+            ],
             "applicability": [],
             "risk": [],
             "mitigation": [
-              "ACARS确认",
-              "无需复诵PDC"
+              "请提前参阅航图"
             ],
             "restriction": [],
             "excluded_source_clauses": [],
-            "text_zh": "ACARS确认，无需复诵PDC。",
+            "text_zh": "桂林两江机场目视泊位引导系统与常见的不同，请提前参阅航图。",
             "text_en": "",
-            "rendered_text": "ACARS确认，无需复诵PDC。",
+            "rendered_text": "桂林两江机场目视泊位引导系统与常见的不同，请提前参阅航图。",
             "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
             "topic": "ground",
             "source_fact_ids": [
-              "桂林两江_core_record_10"
+              "桂林两江_core_record_11"
             ],
             "airport_specific": true,
             "category": "core"
@@ -924,6 +882,16 @@
           "reason": "与当前机场departure角色不匹配"
         },
         {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_4",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／气象特点",
+          "clause": "冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案。24 号向阳落地，对着陆目视有影响。",
+          "reason": "与当前机场departure角色不匹配"
+        },
+        {
           "airport": "桂林两江",
           "fact_id": "桂林两江_core_record_17",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
@@ -945,6 +913,16 @@
         },
         {
           "airport": "桂林两江",
+          "fact_id": "桂林两江_core_record_10",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "桂 林 / 两 江 机 场 运 行 特 点",
+          "source_section": "桂 林 / 两 江 机 场 运 行 特 点／核心威胁与运行特点／地面",
+          "clause": "ACARS确认，无需复诵PDC。",
+          "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "桂林两江",
           "fact_id": "桂林两江_core_record_13",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
           "source_page": "N/A",
@@ -962,21 +940,28 @@
           "source_section": "桂 林 / 两 江 机 场 运 行 特 点／核心威胁与运行特点／离场",
           "clause": "晚上会执行CCO离场，起始高度6000m。",
           "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "桂林两江",
+          "fact_id": "桂林两江_core_record_7",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "桂 林 / 两 江 机 场 运 行 特 点",
+          "source_section": "桂 林 / 两 江 机 场 运 行 特 点／核心威胁与运行特点／地面",
+          "clause": "现场/签派频率：桂林现场 131.95，有PDC。",
+          "reason": "与当前机场arrival角色不匹配"
         }
       ],
       "core_paragraph_fact_ids": {
         "沈阳桃仙": [
           [
-            "沈阳桃仙_core_record_10"
-          ],
-          [
-            "沈阳桃仙_core_record_12"
-          ],
-          [
-            "沈阳桃仙_core_record_21"
+            "沈阳桃仙_core_record_11"
           ],
           [
             "沈阳桃仙_core_record_8"
+          ],
+          [
+            "沈阳桃仙_core_record_23"
           ],
           [
             "沈阳桃仙_core_record_37"
@@ -984,7 +969,7 @@
         ],
         "桂林两江": [
           [
-            "桂林两江_core_record_15"
+            "桂林两江_core_record_16"
           ],
           [
             "桂林两江_core_record_4"
@@ -996,11 +981,11 @@
             "桂林两江_core_record_5"
           ],
           [
-            "桂林两江_core_record_10"
+            "桂林两江_core_record_11"
           ]
         ]
       },
-      "content_sha256": "89b7de0182413e063a13fe2b9ccf94be3a2700cbd13ea084b3096a089d6e1379",
+      "content_sha256": "64e6a7a2621a04b728d0e9be6477daa23d1dde5bedaa056bfba602a16ef4b73c",
       "_english_content": ""
     },
     {
@@ -1106,7 +1091,6 @@
           ],
           "core": [
             "桂林两江_core_record_10",
-            "桂林两江_core_record_11",
             "桂林两江_core_record_13",
             "桂林两江_core_record_5",
             "桂林两江_core_record_15"
@@ -1118,11 +1102,11 @@
             "扬州泰州_typical_record_2"
           ],
           "core": [
-            "扬州泰州_core_record_39",
+            "扬州泰州_core_record_33",
             "扬州泰州_core_record_46",
+            "扬州泰州_core_record_49",
             "扬州泰州_core_record_3",
-            "扬州泰州_core_record_6",
-            "扬州泰州_core_record_48"
+            "扬州泰州_core_record_6"
           ]
         }
       },
@@ -1245,7 +1229,9 @@
             "source_text_zh": "ACARS确认，无需复诵PDC。",
             "source_original_text": "ACARS确认，无需复诵PDC。",
             "operational_phase": "ground",
-            "role_scope": [],
+            "role_scope": [
+              "departure"
+            ],
             "operational_condition": [],
             "applicability": [],
             "risk": [],
@@ -1264,41 +1250,6 @@
             "topic": "ground",
             "source_fact_ids": [
               "桂林两江_core_record_10"
-            ],
-            "airport_specific": true,
-            "category": "core"
-          },
-          {
-            "fact_id": "桂林两江_core_record_11",
-            "airport": "桂林两江",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-            "source": "PDF",
-            "source_page": "N/A",
-            "source_heading": "桂 林 / 两 江 机 场 运 行 特 点",
-            "source_section": "桂 林 / 两 江 机 场 运 行 特 点／核心威胁与运行特点／地面",
-            "source_text_zh": "桂林两江机场目视泊位引导系统与常见的不同，请提前参阅航图。",
-            "source_original_text": "桂林两江机场目视泊位引导系统与常见的不同，请提前参阅航图。",
-            "operational_phase": "ground",
-            "role_scope": [],
-            "operational_condition": [
-              "桂林两江机场目视泊位引导系统与常见的不同"
-            ],
-            "applicability": [],
-            "risk": [],
-            "mitigation": [
-              "请提前参阅航图"
-            ],
-            "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "桂林两江机场目视泊位引导系统与常见的不同，请提前参阅航图。",
-            "text_en": "",
-            "rendered_text": "桂林两江机场目视泊位引导系统与常见的不同，请提前参阅航图。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "ground",
-            "source_fact_ids": [
-              "桂林两江_core_record_11"
             ],
             "airport_specific": true,
             "category": "core"
@@ -1512,41 +1463,36 @@
             "category": "typical"
           },
           {
-            "fact_id": "扬州泰州_core_record_39",
+            "fact_id": "扬州泰州_core_record_33",
             "airport": "扬州泰州",
             "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
             "source": "PDF",
             "source_page": "N/A",
             "source_heading": "扬 州 / 泰 州 机 场 运 行 特 点",
             "source_section": "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／进场",
-            "source_text_zh": "本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-            "source_original_text": "本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+            "source_text_zh": "指挥特点：。",
+            "source_original_text": "指挥特点：。",
             "operational_phase": "arrival",
             "role_scope": [
-              "departure",
               "arrival"
             ],
             "operational_condition": [
-              "本场周围军航飞行活动频繁"
+              "指挥特点："
             ],
-            "applicability": [
-              "离场"
-            ],
+            "applicability": [],
             "risk": [],
             "mitigation": [],
-            "restriction": [
-              "进离场飞机必须严格按照规定程序飞行"
-            ],
+            "restriction": [],
             "excluded_source_clauses": [],
-            "text_zh": "本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-            "text_en": "During military or training activity, we must hear and fully read back each clearance and cross-check the MCDU, pressure reference, missed-approach altitude, and onward track; confirm any inconsistency with ATC.",
-            "rendered_text": "本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+            "text_zh": "指挥特点：。",
+            "text_en": "",
+            "rendered_text": "指挥特点：。",
             "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
             "topic": "arrival",
             "source_fact_ids": [
-              "扬州泰州_core_record_39"
+              "扬州泰州_core_record_33"
             ],
             "airport_specific": true,
             "category": "core"
@@ -1588,6 +1534,48 @@
             "topic": "approach",
             "source_fact_ids": [
               "扬州泰州_core_record_46"
+            ],
+            "airport_specific": true,
+            "category": "core"
+          },
+          {
+            "fact_id": "扬州泰州_core_record_49",
+            "airport": "扬州泰州",
+            "source_file": "config/airport_supplements.json",
+            "source": "supplement",
+            "source_page": "N/A",
+            "source_heading": "扬州泰州",
+            "source_section": "airport_supplements.json／扬州泰州／core_threats",
+            "source_text_zh": "17号落地可能指挥A4直角脱离，A4缺少脱离引导灯，应提前减速并辨认A3/A4标牌。",
+            "source_original_text": "17号落地可能指挥A4直角脱离，A4缺少脱离引导灯，应提前减速并辨认A3/A4标牌。",
+            "operational_phase": "approach",
+            "role_scope": [
+              "arrival"
+            ],
+            "operational_condition": [
+              "A4缺少脱离引导灯"
+            ],
+            "applicability": [
+              "17号",
+              "落地"
+            ],
+            "risk": [
+              "17号落地可能指挥A4直角脱离"
+            ],
+            "mitigation": [
+              "应提前减速并辨认A3/A4标牌"
+            ],
+            "restriction": [],
+            "excluded_source_clauses": [],
+            "text_zh": "17号落地可能指挥A4直角脱离，A4缺少脱离引导灯，应提前减速并辨认A3/A4标牌。",
+            "text_en": "",
+            "rendered_text": "17号落地可能指挥A4直角脱离，A4缺少脱离引导灯，应提前减速并辨认A3/A4标牌。",
+            "season_scope": [],
+            "flight_scope": [],
+            "route_scope": [],
+            "topic": "approach",
+            "source_fact_ids": [
+              "扬州泰州_core_record_49"
             ],
             "airport_specific": true,
             "category": "core"
@@ -1679,46 +1667,6 @@
             ],
             "airport_specific": true,
             "category": "core"
-          },
-          {
-            "fact_id": "扬州泰州_core_record_48",
-            "airport": "扬州泰州",
-            "source_file": "config/airport_supplements.json",
-            "source": "supplement",
-            "source_page": "N/A",
-            "source_heading": "扬州泰州",
-            "source_section": "airport_supplements.json／扬州泰州／core_threats／地面",
-            "source_text_zh": "滑行时间短，关注3分钟关车限制；部分滑行路线和标识不清，夜间容易滑错。",
-            "source_original_text": "滑行时间短，关注3分钟关车限制；部分滑行路线和标识不清，夜间容易滑错。",
-            "operational_phase": "ground",
-            "role_scope": [],
-            "operational_condition": [
-              "滑行时间短",
-              "部分滑行路线和标识不清"
-            ],
-            "applicability": [
-              "滑行"
-            ],
-            "risk": [
-              "夜间容易滑错"
-            ],
-            "mitigation": [],
-            "restriction": [
-              "关注3分钟关车限制"
-            ],
-            "excluded_source_clauses": [],
-            "text_zh": "滑行时间短，关注3分钟关车限制；部分滑行路线和标识不清，夜间容易滑错。",
-            "text_en": "Before pushback and taxi, we must confirm the clearance, route, holding position, and runway entry and continuously cross-check charts, signs, lights, and outside visual cues; stop and confirm with ATC whenever position or clearance is uncertain.",
-            "rendered_text": "滑行时间短，关注3分钟关车限制；部分滑行路线和标识不清，夜间容易滑错。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "ground",
-            "source_fact_ids": [
-              "扬州泰州_core_record_48"
-            ],
-            "airport_specific": true,
-            "category": "core"
           }
         ]
       },
@@ -1748,6 +1696,16 @@
           "source_section": "桂 林 / 两 江 机 场 运 行 特 点／核心威胁与运行特点／进场",
           "clause": "当有军方活动时，ONEMI方向进场会指挥ONEMI之后飞JW，指挥机组保持较高高度。后续指挥在机场西侧消逝高度，飞机高度大于20000英尺，机组注意形态高度限制，同时西侧地形复杂，注意下降率控制。",
           "reason": "与当前航班/航线不匹配"
+        },
+        {
+          "airport": "桂林两江",
+          "fact_id": "桂林两江_core_record_11",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "桂 林 / 两 江 机 场 运 行 特 点",
+          "source_section": "桂 林 / 两 江 机 场 运 行 特 点／核心威胁与运行特点／地面",
+          "clause": "桂林两江机场目视泊位引导系统与常见的不同，请提前参阅航图。",
+          "reason": "与当前机场departure角色不匹配"
         },
         {
           "airport": "桂林两江",
@@ -1828,6 +1786,16 @@
           "source_section": "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／进场",
           "clause": "当本场向北运行时，从奔牛(ZJ)方向进港如遇军方活动常州塔台可能指挥ZJ前下高度2400米并且ZJ后飞YA206，后续换频联系扬州塔台后指挥保持高度过YA206后飞YA107、YA104 接35号盲降。期间过YA206才能下降并要求YA107前到达900 米。通过900米后才可以右转飞YA104。YA104前塔台可能指挥可以35号盲降，转五边自行掌握建立报告。机组应注意减速和切五边时机。",
           "reason": "与当前航班/航线不匹配"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "扬州泰州_core_record_21",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "扬 州 / 泰 州 机 场 运 行 特 点",
+          "source_section": "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／地面",
+          "clause": "除/防冰能力：有。",
+          "reason": "与当前机场arrival角色不匹配"
         },
         {
           "airport": "扬州泰州",
@@ -1926,9 +1894,6 @@
             "桂林两江_core_record_10"
           ],
           [
-            "桂林两江_core_record_11"
-          ],
-          [
             "桂林两江_core_record_13"
           ],
           [
@@ -1940,23 +1905,23 @@
         ],
         "扬州泰州": [
           [
-            "扬州泰州_core_record_39"
+            "扬州泰州_core_record_33"
           ],
           [
             "扬州泰州_core_record_46"
+          ],
+          [
+            "扬州泰州_core_record_49"
           ],
           [
             "扬州泰州_core_record_3"
           ],
           [
             "扬州泰州_core_record_6"
-          ],
-          [
-            "扬州泰州_core_record_48"
           ]
         ]
       },
-      "content_sha256": "aaa9cae8646e807598c2db07095401c3a2fbf51c7e8434a919a941d0cf462218",
+      "content_sha256": "ec2f3ec4a8aec1621b4f120d462eb0098058dc615f41f163d7b9b6e23df8ee0d",
       "_english_content": ""
     }
   ],
@@ -2032,10 +1997,9 @@
         "沈阳桃仙_typical_record_2"
       ],
       "core": [
-        "沈阳桃仙_core_record_10",
-        "沈阳桃仙_core_record_12",
-        "沈阳桃仙_core_record_21",
+        "沈阳桃仙_core_record_11",
         "沈阳桃仙_core_record_8",
+        "沈阳桃仙_core_record_23",
         "沈阳桃仙_core_record_37"
       ]
     },
@@ -2046,13 +2010,14 @@
         "桂林两江_typical_record_3"
       ],
       "core": [
-        "桂林两江_core_record_15",
+        "桂林两江_core_record_16",
         "桂林两江_core_record_4",
         "桂林两江_core_record_6",
         "桂林两江_core_record_5",
-        "桂林两江_core_record_10",
         "桂林两江_core_record_11",
-        "桂林两江_core_record_13"
+        "桂林两江_core_record_10",
+        "桂林两江_core_record_13",
+        "桂林两江_core_record_15"
       ]
     },
     "扬州泰州": {
@@ -2061,11 +2026,11 @@
         "扬州泰州_typical_record_2"
       ],
       "core": [
-        "扬州泰州_core_record_39",
+        "扬州泰州_core_record_33",
         "扬州泰州_core_record_46",
+        "扬州泰州_core_record_49",
         "扬州泰州_core_record_3",
-        "扬州泰州_core_record_6",
-        "扬州泰州_core_record_48"
+        "扬州泰州_core_record_6"
       ]
     }
   },
@@ -2138,115 +2103,34 @@
         "category": "typical"
       },
       {
-        "fact_id": "沈阳桃仙_core_record_10",
+        "fact_id": "沈阳桃仙_core_record_11",
         "airport": "沈阳桃仙",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
         "source": "PDF",
         "source_page": "N/A",
         "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
         "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
-        "source_text_zh": "现场/签派频率：132.0。",
-        "source_original_text": "现场/签派频率：132.0。",
+        "source_text_zh": "指挥特点：。",
+        "source_original_text": "指挥特点：。",
         "operational_phase": "ground",
         "role_scope": [],
         "operational_condition": [
-          "现场/签派频率：132.0"
+          "指挥特点："
         ],
         "applicability": [],
         "risk": [],
         "mitigation": [],
         "restriction": [],
         "excluded_source_clauses": [],
-        "text_zh": "现场/签派频率：132.0。",
+        "text_zh": "指挥特点：。",
         "text_en": "",
-        "rendered_text": "现场/签派频率：132.0。",
+        "rendered_text": "指挥特点：。",
         "season_scope": [],
         "flight_scope": [],
         "route_scope": [],
         "topic": "ground",
         "source_fact_ids": [
-          "沈阳桃仙_core_record_10"
-        ],
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "沈阳桃仙_core_record_12",
-        "airport": "沈阳桃仙",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
-        "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
-        "source_text_zh": "有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。",
-        "source_original_text": "有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。",
-        "operational_phase": "ground",
-        "role_scope": [],
-        "operational_condition": [
-          "有时飞机推至远机位开车",
-          "在获得离场时间后",
-          "塔台给出开车指令",
-          "未经塔台明确许可"
-        ],
-        "applicability": [
-          "离场",
-          "滑行"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [
-          "不得在滑行道上开车"
-        ],
-        "excluded_source_clauses": [],
-        "text_zh": "有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。",
-        "text_en": "",
-        "rendered_text": "有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "ground",
-        "source_fact_ids": [
-          "沈阳桃仙_core_record_12"
-        ],
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "沈阳桃仙_core_record_21",
-        "airport": "沈阳桃仙",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
-        "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
-        "source_text_zh": "注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后，方可操作。 2 指令必须分离：管制员不得将执行指令与起飞指令合并发布。机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令。……。",
-        "source_original_text": "注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后，方可操作。 2 指令必须分离：管制员不得将执行指令与起飞指令合并发布。机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令。……。",
-        "operational_phase": "ground",
-        "role_scope": [],
-        "operational_condition": [
-          "方可操作",
-          "机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令",
-          "……"
-        ],
-        "applicability": [
-          "起飞"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [
-          "注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后",
-          "2 指令必须分离：管制员不得将执行指令与起飞指令合并发布"
-        ],
-        "excluded_source_clauses": [],
-        "text_zh": "注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后，方可操作。 2 指令必须分离：管制员不得将执行指令与起飞指令合并发布。机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令。……。",
-        "text_en": "",
-        "rendered_text": "注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后，方可操作。 2 指令必须分离：管制员不得将执行指令与起飞指令合并发布。机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令。……。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "ground",
-        "source_fact_ids": [
-          "沈阳桃仙_core_record_21"
+          "沈阳桃仙_core_record_11"
         ],
         "airport_specific": true,
         "category": "core"
@@ -2294,6 +2178,45 @@
         "category": "core"
       },
       {
+        "fact_id": "沈阳桃仙_core_record_23",
+        "airport": "沈阳桃仙",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+        "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／离场",
+        "source_text_zh": "指挥特点：现沈机场实施离地自动脱播，放行中会提示，航行通告中也明确，若塔台提示换频，机组可不回复。",
+        "source_original_text": "指挥特点：现沈机场实施离地自动脱播，放行中会提示，航行通告中也明确，若塔台提示换频，机组可不回复。",
+        "operational_phase": "departure",
+        "role_scope": [
+          "departure"
+        ],
+        "operational_condition": [
+          "指挥特点：现沈机场实施离地自动脱播",
+          "放行中会提示",
+          "航行通告中也明确",
+          "若塔台提示换频",
+          "机组可不回复"
+        ],
+        "applicability": [],
+        "risk": [],
+        "mitigation": [],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "指挥特点：现沈机场实施离地自动脱播，放行中会提示，航行通告中也明确，若塔台提示换频，机组可不回复。",
+        "text_en": "",
+        "rendered_text": "指挥特点：现沈机场实施离地自动脱播，放行中会提示，航行通告中也明确，若塔台提示换频，机组可不回复。",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "departure",
+        "source_fact_ids": [
+          "沈阳桃仙_core_record_23"
+        ],
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
         "fact_id": "沈阳桃仙_core_record_37",
         "airport": "沈阳桃仙",
         "source_file": "config/airport_supplements.json",
@@ -2304,7 +2227,9 @@
         "source_text_zh": "严防程序、跑道和离场点输入错误；任何变化均需补充简令和交叉检查。",
         "source_original_text": "严防程序、跑道和离场点输入错误；任何变化均需补充简令和交叉检查。",
         "operational_phase": "unspecified",
-        "role_scope": [],
+        "role_scope": [
+          "departure"
+        ],
         "operational_condition": [
           "严防程序、跑道和离场点输入错误"
         ],
@@ -2440,40 +2365,36 @@
         "category": "typical"
       },
       {
-        "fact_id": "桂林两江_core_record_15",
+        "fact_id": "桂林两江_core_record_16",
         "airport": "桂林两江",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
         "source": "PDF",
         "source_page": "N/A",
         "source_heading": "桂 林 / 两 江 机 场 运 行 特 点",
         "source_section": "桂 林 / 两 江 机 场 运 行 特 点／核心威胁与运行特点／进场",
-        "source_text_zh": "常用程序：进/离场通常会用by ATC程序，提前与管制证实。",
-        "source_original_text": "常用程序：进/离场通常会用by ATC程序，提前与管制证实。",
+        "source_text_zh": "指挥特点：。",
+        "source_original_text": "指挥特点：。",
         "operational_phase": "arrival",
         "role_scope": [
-          "departure",
           "arrival"
         ],
         "operational_condition": [
-          "常用程序：进/离场通常会用by ATC程序",
-          "提前与管制证实"
+          "指挥特点："
         ],
-        "applicability": [
-          "离场"
-        ],
+        "applicability": [],
         "risk": [],
         "mitigation": [],
         "restriction": [],
         "excluded_source_clauses": [],
-        "text_zh": "常用程序：进/离场通常会用by ATC程序，提前与管制证实。",
+        "text_zh": "指挥特点：。",
         "text_en": "",
-        "rendered_text": "常用程序：进/离场通常会用by ATC程序，提前与管制证实。",
+        "rendered_text": "指挥特点：。",
         "season_scope": [],
         "flight_scope": [],
         "route_scope": [],
         "topic": "arrival",
         "source_fact_ids": [
-          "桂林两江_core_record_15"
+          "桂林两江_core_record_16"
         ],
         "airport_specific": true,
         "category": "core"
@@ -2601,40 +2522,6 @@
         "category": "core"
       },
       {
-        "fact_id": "桂林两江_core_record_10",
-        "airport": "桂林两江",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "桂 林 / 两 江 机 场 运 行 特 点",
-        "source_section": "桂 林 / 两 江 机 场 运 行 特 点／核心威胁与运行特点／地面",
-        "source_text_zh": "ACARS确认，无需复诵PDC。",
-        "source_original_text": "ACARS确认，无需复诵PDC。",
-        "operational_phase": "ground",
-        "role_scope": [],
-        "operational_condition": [],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [
-          "ACARS确认",
-          "无需复诵PDC"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "ACARS确认，无需复诵PDC。",
-        "text_en": "",
-        "rendered_text": "ACARS确认，无需复诵PDC。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "ground",
-        "source_fact_ids": [
-          "桂林两江_core_record_10"
-        ],
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
         "fact_id": "桂林两江_core_record_11",
         "airport": "桂林两江",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
@@ -2645,7 +2532,9 @@
         "source_text_zh": "桂林两江机场目视泊位引导系统与常见的不同，请提前参阅航图。",
         "source_original_text": "桂林两江机场目视泊位引导系统与常见的不同，请提前参阅航图。",
         "operational_phase": "ground",
-        "role_scope": [],
+        "role_scope": [
+          "arrival"
+        ],
         "operational_condition": [
           "桂林两江机场目视泊位引导系统与常见的不同"
         ],
@@ -2665,6 +2554,42 @@
         "topic": "ground",
         "source_fact_ids": [
           "桂林两江_core_record_11"
+        ],
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "桂林两江_core_record_10",
+        "airport": "桂林两江",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "桂 林 / 两 江 机 场 运 行 特 点",
+        "source_section": "桂 林 / 两 江 机 场 运 行 特 点／核心威胁与运行特点／地面",
+        "source_text_zh": "ACARS确认，无需复诵PDC。",
+        "source_original_text": "ACARS确认，无需复诵PDC。",
+        "operational_phase": "ground",
+        "role_scope": [
+          "departure"
+        ],
+        "operational_condition": [],
+        "applicability": [],
+        "risk": [],
+        "mitigation": [
+          "ACARS确认",
+          "无需复诵PDC"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "ACARS确认，无需复诵PDC。",
+        "text_en": "",
+        "rendered_text": "ACARS确认，无需复诵PDC。",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "ground",
+        "source_fact_ids": [
+          "桂林两江_core_record_10"
         ],
         "airport_specific": true,
         "category": "core"
@@ -2705,6 +2630,45 @@
         "topic": "departure",
         "source_fact_ids": [
           "桂林两江_core_record_13"
+        ],
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "桂林两江_core_record_15",
+        "airport": "桂林两江",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "桂 林 / 两 江 机 场 运 行 特 点",
+        "source_section": "桂 林 / 两 江 机 场 运 行 特 点／核心威胁与运行特点／进场",
+        "source_text_zh": "常用程序：进/离场通常会用by ATC程序，提前与管制证实。",
+        "source_original_text": "常用程序：进/离场通常会用by ATC程序，提前与管制证实。",
+        "operational_phase": "arrival",
+        "role_scope": [
+          "departure",
+          "arrival"
+        ],
+        "operational_condition": [
+          "常用程序：进/离场通常会用by ATC程序",
+          "提前与管制证实"
+        ],
+        "applicability": [
+          "离场"
+        ],
+        "risk": [],
+        "mitigation": [],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "常用程序：进/离场通常会用by ATC程序，提前与管制证实。",
+        "text_en": "",
+        "rendered_text": "常用程序：进/离场通常会用by ATC程序，提前与管制证实。",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "arrival",
+        "source_fact_ids": [
+          "桂林两江_core_record_15"
         ],
         "airport_specific": true,
         "category": "core"
@@ -2797,41 +2761,36 @@
         "category": "typical"
       },
       {
-        "fact_id": "扬州泰州_core_record_39",
+        "fact_id": "扬州泰州_core_record_33",
         "airport": "扬州泰州",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
         "source": "PDF",
         "source_page": "N/A",
         "source_heading": "扬 州 / 泰 州 机 场 运 行 特 点",
         "source_section": "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／进场",
-        "source_text_zh": "本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-        "source_original_text": "本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+        "source_text_zh": "指挥特点：。",
+        "source_original_text": "指挥特点：。",
         "operational_phase": "arrival",
         "role_scope": [
-          "departure",
           "arrival"
         ],
         "operational_condition": [
-          "本场周围军航飞行活动频繁"
+          "指挥特点："
         ],
-        "applicability": [
-          "离场"
-        ],
+        "applicability": [],
         "risk": [],
         "mitigation": [],
-        "restriction": [
-          "进离场飞机必须严格按照规定程序飞行"
-        ],
+        "restriction": [],
         "excluded_source_clauses": [],
-        "text_zh": "本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-        "text_en": "During military or training activity, we must hear and fully read back each clearance and cross-check the MCDU, pressure reference, missed-approach altitude, and onward track; confirm any inconsistency with ATC.",
-        "rendered_text": "本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+        "text_zh": "指挥特点：。",
+        "text_en": "",
+        "rendered_text": "指挥特点：。",
         "season_scope": [],
         "flight_scope": [],
         "route_scope": [],
         "topic": "arrival",
         "source_fact_ids": [
-          "扬州泰州_core_record_39"
+          "扬州泰州_core_record_33"
         ],
         "airport_specific": true,
         "category": "core"
@@ -2873,6 +2832,48 @@
         "topic": "approach",
         "source_fact_ids": [
           "扬州泰州_core_record_46"
+        ],
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "扬州泰州_core_record_49",
+        "airport": "扬州泰州",
+        "source_file": "config/airport_supplements.json",
+        "source": "supplement",
+        "source_page": "N/A",
+        "source_heading": "扬州泰州",
+        "source_section": "airport_supplements.json／扬州泰州／core_threats",
+        "source_text_zh": "17号落地可能指挥A4直角脱离，A4缺少脱离引导灯，应提前减速并辨认A3/A4标牌。",
+        "source_original_text": "17号落地可能指挥A4直角脱离，A4缺少脱离引导灯，应提前减速并辨认A3/A4标牌。",
+        "operational_phase": "approach",
+        "role_scope": [
+          "arrival"
+        ],
+        "operational_condition": [
+          "A4缺少脱离引导灯"
+        ],
+        "applicability": [
+          "17号",
+          "落地"
+        ],
+        "risk": [
+          "17号落地可能指挥A4直角脱离"
+        ],
+        "mitigation": [
+          "应提前减速并辨认A3/A4标牌"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "17号落地可能指挥A4直角脱离，A4缺少脱离引导灯，应提前减速并辨认A3/A4标牌。",
+        "text_en": "",
+        "rendered_text": "17号落地可能指挥A4直角脱离，A4缺少脱离引导灯，应提前减速并辨认A3/A4标牌。",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "approach",
+        "source_fact_ids": [
+          "扬州泰州_core_record_49"
         ],
         "airport_specific": true,
         "category": "core"
@@ -2961,46 +2962,6 @@
         "topic": "approach",
         "source_fact_ids": [
           "扬州泰州_core_record_6"
-        ],
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "扬州泰州_core_record_48",
-        "airport": "扬州泰州",
-        "source_file": "config/airport_supplements.json",
-        "source": "supplement",
-        "source_page": "N/A",
-        "source_heading": "扬州泰州",
-        "source_section": "airport_supplements.json／扬州泰州／core_threats／地面",
-        "source_text_zh": "滑行时间短，关注3分钟关车限制；部分滑行路线和标识不清，夜间容易滑错。",
-        "source_original_text": "滑行时间短，关注3分钟关车限制；部分滑行路线和标识不清，夜间容易滑错。",
-        "operational_phase": "ground",
-        "role_scope": [],
-        "operational_condition": [
-          "滑行时间短",
-          "部分滑行路线和标识不清"
-        ],
-        "applicability": [
-          "滑行"
-        ],
-        "risk": [
-          "夜间容易滑错"
-        ],
-        "mitigation": [],
-        "restriction": [
-          "关注3分钟关车限制"
-        ],
-        "excluded_source_clauses": [],
-        "text_zh": "滑行时间短，关注3分钟关车限制；部分滑行路线和标识不清，夜间容易滑错。",
-        "text_en": "Before pushback and taxi, we must confirm the clearance, route, holding position, and runway entry and continuously cross-check charts, signs, lights, and outside visual cues; stop and confirm with ATC whenever position or clearance is uncertain.",
-        "rendered_text": "滑行时间短，关注3分钟关车限制；部分滑行路线和标识不清，夜间容易滑错。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "ground",
-        "source_fact_ids": [
-          "扬州泰州_core_record_48"
         ],
         "airport_specific": true,
         "category": "core"
@@ -3139,6 +3100,16 @@
       "reason": "与当前机场departure角色不匹配"
     },
     {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_4",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／气象特点",
+      "clause": "冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案。24 号向阳落地，对着陆目视有影响。",
+      "reason": "与当前机场departure角色不匹配"
+    },
+    {
       "airport": "桂林两江",
       "fact_id": "桂林两江_core_record_17",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
@@ -3160,6 +3131,16 @@
     },
     {
       "airport": "桂林两江",
+      "fact_id": "桂林两江_core_record_10",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "桂 林 / 两 江 机 场 运 行 特 点",
+      "source_section": "桂 林 / 两 江 机 场 运 行 特 点／核心威胁与运行特点／地面",
+      "clause": "ACARS确认，无需复诵PDC。",
+      "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "桂林两江",
       "fact_id": "桂林两江_core_record_13",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
       "source_page": "N/A",
@@ -3176,6 +3157,16 @@
       "source_heading": "桂 林 / 两 江 机 场 运 行 特 点",
       "source_section": "桂 林 / 两 江 机 场 运 行 特 点／核心威胁与运行特点／离场",
       "clause": "晚上会执行CCO离场，起始高度6000m。",
+      "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "桂林两江",
+      "fact_id": "桂林两江_core_record_7",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "桂 林 / 两 江 机 场 运 行 特 点",
+      "source_section": "桂 林 / 两 江 机 场 运 行 特 点／核心威胁与运行特点／地面",
+      "clause": "现场/签派频率：桂林现场 131.95，有PDC。",
       "reason": "与当前机场arrival角色不匹配"
     },
     {
@@ -3203,6 +3194,16 @@
       "source_section": "桂 林 / 两 江 机 场 运 行 特 点／核心威胁与运行特点／进场",
       "clause": "当有军方活动时，ONEMI方向进场会指挥ONEMI之后飞JW，指挥机组保持较高高度。后续指挥在机场西侧消逝高度，飞机高度大于20000英尺，机组注意形态高度限制，同时西侧地形复杂，注意下降率控制。",
       "reason": "与当前航班/航线不匹配"
+    },
+    {
+      "airport": "桂林两江",
+      "fact_id": "桂林两江_core_record_11",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "桂 林 / 两 江 机 场 运 行 特 点",
+      "source_section": "桂 林 / 两 江 机 场 运 行 特 点／核心威胁与运行特点／地面",
+      "clause": "桂林两江机场目视泊位引导系统与常见的不同，请提前参阅航图。",
+      "reason": "与当前机场departure角色不匹配"
     },
     {
       "airport": "桂林两江",
@@ -3283,6 +3284,16 @@
       "source_section": "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／进场",
       "clause": "当本场向北运行时，从奔牛(ZJ)方向进港如遇军方活动常州塔台可能指挥ZJ前下高度2400米并且ZJ后飞YA206，后续换频联系扬州塔台后指挥保持高度过YA206后飞YA107、YA104 接35号盲降。期间过YA206才能下降并要求YA107前到达900 米。通过900米后才可以右转飞YA104。YA104前塔台可能指挥可以35号盲降，转五边自行掌握建立报告。机组应注意减速和切五边时机。",
       "reason": "与当前航班/航线不匹配"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "扬州泰州_core_record_21",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "扬 州 / 泰 州 机 场 运 行 特 点",
+      "source_section": "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／地面",
+      "clause": "除/防冰能力：有。",
+      "reason": "与当前机场arrival角色不匹配"
     },
     {
       "airport": "扬州泰州",
@@ -3378,16 +3389,13 @@
   "core_paragraph_fact_ids": {
     "沈阳桃仙": [
       [
-        "沈阳桃仙_core_record_10"
-      ],
-      [
-        "沈阳桃仙_core_record_12"
-      ],
-      [
-        "沈阳桃仙_core_record_21"
+        "沈阳桃仙_core_record_11"
       ],
       [
         "沈阳桃仙_core_record_8"
+      ],
+      [
+        "沈阳桃仙_core_record_23"
       ],
       [
         "沈阳桃仙_core_record_37"
@@ -3395,7 +3403,7 @@
     ],
     "桂林两江": [
       [
-        "桂林两江_core_record_15"
+        "桂林两江_core_record_16"
       ],
       [
         "桂林两江_core_record_4"
@@ -3407,30 +3415,33 @@
         "桂林两江_core_record_5"
       ],
       [
-        "桂林两江_core_record_10"
-      ],
-      [
         "桂林两江_core_record_11"
       ],
       [
+        "桂林两江_core_record_10"
+      ],
+      [
         "桂林两江_core_record_13"
+      ],
+      [
+        "桂林两江_core_record_15"
       ]
     ],
     "扬州泰州": [
       [
-        "扬州泰州_core_record_39"
+        "扬州泰州_core_record_33"
       ],
       [
         "扬州泰州_core_record_46"
+      ],
+      [
+        "扬州泰州_core_record_49"
       ],
       [
         "扬州泰州_core_record_3"
       ],
       [
         "扬州泰州_core_record_6"
-      ],
-      [
-        "扬州泰州_core_record_48"
       ]
     ]
   }
