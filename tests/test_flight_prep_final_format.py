@@ -849,6 +849,119 @@ def test_same_topic_merge_preserves_numbers_units_and_source_control() -> None:
     assert agent.validate_source_semantic_preservation(paragraphs[0]) == []
 
 
+@pytest.mark.parametrize(
+    "source",
+    [
+        "曾因风切变导致低空不稳定状态后机组复飞。",
+        "建议机组操纵起飞时保持较低的拉杆速率。",
+        "有机组反映进近阶段出现导航信号异常。",
+    ],
+)
+def test_clean_output_fact_preserves_manual_crew_subject(source: str) -> None:
+    cleaned = agent.clean_output_fact(source)
+
+    assert "机组" in cleaned
+    assert "我们复飞" not in cleaned
+    assert "建议我们操纵" not in cleaned
+    assert "据运行反馈" not in cleaned
+
+
+def test_core_fact_selection_rejects_opposite_airport_role_before_importance() -> None:
+    def fact(fact_id: str, phase: str, importance: int = 60) -> agent.BilingualFact:
+        return agent.BilingualFact(
+            fact_id,
+            fact_id,
+            fact_id,
+            airport="测试机场",
+            source_file="knowledge/test.pdf",
+            source="PDF",
+            source_page="1",
+            source_heading="测试机场运行特点",
+            source_section="核心威胁",
+            operational_phase=phase,
+            category="core",
+            importance=importance,
+        )
+
+    facts = [
+        fact("departure", "departure"),
+        fact("arrival", "arrival", 100),
+        fact("approach", "approach", 100),
+        fact("landing", "landing", 100),
+        fact("ground", "ground"),
+        fact("weather", "weather"),
+    ]
+
+    departure = agent.select_airport_facts("测试机场", "departure", facts)
+    arrival = agent.select_airport_facts("测试机场", "arrival", facts)
+
+    assert {item.fact_id for item in departure} == {"departure", "ground", "weather"}
+    assert "departure" not in {item.fact_id for item in arrival}
+    assert {"arrival", "approach", "landing", "ground", "weather"} == {
+        item.fact_id for item in arrival
+    }
+
+
+def test_manual_details_and_explicit_operation_subsections_are_recovered() -> None:
+    section = {
+        "lines": [
+            "测试机场运行特点",
+            "一、典型不安全事件",
+            "二、核心威胁",
+            "1.跑道有坡度，注意着陆时下沉。",
+            "三、运行特点",
+            "（一）地面：",
+            "1.有PDC。",
+            "（1）ACARS确认，无需复诵PDC。",
+            "（二）离场：",
+            "1.离场以雷达引导为主，可以申请直飞TESTA。",
+            "（四）进场：",
+            "1.进场通常使用BY ATC程序。",
+            "（七）典型不安全事件详述：",
+            "1.曾发生管制指挥下降较晚，机组在低高度复飞。",
+            "2.历史上曾发生AFLOOR警告事件。",
+        ]
+    }
+
+    typical, core = agent.extract_manual_lists(section, 20)
+
+    assert len(typical) == 2
+    assert "机组在低高度复飞" in typical[0]
+    assert "AFLOOR" in typical[1]
+    assert any(item.startswith("地面：") and "PDC" in item for item in core)
+    assert any(item.startswith("离场：") and "TESTA" in item for item in core)
+    assert any(item.startswith("进场：") and "BY ATC" in item for item in core)
+    phases = {
+        phase
+        for item in core
+        for _, _, phase in agent.split_manual_fact_item(item)
+    }
+    assert {"ground", "departure", "arrival"}.issubset(phases)
+
+
+def test_manual_matching_uses_unique_exact_name_when_icao_mapping_is_stale() -> None:
+    index = [
+        {
+            "section_type": "narrative",
+            "icao": "ZSYA",
+            "name_key": "扬州泰州",
+            "strong_aliases": ["扬州泰州"],
+            "weak_aliases": ["扬州", "泰州"],
+        },
+        {
+            "section_type": "narrative",
+            "icao": "ZAAA",
+            "name_key": "其他机场",
+            "strong_aliases": ["其他机场"],
+            "weak_aliases": [],
+        },
+    ]
+
+    matches = agent.match_manual_sections(index, "扬州泰州", "ZSYZ")
+
+    assert [section["icao"] for section in matches] == ["ZSYA"]
+
+
 def test_topic_organization_does_not_invent_control_measure_or_cross_airport() -> None:
     records = [
         _quality_record("甲机场", "plain-a", "滑行道宽度为18米。", phase="ground"),
@@ -1156,6 +1269,37 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
     assert "扬州泰州机场：" not in first
     assert "桂林两江机场：" in second and "扬州泰州机场：" in second
     assert "沈阳桃仙机场：" not in second
+    first_core = first.split("核心威胁：", 1)[1]
+    first_shenyang = first_core.split("沈阳桃仙机场：", 1)[1].split(
+        "桂林两江机场：", 1
+    )[0]
+    first_guilin = first_core.split("桂林两江机场：", 1)[1]
+    second_core = second.split("核心威胁：", 1)[1]
+    second_guilin = second_core.split("桂林两江机场：", 1)[1].split(
+        "扬州泰州机场：", 1
+    )[0]
+    second_yangzhou = second_core.split("扬州泰州机场：", 1)[1]
+    assert "24 号向阳落地" not in first_shenyang
+    assert "ILS06/24" not in first_shenyang
+    assert "自行转向五边" not in first_shenyang
+    assert "跑道有坡度" in first_guilin
+    assert "19号跑道盲降" in first_guilin
+    assert "19号跑道盲降" not in second_guilin
+    assert "着陆时的下沉" not in second_guilin
+    assert "夜间灯光" not in second_guilin
+    assert any(
+        marker in second_guilin
+        for marker in ("PDC", "雷达引导", "OVTAN", "BY ATC", "by ATC")
+    )
+    assert "ZJ方向进场" in second_yangzhou
+    assert "扬州泰州机场典型不安全事件：" in second
+    assert "1000 英尺" in second
+    assert "400 英尺" in second
+    assert "AFLOOR" in second
+    assert "机组执行" in second
+    assert "我们执行" not in second
+    assert "机组复飞" in first
+    assert "我们复飞" not in first
     for content in (first, second):
         intro = content.split("\n\n", 1)[0]
         assert "本阶段经历时间75小时" in intro
@@ -1184,5 +1328,30 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
             assert all(item["source_fact_ids"] for item in core_sources)
             assert all(item["source_file"] for item in core_sources)
             assert all(item["source_original_text"] for item in core_sources)
+
+    first_sources = meta["prep_groups"][0]["airport_fact_sources"]
+    second_sources = meta["prep_groups"][1]["airport_fact_sources"]
+    assert not {
+        item["operational_phase"]
+        for item in first_sources["沈阳桃仙"]
+        if item["category"] == "core"
+    }.intersection({"arrival", "approach", "landing", "landing_ground"})
+    assert all(
+        item["operational_phase"]
+        not in {"arrival", "approach", "landing", "landing_ground"}
+        or "departure" in item["role_scope"]
+        for item in second_sources["桂林两江"]
+        if item["category"] == "core"
+    )
+    yangzhou_typical = [
+        item
+        for item in second_sources["扬州泰州"]
+        if item["category"] == "typical"
+    ]
+    assert len(yangzhou_typical) >= 2
+    assert all(item["source_fact_ids"] for item in yangzhou_typical)
+    assert all(item["source_text_zh"] for item in yangzhou_typical)
+    assert any("9C6552" in item["source_text_zh"] for item in yangzhou_typical)
+    assert any("AFLOOR" in item["source_text_zh"] for item in yangzhou_typical)
 
     assert hashlib.sha256((REPO_ROOT / "flight.ics").read_bytes()).hexdigest() == original_hash
