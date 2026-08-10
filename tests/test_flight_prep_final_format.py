@@ -732,6 +732,24 @@ def test_specific_flight_fact_requires_current_flight_match() -> None:
     ) is not None
 
 
+def test_waypoint_identifiers_are_not_misclassified_as_flight_numbers() -> None:
+    record = _quality_record(
+        "测试机场",
+        "waypoints",
+        "KL508至KL503距离较短，注意能量管理。",
+        phase="arrival",
+    )
+    fact = agent.source_record_facts("测试机场", [record], category="core")[0]
+
+    assert fact.flight_scope == ()
+    assert agent.filter_fact_for_duty(
+        fact,
+        _quality_duty(),
+        date(2026, 8, 8),
+        [],
+    ) is not None
+
+
 def test_explicit_route_scope_requires_current_route_match() -> None:
     record = _quality_record("测试机场", "route-specific", "特定航线运行提醒。")
     record["route_scope"] = [("测试机场", "另一测试机场")]
@@ -992,6 +1010,145 @@ def test_topic_organization_does_not_invent_control_measure_or_cross_airport() -
 
     assert "18米" in content and "20米" not in content
     assert not any(word in content for word in ("应", "建议", "注意", "需", "必须"))
+
+
+def test_mixed_source_record_keeps_only_complete_role_relevant_clauses() -> None:
+    source = (
+        "指挥特点：通常06号跑道离场使用A2，24号跑道使用A8。"
+        "机组注意FLYSMART性能计算。"
+        "地面通常在A2/A8前等待，随后换频塔台。"
+        "进近时可能雷达引导并自主转向五边。"
+        "ILS06/24下滑道信号易受干扰。"
+    )
+    clauses = agent.split_source_record_clauses(source)
+
+    assert [clause.role_scope for clause in clauses[:3]] == [
+        ("departure",),
+        ("departure",),
+        ("departure",),
+    ]
+    assert all(clause.role_scope == ("arrival",) for clause in clauses[3:])
+    assert all(clause.source_original_text == source for clause in clauses)
+
+
+def test_incomplete_trailing_source_fragment_is_not_rendered() -> None:
+    clauses = agent.split_source_record_clauses(
+        "进场：进近时注意能量管理。关于《低温运行进近方式速"
+    )
+
+    assert [clause.text for clause in clauses] == ["进近时注意能量管理。"]
+    assert any(
+        "低温运行" in excluded
+        for excluded in clauses[0].excluded_sibling_clauses
+    )
+    assert "broken_or_incomplete_source" in clauses[0].excluded_sibling_reasons
+
+
+def test_editor_does_not_add_unsourced_numbers_or_control_measures() -> None:
+    fact = agent.source_record_facts(
+        "测试机场",
+        [_quality_record("测试机场", "weather-only", "雷暴较多，存在低空风切变风险。", phase="weather")],
+        category="core",
+    )[0]
+    paragraphs = agent.organize_source_grounded_briefing_paragraphs(
+        [fact], "departure"
+    )
+
+    assert [paragraph.zh for paragraph in paragraphs] == [
+        "雷暴较多，存在低空风切变风险。"
+    ]
+    assert not any(
+        token in paragraphs[0].zh for token in ("绕飞", "复飞预案", "注意", "应")
+    )
+    invented = agent.merge_fact_paragraph(
+        [fact],
+        "雷暴较多，存在低空风切变风险，注意保持20海里距离。",
+        topic="weather",
+    )
+    errors = agent.validate_source_semantic_preservation(invented)
+    assert any("新增20海里" in error for error in errors)
+    assert any("新增控制措施" in error for error in errors)
+
+
+def test_duplicate_topic_uses_one_paragraph_and_retains_all_source_ids() -> None:
+    first = agent.source_record_facts(
+        "测试机场",
+        [_quality_record("测试机场", "pdf-zj", "过ZJ高度3600米，距35号跑道头37海里，五边顺风较大，建议提前调速。", phase="arrival")],
+        category="core",
+    )[0]
+    second_record = _quality_record(
+        "测试机场",
+        "supplement-zj",
+        "ZJ方向进场高度较高，距35号跑道头较远且五边顺风较大，建议提前调速。",
+        phase="arrival",
+    )
+    second_record["source"] = "supplement"
+    second = agent.source_record_facts(
+        "测试机场", [second_record], category="core"
+    )[0]
+
+    paragraphs = agent.organize_source_grounded_briefing_paragraphs(
+        [first, second], "arrival"
+    )
+
+    assert len(paragraphs) == 1
+    assert "3600米" in paragraphs[0].zh and "37海里" in paragraphs[0].zh
+    assert set(paragraphs[0].source_fact_ids) == {"pdf-zj", "supplement-zj"}
+
+
+def test_empty_source_record_is_excluded_before_paragraph_selection() -> None:
+    exclusions: list[dict[str, object]] = []
+    record = _quality_record("测试机场", "empty", "指挥特点：。")
+    record["pre_excluded_reason"] = "清洗后无实质运行内容"
+    record["source_original_text"] = "指挥特点：。"
+
+    facts = agent.source_record_facts(
+        "测试机场", [record], category="core", exclusion_log=exclusions
+    )
+
+    assert facts == []
+    assert exclusions[0]["reason"] == "清洗后无实质运行内容"
+
+
+def test_same_source_departure_clauses_form_one_traceable_paragraph() -> None:
+    source = (
+        "通常06号跑道离场使用A2，24号跑道使用A8。"
+        "机组注意FLYSMART性能计算。"
+        "地面通常在A2/A8前等待，随后换频塔台。"
+    )
+    clauses = agent.split_source_record_clauses(source)
+    records: list[dict[str, object]] = []
+    for index, clause in enumerate(clauses, start=1):
+        record = _quality_record(
+            "测试机场",
+            f"departure-{index}",
+            clause.text,
+            phase=clause.phase,
+        )
+        record.update(
+            {
+                "role_scope": clause.role_scope,
+                "source_record_id": "mixed-departure",
+                "source_original_text": source,
+                "excluded_source_clauses": clause.excluded_sibling_clauses,
+                "exclusion_reasons": clause.excluded_sibling_reasons,
+            }
+        )
+        records.append(record)
+    facts = agent.source_record_facts("测试机场", records, category="core")
+
+    paragraphs = agent.organize_source_grounded_briefing_paragraphs(
+        facts, "departure"
+    )
+
+    assert len(paragraphs) == 1
+    assert all(token in paragraphs[0].zh for token in ("A2", "A8", "FLYSMART", "换频塔台"))
+    assert set(paragraphs[0].source_fact_ids) == {
+        "departure-1",
+        "departure-2",
+        "departure-3",
+    }
+    assert paragraphs[0].source_record_ids == ("mixed-departure",)
 
 
 def test_each_repeated_airport_time_is_evaluated(
@@ -1308,7 +1465,8 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
         for marker in ("PDC", "雷达引导", "OVTAN", "BY ATC", "by ATC")
     )
     assert "现场/签派频率" not in second_guilin
-    assert "ZJ方向进场" in second_yangzhou
+    assert "ZJ" in second_yangzhou
+    assert second_yangzhou.count("五边通常顺风较大") == 1
     assert "扬州泰州机场典型不安全事件：" in second
     assert "1000 英尺" in second
     assert "400 英尺" in second
@@ -1345,6 +1503,14 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
             assert all(item["source_fact_ids"] for item in core_sources)
             assert all(item["source_file"] for item in core_sources)
             assert all(item["source_original_text"] for item in core_sources)
+            paragraphs = group["core_paragraphs"][airport]
+            assert paragraphs
+            assert all(item["paragraph_id"] for item in paragraphs)
+            assert all(item["source_fact_ids"] for item in paragraphs)
+            assert all(item["source_clauses"] for item in paragraphs)
+            assert all(item["source_original_texts"] for item in paragraphs)
+            assert all(item["source_files"] for item in paragraphs)
+            assert all(item["source_sections"] for item in paragraphs)
 
     first_sources = meta["prep_groups"][0]["airport_fact_sources"]
     second_sources = meta["prep_groups"][1]["airport_fact_sources"]

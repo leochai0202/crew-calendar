@@ -878,9 +878,14 @@ def test_real_9c8552_exact_event_requires_english_confirmation(
     assert "新加坡属于低纬度机场" in chinese
     assert "确认完成IRS完全校准" in chinese
     assert "FOLLOW GREEN" not in _paragraph(chinese, "上海浦东机场：")
-    assert "50秒" not in _paragraph(chinese, "上海浦东机场：")
+    pudong_core = chinese.split("核心威胁：", 1)[1].split("上海浦东机场：", 1)[1]
+    assert "50秒" in pudong_core
     assert "zspd_adgs_entry" in meta["airport_fact_ids"]["上海浦东"]["core"]
-    assert "zspd_runway_occupancy" not in meta["airport_fact_ids"]["上海浦东"]["core"]
+    assert "zspd_runway_occupancy" in meta["airport_fact_ids"]["上海浦东"]["core"]
+    assert not any(
+        "50秒" in paragraph and "ADGS" in paragraph
+        for paragraph in pudong_core.split("\n\n")
+    )
     assert set(meta["airport_fact_sources"]) == {"新加坡樟宜", "上海浦东"}
     for airport, facts in meta["airport_fact_sources"].items():
         assert all(item["airport"] == airport for item in facts)
@@ -890,7 +895,6 @@ def test_real_9c8552_exact_event_requires_english_confirmation(
         assert all(item["source_section"] for item in facts)
         assert all(item["fact_id"] for item in facts)
 
-    pudong_core = chinese.split("核心威胁：", 1)[1].split("上海浦东机场：", 1)[1]
     for token in ("进场", "雷雨", "TA/RA", "鸟击", "下降剖面", "ADGS"):
         assert token in pudong_core
 
