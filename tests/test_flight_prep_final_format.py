@@ -1348,6 +1348,167 @@ def test_same_runway_ils_energy_facts_form_one_traceable_topic() -> None:
     assert agent.validate_source_semantic_preservation(paragraph) == []
 
 
+def _language_fact(
+    fact_id: str,
+    text: str,
+    *,
+    topic: str = "departure",
+    priority: int = 350,
+    condition_scope: tuple[tuple[str, str], ...] = (),
+) -> agent.BilingualFact:
+    return agent.attach_source_semantics(
+        agent.BilingualFact(
+            fact_id,
+            text,
+            "",
+            airport="测试机场",
+            source_file="manual.pdf",
+            source="PDF",
+            source_section="运行特点",
+            operational_phase="departure",
+            category="core",
+            topic=topic,
+            source_text_zh=text,
+            source_fact_ids=(fact_id,),
+            source_record_ids=(fact_id,),
+            source_clauses=(text,),
+            source_original_texts=(text,),
+            condition_scope=condition_scope,
+            briefing_priority=priority,
+        )
+    )
+
+
+def test_language_editor_removes_duplicate_departure_wording() -> None:
+    source = (
+        "通常06号跑道离场使用A2离场，24号跑道使用A8离场。"
+        "机组注意FLYSMART性能计算。"
+    )
+
+    result = agent.polish_chinese_briefing_paragraphs(
+        [_language_fact("departure-format", source, topic="departure_performance")],
+        "departure",
+    )[0]
+
+    assert "06号跑道离场使用A2，24号跑道使用A8" in result.zh
+    assert "使用A2离场" not in result.zh
+    assert "使用A8离场" not in result.zh
+    assert "机组注意FLYSMART性能计算" in result.zh
+    assert result.polish_applied is True
+    assert result.polish_fallback_reason == ""
+
+
+def test_language_editor_standardizes_by_atc_without_new_instruction() -> None:
+    source = "进/离场通常会用by ATC程序，提前与管制证实。"
+
+    result = agent.polish_chinese_briefing_paragraphs(
+        [_language_fact("by-atc", source, topic="departure_atc")],
+        "departure",
+    )[0]
+
+    assert result.zh == "进、离场通常会使用BY ATC程序，提前与管制证实。"
+    for forbidden in ("监控", "听清", "航向", "航路点"):
+        assert forbidden not in result.zh
+
+
+def test_language_editor_does_not_expand_weather_risk_into_controls() -> None:
+    source = "雷暴多集中在春夏季，低空风切变风险。"
+
+    result = agent.polish_chinese_briefing_paragraphs(
+        [_language_fact("weather-only", source, topic="weather")],
+        "departure",
+    )[0]
+
+    assert result.zh == "春夏季雷暴较多，存在低空风切变风险。"
+    for forbidden in ("绕飞", "复飞预案", "监控", "稳定进近"):
+        assert forbidden not in result.zh
+
+
+def test_language_editor_pdc_wording_does_not_invent_airport_capability() -> None:
+    source = "ACARS确认，无需复诵PDC。"
+
+    result = agent.polish_chinese_briefing_paragraphs(
+        [_language_fact("pdc", source, topic="clearance", priority=300)],
+        "departure",
+    )[0]
+
+    assert result.zh == "PDC经ACARS确认后无需复诵。"
+    assert "有PDC" not in result.zh
+    assert "测试机场" not in result.zh
+
+
+def test_language_editor_keeps_condition_chain_and_never_orphans_ya104() -> None:
+    source = (
+        "当本场向北运行时，从奔牛(ZJ)方向进港如遇军方活动常州塔台可能指挥"
+        "ZJ前下高度2400米并且ZJ后飞YA206。期间过YA206才能下降并要求YA107"
+        "前到达900米。通过900米后才可以右转飞YA104。"
+    )
+    fact = _language_fact(
+        "conditional-chain",
+        source,
+        topic="arrival_energy",
+        condition_scope=agent.detected_condition_scope(source),
+    )
+
+    result = agent.polish_chinese_briefing_paragraphs([fact], "arrival")[0]
+
+    assert "向北运行" in result.zh
+    assert "ZJ" in result.zh and "军方活动" in result.zh
+    assert "通过900米后才可以右转飞YA104" in result.zh
+    assert not result.zh.startswith("通过900米后")
+    assert agent.validate_condition_preservation(result) == []
+
+
+def test_language_editor_removes_repeated_control_but_keeps_all_anchors() -> None:
+    source = (
+        "19号跑道盲降程序易双截获，做好能量管理；"
+        "KL508到KL503会指挥5900ft下降到5100ft，距离短，注意能量管理。"
+    )
+    fact = _language_fact("energy-merge", source, topic="approach_intercept")
+
+    result = agent.polish_chinese_briefing_paragraphs([fact], "arrival")[0]
+
+    assert result.zh.count("能量管理") == 1
+    for token in ("19号", "KL508", "KL503", "5900ft", "5100ft"):
+        assert token in result.zh
+    assert result.source_fact_ids == ("energy-merge",)
+    assert result.polish_fallback_reason == ""
+
+
+def test_language_editor_falls_back_on_new_operational_language(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    source = "春夏季雷暴较多，存在低空风切变风险。"
+    fact = _language_fact("fallback", source, topic="weather")
+    monkeypatch.setattr(
+        agent,
+        "polish_chinese_briefing_text",
+        lambda value: value.rstrip("。") + "，做好绕飞和复飞预案。",
+    )
+
+    result = agent.polish_chinese_briefing_paragraphs([fact], "departure")[0]
+
+    assert result.zh == source
+    assert result.text_before_polish == source
+    assert result.text_after_polish == source
+    assert result.polish_applied is False
+    assert "语言编辑新增运行词" in result.polish_fallback_reason
+    assert result.source_fact_ids == ("fallback",)
+    assert result.source_clauses == (source,)
+
+
+def test_language_editor_orders_high_value_topics_before_supplemental_clearance() -> None:
+    facts = [
+        _language_fact("clearance", "离地自动脱播，塔台提示换频时机组可不回复。", topic="clearance", priority=305),
+        _language_fact("performance", "06号跑道使用A2离场，注意FLYSMART性能计算。", topic="departure_performance", priority=390),
+        _language_fact("takeoff", "起飞离地姿态大，存在擦机尾风险。", topic="takeoff", priority=400),
+    ]
+
+    result = agent.polish_chinese_briefing_paragraphs(facts, "departure")
+
+    assert [fact.fact_id for fact in result] == ["takeoff", "performance", "clearance"]
+
+
 def test_low_value_ground_detail_does_not_displace_departure_core_topics() -> None:
     records = [
         _quality_record("测试机场", "takeoff", "起飞离地姿态过大存在擦机尾风险。", phase="departure"),
@@ -1773,6 +1934,22 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
             assert all(item["source_sections"] for item in paragraphs)
             assert all("condition_scope" in item for item in paragraphs)
             assert all("briefing_priority" in item for item in paragraphs)
+            assert all("text_before_polish" in item for item in paragraphs)
+            assert all("text_after_polish" in item for item in paragraphs)
+            assert all("polish_applied" in item for item in paragraphs)
+            assert all("polish_fallback_reason" in item for item in paragraphs)
+            assert all(item["text_after_polish"] == item["text"] for item in paragraphs)
+
+    shenyang_paragraphs = meta["prep_groups"][0]["core_paragraphs"]["沈阳桃仙"]
+    shenyang_texts = [item["text"] for item in shenyang_paragraphs]
+    a2_index = next(index for index, text in enumerate(shenyang_texts) if "A2" in text)
+    auto_report_index = next(
+        index for index, text in enumerate(shenyang_texts) if "离地自动脱播" in text
+    )
+    assert a2_index < auto_report_index
+    assert "使用A2离场" not in first_shenyang
+    assert "使用A8离场" not in first_shenyang
+    assert "by ATC" not in second_guilin
 
     first_sources = meta["prep_groups"][0]["airport_fact_sources"]
     second_sources = meta["prep_groups"][1]["airport_fact_sources"]
