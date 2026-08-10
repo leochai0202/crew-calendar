@@ -2491,7 +2491,52 @@ def explicit_role_scope(text: str, phase: str) -> tuple[str, ...]:
         return ("departure",)
     if phase in {"arrival", "approach", "landing", "landing_ground"}:
         return ("arrival",)
+    if phase in {"weather", "terrain", "navigation", "special", "unspecified"}:
+        has_departure = any(
+            marker in compact for marker in ("起飞", "离场", "初始爬升")
+        )
+        has_arrival = any(
+            marker in compact
+            for marker in ("进场", "进近", "着陆", "落地", "五边", "下滑道")
+        )
+        if has_departure != has_arrival:
+            return ("departure",) if has_departure else ("arrival",)
+    if phase == "ground":
+        departure_markers = (
+            "PDC",
+            "放行",
+            "推出",
+            "开车",
+            "起飞前",
+            "起飞地面指挥",
+            "甩冰",
+            "除/防冰",
+        )
+        arrival_markers = (
+            "落地后",
+            "脱离跑道",
+            "滑入",
+            "进位",
+            "泊位引导",
+            "ADGS",
+        )
+        roles: list[str] = []
+        if any(marker.upper() in compact.upper() for marker in departure_markers):
+            roles.append("departure")
+        if any(marker.upper() in compact.upper() for marker in arrival_markers):
+            roles.append("arrival")
+        return tuple(roles)
     return ()
+
+
+def operation_subsection_importance(text: str) -> int:
+    """Keep narrative operation subsections as conservative gap-fill facts."""
+    compact = compact_key(text)
+    if compact.startswith(("机场标高", "现场/签派频率", "常用程序")):
+        return 25
+    if compact.startswith("除/防冰能力"):
+        return 30
+    return 55
 
 
 def airport_risks(
@@ -2559,7 +2604,11 @@ def airport_risks(
                             "operational_phase": phase,
                             "role_scope": explicit_role_scope(text_zh, phase),
                             "operation_subsection": operation_subsection,
-                            "importance": 55 if operation_subsection else 50,
+                            "importance": (
+                                operation_subsection_importance(text_zh)
+                                if operation_subsection
+                                else 50
+                            ),
                             "airport_specific": True,
                             "category": category,
                             "text_zh": text_zh,
@@ -4337,6 +4386,12 @@ def fact_matches_airport_role(fact: BilingualFact, role: str) -> bool:
     return True
 
 
+def is_manual_operation_subsection_fact(fact: BilingualFact) -> bool:
+    return any(
+        f"／{label}" in fact.source_section for label in OPERATION_SECTION_PHASES
+    )
+
+
 def select_airport_facts(
     airport: str,
     role: str,
@@ -4372,10 +4427,7 @@ def select_airport_facts(
         primary = [
             fact
             for fact in eligible
-            if not any(
-                f"／{label}" in fact.source_section
-                for label in OPERATION_SECTION_PHASES
-            )
+            if not is_manual_operation_subsection_fact(fact)
         ]
         if primary:
             eligible = primary
@@ -4399,7 +4451,9 @@ def select_airport_facts(
     for fact in selection_order:
         if len(selected) >= max_items:
             break
-        if fact.restriction or fact.importance >= 92:
+        if (
+            fact.restriction or fact.importance >= 92
+        ) and not is_manual_operation_subsection_fact(fact):
             selected.append(fact)
             selected_ids.add(fact.fact_id)
 
@@ -4422,13 +4476,20 @@ def select_airport_facts(
         selected.append(candidate)
         selected_ids.add(candidate.fact_id)
 
+    selected_topics = {fact.topic for fact in selected}
     for fact in selection_order:
         if len(selected) >= max_items:
             break
         if fact.fact_id in selected_ids:
             continue
+        if (
+            is_manual_operation_subsection_fact(fact)
+            and fact.topic in selected_topics
+        ):
+            continue
         selected.append(fact)
         selected_ids.add(fact.fact_id)
+        selected_topics.add(fact.topic)
     return sorted(
         selected,
         key=lambda fact: (

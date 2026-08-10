@@ -902,6 +902,20 @@ def test_core_fact_selection_rejects_opposite_airport_role_before_importance() -
     }
 
 
+def test_explicit_ground_role_scope_uses_only_source_operational_markers() -> None:
+    assert agent.explicit_role_scope("ACARS确认PDC后无需复诵。", "ground") == (
+        "departure",
+    )
+    assert agent.explicit_role_scope("落地后沿滑行道滑入机位。", "ground") == (
+        "arrival",
+    )
+    assert agent.explicit_role_scope("滑行道宽度为18米。", "ground") == ()
+    assert agent.explicit_role_scope(
+        "冬春季大风乱流明显；24号向阳落地，对着陆目视有影响。",
+        "weather",
+    ) == ("arrival",)
+
+
 def test_manual_details_and_explicit_operation_subsections_are_recovered() -> None:
     section = {
         "lines": [
@@ -1282,8 +1296,10 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
     assert "24 号向阳落地" not in first_shenyang
     assert "ILS06/24" not in first_shenyang
     assert "自行转向五边" not in first_shenyang
+    assert "甩冰" not in first_shenyang
     assert "跑道有坡度" in first_guilin
     assert "19号跑道盲降" in first_guilin
+    assert "PDC" not in first_guilin
     assert "19号跑道盲降" not in second_guilin
     assert "着陆时的下沉" not in second_guilin
     assert "夜间灯光" not in second_guilin
@@ -1291,6 +1307,7 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
         marker in second_guilin
         for marker in ("PDC", "雷达引导", "OVTAN", "BY ATC", "by ATC")
     )
+    assert "现场/签派频率" not in second_guilin
     assert "ZJ方向进场" in second_yangzhou
     assert "扬州泰州机场典型不安全事件：" in second
     assert "1000 英尺" in second
