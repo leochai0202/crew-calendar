@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-08-11",
-  "generated_at_beijing": "2026-08-10T20:49:01.337047+08:00",
+  "generated_at_beijing": "2026-08-10T21:07:01.660176+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C6809",
@@ -964,9 +964,9 @@
                 "reason": "broken_or_incomplete_source"
               }
             ],
-            "text_zh": "19号跑道盲降程序易双截获，做好能量管理。19号盲降，KL508到KL503会指挥5900ft下降到5100ft，距离短，注意能量管理。19号盲降时，由于地形会指挥直飞KL508，下修压1800m，后接KL503，或下1500m截获盲降。",
+            "text_zh": "19号跑道盲降程序易双截获，做好能量管理；KL508到KL503会指挥5900ft下降到5100ft，距离短，注意能量管理；由于地形会指挥直飞KL508，下修压1800m，后接KL503，或下1500m截获盲降。",
             "text_en": "Before intercept, we must verify position, intercept angle, altitude, and distance and monitor LOC/GS, FMA, descent rate, and speed; apply the procedure for false or unstable capture and go around if necessary. Before intercept, we must verify position, intercept angle, altitude, and distance and monitor LOC/GS, FMA, descent rate, and speed; apply the procedure for false or unstable capture and go around if necessary.",
-            "rendered_text": "19号跑道盲降程序易双截获，做好能量管理。19号盲降，KL508到KL503会指挥5900ft下降到5100ft，距离短，注意能量管理。19号盲降时，由于地形会指挥直飞KL508，下修压1800m，后接KL503，或下1500m截获盲降。",
+            "rendered_text": "19号跑道盲降程序易双截获，做好能量管理；KL508到KL503会指挥5900ft下降到5100ft，距离短，注意能量管理；由于地形会指挥直飞KL508，下修压1800m，后接KL503，或下1500m截获盲降。",
             "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
@@ -1977,7 +1977,7 @@
             "paragraph_id": "paragraph:桂林两江_core_record_18+桂林两江_core_record_19+桂林两江_core_record_7",
             "topic": "approach_intercept",
             "role": "arrival",
-            "text": "19号跑道盲降程序易双截获，做好能量管理。19号盲降，KL508到KL503会指挥5900ft下降到5100ft，距离短，注意能量管理。19号盲降时，由于地形会指挥直飞KL508，下修压1800m，后接KL503，或下1500m截获盲降。",
+            "text": "19号跑道盲降程序易双截获，做好能量管理；KL508到KL503会指挥5900ft下降到5100ft，距离短，注意能量管理；由于地形会指挥直飞KL508，下修压1800m，后接KL503，或下1500m截获盲降。",
             "source_fact_ids": [
               "桂林两江_core_record_18",
               "桂林两江_core_record_19",
@@ -2121,7 +2121,7 @@
           }
         ]
       },
-      "content_sha256": "61bbb5709123a4da9d51ad363a904559844f7f884dfc82917de843fe0b26566e",
+      "content_sha256": "5ecaefa5e0911b75579e7199396d3dd5407718c01e1f03a837b996f21d51df62",
       "_english_content": ""
     },
     {
@@ -4578,10 +4578,7 @@
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [
-    "沈阳桃仙: 2026-08-09 -> 2026-08-10",
-    "上海浦东: 2026-08-07 -> 2026-08-10"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
   "airport_information_version": 20260803,
   "airport_information_type": "PDF",
@@ -5370,9 +5367,9 @@
             "reason": "broken_or_incomplete_source"
           }
         ],
-        "text_zh": "19号跑道盲降程序易双截获，做好能量管理。19号盲降，KL508到KL503会指挥5900ft下降到5100ft，距离短，注意能量管理。19号盲降时，由于地形会指挥直飞KL508，下修压1800m，后接KL503，或下1500m截获盲降。",
+        "text_zh": "19号跑道盲降程序易双截获，做好能量管理；KL508到KL503会指挥5900ft下降到5100ft，距离短，注意能量管理；由于地形会指挥直飞KL508，下修压1800m，后接KL503，或下1500m截获盲降。",
         "text_en": "Before intercept, we must verify position, intercept angle, altitude, and distance and monitor LOC/GS, FMA, descent rate, and speed; apply the procedure for false or unstable capture and go around if necessary. Before intercept, we must verify position, intercept angle, altitude, and distance and monitor LOC/GS, FMA, descent rate, and speed; apply the procedure for false or unstable capture and go around if necessary.",
-        "rendered_text": "19号跑道盲降程序易双截获，做好能量管理。19号盲降，KL508到KL503会指挥5900ft下降到5100ft，距离短，注意能量管理。19号盲降时，由于地形会指挥直飞KL508，下修压1800m，后接KL503，或下1500m截获盲降。",
+        "rendered_text": "19号跑道盲降程序易双截获，做好能量管理；KL508到KL503会指挥5900ft下降到5100ft，距离短，注意能量管理；由于地形会指挥直飞KL508，下修压1800m，后接KL503，或下1500m截获盲降。",
         "season_scope": [],
         "flight_scope": [],
         "route_scope": [],
@@ -8117,7 +8114,7 @@
         "paragraph_id": "paragraph:桂林两江_core_record_18+桂林两江_core_record_19+桂林两江_core_record_7",
         "topic": "approach_intercept",
         "role": "arrival",
-        "text": "19号跑道盲降程序易双截获，做好能量管理。19号盲降，KL508到KL503会指挥5900ft下降到5100ft，距离短，注意能量管理。19号盲降时，由于地形会指挥直飞KL508，下修压1800m，后接KL503，或下1500m截获盲降。",
+        "text": "19号跑道盲降程序易双截获，做好能量管理；KL508到KL503会指挥5900ft下降到5100ft，距离短，注意能量管理；由于地形会指挥直飞KL508，下修压1800m，后接KL503，或下1500m截获盲降。",
         "source_fact_ids": [
           "桂林两江_core_record_18",
           "桂林两江_core_record_19",
