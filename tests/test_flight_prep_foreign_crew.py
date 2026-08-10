@@ -872,7 +872,8 @@ def test_real_9c8552_exact_event_requires_english_confirmation(
         assert value not in chinese
     assert chinese.startswith("我是来自飞行十五中队的副驾驶段洋硕")
     assert "刘总好" not in chinese
-    assert "机组" not in chinese
+    assert "机组" in chinese
+    assert "请我们注意" not in chinese
 
     assert "新加坡属于低纬度机场" in chinese
     assert "确认完成IRS完全校准" in chinese

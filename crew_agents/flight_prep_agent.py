@@ -1965,6 +1965,27 @@ def match_manual_sections(index: list[dict], airport: str, icao: str) -> list[di
             matches.append(section)
         if len(matches) >= 3:
             break
+    if matches or not requested_icao:
+        return matches
+
+    # An independently maintained ICAO mapping can lag behind the airport
+    # manual. If the requested code has no chapter, allow only an exact,
+    # unique airport-name match as a conservative fallback. Weak aliases and
+    # partial names are deliberately insufficient here.
+    airport_key = compact_key(airport).replace("/", "")
+    for ending in ("国际机场", "机场"):
+        if airport_key.endswith(ending):
+            airport_key = airport_key[: -len(ending)]
+            break
+    name_scored = _manual_match_scores(index, airport, "")
+    exact_name_matches = [
+        section
+        for _score, section in name_scored
+        if airport_key == str(section.get("name_key", ""))
+        or airport_key in set(section.get("strong_aliases", []))
+    ]
+    if len(exact_name_matches) == 1:
+        return exact_name_matches
     return matches
 
 
@@ -2062,6 +2083,69 @@ def lines_to_numbered_items(lines: list[str], max_items: int) -> list[str]:
         cleaned = clean_manual_item(current)
         if cleaned:
             items.append(cleaned)
+    return unique(items)[:max_items]
+
+
+OPERATION_SUBSECTION_RE = re.compile(
+    r"^[（(]?[一二三四五六七八九十]+[）)]\s*"
+    r"(?P<section>地面|离场|航路|进场)\s*[:：]?\s*$"
+)
+OPERATION_SECTION_PHASES = {
+    "地面": "ground",
+    "离场": "departure",
+    "进场": "arrival",
+}
+OPERATION_PHASE_LABELS = {
+    "ground": "地面",
+    "departure": "离场",
+    "arrival": "进场",
+}
+
+
+def extract_operational_section_items(
+    lines: list[str],
+    max_items: int,
+) -> list[str]:
+    """Extract facts under explicit 地面/离场/进场 manual subsections.
+
+    The phase comes only from the source subsection heading.  This avoids
+    inventing a phase from prose while making narrative operating facts
+    available to the existing role-selection layer.
+    """
+    seen_content_heading = False
+    in_operations = False
+    current_phase = ""
+    phase_lines: dict[str, list[str]] = {
+        "ground": [],
+        "departure": [],
+        "arrival": [],
+    }
+    for raw in lines:
+        kind = heading_kind(raw)
+        if kind in {"typical", "core"}:
+            seen_content_heading = True
+        if kind == "operations" and seen_content_heading:
+            in_operations = True
+            current_phase = ""
+            continue
+        if not in_operations:
+            continue
+        if kind in {"details", "special"}:
+            break
+        subsection = OPERATION_SUBSECTION_RE.match(normalize_text(raw))
+        if subsection:
+            current_phase = OPERATION_SECTION_PHASES.get(
+                subsection.group("section"), ""
+            )
+            continue
+        if current_phase:
+            phase_lines[current_phase].append(raw)
+
+    items: list[str] = []
+    for phase in ("ground", "departure", "arrival"):
+        label = OPERATION_PHASE_LABELS[phase]
+        for item in lines_to_numbered_items(phase_lines[phase], max_items):
+            items.append(f"{label}：{item}")
     return unique(items)[:max_items]
 
 
@@ -2230,13 +2314,13 @@ def extract_manual_lists(section: dict, max_items: int) -> tuple[list[str], list
     mode = ""
     for raw in lines:
         kind = heading_kind(raw)
-        if kind == "typical":
+        if kind in ("typical", "details"):
             mode = "typical"
             continue
         if kind == "core":
             mode = "core"
             continue
-        if kind in ("operations", "special", "details"):
+        if kind in ("operations", "special"):
             if mode in ("typical", "core"):
                 mode = ""
             continue
@@ -2247,6 +2331,8 @@ def extract_manual_lists(section: dict, max_items: int) -> tuple[list[str], list
 
     typical = lines_to_numbered_items(typical_lines, max_items)
     core = lines_to_numbered_items(core_lines, max_items)
+    operational = extract_operational_section_items(lines, max_items)
+    core = unique([*core, *operational])[:max_items]
 
     table_records = extract_threat_table_entries(section)
     # 机场特点表格用于生成核心威胁，不能直接当“典型不安全事件”。
@@ -2352,7 +2438,7 @@ def split_manual_fact_item(value: str) -> list[tuple[str, str, str]]:
     text = normalize_text(value)
     heading = ""
     heading_match = re.match(
-        r"^(指挥特点|注意事项|气象特点|道面特点|其他威胁|运行特点)\s*[:：]?\s*",
+        r"^(指挥特点|注意事项|气象特点|道面特点|其他威胁|运行特点|地面|离场|进场)\s*[:：]?\s*",
         text,
     )
     if heading_match:
@@ -2364,7 +2450,13 @@ def split_manual_fact_item(value: str) -> list[tuple[str, str, str]]:
         cleaned = re.sub(r"^[（(]\d+[）)]\s*", "", piece).strip(" ；。")
         if not cleaned:
             continue
-        if heading == "气象特点":
+        if heading == "地面":
+            phase = "ground"
+        elif heading == "离场":
+            phase = "departure"
+        elif heading == "进场":
+            phase = "arrival"
+        elif heading == "气象特点":
             phase = "weather"
         elif "滑行" in cleaned or "等待道口" in cleaned or "机位" in cleaned:
             phase = "ground"
@@ -2372,7 +2464,10 @@ def split_manual_fact_item(value: str) -> list[tuple[str, str, str]]:
             token in cleaned for token in ("进近", "着陆", "落地")
         ):
             phase = "departure"
-        elif any(token in cleaned for token in ("进近", "着陆", "落地", "五边", "下滑道")):
+        elif any(
+            token in cleaned
+            for token in ("进近", "着陆", "落地", "五边", "下滑道", "盲降", "ILS")
+        ):
             phase = "approach"
         elif any(token in cleaned for token in ("地形", "CFIT")):
             phase = "terrain"
@@ -2382,6 +2477,21 @@ def split_manual_fact_item(value: str) -> list[tuple[str, str, str]]:
             phase = "unspecified"
         output.append((cleaned + "。", heading, phase))
     return output
+
+
+def explicit_role_scope(text: str, phase: str) -> tuple[str, ...]:
+    """Derive role scope only from an explicit source phase or both-role phrase."""
+    compact = compact_key(text)
+    if any(
+        marker in compact
+        for marker in ("进/离场", "进、离场", "进离场", "进场和离场", "进场及离场")
+    ):
+        return ("departure", "arrival")
+    if phase in {"departure", "initial_climb", "clearance"}:
+        return ("departure",)
+    if phase in {"arrival", "approach", "landing", "landing_ground"}:
+        return ("arrival",)
+    return ()
 
 
 def airport_risks(
@@ -2436,6 +2546,7 @@ def airport_risks(
                     else split_manual_fact_item(item)
                 )
                 for text_zh, item_heading, phase in split_items:
+                    operation_subsection = item_heading in OPERATION_SECTION_PHASES
                     records.append(
                         {
                             "airport": canonical_airport_name(airport),
@@ -2446,6 +2557,9 @@ def airport_risks(
                             "source_section": source_section
                             + (f"／{item_heading}" if item_heading else ""),
                             "operational_phase": phase,
+                            "role_scope": explicit_role_scope(text_zh, phase),
+                            "operation_subsection": operation_subsection,
+                            "importance": 55 if operation_subsection else 50,
                             "airport_specific": True,
                             "category": category,
                             "text_zh": text_zh,
@@ -4085,19 +4199,29 @@ def source_record_facts(
             importance = max(importance, 85)
         elif source == "supplement":
             importance = max(importance, 65)
-        if any(
+        operation_subsection = bool(record.get("operation_subsection"))
+        if not operation_subsection and any(
             token in text_zh
             for token in ("禁止", "只能", "高度", "速度", "距离", "跑道")
         ):
             importance = max(importance, 92)
-        elif any(token in text_zh for token in ("地形", "CFIT", "风切变")):
+        elif not operation_subsection and any(
+            token in text_zh for token in ("地形", "CFIT", "风切变")
+        ):
             importance = max(importance, 88)
         fact_id = str(
             record.get("fact_id")
             or f"{canonical}_{category}_record_{index}"
         )
-        flight_scope = record_flight_scope(record, source_text_zh)
-        route_scope = record_route_scope(record, source_text_zh)
+        # A flight number or route inside a typical incident identifies the
+        # historical event; it is not an applicability restriction for the
+        # current duty.  Core operating facts retain the existing scope rules.
+        flight_scope = (
+            () if category == "typical" else record_flight_scope(record, source_text_zh)
+        )
+        route_scope = (
+            () if category == "typical" else record_route_scope(record, source_text_zh)
+        )
         provisional = BilingualFact(
             fact_id,
             text_zh,
@@ -4161,23 +4285,81 @@ def fuse_airport_facts(facts: list[BilingualFact]) -> list[BilingualFact]:
     return list(fused.values())
 
 
+ROLE_ALLOWED_PHASES = {
+    "departure": {
+        "preparation",
+        "clearance",
+        "ground",
+        "departure",
+        "initial_climb",
+        "navigation",
+        "weather",
+        "terrain",
+        "performance",
+        "special",
+        "unspecified",
+    },
+    "arrival": {
+        "preparation",
+        "ground",
+        "arrival",
+        "approach",
+        "landing",
+        "landing_ground",
+        "navigation",
+        "weather",
+        "terrain",
+        "performance",
+        "special",
+        "unspecified",
+    },
+}
+
+
+def fact_matches_airport_role(fact: BilingualFact, role: str) -> bool:
+    """Use structured phase/scope metadata to reject opposite-role core facts."""
+    if role == "transit":
+        return not fact.role_scope or bool(
+            set(fact.role_scope).intersection({"departure", "arrival"})
+        )
+    if fact.role_scope:
+        return role in fact.role_scope
+    phase = fact.operational_phase or "unspecified"
+    if phase not in ROLE_ALLOWED_PHASES[role]:
+        return False
+    if phase not in {"unspecified", "special"}:
+        return True
+    topic = classify_fact_topic(fact)
+    if role == "departure" and topic in {"arrival", "approach"}:
+        return False
+    if role == "arrival" and topic == "departure":
+        return False
+    return True
+
+
 def select_airport_facts(
     airport: str,
     role: str,
     facts: list[BilingualFact],
     *,
     max_items: int = 5,
+    exclusion_log: list[dict[str, object]] | None = None,
 ) -> list[BilingualFact]:
     canonical = canonical_airport_name(airport)
     eligible: list[BilingualFact] = []
     for fact in fuse_airport_facts(facts):
         if canonical_airport_name(fact.airport) != canonical:
             continue
-        if fact.role_scope and role not in fact.role_scope:
-            if role != "transit" or not set(fact.role_scope).intersection(
-                {"departure", "arrival"}
-            ):
-                continue
+        if not fact_matches_airport_role(fact, role):
+            if exclusion_log is not None:
+                exclusion_log.append(
+                    exclusion_log_entry(
+                        fact,
+                        fact.source_text_zh or fact.zh,
+                        f"与当前机场{role}角色不匹配",
+                    )
+                )
+            continue
         eligible.append(
             replace(
                 fact,
@@ -4185,6 +4367,18 @@ def select_airport_facts(
                 source_fact_ids=fact.source_fact_ids or (fact.fact_id,),
             )
         )
+
+    if role == "transit":
+        primary = [
+            fact
+            for fact in eligible
+            if not any(
+                f"／{label}" in fact.source_section
+                for label in OPERATION_SECTION_PHASES
+            )
+        ]
+        if primary:
+            eligible = primary
 
     phase_order = ROLE_PHASE_PRIORITY[role]
     selection_order = sorted(
@@ -4550,6 +4744,7 @@ def prepare_operational_facts(
         role,
         applicable,
         max_items=max_items,
+        exclusion_log=exclusion_log,
     )
     return organize_core_fact_paragraphs(selected)
 
@@ -4729,12 +4924,6 @@ def clean_output_fact(value: str) -> str:
     )
     text = re.sub(r"^[（(]?\d+[）).、]\s*", "", text)
     text = re.sub(r"/\s+", "/", text)
-    text = (
-        text.replace("请机组", "我们应")
-        .replace("机组应", "我们应")
-        .replace("有机组反应", "据运行反馈")
-        .replace("机组", "我们")
-    )
     return normalize_text(text)
 
 
@@ -5268,8 +5457,6 @@ def validate_content(
     normalized_content = content.replace(" ", "")
     if any(token.replace(" ", "") in normalized_content for token in source_artifacts):
         errors.append("正文仍包含资料出处、页眉页脚或表格标题")
-    if language == "zh" and "机组" in content:
-        errors.append("中文正文使用了“机组”作为主体")
     if language == "zh" and any(
         token in content
         for token in ("近期注意点：", "•", "核心威胁与控制措施：")
@@ -5330,6 +5517,7 @@ def fact_source_metadata(fact: BilingualFact) -> dict[str, object]:
         "source_text_zh": fact.source_text_zh,
         "source_original_text": fact.source_text_zh,
         "operational_phase": fact.operational_phase,
+        "role_scope": list(fact.role_scope),
         "operational_condition": list(fact.operational_condition),
         "applicability": list(fact.applicability),
         "risk": list(fact.risk),
