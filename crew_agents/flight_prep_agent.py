@@ -170,6 +170,10 @@ class BilingualFact:
     condition_contexts: tuple[str, ...] = ()
     condition_group: str = ""
     briefing_priority: int = 0
+    text_before_polish: str = ""
+    text_after_polish: str = ""
+    polish_applied: bool = False
+    polish_fallback_reason: str = ""
 
     # Compatibility aliases keep the rendering code and older tests readable while
     # the structured names above make provenance explicit.
@@ -5095,6 +5099,7 @@ def naturalize_typical_incident(value: str) -> str:
     )
     text = text.replace("飞偏/飞错", "飞偏、飞错")
     text = text.replace("曾发生过", "曾发生")
+    text = text.replace("历史上发生过因为", "历史上曾发生因")
     text = re.sub(r"^在[^，]{2,12}进近前，", "曾发生进近前", text)
     text = re.sub(
         r"继续进近至(?P<height>\d+)英尺左右决策复飞",
@@ -5886,7 +5891,7 @@ def organize_source_grounded_briefing_paragraphs(
             fact.fact_id,
         )
     )
-    return selected
+    return polish_chinese_briefing_paragraphs(selected, role)
 
 
 def organize_core_fact_paragraphs(
@@ -6392,6 +6397,257 @@ def validate_source_semantic_preservation(fact: BilingualFact) -> list[str]:
     return errors
 
 
+POLISH_GUARDED_OPERATIONAL_TERMS = (
+    "绕飞",
+    "复飞预案",
+    "备降",
+    "交叉检查",
+    "监控",
+    "稳定进近",
+    "确认航向",
+    "地形意识",
+    "雷达引导",
+    "双截获",
+    "高截获",
+    "风切变",
+    "雷暴",
+    "能量管理",
+    "减速",
+    "调速",
+    "复飞",
+    "PDC",
+    "BY ATC",
+    "FLYSMART",
+    "军方活动",
+)
+
+
+def _polish_identifier_tokens(value: str) -> set[str]:
+    return set(
+        re.findall(
+            r"(?<![A-Z0-9])[A-Z]{1,8}\d{1,4}(?![A-Z0-9])",
+            normalize_text(value).upper(),
+        )
+    )
+
+
+def validate_polish_lexical_additions(
+    fact: BilingualFact,
+    before: str,
+) -> list[str]:
+    """Reject newly introduced flight-operational language after selection."""
+    source = normalize_text(
+        " ".join(fact.source_clauses) or fact.source_text_zh or before
+    ).upper()
+    # The pre-polish paragraph has already passed the source semantic guard and
+    # remains an allowed lexical baseline for formatting-only transformations.
+    allowed = source + " " + normalize_text(before).upper()
+    rendered = normalize_text(fact.text_zh).upper()
+    added = [
+        token
+        for token in POLISH_GUARDED_OPERATIONAL_TERMS
+        if token.upper() in rendered and token.upper() not in allowed
+    ]
+    return (
+        [f"语言编辑新增运行词：{fact.fact_id}新增{','.join(added)}"]
+        if added
+        else []
+    )
+
+
+def validate_polish_anchor_preservation(
+    fact: BilingualFact,
+    before: str,
+) -> list[str]:
+    """Protect literals, waypoints and operational terms already selected."""
+    rendered = normalize_text(fact.text_zh)
+    errors: list[str] = []
+    required_literals = source_literal_tokens(before)
+    missing_literals = sorted(required_literals - source_literal_tokens(rendered))
+    if missing_literals:
+        errors.append(
+            f"语言编辑丢失数字或程序：{fact.fact_id}缺少{','.join(missing_literals)}"
+        )
+    required_identifiers = _polish_identifier_tokens(before)
+    missing_identifiers = sorted(
+        required_identifiers - _polish_identifier_tokens(rendered)
+    )
+    if missing_identifiers:
+        errors.append(
+            f"语言编辑丢失航路点：{fact.fact_id}缺少{','.join(missing_identifiers)}"
+        )
+    before_upper = normalize_text(before).upper()
+    rendered_upper = rendered.upper()
+    missing_terms = [
+        token
+        for token in POLISH_GUARDED_OPERATIONAL_TERMS
+        if token.upper() in before_upper and token.upper() not in rendered_upper
+    ]
+    if missing_terms:
+        errors.append(
+            f"语言编辑丢失运行词：{fact.fact_id}缺少{','.join(missing_terms)}"
+        )
+    return errors
+
+
+def validate_polish_source_clause_coverage(fact: BilingualFact) -> list[str]:
+    """Require every evidence-bearing source clause to remain represented."""
+    rendered = normalize_text(fact.text_zh)
+    rendered_evidence = (
+        source_semantic_anchors(rendered)
+        | source_literal_tokens(rendered)
+        | _polish_identifier_tokens(rendered)
+    )
+    errors: list[str] = []
+    for index, clause in enumerate(fact.source_clauses, start=1):
+        clause_evidence = (
+            source_semantic_anchors(clause)
+            | source_literal_tokens(clause)
+            | _polish_identifier_tokens(clause)
+        )
+        if clause_evidence and not clause_evidence.intersection(rendered_evidence):
+            errors.append(
+                f"语言编辑未覆盖来源子句：{fact.fact_id}第{index}条"
+            )
+    return errors
+
+
+def _remove_duplicate_control_targets(value: str) -> str:
+    """Keep one sourced control phrase when the exact target repeats."""
+    pattern = re.compile(
+        r"(?P<whole>[，,]?(?:做好|注意)(?P<target>"
+        r"[\u4e00-\u9fffA-Z0-9/]{2,16}))(?=[；;。])"
+    )
+    matches = list(pattern.finditer(value))
+    counts: dict[str, int] = {}
+    for match in matches:
+        target = match.group("target")
+        counts[target] = counts.get(target, 0) + 1
+    seen: dict[str, int] = {}
+
+    def replace_duplicate(match: re.Match[str]) -> str:
+        target = match.group("target")
+        seen[target] = seen.get(target, 0) + 1
+        if counts.get(target, 0) > 1 and seen[target] < counts[target]:
+            return ""
+        return match.group("whole")
+
+    return pattern.sub(replace_duplicate, value)
+
+
+def polish_chinese_briefing_text(value: str) -> str:
+    """Apply deterministic, fact-neutral Chinese language normalization."""
+    text = naturalize_source_fact(value)
+    text = re.sub(
+        r"(?<![A-Za-z])by\s*ATC(?![A-Za-z])",
+        "BY ATC",
+        text,
+        flags=re.IGNORECASE,
+    )
+    text = text.replace("进/离场", "进、离场")
+    text = re.sub(r"会用(?=BY ATC程序)", "会使用", text)
+    text = re.sub(
+        r"(?P<prefix>离场使用|跑道使用)(?P<procedure>[A-Z]\d+)离场",
+        r"\g<prefix>\g<procedure>",
+        text,
+    )
+    text = text.replace("与常见的不同", "与常见形式不同")
+    text = re.sub(
+        r"ACARS确认[，,]无需复诵PDC",
+        "PDC经ACARS确认后无需复诵",
+        text,
+        flags=re.IGNORECASE,
+    )
+    text = re.sub(
+        r"地面通常会让(?=[A-Z0-9/]+前等待)",
+        "地面通常会在",
+        text,
+    )
+    text = text.replace("然后换频塔台后再给", "随后换频塔台，再给")
+    text = re.sub(
+        r"(?P<condition>如遇(?:军方|军事|军航|空军)活动)(?=[\u4e00-\u9fff])",
+        r"\g<condition>，",
+        text,
+    )
+    text = re.sub(r"\(([A-Z0-9-]{2,})\)", r"（\1）", text)
+    text = re.sub(
+        r"(?P<first>[A-Z]{1,8}\d{1,4})到(?P<second>[A-Z]{1,8}\d{1,4})",
+        r"\g<first>至\g<second>",
+        text,
+    )
+    text = re.sub(
+        r"(?P<weather>雷暴)多集中在(?P<season>春夏季|夏秋季|冬春季|春季|夏季|秋季|冬季)"
+        r"[，,](?P<risk>低空风切变风险)",
+        r"\g<season>\g<weather>较多，存在\g<risk>",
+        text,
+    )
+    text = _remove_duplicate_control_targets(text)
+    text = re.sub(r"；{2,}", "；", text)
+    return text.rstrip("。") + "。"
+
+
+def validate_polished_paragraph(
+    fact: BilingualFact,
+    before: str,
+) -> list[str]:
+    return unique(
+        [
+            *validate_source_semantic_preservation(fact),
+            *validate_polish_anchor_preservation(fact, before),
+            *validate_polish_lexical_additions(fact, before),
+            *validate_polish_source_clause_coverage(fact),
+        ]
+    )
+
+
+def _polished_reading_order(fact: BilingualFact, role: str) -> tuple[int, int, int, str]:
+    order = PARAGRAPH_TOPIC_PRIORITY[role]
+    effective_priority = fact.briefing_priority - (50 if fact.condition_scope else 0)
+    return (
+        0 if fact.topic == "takeoff" else 1,
+        -effective_priority,
+        order.index(fact.topic) if fact.topic in order else len(order),
+        fact.fact_id,
+    )
+
+
+def polish_chinese_briefing_paragraphs(
+    paragraphs: list[BilingualFact],
+    role: str,
+) -> list[BilingualFact]:
+    """Polish only selected facts; validation failure safely preserves PR #18 text."""
+    polished: list[BilingualFact] = []
+    for paragraph in paragraphs:
+        before = paragraph.text_zh
+        candidate_text = polish_chinese_briefing_text(before)
+        candidate = replace(
+            paragraph,
+            text_zh=candidate_text,
+            text_before_polish=before,
+            text_after_polish=candidate_text,
+        )
+        errors = validate_polished_paragraph(candidate, before)
+        if errors:
+            polished.append(
+                replace(
+                    paragraph,
+                    text_before_polish=before,
+                    text_after_polish=before,
+                    polish_applied=False,
+                    polish_fallback_reason="；".join(errors),
+                )
+            )
+            continue
+        polished.append(
+            replace(
+                candidate,
+                polish_applied=candidate_text != before,
+                polish_fallback_reason="",
+            )
+        )
+    return sorted(polished, key=lambda fact: _polished_reading_order(fact, role))
+
+
 def validate_bilingual_facts(facts: list[BilingualFact]) -> list[str]:
     errors: list[str] = []
     for fact in facts:
@@ -6810,6 +7066,10 @@ def fact_source_metadata(fact: BilingualFact) -> dict[str, object]:
         "condition_contexts": list(fact.condition_contexts),
         "condition_group": fact.condition_group,
         "briefing_priority": fact.briefing_priority,
+        "text_before_polish": fact.text_before_polish or fact.text_zh,
+        "text_after_polish": fact.text_after_polish or fact.text_zh,
+        "polish_applied": fact.polish_applied,
+        "polish_fallback_reason": fact.polish_fallback_reason,
         "airport_specific": fact.airport_specific,
         "category": fact.category,
     }
@@ -7207,6 +7467,16 @@ def main() -> int:
                                     fact.condition_contexts
                                 ),
                                 "briefing_priority": fact.briefing_priority,
+                                "text_before_polish": (
+                                    fact.text_before_polish or fact.text_zh
+                                ),
+                                "text_after_polish": (
+                                    fact.text_after_polish or fact.text_zh
+                                ),
+                                "polish_applied": fact.polish_applied,
+                                "polish_fallback_reason": (
+                                    fact.polish_fallback_reason
+                                ),
                             }
                             for paragraph_index, fact in enumerate(
                                 core_facts[airport], start=1
