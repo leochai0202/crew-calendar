@@ -1151,6 +1151,261 @@ def test_same_source_departure_clauses_form_one_traceable_paragraph() -> None:
     assert paragraphs[0].source_record_ids == ("mixed-departure",)
 
 
+def test_explicit_night_fact_is_excluded_for_obvious_day_operation() -> None:
+    event = _event(
+        "day-flight",
+        "9C7080",
+        "桂林两江",
+        "扬州泰州",
+        datetime(2026, 8, 11, 11, 25, tzinfo=BEIJING),
+        datetime(2026, 8, 11, 13, 45, tzinfo=BEIJING),
+    )
+    fact = agent.source_record_facts(
+        "桂林两江",
+        [
+            _quality_record(
+                "桂林两江",
+                "night-cco",
+                "晚上会执行CCO离场，起始高度6000m。",
+                phase="departure",
+            )
+        ],
+        category="core",
+    )[0]
+    exclusions: list[dict[str, object]] = []
+
+    paragraphs = agent.prepare_operational_facts(
+        event,
+        "桂林两江",
+        date(2026, 8, 11),
+        [fact],
+        max_items=10,
+        exclusion_log=exclusions,
+    )
+
+    assert paragraphs == []
+    assert any(
+        item["fact_id"] == "night-cco"
+        and item["reason"] == "当前任务时段与资料明确夜间条件不匹配"
+        for item in exclusions
+    )
+
+
+def test_explicit_night_fact_remains_available_for_obvious_night_operation() -> None:
+    event = _event(
+        "night-flight",
+        "9C7080",
+        "桂林两江",
+        "扬州泰州",
+        datetime(2026, 8, 11, 19, 25, tzinfo=BEIJING),
+        datetime(2026, 8, 11, 21, 45, tzinfo=BEIJING),
+    )
+    fact = agent.source_record_facts(
+        "桂林两江",
+        [
+            _quality_record(
+                "桂林两江",
+                "night-cco",
+                "晚上会执行CCO离场，起始高度6000m。",
+                phase="departure",
+            )
+        ],
+        category="core",
+    )[0]
+
+    paragraphs = agent.prepare_operational_facts(
+        event,
+        "桂林两江",
+        date(2026, 8, 11),
+        [fact],
+        max_items=10,
+        exclusion_log=[],
+    )
+
+    assert len(paragraphs) == 1
+    assert "晚上" in paragraphs[0].zh and "6000m" in paragraphs[0].zh
+    assert ("daypart", "night") in paragraphs[0].condition_scope
+
+
+def test_mixed_daypart_record_keeps_unconditional_landing_fact() -> None:
+    clauses = agent.split_source_record_clauses(
+        "道面特点：跑道有坡度，注意着陆时的下沉，夜间灯光较暗。"
+    )
+
+    assert [clause.text for clause in clauses] == [
+        "跑道有坡度，注意着陆时的下沉。",
+        "夜间灯光较暗。",
+    ]
+    assert clauses[0].condition_scope == ()
+    assert clauses[1].condition_scope == (("daypart", "night"),)
+
+
+def test_condition_chain_is_not_split_into_unconditional_ya104_fact() -> None:
+    source = (
+        "进场：当本场向北运行时，从奔牛(ZJ)方向进港如遇军方活动，"
+        "常州塔台可能指挥ZJ前下高度2400米。"
+        "期间过YA206才能下降并要求YA107前到达900米。"
+        "通过900米后才可以右转飞YA104。"
+        "YA104前塔台可能指挥可以35号盲降。"
+    )
+    records: list[dict[str, object]] = []
+    for index, clause in enumerate(agent.split_source_record_clauses(source), start=1):
+        record = _quality_record(
+            "测试机场", f"condition-{index}", clause.text, phase=clause.phase
+        )
+        record.update(
+            {
+                "role_scope": clause.role_scope,
+                "source_original_text": source,
+                "source_record_id": "condition-chain",
+                "condition_scope": clause.condition_scope,
+                "condition_contexts": clause.condition_contexts,
+                "condition_group": "condition-chain:" + clause.condition_group,
+            }
+        )
+        records.append(record)
+
+    facts = agent.source_record_facts("测试机场", records, category="core")
+    paragraphs = agent.organize_source_grounded_briefing_paragraphs(facts, "arrival")
+
+    assert len(paragraphs) == 1
+    paragraph = paragraphs[0]
+    assert "当本场向北运行时" in paragraph.zh
+    assert "ZJ" in paragraph.zh and "军方活动" in paragraph.zh
+    assert "通过900米后才可以右转飞YA104" in paragraph.zh
+    assert set(paragraph.source_fact_ids) == {
+        "condition-1",
+        "condition-2",
+        "condition-3",
+        "condition-4",
+    }
+    assert agent.validate_condition_preservation(paragraph) == []
+
+
+def test_condition_guard_rejects_removed_procedure_or_military_context() -> None:
+    source = "使用VMB-93A进场时，如遇军方活动，进场指令可能变化。"
+    fact = agent.BilingualFact(
+        "conditional",
+        source,
+        "",
+        airport="测试机场",
+        source_file="manual.pdf",
+        source="PDF",
+        source_text_zh=source,
+        source_clauses=(source,),
+        condition_scope=agent.detected_condition_scope(source),
+    )
+    altered = agent.replace(fact, text_zh="进场指令可能变化。")
+
+    errors = agent.validate_source_semantic_preservation(altered)
+
+    assert any("procedure=VMB-93A" in error for error in errors)
+    assert any("military_activity=required" in error for error in errors)
+
+
+def test_same_runway_ils_energy_facts_form_one_traceable_topic() -> None:
+    records = [
+        _quality_record(
+            "测试机场",
+            "ils-summary",
+            "19号跑道盲降程序易双截获，做好能量管理。",
+            phase="approach",
+        )
+    ]
+    source = (
+        "19号盲降，KL508到KL503会指挥5900ft下降到5100ft，距离短，"
+        "注意能量管理19号z盲降时，由于地形会指挥直飞KL508，下修压1800m。"
+    )
+    for index, clause in enumerate(agent.split_source_record_clauses(source), start=1):
+        record = _quality_record(
+            "测试机场", f"ils-detail-{index}", clause.text, phase=clause.phase
+        )
+        record.update(
+            {
+                "source_original_text": source,
+                "source_record_id": "ils-detail",
+            }
+        )
+        records.append(record)
+    facts = agent.source_record_facts("测试机场", records, category="core")
+
+    paragraphs = agent.organize_source_grounded_briefing_paragraphs(facts, "arrival")
+    ils_paragraphs = [
+        paragraph for paragraph in paragraphs if paragraph.topic == "approach_intercept"
+    ]
+
+    assert len(ils_paragraphs) == 1
+    paragraph = ils_paragraphs[0]
+    for token in ("19号", "KL508", "KL503", "5900ft", "5100ft", "1800m"):
+        assert token in paragraph.zh
+    assert "19号z盲降" not in paragraph.zh
+    assert set(paragraph.source_fact_ids) == {
+        "ils-summary",
+        "ils-detail-1",
+        "ils-detail-2",
+    }
+    assert agent.validate_source_semantic_preservation(paragraph) == []
+
+
+def test_low_value_ground_detail_does_not_displace_departure_core_topics() -> None:
+    records = [
+        _quality_record("测试机场", "takeoff", "起飞离地姿态过大存在擦机尾风险。", phase="departure"),
+        _quality_record("测试机场", "performance", "06号跑道使用A2离场，注意FLYSMART性能计算。", phase="departure"),
+        _quality_record("测试机场", "departure-atc", "离场以雷达引导为主，可以申请直飞OVTAN。", phase="departure"),
+        _quality_record("测试机场", "departure", "离场程序可能变化。", phase="departure"),
+        _quality_record("测试机场", "clearance", "ACARS确认后无需复诵PDC。", phase="clearance"),
+        _quality_record("测试机场", "weather", "春夏季雷暴较多，存在低空风切变风险。", phase="weather"),
+        _quality_record("测试机场", "low-ground", "远机位开车由维修部门协调边推边开。", phase="ground"),
+    ]
+    facts = agent.source_record_facts("测试机场", records, category="core")
+    exclusions: list[dict[str, object]] = []
+
+    paragraphs = agent.organize_source_grounded_briefing_paragraphs(
+        facts, "departure", exclusion_log=exclusions
+    )
+    rendered = "".join(paragraph.zh for paragraph in paragraphs)
+
+    assert all(token in rendered for token in ("擦机尾", "FLYSMART", "雷达引导", "PDC"))
+    assert "远机位" not in rendered and "边推边开" not in rendered
+    assert any(
+        item["fact_id"] == "low-ground"
+        and item["reason"] == "运行价值排序后未选入本次航前核心主题"
+        for item in exclusions
+    )
+
+
+def test_typical_incident_chinese_cleanup_keeps_source_facts() -> None:
+    assert agent.naturalize_typical_incident("曾发生飞偏/飞错进离场程序。") == (
+        "曾发生飞偏、飞错进离场程序。"
+    )
+    assert agent.naturalize_typical_incident("曾发生过低空风切变事件。") == (
+        "曾发生低空风切变事件。"
+    )
+    source = (
+        "在扬州进近前，塔台临时指挥机组执行35号跑道进近着陆，"
+        "因一边有17号起飞的飞机，指挥下高度比较晚，但在高度1000英尺"
+        "未能截获下滑道，继续进近至400英尺左右决策复飞。"
+    )
+    rendered = agent.naturalize_typical_incident(source)
+    fact = agent.attach_source_semantics(
+        agent.BilingualFact(
+            "typical-event",
+            rendered,
+            "",
+            airport="测试机场",
+            source_file="manual.pdf",
+            source="PDF",
+            source_text_zh=source,
+            source_clauses=(source,),
+            category="typical",
+        )
+    )
+
+    assert rendered.startswith("曾发生进近前")
+    assert all(token in rendered for token in ("35号", "17号", "1000英尺", "约400英尺", "机组决策复飞"))
+    assert agent.validate_source_semantic_preservation(fact) == []
+
+
 def test_each_repeated_airport_time_is_evaluated(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -1456,6 +1711,7 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
     assert "甩冰" not in first_shenyang
     assert "跑道有坡度" in first_guilin
     assert "19号跑道盲降" in first_guilin
+    assert "19号z盲降" not in first_guilin
     assert "PDC" not in first_guilin
     assert "19号跑道盲降" not in second_guilin
     assert "着陆时的下沉" not in second_guilin
@@ -1464,17 +1720,20 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
         marker in second_guilin
         for marker in ("PDC", "雷达引导", "OVTAN", "BY ATC", "by ATC")
     )
+    assert "晚上会执行CCO离场" not in second_guilin
     assert "现场/签派频率" not in second_guilin
     assert "ZJ" in second_yangzhou
     assert second_yangzhou.count("五边通常顺风较大") == 1
     assert "扬州泰州机场典型不安全事件：" in second
-    assert "1000 英尺" in second
-    assert "400 英尺" in second
+    assert "1000英尺" in second
+    assert "约400英尺" in second
     assert "AFLOOR" in second
     assert "机组执行" in second
     assert "我们执行" not in second
     assert "机组复飞" in first
     assert "我们复飞" not in first
+    assert "飞偏、飞错进离场程序" in first
+    assert "曾发生低空风切变事件" in first
     for content in (first, second):
         intro = content.split("\n\n", 1)[0]
         assert "本阶段经历时间75小时" in intro
@@ -1511,6 +1770,8 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
             assert all(item["source_original_texts"] for item in paragraphs)
             assert all(item["source_files"] for item in paragraphs)
             assert all(item["source_sections"] for item in paragraphs)
+            assert all("condition_scope" in item for item in paragraphs)
+            assert all("briefing_priority" in item for item in paragraphs)
 
     first_sources = meta["prep_groups"][0]["airport_fact_sources"]
     second_sources = meta["prep_groups"][1]["airport_fact_sources"]
@@ -1536,5 +1797,39 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
     assert all(item["source_text_zh"] for item in yangzhou_typical)
     assert any("9C6552" in item["source_text_zh"] for item in yangzhou_typical)
     assert any("AFLOOR" in item["source_text_zh"] for item in yangzhou_typical)
+
+    first_guilin_paragraphs = meta["prep_groups"][0]["core_paragraphs"]["桂林两江"]
+    ils_topics = [
+        item for item in first_guilin_paragraphs
+        if item["topic"] == "approach_intercept" and "19号" in item["text"]
+    ]
+    assert len(ils_topics) == 1
+    assert all(
+        token in ils_topics[0]["text"]
+        for token in ("KL508", "KL503", "5900ft", "5100ft")
+    )
+
+    yangzhou_paragraphs = meta["prep_groups"][1]["core_paragraphs"]["扬州泰州"]
+    ya104_paragraphs = [item for item in yangzhou_paragraphs if "YA104" in item["text"]]
+    assert ya104_paragraphs
+    assert not any(item["text"].strip() == "通过900米后才可以右转飞YA104。" for item in ya104_paragraphs)
+    assert any(
+        "向北运行" in item["text"]
+        and "ZJ" in item["text"]
+        and "军方活动" in item["text"]
+        and "通过900米后才可以右转飞YA104" in item["text"]
+        for item in ya104_paragraphs
+    )
+    assert any(
+        item["condition_scope"].get("military_activity") == "required"
+        and item["condition_scope"].get("operation_mode") == "northbound"
+        for item in ya104_paragraphs
+    )
+    assert any(
+        item["airport"] == "桂林两江"
+        and "晚上会执行CCO离场" in item["clause"]
+        and item["reason"] == "当前任务时段与资料明确夜间条件不匹配"
+        for item in meta["excluded_source_clauses"]
+    )
 
     assert hashlib.sha256((REPO_ROOT / "flight.ics").read_bytes()).hexdigest() == original_hash
