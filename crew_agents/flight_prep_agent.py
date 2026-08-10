@@ -5584,13 +5584,47 @@ def _fact_sequence(fact: BilingualFact) -> tuple[int, str]:
     return (int(match.group(1)) if match else 10**9, fact.fact_id)
 
 
+SHARED_RUNWAY_PROCEDURE_PREFIX_RE = re.compile(
+    r"^(?P<runway>\d{2})号(?:跑道)?"
+    r"(?P<procedure>盲降(?:程序)?|ILS(?:/DME)?(?:进近)?|RNP(?:进近)?|进近)"
+    r"(?:时|期间)?[，,：:]?"
+)
+
+
+def collapse_shared_runway_procedure_context(sentences: list[str]) -> str:
+    """Remove repeated leading context only when every source sentence shares it."""
+    if len(sentences) < 2:
+        return "".join(sentences)
+    matches = [SHARED_RUNWAY_PROCEDURE_PREFIX_RE.match(sentence) for sentence in sentences]
+    if not all(matches):
+        return "".join(sentences)
+    contexts = {
+        (
+            match.group("runway"),
+            match.group("procedure").upper().replace("程序", ""),
+        )
+        for match in matches
+        if match is not None
+    }
+    if len(contexts) != 1:
+        return "".join(sentences)
+    remaining = [
+        strip_terminal_punct(sentence[matches[index].end() :].lstrip("，,：:"))
+        for index, sentence in enumerate(sentences[1:], start=1)
+    ]
+    if any(not _source_clause_has_substance(value) for value in remaining):
+        return "".join(sentences)
+    parts = [strip_terminal_punct(sentences[0]), *remaining]
+    return "；".join(parts) + "。"
+
+
 def _join_source_sentences(facts: list[BilingualFact]) -> str:
     sentences = unique(
         naturalize_source_fact(fact.text_zh)
         for fact in sorted(facts, key=_fact_sequence)
         if _source_clause_has_substance(fact.text_zh)
     )
-    return "".join(sentences)
+    return collapse_shared_runway_procedure_context(sentences)
 
 
 def organize_source_grounded_briefing_paragraphs(

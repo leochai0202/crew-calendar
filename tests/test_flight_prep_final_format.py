@@ -1339,6 +1339,7 @@ def test_same_runway_ils_energy_facts_form_one_traceable_topic() -> None:
     for token in ("19号", "KL508", "KL503", "5900ft", "5100ft", "1800m"):
         assert token in paragraph.zh
     assert "19号z盲降" not in paragraph.zh
+    assert len(re.findall(r"19号(?:跑道)?盲降", paragraph.zh)) == 1
     assert set(paragraph.source_fact_ids) == {
         "ils-summary",
         "ils-detail-1",
