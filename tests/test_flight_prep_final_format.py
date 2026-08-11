@@ -5,6 +5,7 @@ import json
 import re
 import shutil
 import sys
+from dataclasses import replace
 from datetime import date, datetime
 from pathlib import Path
 from types import SimpleNamespace
@@ -2010,4 +2011,251 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
         for item in meta["excluded_source_clauses"]
     )
 
+    assert hashlib.sha256((REPO_ROOT / "flight.ics").read_bytes()).hexdigest() == original_hash
+
+
+def _typical_test_fact(fact_id: str, text: str) -> agent.BilingualFact:
+    return agent.BilingualFact(
+        fact_id,
+        text,
+        "",
+        airport="测试机场",
+        source_file="manual.pdf",
+        source="PDF",
+        source_section="典型不安全事件",
+        operational_phase="incident",
+        category="typical",
+        source_text_zh=text,
+        source_fact_ids=(fact_id,),
+        source_record_ids=(fact_id,),
+        source_clauses=(text,),
+        source_original_texts=(text,),
+    )
+
+
+def test_typical_incident_dedup_keeps_short_complete_event_and_all_sources() -> None:
+    facts = [
+        _typical_test_fact("bird-summary", "因鸟击导致雷达罩损伤超标。"),
+        _typical_test_fact(
+            "bird-detail",
+            "进近阶段雷达罩遭遇鸟击，落地后检查发现雷达罩损伤超标，尺寸278*175mm，更换雷达罩。",
+        ),
+        _typical_test_fact("push-summary", "因误解指令导致无指令推出。"),
+        _typical_test_fact(
+            "push-detail",
+            "023年8月28日，地面机务无耳机，由于误解误推出，后续正常推出开车。",
+        ),
+        _typical_test_fact("sink-summary", "触发 sink rate 警告导致复飞。"),
+        _typical_test_fact(
+            "sink-detail",
+            "最终进近阶段触发sink rate警告，随后机组实施复飞，后续正常。",
+        ),
+    ]
+    exclusions: list[dict[str, object]] = []
+
+    result = agent.deduplicate_typical_incidents(facts, exclusions)
+
+    assert len(result) == 3
+    bird = next(fact for fact in result if "雷达罩" in fact.zh)
+    push = next(fact for fact in result if "无指令推出" in fact.zh)
+    sink = next(fact for fact in result if "sink rate" in fact.zh.lower())
+    assert set(bird.source_fact_ids) == {"bird-summary", "bird-detail"}
+    assert set(push.source_fact_ids) == {"push-summary", "push-detail"}
+    assert set(sink.source_fact_ids) == {"sink-summary", "sink-detail"}
+    assert "278" not in bird.zh and "更换雷达罩" not in bird.zh
+    assert "023年" not in push.zh and "后续正常" not in push.zh
+    assert any(
+        item["fact_id"] == "push-detail"
+        and item["reason"] == agent.TYPICAL_SOURCE_QUALITY_REASON
+        for item in exclusions
+    )
+    assert any(
+        item["fact_id"] == "bird-detail"
+        and item["reason"] == agent.TYPICAL_DUPLICATE_REASON
+        for item in exclusions
+    )
+
+
+def test_sunlight_condition_is_filtered_for_an_explicit_night_arrival() -> None:
+    event = _event(
+        "night-arrival",
+        "9C0001",
+        "测试出发",
+        "沈阳桃仙",
+        datetime(2026, 8, 12, 20, 30, tzinfo=BEIJING),
+        datetime(2026, 8, 12, 22, 35, tzinfo=BEIJING),
+    )
+    source = "24号向阳落地，对着陆目视有影响。"
+    fact = agent.attach_source_semantics(
+        agent.BilingualFact(
+            "sunlight-arrival",
+            source,
+            "",
+            airport="沈阳桃仙",
+            source_file="manual.pdf",
+            source="PDF",
+            operational_phase="approach",
+            role_scope=("arrival",),
+            category="core",
+            source_text_zh=source,
+            source_fact_ids=("sunlight-arrival",),
+            source_clauses=(source,),
+            source_original_texts=(source,),
+        )
+    )
+    exclusions: list[dict[str, object]] = []
+
+    assert dict(fact.condition_scope)["sunlight"] == "required"
+    assert agent.filter_fact_for_duty(
+        fact, event, date(2026, 8, 12), exclusions
+    ) is None
+    assert exclusions[0]["reason"] == (
+        "当前任务为明确夜间时段，与资料明确日照条件不匹配"
+    )
+    assert exclusions[0]["clause"] == source
+
+
+def test_ground_push_and_engine_start_fact_is_departure_only() -> None:
+    clauses = agent.split_source_record_clauses(
+        "地面：经维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。"
+    )
+
+    assert clauses
+    assert clauses[0].phase == "ground"
+    assert clauses[0].role_scope == ("departure",)
+
+
+def test_repeated_military_nonstandard_procedure_theme_is_deduplicated() -> None:
+    first = _language_fact(
+        "supplement-military",
+        "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
+        topic="departure_atc",
+        priority=375,
+    )
+    first = replace(first, source="supplement")
+    second = _language_fact(
+        "manual-military",
+        "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
+        topic="departure_atc",
+        priority=360,
+    )
+
+    result = agent.organize_source_grounded_briefing_paragraphs(
+        [first, second], "departure"
+    )
+
+    assert len(result) == 1
+    assert result[0].zh == first.zh
+    assert set(result[0].source_fact_ids) == {
+        "supplement-military",
+        "manual-military",
+    }
+
+
+def test_real_august_twelve_generalizes_event_and_role_filters(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    original_hash = hashlib.sha256((REPO_ROOT / "flight.ics").read_bytes()).hexdigest()
+    repo = tmp_path / "real-august-twelve"
+    _copy_runtime_repo(repo)
+    monkeypatch.setattr(
+        agent,
+        "fetch_airport_weather",
+        lambda *args, **kwargs: SimpleNamespace(icao="", metar="", taf="", error=""),
+    )
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        ["flight_prep_agent.py", "--repo", str(repo), "--target-date", "2026-08-12"],
+    )
+    monkeypatch.delenv("GITHUB_STEP_SUMMARY", raising=False)
+    agent.extract_pdf_text.cache_clear()
+
+    assert agent.main() == 0
+
+    output = repo / "flight_preparation"
+    meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
+    assert meta["status"] == "SUCCESS"
+    assert [group["flight_numbers"] for group in meta["prep_groups"]] == [
+        ["9C6195", "9C6196"],
+        ["9C7594"],
+    ]
+    first = (output / meta["prep_groups"][0]["output"]).read_text(encoding="utf-8")
+    second = (output / meta["prep_groups"][1]["output"]).read_text(encoding="utf-8")
+
+    chongqing_typical = first.split("重庆江北机场典型不安全事件：", 1)[1].split(
+        "核心威胁：", 1
+    )[0]
+    assert chongqing_typical.count("雷达罩损伤超标") == 1
+    assert chongqing_typical.count("无指令推出") == 1
+    assert chongqing_typical.upper().count("SINK RATE") == 1
+    assert "278*175" not in chongqing_typical
+    assert "更换雷达罩" not in chongqing_typical
+    assert "023年" not in chongqing_typical
+    assert "重庆 地面" not in chongqing_typical
+    assert "塔台 管制员" not in chongqing_typical
+
+    first_core = first.split("核心威胁：", 1)[1]
+    first_yangzhou = first_core.split("扬州泰州机场：", 1)[1].split(
+        "重庆江北机场：", 1
+    )[0]
+    first_chongqing = first_core.split("重庆江北机场：", 1)[1]
+    assert first_yangzhou.count("不按标准程序") == 1
+    assert len(re.findall(r"军航(?:飞行)?活动频繁", first_yangzhou)) == 1
+    for required in (
+        "17KM",
+        "禁止偏西",
+        "主用02L/20R",
+        "不用于落地脱离",
+        "Z5/Z6",
+        "限制区和危险区",
+    ):
+        assert required in first_chongqing
+    assert "损 伤" not in first and "塔台 管制员" not in first
+
+    second_core = second.split("核心威胁：", 1)[1]
+    second_yangzhou = second_core.split("扬州泰州机场：", 1)[1].split(
+        "沈阳桃仙机场：", 1
+    )[0]
+    second_shenyang = second_core.split("沈阳桃仙机场：", 1)[1]
+    for forbidden in ("35号盲降", "A4直角脱离", "自主建立盲降"):
+        assert forbidden not in second_yangzhou
+    assert second_yangzhou.count("不按标准程序") == 1
+    assert "边推边开" not in second_shenyang
+    assert "向阳落地" not in second_shenyang
+    for required in ("雷达引导", "自行转向五边", "高截获", "ILS06/24", "TOSID"):
+        assert required in second_shenyang
+
+    chongqing_typical_sources = [
+        item
+        for item in meta["prep_groups"][0]["airport_fact_sources"]["重庆江北"]
+        if item["category"] == "typical"
+    ]
+    assert len(chongqing_typical_sources) == 4
+    source_sets = [set(item["source_fact_ids"]) for item in chongqing_typical_sources]
+    for expected in (
+        {"重庆江北_typical_record_1", "重庆江北_typical_record_8"},
+        {"重庆江北_typical_record_2", "重庆江北_typical_record_5"},
+        {"重庆江北_typical_record_3", "重庆江北_typical_record_6"},
+        {"重庆江北_typical_record_4", "重庆江北_typical_record_7"},
+    ):
+        assert expected in source_sets
+    assert any(
+        item["fact_id"] == "重庆江北_typical_record_6"
+        and item["reason"] == agent.TYPICAL_SOURCE_QUALITY_REASON
+        for item in meta["excluded_source_clauses"]
+    )
+    assert any(
+        item["airport"] == "沈阳桃仙"
+        and "向阳落地" in item["clause"]
+        and item["reason"] == "当前任务为明确夜间时段，与资料明确日照条件不匹配"
+        for item in meta["excluded_source_clauses"]
+    )
+    for group in meta["prep_groups"]:
+        for airport in group["airports"]:
+            assert all(
+                paragraph["source_fact_ids"]
+                for paragraph in group["core_paragraphs"][airport]
+            )
     assert hashlib.sha256((REPO_ROOT / "flight.ics").read_bytes()).hexdigest() == original_hash

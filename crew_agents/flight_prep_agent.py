@@ -2478,6 +2478,9 @@ CONDITION_PROCEDURE_RE = re.compile(
     r"(?:使用|执行)(?P<procedure>[A-Z][A-Z0-9-]{1,12})(?:进场|离场|程序)?时",
     re.IGNORECASE,
 )
+SUNLIGHT_CONDITION_RE = re.compile(
+    r"向阳|阳光直射|太阳照射|迎太阳"
+)
 EXPLICIT_DAYPART_BOUNDARY_RE = re.compile(
     r"^(?P<unconditional>.+?)[，,；;]"
     r"(?P<conditional>(?:夜间|晚上|夜航|白天|昼间).+?[。！？!?])$"
@@ -2505,6 +2508,8 @@ def detected_condition_scope(value: str) -> tuple[tuple[str, str], ...]:
         scope.append(("daypart", "night"))
     elif re.search(r"白天|昼间", text):
         scope.append(("daypart", "day"))
+    if SUNLIGHT_CONDITION_RE.search(text):
+        scope.append(("sunlight", "required"))
     if re.search(
         r"(?:如遇|当有|若有|遇)(?:军方|军事|军航|空军)(?:活动)?|"
         r"(?:军方|军事|军航|空军)活动时",
@@ -2543,6 +2548,7 @@ def detected_condition_contexts(value: str) -> tuple[str, ...]:
         r"(?:如遇|如果|若遇)[^，。；]{1,100}",
         r"(?:使用|执行)[A-Z][A-Z0-9-]{1,12}(?:进场|离场|程序)?时",
         r"夜间|晚上|夜航|白天|昼间",
+        r"向阳|阳光直射|太阳照射|迎太阳",
     ):
         contexts.extend(match.group(0) for match in re.finditer(pattern, text, re.IGNORECASE))
     return tuple(unique(contexts))
@@ -2794,6 +2800,7 @@ def explicit_role_scope(text: str, phase: str) -> tuple[str, ...]:
             "放行",
             "推出",
             "开车",
+            "边推边开",
             "起飞前",
             "起飞地面指挥",
             "甩冰",
@@ -4495,11 +4502,16 @@ def condition_matches_duty(
 ) -> tuple[bool, str]:
     conditions = dict(fact.condition_scope)
     required_daypart = conditions.get("daypart")
-    if not required_daypart:
+    sunlight_required = conditions.get("sunlight") == "required"
+    if not required_daypart and not sunlight_required:
         return True, ""
     operation_times = airport_operation_times(event, fact.airport)
     dayparts = {obvious_operation_daypart(value) for value in operation_times}
-    if not dayparts or "unspecified" in dayparts or required_daypart in dayparts:
+    if not dayparts or "unspecified" in dayparts:
+        return True, ""
+    if sunlight_required and dayparts == {"night"}:
+        return False, "当前任务为明确夜间时段，与资料明确日照条件不匹配"
+    if not required_daypart or required_daypart in dayparts:
         return True, ""
     if required_daypart == "night" and dayparts == {"day"}:
         return False, "当前任务时段与资料明确夜间条件不匹配"
@@ -4967,6 +4979,161 @@ def is_typical_no_data(value: str) -> bool:
     return bool(TYPICAL_NO_DATA_RE.fullmatch(compact))
 
 
+TYPICAL_SOURCE_QUALITY_REASON = "来源文本质量不足，未进入正式正文"
+TYPICAL_DUPLICATE_REASON = "同一典型不安全事件已由更短且完整的来源表达"
+
+
+def typical_source_quality_issue(value: str) -> str:
+    """Reject only objectively broken incident text; never guess missing content."""
+    text = normalize_text(value)
+    if re.search(r"(?<!\d)\d{3}年", text):
+        return TYPICAL_SOURCE_QUALITY_REASON
+    if not _source_clause_has_substance(text):
+        return TYPICAL_SOURCE_QUALITY_REASON
+    return ""
+
+
+def typical_incident_signature(value: str) -> str:
+    """Return a conservative event identity for summary/detail deduplication."""
+    text = compact_key(value).upper().replace("SINK RATE", "SINKRATE")
+    if "雷达罩" in text and "损伤超标" in text and (
+        "鸟击" in text or "遭遇鸟" in text
+    ):
+        return "bird-strike-radome-damage"
+    if "推出" in text and any(
+        marker in text for marker in ("误解", "无指令", "误推出")
+    ):
+        return "push-instruction-misunderstanding"
+    if "SINKRATE" in text and "复飞" in text:
+        return "sink-rate-go-around"
+    if "脱离" in text and "后机" in text and "复飞" in text:
+        return "runway-exit-following-go-around"
+    return ""
+
+
+def merge_typical_event_provenance(
+    chosen: BilingualFact,
+    grouped: list[BilingualFact],
+) -> BilingualFact:
+    omitted = [fact for fact in grouped if fact is not chosen]
+    return replace(
+        chosen,
+        source_fact_ids=tuple(
+            unique(
+                fact_id
+                for fact in grouped
+                for fact_id in (fact.source_fact_ids or (fact.fact_id,))
+            )
+        ),
+        source_record_ids=tuple(
+            unique(
+                record_id
+                for fact in grouped
+                for record_id in (fact.source_record_ids or (fact.fact_id,))
+            )
+        ),
+        source_original_texts=tuple(
+            unique(
+                original
+                for fact in grouped
+                for original in (
+                    fact.source_original_texts
+                    or (fact.source_text_zh or fact.text_zh,)
+                )
+            )
+        ),
+        excluded_source_clauses=tuple(
+            [
+                *chosen.excluded_source_clauses,
+                *(fact.source_text_zh or fact.text_zh for fact in omitted),
+            ]
+        ),
+        exclusion_reasons=tuple(
+            [
+                *chosen.exclusion_reasons,
+                *(
+                    typical_source_quality_issue(
+                        fact.source_text_zh or fact.text_zh
+                    )
+                    or TYPICAL_DUPLICATE_REASON
+                    for fact in omitted
+                ),
+            ]
+        ),
+    )
+
+
+def deduplicate_typical_incidents(
+    facts: list[BilingualFact],
+    exclusion_log: list[dict[str, object]] | None = None,
+) -> list[BilingualFact]:
+    """Keep one complete briefing sentence per source-backed historical event."""
+    grouped: list[list[BilingualFact]] = []
+    signatures: list[str] = []
+    for fact in facts:
+        signature = typical_incident_signature(
+            " ".join(
+                unique(
+                    [
+                        fact.text_zh,
+                        fact.source_text_zh,
+                        *fact.source_original_texts,
+                    ]
+                )
+            )
+        )
+        if signature and signature in signatures:
+            grouped[signatures.index(signature)].append(fact)
+            continue
+        grouped.append([fact])
+        signatures.append(signature or f"fact:{fact.fact_id}")
+
+    output: list[BilingualFact] = []
+    for event_facts in grouped:
+        valid = [
+            fact
+            for fact in event_facts
+            if not typical_source_quality_issue(
+                fact.source_text_zh or fact.text_zh
+            )
+        ]
+        if not valid:
+            if exclusion_log is not None:
+                exclusion_log.extend(
+                    exclusion_log_entry(
+                        fact,
+                        fact.source_text_zh or fact.text_zh,
+                        TYPICAL_SOURCE_QUALITY_REASON,
+                    )
+                    for fact in event_facts
+                )
+            continue
+        chosen = min(
+            valid,
+            key=lambda fact: (
+                len(normalize_text(fact.text_zh)),
+                SOURCE_PRIORITY.get(fact.source, 9),
+                fact.fact_id,
+            ),
+        )
+        for fact in event_facts:
+            if fact is chosen or exclusion_log is None:
+                continue
+            reason = (
+                typical_source_quality_issue(fact.source_text_zh or fact.text_zh)
+                or TYPICAL_DUPLICATE_REASON
+            )
+            exclusion_log.append(
+                exclusion_log_entry(
+                    fact,
+                    fact.source_text_zh or fact.text_zh,
+                    reason,
+                )
+            )
+        output.append(merge_typical_event_provenance(chosen, event_facts))
+    return output
+
+
 def bilingual_typical_facts(
     airport: str,
     risks: list[str],
@@ -5006,6 +5173,7 @@ def bilingual_typical_facts(
             if filtered is not None:
                 applicable.append(filtered)
         real_facts = applicable
+    real_facts = deduplicate_typical_incidents(real_facts, exclusion_log)
     if real_facts:
         return [
             replace(fact, text_zh=naturalize_typical_incident(fact.text_zh))
@@ -5057,9 +5225,13 @@ def _expand_chinese_unit(value: str) -> str:
 
 def _polish_source_chinese(value: str) -> str:
     text = normalize_text(value)
+    text = re.sub(r"(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])", "", text)
     text = re.sub(r"(?<=[\u4e00-\u9fff])\s+(?=[A-Z0-9])", "", text)
     text = re.sub(r"(?<=[A-Z0-9])\s+(?=[\u4e00-\u9fff])", "", text)
     text = re.sub(r"(?<=\d)\s+(?=(?:号|米|英尺|海里|公里|节))", "", text)
+    text = re.sub(r"(?<=[A-Z0-9])\\(?=[A-Z0-9])", "/", text)
+    text = re.sub(r"[“”\"]\s*([A-Z])\s*[“”\"]", r"\1", text)
+    text = re.sub(r"(?<=\d)\s*nm\b", "NM", text, flags=re.IGNORECASE)
     if re.search(r"[\u4e00-\u9fff]", text):
         text = text.replace(",", "，")
     return text
@@ -5100,6 +5272,9 @@ def naturalize_typical_incident(value: str) -> str:
     text = text.replace("飞偏/飞错", "飞偏、飞错")
     text = text.replace("曾发生过", "曾发生")
     text = text.replace("历史上发生过因为", "历史上曾发生因")
+    text = re.sub(r"^因(?=.+导致)", "曾发生因", text)
+    text = re.sub(r"^触发(?=.+警告.+复飞)", "曾触发", text)
+    text = re.sub(r"sink\s*rate", "SINK RATE", text, flags=re.IGNORECASE)
     text = re.sub(r"^在[^，]{2,12}进近前，", "曾发生进近前", text)
     text = re.sub(
         r"继续进近至(?P<height>\d+)英尺左右决策复飞",
@@ -5525,6 +5700,20 @@ def _paragraph_overlap_markers(value: str) -> set[str]:
     return markers
 
 
+def operational_duplicate_signature(value: str) -> str:
+    """Identify only narrowly defined, source-backed duplicate operating themes."""
+    text = compact_key(value)
+    military = any(token in text for token in ("军航", "军事", "军方", "空军"))
+    both_roles = any(
+        token in text for token in ("进离场", "进/离场", "进、离场")
+    )
+    if military and both_roles and any(
+        token in text for token in ("不按标准程序", "按照规定程序", "按规定程序")
+    ):
+        return "military-nonstandard-arrival-departure"
+    return ""
+
+
 def _facts_are_duplicates(first: BilingualFact, second: BilingualFact) -> bool:
     if _paragraph_topic_family(first.topic) != _paragraph_topic_family(second.topic):
         return False
@@ -5532,6 +5721,10 @@ def _facts_are_duplicates(first: BilingualFact, second: BilingualFact) -> bool:
     second_key = compact_key(second.text_zh).upper()
     if not first_key or not second_key:
         return False
+    first_signature = operational_duplicate_signature(first.text_zh)
+    second_signature = operational_duplicate_signature(second.text_zh)
+    if first_signature and first_signature == second_signature:
+        return True
     if first_key in second_key or second_key in first_key:
         return True
     overlap = _paragraph_overlap_markers(first.text_zh) & _paragraph_overlap_markers(
@@ -5541,8 +5734,27 @@ def _facts_are_duplicates(first: BilingualFact, second: BilingualFact) -> bool:
 
 
 def _richer_fact(first: BilingualFact, second: BilingualFact) -> BilingualFact:
-    def richness(fact: BilingualFact) -> tuple[int, int, int]:
+    shared_signature = operational_duplicate_signature(first.text_zh)
+    if shared_signature and shared_signature == operational_duplicate_signature(
+        second.text_zh
+    ):
+        return min(
+            (first, second),
+            key=lambda fact: (
+                SOURCE_PRIORITY.get(fact.source, 9),
+                len(normalize_text(fact.text_zh)),
+                fact.fact_id,
+            ),
+        )
+
+    def richness(fact: BilingualFact) -> tuple[int, int, int, int]:
         return (
+            len(
+                re.findall(
+                    r"(?<!\d)\d+(?:\.\d+)?(?:英尺|米|海里|公里|节|秒|分钟|FT|NM|KM|M|KT)?",
+                    normalize_text(fact.text_zh).upper(),
+                )
+            ),
             len(critical_fact_tokens(fact.text_zh))
             + len(_paragraph_overlap_markers(fact.text_zh)),
             len(normalize_text(fact.text_zh)),
@@ -5632,6 +5844,79 @@ def _join_source_sentences(facts: list[BilingualFact]) -> str:
     return collapse_shared_runway_procedure_context(sentences)
 
 
+def prune_redundant_operational_subclauses(
+    facts: list[BilingualFact],
+    exclusion_log: list[dict[str, object]] | None = None,
+) -> list[BilingualFact]:
+    """Drop only a mixed-record clause duplicated by an independent source fact."""
+    signature_owners: dict[str, list[BilingualFact]] = {}
+    for fact in facts:
+        if re.search(r"[；;]", fact.text_zh):
+            continue
+        signature = operational_duplicate_signature(fact.text_zh)
+        if signature:
+            signature_owners.setdefault(signature, []).append(fact)
+
+    output: list[BilingualFact] = []
+    for fact in facts:
+        raw_parts = [
+            part.strip()
+            for part in re.split(r"[；;]", strip_terminal_punct(fact.text_zh))
+            if part.strip()
+        ]
+        if len(raw_parts) < 2:
+            output.append(fact)
+            continue
+        kept: list[str] = []
+        removed: list[str] = []
+        for part in raw_parts:
+            signature = operational_duplicate_signature(part)
+            owners = [owner for owner in signature_owners.get(signature, []) if owner is not fact]
+            if signature and owners:
+                removed.append(strip_terminal_punct(part) + "。")
+            else:
+                kept.append(part)
+        if not removed or not kept:
+            output.append(fact)
+            continue
+        text = "；".join(strip_terminal_punct(part) for part in kept) + "。"
+        semantics = source_semantics(text)
+        projected = replace(
+            fact,
+            text_zh=text,
+            source_clauses=tuple(
+                strip_terminal_punct(part) + "。" for part in kept
+            ),
+            excluded_source_clauses=tuple(
+                [*fact.excluded_source_clauses, *removed]
+            ),
+            exclusion_reasons=tuple(
+                [
+                    *fact.exclusion_reasons,
+                    *("重复运行主题由独立来源表达" for _ in removed),
+                ]
+            ),
+            operational_condition=semantics.operational_condition,
+            applicability=semantics.applicability,
+            risk=semantics.risk,
+            mitigation=semantics.mitigation,
+            restriction=semantics.restriction,
+            condition_scope=detected_condition_scope(text),
+            condition_contexts=detected_condition_contexts(text),
+        )
+        if exclusion_log is not None:
+            exclusion_log.extend(
+                exclusion_log_entry(
+                    fact,
+                    clause,
+                    "重复运行主题由独立来源表达",
+                )
+                for clause in removed
+            )
+        output.append(projected)
+    return output
+
+
 def organize_source_grounded_briefing_paragraphs(
     facts: list[BilingualFact],
     role: str,
@@ -5683,6 +5968,8 @@ def organize_source_grounded_briefing_paragraphs(
                 ),
             )
         )
+
+    usable = prune_redundant_operational_subclauses(usable, exclusion_log)
 
     def profile_source_text(fact: BilingualFact) -> str:
         cleaned, _ = strip_source_reference_clauses(fact.source_clauses[0])
@@ -6333,6 +6620,8 @@ def validate_condition_preservation(fact: BilingualFact) -> list[str]:
             preserved = bool(re.search(rf"(?<!\d){re.escape(value)}号(?:跑道)?", rendered))
         elif key == "direction":
             preserved = value.upper() in upper
+        elif key == "sunlight":
+            preserved = bool(SUNLIGHT_CONDITION_RE.search(rendered))
         if not preserved:
             errors.append(
                 f"来源条件未完整保留：{fact.fact_id}缺少{key}={value}"
@@ -6579,6 +6868,14 @@ def polish_chinese_briefing_text(value: str) -> str:
         r"(?P<weather>雷暴)多集中在(?P<season>春夏季|夏秋季|冬春季|春季|夏季|秋季|冬季)"
         r"[，,](?P<risk>低空风切变风险)",
         r"\g<season>\g<weather>较多，存在\g<risk>",
+        text,
+    )
+    text = re.sub(
+        r"[^\d，。；：:]{0,12}(?P<alt>\d+)米以上空域调整后的风险点[：:]①?"
+        r"离场上高度要注意听修正海压，起来后给的是(?P<regional>[\u4e00-\u9fff]{1,10})"
+        r"修正海压，有时候与(?P<local>[\u4e00-\u9fff]{1,10})本场修正海(?:压)?有差异",
+        r"离场上高度时注意修正海压；\g<alt>米以上给出\g<regional>修正海压时，"
+        r"有时与\g<local>本场修正海压存在差异",
         text,
     )
     text = _remove_duplicate_control_targets(text)
