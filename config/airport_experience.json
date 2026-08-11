@@ -129,9 +129,9 @@
       "within_90_days": true
     },
     "沈阳桃仙": {
-      "last_operated": "2026-08-10",
+      "last_operated": "2026-08-11",
       "source": "completed_schedule_event",
-      "flight_number": "9C6760",
+      "flight_number": "9C6809",
       "within_90_days": true
     },
     "兰州中川": {
@@ -240,6 +240,12 @@
       "last_operated": "2026-08-08",
       "source": "completed_schedule_event",
       "flight_number": "9C6499",
+      "within_90_days": true
+    },
+    "桂林两江": {
+      "last_operated": "2026-08-11",
+      "source": "completed_schedule_event",
+      "flight_number": "9C6809",
       "within_90_days": true
     }
   },
