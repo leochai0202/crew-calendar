@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-08-12",
-  "generated_at_beijing": "2026-08-11T11:09:35.009752+08:00",
+  "generated_at_beijing": "2026-08-11T12:32:32.742337+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C6195",
@@ -234,13 +234,25 @@
         },
         "重庆江北": {
           "icao": "ZUCK",
-          "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "source_used": "TAF",
+          "taf_validity_utc": [
+            "2026-08-11T06:00:00+00:00",
+            "2026-08-12T06:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-08-12T09:40:00+08:00",
             "2026-08-12T10:45:00+08:00"
           ],
-          "taf_decoded_by_time": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-08-12T09:40:00+08:00",
+              "decoded": []
+            },
+            {
+              "time": "2026-08-12T10:45:00+08:00",
+              "decoded": []
+            }
+          ],
           "decoded": [],
           "fetch_error": ""
         }
@@ -252,12 +264,11 @@
             "扬州泰州_typical_record_2"
           ],
           "core": [
+            "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
             "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
             "扬州泰州_core_record_9",
             "扬州泰州_core_record_53",
-            "扬州泰州_core_record_48",
-            "扬州泰州_core_record_5",
-            "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4"
+            "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5"
           ]
         },
         "重庆江北": {
@@ -265,11 +276,7 @@
             "重庆江北_typical_record_1",
             "重庆江北_typical_record_2",
             "重庆江北_typical_record_3",
-            "重庆江北_typical_record_4",
-            "重庆江北_typical_record_5",
-            "重庆江北_typical_record_6",
-            "重庆江北_typical_record_7",
-            "重庆江北_typical_record_8"
+            "重庆江北_typical_record_4"
           ],
           "core": [
             "重庆江北_core_record_19",
@@ -404,6 +411,107 @@
             "polish_fallback_reason": "",
             "airport_specific": true,
             "category": "typical"
+          },
+          {
+            "fact_id": "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
+            "paragraph_id": "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
+            "airport": "扬州泰州",
+            "source_file": "config/airport_supplements.json | knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+            "source": "supplement",
+            "source_page": "N/A",
+            "source_heading": "扬州泰州 | 扬 州 / 泰 州 机 场 运 行 特 点",
+            "source_section": "airport_supplements.json／扬州泰州／core_threats | 扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+            "source_text_zh": "ZJ方向进场可能要求较高高度通过，距35号跑道头较远且五边顺风可能较大，应提前调速和管理下降剖面。 其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
+            "source_original_text": "ZJ方向进场可能要求较高高度通过，距35号跑道头较远且五边顺风可能较大，应提前调速和管理下降剖面。 其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
+            "source_original_texts": [
+              "ZJ方向进场可能要求较高高度通过，距35号跑道头较远且五边顺风可能较大，应提前调速和管理下降剖面。",
+              "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。"
+            ],
+            "source_record_ids": [
+              "扬州泰州:core:a2d2ec7f5235a4e9",
+              "扬州泰州:core:63efb8cda33c0d22"
+            ],
+            "source_clauses": [
+              "距35号盲降跑道头37NM，剖面较高且五边通常顺风较大，建议提前调速。"
+            ],
+            "operational_phase": "approach",
+            "role_scope": [
+              "arrival",
+              "departure"
+            ],
+            "operational_condition": [
+              "距35号盲降跑道头37NM",
+              "剖面较高且五边通常顺风较大"
+            ],
+            "applicability": [
+              "35号",
+              "跑道"
+            ],
+            "risk": [],
+            "mitigation": [
+              "建议提前调速"
+            ],
+            "restriction": [],
+            "excluded_source_clauses": [
+              {
+                "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
+                "reason": "同一来源记录中的其他完整运行子句"
+              },
+              {
+                "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
+                "reason": "同一来源记录中的其他完整运行子句"
+              },
+              {
+                "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
+                "reason": "同一来源记录中的其他完整运行子句"
+              },
+              {
+                "clause": "指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。",
+                "reason": "同一来源记录中的其他完整运行子句"
+              },
+              {
+                "clause": "自主建立盲降概率大，易双截获或者高截获。",
+                "reason": "同一来源记录中的其他完整运行子句"
+              },
+              {
+                "clause": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
+                "reason": "同一来源记录中的其他完整运行子句"
+              },
+              {
+                "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
+                "reason": "同一来源记录中的其他完整运行子句"
+              },
+              {
+                "clause": "本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+                "reason": "重复运行主题由独立来源表达"
+              },
+              {
+                "clause": "ZJ方向进场可能要求较高高度通过，距35号跑道头较远且五边顺风可能较大，应提前调速和管理下降剖面。",
+                "reason": "重复事实由信息更完整的来源表达"
+              }
+            ],
+            "text_zh": "距35号盲降跑道头37NM，剖面较高且五边通常顺风较大，建议提前调速。",
+            "text_en": "During military or training activity, we must hear and fully read back each clearance and cross-check the MCDU, pressure reference, missed-approach altitude, and onward track; confirm any inconsistency with ATC.",
+            "rendered_text": "距35号盲降跑道头37NM，剖面较高且五边通常顺风较大，建议提前调速。",
+            "season_scope": [],
+            "flight_scope": [],
+            "route_scope": [],
+            "topic": "approach_intercept",
+            "role": "transit",
+            "source_fact_ids": [
+              "扬州泰州_core_record_49",
+              "扬州泰州_core_record_4"
+            ],
+            "condition_scope": {},
+            "condition_contexts": [],
+            "condition_group": "",
+            "briefing_priority": 405,
+            "text_before_polish": "距35号盲降跑道头37NM，剖面较高且五边通常顺风较大，建议提前调速。",
+            "text_after_polish": "距35号盲降跑道头37NM，剖面较高且五边通常顺风较大，建议提前调速。",
+            "polish_applied": false,
+            "polish_fallback_reason": "",
+            "airport_specific": true,
+            "category": "core"
           },
           {
             "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
@@ -591,9 +699,9 @@
                 "reason": "同一来源记录中的其他完整运行子句"
               }
             ],
-            "text_zh": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
+            "text_zh": "离场上高度时注意修正海压；2400米以上给出南京修正海压时，有时与扬州本场修正海压存在差异。",
             "text_en": "",
-            "rendered_text": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
+            "rendered_text": "离场上高度时注意修正海压；2400米以上给出南京修正海压时，有时与扬州本场修正海压存在差异。",
             "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
@@ -607,8 +715,8 @@
             "condition_group": "",
             "briefing_priority": 385,
             "text_before_polish": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
-            "text_after_polish": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
-            "polish_applied": false,
+            "text_after_polish": "离场上高度时注意修正海压；2400米以上给出南京修正海压时，有时与扬州本场修正海压存在差异。",
+            "polish_applied": true,
             "polish_fallback_reason": "",
             "airport_specific": true,
             "category": "core"
@@ -675,21 +783,23 @@
             "category": "core"
           },
           {
-            "fact_id": "扬州泰州_core_record_48",
-            "paragraph_id": "扬州泰州_core_record_48",
+            "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+            "paragraph_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
             "airport": "扬州泰州",
-            "source_file": "config/airport_supplements.json",
+            "source_file": "config/airport_supplements.json | knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
             "source": "supplement",
             "source_page": "N/A",
-            "source_heading": "扬州泰州",
-            "source_section": "airport_supplements.json／扬州泰州／core_threats",
-            "source_text_zh": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
-            "source_original_text": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
+            "source_heading": "扬州泰州 | 扬 州 / 泰 州 机 场 运 行 特 点",
+            "source_section": "airport_supplements.json／扬州泰州／core_threats | 扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+            "source_text_zh": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。 其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
+            "source_original_text": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。 其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
             "source_original_texts": [
-              "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。"
+              "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
+              "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。"
             ],
             "source_record_ids": [
-              "扬州泰州:core:a5af5e1567b7538b"
+              "扬州泰州:core:a5af5e1567b7538b",
+              "扬州泰州:core:63efb8cda33c0d22"
             ],
             "source_clauses": [
               "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。"
@@ -710,68 +820,6 @@
             ],
             "mitigation": [
               "应听清管制指令并严格执行"
-            ],
-            "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
-            "text_en": "During military or training activity, we must hear and fully read back each clearance and cross-check the MCDU, pressure reference, missed-approach altitude, and onward track; confirm any inconsistency with ATC.",
-            "rendered_text": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "departure_atc",
-            "role": "transit",
-            "source_fact_ids": [
-              "扬州泰州_core_record_48"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 375,
-            "text_before_polish": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
-            "text_after_polish": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "airport_specific": true,
-            "category": "core"
-          },
-          {
-            "fact_id": "扬州泰州_core_record_5",
-            "paragraph_id": "扬州泰州_core_record_5",
-            "airport": "扬州泰州",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-            "source": "PDF",
-            "source_page": "N/A",
-            "source_heading": "扬 州 / 泰 州 机 场 运 行 特 点",
-            "source_section": "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
-            "source_text_zh": "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
-            "source_original_text": "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
-            "source_original_texts": [
-              "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。"
-            ],
-            "source_record_ids": [
-              "扬州泰州:core:63efb8cda33c0d22"
-            ],
-            "source_clauses": [
-              "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。"
-            ],
-            "operational_phase": "departure",
-            "role_scope": [
-              "departure",
-              "arrival"
-            ],
-            "operational_condition": [
-              "本场经常有军事活动",
-              "严格遵守"
-            ],
-            "applicability": [
-              "离场"
-            ],
-            "risk": [
-              "进离场可能不按标准程序"
-            ],
-            "mitigation": [
-              "注意听清楚管制指令"
             ],
             "restriction": [],
             "excluded_source_clauses": [
@@ -802,128 +850,30 @@
               {
                 "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
                 "reason": "同一来源记录中的其他完整运行子句"
+              },
+              {
+                "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
+                "reason": "重复事实由信息更完整的来源表达"
               }
             ],
-            "text_zh": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-            "text_en": "",
-            "rendered_text": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
+            "text_zh": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
+            "text_en": "During military or training activity, we must hear and fully read back each clearance and cross-check the MCDU, pressure reference, missed-approach altitude, and onward track; confirm any inconsistency with ATC.",
+            "rendered_text": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
             "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
             "topic": "departure_atc",
             "role": "transit",
             "source_fact_ids": [
+              "扬州泰州_core_record_48",
               "扬州泰州_core_record_5"
             ],
             "condition_scope": {},
             "condition_contexts": [],
             "condition_group": "",
-            "briefing_priority": 360,
-            "text_before_polish": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-            "text_after_polish": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "airport_specific": true,
-            "category": "core"
-          },
-          {
-            "fact_id": "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
-            "paragraph_id": "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
-            "airport": "扬州泰州",
-            "source_file": "config/airport_supplements.json | knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-            "source": "supplement",
-            "source_page": "N/A",
-            "source_heading": "扬州泰州 | 扬 州 / 泰 州 机 场 运 行 特 点",
-            "source_section": "airport_supplements.json／扬州泰州／core_threats | 扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
-            "source_text_zh": "ZJ方向进场可能要求较高高度通过，距35号跑道头较远且五边顺风可能较大，应提前调速和管理下降剖面。 其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
-            "source_original_text": "ZJ方向进场可能要求较高高度通过，距35号跑道头较远且五边顺风可能较大，应提前调速和管理下降剖面。 其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
-            "source_original_texts": [
-              "ZJ方向进场可能要求较高高度通过，距35号跑道头较远且五边顺风可能较大，应提前调速和管理下降剖面。",
-              "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。"
-            ],
-            "source_record_ids": [
-              "扬州泰州:core:a2d2ec7f5235a4e9",
-              "扬州泰州:core:63efb8cda33c0d22"
-            ],
-            "source_clauses": [
-              "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。"
-            ],
-            "operational_phase": "approach",
-            "role_scope": [
-              "arrival",
-              "departure"
-            ],
-            "operational_condition": [
-              "距35号盲降跑道头37nm",
-              "剖面较高且五边通常顺风较大",
-              "本场周围军航飞行活动频繁"
-            ],
-            "applicability": [
-              "35号",
-              "跑道",
-              "离场"
-            ],
-            "risk": [],
-            "mitigation": [
-              "建议提前调速"
-            ],
-            "restriction": [
-              "进离场飞机必须严格按照规定程序飞行"
-            ],
-            "excluded_source_clauses": [
-              {
-                "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
-                "reason": "同一来源记录中的其他完整运行子句"
-              },
-              {
-                "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-                "reason": "同一来源记录中的其他完整运行子句"
-              },
-              {
-                "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
-                "reason": "同一来源记录中的其他完整运行子句"
-              },
-              {
-                "clause": "指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。",
-                "reason": "同一来源记录中的其他完整运行子句"
-              },
-              {
-                "clause": "自主建立盲降概率大，易双截获或者高截获。",
-                "reason": "同一来源记录中的其他完整运行子句"
-              },
-              {
-                "clause": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
-                "reason": "同一来源记录中的其他完整运行子句"
-              },
-              {
-                "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
-                "reason": "同一来源记录中的其他完整运行子句"
-              },
-              {
-                "clause": "ZJ方向进场可能要求较高高度通过，距35号跑道头较远且五边顺风可能较大，应提前调速和管理下降剖面。",
-                "reason": "重复事实由信息更完整的来源表达"
-              }
-            ],
-            "text_zh": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-            "text_en": "During military or training activity, we must hear and fully read back each clearance and cross-check the MCDU, pressure reference, missed-approach altitude, and onward track; confirm any inconsistency with ATC.",
-            "rendered_text": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "approach_intercept",
-            "role": "transit",
-            "source_fact_ids": [
-              "扬州泰州_core_record_49",
-              "扬州泰州_core_record_4"
-            ],
-            "condition_scope": {
-              "military_activity": "required"
-            },
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 405,
-            "text_before_polish": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-            "text_after_polish": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+            "briefing_priority": 375,
+            "text_before_polish": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
+            "text_after_polish": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
             "polish_applied": false,
             "polish_fallback_reason": "",
             "airport_specific": true,
@@ -941,12 +891,14 @@
             "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
             "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
             "source_text_zh": "曾连续发生2起因机组未能快速脱离导致后机复飞的违规事件。",
-            "source_original_text": "曾连续发生2起因机组未能快速脱离导致后机复飞的违规事件。",
+            "source_original_text": "曾连续发生2起因机组未能快速脱离导致后机复飞的违规事件。 2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。",
             "source_original_texts": [
-              "曾连续发生2起因机组未能快速脱离导致后机复飞的违规事件。"
+              "曾连续发生2起因机组未能快速脱离导致后机复飞的违规事件。",
+              "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。"
             ],
             "source_record_ids": [
-              "重庆江北:typical:4842544f5ef93f7d"
+              "重庆江北:typical:4842544f5ef93f7d",
+              "重庆江北:typical:9e213a077ca9b691"
             ],
             "source_clauses": [
               "曾连续发生2起因机组未能快速脱离导致后机复飞的违规事件。"
@@ -960,7 +912,12 @@
             ],
             "mitigation": [],
             "restriction": [],
-            "excluded_source_clauses": [],
+            "excluded_source_clauses": [
+              {
+                "clause": "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。",
+                "reason": "同一典型不安全事件已由更短且完整的来源表达"
+              }
+            ],
             "text_zh": "曾连续发生2起因机组未能快速脱离导致后机复飞的违规事件。",
             "text_en": "",
             "rendered_text": "曾连续发生2起因机组未能快速脱离导致后机复飞的违规事件。",
@@ -970,7 +927,8 @@
             "topic": "special",
             "role": "",
             "source_fact_ids": [
-              "重庆江北_typical_record_1"
+              "重庆江北_typical_record_1",
+              "重庆江北_typical_record_8"
             ],
             "condition_scope": {},
             "condition_contexts": [],
@@ -993,12 +951,14 @@
             "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
             "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
             "source_text_zh": "因鸟击导致雷达罩损伤超标。",
-            "source_original_text": "因鸟击导致雷达罩损伤超标。",
+            "source_original_text": "因鸟击导致雷达罩损伤超标。 2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆。落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。",
             "source_original_texts": [
-              "因鸟击导致雷达罩损伤超标。"
+              "因鸟击导致雷达罩损伤超标。",
+              "2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆。落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。"
             ],
             "source_record_ids": [
-              "重庆江北:typical:b8ed1f6d5e33dcaa"
+              "重庆江北:typical:b8ed1f6d5e33dcaa",
+              "重庆江北:typical:19b9311608454f59"
             ],
             "source_clauses": [
               "因鸟击导致雷达罩损伤超标。"
@@ -1012,24 +972,30 @@
             ],
             "mitigation": [],
             "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "因鸟击导致雷达罩损伤超标。",
+            "excluded_source_clauses": [
+              {
+                "clause": "2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆。落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。",
+                "reason": "同一典型不安全事件已由更短且完整的来源表达"
+              }
+            ],
+            "text_zh": "曾发生因鸟击导致雷达罩损伤超标。",
             "text_en": "Bird activity around the airport can create a low-altitude bird-strike risk during departure, approach, and landing.",
-            "rendered_text": "因鸟击导致雷达罩损伤超标。",
+            "rendered_text": "曾发生因鸟击导致雷达罩损伤超标。",
             "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
             "topic": "approach",
             "role": "",
             "source_fact_ids": [
-              "重庆江北_typical_record_2"
+              "重庆江北_typical_record_2",
+              "重庆江北_typical_record_5"
             ],
             "condition_scope": {},
             "condition_contexts": [],
             "condition_group": "",
             "briefing_priority": 0,
-            "text_before_polish": "因鸟击导致雷达罩损伤超标。",
-            "text_after_polish": "因鸟击导致雷达罩损伤超标。",
+            "text_before_polish": "曾发生因鸟击导致雷达罩损伤超标。",
+            "text_after_polish": "曾发生因鸟击导致雷达罩损伤超标。",
             "polish_applied": false,
             "polish_fallback_reason": "",
             "airport_specific": true,
@@ -1045,12 +1011,14 @@
             "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
             "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
             "source_text_zh": "因误解指令导致无指令推出。",
-            "source_original_text": "因误解指令导致无指令推出。",
+            "source_original_text": "因误解指令导致无指令推出。 023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。",
             "source_original_texts": [
-              "因误解指令导致无指令推出。"
+              "因误解指令导致无指令推出。",
+              "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。"
             ],
             "source_record_ids": [
-              "重庆江北:typical:1b428cc95ec61ba5"
+              "重庆江北:typical:1b428cc95ec61ba5",
+              "重庆江北:typical:156af411cf5c118e"
             ],
             "source_clauses": [
               "因误解指令导致无指令推出。"
@@ -1064,24 +1032,30 @@
             ],
             "mitigation": [],
             "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "因误解指令导致无指令推出。",
+            "excluded_source_clauses": [
+              {
+                "clause": "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。",
+                "reason": "来源文本质量不足，未进入正式正文"
+              }
+            ],
+            "text_zh": "曾发生因误解指令导致无指令推出。",
             "text_en": "",
-            "rendered_text": "因误解指令导致无指令推出。",
+            "rendered_text": "曾发生因误解指令导致无指令推出。",
             "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
             "topic": "ground",
             "role": "",
             "source_fact_ids": [
-              "重庆江北_typical_record_3"
+              "重庆江北_typical_record_3",
+              "重庆江北_typical_record_6"
             ],
             "condition_scope": {},
             "condition_contexts": [],
             "condition_group": "",
             "briefing_priority": 0,
-            "text_before_polish": "因误解指令导致无指令推出。",
-            "text_after_polish": "因误解指令导致无指令推出。",
+            "text_before_polish": "曾发生因误解指令导致无指令推出。",
+            "text_after_polish": "曾发生因误解指令导致无指令推出。",
             "polish_applied": false,
             "polish_fallback_reason": "",
             "airport_specific": true,
@@ -1097,12 +1071,14 @@
             "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
             "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
             "source_text_zh": "触发 sink rate 警告导致复飞。",
-            "source_original_text": "触发 sink rate 警告导致复飞。",
+            "source_original_text": "触发 sink rate 警告导致复飞。 2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。",
             "source_original_texts": [
-              "触发 sink rate 警告导致复飞。"
+              "触发 sink rate 警告导致复飞。",
+              "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。"
             ],
             "source_record_ids": [
-              "重庆江北:typical:91b15e6d9c1a6389"
+              "重庆江北:typical:91b15e6d9c1a6389",
+              "重庆江北:typical:ab03283f211fdecb"
             ],
             "source_clauses": [
               "触发 sink rate 警告导致复飞。"
@@ -1116,278 +1092,30 @@
             ],
             "mitigation": [],
             "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "触发 sink rate 警告导致复飞。",
+            "excluded_source_clauses": [
+              {
+                "clause": "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。",
+                "reason": "同一典型不安全事件已由更短且完整的来源表达"
+              }
+            ],
+            "text_zh": "曾触发 SINK RATE 警告导致复飞。",
             "text_en": "",
-            "rendered_text": "触发 sink rate 警告导致复飞。",
+            "rendered_text": "曾触发 SINK RATE 警告导致复飞。",
             "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
             "topic": "special",
             "role": "",
             "source_fact_ids": [
-              "重庆江北_typical_record_4"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 0,
-            "text_before_polish": "触发 sink rate 警告导致复飞。",
-            "text_after_polish": "触发 sink rate 警告导致复飞。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "airport_specific": true,
-            "category": "typical"
-          },
-          {
-            "fact_id": "重庆江北_typical_record_5",
-            "paragraph_id": "",
-            "airport": "重庆江北",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-            "source": "PDF",
-            "source_page": "N/A",
-            "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
-            "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
-            "source_text_zh": "2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆。落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。",
-            "source_original_text": "2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆。落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。",
-            "source_original_texts": [
-              "2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆。落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。"
-            ],
-            "source_record_ids": [
-              "重庆江北:typical:19b9311608454f59"
-            ],
-            "source_clauses": [
-              "2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆。落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。"
-            ],
-            "operational_phase": "approach",
-            "role_scope": [],
-            "operational_condition": [
-              "落地后检查发现雷达罩损 伤超标",
-              "尺寸278*175mm",
-              "更换雷达罩"
-            ],
-            "applicability": [
-              "落地"
-            ],
-            "risk": [],
-            "mitigation": [],
-            "restriction": [],
-            "excluded_source_clauses": [
-              {
-                "clause": "2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆",
-                "reason": "目标月份为8月，不在资料明确季节适用月份4月内"
-              }
-            ],
-            "text_zh": "落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。",
-            "text_en": "",
-            "rendered_text": "落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。",
-            "season_scope": [
-              4
-            ],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "approach",
-            "role": "",
-            "source_fact_ids": [
-              "重庆江北_typical_record_5"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 0,
-            "text_before_polish": "落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。",
-            "text_after_polish": "落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "airport_specific": true,
-            "category": "typical"
-          },
-          {
-            "fact_id": "重庆江北_typical_record_6",
-            "paragraph_id": "",
-            "airport": "重庆江北",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-            "source": "PDF",
-            "source_page": "N/A",
-            "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
-            "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
-            "source_text_zh": "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。",
-            "source_original_text": "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。",
-            "source_original_texts": [
-              "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。"
-            ],
-            "source_record_ids": [
-              "重庆江北:typical:156af411cf5c118e"
-            ],
-            "source_clauses": [
-              "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。"
-            ],
-            "operational_phase": "incident",
-            "role_scope": [],
-            "operational_condition": [
-              "023年8月28日",
-              "A320飞机执行重庆至西安航班",
-              "重庆 地面机务无耳机",
-              "由于误解误推出",
-              "最后右座PF打开侧窗呼叫机务“停止推出”",
-              "此时飞机已被推到接近滑行道的位置",
-              "拖回原机位",
-              "后续地面拿来耳机",
-              "建立内话联系",
-              "正常推出开车",
-              "后续航班正常"
-            ],
-            "applicability": [
-              "滑行"
-            ],
-            "risk": [],
-            "mitigation": [],
-            "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。",
-            "text_en": "",
-            "rendered_text": "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。",
-            "season_scope": [
-              8
-            ],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "ground",
-            "role": "",
-            "source_fact_ids": [
-              "重庆江北_typical_record_6"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 0,
-            "text_before_polish": "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。",
-            "text_after_polish": "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "airport_specific": true,
-            "category": "typical"
-          },
-          {
-            "fact_id": "重庆江北_typical_record_7",
-            "paragraph_id": "",
-            "airport": "重庆江北",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-            "source": "PDF",
-            "source_page": "N/A",
-            "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
-            "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
-            "source_text_zh": "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。",
-            "source_original_text": "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。",
-            "source_original_texts": [
-              "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。"
-            ],
-            "source_record_ids": [
-              "重庆江北:typical:ab03283f211fdecb"
-            ],
-            "source_clauses": [
-              "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。"
-            ],
-            "operational_phase": "incident",
-            "role_scope": [],
-            "operational_condition": [
-              "2023年8月20日",
-              "B787重庆最终进近阶段",
-              "随后机组实施复飞",
-              "决断高后",
-              "气流较乱",
-              "机组执行复飞",
-              "后续正常"
-            ],
-            "applicability": [
-              "进近"
-            ],
-            "risk": [
-              "触发 sink rate 音响警告",
-              "触发一声sink rate语音警告"
-            ],
-            "mitigation": [],
-            "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。",
-            "text_en": "",
-            "rendered_text": "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。",
-            "season_scope": [
-              8
-            ],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "approach",
-            "role": "",
-            "source_fact_ids": [
+              "重庆江北_typical_record_4",
               "重庆江北_typical_record_7"
             ],
             "condition_scope": {},
             "condition_contexts": [],
             "condition_group": "",
             "briefing_priority": 0,
-            "text_before_polish": "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。",
-            "text_after_polish": "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "airport_specific": true,
-            "category": "typical"
-          },
-          {
-            "fact_id": "重庆江北_typical_record_8",
-            "paragraph_id": "",
-            "airport": "重庆江北",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-            "source": "PDF",
-            "source_page": "N/A",
-            "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
-            "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
-            "source_text_zh": "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。",
-            "source_original_text": "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。",
-            "source_original_texts": [
-              "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。"
-            ],
-            "source_record_ids": [
-              "重庆江北:typical:9e213a077ca9b691"
-            ],
-            "source_clauses": [
-              "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。"
-            ],
-            "operational_phase": "incident",
-            "role_scope": [],
-            "operational_condition": [
-              "2025年8月19日",
-              "塔台 管制员指挥后机复飞",
-              "前机跑道占用104秒"
-            ],
-            "applicability": [
-              "跑道"
-            ],
-            "risk": [],
-            "mitigation": [
-              "因前机申请直角脱离未及时脱离跑道"
-            ],
-            "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。",
-            "text_en": "",
-            "rendered_text": "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。",
-            "season_scope": [
-              8
-            ],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "special",
-            "role": "",
-            "source_fact_ids": [
-              "重庆江北_typical_record_8"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 0,
-            "text_before_polish": "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。",
-            "text_after_polish": "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。",
+            "text_before_polish": "曾触发 SINK RATE 警告导致复飞。",
+            "text_after_polish": "曾触发 SINK RATE 警告导致复飞。",
             "polish_applied": false,
             "polish_fallback_reason": "",
             "airport_specific": true,
@@ -1706,9 +1434,9 @@
                 "reason": "同一来源记录中的其他完整运行子句"
               }
             ],
-            "text_zh": "Z5\\Z6因构型原因，在G与J滑行之间形成了一个” S”形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
+            "text_zh": "Z5/Z6因构型原因，在G与J滑行之间形成了一个S形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
             "text_en": "",
-            "rendered_text": "Z5\\Z6因构型原因，在G与J滑行之间形成了一个” S”形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
+            "rendered_text": "Z5/Z6因构型原因，在G与J滑行之间形成了一个S形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
             "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
@@ -1723,8 +1451,8 @@
             "condition_contexts": [],
             "condition_group": "",
             "briefing_priority": 260,
-            "text_before_polish": "Z5\\Z6因构型原因，在G与J滑行之间形成了一个” S”形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
-            "text_after_polish": "Z5\\Z6因构型原因，在G与J滑行之间形成了一个” S”形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
+            "text_before_polish": "Z5/Z6因构型原因，在G与J滑行之间形成了一个S形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
+            "text_after_polish": "Z5/Z6因构型原因，在G与J滑行之间形成了一个S形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
             "polish_applied": false,
             "polish_fallback_reason": "",
             "airport_specific": true,
@@ -1822,174 +1550,6 @@
         },
         {
           "airport": "扬州泰州",
-          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-          "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-          "clause": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-          "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-          "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-          "clause": "自主建立盲降概率大，易双截获或者高截获。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-          "clause": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-          "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-          "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-          "clause": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-          "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-          "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-          "clause": "指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-          "clause": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-          "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_9",
-          "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_9",
-          "clause": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_9",
-          "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_9",
-          "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_9",
-          "clause": "指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_9",
-          "clause": "自主建立盲降概率大，易双截获或者高截获。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_9",
-          "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_5",
-          "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_5",
-          "clause": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_5",
-          "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_5",
-          "clause": "指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_5",
-          "clause": "自主建立盲降概率大，易双截获或者高截获。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_5",
-          "clause": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_5",
-          "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "扬州泰州",
           "fact_id": "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
           "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
           "reason": "同一来源记录中的其他完整运行子句"
@@ -2029,6 +1589,12 @@
           "fact_id": "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
           "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
           "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
+          "clause": "本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+          "reason": "重复运行主题由独立来源表达"
         },
         {
           "airport": "扬州泰州",
@@ -2037,10 +1603,202 @@
           "reason": "重复事实由信息更完整的来源表达"
         },
         {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+          "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+          "clause": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+          "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+          "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+          "clause": "自主建立盲降概率大，易双截获或者高截获。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+          "clause": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+          "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+          "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+          "clause": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+          "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+          "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+          "clause": "指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+          "clause": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+          "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "扬州泰州_core_record_9",
+          "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "扬州泰州_core_record_9",
+          "clause": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "扬州泰州_core_record_9",
+          "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "扬州泰州_core_record_9",
+          "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "扬州泰州_core_record_9",
+          "clause": "指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "扬州泰州_core_record_9",
+          "clause": "自主建立盲降概率大，易双截获或者高截获。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "扬州泰州_core_record_9",
+          "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+          "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+          "clause": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+          "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+          "clause": "指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+          "clause": "自主建立盲降概率大，易双截获或者高截获。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+          "clause": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+          "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+          "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
+          "reason": "重复事实由信息更完整的来源表达"
+        },
+        {
           "airport": "重庆江北",
-          "fact_id": "重庆江北_typical_record_5",
-          "clause": "2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆",
-          "reason": "目标月份为8月，不在资料明确季节适用月份4月内"
+          "fact_id": "重庆江北_typical_record_1",
+          "clause": "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。",
+          "reason": "同一典型不安全事件已由更短且完整的来源表达"
+        },
+        {
+          "airport": "重庆江北",
+          "fact_id": "重庆江北_typical_record_2",
+          "clause": "2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆。落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。",
+          "reason": "同一典型不安全事件已由更短且完整的来源表达"
+        },
+        {
+          "airport": "重庆江北",
+          "fact_id": "重庆江北_typical_record_3",
+          "clause": "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。",
+          "reason": "来源文本质量不足，未进入正式正文"
+        },
+        {
+          "airport": "重庆江北",
+          "fact_id": "重庆江北_typical_record_4",
+          "clause": "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。",
+          "reason": "同一典型不安全事件已由更短且完整的来源表达"
         },
         {
           "airport": "重庆江北",
@@ -2215,6 +1973,56 @@
           "reason": "目标月份为8月，不在资料明确季节适用月份9月内"
         },
         {
+          "airport": "重庆江北",
+          "fact_id": "重庆江北_typical_record_8",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
+          "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
+          "clause": "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。",
+          "reason": "同一典型不安全事件已由更短且完整的来源表达"
+        },
+        {
+          "airport": "重庆江北",
+          "fact_id": "重庆江北_typical_record_5",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
+          "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
+          "clause": "2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆。落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。",
+          "reason": "同一典型不安全事件已由更短且完整的来源表达"
+        },
+        {
+          "airport": "重庆江北",
+          "fact_id": "重庆江北_typical_record_6",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
+          "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
+          "clause": "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。",
+          "reason": "来源文本质量不足，未进入正式正文"
+        },
+        {
+          "airport": "重庆江北",
+          "fact_id": "重庆江北_typical_record_7",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
+          "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
+          "clause": "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。",
+          "reason": "同一典型不安全事件已由更短且完整的来源表达"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "扬州泰州_core_record_4",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "扬 州 / 泰 州 机 场 运 行 特 点",
+          "source_section": "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+          "clause": "本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+          "reason": "重复运行主题由独立来源表达"
+        },
+        {
           "airport": "扬州泰州",
           "fact_id": "扬州泰州_core_record_50",
           "source_file": "config/airport_supplements.json",
@@ -2318,6 +2126,10 @@
       "core_paragraph_fact_ids": {
         "扬州泰州": [
           [
+            "扬州泰州_core_record_49",
+            "扬州泰州_core_record_4"
+          ],
+          [
             "扬州泰州_core_record_7",
             "扬州泰州_core_record_8"
           ],
@@ -2328,14 +2140,8 @@
             "扬州泰州_core_record_53"
           ],
           [
-            "扬州泰州_core_record_48"
-          ],
-          [
+            "扬州泰州_core_record_48",
             "扬州泰州_core_record_5"
-          ],
-          [
-            "扬州泰州_core_record_49",
-            "扬州泰州_core_record_4"
           ]
         ],
         "重庆江北": [
@@ -2362,6 +2168,43 @@
         "扬州泰州": [
           {
             "paragraph_index": 1,
+            "paragraph_id": "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
+            "topic": "approach_intercept",
+            "role": "transit",
+            "text": "距35号盲降跑道头37NM，剖面较高且五边通常顺风较大，建议提前调速。",
+            "source_fact_ids": [
+              "扬州泰州_core_record_49",
+              "扬州泰州_core_record_4"
+            ],
+            "source_record_ids": [
+              "扬州泰州:core:a2d2ec7f5235a4e9",
+              "扬州泰州:core:63efb8cda33c0d22"
+            ],
+            "source_clauses": [
+              "距35号盲降跑道头37NM，剖面较高且五边通常顺风较大，建议提前调速。"
+            ],
+            "source_original_texts": [
+              "ZJ方向进场可能要求较高高度通过，距35号跑道头较远且五边顺风可能较大，应提前调速和管理下降剖面。",
+              "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。"
+            ],
+            "source_files": [
+              "config/airport_supplements.json",
+              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf"
+            ],
+            "source_sections": [
+              "airport_supplements.json／扬州泰州／core_threats",
+              "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁"
+            ],
+            "condition_scope": {},
+            "condition_contexts": [],
+            "briefing_priority": 405,
+            "text_before_polish": "距35号盲降跑道头37NM，剖面较高且五边通常顺风较大，建议提前调速。",
+            "text_after_polish": "距35号盲降跑道头37NM，剖面较高且五边通常顺风较大，建议提前调速。",
+            "polish_applied": false,
+            "polish_fallback_reason": ""
+          },
+          {
+            "paragraph_index": 2,
             "paragraph_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
             "topic": "approach_intercept",
             "role": "transit",
@@ -2395,11 +2238,11 @@
             "polish_fallback_reason": ""
           },
           {
-            "paragraph_index": 2,
+            "paragraph_index": 3,
             "paragraph_id": "扬州泰州_core_record_9",
             "topic": "departure",
             "role": "transit",
-            "text": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
+            "text": "离场上高度时注意修正海压；2400米以上给出南京修正海压时，有时与扬州本场修正海压存在差异。",
             "source_fact_ids": [
               "扬州泰州_core_record_9"
             ],
@@ -2422,12 +2265,12 @@
             "condition_contexts": [],
             "briefing_priority": 385,
             "text_before_polish": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
-            "text_after_polish": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
-            "polish_applied": false,
+            "text_after_polish": "离场上高度时注意修正海压；2400米以上给出南京修正海压时，有时与扬州本场修正海压存在差异。",
+            "polish_applied": true,
             "polish_fallback_reason": ""
           },
           {
-            "paragraph_index": 3,
+            "paragraph_index": 4,
             "paragraph_id": "扬州泰州_core_record_53",
             "topic": "approach",
             "role": "transit",
@@ -2459,88 +2302,24 @@
             "polish_fallback_reason": ""
           },
           {
-            "paragraph_index": 4,
-            "paragraph_id": "扬州泰州_core_record_48",
+            "paragraph_index": 5,
+            "paragraph_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
             "topic": "departure_atc",
             "role": "transit",
             "text": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
             "source_fact_ids": [
-              "扬州泰州_core_record_48"
-            ],
-            "source_record_ids": [
-              "扬州泰州:core:a5af5e1567b7538b"
-            ],
-            "source_clauses": [
-              "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。"
-            ],
-            "source_original_texts": [
-              "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。"
-            ],
-            "source_files": [
-              "config/airport_supplements.json"
-            ],
-            "source_sections": [
-              "airport_supplements.json／扬州泰州／core_threats"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "briefing_priority": 375,
-            "text_before_polish": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
-            "text_after_polish": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
-            "polish_applied": false,
-            "polish_fallback_reason": ""
-          },
-          {
-            "paragraph_index": 5,
-            "paragraph_id": "扬州泰州_core_record_5",
-            "topic": "departure_atc",
-            "role": "transit",
-            "text": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-            "source_fact_ids": [
+              "扬州泰州_core_record_48",
               "扬州泰州_core_record_5"
             ],
             "source_record_ids": [
+              "扬州泰州:core:a5af5e1567b7538b",
               "扬州泰州:core:63efb8cda33c0d22"
             ],
             "source_clauses": [
-              "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。"
+              "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。"
             ],
             "source_original_texts": [
-              "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。"
-            ],
-            "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf"
-            ],
-            "source_sections": [
-              "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "briefing_priority": 360,
-            "text_before_polish": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-            "text_after_polish": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-            "polish_applied": false,
-            "polish_fallback_reason": ""
-          },
-          {
-            "paragraph_index": 6,
-            "paragraph_id": "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
-            "topic": "approach_intercept",
-            "role": "transit",
-            "text": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-            "source_fact_ids": [
-              "扬州泰州_core_record_49",
-              "扬州泰州_core_record_4"
-            ],
-            "source_record_ids": [
-              "扬州泰州:core:a2d2ec7f5235a4e9",
-              "扬州泰州:core:63efb8cda33c0d22"
-            ],
-            "source_clauses": [
-              "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。"
-            ],
-            "source_original_texts": [
-              "ZJ方向进场可能要求较高高度通过，距35号跑道头较远且五边顺风可能较大，应提前调速和管理下降剖面。",
+              "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
               "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。"
             ],
             "source_files": [
@@ -2551,13 +2330,11 @@
               "airport_supplements.json／扬州泰州／core_threats",
               "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁"
             ],
-            "condition_scope": {
-              "military_activity": "required"
-            },
+            "condition_scope": {},
             "condition_contexts": [],
-            "briefing_priority": 405,
-            "text_before_polish": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-            "text_after_polish": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+            "briefing_priority": 375,
+            "text_before_polish": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
+            "text_after_polish": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
             "polish_applied": false,
             "polish_fallback_reason": ""
           }
@@ -2664,7 +2441,7 @@
             "paragraph_id": "paragraph:重庆江北_core_record_11+重庆江北_core_record_13+重庆江北_core_record_12",
             "topic": "landing_ground",
             "role": "transit",
-            "text": "Z5\\Z6因构型原因，在G与J滑行之间形成了一个” S”形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
+            "text": "Z5/Z6因构型原因，在G与J滑行之间形成了一个S形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
             "source_fact_ids": [
               "重庆江北_core_record_11",
               "重庆江北_core_record_13",
@@ -2690,8 +2467,8 @@
             "condition_scope": {},
             "condition_contexts": [],
             "briefing_priority": 260,
-            "text_before_polish": "Z5\\Z6因构型原因，在G与J滑行之间形成了一个” S”形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
-            "text_after_polish": "Z5\\Z6因构型原因，在G与J滑行之间形成了一个” S”形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
+            "text_before_polish": "Z5/Z6因构型原因，在G与J滑行之间形成了一个S形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
+            "text_after_polish": "Z5/Z6因构型原因，在G与J滑行之间形成了一个S形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
             "polish_applied": false,
             "polish_fallback_reason": ""
           },
@@ -2729,7 +2506,7 @@
           }
         ]
       },
-      "content_sha256": "e66ca8b32a6d49dcc2bb007d23e3e1fd825bc8c835a2f61c356a239994ad48c1",
+      "content_sha256": "900b962d8a24ee23658a5e38bd9b9755734c416a86f1fb1a85d4bf34413dcde8",
       "_english_content": ""
     },
     {
@@ -2806,7 +2583,10 @@
         "沈阳桃仙": {
           "icao": "ZYTX",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "taf_validity_utc": [
+            "2026-08-11T06:00:00+00:00",
+            "2026-08-12T06:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-08-12T22:35:00+08:00"
           ],
@@ -2823,8 +2603,7 @@
           ],
           "core": [
             "扬州泰州_core_record_9",
-            "扬州泰州_core_record_48",
-            "扬州泰州_core_record_5",
+            "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
             "扬州泰州_core_record_51"
           ]
         },
@@ -2837,8 +2616,7 @@
             "沈阳桃仙_core_record_7",
             "沈阳桃仙_core_record_6",
             "沈阳桃仙_core_record_35",
-            "沈阳桃仙_core_record_9",
-            "沈阳桃仙_core_record_18"
+            "沈阳桃仙_core_record_19"
           ]
         }
       },
@@ -3033,9 +2811,9 @@
                 "reason": "同一来源记录中的其他完整运行子句"
               }
             ],
-            "text_zh": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
+            "text_zh": "离场上高度时注意修正海压；2400米以上给出南京修正海压时，有时与扬州本场修正海压存在差异。",
             "text_en": "",
-            "rendered_text": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
+            "rendered_text": "离场上高度时注意修正海压；2400米以上给出南京修正海压时，有时与扬州本场修正海压存在差异。",
             "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
@@ -3049,28 +2827,30 @@
             "condition_group": "",
             "briefing_priority": 385,
             "text_before_polish": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
-            "text_after_polish": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
-            "polish_applied": false,
+            "text_after_polish": "离场上高度时注意修正海压；2400米以上给出南京修正海压时，有时与扬州本场修正海压存在差异。",
+            "polish_applied": true,
             "polish_fallback_reason": "",
             "airport_specific": true,
             "category": "core"
           },
           {
-            "fact_id": "扬州泰州_core_record_48",
-            "paragraph_id": "扬州泰州_core_record_48",
+            "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+            "paragraph_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
             "airport": "扬州泰州",
-            "source_file": "config/airport_supplements.json",
+            "source_file": "config/airport_supplements.json | knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
             "source": "supplement",
             "source_page": "N/A",
-            "source_heading": "扬州泰州",
-            "source_section": "airport_supplements.json／扬州泰州／core_threats",
-            "source_text_zh": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
-            "source_original_text": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
+            "source_heading": "扬州泰州 | 扬 州 / 泰 州 机 场 运 行 特 点",
+            "source_section": "airport_supplements.json／扬州泰州／core_threats | 扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+            "source_text_zh": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。 其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
+            "source_original_text": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。 其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
             "source_original_texts": [
-              "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。"
+              "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
+              "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。"
             ],
             "source_record_ids": [
-              "扬州泰州:core:a5af5e1567b7538b"
+              "扬州泰州:core:a5af5e1567b7538b",
+              "扬州泰州:core:63efb8cda33c0d22"
             ],
             "source_clauses": [
               "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。"
@@ -3091,68 +2871,6 @@
             ],
             "mitigation": [
               "应听清管制指令并严格执行"
-            ],
-            "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
-            "text_en": "During military or training activity, we must hear and fully read back each clearance and cross-check the MCDU, pressure reference, missed-approach altitude, and onward track; confirm any inconsistency with ATC.",
-            "rendered_text": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "departure_atc",
-            "role": "departure",
-            "source_fact_ids": [
-              "扬州泰州_core_record_48"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 375,
-            "text_before_polish": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
-            "text_after_polish": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "airport_specific": true,
-            "category": "core"
-          },
-          {
-            "fact_id": "扬州泰州_core_record_5",
-            "paragraph_id": "扬州泰州_core_record_5",
-            "airport": "扬州泰州",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-            "source": "PDF",
-            "source_page": "N/A",
-            "source_heading": "扬 州 / 泰 州 机 场 运 行 特 点",
-            "source_section": "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
-            "source_text_zh": "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
-            "source_original_text": "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
-            "source_original_texts": [
-              "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。"
-            ],
-            "source_record_ids": [
-              "扬州泰州:core:63efb8cda33c0d22"
-            ],
-            "source_clauses": [
-              "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。"
-            ],
-            "operational_phase": "departure",
-            "role_scope": [
-              "departure",
-              "arrival"
-            ],
-            "operational_condition": [
-              "本场经常有军事活动",
-              "严格遵守"
-            ],
-            "applicability": [
-              "离场"
-            ],
-            "risk": [
-              "进离场可能不按标准程序"
-            ],
-            "mitigation": [
-              "注意听清楚管制指令"
             ],
             "restriction": [],
             "excluded_source_clauses": [
@@ -3183,25 +2901,30 @@
               {
                 "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
                 "reason": "同一来源记录中的其他完整运行子句"
+              },
+              {
+                "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
+                "reason": "重复事实由信息更完整的来源表达"
               }
             ],
-            "text_zh": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-            "text_en": "",
-            "rendered_text": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
+            "text_zh": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
+            "text_en": "During military or training activity, we must hear and fully read back each clearance and cross-check the MCDU, pressure reference, missed-approach altitude, and onward track; confirm any inconsistency with ATC.",
+            "rendered_text": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
             "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
             "topic": "departure_atc",
             "role": "departure",
             "source_fact_ids": [
+              "扬州泰州_core_record_48",
               "扬州泰州_core_record_5"
             ],
             "condition_scope": {},
             "condition_contexts": [],
             "condition_group": "",
-            "briefing_priority": 360,
-            "text_before_polish": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-            "text_after_polish": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
+            "briefing_priority": 375,
+            "text_before_polish": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
+            "text_after_polish": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
             "polish_applied": false,
             "polish_fallback_reason": "",
             "airport_specific": true,
@@ -3596,131 +3319,74 @@
             "category": "core"
           },
           {
-            "fact_id": "沈阳桃仙_core_record_9",
-            "paragraph_id": "沈阳桃仙_core_record_9",
-            "airport": "沈阳桃仙",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-            "source": "PDF",
-            "source_page": "N/A",
-            "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
-            "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／气象特点",
-            "source_text_zh": "气象特点：冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案。24 号向阳落地，对着陆目视有影响。",
-            "source_original_text": "气象特点：冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案。24 号向阳落地，对着陆目视有影响。",
-            "source_original_texts": [
-              "气象特点：冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案。24 号向阳落地，对着陆目视有影响。"
-            ],
-            "source_record_ids": [
-              "沈阳桃仙:core:ed46c8fb9f5b1663"
-            ],
-            "source_clauses": [
-              "24 号向阳落地，对着陆目视有影响。"
-            ],
-            "operational_phase": "weather",
-            "role_scope": [
-              "arrival"
-            ],
-            "operational_condition": [
-              "24 号向阳落地",
-              "对着陆目视有影响"
-            ],
-            "applicability": [
-              "落地",
-              "着陆"
-            ],
-            "risk": [],
-            "mitigation": [],
-            "restriction": [],
-            "excluded_source_clauses": [
-              {
-                "clause": "冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案。",
-                "reason": "同一来源记录中的其他完整运行子句"
-              }
-            ],
-            "text_zh": "24号向阳落地，对着陆目视有影响。",
-            "text_en": "",
-            "rendered_text": "24号向阳落地，对着陆目视有影响。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "weather",
-            "role": "arrival",
-            "source_fact_ids": [
-              "沈阳桃仙_core_record_9"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 310,
-            "text_before_polish": "24号向阳落地，对着陆目视有影响。",
-            "text_after_polish": "24号向阳落地，对着陆目视有影响。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "airport_specific": true,
-            "category": "core"
-          },
-          {
-            "fact_id": "沈阳桃仙_core_record_18",
-            "paragraph_id": "沈阳桃仙_core_record_18",
+            "fact_id": "沈阳桃仙_core_record_19",
+            "paragraph_id": "沈阳桃仙_core_record_19",
             "airport": "沈阳桃仙",
             "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
             "source": "PDF",
             "source_page": "N/A",
             "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
             "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
-            "source_text_zh": "地面：指挥特点： （1）有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。 （2）经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
-            "source_original_text": "地面：指挥特点： （1）有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。 （2）经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
+            "source_text_zh": "地面：注意事项： （1）沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。 （2）沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。 （3）晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
+            "source_original_text": "地面：注意事项： （1）沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。 （2）沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。 （3）晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
             "source_original_texts": [
-              "地面：指挥特点： （1）有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。 （2）经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。"
+              "地面：注意事项： （1）沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。 （2）沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。 （3）晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。"
             ],
             "source_record_ids": [
-              "沈阳桃仙:core:e5c092d90cf2453f"
+              "沈阳桃仙:core:bf89a99bd6bce515"
             ],
             "source_clauses": [
-              "经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。"
+              "沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。"
             ],
             "operational_phase": "ground",
             "role_scope": [],
             "operational_condition": [
-              "经沈阳维修部门评估",
-              "机组根据机务指挥确定是否执行"
+              "沈阳机场地面夜间滑行时",
+              "滑行道 N 转滑行道B 时滑行道没有中线灯"
             ],
-            "applicability": [],
-            "risk": [
-              "边推边开风险较大"
+            "applicability": [
+              "滑行"
             ],
-            "mitigation": [],
+            "risk": [],
+            "mitigation": [
+              "注意地面标志"
+            ],
             "restriction": [],
             "excluded_source_clauses": [
               {
-                "clause": "有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。",
+                "clause": "沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。",
                 "reason": "同一来源记录中的其他完整运行子句"
               },
               {
-                "clause": "未经塔台明确许可，不得在滑行道上开车。",
+                "clause": "晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
                 "reason": "同一来源记录中的其他完整运行子句"
               },
               {
-                "clause": "指挥特点：",
+                "clause": "注意事项：",
                 "reason": "broken_or_incomplete_source"
               }
             ],
-            "text_zh": "经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
+            "text_zh": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
             "text_en": "",
-            "rendered_text": "经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
+            "rendered_text": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
             "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
             "topic": "landing_ground",
             "role": "arrival",
             "source_fact_ids": [
-              "沈阳桃仙_core_record_18"
+              "沈阳桃仙_core_record_19"
             ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 265,
-            "text_before_polish": "经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
-            "text_after_polish": "经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
+            "condition_scope": {
+              "daypart": "night"
+            },
+            "condition_contexts": [
+              "夜间"
+            ],
+            "condition_group": "沈阳桃仙:core:bf89a99bd6bce515:condition-piece-1",
+            "briefing_priority": 275,
+            "text_before_polish": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
+            "text_after_polish": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
             "polish_applied": false,
             "polish_fallback_reason": "",
             "airport_specific": true,
@@ -3779,45 +3445,51 @@
         },
         {
           "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_5",
+          "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
           "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
           "reason": "同一来源记录中的其他完整运行子句"
         },
         {
           "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_5",
+          "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
           "clause": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
           "reason": "同一来源记录中的其他完整运行子句"
         },
         {
           "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_5",
+          "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
           "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
           "reason": "同一来源记录中的其他完整运行子句"
         },
         {
           "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_5",
+          "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
           "clause": "指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。",
           "reason": "同一来源记录中的其他完整运行子句"
         },
         {
           "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_5",
+          "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
           "clause": "自主建立盲降概率大，易双截获或者高截获。",
           "reason": "同一来源记录中的其他完整运行子句"
         },
         {
           "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_5",
+          "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
           "clause": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
           "reason": "同一来源记录中的其他完整运行子句"
         },
         {
           "airport": "扬州泰州",
-          "fact_id": "扬州泰州_core_record_5",
+          "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
           "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
           "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+          "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
+          "reason": "重复事实由信息更完整的来源表达"
         },
         {
           "airport": "扬州泰州",
@@ -3875,26 +3547,20 @@
         },
         {
           "airport": "沈阳桃仙",
-          "fact_id": "沈阳桃仙_core_record_9",
-          "clause": "冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案。",
+          "fact_id": "沈阳桃仙_core_record_19",
+          "clause": "沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。",
           "reason": "同一来源记录中的其他完整运行子句"
         },
         {
           "airport": "沈阳桃仙",
-          "fact_id": "沈阳桃仙_core_record_18",
-          "clause": "有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。",
+          "fact_id": "沈阳桃仙_core_record_19",
+          "clause": "晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
           "reason": "同一来源记录中的其他完整运行子句"
         },
         {
           "airport": "沈阳桃仙",
-          "fact_id": "沈阳桃仙_core_record_18",
-          "clause": "未经塔台明确许可，不得在滑行道上开车。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "沈阳桃仙",
-          "fact_id": "沈阳桃仙_core_record_18",
-          "clause": "指挥特点：",
+          "fact_id": "沈阳桃仙_core_record_19",
+          "clause": "注意事项：",
           "reason": "broken_or_incomplete_source"
         },
         {
@@ -4059,6 +3725,16 @@
         },
         {
           "airport": "扬州泰州",
+          "fact_id": "扬州泰州_core_record_4",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "扬 州 / 泰 州 机 场 运 行 特 点",
+          "source_section": "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+          "clause": "本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+          "reason": "重复运行主题由独立来源表达"
+        },
+        {
+          "airport": "扬州泰州",
           "fact_id": "扬州泰州_core_record_52",
           "source_file": "config/airport_supplements.json",
           "source_page": "N/A",
@@ -4089,12 +3765,22 @@
         },
         {
           "airport": "扬州泰州",
-          "fact_id": "paragraph:扬州泰州_core_record_42+扬州泰州_core_record_4",
+          "fact_id": "扬州泰州_core_record_42",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "扬 州 / 泰 州 机 场 运 行 特 点",
-          "source_section": "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／进场 | 扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
-          "clause": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+          "source_section": "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／进场",
+          "clause": "本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+          "reason": "运行价值排序后未选入本次航前核心主题"
+        },
+        {
+          "airport": "扬州泰州",
+          "fact_id": "扬州泰州_core_record_4",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "扬 州 / 泰 州 机 场 运 行 特 点",
+          "source_section": "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+          "clause": "距35号盲降跑道头37NM，剖面较高且五边通常顺风较大，建议提前调速。",
           "reason": "运行价值排序后未选入本次航前核心主题"
         },
         {
@@ -4106,6 +3792,16 @@
           "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／气象特点",
           "clause": "冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案",
           "reason": "目标月份为8月，不在资料明确季节适用月份1,2,3,4,5,12月内"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_9",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／气象特点",
+          "clause": "24 号向阳落地，对着陆目视有影响。",
+          "reason": "当前任务为明确夜间时段，与资料明确日照条件不匹配"
         },
         {
           "airport": "沈阳桃仙",
@@ -4180,6 +3876,16 @@
         {
           "airport": "沈阳桃仙",
           "fact_id": "沈阳桃仙_core_record_17",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+          "clause": "地面：指挥特点： （1）有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。 （2）经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
+          "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_18",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
@@ -4316,6 +4022,16 @@
           "source_section": "airport_supplements.json／沈阳桃仙／core_threats",
           "clause": "严防程序、跑道和离场点输入错误；任何变化均需补充简令和交叉检查。",
           "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_21",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+          "clause": "晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
+          "reason": "运行价值排序后未选入本次航前核心主题"
         }
       ],
       "core_paragraph_fact_ids": {
@@ -4324,9 +4040,7 @@
             "扬州泰州_core_record_9"
           ],
           [
-            "扬州泰州_core_record_48"
-          ],
-          [
+            "扬州泰州_core_record_48",
             "扬州泰州_core_record_5"
           ],
           [
@@ -4344,10 +4058,7 @@
             "沈阳桃仙_core_record_35"
           ],
           [
-            "沈阳桃仙_core_record_9"
-          ],
-          [
-            "沈阳桃仙_core_record_18"
+            "沈阳桃仙_core_record_19"
           ]
         ]
       },
@@ -4358,7 +4069,7 @@
             "paragraph_id": "扬州泰州_core_record_9",
             "topic": "departure",
             "role": "departure",
-            "text": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
+            "text": "离场上高度时注意修正海压；2400米以上给出南京修正海压时，有时与扬州本场修正海压存在差异。",
             "source_fact_ids": [
               "扬州泰州_core_record_9"
             ],
@@ -4381,33 +4092,38 @@
             "condition_contexts": [],
             "briefing_priority": 385,
             "text_before_polish": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
-            "text_after_polish": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
-            "polish_applied": false,
+            "text_after_polish": "离场上高度时注意修正海压；2400米以上给出南京修正海压时，有时与扬州本场修正海压存在差异。",
+            "polish_applied": true,
             "polish_fallback_reason": ""
           },
           {
             "paragraph_index": 2,
-            "paragraph_id": "扬州泰州_core_record_48",
+            "paragraph_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
             "topic": "departure_atc",
             "role": "departure",
             "text": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
             "source_fact_ids": [
-              "扬州泰州_core_record_48"
+              "扬州泰州_core_record_48",
+              "扬州泰州_core_record_5"
             ],
             "source_record_ids": [
-              "扬州泰州:core:a5af5e1567b7538b"
+              "扬州泰州:core:a5af5e1567b7538b",
+              "扬州泰州:core:63efb8cda33c0d22"
             ],
             "source_clauses": [
               "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。"
             ],
             "source_original_texts": [
-              "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。"
+              "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
+              "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。"
             ],
             "source_files": [
-              "config/airport_supplements.json"
+              "config/airport_supplements.json",
+              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf"
             ],
             "source_sections": [
-              "airport_supplements.json／扬州泰州／core_threats"
+              "airport_supplements.json／扬州泰州／core_threats",
+              "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁"
             ],
             "condition_scope": {},
             "condition_contexts": [],
@@ -4419,38 +4135,6 @@
           },
           {
             "paragraph_index": 3,
-            "paragraph_id": "扬州泰州_core_record_5",
-            "topic": "departure_atc",
-            "role": "departure",
-            "text": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-            "source_fact_ids": [
-              "扬州泰州_core_record_5"
-            ],
-            "source_record_ids": [
-              "扬州泰州:core:63efb8cda33c0d22"
-            ],
-            "source_clauses": [
-              "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。"
-            ],
-            "source_original_texts": [
-              "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。"
-            ],
-            "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf"
-            ],
-            "source_sections": [
-              "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "briefing_priority": 360,
-            "text_before_polish": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-            "text_after_polish": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-            "polish_applied": false,
-            "polish_fallback_reason": ""
-          },
-          {
-            "paragraph_index": 4,
             "paragraph_id": "扬州泰州_core_record_51",
             "topic": "ground_departure",
             "role": "departure",
@@ -4581,53 +4265,21 @@
           },
           {
             "paragraph_index": 4,
-            "paragraph_id": "沈阳桃仙_core_record_9",
-            "topic": "weather",
-            "role": "arrival",
-            "text": "24号向阳落地，对着陆目视有影响。",
-            "source_fact_ids": [
-              "沈阳桃仙_core_record_9"
-            ],
-            "source_record_ids": [
-              "沈阳桃仙:core:ed46c8fb9f5b1663"
-            ],
-            "source_clauses": [
-              "24 号向阳落地，对着陆目视有影响。"
-            ],
-            "source_original_texts": [
-              "气象特点：冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案。24 号向阳落地，对着陆目视有影响。"
-            ],
-            "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf"
-            ],
-            "source_sections": [
-              "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／气象特点"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "briefing_priority": 310,
-            "text_before_polish": "24号向阳落地，对着陆目视有影响。",
-            "text_after_polish": "24号向阳落地，对着陆目视有影响。",
-            "polish_applied": false,
-            "polish_fallback_reason": ""
-          },
-          {
-            "paragraph_index": 5,
-            "paragraph_id": "沈阳桃仙_core_record_18",
+            "paragraph_id": "沈阳桃仙_core_record_19",
             "topic": "landing_ground",
             "role": "arrival",
-            "text": "经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
+            "text": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
             "source_fact_ids": [
-              "沈阳桃仙_core_record_18"
+              "沈阳桃仙_core_record_19"
             ],
             "source_record_ids": [
-              "沈阳桃仙:core:e5c092d90cf2453f"
+              "沈阳桃仙:core:bf89a99bd6bce515"
             ],
             "source_clauses": [
-              "经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。"
+              "沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。"
             ],
             "source_original_texts": [
-              "地面：指挥特点： （1）有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。 （2）经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。"
+              "地面：注意事项： （1）沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。 （2）沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。 （3）晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。"
             ],
             "source_files": [
               "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf"
@@ -4635,17 +4287,21 @@
             "source_sections": [
               "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面"
             ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "briefing_priority": 265,
-            "text_before_polish": "经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
-            "text_after_polish": "经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
+            "condition_scope": {
+              "daypart": "night"
+            },
+            "condition_contexts": [
+              "夜间"
+            ],
+            "briefing_priority": 275,
+            "text_before_polish": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
+            "text_after_polish": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
             "polish_applied": false,
             "polish_fallback_reason": ""
           }
         ]
       },
-      "content_sha256": "e9050c5741533107ce84c8cfee60cc29d961d9644ebf705701e2246f12526fbc",
+      "content_sha256": "ffa2d7ae9371a7a6135634c2187d5cc27a82b4d0c7da6437a3f7900e82872b6c",
       "_english_content": ""
     }
   ],
@@ -4670,20 +4326,35 @@
     },
     "重庆江北": {
       "icao": "ZUCK",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-08-11T06:00:00+00:00",
+        "2026-08-12T06:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-08-12T09:40:00+08:00",
         "2026-08-12T10:45:00+08:00"
       ],
-      "taf_decoded_by_time": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-08-12T09:40:00+08:00",
+          "decoded": []
+        },
+        {
+          "time": "2026-08-12T10:45:00+08:00",
+          "decoded": []
+        }
+      ],
       "decoded": [],
       "fetch_error": ""
     },
     "沈阳桃仙": {
       "icao": "ZYTX",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-08-11T06:00:00+00:00",
+        "2026-08-12T06:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-08-12T22:35:00+08:00"
       ],
@@ -4692,10 +4363,7 @@
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [
-    "沈阳桃仙: 2026-08-10 -> 2026-08-11",
-    "桂林两江: - -> 2026-08-11"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
   "airport_information_version": 20260803,
   "airport_information_type": "PDF",
@@ -4706,12 +4374,11 @@
         "扬州泰州_typical_record_2"
       ],
       "core": [
+        "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
         "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
         "扬州泰州_core_record_9",
         "扬州泰州_core_record_53",
-        "扬州泰州_core_record_48",
-        "扬州泰州_core_record_5",
-        "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
+        "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
         "扬州泰州_core_record_51"
       ]
     },
@@ -4720,11 +4387,7 @@
         "重庆江北_typical_record_1",
         "重庆江北_typical_record_2",
         "重庆江北_typical_record_3",
-        "重庆江北_typical_record_4",
-        "重庆江北_typical_record_5",
-        "重庆江北_typical_record_6",
-        "重庆江北_typical_record_7",
-        "重庆江北_typical_record_8"
+        "重庆江北_typical_record_4"
       ],
       "core": [
         "重庆江北_core_record_19",
@@ -4743,8 +4406,7 @@
         "沈阳桃仙_core_record_7",
         "沈阳桃仙_core_record_6",
         "沈阳桃仙_core_record_35",
-        "沈阳桃仙_core_record_9",
-        "沈阳桃仙_core_record_18"
+        "沈阳桃仙_core_record_19"
       ]
     }
   },
@@ -4872,6 +4534,107 @@
         "polish_fallback_reason": "",
         "airport_specific": true,
         "category": "typical"
+      },
+      {
+        "fact_id": "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
+        "paragraph_id": "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
+        "airport": "扬州泰州",
+        "source_file": "config/airport_supplements.json | knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+        "source": "supplement",
+        "source_page": "N/A",
+        "source_heading": "扬州泰州 | 扬 州 / 泰 州 机 场 运 行 特 点",
+        "source_section": "airport_supplements.json／扬州泰州／core_threats | 扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+        "source_text_zh": "ZJ方向进场可能要求较高高度通过，距35号跑道头较远且五边顺风可能较大，应提前调速和管理下降剖面。 其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
+        "source_original_text": "ZJ方向进场可能要求较高高度通过，距35号跑道头较远且五边顺风可能较大，应提前调速和管理下降剖面。 其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
+        "source_original_texts": [
+          "ZJ方向进场可能要求较高高度通过，距35号跑道头较远且五边顺风可能较大，应提前调速和管理下降剖面。",
+          "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。"
+        ],
+        "source_record_ids": [
+          "扬州泰州:core:a2d2ec7f5235a4e9",
+          "扬州泰州:core:63efb8cda33c0d22"
+        ],
+        "source_clauses": [
+          "距35号盲降跑道头37NM，剖面较高且五边通常顺风较大，建议提前调速。"
+        ],
+        "operational_phase": "approach",
+        "role_scope": [
+          "arrival",
+          "departure"
+        ],
+        "operational_condition": [
+          "距35号盲降跑道头37NM",
+          "剖面较高且五边通常顺风较大"
+        ],
+        "applicability": [
+          "35号",
+          "跑道"
+        ],
+        "risk": [],
+        "mitigation": [
+          "建议提前调速"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [
+          {
+            "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
+            "reason": "同一来源记录中的其他完整运行子句"
+          },
+          {
+            "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
+            "reason": "同一来源记录中的其他完整运行子句"
+          },
+          {
+            "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
+            "reason": "同一来源记录中的其他完整运行子句"
+          },
+          {
+            "clause": "指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。",
+            "reason": "同一来源记录中的其他完整运行子句"
+          },
+          {
+            "clause": "自主建立盲降概率大，易双截获或者高截获。",
+            "reason": "同一来源记录中的其他完整运行子句"
+          },
+          {
+            "clause": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
+            "reason": "同一来源记录中的其他完整运行子句"
+          },
+          {
+            "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
+            "reason": "同一来源记录中的其他完整运行子句"
+          },
+          {
+            "clause": "本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+            "reason": "重复运行主题由独立来源表达"
+          },
+          {
+            "clause": "ZJ方向进场可能要求较高高度通过，距35号跑道头较远且五边顺风可能较大，应提前调速和管理下降剖面。",
+            "reason": "重复事实由信息更完整的来源表达"
+          }
+        ],
+        "text_zh": "距35号盲降跑道头37NM，剖面较高且五边通常顺风较大，建议提前调速。",
+        "text_en": "During military or training activity, we must hear and fully read back each clearance and cross-check the MCDU, pressure reference, missed-approach altitude, and onward track; confirm any inconsistency with ATC.",
+        "rendered_text": "距35号盲降跑道头37NM，剖面较高且五边通常顺风较大，建议提前调速。",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "approach_intercept",
+        "role": "transit",
+        "source_fact_ids": [
+          "扬州泰州_core_record_49",
+          "扬州泰州_core_record_4"
+        ],
+        "condition_scope": {},
+        "condition_contexts": [],
+        "condition_group": "",
+        "briefing_priority": 405,
+        "text_before_polish": "距35号盲降跑道头37NM，剖面较高且五边通常顺风较大，建议提前调速。",
+        "text_after_polish": "距35号盲降跑道头37NM，剖面较高且五边通常顺风较大，建议提前调速。",
+        "polish_applied": false,
+        "polish_fallback_reason": "",
+        "airport_specific": true,
+        "category": "core"
       },
       {
         "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
@@ -5059,9 +4822,9 @@
             "reason": "同一来源记录中的其他完整运行子句"
           }
         ],
-        "text_zh": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
+        "text_zh": "离场上高度时注意修正海压；2400米以上给出南京修正海压时，有时与扬州本场修正海压存在差异。",
         "text_en": "",
-        "rendered_text": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
+        "rendered_text": "离场上高度时注意修正海压；2400米以上给出南京修正海压时，有时与扬州本场修正海压存在差异。",
         "season_scope": [],
         "flight_scope": [],
         "route_scope": [],
@@ -5075,8 +4838,8 @@
         "condition_group": "",
         "briefing_priority": 385,
         "text_before_polish": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
-        "text_after_polish": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
-        "polish_applied": false,
+        "text_after_polish": "离场上高度时注意修正海压；2400米以上给出南京修正海压时，有时与扬州本场修正海压存在差异。",
+        "polish_applied": true,
         "polish_fallback_reason": "",
         "airport_specific": true,
         "category": "core"
@@ -5143,21 +4906,23 @@
         "category": "core"
       },
       {
-        "fact_id": "扬州泰州_core_record_48",
-        "paragraph_id": "扬州泰州_core_record_48",
+        "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+        "paragraph_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
         "airport": "扬州泰州",
-        "source_file": "config/airport_supplements.json",
+        "source_file": "config/airport_supplements.json | knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
         "source": "supplement",
         "source_page": "N/A",
-        "source_heading": "扬州泰州",
-        "source_section": "airport_supplements.json／扬州泰州／core_threats",
-        "source_text_zh": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
-        "source_original_text": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
+        "source_heading": "扬州泰州 | 扬 州 / 泰 州 机 场 运 行 特 点",
+        "source_section": "airport_supplements.json／扬州泰州／core_threats | 扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+        "source_text_zh": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。 其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
+        "source_original_text": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。 其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
         "source_original_texts": [
-          "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。"
+          "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
+          "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。"
         ],
         "source_record_ids": [
-          "扬州泰州:core:a5af5e1567b7538b"
+          "扬州泰州:core:a5af5e1567b7538b",
+          "扬州泰州:core:63efb8cda33c0d22"
         ],
         "source_clauses": [
           "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。"
@@ -5178,68 +4943,6 @@
         ],
         "mitigation": [
           "应听清管制指令并严格执行"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
-        "text_en": "During military or training activity, we must hear and fully read back each clearance and cross-check the MCDU, pressure reference, missed-approach altitude, and onward track; confirm any inconsistency with ATC.",
-        "rendered_text": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "departure_atc",
-        "role": "transit",
-        "source_fact_ids": [
-          "扬州泰州_core_record_48"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 375,
-        "text_before_polish": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
-        "text_after_polish": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "扬州泰州_core_record_5",
-        "paragraph_id": "扬州泰州_core_record_5",
-        "airport": "扬州泰州",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "扬 州 / 泰 州 机 场 运 行 特 点",
-        "source_section": "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
-        "source_text_zh": "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
-        "source_original_text": "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
-        "source_original_texts": [
-          "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。"
-        ],
-        "source_record_ids": [
-          "扬州泰州:core:63efb8cda33c0d22"
-        ],
-        "source_clauses": [
-          "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。"
-        ],
-        "operational_phase": "departure",
-        "role_scope": [
-          "departure",
-          "arrival"
-        ],
-        "operational_condition": [
-          "本场经常有军事活动",
-          "严格遵守"
-        ],
-        "applicability": [
-          "离场"
-        ],
-        "risk": [
-          "进离场可能不按标准程序"
-        ],
-        "mitigation": [
-          "注意听清楚管制指令"
         ],
         "restriction": [],
         "excluded_source_clauses": [
@@ -5270,128 +4973,30 @@
           {
             "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
             "reason": "同一来源记录中的其他完整运行子句"
+          },
+          {
+            "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
+            "reason": "重复事实由信息更完整的来源表达"
           }
         ],
-        "text_zh": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-        "text_en": "",
-        "rendered_text": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
+        "text_zh": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
+        "text_en": "During military or training activity, we must hear and fully read back each clearance and cross-check the MCDU, pressure reference, missed-approach altitude, and onward track; confirm any inconsistency with ATC.",
+        "rendered_text": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
         "season_scope": [],
         "flight_scope": [],
         "route_scope": [],
         "topic": "departure_atc",
         "role": "transit",
         "source_fact_ids": [
+          "扬州泰州_core_record_48",
           "扬州泰州_core_record_5"
         ],
         "condition_scope": {},
         "condition_contexts": [],
         "condition_group": "",
-        "briefing_priority": 360,
-        "text_before_polish": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-        "text_after_polish": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
-        "paragraph_id": "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
-        "airport": "扬州泰州",
-        "source_file": "config/airport_supplements.json | knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "supplement",
-        "source_page": "N/A",
-        "source_heading": "扬州泰州 | 扬 州 / 泰 州 机 场 运 行 特 点",
-        "source_section": "airport_supplements.json／扬州泰州／core_threats | 扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
-        "source_text_zh": "ZJ方向进场可能要求较高高度通过，距35号跑道头较远且五边顺风可能较大，应提前调速和管理下降剖面。 其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
-        "source_original_text": "ZJ方向进场可能要求较高高度通过，距35号跑道头较远且五边顺风可能较大，应提前调速和管理下降剖面。 其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
-        "source_original_texts": [
-          "ZJ方向进场可能要求较高高度通过，距35号跑道头较远且五边顺风可能较大，应提前调速和管理下降剖面。",
-          "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。"
-        ],
-        "source_record_ids": [
-          "扬州泰州:core:a2d2ec7f5235a4e9",
-          "扬州泰州:core:63efb8cda33c0d22"
-        ],
-        "source_clauses": [
-          "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。"
-        ],
-        "operational_phase": "approach",
-        "role_scope": [
-          "arrival",
-          "departure"
-        ],
-        "operational_condition": [
-          "距35号盲降跑道头37nm",
-          "剖面较高且五边通常顺风较大",
-          "本场周围军航飞行活动频繁"
-        ],
-        "applicability": [
-          "35号",
-          "跑道",
-          "离场"
-        ],
-        "risk": [],
-        "mitigation": [
-          "建议提前调速"
-        ],
-        "restriction": [
-          "进离场飞机必须严格按照规定程序飞行"
-        ],
-        "excluded_source_clauses": [
-          {
-            "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
-            "reason": "同一来源记录中的其他完整运行子句"
-          },
-          {
-            "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-            "reason": "同一来源记录中的其他完整运行子句"
-          },
-          {
-            "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
-            "reason": "同一来源记录中的其他完整运行子句"
-          },
-          {
-            "clause": "指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。",
-            "reason": "同一来源记录中的其他完整运行子句"
-          },
-          {
-            "clause": "自主建立盲降概率大，易双截获或者高截获。",
-            "reason": "同一来源记录中的其他完整运行子句"
-          },
-          {
-            "clause": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
-            "reason": "同一来源记录中的其他完整运行子句"
-          },
-          {
-            "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
-            "reason": "同一来源记录中的其他完整运行子句"
-          },
-          {
-            "clause": "ZJ方向进场可能要求较高高度通过，距35号跑道头较远且五边顺风可能较大，应提前调速和管理下降剖面。",
-            "reason": "重复事实由信息更完整的来源表达"
-          }
-        ],
-        "text_zh": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-        "text_en": "During military or training activity, we must hear and fully read back each clearance and cross-check the MCDU, pressure reference, missed-approach altitude, and onward track; confirm any inconsistency with ATC.",
-        "rendered_text": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "approach_intercept",
-        "role": "transit",
-        "source_fact_ids": [
-          "扬州泰州_core_record_49",
-          "扬州泰州_core_record_4"
-        ],
-        "condition_scope": {
-          "military_activity": "required"
-        },
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 405,
-        "text_before_polish": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-        "text_after_polish": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+        "briefing_priority": 375,
+        "text_before_polish": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
+        "text_after_polish": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
         "polish_applied": false,
         "polish_fallback_reason": "",
         "airport_specific": true,
@@ -5471,12 +5076,14 @@
         "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
         "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
         "source_text_zh": "曾连续发生2起因机组未能快速脱离导致后机复飞的违规事件。",
-        "source_original_text": "曾连续发生2起因机组未能快速脱离导致后机复飞的违规事件。",
+        "source_original_text": "曾连续发生2起因机组未能快速脱离导致后机复飞的违规事件。 2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。",
         "source_original_texts": [
-          "曾连续发生2起因机组未能快速脱离导致后机复飞的违规事件。"
+          "曾连续发生2起因机组未能快速脱离导致后机复飞的违规事件。",
+          "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。"
         ],
         "source_record_ids": [
-          "重庆江北:typical:4842544f5ef93f7d"
+          "重庆江北:typical:4842544f5ef93f7d",
+          "重庆江北:typical:9e213a077ca9b691"
         ],
         "source_clauses": [
           "曾连续发生2起因机组未能快速脱离导致后机复飞的违规事件。"
@@ -5490,7 +5097,12 @@
         ],
         "mitigation": [],
         "restriction": [],
-        "excluded_source_clauses": [],
+        "excluded_source_clauses": [
+          {
+            "clause": "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。",
+            "reason": "同一典型不安全事件已由更短且完整的来源表达"
+          }
+        ],
         "text_zh": "曾连续发生2起因机组未能快速脱离导致后机复飞的违规事件。",
         "text_en": "",
         "rendered_text": "曾连续发生2起因机组未能快速脱离导致后机复飞的违规事件。",
@@ -5500,7 +5112,8 @@
         "topic": "special",
         "role": "",
         "source_fact_ids": [
-          "重庆江北_typical_record_1"
+          "重庆江北_typical_record_1",
+          "重庆江北_typical_record_8"
         ],
         "condition_scope": {},
         "condition_contexts": [],
@@ -5523,12 +5136,14 @@
         "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
         "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
         "source_text_zh": "因鸟击导致雷达罩损伤超标。",
-        "source_original_text": "因鸟击导致雷达罩损伤超标。",
+        "source_original_text": "因鸟击导致雷达罩损伤超标。 2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆。落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。",
         "source_original_texts": [
-          "因鸟击导致雷达罩损伤超标。"
+          "因鸟击导致雷达罩损伤超标。",
+          "2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆。落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。"
         ],
         "source_record_ids": [
-          "重庆江北:typical:b8ed1f6d5e33dcaa"
+          "重庆江北:typical:b8ed1f6d5e33dcaa",
+          "重庆江北:typical:19b9311608454f59"
         ],
         "source_clauses": [
           "因鸟击导致雷达罩损伤超标。"
@@ -5542,24 +5157,30 @@
         ],
         "mitigation": [],
         "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "因鸟击导致雷达罩损伤超标。",
+        "excluded_source_clauses": [
+          {
+            "clause": "2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆。落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。",
+            "reason": "同一典型不安全事件已由更短且完整的来源表达"
+          }
+        ],
+        "text_zh": "曾发生因鸟击导致雷达罩损伤超标。",
         "text_en": "Bird activity around the airport can create a low-altitude bird-strike risk during departure, approach, and landing.",
-        "rendered_text": "因鸟击导致雷达罩损伤超标。",
+        "rendered_text": "曾发生因鸟击导致雷达罩损伤超标。",
         "season_scope": [],
         "flight_scope": [],
         "route_scope": [],
         "topic": "approach",
         "role": "",
         "source_fact_ids": [
-          "重庆江北_typical_record_2"
+          "重庆江北_typical_record_2",
+          "重庆江北_typical_record_5"
         ],
         "condition_scope": {},
         "condition_contexts": [],
         "condition_group": "",
         "briefing_priority": 0,
-        "text_before_polish": "因鸟击导致雷达罩损伤超标。",
-        "text_after_polish": "因鸟击导致雷达罩损伤超标。",
+        "text_before_polish": "曾发生因鸟击导致雷达罩损伤超标。",
+        "text_after_polish": "曾发生因鸟击导致雷达罩损伤超标。",
         "polish_applied": false,
         "polish_fallback_reason": "",
         "airport_specific": true,
@@ -5575,12 +5196,14 @@
         "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
         "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
         "source_text_zh": "因误解指令导致无指令推出。",
-        "source_original_text": "因误解指令导致无指令推出。",
+        "source_original_text": "因误解指令导致无指令推出。 023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。",
         "source_original_texts": [
-          "因误解指令导致无指令推出。"
+          "因误解指令导致无指令推出。",
+          "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。"
         ],
         "source_record_ids": [
-          "重庆江北:typical:1b428cc95ec61ba5"
+          "重庆江北:typical:1b428cc95ec61ba5",
+          "重庆江北:typical:156af411cf5c118e"
         ],
         "source_clauses": [
           "因误解指令导致无指令推出。"
@@ -5594,24 +5217,30 @@
         ],
         "mitigation": [],
         "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "因误解指令导致无指令推出。",
+        "excluded_source_clauses": [
+          {
+            "clause": "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。",
+            "reason": "来源文本质量不足，未进入正式正文"
+          }
+        ],
+        "text_zh": "曾发生因误解指令导致无指令推出。",
         "text_en": "",
-        "rendered_text": "因误解指令导致无指令推出。",
+        "rendered_text": "曾发生因误解指令导致无指令推出。",
         "season_scope": [],
         "flight_scope": [],
         "route_scope": [],
         "topic": "ground",
         "role": "",
         "source_fact_ids": [
-          "重庆江北_typical_record_3"
+          "重庆江北_typical_record_3",
+          "重庆江北_typical_record_6"
         ],
         "condition_scope": {},
         "condition_contexts": [],
         "condition_group": "",
         "briefing_priority": 0,
-        "text_before_polish": "因误解指令导致无指令推出。",
-        "text_after_polish": "因误解指令导致无指令推出。",
+        "text_before_polish": "曾发生因误解指令导致无指令推出。",
+        "text_after_polish": "曾发生因误解指令导致无指令推出。",
         "polish_applied": false,
         "polish_fallback_reason": "",
         "airport_specific": true,
@@ -5627,12 +5256,14 @@
         "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
         "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
         "source_text_zh": "触发 sink rate 警告导致复飞。",
-        "source_original_text": "触发 sink rate 警告导致复飞。",
+        "source_original_text": "触发 sink rate 警告导致复飞。 2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。",
         "source_original_texts": [
-          "触发 sink rate 警告导致复飞。"
+          "触发 sink rate 警告导致复飞。",
+          "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。"
         ],
         "source_record_ids": [
-          "重庆江北:typical:91b15e6d9c1a6389"
+          "重庆江北:typical:91b15e6d9c1a6389",
+          "重庆江北:typical:ab03283f211fdecb"
         ],
         "source_clauses": [
           "触发 sink rate 警告导致复飞。"
@@ -5646,278 +5277,30 @@
         ],
         "mitigation": [],
         "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "触发 sink rate 警告导致复飞。",
+        "excluded_source_clauses": [
+          {
+            "clause": "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。",
+            "reason": "同一典型不安全事件已由更短且完整的来源表达"
+          }
+        ],
+        "text_zh": "曾触发 SINK RATE 警告导致复飞。",
         "text_en": "",
-        "rendered_text": "触发 sink rate 警告导致复飞。",
+        "rendered_text": "曾触发 SINK RATE 警告导致复飞。",
         "season_scope": [],
         "flight_scope": [],
         "route_scope": [],
         "topic": "special",
         "role": "",
         "source_fact_ids": [
-          "重庆江北_typical_record_4"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 0,
-        "text_before_polish": "触发 sink rate 警告导致复飞。",
-        "text_after_polish": "触发 sink rate 警告导致复飞。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "重庆江北_typical_record_5",
-        "paragraph_id": "",
-        "airport": "重庆江北",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
-        "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆。落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。",
-        "source_original_text": "2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆。落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。",
-        "source_original_texts": [
-          "2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆。落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。"
-        ],
-        "source_record_ids": [
-          "重庆江北:typical:19b9311608454f59"
-        ],
-        "source_clauses": [
-          "2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆。落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。"
-        ],
-        "operational_phase": "approach",
-        "role_scope": [],
-        "operational_condition": [
-          "落地后检查发现雷达罩损 伤超标",
-          "尺寸278*175mm",
-          "更换雷达罩"
-        ],
-        "applicability": [
-          "落地"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [
-          {
-            "clause": "2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆",
-            "reason": "目标月份为8月，不在资料明确季节适用月份4月内"
-          }
-        ],
-        "text_zh": "落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。",
-        "text_en": "",
-        "rendered_text": "落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。",
-        "season_scope": [
-          4
-        ],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "approach",
-        "role": "",
-        "source_fact_ids": [
-          "重庆江北_typical_record_5"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 0,
-        "text_before_polish": "落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。",
-        "text_after_polish": "落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "重庆江北_typical_record_6",
-        "paragraph_id": "",
-        "airport": "重庆江北",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
-        "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。",
-        "source_original_text": "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。",
-        "source_original_texts": [
-          "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。"
-        ],
-        "source_record_ids": [
-          "重庆江北:typical:156af411cf5c118e"
-        ],
-        "source_clauses": [
-          "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。"
-        ],
-        "operational_phase": "incident",
-        "role_scope": [],
-        "operational_condition": [
-          "023年8月28日",
-          "A320飞机执行重庆至西安航班",
-          "重庆 地面机务无耳机",
-          "由于误解误推出",
-          "最后右座PF打开侧窗呼叫机务“停止推出”",
-          "此时飞机已被推到接近滑行道的位置",
-          "拖回原机位",
-          "后续地面拿来耳机",
-          "建立内话联系",
-          "正常推出开车",
-          "后续航班正常"
-        ],
-        "applicability": [
-          "滑行"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。",
-        "text_en": "",
-        "rendered_text": "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。",
-        "season_scope": [
-          8
-        ],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "ground",
-        "role": "",
-        "source_fact_ids": [
-          "重庆江北_typical_record_6"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 0,
-        "text_before_polish": "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。",
-        "text_after_polish": "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "重庆江北_typical_record_7",
-        "paragraph_id": "",
-        "airport": "重庆江北",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
-        "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。",
-        "source_original_text": "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。",
-        "source_original_texts": [
-          "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。"
-        ],
-        "source_record_ids": [
-          "重庆江北:typical:ab03283f211fdecb"
-        ],
-        "source_clauses": [
-          "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。"
-        ],
-        "operational_phase": "incident",
-        "role_scope": [],
-        "operational_condition": [
-          "2023年8月20日",
-          "B787重庆最终进近阶段",
-          "随后机组实施复飞",
-          "决断高后",
-          "气流较乱",
-          "机组执行复飞",
-          "后续正常"
-        ],
-        "applicability": [
-          "进近"
-        ],
-        "risk": [
-          "触发 sink rate 音响警告",
-          "触发一声sink rate语音警告"
-        ],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。",
-        "text_en": "",
-        "rendered_text": "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。",
-        "season_scope": [
-          8
-        ],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "approach",
-        "role": "",
-        "source_fact_ids": [
+          "重庆江北_typical_record_4",
           "重庆江北_typical_record_7"
         ],
         "condition_scope": {},
         "condition_contexts": [],
         "condition_group": "",
         "briefing_priority": 0,
-        "text_before_polish": "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。",
-        "text_after_polish": "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "重庆江北_typical_record_8",
-        "paragraph_id": "",
-        "airport": "重庆江北",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
-        "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。",
-        "source_original_text": "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。",
-        "source_original_texts": [
-          "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。"
-        ],
-        "source_record_ids": [
-          "重庆江北:typical:9e213a077ca9b691"
-        ],
-        "source_clauses": [
-          "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。"
-        ],
-        "operational_phase": "incident",
-        "role_scope": [],
-        "operational_condition": [
-          "2025年8月19日",
-          "塔台 管制员指挥后机复飞",
-          "前机跑道占用104秒"
-        ],
-        "applicability": [
-          "跑道"
-        ],
-        "risk": [],
-        "mitigation": [
-          "因前机申请直角脱离未及时脱离跑道"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。",
-        "text_en": "",
-        "rendered_text": "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。",
-        "season_scope": [
-          8
-        ],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "special",
-        "role": "",
-        "source_fact_ids": [
-          "重庆江北_typical_record_8"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 0,
-        "text_before_polish": "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。",
-        "text_after_polish": "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。",
+        "text_before_polish": "曾触发 SINK RATE 警告导致复飞。",
+        "text_after_polish": "曾触发 SINK RATE 警告导致复飞。",
         "polish_applied": false,
         "polish_fallback_reason": "",
         "airport_specific": true,
@@ -6236,9 +5619,9 @@
             "reason": "同一来源记录中的其他完整运行子句"
           }
         ],
-        "text_zh": "Z5\\Z6因构型原因，在G与J滑行之间形成了一个” S”形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
+        "text_zh": "Z5/Z6因构型原因，在G与J滑行之间形成了一个S形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
         "text_en": "",
-        "rendered_text": "Z5\\Z6因构型原因，在G与J滑行之间形成了一个” S”形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
+        "rendered_text": "Z5/Z6因构型原因，在G与J滑行之间形成了一个S形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
         "season_scope": [],
         "flight_scope": [],
         "route_scope": [],
@@ -6253,8 +5636,8 @@
         "condition_contexts": [],
         "condition_group": "",
         "briefing_priority": 260,
-        "text_before_polish": "Z5\\Z6因构型原因，在G与J滑行之间形成了一个” S”形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
-        "text_after_polish": "Z5\\Z6因构型原因，在G与J滑行之间形成了一个” S”形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
+        "text_before_polish": "Z5/Z6因构型原因，在G与J滑行之间形成了一个S形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
+        "text_after_polish": "Z5/Z6因构型原因，在G与J滑行之间形成了一个S形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
         "polish_applied": false,
         "polish_fallback_reason": "",
         "airport_specific": true,
@@ -6668,131 +6051,74 @@
         "category": "core"
       },
       {
-        "fact_id": "沈阳桃仙_core_record_9",
-        "paragraph_id": "沈阳桃仙_core_record_9",
-        "airport": "沈阳桃仙",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
-        "source": "PDF",
-        "source_page": "N/A",
-        "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
-        "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／气象特点",
-        "source_text_zh": "气象特点：冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案。24 号向阳落地，对着陆目视有影响。",
-        "source_original_text": "气象特点：冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案。24 号向阳落地，对着陆目视有影响。",
-        "source_original_texts": [
-          "气象特点：冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案。24 号向阳落地，对着陆目视有影响。"
-        ],
-        "source_record_ids": [
-          "沈阳桃仙:core:ed46c8fb9f5b1663"
-        ],
-        "source_clauses": [
-          "24 号向阳落地，对着陆目视有影响。"
-        ],
-        "operational_phase": "weather",
-        "role_scope": [
-          "arrival"
-        ],
-        "operational_condition": [
-          "24 号向阳落地",
-          "对着陆目视有影响"
-        ],
-        "applicability": [
-          "落地",
-          "着陆"
-        ],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [
-          {
-            "clause": "冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案。",
-            "reason": "同一来源记录中的其他完整运行子句"
-          }
-        ],
-        "text_zh": "24号向阳落地，对着陆目视有影响。",
-        "text_en": "",
-        "rendered_text": "24号向阳落地，对着陆目视有影响。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "weather",
-        "role": "arrival",
-        "source_fact_ids": [
-          "沈阳桃仙_core_record_9"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 310,
-        "text_before_polish": "24号向阳落地，对着陆目视有影响。",
-        "text_after_polish": "24号向阳落地，对着陆目视有影响。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "沈阳桃仙_core_record_18",
-        "paragraph_id": "沈阳桃仙_core_record_18",
+        "fact_id": "沈阳桃仙_core_record_19",
+        "paragraph_id": "沈阳桃仙_core_record_19",
         "airport": "沈阳桃仙",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
         "source": "PDF",
         "source_page": "N/A",
         "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
         "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
-        "source_text_zh": "地面：指挥特点： （1）有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。 （2）经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
-        "source_original_text": "地面：指挥特点： （1）有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。 （2）经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
+        "source_text_zh": "地面：注意事项： （1）沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。 （2）沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。 （3）晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
+        "source_original_text": "地面：注意事项： （1）沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。 （2）沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。 （3）晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
         "source_original_texts": [
-          "地面：指挥特点： （1）有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。 （2）经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。"
+          "地面：注意事项： （1）沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。 （2）沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。 （3）晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。"
         ],
         "source_record_ids": [
-          "沈阳桃仙:core:e5c092d90cf2453f"
+          "沈阳桃仙:core:bf89a99bd6bce515"
         ],
         "source_clauses": [
-          "经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。"
+          "沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。"
         ],
         "operational_phase": "ground",
         "role_scope": [],
         "operational_condition": [
-          "经沈阳维修部门评估",
-          "机组根据机务指挥确定是否执行"
+          "沈阳机场地面夜间滑行时",
+          "滑行道 N 转滑行道B 时滑行道没有中线灯"
         ],
-        "applicability": [],
-        "risk": [
-          "边推边开风险较大"
+        "applicability": [
+          "滑行"
         ],
-        "mitigation": [],
+        "risk": [],
+        "mitigation": [
+          "注意地面标志"
+        ],
         "restriction": [],
         "excluded_source_clauses": [
           {
-            "clause": "有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。",
+            "clause": "沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。",
             "reason": "同一来源记录中的其他完整运行子句"
           },
           {
-            "clause": "未经塔台明确许可，不得在滑行道上开车。",
+            "clause": "晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
             "reason": "同一来源记录中的其他完整运行子句"
           },
           {
-            "clause": "指挥特点：",
+            "clause": "注意事项：",
             "reason": "broken_or_incomplete_source"
           }
         ],
-        "text_zh": "经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
+        "text_zh": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
         "text_en": "",
-        "rendered_text": "经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
+        "rendered_text": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
         "season_scope": [],
         "flight_scope": [],
         "route_scope": [],
         "topic": "landing_ground",
         "role": "arrival",
         "source_fact_ids": [
-          "沈阳桃仙_core_record_18"
+          "沈阳桃仙_core_record_19"
         ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 265,
-        "text_before_polish": "经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
-        "text_after_polish": "经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
+        "condition_scope": {
+          "daypart": "night"
+        },
+        "condition_contexts": [
+          "夜间"
+        ],
+        "condition_group": "沈阳桃仙:core:bf89a99bd6bce515:condition-piece-1",
+        "briefing_priority": 275,
+        "text_before_polish": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
+        "text_after_polish": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
         "polish_applied": false,
         "polish_fallback_reason": "",
         "airport_specific": true,
@@ -6809,174 +6135,6 @@
     },
     {
       "airport": "扬州泰州",
-      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-      "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-      "clause": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-      "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-      "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-      "clause": "自主建立盲降概率大，易双截获或者高截获。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-      "clause": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-      "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-      "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-      "clause": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-      "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-      "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-      "clause": "指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-      "clause": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
-      "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_9",
-      "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_9",
-      "clause": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_9",
-      "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_9",
-      "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_9",
-      "clause": "指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_9",
-      "clause": "自主建立盲降概率大，易双截获或者高截获。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_9",
-      "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_5",
-      "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_5",
-      "clause": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_5",
-      "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_5",
-      "clause": "指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_5",
-      "clause": "自主建立盲降概率大，易双截获或者高截获。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_5",
-      "clause": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_5",
-      "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "扬州泰州",
       "fact_id": "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
       "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
       "reason": "同一来源记录中的其他完整运行子句"
@@ -7016,6 +6174,12 @@
       "fact_id": "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
       "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
       "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
+      "clause": "本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+      "reason": "重复运行主题由独立来源表达"
     },
     {
       "airport": "扬州泰州",
@@ -7024,10 +6188,202 @@
       "reason": "重复事实由信息更完整的来源表达"
     },
     {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+      "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+      "clause": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+      "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+      "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+      "clause": "自主建立盲降概率大，易双截获或者高截获。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+      "clause": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+      "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+      "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+      "clause": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+      "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+      "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+      "clause": "指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+      "clause": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
+      "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "扬州泰州_core_record_9",
+      "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "扬州泰州_core_record_9",
+      "clause": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "扬州泰州_core_record_9",
+      "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "扬州泰州_core_record_9",
+      "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "扬州泰州_core_record_9",
+      "clause": "指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "扬州泰州_core_record_9",
+      "clause": "自主建立盲降概率大，易双截获或者高截获。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "扬州泰州_core_record_9",
+      "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+      "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+      "clause": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+      "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+      "clause": "指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+      "clause": "自主建立盲降概率大，易双截获或者高截获。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+      "clause": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+      "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+      "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
+      "reason": "重复事实由信息更完整的来源表达"
+    },
+    {
       "airport": "重庆江北",
-      "fact_id": "重庆江北_typical_record_5",
-      "clause": "2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆",
-      "reason": "目标月份为8月，不在资料明确季节适用月份4月内"
+      "fact_id": "重庆江北_typical_record_1",
+      "clause": "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。",
+      "reason": "同一典型不安全事件已由更短且完整的来源表达"
+    },
+    {
+      "airport": "重庆江北",
+      "fact_id": "重庆江北_typical_record_2",
+      "clause": "2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆。落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。",
+      "reason": "同一典型不安全事件已由更短且完整的来源表达"
+    },
+    {
+      "airport": "重庆江北",
+      "fact_id": "重庆江北_typical_record_3",
+      "clause": "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。",
+      "reason": "来源文本质量不足，未进入正式正文"
+    },
+    {
+      "airport": "重庆江北",
+      "fact_id": "重庆江北_typical_record_4",
+      "clause": "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。",
+      "reason": "同一典型不安全事件已由更短且完整的来源表达"
     },
     {
       "airport": "重庆江北",
@@ -7202,6 +6558,56 @@
       "reason": "目标月份为8月，不在资料明确季节适用月份9月内"
     },
     {
+      "airport": "重庆江北",
+      "fact_id": "重庆江北_typical_record_8",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
+      "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
+      "clause": "2025年8月19日，因前机申请直角脱离未及时脱离跑道， 塔台 管制员指挥后机复飞，前机跑道占用104秒。",
+      "reason": "同一典型不安全事件已由更短且完整的来源表达"
+    },
+    {
+      "airport": "重庆江北",
+      "fact_id": "重庆江北_typical_record_5",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
+      "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
+      "clause": "2023年4月19日，A320飞机执行永州至重庆航班，在重 庆机场进近阶段场高7500ft，空速230节时雷达罩遭遇鸟击，对操纵无影响，继续进近正常着陆。落地后检查发现雷达罩损 伤超标，尺寸278*175mm，更换雷达罩。",
+      "reason": "同一典型不安全事件已由更短且完整的来源表达"
+    },
+    {
+      "airport": "重庆江北",
+      "fact_id": "重庆江北_typical_record_6",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
+      "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
+      "clause": "023年8月28日，A320飞机执行重庆至西安航班。重庆 地面机务无耳机，由于误解误推出，最后右座PF打开侧窗呼叫机务“停止推出”，此时飞机已被推到接近滑行道的位置，拖回原机位。后续地面拿来耳机，建立内话联系，正常推出开车， 后续航班正常。",
+      "reason": "来源文本质量不足，未进入正式正文"
+    },
+    {
+      "airport": "重庆江北",
+      "fact_id": "重庆江北_typical_record_7",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "重 庆 / 江 北 机 场 运 行 特 点",
+      "source_section": "重 庆 / 江 北 机 场 运 行 特 点／典型不安全事件",
+      "clause": "2023年8月20日，B787重庆最终进近阶段，触发 sink rate 音响警告，随后机组实施复飞；决断高后，气流较乱， 触发一声sink rate语音警告，机组执行复飞，后续正常。",
+      "reason": "同一典型不安全事件已由更短且完整的来源表达"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "扬州泰州_core_record_4",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "扬 州 / 泰 州 机 场 运 行 特 点",
+      "source_section": "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+      "clause": "本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+      "reason": "重复运行主题由独立来源表达"
+    },
+    {
       "airport": "扬州泰州",
       "fact_id": "扬州泰州_core_record_50",
       "source_file": "config/airport_supplements.json",
@@ -7351,45 +6757,51 @@
     },
     {
       "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_5",
+      "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
       "clause": "扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。",
       "reason": "同一来源记录中的其他完整运行子句"
     },
     {
       "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_5",
+      "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
       "clause": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
       "reason": "同一来源记录中的其他完整运行子句"
     },
     {
       "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_5",
+      "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
       "clause": "注意气压基准设置，有时会指挥低空使用标准气压。",
       "reason": "同一来源记录中的其他完整运行子句"
     },
     {
       "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_5",
+      "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
       "clause": "指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。",
       "reason": "同一来源记录中的其他完整运行子句"
     },
     {
       "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_5",
+      "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
       "clause": "自主建立盲降概率大，易双截获或者高截获。",
       "reason": "同一来源记录中的其他完整运行子句"
     },
     {
       "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_5",
+      "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
       "clause": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
       "reason": "同一来源记录中的其他完整运行子句"
     },
     {
       "airport": "扬州泰州",
-      "fact_id": "扬州泰州_core_record_5",
+      "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
       "clause": "②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。",
       "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
+      "clause": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
+      "reason": "重复事实由信息更完整的来源表达"
     },
     {
       "airport": "扬州泰州",
@@ -7447,26 +6859,20 @@
     },
     {
       "airport": "沈阳桃仙",
-      "fact_id": "沈阳桃仙_core_record_9",
-      "clause": "冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案。",
+      "fact_id": "沈阳桃仙_core_record_19",
+      "clause": "沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。",
       "reason": "同一来源记录中的其他完整运行子句"
     },
     {
       "airport": "沈阳桃仙",
-      "fact_id": "沈阳桃仙_core_record_18",
-      "clause": "有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。",
+      "fact_id": "沈阳桃仙_core_record_19",
+      "clause": "晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
       "reason": "同一来源记录中的其他完整运行子句"
     },
     {
       "airport": "沈阳桃仙",
-      "fact_id": "沈阳桃仙_core_record_18",
-      "clause": "未经塔台明确许可，不得在滑行道上开车。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "沈阳桃仙",
-      "fact_id": "沈阳桃仙_core_record_18",
-      "clause": "指挥特点：",
+      "fact_id": "沈阳桃仙_core_record_19",
+      "clause": "注意事项：",
       "reason": "broken_or_incomplete_source"
     },
     {
@@ -7631,6 +7037,16 @@
     },
     {
       "airport": "扬州泰州",
+      "fact_id": "扬州泰州_core_record_4",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "扬 州 / 泰 州 机 场 运 行 特 点",
+      "source_section": "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+      "clause": "本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+      "reason": "重复运行主题由独立来源表达"
+    },
+    {
+      "airport": "扬州泰州",
       "fact_id": "扬州泰州_core_record_52",
       "source_file": "config/airport_supplements.json",
       "source_page": "N/A",
@@ -7661,12 +7077,22 @@
     },
     {
       "airport": "扬州泰州",
-      "fact_id": "paragraph:扬州泰州_core_record_42+扬州泰州_core_record_4",
+      "fact_id": "扬州泰州_core_record_42",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "扬 州 / 泰 州 机 场 运 行 特 点",
-      "source_section": "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／进场 | 扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
-      "clause": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+      "source_section": "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／进场",
+      "clause": "本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+      "reason": "运行价值排序后未选入本次航前核心主题"
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "扬州泰州_core_record_4",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "扬 州 / 泰 州 机 场 运 行 特 点",
+      "source_section": "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+      "clause": "距35号盲降跑道头37NM，剖面较高且五边通常顺风较大，建议提前调速。",
       "reason": "运行价值排序后未选入本次航前核心主题"
     },
     {
@@ -7678,6 +7104,16 @@
       "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／气象特点",
       "clause": "冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案",
       "reason": "目标月份为8月，不在资料明确季节适用月份1,2,3,4,5,12月内"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_9",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／气象特点",
+      "clause": "24 号向阳落地，对着陆目视有影响。",
+      "reason": "当前任务为明确夜间时段，与资料明确日照条件不匹配"
     },
     {
       "airport": "沈阳桃仙",
@@ -7752,6 +7188,16 @@
     {
       "airport": "沈阳桃仙",
       "fact_id": "沈阳桃仙_core_record_17",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+      "clause": "地面：指挥特点： （1）有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。 （2）经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
+      "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_18",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
@@ -7888,10 +7334,24 @@
       "source_section": "airport_supplements.json／沈阳桃仙／core_threats",
       "clause": "严防程序、跑道和离场点输入错误；任何变化均需补充简令和交叉检查。",
       "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_21",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+      "clause": "晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
+      "reason": "运行价值排序后未选入本次航前核心主题"
     }
   ],
   "core_paragraph_fact_ids": {
     "扬州泰州": [
+      [
+        "扬州泰州_core_record_49",
+        "扬州泰州_core_record_4"
+      ],
       [
         "扬州泰州_core_record_7",
         "扬州泰州_core_record_8"
@@ -7903,14 +7363,8 @@
         "扬州泰州_core_record_53"
       ],
       [
-        "扬州泰州_core_record_48"
-      ],
-      [
+        "扬州泰州_core_record_48",
         "扬州泰州_core_record_5"
-      ],
-      [
-        "扬州泰州_core_record_49",
-        "扬州泰州_core_record_4"
       ],
       [
         "扬州泰州_core_record_51"
@@ -7946,10 +7400,7 @@
         "沈阳桃仙_core_record_35"
       ],
       [
-        "沈阳桃仙_core_record_9"
-      ],
-      [
-        "沈阳桃仙_core_record_18"
+        "沈阳桃仙_core_record_19"
       ]
     ]
   },
@@ -7957,6 +7408,43 @@
     "扬州泰州": [
       {
         "paragraph_index": 1,
+        "paragraph_id": "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
+        "topic": "approach_intercept",
+        "role": "transit",
+        "text": "距35号盲降跑道头37NM，剖面较高且五边通常顺风较大，建议提前调速。",
+        "source_fact_ids": [
+          "扬州泰州_core_record_49",
+          "扬州泰州_core_record_4"
+        ],
+        "source_record_ids": [
+          "扬州泰州:core:a2d2ec7f5235a4e9",
+          "扬州泰州:core:63efb8cda33c0d22"
+        ],
+        "source_clauses": [
+          "距35号盲降跑道头37NM，剖面较高且五边通常顺风较大，建议提前调速。"
+        ],
+        "source_original_texts": [
+          "ZJ方向进场可能要求较高高度通过，距35号跑道头较远且五边顺风可能较大，应提前调速和管理下降剖面。",
+          "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。"
+        ],
+        "source_files": [
+          "config/airport_supplements.json",
+          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf"
+        ],
+        "source_sections": [
+          "airport_supplements.json／扬州泰州／core_threats",
+          "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁"
+        ],
+        "condition_scope": {},
+        "condition_contexts": [],
+        "briefing_priority": 405,
+        "text_before_polish": "距35号盲降跑道头37NM，剖面较高且五边通常顺风较大，建议提前调速。",
+        "text_after_polish": "距35号盲降跑道头37NM，剖面较高且五边通常顺风较大，建议提前调速。",
+        "polish_applied": false,
+        "polish_fallback_reason": ""
+      },
+      {
+        "paragraph_index": 2,
         "paragraph_id": "paragraph:扬州泰州_core_record_7+扬州泰州_core_record_8",
         "topic": "approach_intercept",
         "role": "transit",
@@ -7990,11 +7478,11 @@
         "polish_fallback_reason": ""
       },
       {
-        "paragraph_index": 2,
+        "paragraph_index": 3,
         "paragraph_id": "扬州泰州_core_record_9",
         "topic": "departure",
         "role": "transit",
-        "text": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
+        "text": "离场上高度时注意修正海压；2400米以上给出南京修正海压时，有时与扬州本场修正海压存在差异。",
         "source_fact_ids": [
           "扬州泰州_core_record_9"
         ],
@@ -8017,12 +7505,12 @@
         "condition_contexts": [],
         "briefing_priority": 385,
         "text_before_polish": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
-        "text_after_polish": "扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。",
-        "polish_applied": false,
+        "text_after_polish": "离场上高度时注意修正海压；2400米以上给出南京修正海压时，有时与扬州本场修正海压存在差异。",
+        "polish_applied": true,
         "polish_fallback_reason": ""
       },
       {
-        "paragraph_index": 3,
+        "paragraph_index": 4,
         "paragraph_id": "扬州泰州_core_record_53",
         "topic": "approach",
         "role": "transit",
@@ -8054,88 +7542,24 @@
         "polish_fallback_reason": ""
       },
       {
-        "paragraph_index": 4,
-        "paragraph_id": "扬州泰州_core_record_48",
+        "paragraph_index": 5,
+        "paragraph_id": "paragraph:扬州泰州_core_record_48+扬州泰州_core_record_5",
         "topic": "departure_atc",
         "role": "transit",
         "text": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
         "source_fact_ids": [
-          "扬州泰州_core_record_48"
-        ],
-        "source_record_ids": [
-          "扬州泰州:core:a5af5e1567b7538b"
-        ],
-        "source_clauses": [
-          "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。"
-        ],
-        "source_original_texts": [
-          "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。"
-        ],
-        "source_files": [
-          "config/airport_supplements.json"
-        ],
-        "source_sections": [
-          "airport_supplements.json／扬州泰州／core_threats"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "briefing_priority": 375,
-        "text_before_polish": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
-        "text_after_polish": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
-        "polish_applied": false,
-        "polish_fallback_reason": ""
-      },
-      {
-        "paragraph_index": 5,
-        "paragraph_id": "扬州泰州_core_record_5",
-        "topic": "departure_atc",
-        "role": "transit",
-        "text": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-        "source_fact_ids": [
+          "扬州泰州_core_record_48",
           "扬州泰州_core_record_5"
         ],
         "source_record_ids": [
+          "扬州泰州:core:a5af5e1567b7538b",
           "扬州泰州:core:63efb8cda33c0d22"
         ],
         "source_clauses": [
-          "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。"
+          "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。"
         ],
         "source_original_texts": [
-          "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。"
-        ],
-        "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf"
-        ],
-        "source_sections": [
-          "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "briefing_priority": 360,
-        "text_before_polish": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-        "text_after_polish": "本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。",
-        "polish_applied": false,
-        "polish_fallback_reason": ""
-      },
-      {
-        "paragraph_index": 6,
-        "paragraph_id": "paragraph:扬州泰州_core_record_49+扬州泰州_core_record_4",
-        "topic": "approach_intercept",
-        "role": "transit",
-        "text": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-        "source_fact_ids": [
-          "扬州泰州_core_record_49",
-          "扬州泰州_core_record_4"
-        ],
-        "source_record_ids": [
-          "扬州泰州:core:a2d2ec7f5235a4e9",
-          "扬州泰州:core:63efb8cda33c0d22"
-        ],
-        "source_clauses": [
-          "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。"
-        ],
-        "source_original_texts": [
-          "ZJ方向进场可能要求较高高度通过，距35号跑道头较远且五边顺风可能较大，应提前调速和管理下降剖面。",
+          "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
           "其他威胁： （1）扬泰机场为民用机场，遇空军活动时，过ZJ高度3600m。距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。 （2）本场经常有军事活动，进离场可能不按标准程序，注意听清楚管制指令，严格遵守。 （3）注意气压基准设置，有时会指挥低空使用标准气压（4）指挥特点：有时会指挥下低高度自主建立盲降，机组可以提前做好相关预案，或参考公司目视进近造点方案。 （5）自主建立盲降概率大，易双截获或者高截获。 （6）扬州2400米以上空域调整后的风险点：①离场上高度要注意听修正海压，起来后给的是南京修正海压，有时候与扬州本场修正海有差异。②南京因为频繁开扇合扇，扬州130.45 换频南京的频率经常变，要听清频率。"
         ],
         "source_files": [
@@ -8146,18 +7570,16 @@
           "airport_supplements.json／扬州泰州／core_threats",
           "扬 州 / 泰 州 机 场 运 行 特 点／核心威胁与运行特点／其他威胁"
         ],
-        "condition_scope": {
-          "military_activity": "required"
-        },
+        "condition_scope": {},
         "condition_contexts": [],
-        "briefing_priority": 405,
-        "text_before_polish": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
-        "text_after_polish": "距35号盲降跑道头37nm，剖面较高且五边通常顺风较大，建议提前调速；本场周围军航飞行活动频繁，进离场飞机必须严格按照规定程序飞行。",
+        "briefing_priority": 375,
+        "text_before_polish": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
+        "text_after_polish": "军航活动频繁，进离场可能不按标准程序，应听清管制指令并严格执行。",
         "polish_applied": false,
         "polish_fallback_reason": ""
       },
       {
-        "paragraph_index": 4,
+        "paragraph_index": 3,
         "paragraph_id": "扬州泰州_core_record_51",
         "topic": "ground_departure",
         "role": "departure",
@@ -8291,7 +7713,7 @@
         "paragraph_id": "paragraph:重庆江北_core_record_11+重庆江北_core_record_13+重庆江北_core_record_12",
         "topic": "landing_ground",
         "role": "transit",
-        "text": "Z5\\Z6因构型原因，在G与J滑行之间形成了一个” S”形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
+        "text": "Z5/Z6因构型原因，在G与J滑行之间形成了一个S形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
         "source_fact_ids": [
           "重庆江北_core_record_11",
           "重庆江北_core_record_13",
@@ -8317,8 +7739,8 @@
         "condition_scope": {},
         "condition_contexts": [],
         "briefing_priority": 260,
-        "text_before_polish": "Z5\\Z6因构型原因，在G与J滑行之间形成了一个” S”形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
-        "text_after_polish": "Z5\\Z6因构型原因，在G与J滑行之间形成了一个” S”形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
+        "text_before_polish": "Z5/Z6因构型原因，在G与J滑行之间形成了一个S形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
+        "text_after_polish": "Z5/Z6因构型原因，在G与J滑行之间形成了一个S形的滑行路线，易发生滑行错误事件。施工将关闭T3A航站楼周边滑行道区域，不同时段滑行路线不同；T3区域，部分滑行道缺少标牌。机组准备和简令时针对航行通告和航图做好预案，任何疑问，停止滑行，及时咨询ATC。",
         "polish_applied": false,
         "polish_fallback_reason": ""
       },
@@ -8454,53 +7876,21 @@
       },
       {
         "paragraph_index": 4,
-        "paragraph_id": "沈阳桃仙_core_record_9",
-        "topic": "weather",
-        "role": "arrival",
-        "text": "24号向阳落地，对着陆目视有影响。",
-        "source_fact_ids": [
-          "沈阳桃仙_core_record_9"
-        ],
-        "source_record_ids": [
-          "沈阳桃仙:core:ed46c8fb9f5b1663"
-        ],
-        "source_clauses": [
-          "24 号向阳落地，对着陆目视有影响。"
-        ],
-        "source_original_texts": [
-          "气象特点：冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案。24 号向阳落地，对着陆目视有影响。"
-        ],
-        "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf"
-        ],
-        "source_sections": [
-          "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／气象特点"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "briefing_priority": 310,
-        "text_before_polish": "24号向阳落地，对着陆目视有影响。",
-        "text_after_polish": "24号向阳落地，对着陆目视有影响。",
-        "polish_applied": false,
-        "polish_fallback_reason": ""
-      },
-      {
-        "paragraph_index": 5,
-        "paragraph_id": "沈阳桃仙_core_record_18",
+        "paragraph_id": "沈阳桃仙_core_record_19",
         "topic": "landing_ground",
         "role": "arrival",
-        "text": "经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
+        "text": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
         "source_fact_ids": [
-          "沈阳桃仙_core_record_18"
+          "沈阳桃仙_core_record_19"
         ],
         "source_record_ids": [
-          "沈阳桃仙:core:e5c092d90cf2453f"
+          "沈阳桃仙:core:bf89a99bd6bce515"
         ],
         "source_clauses": [
-          "经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。"
+          "沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。"
         ],
         "source_original_texts": [
-          "地面：指挥特点： （1）有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。 （2）经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。"
+          "地面：注意事项： （1）沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。 （2）沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。 （3）晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。"
         ],
         "source_files": [
           "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf"
@@ -8508,11 +7898,15 @@
         "source_sections": [
           "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面"
         ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "briefing_priority": 265,
-        "text_before_polish": "经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
-        "text_after_polish": "经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
+        "condition_scope": {
+          "daypart": "night"
+        },
+        "condition_contexts": [
+          "夜间"
+        ],
+        "briefing_priority": 275,
+        "text_before_polish": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
+        "text_after_polish": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
         "polish_applied": false,
         "polish_fallback_reason": ""
       }
