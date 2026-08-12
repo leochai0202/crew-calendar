@@ -1856,7 +1856,7 @@ UID:05931eb77b18f6dc8fd31cf3e7004c68@crew-calendar
 SUMMARY:✈️ 9C6195 扬州泰州→重庆江北
 DTSTART;TZID=Asia/Shanghai:20260812T070000
 DTEND;TZID=Asia/Shanghai:20260812T094000
-DESCRIPTION:08月12日 周三\n类型：航班\n航班：9C6195\n航线：扬州泰州 → 重庆江北\n地点：扬州泰州\n签到：05:20｜扬州泰州\n任务：07:00 - 09:40\n机型：A320｜注册号：B1628\n\n人员名单：\n• 裘彬\n• 宋晋羿\n• 段洋硕\n• 傅霞(B)\n\n版本：2026-08-11 20:04
+DESCRIPTION:08月12日 周三\n类型：航班\n航班：9C6195\n航线：扬州泰州 → 重庆江北\n地点：扬州泰州\n签到：05:20｜扬州泰州\n任务：07:00 - 09:40\n机型：A320｜注册号：B1628\n\n人员名单：\n• 裘彬\n• 宋晋羿\n• 段洋硕\n• 傅霞(B)\n\n版本：2026-08-12 18:37
 X-CONTENT-SIGNATURE:80021a6eff3c6c3debf760c78b5a85d2
 LOCATION:扬州泰州
 BEGIN:VALARM
@@ -1870,7 +1870,7 @@ UID:ab1ca3b7a896bb94bbc67b9c82dfb3a8@crew-calendar
 SUMMARY:✈️ 9C6196 重庆江北→扬州泰州
 DTSTART;TZID=Asia/Shanghai:20260812T104500
 DTEND;TZID=Asia/Shanghai:20260812T131000
-DESCRIPTION:08月12日 周三\n类型：航班\n航班：9C6196\n航线：重庆江北 → 扬州泰州\n地点：重庆江北\n签到：09:10｜重庆江北\n任务：10:45 - 13:10\n机型：A320｜注册号：B1628\n\n人员名单：\n• 裘彬\n• 宋晋羿\n• 段洋硕\n• 傅霞(B)\n\n版本：2026-08-11 20:04
+DESCRIPTION:08月12日 周三\n类型：航班\n航班：9C6196\n航线：重庆江北 → 扬州泰州\n地点：重庆江北\n签到：09:10｜重庆江北\n任务：10:45 - 13:10\n机型：A320｜注册号：B1628\n\n人员名单：\n• 裘彬\n• 宋晋羿\n• 段洋硕\n• 傅霞(B)\n\n版本：2026-08-12 18:37
 X-CONTENT-SIGNATURE:cc24ebd5edbe84e9044935e43c91984a
 LOCATION:重庆江北
 BEGIN:VALARM
@@ -1884,7 +1884,7 @@ UID:272045f0bc951c61835b0cbe235f6648@crew-calendar
 SUMMARY:✈️ 9C7594 扬州泰州→沈阳桃仙
 DTSTART;TZID=Asia/Shanghai:20260812T203000
 DTEND;TZID=Asia/Shanghai:20260812T223500
-DESCRIPTION:08月12日 周三\n类型：航班\n航班：9C7594\n航线：扬州泰州 → 沈阳桃仙\n地点：扬州泰州\n签到：18:50｜扬州泰州\n任务：20:30 - 22:35\n机型：A320｜注册号：B1628\n\n人员名单：\n• 裘彬\n• 宋晋羿\n• 段洋硕\n• 陈月焜\n\n版本：2026-08-11 20:04
+DESCRIPTION:08月12日 周三\n类型：航班\n航班：9C7594\n航线：扬州泰州 → 沈阳桃仙\n地点：扬州泰州\n签到：18:50｜扬州泰州\n任务：20:30 - 22:35\n机型：A320｜注册号：B1628\n\n人员名单：\n• 裘彬\n• 宋晋羿\n• 段洋硕\n• 陈月焜\n\n版本：2026-08-12 18:37
 X-CONTENT-SIGNATURE:778c4a0acf0039722c47b26f54d08c8b
 LOCATION:扬州泰州
 BEGIN:VALARM
@@ -1898,7 +1898,7 @@ UID:8551401cbc992df91163e56d25667224@crew-calendar
 SUMMARY:✈️ 9C7636
 DTSTART;TZID=Asia/Shanghai:20260813T100000
 DTEND;TZID=Asia/Shanghai:20260813T123500
-DESCRIPTION:08月13日 周四\n类型：航班\n航班：9C7636\n地点：沈阳桃仙\n签到：08:10｜沈阳桃仙\n任务：10:00 - 12:35\n机型：A320｜注册号：B30CM\n\n人员名单：\n• 王谊晨\n• 李创新\n• 周洋\n• 董瑞峰(B)\n• 段洋硕\n\n版本：2026-08-11 20:04
+DESCRIPTION:08月13日 周四\n类型：航班\n航班：9C7636\n地点：沈阳桃仙\n签到：08:10｜沈阳桃仙\n任务：10:00 - 12:35\n机型：A320｜注册号：B30CM\n\n人员名单：\n• 王谊晨\n• 李创新\n• 周洋\n• 董瑞峰(B)\n• 段洋硕\n\n版本：2026-08-12 18:37
 X-CONTENT-SIGNATURE:fa1b98ade71f1e0f95a53da8e33fdd52
 LOCATION:沈阳桃仙
 BEGIN:VALARM
@@ -1912,7 +1912,7 @@ UID:29d1caca983c49fc52cd1de713549677@crew-calendar
 SUMMARY:✈️ 9C7115 上海浦东→丽江三义
 DTSTART;TZID=Asia/Shanghai:20260814T134500
 DTEND;TZID=Asia/Shanghai:20260814T173500
-DESCRIPTION:08月14日 周五\n类型：航班\n航班：9C7115\n航线：上海浦东 → 丽江三义\n地点：上海浦东\n签到：11:55｜上海浦东\n任务：13:45 - 17:35\n机型：A320｜注册号：B32KS\n\n人员名单：\n• 邵珂毓(T2\,R)\n• 张磊A\n• 段洋硕\n• 尤胜伟(B)\n\n版本：2026-08-11 20:04
+DESCRIPTION:08月14日 周五\n类型：航班\n航班：9C7115\n航线：上海浦东 → 丽江三义\n地点：上海浦东\n签到：11:55｜上海浦东\n任务：13:45 - 17:35\n机型：A320｜注册号：B32KS\n\n人员名单：\n• 邵珂毓(T2\,R)\n• 张磊A\n• 段洋硕\n• 尤胜伟(B)\n\n版本：2026-08-12 18:37
 X-CONTENT-SIGNATURE:976ddc8afe957f4fabb84cd764a814ed
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -1926,7 +1926,7 @@ UID:ee6e89d4961ef5c5d6f5498afcc94b9a@crew-calendar
 SUMMARY:✈️ 9C7116 丽江三义→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260814T182000
 DTEND;TZID=Asia/Shanghai:20260814T215000
-DESCRIPTION:08月14日 周五\n类型：航班\n航班：9C7116\n航线：丽江三义 → 上海浦东\n地点：丽江三义\n签到：16:45｜丽江三义\n任务：18:20 - 21:50\n机型：A320｜注册号：B32KS\n\n人员名单：\n• 邵珂毓(T2\,R)\n• 张磊A\n• 段洋硕\n• 尤胜伟(B)\n\n版本：2026-08-11 20:04
+DESCRIPTION:08月14日 周五\n类型：航班\n航班：9C7116\n航线：丽江三义 → 上海浦东\n地点：丽江三义\n签到：16:45｜丽江三义\n任务：18:20 - 21:50\n机型：A320｜注册号：B32KS\n\n人员名单：\n• 邵珂毓(T2\,R)\n• 张磊A\n• 段洋硕\n• 尤胜伟(B)\n\n版本：2026-08-12 18:37
 X-CONTENT-SIGNATURE:c9ca453197d5cf96e96346332abf2212
 LOCATION:丽江三义
 BEGIN:VALARM
