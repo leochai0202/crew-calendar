@@ -84,6 +84,8 @@ AUTH_DIAGNOSTIC_PATH_ENV = "CREW_AUTH_DIAGNOSTIC_PATH"
 PERSISTENT_PROFILE_DIR_ENV = "CREW_PERSISTENT_PROFILE_DIR"
 AUTH_BACKUP_PATH_ENV = "CREW_AUTH_BACKUP_PATH"
 BROWSER_CHANNEL_ENV = "CREW_BROWSER_CHANNEL"
+ROUTE_DIAGNOSTIC_DIR_ENV = "CREW_ROUTE_DIAGNOSTIC_DIR"
+ROUTE_DIAGNOSTIC_DIR = "debug_output"
 WINDOWS_DEFAULT_PROFILE_DIR = Path(
     r"C:\crew-calendar-data\browser-profile"
 )
@@ -538,6 +540,37 @@ def save_page_screenshot(page, filename: str):
         path=os.path.join(ARTIFACT_DIR, filename),
         full_page=True,
     )
+
+
+def route_diagnostic_dir() -> Path:
+    return Path(os.environ.get(ROUTE_DIAGNOSTIC_DIR_ENV) or ROUTE_DIAGNOSTIC_DIR)
+
+
+def sanitize_route_card_text(value: str) -> str:
+    """Keep task facts while removing credentials and personnel-only content."""
+    text = normalize_text(value)
+    if not text:
+        return ""
+
+    text = re.split(r"(?:人员名单|机组人员|乘务组)\s*[:：]?", text, maxsplit=1)[0]
+    safe_lines = []
+    sensitive_label = re.compile(
+        r"cookie|token|authorization|password|密码|授权码|验证码|手机号|邮箱",
+        re.IGNORECASE,
+    )
+    for line in text.splitlines():
+        if sensitive_label.search(line):
+            safe_lines.append("[敏感字段已省略]")
+            continue
+        line = re.sub(r"(?<!\d)1\d{10}(?!\d)", "[手机号已省略]", line)
+        line = re.sub(
+            r"[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}",
+            "[邮箱已省略]",
+            line,
+            flags=re.IGNORECASE,
+        )
+        safe_lines.append(line)
+    return normalize_text("\n".join(safe_lines))[:12000]
 
 
 def escape_ics_text(text: str) -> str:
@@ -1270,6 +1303,66 @@ def inspect_day_detail_panel(page, header: str) -> dict:
                         && rect.height > 0;
                 }
 
+                function collectRouteHints(card) {
+                    const routeName = /(?:route|origin|destination|departure|arrival|airport|station|(?:^|[-_\\s])(?:from|to|dep|arr)(?:$|[-_\\s])|航线|出发|起飞|始发|到达|目的)/i;
+                    const routeLabel = /^(?:航线|出发站|到达站|起飞机场|到达机场|始发站|目的站|始发|到达|出发|目的地)$/;
+                    const fields = [];
+                    const leafTexts = [];
+                    const seenFields = new Set();
+                    const seenLeaves = new Set();
+
+                    function addField(label, value) {
+                        label = norm(label);
+                        value = norm(value);
+                        if (!value || value.length > 160) return;
+                        const key = `${label}=${value}`;
+                        if (seenFields.has(key)) return;
+                        seenFields.add(key);
+                        fields.push({label, value});
+                    }
+
+                    for (const element of Array.from(card.querySelectorAll("*"))) {
+                        if (!visible(element)) continue;
+                        const text = norm(element.innerText || element.textContent);
+                        const visibleChildren = Array.from(element.children || []).filter(visible);
+                        if (text && text.length <= 80 && visibleChildren.length === 0 && !seenLeaves.has(text)) {
+                            seenLeaves.add(text);
+                            leafTexts.push(text);
+                        }
+
+                        const identifier = [
+                            element.id,
+                            element.className,
+                            element.getAttribute("name"),
+                            element.getAttribute("data-field"),
+                            element.getAttribute("data-name"),
+                            element.getAttribute("data-type")
+                        ].map(norm).filter(Boolean).join(" ");
+                        if (routeName.test(identifier)) {
+                            addField(identifier, text);
+                            addField(identifier, element.getAttribute("title"));
+                            addField(identifier, element.getAttribute("aria-label"));
+                            for (const attribute of Array.from(element.attributes || [])) {
+                                if (routeName.test(attribute.name)) {
+                                    addField(attribute.name, attribute.value);
+                                }
+                            }
+                        }
+
+                        if (routeLabel.test(text)) {
+                            const sibling = element.nextElementSibling;
+                            if (sibling && visible(sibling)) {
+                                addField(text, sibling.innerText || sibling.textContent);
+                            }
+                            const parent = element.parentElement;
+                            if (parent && visible(parent)) {
+                                addField(text, parent.innerText || parent.textContent);
+                            }
+                        }
+                    }
+                    return {fields, leafTexts};
+                }
+
                 const rows = Array.from(document.querySelectorAll(".cal_outlist"));
                 const row = rows.find((candidate) => {
                     const head = candidate.querySelector(".cal-head");
@@ -1305,12 +1398,18 @@ def inspect_day_detail_panel(page, header: str) -> dict:
 
                 const seen = new Set();
                 const cards = [];
-                for (const card of [...localCards, ...independentCards]) {
+                for (const [cardIndex, card] of [...localCards, ...independentCards].entries()) {
                     if (!visible(card)) continue;
                     const text = norm(card.innerText || card.textContent);
                     if (!text || seen.has(text)) continue;
                     seen.add(text);
-                    cards.push({text});
+                    const hints = collectRouteHints(card);
+                    cards.push({
+                        text,
+                        card_index: cardIndex,
+                        route_fields: hints.fields,
+                        dom_leaf_texts: hints.leafTexts
+                    });
                 }
 
                 const detailVisible = visible(detail);
@@ -1371,7 +1470,11 @@ def get_selected_day_detail_cards(page, header: str) -> list:
     for card in snapshot.get("cards") or []:
         text = normalize_text(card.get("text", "")) if isinstance(card, dict) else ""
         if text:
-            cards.append({"text": text})
+            normalized_card = {"text": text}
+            for key in ("route_fields", "dom_leaf_texts", "card_index"):
+                if card.get(key) not in (None, [], ""):
+                    normalized_card[key] = card.get(key)
+            cards.append(normalized_card)
     return cards
 
 
@@ -2116,7 +2219,7 @@ def cards_have_real_detail(cards: list, header: str, fallback_text: str = "") ->
         return False
 
     for card in cards:
-        text = normalize_text(card.get("text", ""))
+        text = detail_card_parse_text(card)
         if not text:
             continue
 
@@ -2146,7 +2249,7 @@ def cards_have_real_detail(cards: list, header: str, fallback_text: str = "") ->
 def build_day_block_from_detail_cards(header: str, cards: list) -> str:
     parts = [normalize_text(header)]
     for card in cards:
-        text = normalize_text(card.get("text", ""))
+        text = detail_card_parse_text(card)
         if text:
             parts.append(f"{SEGMENT_CARD_MARKER}\n{text}")
     return "\n".join(part for part in parts if part).strip()
@@ -2406,6 +2509,190 @@ def split_day_block_into_cards(day_header: str, day_block: str) -> list:
     return [c for c in cards if c["text"]]
 
 
+ROUTE_FIELD_LABEL_RE = re.compile(
+    r"^(?:航线|出发站|到达站|起飞机场|到达机场|始发站|目的站|"
+    r"始发|到达|出发|目的地|route|origin|destination|departure|arrival)$",
+    re.IGNORECASE,
+)
+ROUTE_FIELD_NAME_RE = re.compile(
+    r"route|origin|destination|departure|arrival|airport|station|"
+    r"(?:^|[-_\s])(?:from|to|dep|arr)(?:$|[-_\s])|"
+    r"航线|出发|起飞|始发|到达|目的",
+    re.IGNORECASE,
+)
+
+
+def extract_known_airport_candidates(value: str) -> list[dict]:
+    """Return longest, non-overlapping airport aliases in source order."""
+    text = normalize_text(value)
+    candidates = []
+    index = 0
+    names = AIRPORT_NAMES or sorted(AIRPORT_CN_TO_ICAO, key=len, reverse=True)
+    while index < len(text):
+        matched = next((name for name in names if name and text.startswith(name, index)), "")
+        if not matched:
+            index += 1
+            continue
+        icao = AIRPORT_CN_TO_ICAO.get(matched, "")
+        preferred = AIRPORT_ICAO_TO_CN.get(icao, matched) if icao else matched
+        candidates.append(
+            {
+                "name": matched,
+                "preferred_name": preferred,
+                "icao": icao,
+                "start": index,
+                "end": index + len(matched),
+            }
+        )
+        index += len(matched)
+    return candidates
+
+
+def _route_endpoint(value: str) -> tuple[str, str]:
+    text = normalize_text(value).strip(" ：:，,;；")
+    if ICAO_RE.fullmatch(text):
+        return text, AIRPORT_ICAO_TO_CN.get(text, "")
+    matches = extract_known_airport_candidates(text)
+    exact = [
+        item
+        for item in matches
+        if item["start"] == 0 and item["end"] == len(text) and item["icao"]
+    ]
+    if len(exact) == 1:
+        return exact[0]["icao"], exact[0]["preferred_name"]
+    return "", ""
+
+
+def _parse_explicit_route_pair(value: str) -> tuple[str, str, str, str]:
+    text = normalize_text(value)
+    text = TIME_RANGE_RE.sub("", text)
+    text = FLIGHT_NO_RE.sub("", text)
+    text = REG_AND_MODEL_RE.sub("", text)
+    text = REG_ONLY_RE.sub("", text)
+    text = MODEL_ONLY_RE.sub("", text)
+    text = re.sub(r"^(?:航线|route)\s*[:：]?\s*", "", text, flags=re.IGNORECASE)
+    text = text.replace("(+1)", "").replace("（+1）", "").strip()
+
+    for separator in ("→", "—", "–", "-", "/"):
+        if separator not in text:
+            continue
+        left, right = [normalize_text(part) for part in text.split(separator, 1)]
+        dep, dep_cn = _route_endpoint(left)
+        arr, arr_cn = _route_endpoint(right)
+        if dep and arr and dep != arr:
+            return dep, arr, dep_cn, arr_cn
+
+    dep_cn, arr_cn = split_concat_airport_route(text)
+    dep = AIRPORT_CN_TO_ICAO.get(dep_cn, "")
+    arr = AIRPORT_CN_TO_ICAO.get(arr_cn, "")
+    if dep and arr and dep != arr:
+        return dep, arr, dep_cn, arr_cn
+    return "", "", "", ""
+
+
+def detail_card_parse_text(card: dict | str) -> str:
+    if isinstance(card, str):
+        return normalize_text(card)
+    text = normalize_text(card.get("text", ""))
+    additions = []
+    for field in card.get("route_fields") or []:
+        if not isinstance(field, dict):
+            continue
+        label = normalize_text(field.get("label", ""))
+        value = normalize_text(field.get("value", ""))
+        if value and (ROUTE_FIELD_NAME_RE.search(label) or ROUTE_FIELD_LABEL_RE.fullmatch(label)):
+            additions.append(f"航线字段 {label}：{value}")
+    for value in card.get("dom_leaf_texts") or []:
+        value = normalize_text(value)
+        if not value:
+            continue
+        airport_matches = extract_known_airport_candidates(value)
+        if ICAO_RE.fullmatch(value) or any(
+            match["start"] == 0 and match["end"] == len(value)
+            for match in airport_matches
+        ):
+            additions.append(value)
+    return "\n".join(dict.fromkeys([text, *additions])).strip()
+
+
+def extract_detail_card_route(
+    card_text: str,
+    checkin_place: str = "",
+) -> tuple[tuple[str, str, str, str], list[dict]]:
+    """Extract a route only from explicit fields or two confirmed card endpoints."""
+    text = normalize_text(card_text)
+    lines = [normalize_text(line) for line in text.splitlines() if normalize_text(line)]
+    stages = []
+
+    departure = None
+    arrival = None
+    for line in lines:
+        field_match = re.match(
+            r"^(?:航线字段\s+)?(?P<label>[^:：]{1,80})\s*[:：]\s*(?P<value>.+)$",
+            line,
+        )
+        if not field_match:
+            continue
+        label = normalize_text(field_match.group("label"))
+        value = normalize_text(field_match.group("value"))
+        direct = _parse_explicit_route_pair(value if label != "航线" else line)
+        if direct[0] and direct[1]:
+            stages.append({"stage": "explicit_route_field", "result": list(direct)})
+            return direct, stages
+        endpoint = _route_endpoint(value)
+        if re.search(r"出发|起飞|始发|origin|departure|from|\bdep\b", label, re.I):
+            departure = endpoint if endpoint[0] else departure
+        if re.search(r"到达|目的|destination|arrival|\bto\b|\barr\b", label, re.I):
+            arrival = endpoint if endpoint[0] else arrival
+    if departure and arrival and departure[0] != arrival[0]:
+        result = (departure[0], arrival[0], departure[1], arrival[1])
+        stages.append({"stage": "explicit_endpoint_fields", "result": list(result)})
+        return result, stages
+    stages.append({"stage": "explicit_dom_or_labeled_fields", "result": "not_found"})
+
+    for line in lines:
+        route = _parse_explicit_route_pair(line)
+        if route[0] and route[1]:
+            stages.append({"stage": "explicit_route_text", "result": list(route)})
+            return route, stages
+    stages.append({"stage": "explicit_route_text", "result": "not_found"})
+
+    task_time_indexes = [
+        index
+        for index, line in enumerate(lines)
+        if TIME_RANGE_RE.search(line) and "航班动态" not in line
+    ]
+    nearby_codes = []
+    if task_time_indexes and FLIGHT_NO_RE.search(text):
+        task_index = task_time_indexes[-1]
+        for index, line in enumerate(lines):
+            if abs(index - task_index) > 6:
+                continue
+            for match in extract_known_airport_candidates(line):
+                if match["icao"] and match["icao"] not in [item[0] for item in nearby_codes]:
+                    nearby_codes.append((match["icao"], match["preferred_name"], index))
+            if ICAO_RE.fullmatch(line) and line not in [item[0] for item in nearby_codes]:
+                nearby_codes.append((line, AIRPORT_ICAO_TO_CN.get(line, ""), index))
+
+    if len(nearby_codes) == 2 and all(item[1] for item in nearby_codes):
+        first, second = sorted(nearby_codes, key=lambda item: item[2])
+        checkin_icao = AIRPORT_CN_TO_ICAO.get(normalize_text(checkin_place), "")
+        if checkin_icao == second[0] and checkin_icao != first[0]:
+            first, second = second, first
+        result = (first[0], second[0], first[1], second[1])
+        stages.append({"stage": "adjacent_detail_airport_nodes", "result": list(result)})
+        return result, stages
+
+    stages.append(
+        {
+            "stage": "adjacent_detail_airport_nodes",
+            "result": "not_found",
+            "candidate_count": len(nearby_codes),
+        }
+    )
+    return ("", "", "", ""), stages
+
+
 def extract_icao_pairs_from_card(card_text: str):
     lines = [normalize_text(x) for x in card_text.splitlines() if normalize_text(x)]
     seq = []
@@ -2536,15 +2823,92 @@ def get_code_pair_from_day_block(day_block: str, flight_no: str):
     return "", ""
 
 
-def extract_airports(card_text: str, day_block: str, flight_no: str, checkin_place: str = ""):
+def extract_airports_with_diagnostics(
+    card_text: str,
+    day_block: str,
+    flight_no: str,
+    checkin_place: str = "",
+):
+    diagnostics = {"stages": []}
+    detail_route, detail_stages = extract_detail_card_route(
+        card_text,
+        checkin_place=checkin_place,
+    )
+    diagnostics["stages"].extend(detail_stages)
+    detail_dep, detail_arr, detail_dep_cn, detail_arr_cn = detail_route
+
     dep, arr = extract_icao_pairs_from_card(card_text)
+    diagnostics["stages"].append(
+        {
+            "stage": "card_icao_pair",
+            "result": [dep, arr] if dep and arr else "not_found",
+        }
+    )
 
     if not dep or not arr:
         dep2, arr2 = get_code_pair_from_day_block(day_block, flight_no)
         dep = dep or dep2
         arr = arr or arr2
+        diagnostics["stages"].append(
+            {
+                "stage": "day_block_icao_pair",
+                "result": [dep2, arr2] if dep2 and arr2 else "not_found",
+            }
+        )
 
-    dep_cn, arr_cn = resolve_airport_names(dep, arr, card_text, checkin_place=checkin_place)
+    if dep and arr:
+        dep_cn, arr_cn = resolve_airport_names(
+            dep,
+            arr,
+            card_text,
+            checkin_place=checkin_place,
+        )
+        if detail_dep and detail_arr and (detail_dep != dep or detail_arr != arr):
+            logger.warning(
+                "任务卡中文/DOM航线与ICAO端点冲突，保留ICAO端点：%s→%s",
+                dep,
+                arr,
+            )
+            diagnostics["stages"].append(
+                {
+                    "stage": "icao_conflict_resolution",
+                    "result": "kept_icao",
+                    "detail_route": [detail_dep, detail_arr],
+                }
+            )
+        diagnostics["final_stage"] = "reliable_icao_pair"
+        return dep, arr, dep_cn, arr_cn, diagnostics
+
+    if detail_dep and detail_arr and detail_dep_cn and detail_arr_cn:
+        diagnostics["final_stage"] = "detail_card_route"
+        return (
+            detail_dep,
+            detail_arr,
+            detail_dep_cn,
+            detail_arr_cn,
+            diagnostics,
+        )
+
+    dep_cn, arr_cn = _extract_cn_route_from_card(card_text, "", "")
+    dep = AIRPORT_CN_TO_ICAO.get(dep_cn, "")
+    arr = AIRPORT_CN_TO_ICAO.get(arr_cn, "")
+    diagnostics["stages"].append(
+        {
+            "stage": "legacy_card_text_route",
+            "result": [dep, arr, dep_cn, arr_cn] if dep and arr else "not_found",
+        }
+    )
+    diagnostics["final_stage"] = "legacy_card_text_route" if dep and arr else "failed"
+    return dep, arr, dep_cn, arr_cn, diagnostics
+
+
+def extract_airports(card_text: str, day_block: str, flight_no: str, checkin_place: str = ""):
+    dep, arr, dep_cn, arr_cn, _ = extract_airports_with_diagnostics(
+        card_text,
+        day_block,
+        flight_no,
+        checkin_place=checkin_place,
+    )
     return dep, arr, dep_cn, arr_cn
 
 
@@ -3829,7 +4193,130 @@ def parse_generic_card(card_text: str, day_header: str, page_year: int, day_task
     return item
 
 
-def parse_flight_card(card_text: str, day_header: str, page_year: int, day_task_text: str):
+def _route_failure_date_key(day_header: str, page_year: int) -> str:
+    date_info = extract_date(day_header, page_year)
+    if not date_info:
+        return "unknown-date"
+    year, month, day_num = date_info
+    return f"{year:04d}{month:02d}{day_num:02d}"
+
+
+def write_route_parse_failure_diagnostic(
+    *,
+    day_header: str,
+    page_year: int,
+    flight_no: str,
+    start_time: str,
+    end_time: str,
+    checkin_place: str,
+    card_text: str,
+    diagnostics: dict,
+    detail_state: str = DETAIL_READY,
+) -> Path | None:
+    directory = route_diagnostic_dir()
+    filename = (
+        f"route_parse_failed_{_route_failure_date_key(day_header, page_year)}_"
+        f"{safe_name(flight_no)}.txt"
+    )
+    try:
+        directory.mkdir(parents=True, exist_ok=True)
+        airport_candidates = []
+        for candidate in extract_known_airport_candidates(card_text):
+            entry = {
+                "name": candidate["name"],
+                "preferred_name": candidate["preferred_name"],
+                "icao": candidate["icao"],
+            }
+            if entry not in airport_candidates:
+                airport_candidates.append(entry)
+        payload = {
+            "status": "ROUTE_PARSE_FAILED",
+            "detail_state": detail_state,
+            "date": _route_failure_date_key(day_header, page_year),
+            "day_header": normalize_text(day_header),
+            "flight_no": normalize_text(flight_no),
+            "start_time": normalize_text(start_time),
+            "end_time": normalize_text(end_time),
+            "checkin_place": normalize_text(checkin_place),
+            "sanitized_card_text": sanitize_route_card_text(card_text),
+            "detected_icao_candidates": list(dict.fromkeys(ICAO_RE.findall(card_text))),
+            "detected_airport_name_candidates": airport_candidates,
+            "parser": diagnostics,
+        }
+        path = directory / filename
+        path.write_text(
+            json.dumps(payload, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        return path
+    except Exception as error:
+        logger.warning(
+            "ROUTE_PARSE_DIAGNOSTIC_WRITE_FAILED error_type=%s message=%s",
+            type(error).__name__,
+            safe_exception_message(error),
+        )
+        return None
+
+
+def capture_route_parse_failure_card(page, flight_no: str, day_header: str, page_year: int) -> Path | None:
+    directory = route_diagnostic_dir()
+    filename = (
+        f"route_parse_failed_{_route_failure_date_key(day_header, page_year)}_"
+        f"{safe_name(flight_no)}.png"
+    )
+    try:
+        directory.mkdir(parents=True, exist_ok=True)
+        cards = page.locator(".cal-schedule")
+        for index in range(cards.count()):
+            card = cards.nth(index)
+            if not card.is_visible():
+                continue
+            if flight_no not in normalize_text(card.inner_text()):
+                continue
+            path = directory / filename
+            card.screenshot(path=str(path))
+            return path
+    except Exception as error:
+        logger.warning(
+            "ROUTE_PARSE_DIAGNOSTIC_SCREENSHOT_FAILED error_type=%s message=%s",
+            type(error).__name__,
+            safe_exception_message(error),
+        )
+    return None
+
+
+def existing_last_good_route_for_task(
+    day_header: str,
+    page_year: int,
+    flight_no: str,
+    start_time: str,
+    end_time: str,
+) -> bool:
+    target_date = _route_failure_date_key(day_header, page_year)
+    start_suffix = f"T{start_time.replace(':', '')}00" if start_time else ""
+    end_suffix = f"T{end_time.replace(':', '')}00" if end_time else ""
+    for filename in ("flight.ics", "crew_schedule.ics"):
+        for block in read_existing_events(filename).values():
+            if extract_event_date_from_block(block) != target_date:
+                continue
+            summary = normalize_text(extract_summary_from_vevent(block))
+            if flight_no not in summary:
+                continue
+            if start_suffix and not extract_dtstart_from_vevent(block).endswith(start_suffix):
+                continue
+            if end_suffix and not extract_dtend_from_vevent(block).endswith(end_suffix):
+                continue
+            if "航线：" in block and "→" in block:
+                return True
+    return False
+
+
+def parse_flight_card(
+    card_text: str,
+    day_header: str,
+    page_year: int,
+    day_task_text: str,
+):
     date_info = extract_date(day_header, page_year)
 
     if not date_info:
@@ -3841,7 +4328,7 @@ def parse_flight_card(card_text: str, day_header: str, page_year: int, day_task_
     reg, model = extract_reg_and_model(card_text)
     start_time, end_time = extract_start_end_time(card_text)
     checkin_time, checkin_place = extract_checkin(card_text)
-    dep, arr, dep_cn, arr_cn = extract_airports(
+    dep, arr, dep_cn, arr_cn, route_diagnostics = extract_airports_with_diagnostics(
         card_text,
         day_task_text,
         flight_no,
@@ -3863,6 +4350,47 @@ def parse_flight_card(card_text: str, day_header: str, page_year: int, day_task_
 
     if next_day or diff_minutes < 0:
         end_dt += timedelta(days=1)
+
+    route_parse_failed = not all((dep, arr, dep_cn, arr_cn))
+    preserve_last_good = False
+    if route_parse_failed:
+        write_route_parse_failure_diagnostic(
+            day_header=day_header,
+            page_year=page_year,
+            flight_no=flight_no,
+            start_time=start_time,
+            end_time=end_time,
+            checkin_place=checkin_place,
+            card_text=card_text,
+            diagnostics=route_diagnostics,
+        )
+        logger.warning(
+            "ROUTE_PARSE_FAILED date=%s flight_no=%s start=%s end=%s final_stage=%s",
+            _route_failure_date_key(day_header, page_year),
+            flight_no,
+            start_time,
+            end_time,
+            route_diagnostics.get("final_stage", "failed"),
+        )
+        preserve_last_good = existing_last_good_route_for_task(
+            day_header,
+            page_year,
+            flight_no,
+            start_time,
+            end_time,
+        )
+        if preserve_last_good:
+            logger.warning(
+                "ROUTE_PARSE_FAILED_USING_LAST_GOOD_DATA date=%s flight_no=%s",
+                _route_failure_date_key(day_header, page_year),
+                flight_no,
+            )
+        else:
+            logger.warning(
+                "ROUTE_PARSE_FAILED_NO_LAST_GOOD_DATA date=%s flight_no=%s",
+                _route_failure_date_key(day_header, page_year),
+                flight_no,
+            )
 
     return {
         "day_header": day_header,
@@ -3886,6 +4414,9 @@ def parse_flight_card(card_text: str, day_header: str, page_year: int, day_task_
         "end_dt": end_dt,
         "raw_card_text": normalize_text(card_text),
         "kind": "flight",
+        "route_parse_failed": route_parse_failed,
+        "preserve_last_good_date": preserve_last_good,
+        "route_parse_diagnostics": route_diagnostics,
     }
 
 
@@ -4673,29 +5204,20 @@ def extract_segment_details_from_day_block(day_block: str, flight_numbers: list)
         card_segments = extract_route_time_segments_from_day_block(card)
         card_segment = card_segments[0] if card_segments else {}
         start_time, end_time = extract_start_end_time(card)
-        dep_icao, arr_icao = extract_icao_pairs_from_card(card)
-        dep_cn = card_segment.get("dep_cn", "")
-        arr_cn = card_segment.get("arr_cn", "")
-
-        if dep_icao and arr_icao:
-            icao_dep_cn, icao_arr_cn = resolve_airport_names(
-                dep_icao,
-                arr_icao,
+        dep_icao, arr_icao, dep_cn, arr_cn, route_diagnostics = (
+            extract_airports_with_diagnostics(
                 card,
+                day_block,
+                flight_no,
                 checkin_place=checkin_place,
             )
-            parsed_dep_icao = AIRPORT_CN_TO_ICAO.get(dep_cn, "")
-            parsed_arr_icao = AIRPORT_CN_TO_ICAO.get(arr_cn, "")
-            if (
-                (parsed_dep_icao and parsed_dep_icao != dep_icao)
-                or (parsed_arr_icao and parsed_arr_icao != arr_icao)
-            ):
-                logger.warning(
-                    "任务卡中文航线与ICAO端点冲突，保留ICAO端点："
-                    f"{dep_icao}→{arr_icao}"
-                )
-            if icao_dep_cn and icao_arr_cn:
-                dep_cn, arr_cn = icao_dep_cn, icao_arr_cn
+        )
+        if not dep_icao and card_segment.get("dep"):
+            dep_icao = card_segment.get("dep", "")
+            dep_cn = card_segment.get("dep_cn", "")
+        if not arr_icao and card_segment.get("arr"):
+            arr_icao = card_segment.get("arr", "")
+            arr_cn = card_segment.get("arr_cn", "")
 
         detail = {
             "flight_no": flight_no,
@@ -4712,6 +5234,7 @@ def extract_segment_details_from_day_block(day_block: str, flight_numbers: list)
             "end_time": end_time or card_segment.get("end_time", ""),
             "raw_line": card_segment.get("raw_line", card),
             "raw_card_text": card,
+            "route_parse_diagnostics": route_diagnostics,
         }
 
         # 同一航班号只取页面中第一张完整卡片。
@@ -4903,7 +5426,7 @@ def prepare_items(day_blocks, page_year: int) -> list:
         # 记录干净单航段卡，后面跳过同航班同时间的整块卡，避免重复和人员噪声。
         clean_segment_keys = set()
         for clean_card in cards:
-            clean_text = clean_card.get("text", "")
+            clean_text = detail_card_parse_text(clean_card)
             if SEGMENT_CARD_MARKER in clean_text:
                 continue
             clean_flight_no = extract_flight_no(clean_text)
@@ -4931,7 +5454,7 @@ def prepare_items(day_blocks, page_year: int) -> list:
         day_has_real_detail_card = bool(multi_flight_items)
         if not day_has_real_detail_card:
             for c in cards:
-                text = normalize_text(c.get("text", ""))
+                text = detail_card_parse_text(c)
                 if not text:
                     continue
                 if is_summary_only_card(text, day_header):
@@ -4942,7 +5465,7 @@ def prepare_items(day_blocks, page_year: int) -> list:
                     break
 
         for idx, card in enumerate(cards, start=1):
-            card_text = card["text"]
+            card_text = detail_card_parse_text(card)
             if card.get("summary_fallback"):
                 classification_log.append(
                     f"{day_header} | card#{idx} | title=SKIPPED_SUMMARY_FALLBACK\n{card_text}\n---"
@@ -5073,8 +5596,28 @@ def merge_history_replace_scraped_dates(filename: str, bucket_items: list, scrap
     return merged_blocks
 
 
+def exclude_dates_protected_by_last_good_route(items: list[dict]) -> tuple[list[dict], set[str]]:
+    protected_dates = {
+        item["start_dt"].strftime("%Y%m%d")
+        for item in items
+        if item.get("preserve_last_good_date")
+    }
+    if protected_dates:
+        logger.warning(
+            "ROUTE_PARSE_FAILED_USING_LAST_GOOD_DATA protected_dates=%s",
+            sorted(protected_dates),
+        )
+        items = [
+            item
+            for item in items
+            if item["start_dt"].strftime("%Y%m%d") not in protected_dates
+        ]
+    return items, protected_dates
+
+
 def create_multi_calendars_from_blocks(day_blocks, page_year: int):
     items = prepare_items(day_blocks, page_year)
+    items, _ = exclude_dates_protected_by_last_good_route(items)
     version_tag = build_version_tag()
 
     buckets = {
@@ -5223,6 +5766,45 @@ def log_detail_refresh_failure(day_header: str, page_year: int) -> None:
         )
 
 
+def capture_visible_route_failures(
+    page,
+    day_header: str,
+    page_year: int,
+    day_block: str,
+    cards: list,
+) -> None:
+    """Persist a card-only diagnostic only for a real flight with no route."""
+    for card in cards:
+        card_text = detail_card_parse_text(card)
+        if classify_card_kind(card_text, day_header) != "flight":
+            continue
+        flight_no = extract_flight_no(card_text)
+        start_time, end_time = extract_start_end_time(card_text)
+        if not flight_no or not start_time or not end_time:
+            continue
+        checkin_time, checkin_place = extract_checkin(card_text)
+        del checkin_time
+        dep, arr, dep_cn, arr_cn, diagnostics = extract_airports_with_diagnostics(
+            card_text,
+            day_block,
+            flight_no,
+            checkin_place=checkin_place,
+        )
+        if all((dep, arr, dep_cn, arr_cn)):
+            continue
+        write_route_parse_failure_diagnostic(
+            day_header=day_header,
+            page_year=page_year,
+            flight_no=flight_no,
+            start_time=start_time,
+            end_time=end_time,
+            checkin_place=checkin_place,
+            card_text=card_text,
+            diagnostics=diagnostics,
+        )
+        capture_route_parse_failure_card(page, flight_no, day_header, page_year)
+
+
 def collect_day_blocks(page, page_year: int | None = None) -> list:
     load_all_visible_tasks(page)
 
@@ -5257,6 +5839,13 @@ def collect_day_blocks(page, page_year: int | None = None) -> list:
 
             if has_real_detail:
                 logger.info(f"日期 {header} 使用真实详情卡片")
+                capture_visible_route_failures(
+                    page,
+                    header,
+                    page_year,
+                    day_block,
+                    cards,
+                )
             else:
                 logger.warning(f"日期 {header} 未确认真实详情；摘要不写入ICS")
                 log_detail_refresh_failure(header, page_year)

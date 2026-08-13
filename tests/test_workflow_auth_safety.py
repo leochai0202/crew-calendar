@@ -55,7 +55,6 @@ def test_schedule_keeps_three_times_and_uses_expected_secrets() -> None:
         "CREW_PASSWORD",
         "tesseract-ocr",
         "ddddocr",
-        "debug_output",
     ):
         assert forbidden not in workflow
     assert "actions/upload-artifact@v4" in workflow
@@ -64,10 +63,14 @@ def test_schedule_keeps_three_times_and_uses_expected_secrets() -> None:
     for forbidden_artifact in (
         "screenshot",
         "page.html",
-        "debug_output/",
         "playwright/.auth/",
     ):
         assert forbidden_artifact not in workflow
+    assert "debug_output/route_parse_failed_*.txt" in workflow
+    assert "debug_output/route_parse_failed_*.png" in workflow
+    assert workflow.count("debug_output/") == 2
+    assert "path: debug_output" not in workflow
+    assert "debug_output/**" not in workflow
 
 
 def test_schedule_maps_auth_status_and_gates_clean_and_commit() -> None:
