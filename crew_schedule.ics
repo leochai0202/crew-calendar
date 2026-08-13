@@ -2295,7 +2295,7 @@ UID:8551401cbc992df91163e56d25667224@crew-calendar
 SUMMARY:✈️ 9C7636
 DTSTART;TZID=Asia/Shanghai:20260813T100000
 DTEND;TZID=Asia/Shanghai:20260813T123500
-DESCRIPTION:08月13日 周四\n类型：航班\n航班：9C7636\n地点：沈阳桃仙\n签到：08:10｜沈阳桃仙\n任务：10:00 - 12:35\n机型：A320｜注册号：B30CM\n\n人员名单：\n• 王谊晨\n• 李创新\n• 周洋\n• 董瑞峰(B)\n• 段洋硕\n\n版本：2026-08-13 18:36
+DESCRIPTION:08月13日 周四\n类型：航班\n航班：9C7636\n地点：沈阳桃仙\n签到：08:10｜沈阳桃仙\n任务：10:00 - 12:35\n机型：A320｜注册号：B30CM\n\n人员名单：\n• 王谊晨\n• 李创新\n• 周洋\n• 董瑞峰(B)\n• 段洋硕\n\n版本：2026-08-13 19:24
 X-CONTENT-SIGNATURE:fa1b98ade71f1e0f95a53da8e33fdd52
 LOCATION:沈阳桃仙
 BEGIN:VALARM
@@ -2309,7 +2309,7 @@ UID:29d1caca983c49fc52cd1de713549677@crew-calendar
 SUMMARY:✈️ 9C7115 上海浦东→丽江三义
 DTSTART;TZID=Asia/Shanghai:20260814T134500
 DTEND;TZID=Asia/Shanghai:20260814T173500
-DESCRIPTION:08月14日 周五\n类型：航班\n航班：9C7115\n航线：上海浦东 → 丽江三义\n地点：上海浦东\n签到：11:55｜上海浦东\n任务：13:45 - 17:35\n机型：A320｜注册号：B32KS\n\n人员名单：\n• 邵珂毓(T2\,R)\n• 张磊A\n• 段洋硕\n• 尤胜伟(B)\n\n版本：2026-08-13 18:36
+DESCRIPTION:08月14日 周五\n类型：航班\n航班：9C7115\n航线：上海浦东 → 丽江三义\n地点：上海浦东\n签到：11:55｜上海浦东\n任务：13:45 - 17:35\n机型：A320｜注册号：B32KS\n\n人员名单：\n• 邵珂毓(T2\,R)\n• 张磊A\n• 段洋硕\n• 尤胜伟(B)\n\n版本：2026-08-13 19:24
 X-CONTENT-SIGNATURE:976ddc8afe957f4fabb84cd764a814ed
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -2323,7 +2323,7 @@ UID:ee6e89d4961ef5c5d6f5498afcc94b9a@crew-calendar
 SUMMARY:✈️ 9C7116 丽江三义→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260814T182000
 DTEND;TZID=Asia/Shanghai:20260814T215000
-DESCRIPTION:08月14日 周五\n类型：航班\n航班：9C7116\n航线：丽江三义 → 上海浦东\n地点：丽江三义\n签到：16:45｜丽江三义\n任务：18:20 - 21:50\n机型：A320｜注册号：B32KS\n\n人员名单：\n• 邵珂毓(T2\,R)\n• 张磊A\n• 段洋硕\n• 尤胜伟(B)\n\n版本：2026-08-13 18:36
+DESCRIPTION:08月14日 周五\n类型：航班\n航班：9C7116\n航线：丽江三义 → 上海浦东\n地点：丽江三义\n签到：16:45｜丽江三义\n任务：18:20 - 21:50\n机型：A320｜注册号：B32KS\n\n人员名单：\n• 邵珂毓(T2\,R)\n• 张磊A\n• 段洋硕\n• 尤胜伟(B)\n\n版本：2026-08-13 19:24
 X-CONTENT-SIGNATURE:c9ca453197d5cf96e96346332abf2212
 LOCATION:丽江三义
 BEGIN:VALARM
@@ -2337,7 +2337,7 @@ UID:dc4d499e17275029d687e4ac197ce387@crew-calendar
 SUMMARY:✈️ 9C7021
 DTSTART;TZID=Asia/Shanghai:20260817T213500
 DTEND;TZID=Asia/Shanghai:20260818T000500
-DESCRIPTION:08月17日 周一\n类型：航班\n航班：9C7021\n地点：上海浦东\n签到：19:45｜上海浦东\n任务：21:35 - 00:05\n机型：A320｜注册号：B6667\n\n人员名单：\n• 徐忠民(T2\,R)\n• 高劲驰(R)\n• 段洋硕\n• 倪明(P\,B)\n\n版本：2026-08-13 18:36
+DESCRIPTION:08月17日 周一\n类型：航班\n航班：9C7021\n地点：上海浦东\n签到：19:45｜上海浦东\n任务：21:35 - 00:05\n机型：A320｜注册号：B6667\n\n人员名单：\n• 徐忠民(T2\,R)\n• 高劲驰(R)\n• 段洋硕\n• 倪明(P\,B)\n\n版本：2026-08-13 19:24
 X-CONTENT-SIGNATURE:c46d0ef7f71e2c5447f7079e71a84f60
 LOCATION:上海浦东
 BEGIN:VALARM
