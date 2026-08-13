@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-08-14",
-  "generated_at_beijing": "2026-08-13T01:37:34.684821+08:00",
+  "generated_at_beijing": "2026-08-13T11:32:02.124078+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C7115",
@@ -1773,9 +1773,7 @@
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [
-    "沈阳桃仙: 2026-08-11 -> 2026-08-12"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
   "airport_information_version": 20260803,
   "airport_information_type": "PDF",
