@@ -1,6 +1,6 @@
 {
   "rolling_days": 90,
-  "as_of": "2026-08-15",
+  "as_of": "2026-08-16",
   "airports": {
     "西安咸阳": {
       "last_operated": "2026-05-26",
@@ -21,9 +21,9 @@
       "within_90_days": true
     },
     "上海浦东": {
-      "last_operated": "2026-08-14",
+      "last_operated": "2026-08-15",
       "source": "completed_schedule_event",
-      "flight_number": "9C7115",
+      "flight_number": "9C711T",
       "within_90_days": true
     },
     "札幌新千岁": {
@@ -189,9 +189,9 @@
       "within_90_days": true
     },
     "丽江三义": {
-      "last_operated": "2026-08-14",
+      "last_operated": "2026-08-15",
       "source": "completed_schedule_event",
-      "flight_number": "9C7115",
+      "flight_number": "9C711U",
       "within_90_days": true
     },
     "济州": {
@@ -246,6 +246,12 @@
       "last_operated": "2026-08-11",
       "source": "completed_schedule_event",
       "flight_number": "9C6809",
+      "within_90_days": true
+    },
+    "昆明长水": {
+      "last_operated": "2026-08-15",
+      "source": "completed_schedule_event",
+      "flight_number": "9C711U",
       "within_90_days": true
     }
   },
