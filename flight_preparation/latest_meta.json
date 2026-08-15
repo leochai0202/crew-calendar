@@ -1,214 +1,146 @@
 {
   "status": "SUCCESS",
-  "target_date": "2026-08-14",
-  "generated_at_beijing": "2026-08-13T11:32:02.124078+08:00",
+  "target_date": "2026-08-17",
+  "generated_at_beijing": "2026-08-15T18:43:49.219947+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
-    "9C7115",
-    "9C7116"
+    "9C7021"
   ],
   "airports": [
     "上海浦东",
-    "丽江三义"
+    "沈阳桃仙"
   ],
-  "group_output": "2026-08-14_航前准备.txt",
+  "group_output": "2026-08-17_航前准备.txt",
   "english_output": "",
   "english_generated": false,
-  "foreign_crew_detected": true,
-  "foreign_crew_names": [
-    "张磊A"
-  ],
-  "english_confirmation_required": true,
-  "english_trigger_names": [
-    "张磊A"
-  ],
+  "foreign_crew_detected": false,
+  "foreign_crew_names": [],
+  "english_confirmation_required": false,
+  "english_trigger_names": [],
   "matched_event_uids": [
-    "29d1caca983c49fc52cd1de713549677@crew-calendar",
-    "ee6e89d4961ef5c5d6f5498afcc94b9a@crew-calendar"
+    "dd5f824683883afc9f2d22649c41d3d7@crew-calendar"
   ],
   "matched_flights": [
     {
-      "uid": "29d1caca983c49fc52cd1de713549677@crew-calendar",
-      "summary": "✈️ 9C7115 上海浦东→丽江三义",
-      "start": "2026-08-14T13:45:00+08:00",
-      "end": "2026-08-14T17:35:00+08:00",
-      "description": "08月14日 周五\n类型：航班\n航班：9C7115\n航线：上海浦东 → 丽江三义\n地点：上海浦东\n签到：11:55｜上海浦东\n任务：13:45 - 17:35\n机型：A320｜注册号：B32KS\n\n人员名单：\n• 邵珂毓(T2,R)\n• 张磊A\n• 段洋硕\n• 尤胜伟(B)\n\n版本：2026-08-12 20:08",
+      "uid": "dd5f824683883afc9f2d22649c41d3d7@crew-calendar",
+      "summary": "✈️ 9C7021 上海浦东→沈阳桃仙(+1)",
+      "start": "2026-08-17T21:35:00+08:00",
+      "end": "2026-08-18T00:05:00+08:00",
+      "description": "08月17日 周一\n类型：航班\n航班：9C7021\n航线：上海浦东 → 沈阳桃仙(+1)\n地点：上海浦东\n签到：19:45｜上海浦东\n任务：21:35 - 00:05\n机型：A320｜注册号：B6667\n\n人员名单：\n• 徐忠民(T2,R)\n• 高劲驰(R)\n• 段洋硕\n• 倪明(P,B)\n\n版本：2026-08-13 22:59",
       "location": "上海浦东",
       "properties": {
-        "UID": "29d1caca983c49fc52cd1de713549677@crew-calendar",
-        "SUMMARY": "✈️ 9C7115 上海浦东→丽江三义",
-        "DTSTART": "20260814T134500",
-        "DTEND": "20260814T173500",
-        "DESCRIPTION": "08月14日 周五\\n类型：航班\\n航班：9C7115\\n航线：上海浦东 → 丽江三义\\n地点：上海浦东\\n签到：11:55｜上海浦东\\n任务：13:45 - 17:35\\n机型：A320｜注册号：B32KS\\n\\n人员名单：\\n• 邵珂毓(T2\\,R)\\n• 张磊A\\n• 段洋硕\\n• 尤胜伟(B)\\n\\n版本：2026-08-12 20:08",
-        "X-CONTENT-SIGNATURE": "976ddc8afe957f4fabb84cd764a814ed",
+        "UID": "dd5f824683883afc9f2d22649c41d3d7@crew-calendar",
+        "SUMMARY": "✈️ 9C7021 上海浦东→沈阳桃仙(+1)",
+        "DTSTART": "20260817T213500",
+        "DTEND": "20260818T000500",
+        "DESCRIPTION": "08月17日 周一\\n类型：航班\\n航班：9C7021\\n航线：上海浦东 → 沈阳桃仙(+1)\\n地点：上海浦东\\n签到：19:45｜上海浦东\\n任务：21:35 - 00:05\\n机型：A320｜注册号：B6667\\n\\n人员名单：\\n• 徐忠民(T2\\,R)\\n• 高劲驰(R)\\n• 段洋硕\\n• 倪明(P\\,B)\\n\\n版本：2026-08-13 22:59",
+        "X-CONTENT-SIGNATURE": "2853b61b4ed86c4d12fbb546c0a3142d",
         "LOCATION": "上海浦东"
       },
       "source_file": "flight.ics",
-      "flight_number": "9C7115",
+      "flight_number": "9C7021",
       "departure": "上海浦东",
-      "arrival": "丽江三义",
+      "arrival": "沈阳桃仙",
       "aircraft_type": "A320",
-      "registration": "B32KS",
-      "checkin": "11:55｜上海浦东",
+      "registration": "B6667",
+      "checkin": "19:45｜上海浦东",
       "people": [
-        "邵珂毓(T2,R)",
-        "张磊A",
+        "徐忠民(T2,R)",
+        "高劲驰(R)",
         "段洋硕",
-        "尤胜伟(B)"
+        "倪明(P,B)"
       ],
-      "cross_day": false
-    },
-    {
-      "uid": "ee6e89d4961ef5c5d6f5498afcc94b9a@crew-calendar",
-      "summary": "✈️ 9C7116 丽江三义→上海浦东",
-      "start": "2026-08-14T18:20:00+08:00",
-      "end": "2026-08-14T21:50:00+08:00",
-      "description": "08月14日 周五\n类型：航班\n航班：9C7116\n航线：丽江三义 → 上海浦东\n地点：丽江三义\n签到：16:45｜丽江三义\n任务：18:20 - 21:50\n机型：A320｜注册号：B32KS\n\n人员名单：\n• 邵珂毓(T2,R)\n• 张磊A\n• 段洋硕\n• 尤胜伟(B)\n\n版本：2026-08-12 20:08",
-      "location": "丽江三义",
-      "properties": {
-        "UID": "ee6e89d4961ef5c5d6f5498afcc94b9a@crew-calendar",
-        "SUMMARY": "✈️ 9C7116 丽江三义→上海浦东",
-        "DTSTART": "20260814T182000",
-        "DTEND": "20260814T215000",
-        "DESCRIPTION": "08月14日 周五\\n类型：航班\\n航班：9C7116\\n航线：丽江三义 → 上海浦东\\n地点：丽江三义\\n签到：16:45｜丽江三义\\n任务：18:20 - 21:50\\n机型：A320｜注册号：B32KS\\n\\n人员名单：\\n• 邵珂毓(T2\\,R)\\n• 张磊A\\n• 段洋硕\\n• 尤胜伟(B)\\n\\n版本：2026-08-12 20:08",
-        "X-CONTENT-SIGNATURE": "c9ca453197d5cf96e96346332abf2212",
-        "LOCATION": "丽江三义"
-      },
-      "source_file": "flight.ics",
-      "flight_number": "9C7116",
-      "departure": "丽江三义",
-      "arrival": "上海浦东",
-      "aircraft_type": "A320",
-      "registration": "B32KS",
-      "checkin": "16:45｜丽江三义",
-      "people": [
-        "邵珂毓(T2,R)",
-        "张磊A",
-        "段洋硕",
-        "尤胜伟(B)"
-      ],
-      "cross_day": false
+      "cross_day": true
     }
   ],
   "matched_people": [
-    "邵珂毓(T2,R)",
-    "张磊A",
+    "徐忠民(T2,R)",
+    "高劲驰(R)",
     "段洋硕",
-    "尤胜伟(B)"
+    "倪明(P,B)"
   ],
   "prep_groups": [
     {
       "group_index": 1,
       "flight_numbers": [
-        "9C7115",
-        "9C7116"
+        "9C7021"
       ],
       "airports": [
         "上海浦东",
-        "丽江三义"
+        "沈阳桃仙"
       ],
-      "output": "2026-08-14_航前准备.txt",
+      "output": "2026-08-17_航前准备.txt",
       "english_output": "",
       "english_generated": false,
-      "foreign_crew_detected": true,
-      "foreign_crew_names": [
-        "张磊A"
-      ],
-      "english_confirmation_required": true,
+      "foreign_crew_detected": false,
+      "foreign_crew_names": [],
+      "english_confirmation_required": false,
       "matched_event_uids": [
-        "29d1caca983c49fc52cd1de713549677@crew-calendar",
-        "ee6e89d4961ef5c5d6f5498afcc94b9a@crew-calendar"
+        "dd5f824683883afc9f2d22649c41d3d7@crew-calendar"
       ],
       "matched_flights": [
         {
-          "uid": "29d1caca983c49fc52cd1de713549677@crew-calendar",
-          "summary": "✈️ 9C7115 上海浦东→丽江三义",
-          "start": "2026-08-14T13:45:00+08:00",
-          "end": "2026-08-14T17:35:00+08:00",
-          "description": "08月14日 周五\n类型：航班\n航班：9C7115\n航线：上海浦东 → 丽江三义\n地点：上海浦东\n签到：11:55｜上海浦东\n任务：13:45 - 17:35\n机型：A320｜注册号：B32KS\n\n人员名单：\n• 邵珂毓(T2,R)\n• 张磊A\n• 段洋硕\n• 尤胜伟(B)\n\n版本：2026-08-12 20:08",
+          "uid": "dd5f824683883afc9f2d22649c41d3d7@crew-calendar",
+          "summary": "✈️ 9C7021 上海浦东→沈阳桃仙(+1)",
+          "start": "2026-08-17T21:35:00+08:00",
+          "end": "2026-08-18T00:05:00+08:00",
+          "description": "08月17日 周一\n类型：航班\n航班：9C7021\n航线：上海浦东 → 沈阳桃仙(+1)\n地点：上海浦东\n签到：19:45｜上海浦东\n任务：21:35 - 00:05\n机型：A320｜注册号：B6667\n\n人员名单：\n• 徐忠民(T2,R)\n• 高劲驰(R)\n• 段洋硕\n• 倪明(P,B)\n\n版本：2026-08-13 22:59",
           "location": "上海浦东",
           "properties": {
-            "UID": "29d1caca983c49fc52cd1de713549677@crew-calendar",
-            "SUMMARY": "✈️ 9C7115 上海浦东→丽江三义",
-            "DTSTART": "20260814T134500",
-            "DTEND": "20260814T173500",
-            "DESCRIPTION": "08月14日 周五\\n类型：航班\\n航班：9C7115\\n航线：上海浦东 → 丽江三义\\n地点：上海浦东\\n签到：11:55｜上海浦东\\n任务：13:45 - 17:35\\n机型：A320｜注册号：B32KS\\n\\n人员名单：\\n• 邵珂毓(T2\\,R)\\n• 张磊A\\n• 段洋硕\\n• 尤胜伟(B)\\n\\n版本：2026-08-12 20:08",
-            "X-CONTENT-SIGNATURE": "976ddc8afe957f4fabb84cd764a814ed",
+            "UID": "dd5f824683883afc9f2d22649c41d3d7@crew-calendar",
+            "SUMMARY": "✈️ 9C7021 上海浦东→沈阳桃仙(+1)",
+            "DTSTART": "20260817T213500",
+            "DTEND": "20260818T000500",
+            "DESCRIPTION": "08月17日 周一\\n类型：航班\\n航班：9C7021\\n航线：上海浦东 → 沈阳桃仙(+1)\\n地点：上海浦东\\n签到：19:45｜上海浦东\\n任务：21:35 - 00:05\\n机型：A320｜注册号：B6667\\n\\n人员名单：\\n• 徐忠民(T2\\,R)\\n• 高劲驰(R)\\n• 段洋硕\\n• 倪明(P\\,B)\\n\\n版本：2026-08-13 22:59",
+            "X-CONTENT-SIGNATURE": "2853b61b4ed86c4d12fbb546c0a3142d",
             "LOCATION": "上海浦东"
           },
           "source_file": "flight.ics",
-          "flight_number": "9C7115",
+          "flight_number": "9C7021",
           "departure": "上海浦东",
-          "arrival": "丽江三义",
+          "arrival": "沈阳桃仙",
           "aircraft_type": "A320",
-          "registration": "B32KS",
-          "checkin": "11:55｜上海浦东",
+          "registration": "B6667",
+          "checkin": "19:45｜上海浦东",
           "people": [
-            "邵珂毓(T2,R)",
-            "张磊A",
+            "徐忠民(T2,R)",
+            "高劲驰(R)",
             "段洋硕",
-            "尤胜伟(B)"
+            "倪明(P,B)"
           ],
-          "cross_day": false
-        },
-        {
-          "uid": "ee6e89d4961ef5c5d6f5498afcc94b9a@crew-calendar",
-          "summary": "✈️ 9C7116 丽江三义→上海浦东",
-          "start": "2026-08-14T18:20:00+08:00",
-          "end": "2026-08-14T21:50:00+08:00",
-          "description": "08月14日 周五\n类型：航班\n航班：9C7116\n航线：丽江三义 → 上海浦东\n地点：丽江三义\n签到：16:45｜丽江三义\n任务：18:20 - 21:50\n机型：A320｜注册号：B32KS\n\n人员名单：\n• 邵珂毓(T2,R)\n• 张磊A\n• 段洋硕\n• 尤胜伟(B)\n\n版本：2026-08-12 20:08",
-          "location": "丽江三义",
-          "properties": {
-            "UID": "ee6e89d4961ef5c5d6f5498afcc94b9a@crew-calendar",
-            "SUMMARY": "✈️ 9C7116 丽江三义→上海浦东",
-            "DTSTART": "20260814T182000",
-            "DTEND": "20260814T215000",
-            "DESCRIPTION": "08月14日 周五\\n类型：航班\\n航班：9C7116\\n航线：丽江三义 → 上海浦东\\n地点：丽江三义\\n签到：16:45｜丽江三义\\n任务：18:20 - 21:50\\n机型：A320｜注册号：B32KS\\n\\n人员名单：\\n• 邵珂毓(T2\\,R)\\n• 张磊A\\n• 段洋硕\\n• 尤胜伟(B)\\n\\n版本：2026-08-12 20:08",
-            "X-CONTENT-SIGNATURE": "c9ca453197d5cf96e96346332abf2212",
-            "LOCATION": "丽江三义"
-          },
-          "source_file": "flight.ics",
-          "flight_number": "9C7116",
-          "departure": "丽江三义",
-          "arrival": "上海浦东",
-          "aircraft_type": "A320",
-          "registration": "B32KS",
-          "checkin": "16:45｜丽江三义",
-          "people": [
-            "邵珂毓(T2,R)",
-            "张磊A",
-            "段洋硕",
-            "尤胜伟(B)"
-          ],
-          "cross_day": false
+          "cross_day": true
         }
       ],
       "matched_people": [
-        "邵珂毓(T2,R)",
-        "张磊A",
+        "徐忠民(T2,R)",
+        "高劲驰(R)",
         "段洋硕",
-        "尤胜伟(B)"
+        "倪明(P,B)"
       ],
       "weather": {
         "上海浦东": {
           "icao": "ZSPD",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "taf_validity_utc": [
+            "2026-08-15T12:00:00+00:00",
+            "2026-08-16T18:00:00+00:00"
+          ],
           "relevant_times": [
-            "2026-08-14T13:45:00+08:00",
-            "2026-08-14T21:50:00+08:00"
+            "2026-08-17T21:35:00+08:00"
           ],
           "taf_decoded_by_time": [],
           "decoded": [],
           "fetch_error": ""
         },
-        "丽江三义": {
-          "icao": "ZPLJ",
+        "沈阳桃仙": {
+          "icao": "ZYTX",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "taf_validity_utc": [
+            "2026-08-15T06:00:00+00:00",
+            "2026-08-16T06:00:00+00:00"
+          ],
           "relevant_times": [
-            "2026-08-14T17:35:00+08:00",
-            "2026-08-14T18:20:00+08:00"
+            "2026-08-18T00:05:00+08:00"
           ],
           "taf_decoded_by_time": [],
           "decoded": [],
@@ -226,22 +158,20 @@
           "core": [
             "zspd_departure_navigation",
             "zspd_departure_procedure",
-            "paragraph:zspd_tcas+zspd_departure_traffic",
-            "zspd_runway_occupancy",
-            "paragraph:zspd_thunderstorm+zspd_departure_weather_bird",
-            "paragraph:zspd_adgs_entry+zspd_departure_ground"
+            "zspd_departure_weather_bird",
+            "zspd_departure_ground"
           ]
         },
-        "丽江三义": {
+        "沈阳桃仙": {
           "typical": [
-            "丽江三义_typical_record_1"
+            "沈阳桃仙_typical_record_1",
+            "沈阳桃仙_typical_record_2"
           ],
           "core": [
-            "zplj_descent",
-            "zplj_runway20",
-            "zplj_terrain",
-            "zplj_navigation",
-            "zplj_rain"
+            "沈阳桃仙_core_record_7",
+            "沈阳桃仙_core_record_6",
+            "沈阳桃仙_core_record_35",
+            "沈阳桃仙_core_record_19"
           ]
         }
       },
@@ -533,7 +463,7 @@
             "flight_scope": [],
             "route_scope": [],
             "topic": "departure",
-            "role": "transit",
+            "role": "departure",
             "source_fact_ids": [
               "zspd_departure_navigation"
             ],
@@ -595,14 +525,14 @@
             "flight_scope": [],
             "route_scope": [],
             "topic": "clearance",
-            "role": "transit",
+            "role": "departure",
             "source_fact_ids": [
               "zspd_departure_procedure"
             ],
             "condition_scope": {},
             "condition_contexts": [],
             "condition_group": "",
-            "briefing_priority": 415,
+            "briefing_priority": 395,
             "text_before_polish": "浦东2606期程序已经调整。驾驶舱准备阶段我们应核对实际跑道、SID、跑道过渡、离场公共段、第一航路点及全部高度速度限制，PF和PM独立检查MCDU，防止新旧程序混淆。",
             "text_after_polish": "浦东2606期程序已经调整。驾驶舱准备阶段我们应核对实际跑道、SID、跑道过渡、离场公共段、第一航路点及全部高度速度限制，PF和PM独立检查MCDU，防止新旧程序混淆。",
             "polish_applied": false,
@@ -611,177 +541,38 @@
             "category": "core"
           },
           {
-            "fact_id": "paragraph:zspd_tcas+zspd_departure_traffic",
-            "paragraph_id": "paragraph:zspd_tcas+zspd_departure_traffic",
-            "airport": "上海浦东",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-            "source": "PDF",
-            "source_page": "448,451",
-            "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-            "source_section": "20260720手册第448、451页／其他威胁：进近TA/RA | 20260720手册第448、451页／进近TA/RA",
-            "source_text_zh": "浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。 浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。",
-            "source_original_text": "浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。 浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。",
-            "source_original_texts": [
-              "浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
-              "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。"
-            ],
-            "source_record_ids": [
-              "zspd_tcas",
-              "zspd_departure_traffic"
-            ],
-            "source_clauses": [
-              "浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
-              "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。"
-            ],
-            "operational_phase": "approach",
-            "role_scope": [
-              "arrival"
-            ],
-            "operational_condition": [
-              "接近目标高度最后2000ft且有邻近航空器时",
-              "发生RA时严格执行现行程序",
-              "浦东空域航流密集",
-              "收到直飞或离场变化后重新核对MCDU和初始航路衔接",
-              "并按现行程序处置TA/RA"
-            ],
-            "applicability": [
-              "进近",
-              "离场"
-            ],
-            "risk": [
-              "浦东进近阶段曾多次触发TA/RA"
-            ],
-            "mitigation": [
-              "我们应合理控制升降率并持续监控冲突趋势",
-              "我们应严格执行初始高度、速度和航向指令",
-              "接近目标高度最后2000ft有邻近航空器时合理控制升降率"
-            ],
-            "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
-            "text_en": "Multiple TA/RA events have occurred during approach to Pudong. Within the last 2000 ft before the cleared altitude, when nearby traffic is present, we must manage the vertical rate and monitor the conflict trend; comply strictly with the current RA procedure if an RA occurs. Pudong terminal traffic is dense. We must comply with initial altitude, speed, and heading instructions and recheck the MCDU and initial route connection after a direct clearance or departure change. Within the last 2000 ft before the target altitude, manage vertical rate for nearby traffic and apply the current TA/RA procedure.",
-            "rendered_text": "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "approach",
-            "role": "transit",
-            "source_fact_ids": [
-              "zspd_tcas",
-              "zspd_departure_traffic"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 395,
-            "text_before_polish": "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
-            "text_after_polish": "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "airport_specific": true,
-            "category": "core"
-          },
-          {
-            "fact_id": "zspd_runway_occupancy",
-            "paragraph_id": "zspd_runway_occupancy",
+            "fact_id": "zspd_departure_weather_bird",
+            "paragraph_id": "zspd_departure_weather_bird",
             "airport": "上海浦东",
             "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
             "source": "PDF",
             "source_page": "448",
-            "source_heading": "上海/浦东机场运行特点",
-            "source_section": "二、核心威胁／2.道面特点",
-            "source_text_zh": "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。",
-            "source_original_text": "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。",
+            "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
+            "source_section": "20260720手册第448页／东侧海岸鸟情；补充知识库／夏季雷雨",
+            "source_text_zh": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
+            "source_original_text": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
             "source_original_texts": [
-              "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。"
-            ],
-            "source_record_ids": [
-              "zspd_runway_occupancy"
-            ],
-            "source_clauses": [
-              "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。"
-            ],
-            "operational_phase": "landing",
-            "role_scope": [
-              "arrival"
-            ],
-            "operational_condition": [
-              "浦东通常要求落地后占跑道时间不大于50秒",
-              "预计不能做到时"
-            ],
-            "applicability": [
-              "落地",
-              "跑道"
-            ],
-            "risk": [],
-            "mitigation": [
-              "应不晚于接地前5分钟通知ATC"
-            ],
-            "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。",
-            "text_en": "Pudong normally requires runway occupancy after landing not to exceed 50 seconds. If we expect that this cannot be achieved, advise ATC no later than 5 minutes before touchdown.",
-            "rendered_text": "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "landing",
-            "role": "transit",
-            "source_fact_ids": [
-              "zspd_runway_occupancy"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 372,
-            "text_before_polish": "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。",
-            "text_after_polish": "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "airport_specific": true,
-            "category": "core"
-          },
-          {
-            "fact_id": "paragraph:zspd_thunderstorm+zspd_departure_weather_bird",
-            "paragraph_id": "paragraph:zspd_thunderstorm+zspd_departure_weather_bird",
-            "airport": "上海浦东",
-            "source_file": "config/airport_supplements.json | knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-            "source": "supplement",
-            "source_page": "N/A,448",
-            "source_heading": "上海浦东 | 上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-            "source_section": "airport_supplements.json／上海浦东／core_threats／夏季雷雨 | 20260720手册第448页／东侧海岸鸟情；补充知识库／夏季雷雨",
-            "source_text_zh": "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。 浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
-            "source_original_text": "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。 浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
-            "source_original_texts": [
-              "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
               "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。"
             ],
             "source_record_ids": [
-              "zspd_thunderstorm",
               "zspd_departure_weather_bird"
             ],
             "source_clauses": [
-              "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
               "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。"
             ],
             "operational_phase": "weather",
             "role_scope": [
-              "departure",
-              "arrival"
+              "departure"
             ],
             "operational_condition": [
-              "提前评估绕飞、等待、着陆性能和备降油量",
-              "出现风切变警告或状态不稳定时按程序复飞",
               "提前制定绕飞和返场预案",
               "并关注ATIS、ATC和机场鸟情通报"
             ],
             "applicability": [
               "跑道",
-              "着陆",
               "离场"
             ],
             "risk": [
-              "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变",
               "浦东夏季雷雨可能伴随低云、湿跑道和风切变",
               "东侧海岸鸟类活动也可能与低高度离场航迹重叠"
             ],
@@ -790,9 +581,9 @@
             ],
             "restriction": [],
             "excluded_source_clauses": [],
-            "text_zh": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
-            "text_en": "Summer thunderstorms at Pudong may bring low cloud, reduced visibility, a wet runway, and windshear. We must use the weather radar appropriately throughout the flight and assess deviation, holding, landing performance, and diversion fuel early; execute the prescribed go-around for a windshear warning or an unstable condition. Summer thunderstorms at Pudong may bring low cloud, a wet runway, and windshear, while coastal bird activity east of the airport may overlap the low-altitude departure path. We must use the weather radar appropriately throughout the flight, prepare deviation and return plans early, and monitor ATIS, ATC, and airport bird advisories.",
-            "rendered_text": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
+            "text_zh": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
+            "text_en": "Summer thunderstorms at Pudong may bring low cloud, a wet runway, and windshear, while coastal bird activity east of the airport may overlap the low-altitude departure path. We must use the weather radar appropriately throughout the flight, prepare deviation and return plans early, and monitor ATIS, ATC, and airport bird advisories.",
+            "rendered_text": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
             "season_scope": [
               6,
               7,
@@ -801,55 +592,46 @@
             "flight_scope": [],
             "route_scope": [],
             "topic": "weather",
-            "role": "transit",
+            "role": "departure",
             "source_fact_ids": [
-              "zspd_thunderstorm",
               "zspd_departure_weather_bird"
             ],
             "condition_scope": {},
             "condition_contexts": [],
             "condition_group": "",
-            "briefing_priority": 355,
-            "text_before_polish": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
-            "text_after_polish": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
+            "briefing_priority": 330,
+            "text_before_polish": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
+            "text_after_polish": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
             "polish_applied": false,
             "polish_fallback_reason": "",
-            "airport_specific": false,
+            "airport_specific": true,
             "category": "core"
           },
           {
-            "fact_id": "paragraph:zspd_adgs_entry+zspd_departure_ground",
-            "paragraph_id": "paragraph:zspd_adgs_entry+zspd_departure_ground",
+            "fact_id": "zspd_departure_ground",
+            "paragraph_id": "zspd_departure_ground",
             "airport": "上海浦东",
             "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
             "source": "PDF",
-            "source_page": "448,448-449",
-            "source_heading": "上海/浦东机场运行特点 | 上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-            "source_section": "二、核心威胁／4.其他威胁／第(3)项 | 20260720手册第448-449页／指挥特点与地面滑行引导车",
-            "source_text_zh": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。 浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
-            "source_original_text": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。 浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
+            "source_page": "448-449",
+            "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
+            "source_section": "20260720手册第448-449页／指挥特点与地面滑行引导车",
+            "source_text_zh": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
+            "source_original_text": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
             "source_original_texts": [
-              "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。",
               "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。"
             ],
             "source_record_ids": [
-              "zspd_adgs_entry",
               "zspd_departure_ground"
             ],
             "source_clauses": [
-              "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。",
               "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。"
             ],
             "operational_phase": "ground",
             "role_scope": [
-              "arrival",
               "departure"
             ],
             "operational_condition": [
-              "进入设有ADGS的机位时",
-              "如引导指示有疑问",
-              "或人工引导机位的地面接机人员未就位",
-              "并保持发动机运转等待处置",
               "滑行中如发现地面滑行引导车"
             ],
             "applicability": [
@@ -859,407 +641,428 @@
               "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令"
             ],
             "mitigation": [
-              "我们应立即停止滑行、通知ATC",
               "我们应准确区分并完整复诵",
               "应按机场细则关闭滑行灯并跟随引导车滑行"
             ],
             "restriction": [],
             "excluded_source_clauses": [],
-            "text_zh": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
-            "text_en": "When entering a stand equipped with ADGS, if the guidance is doubtful or the ground reception personnel are not in position at a manually guided stand, we must stop, notify ATC, and keep the engines running while awaiting further action. At Pudong, the apron may issue either a push-and-start clearance or an instruction to report after pushback. We must distinguish and read back the instruction accurately. If a ground follow-me vehicle is encountered during taxi, switch off the taxi light and follow the vehicle as required by the airport rules.",
-            "rendered_text": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
+            "text_zh": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
+            "text_en": "At Pudong, the apron may issue either a push-and-start clearance or an instruction to report after pushback. We must distinguish and read back the instruction accurately. If a ground follow-me vehicle is encountered during taxi, switch off the taxi light and follow the vehicle as required by the airport rules.",
+            "rendered_text": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
             "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
-            "topic": "landing_ground",
-            "role": "transit",
+            "topic": "ground_departure",
+            "role": "departure",
             "source_fact_ids": [
-              "zspd_adgs_entry",
               "zspd_departure_ground"
             ],
             "condition_scope": {},
             "condition_contexts": [],
             "condition_group": "",
-            "briefing_priority": 305,
-            "text_before_polish": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
-            "text_after_polish": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
+            "briefing_priority": 275,
+            "text_before_polish": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
+            "text_after_polish": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
             "polish_applied": false,
             "polish_fallback_reason": "",
             "airport_specific": true,
             "category": "core"
           }
         ],
-        "丽江三义": [
+        "沈阳桃仙": [
           {
-            "fact_id": "丽江三义_typical_record_1",
+            "fact_id": "沈阳桃仙_typical_record_1",
             "paragraph_id": "",
-            "airport": "丽江三义",
+            "airport": "沈阳桃仙",
             "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
             "source": "PDF",
-            "source_page": "795-799",
-            "source_heading": "丽 江 / 三 义 机 场 运 行 特 点",
-            "source_section": "丽 江 / 三 义 机 场 运 行 特 点／典型不安全事件",
-            "source_text_zh": "该机场曾发生，SINK RATE，风切变，重着陆，形态超高度限制，请机组识别相关风险。 A320-251/B-324G号机执行 9C6617上海浦东-丽江航班。丽江进近期间，在18852 英尺建立形态一，后续管制指挥上高度，机组保持形态一爬升，高度超过 20000 英尺，持续约 1 分 43 秒，最大高度到21120 英尺。",
-            "source_original_text": "该机场曾发生，SINK RATE，风切变，重着陆，形态超高度限制，请机组识别相关风险。 A320-251/B-324G号机执行 9C6617上海浦东-丽江航班。丽江进近期间，在18852 英尺建立形态一，后续管制指挥上高度，机组保持形态一爬升，高度超过 20000 英尺，持续约 1 分 43 秒，最大高度到21120 英尺。",
+            "source_page": "N/A",
+            "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+            "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／典型不安全事件",
+            "source_text_zh": "曾因在五边GPS 信号丢失触发虚假地形警告。",
+            "source_original_text": "曾因在五边GPS 信号丢失触发虚假地形警告。",
             "source_original_texts": [
-              "该机场曾发生，SINK RATE，风切变，重着陆，形态超高度限制，请机组识别相关风险。 A320-251/B-324G号机执行 9C6617上海浦东-丽江航班。丽江进近期间，在18852 英尺建立形态一，后续管制指挥上高度，机组保持形态一爬升，高度超过 20000 英尺，持续约 1 分 43 秒，最大高度到21120 英尺。"
+              "曾因在五边GPS 信号丢失触发虚假地形警告。"
             ],
             "source_record_ids": [
-              "丽江三义:typical:80b65a51acea71a5"
+              "沈阳桃仙:typical:71193b1d48a0c644"
             ],
             "source_clauses": [
-              "该机场曾发生，SINK RATE，风切变，重着陆，形态超高度限制，请机组识别相关风险。 A320-251/B-324G号机执行 9C6617上海浦东-丽江航班。丽江进近期间，在18852 英尺建立形态一，后续管制指挥上高度，机组保持形态一爬升，高度超过 20000 英尺，持续约 1 分 43 秒，最大高度到21120 英尺。"
+              "曾因在五边GPS 信号丢失触发虚假地形警告。"
             ],
             "operational_phase": "incident",
             "role_scope": [],
-            "operational_condition": [
-              "该机场曾发生",
-              "SINK RATE",
-              "风切变",
-              "重着陆",
-              "A320-251/B-324G号机执行 9C6617上海浦东-丽江航班",
-              "丽江进近期间",
-              "在18852 英尺建立形态一",
-              "后续管制指挥上高度",
-              "机组保持形态一爬升",
-              "高度超过 20000 英尺",
-              "持续约 1 分 43 秒",
-              "最大高度到21120 英尺"
+            "operational_condition": [],
+            "applicability": [],
+            "risk": [
+              "曾因在五边GPS 信号丢失触发虚假地形警告"
             ],
-            "applicability": [
-              "着陆",
-              "进近"
-            ],
-            "risk": [],
-            "mitigation": [
-              "请机组识别相关风险"
-            ],
-            "restriction": [
-              "形态超高度限制"
-            ],
+            "mitigation": [],
+            "restriction": [],
             "excluded_source_clauses": [],
-            "text_zh": "该机场曾发生，SINK RATE，风切变，重着陆，形态超高度限制，请机组识别相关风险。 A320-251/B-324G号机执行9C6617上海浦东-丽江航班。丽江进近期间，在18852英尺建立形态一，后续管制指挥上高度，机组保持形态一爬升，高度超过20000英尺，持续约1分43秒，最大高度到21120英尺。",
-            "text_en": "Strong wind, turbulence, or windshear can cause speed fluctuation, high descent rate, and an unstable landing condition.",
-            "rendered_text": "该机场曾发生，SINK RATE，风切变，重着陆，形态超高度限制，请机组识别相关风险。 A320-251/B-324G号机执行9C6617上海浦东-丽江航班。丽江进近期间，在18852英尺建立形态一，后续管制指挥上高度，机组保持形态一爬升，高度超过20000英尺，持续约1分43秒，最大高度到21120英尺。",
+            "text_zh": "曾因在五边GPS信号丢失触发虚假地形警告。",
+            "text_en": "",
+            "rendered_text": "曾因在五边GPS信号丢失触发虚假地形警告。",
             "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
-            "topic": "weather",
+            "topic": "terrain",
             "role": "",
             "source_fact_ids": [
-              "丽江三义_typical_record_1"
+              "沈阳桃仙_typical_record_1"
             ],
             "condition_scope": {},
             "condition_contexts": [],
             "condition_group": "",
             "briefing_priority": 0,
-            "text_before_polish": "该机场曾发生，SINK RATE，风切变，重着陆，形态超高度限制，请机组识别相关风险。 A320-251/B-324G号机执行9C6617上海浦东-丽江航班。丽江进近期间，在18852英尺建立形态一，后续管制指挥上高度，机组保持形态一爬升，高度超过20000英尺，持续约1分43秒，最大高度到21120英尺。",
-            "text_after_polish": "该机场曾发生，SINK RATE，风切变，重着陆，形态超高度限制，请机组识别相关风险。 A320-251/B-324G号机执行9C6617上海浦东-丽江航班。丽江进近期间，在18852英尺建立形态一，后续管制指挥上高度，机组保持形态一爬升，高度超过20000英尺，持续约1分43秒，最大高度到21120英尺。",
+            "text_before_polish": "曾因在五边GPS信号丢失触发虚假地形警告。",
+            "text_after_polish": "曾因在五边GPS信号丢失触发虚假地形警告。",
             "polish_applied": false,
             "polish_fallback_reason": "",
             "airport_specific": true,
             "category": "typical"
           },
           {
-            "fact_id": "zplj_descent",
-            "paragraph_id": "zplj_descent",
-            "airport": "丽江三义",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-            "source": "CURATED",
-            "source_page": "795-799",
-            "source_heading": "丽江/三义机场运行特点",
-            "source_section": "丽江人工精选／下降剖面",
-            "source_text_zh": "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。",
-            "source_original_text": "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。",
+            "fact_id": "沈阳桃仙_typical_record_2",
+            "paragraph_id": "",
+            "airport": "沈阳桃仙",
+            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+            "source": "PDF",
+            "source_page": "N/A",
+            "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+            "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／典型不安全事件",
+            "source_text_zh": "曾因风切变导致低空不稳定状态后机组复飞。",
+            "source_original_text": "曾因风切变导致低空不稳定状态后机组复飞。",
             "source_original_texts": [
-              "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。"
+              "曾因风切变导致低空不稳定状态后机组复飞。"
             ],
             "source_record_ids": [
-              "zplj_descent"
+              "沈阳桃仙:typical:fd49e9407fe7bcf1"
             ],
             "source_clauses": [
-              "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。"
+              "曾因风切变导致低空不稳定状态后机组复飞。"
             ],
-            "operational_phase": "arrival",
-            "role_scope": [],
-            "operational_condition": [
-              "尽量在低于5700m后选择形态",
-              "不能稳定时复飞"
-            ],
-            "applicability": [
-              "进近"
-            ],
-            "risk": [
-              "丽江进近可能下降偏晚、剖面偏高"
-            ],
-            "mitigation": [
-              "我们应提前计划下降、减速和构型",
-              "结合剩余距离、顺风、地速和下降率及时申请"
-            ],
-            "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。",
-            "text_en": "Descent clearance into Lijiang may be late and the profile may remain high. We must plan descent, deceleration, and configuration early and make timely requests using remaining distance, tailwind, groundspeed, and descent rate; select configuration below 5700 m whenever possible and go around if the approach cannot be stabilized.",
-            "rendered_text": "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "arrival_energy",
-            "role": "transit",
-            "source_fact_ids": [
-              "zplj_descent"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 415,
-            "text_before_polish": "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。",
-            "text_after_polish": "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "airport_specific": true,
-            "category": "core"
-          },
-          {
-            "fact_id": "zplj_runway20",
-            "paragraph_id": "zplj_runway20",
-            "airport": "丽江三义",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-            "source": "CURATED",
-            "source_page": "795-799",
-            "source_heading": "丽江/三义机场运行特点",
-            "source_section": "丽江人工精选／20号跑道进近",
-            "source_text_zh": "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。",
-            "source_original_text": "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。",
-            "source_original_texts": [
-              "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。"
-            ],
-            "source_record_ids": [
-              "zplj_runway20"
-            ],
-            "source_clauses": [
-              "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。"
-            ],
-            "operational_phase": "approach",
-            "role_scope": [],
-            "operational_condition": [
-              "20号跑道相关进近下降梯度较大",
-              "持续监控下降率、速度、推力和垂直偏差",
-              "未在规定高度达到稳定标准时复飞"
-            ],
-            "applicability": [
-              "20号跑道",
-              "进近",
-              "着陆"
-            ],
-            "risk": [
-              "五边可能有顺风"
-            ],
-            "mitigation": [
-              "我们应提前建立着陆构型"
-            ],
-            "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。",
-            "text_en": "Approaches associated with runway 20 have a steep descent gradient and may have a tailwind on final. We must establish landing configuration early and monitor descent rate, speed, thrust, and vertical deviation; go around if stabilization criteria are not met by the required altitude.",
-            "rendered_text": "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "approach_intercept",
-            "role": "transit",
-            "source_fact_ids": [
-              "zplj_runway20"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 405,
-            "text_before_polish": "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。",
-            "text_after_polish": "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "airport_specific": true,
-            "category": "core"
-          },
-          {
-            "fact_id": "zplj_terrain",
-            "paragraph_id": "zplj_terrain",
-            "airport": "丽江三义",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-            "source": "CURATED",
-            "source_page": "795-799",
-            "source_heading": "丽江/三义机场运行特点",
-            "source_section": "丽江人工精选／高原地形",
-            "source_text_zh": "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。",
-            "source_original_text": "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。",
-            "source_original_texts": [
-              "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。"
-            ],
-            "source_record_ids": [
-              "zplj_terrain"
-            ],
-            "source_clauses": [
-              "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。"
-            ],
-            "operational_phase": "terrain",
-            "role_scope": [],
-            "operational_condition": [
-              "丽江机场标高7358ft",
-              "四周地形复杂",
-              "持续监控航迹、高度、最低安全高度和导航精度",
-              "接受雷达引导、直飞或天气绕飞前"
-            ],
-            "applicability": [],
-            "risk": [],
-            "mitigation": [
-              "我们应严格按照公布程序飞行"
-            ],
-            "restriction": [
-              "必须确认地形间隔"
-            ],
-            "excluded_source_clauses": [],
-            "text_zh": "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。",
-            "text_en": "Lijiang Airport elevation is 7358 ft and the surrounding terrain is complex. We must follow the published procedure and monitor track, altitude, minimum safe altitude, and navigation accuracy; before accepting radar vectors, a direct clearance, or a weather deviation, confirm terrain clearance.",
-            "rendered_text": "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "terrain",
-            "role": "transit",
-            "source_fact_ids": [
-              "zplj_terrain"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 405,
-            "text_before_polish": "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。",
-            "text_after_polish": "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "airport_specific": true,
-            "category": "core"
-          },
-          {
-            "fact_id": "zplj_navigation",
-            "paragraph_id": "zplj_navigation",
-            "airport": "丽江三义",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-            "source": "CURATED",
-            "source_page": "795-799",
-            "source_heading": "丽江/三义机场运行特点",
-            "source_section": "丽江人工精选／ADS-B与GPS",
-            "source_text_zh": "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。",
-            "source_original_text": "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。",
-            "source_original_texts": [
-              "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。"
-            ],
-            "source_record_ids": [
-              "zplj_navigation"
-            ],
-            "source_clauses": [
-              "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。"
-            ],
-            "operational_phase": "navigation",
-            "role_scope": [],
-            "operational_condition": [
-              "丽江进近区域实施ADS-B管制",
-              "出现GPS PRIMARY LOST或导航性能下降时"
-            ],
-            "applicability": [
-              "进近"
-            ],
-            "risk": [
-              "GPS可能不稳定"
-            ],
-            "mitigation": [
-              "我们应监控GPS状态、导航精度、位置和航迹",
-              "及时报告ATC并准备使用其他导航方式"
-            ],
-            "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。",
-            "text_en": "ADS-B control is used in the Lijiang approach area, and GPS may be unstable. We must monitor GPS status, navigation accuracy, position, and track; after GPS PRIMARY LOST or degraded navigation performance, report promptly to ATC and prepare to use other navigation sources.",
-            "rendered_text": "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "special",
-            "role": "transit",
-            "source_fact_ids": [
-              "zplj_navigation"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 395,
-            "text_before_polish": "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。",
-            "text_after_polish": "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "airport_specific": true,
-            "category": "core"
-          },
-          {
-            "fact_id": "zplj_rain",
-            "paragraph_id": "zplj_rain",
-            "airport": "丽江三义",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-            "source": "CURATED",
-            "source_page": "795-799",
-            "source_heading": "丽江/三义机场运行特点",
-            "source_section": "丽江人工精选／雨季运行",
-            "source_text_zh": "丽江5月至9月处于雨季。我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。",
-            "source_original_text": "丽江5月至9月处于雨季。我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。",
-            "source_original_texts": [
-              "丽江5月至9月处于雨季。我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。"
-            ],
-            "source_record_ids": [
-              "zplj_rain"
-            ],
-            "source_clauses": [
-              "我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。"
-            ],
-            "operational_phase": "weather",
+            "operational_phase": "incident",
             "role_scope": [],
             "operational_condition": [],
+            "applicability": [],
+            "risk": [
+              "曾因风切变导致低空不稳定状态后机组复飞"
+            ],
+            "mitigation": [],
+            "restriction": [],
+            "excluded_source_clauses": [],
+            "text_zh": "曾因风切变导致低空不稳定状态后机组复飞。",
+            "text_en": "Strong wind, turbulence, or windshear can cause speed fluctuation, high descent rate, and an unstable landing condition.",
+            "rendered_text": "曾因风切变导致低空不稳定状态后机组复飞。",
+            "season_scope": [],
+            "flight_scope": [],
+            "route_scope": [],
+            "topic": "weather",
+            "role": "",
+            "source_fact_ids": [
+              "沈阳桃仙_typical_record_2"
+            ],
+            "condition_scope": {},
+            "condition_contexts": [],
+            "condition_group": "",
+            "briefing_priority": 0,
+            "text_before_polish": "曾因风切变导致低空不稳定状态后机组复飞。",
+            "text_after_polish": "曾因风切变导致低空不稳定状态后机组复飞。",
+            "polish_applied": false,
+            "polish_fallback_reason": "",
+            "airport_specific": true,
+            "category": "typical"
+          },
+          {
+            "fact_id": "沈阳桃仙_core_record_7",
+            "paragraph_id": "沈阳桃仙_core_record_7",
+            "airport": "沈阳桃仙",
+            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+            "source": "PDF",
+            "source_page": "N/A",
+            "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+            "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／指挥特点",
+            "source_text_zh": "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+            "source_original_text": "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+            "source_original_texts": [
+              "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。"
+            ],
+            "source_record_ids": [
+              "沈阳桃仙:core:d08f3314a7a88b56"
+            ],
+            "source_clauses": [
+              "ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。"
+            ],
+            "operational_phase": "approach",
+            "role_scope": [
+              "arrival"
+            ],
+            "operational_condition": [
+              "干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近"
+            ],
             "applicability": [
               "跑道",
-              "着陆"
+              "起飞"
             ],
-            "risk": [],
+            "risk": [
+              "ILS06/24 下滑道信号易受到干扰"
+            ],
             "mitigation": [
-              "我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离",
-              "并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案"
+              "尤其有飞机使用全跑道起飞跑道外等时",
+              "机组注意做好盲降信号异常时的处置",
+              "同时注意内外结合",
+              "防止丢失状态"
             ],
             "restriction": [],
             "excluded_source_clauses": [
               {
-                "clause": "丽江5月至9月处于雨季",
-                "reason": "目标月份为8月，不在资料明确季节适用月份5,9月内"
+                "clause": "通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。",
+                "reason": "同一来源记录中的其他完整运行子句"
+              },
+              {
+                "clause": "机组注意 FLYSMART性能计算。",
+                "reason": "同一来源记录中的其他完整运行子句"
+              },
+              {
+                "clause": "地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。",
+                "reason": "同一来源记录中的其他完整运行子句"
+              },
+              {
+                "clause": "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。",
+                "reason": "同一来源记录中的其他完整运行子句"
               }
             ],
-            "text_zh": "我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。",
-            "text_en": "",
-            "rendered_text": "我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。",
-            "season_scope": [
-              5,
-              9
-            ],
+            "text_zh": "ILS06/24下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口7-3海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+            "text_en": "Before intercept, we must verify position, intercept angle, altitude, and distance and monitor LOC/GS, FMA, descent rate, and speed; apply the procedure for false or unstable capture and go around if necessary.",
+            "rendered_text": "ILS06/24下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口7-3海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+            "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
-            "topic": "weather",
-            "role": "transit",
+            "topic": "approach_intercept",
+            "role": "arrival",
             "source_fact_ids": [
-              "zplj_rain"
+              "沈阳桃仙_core_record_7"
             ],
             "condition_scope": {},
             "condition_contexts": [],
             "condition_group": "",
-            "briefing_priority": 354,
-            "text_before_polish": "我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。",
-            "text_after_polish": "我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。",
+            "briefing_priority": 405,
+            "text_before_polish": "ILS06/24下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口7-3海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+            "text_after_polish": "ILS06/24下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口7-3海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+            "polish_applied": false,
+            "polish_fallback_reason": "",
+            "airport_specific": true,
+            "category": "core"
+          },
+          {
+            "fact_id": "沈阳桃仙_core_record_6",
+            "paragraph_id": "沈阳桃仙_core_record_6",
+            "airport": "沈阳桃仙",
+            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+            "source": "PDF",
+            "source_page": "N/A",
+            "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+            "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／指挥特点",
+            "source_text_zh": "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+            "source_original_text": "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+            "source_original_texts": [
+              "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。"
+            ],
+            "source_record_ids": [
+              "沈阳桃仙:core:d08f3314a7a88b56"
+            ],
+            "source_clauses": [
+              "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。"
+            ],
+            "operational_phase": "approach",
+            "role_scope": [
+              "arrival"
+            ],
+            "operational_condition": [
+              "进近时",
+              "经常不会飞完整的进场程序",
+              "根据前后机排序间隔等雷达引导",
+              "第二会雷达引导或指挥自行转向五边"
+            ],
+            "applicability": [
+              "进近",
+              "进场"
+            ],
+            "risk": [],
+            "mitigation": [
+              "第一注意能量管理",
+              "机组一定注意判断切入点位置",
+              "避免出现高截获"
+            ],
+            "restriction": [],
+            "excluded_source_clauses": [
+              {
+                "clause": "通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。",
+                "reason": "同一来源记录中的其他完整运行子句"
+              },
+              {
+                "clause": "机组注意 FLYSMART性能计算。",
+                "reason": "同一来源记录中的其他完整运行子句"
+              },
+              {
+                "clause": "地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。",
+                "reason": "同一来源记录中的其他完整运行子句"
+              },
+              {
+                "clause": "ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+                "reason": "同一来源记录中的其他完整运行子句"
+              }
+            ],
+            "text_zh": "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。",
+            "text_en": "Before intercept, we must verify position, intercept angle, altitude, and distance and monitor LOC/GS, FMA, descent rate, and speed; apply the procedure for false or unstable capture and go around if necessary.",
+            "rendered_text": "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。",
+            "season_scope": [],
+            "flight_scope": [],
+            "route_scope": [],
+            "topic": "approach_intercept",
+            "role": "arrival",
+            "source_fact_ids": [
+              "沈阳桃仙_core_record_6"
+            ],
+            "condition_scope": {},
+            "condition_contexts": [],
+            "condition_group": "",
+            "briefing_priority": 370,
+            "text_before_polish": "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。",
+            "text_after_polish": "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。",
+            "polish_applied": false,
+            "polish_fallback_reason": "",
+            "airport_specific": true,
+            "category": "core"
+          },
+          {
+            "fact_id": "沈阳桃仙_core_record_35",
+            "paragraph_id": "沈阳桃仙_core_record_35",
+            "airport": "沈阳桃仙",
+            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+            "source": "PDF",
+            "source_page": "N/A",
+            "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+            "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／进场",
+            "source_text_zh": "进场：指挥特点：TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。",
+            "source_original_text": "进场：指挥特点：TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。",
+            "source_original_texts": [
+              "进场：指挥特点：TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。"
+            ],
+            "source_record_ids": [
+              "沈阳桃仙:core:70520b6dd73077c1"
+            ],
+            "source_clauses": [
+              "指挥特点：TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。"
+            ],
+            "operational_phase": "arrival",
+            "role_scope": [
+              "arrival"
+            ],
+            "operational_condition": [
+              "指挥特点：TOSID方向通常在TOSID前区调指挥保持当前航迹",
+              "联系进近后指挥加入进场"
+            ],
+            "applicability": [
+              "进近",
+              "进场"
+            ],
+            "risk": [],
+            "mitigation": [],
+            "restriction": [],
+            "excluded_source_clauses": [],
+            "text_zh": "TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。",
+            "text_en": "",
+            "rendered_text": "TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。",
+            "season_scope": [],
+            "flight_scope": [],
+            "route_scope": [],
+            "topic": "approach",
+            "role": "arrival",
+            "source_fact_ids": [
+              "沈阳桃仙_core_record_35"
+            ],
+            "condition_scope": {},
+            "condition_contexts": [],
+            "condition_group": "",
+            "briefing_priority": 355,
+            "text_before_polish": "TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。",
+            "text_after_polish": "TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。",
+            "polish_applied": false,
+            "polish_fallback_reason": "",
+            "airport_specific": true,
+            "category": "core"
+          },
+          {
+            "fact_id": "沈阳桃仙_core_record_19",
+            "paragraph_id": "沈阳桃仙_core_record_19",
+            "airport": "沈阳桃仙",
+            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+            "source": "PDF",
+            "source_page": "N/A",
+            "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+            "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+            "source_text_zh": "地面：注意事项： （1）沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。 （2）沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。 （3）晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
+            "source_original_text": "地面：注意事项： （1）沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。 （2）沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。 （3）晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
+            "source_original_texts": [
+              "地面：注意事项： （1）沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。 （2）沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。 （3）晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。"
+            ],
+            "source_record_ids": [
+              "沈阳桃仙:core:bf89a99bd6bce515"
+            ],
+            "source_clauses": [
+              "沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。"
+            ],
+            "operational_phase": "ground",
+            "role_scope": [],
+            "operational_condition": [
+              "沈阳机场地面夜间滑行时",
+              "滑行道 N 转滑行道B 时滑行道没有中线灯"
+            ],
+            "applicability": [
+              "滑行"
+            ],
+            "risk": [],
+            "mitigation": [
+              "注意地面标志"
+            ],
+            "restriction": [],
+            "excluded_source_clauses": [
+              {
+                "clause": "沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。",
+                "reason": "同一来源记录中的其他完整运行子句"
+              },
+              {
+                "clause": "晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
+                "reason": "同一来源记录中的其他完整运行子句"
+              },
+              {
+                "clause": "注意事项：",
+                "reason": "broken_or_incomplete_source"
+              }
+            ],
+            "text_zh": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
+            "text_en": "",
+            "rendered_text": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
+            "season_scope": [],
+            "flight_scope": [],
+            "route_scope": [],
+            "topic": "landing_ground",
+            "role": "arrival",
+            "source_fact_ids": [
+              "沈阳桃仙_core_record_19"
+            ],
+            "condition_scope": {
+              "daypart": "night"
+            },
+            "condition_contexts": [
+              "夜间"
+            ],
+            "condition_group": "沈阳桃仙:core:bf89a99bd6bce515:condition-piece-1",
+            "briefing_priority": 275,
+            "text_before_polish": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
+            "text_after_polish": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
             "polish_applied": false,
             "polish_fallback_reason": "",
             "airport_specific": true,
@@ -1287,10 +1090,70 @@
           "reason": "目标月份为8月，不在资料明确季节适用月份12月内"
         },
         {
-          "airport": "丽江三义",
-          "fact_id": "zplj_rain",
-          "clause": "丽江5月至9月处于雨季",
-          "reason": "目标月份为8月，不在资料明确季节适用月份5,9月内"
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_7",
+          "clause": "通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_7",
+          "clause": "机组注意 FLYSMART性能计算。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_7",
+          "clause": "地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_7",
+          "clause": "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_6",
+          "clause": "通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_6",
+          "clause": "机组注意 FLYSMART性能计算。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_6",
+          "clause": "地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_6",
+          "clause": "ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_19",
+          "clause": "沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_19",
+          "clause": "晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_19",
+          "clause": "注意事项：",
+          "reason": "broken_or_incomplete_source"
         },
         {
           "airport": "上海浦东",
@@ -1314,12 +1177,262 @@
         },
         {
           "airport": "上海浦东",
-          "fact_id": "zspd_bird",
+          "fact_id": "zspd_departure_traffic",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-          "source_page": "448",
+          "source_page": "448,451",
           "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-          "source_section": "20260720手册第448页／其他威胁：东侧海岸鸟类活动",
-          "clause": "浦东东侧海岸鸟类活动与低高度进近航迹可能重叠。我们应关注ATIS、ATC和机场鸟情通报，加强低高度外部观察；发现鸟群或发生鸟击后，根据飞机状态执行程序并及时报告。",
+          "source_section": "20260720手册第448、451页／进近TA/RA",
+          "clause": "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。",
+          "reason": "与当前机场departure角色不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_8",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／气象特点",
+          "clause": "冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案",
+          "reason": "目标月份为8月，不在资料明确季节适用月份1,2,3,4,5,12月内"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_9",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／气象特点",
+          "clause": "24 号向阳落地，对着陆目视有影响。",
+          "reason": "当前任务为明确夜间时段，与资料明确日照条件不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_10",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+          "clause": "沈阳机场发布了最新的《冬季运行保障方案》，其中对于除防冰的要求是春秋及其除冰代理航班原则上停放115-117 区域，根据航班小时峰谷波动情况向 114 方向动态调整",
+          "reason": "目标月份为8月，不在资料明确季节适用月份1,2,12月内"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_10",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+          "clause": "沈阳机场为本公司自行除防冰，如果一步除冰法用的是 I 型防冰液，如果是两步法，第一步是用 I 型除冰，第二步用 IV型，需要根据手册的相关能见度的表查询保持时间",
+          "reason": "目标月份为8月，不在资料明确季节适用月份1,2,12月内"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_11",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+          "clause": "沈阳机场为了提高冬季运行效率，严禁在跑道里进行甩冰/暖车操作，需要甩冰必须提前联系管制员获得许可后方可执行",
+          "reason": "目标月份为8月，不在资料明确季节适用月份1,2,12月内"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_12",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+          "clause": "其他威胁： （1）沈阳机场发布了最新的《冬季运行保障方案》，其中对于除防冰的要求是春秋及其除冰代理航班原则上停放115-117 区域，根据航班小时峰谷波动情况向 114 方向动态调整；沈阳机场为本公司自行除防冰，如果一步除冰法用的是 I 型防冰液，如果是两步法，第一步是用 I 型除冰，第二步用 IV型，需要根据手册的相关能见度的表查询保持时间。 （2）沈阳机场为了提高冬季运行效率，严禁在跑道里进行甩冰/暖车操作，需要甩冰必须提前联系管制员获得许可后方可执行（3）9C7635 和 浦东-白山 9C6135 同时刻同行路 注意相识航班号和管制指令 避免误听指令（4）沈阳机场近期频发离地姿态大事件，起飞擦机尾风险增高，建议机组操纵起飞时保持较低的拉杆速率，确保飞机完全离地（无线电高度表数值增加）方可继续带杆增加姿态。",
+          "reason": "与当前航班/航线不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_33",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／离场",
+          "clause": "离场：注意事项： （1）06 号起飞通常过了 1200m 才可以申请提前右转。 （2）9C6261 沈阳-连云港，CZ6621；9C8731 沈阳-宁波，9C8732 航班可能在同一频率出现相似航班号，请机组注意。",
+          "reason": "与当前航班/航线不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_13",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+          "clause": "其他威胁： （1）沈阳机场发布了最新的《冬季运行保障方案》，其中对于除防冰的要求是春秋及其除冰代理航班原则上停放115-117 区域，根据航班小时峰谷波动情况向 114 方向动态调整；沈阳机场为本公司自行除防冰，如果一步除冰法用的是 I 型防冰液，如果是两步法，第一步是用 I 型除冰，第二步用 IV型，需要根据手册的相关能见度的表查询保持时间。 （2）沈阳机场为了提高冬季运行效率，严禁在跑道里进行甩冰/暖车操作，需要甩冰必须提前联系管制员获得许可后方可执行（3）9C7635 和 浦东-白山 9C6135 同时刻同行路 注意相识航班号和管制指令 避免误听指令（4）沈阳机场近期频发离地姿态大事件，起飞擦机尾风险增高，建议机组操纵起飞时保持较低的拉杆速率，确保飞机完全离地（无线电高度表数值增加）方可继续带杆增加姿态。",
+          "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_16",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+          "clause": "地面：指挥特点： （1）有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。 （2）经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
+          "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_17",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+          "clause": "地面：指挥特点： （1）有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。 （2）经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
+          "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_18",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+          "clause": "地面：指挥特点： （1）有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。 （2）经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
+          "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_20",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+          "clause": "地面：注意事项： （1）沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。 （2）沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。 （3）晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
+          "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_22",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+          "clause": "地面：除/防冰能力： （1）有（2）沈阳机场发动机甩冰程序运行提示1 相关程序需按照公司 FOIB《关于结冰条件下在地面发动机操作的提示》内容执行。 2 沈阳机场运行环境受限，严控航空器在进入跑道后实施甩冰、暖车动作，共同提高跑道利用率。 3 塔台在确保绝对安全的前提下，可考虑使用 R 滑、平滑等区域进行冲突调解； 4 判断需要执行该程序，应在第一时间与地面或塔台频率进行联系。机组在确定执行发动机甩冰程序时，以“航班号+需要执行发动机甩冰程序+最晚执行甩冰程序时间(北京时)”的格式。 （3）注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后，方可操作。 2 指令必须分离：管制员不得将执行指令与起飞指令合并发布。机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令。……",
+          "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_23",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+          "clause": "地面：除/防冰能力： （1）有（2）沈阳机场发动机甩冰程序运行提示1 相关程序需按照公司 FOIB《关于结冰条件下在地面发动机操作的提示》内容执行。 2 沈阳机场运行环境受限，严控航空器在进入跑道后实施甩冰、暖车动作，共同提高跑道利用率。 3 塔台在确保绝对安全的前提下，可考虑使用 R 滑、平滑等区域进行冲突调解； 4 判断需要执行该程序，应在第一时间与地面或塔台频率进行联系。机组在确定执行发动机甩冰程序时，以“航班号+需要执行发动机甩冰程序+最晚执行甩冰程序时间(北京时)”的格式。 （3）注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后，方可操作。 2 指令必须分离：管制员不得将执行指令与起飞指令合并发布。机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令。……",
+          "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_24",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+          "clause": "地面：除/防冰能力： （1）有（2）沈阳机场发动机甩冰程序运行提示1 相关程序需按照公司 FOIB《关于结冰条件下在地面发动机操作的提示》内容执行。 2 沈阳机场运行环境受限，严控航空器在进入跑道后实施甩冰、暖车动作，共同提高跑道利用率。 3 塔台在确保绝对安全的前提下，可考虑使用 R 滑、平滑等区域进行冲突调解； 4 判断需要执行该程序，应在第一时间与地面或塔台频率进行联系。机组在确定执行发动机甩冰程序时，以“航班号+需要执行发动机甩冰程序+最晚执行甩冰程序时间(北京时)”的格式。 （3）注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后，方可操作。 2 指令必须分离：管制员不得将执行指令与起飞指令合并发布。机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令。……",
+          "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_26",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+          "clause": "地面：除/防冰能力： （1）有（2）沈阳机场发动机甩冰程序运行提示1 相关程序需按照公司 FOIB《关于结冰条件下在地面发动机操作的提示》内容执行。 2 沈阳机场运行环境受限，严控航空器在进入跑道后实施甩冰、暖车动作，共同提高跑道利用率。 3 塔台在确保绝对安全的前提下，可考虑使用 R 滑、平滑等区域进行冲突调解； 4 判断需要执行该程序，应在第一时间与地面或塔台频率进行联系。机组在确定执行发动机甩冰程序时，以“航班号+需要执行发动机甩冰程序+最晚执行甩冰程序时间(北京时)”的格式。 （3）注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后，方可操作。 2 指令必须分离：管制员不得将执行指令与起飞指令合并发布。机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令。……",
+          "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_27",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+          "clause": "地面：除/防冰能力： （1）有（2）沈阳机场发动机甩冰程序运行提示1 相关程序需按照公司 FOIB《关于结冰条件下在地面发动机操作的提示》内容执行。 2 沈阳机场运行环境受限，严控航空器在进入跑道后实施甩冰、暖车动作，共同提高跑道利用率。 3 塔台在确保绝对安全的前提下，可考虑使用 R 滑、平滑等区域进行冲突调解； 4 判断需要执行该程序，应在第一时间与地面或塔台频率进行联系。机组在确定执行发动机甩冰程序时，以“航班号+需要执行发动机甩冰程序+最晚执行甩冰程序时间(北京时)”的格式。 （3）注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后，方可操作。 2 指令必须分离：管制员不得将执行指令与起飞指令合并发布。机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令。……",
+          "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_29",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+          "clause": "地面：除/防冰能力： （1）有（2）沈阳机场发动机甩冰程序运行提示1 相关程序需按照公司 FOIB《关于结冰条件下在地面发动机操作的提示》内容执行。 2 沈阳机场运行环境受限，严控航空器在进入跑道后实施甩冰、暖车动作，共同提高跑道利用率。 3 塔台在确保绝对安全的前提下，可考虑使用 R 滑、平滑等区域进行冲突调解； 4 判断需要执行该程序，应在第一时间与地面或塔台频率进行联系。机组在确定执行发动机甩冰程序时，以“航班号+需要执行发动机甩冰程序+最晚执行甩冰程序时间(北京时)”的格式。 （3）注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后，方可操作。 2 指令必须分离：管制员不得将执行指令与起飞指令合并发布。机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令。……",
+          "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_3",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／指挥特点",
+          "clause": "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+          "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_31",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／离场",
+          "clause": "离场：指挥特点：现沈机场实施离地自动脱播，放行中会提示，航行通告中也明确，若塔台提示换频，机组可不回复。",
+          "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_32",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／离场",
+          "clause": "离场：注意事项： （1）06 号起飞通常过了 1200m 才可以申请提前右转。 （2）9C6261 沈阳-连云港，CZ6621；9C8731 沈阳-宁波，9C8732 航班可能在同一频率出现相似航班号，请机组注意。",
+          "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_4",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／指挥特点",
+          "clause": "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+          "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_5",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／指挥特点",
+          "clause": "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+          "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_47",
+          "source_file": "config/airport_supplements.json",
+          "source_page": "N/A",
+          "source_heading": "沈阳桃仙",
+          "source_section": "airport_supplements.json／沈阳桃仙／core_threats",
+          "clause": "严防程序、跑道和离场点输入错误；任何变化均需补充简令和交叉检查。",
+          "reason": "与当前机场arrival角色不匹配"
+        },
+        {
+          "airport": "沈阳桃仙",
+          "fact_id": "沈阳桃仙_core_record_21",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+          "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+          "clause": "晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
           "reason": "运行价值排序后未选入本次航前核心主题"
         }
       ],
@@ -1332,36 +1445,24 @@
             "zspd_departure_procedure"
           ],
           [
-            "zspd_tcas",
-            "zspd_departure_traffic"
-          ],
-          [
-            "zspd_runway_occupancy"
-          ],
-          [
-            "zspd_thunderstorm",
             "zspd_departure_weather_bird"
           ],
           [
-            "zspd_adgs_entry",
             "zspd_departure_ground"
           ]
         ],
-        "丽江三义": [
+        "沈阳桃仙": [
           [
-            "zplj_descent"
+            "沈阳桃仙_core_record_7"
           ],
           [
-            "zplj_runway20"
+            "沈阳桃仙_core_record_6"
           ],
           [
-            "zplj_terrain"
+            "沈阳桃仙_core_record_35"
           ],
           [
-            "zplj_navigation"
-          ],
-          [
-            "zplj_rain"
+            "沈阳桃仙_core_record_19"
           ]
         ]
       },
@@ -1371,7 +1472,7 @@
             "paragraph_index": 1,
             "paragraph_id": "zspd_departure_navigation",
             "topic": "departure",
-            "role": "transit",
+            "role": "departure",
             "text": "如实际涉及16L、17R、34R或35L跑道，我们应使用最新有效导航标准和航图勘误；执行VOR 17L或VOR 35R相关程序时，重点核对导航数据库修正内容和高度限制。",
             "source_fact_ids": [
               "zspd_departure_navigation"
@@ -1403,7 +1504,7 @@
             "paragraph_index": 2,
             "paragraph_id": "zspd_departure_procedure",
             "topic": "clearance",
-            "role": "transit",
+            "role": "departure",
             "text": "浦东2606期程序已经调整。驾驶舱准备阶段我们应核对实际跑道、SID、跑道过渡、离场公共段、第一航路点及全部高度速度限制，PF和PM独立检查MCDU，防止新旧程序混淆。",
             "source_fact_ids": [
               "zspd_departure_procedure"
@@ -1425,7 +1526,7 @@
             ],
             "condition_scope": {},
             "condition_contexts": [],
-            "briefing_priority": 415,
+            "briefing_priority": 395,
             "text_before_polish": "浦东2606期程序已经调整。驾驶舱准备阶段我们应核对实际跑道、SID、跑道过渡、离场公共段、第一航路点及全部高度速度限制，PF和PM独立检查MCDU，防止新旧程序混淆。",
             "text_after_polish": "浦东2606期程序已经调整。驾驶舱准备阶段我们应核对实际跑道、SID、跑道过渡、离场公共段、第一航路点及全部高度速度限制，PF和PM独立检查MCDU，防止新旧程序混淆。",
             "polish_applied": false,
@@ -1433,347 +1534,248 @@
           },
           {
             "paragraph_index": 3,
-            "paragraph_id": "paragraph:zspd_tcas+zspd_departure_traffic",
-            "topic": "approach",
-            "role": "transit",
-            "text": "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
+            "paragraph_id": "zspd_departure_weather_bird",
+            "topic": "weather",
+            "role": "departure",
+            "text": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
             "source_fact_ids": [
-              "zspd_tcas",
-              "zspd_departure_traffic"
+              "zspd_departure_weather_bird"
             ],
             "source_record_ids": [
-              "zspd_tcas",
-              "zspd_departure_traffic"
+              "zspd_departure_weather_bird"
             ],
             "source_clauses": [
-              "浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
-              "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。"
+              "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。"
             ],
             "source_original_texts": [
-              "浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
-              "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。"
+              "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。"
             ],
             "source_files": [
               "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
             ],
             "source_sections": [
-              "20260720手册第448、451页／其他威胁：进近TA/RA",
-              "20260720手册第448、451页／进近TA/RA"
+              "20260720手册第448页／东侧海岸鸟情；补充知识库／夏季雷雨"
             ],
             "condition_scope": {},
             "condition_contexts": [],
-            "briefing_priority": 395,
-            "text_before_polish": "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
-            "text_after_polish": "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
+            "briefing_priority": 330,
+            "text_before_polish": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
+            "text_after_polish": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
             "polish_applied": false,
             "polish_fallback_reason": ""
           },
           {
             "paragraph_index": 4,
-            "paragraph_id": "zspd_runway_occupancy",
-            "topic": "landing",
-            "role": "transit",
-            "text": "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。",
+            "paragraph_id": "zspd_departure_ground",
+            "topic": "ground_departure",
+            "role": "departure",
+            "text": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
             "source_fact_ids": [
-              "zspd_runway_occupancy"
-            ],
-            "source_record_ids": [
-              "zspd_runway_occupancy"
-            ],
-            "source_clauses": [
-              "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。"
-            ],
-            "source_original_texts": [
-              "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。"
-            ],
-            "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
-            ],
-            "source_sections": [
-              "二、核心威胁／2.道面特点"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "briefing_priority": 372,
-            "text_before_polish": "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。",
-            "text_after_polish": "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。",
-            "polish_applied": false,
-            "polish_fallback_reason": ""
-          },
-          {
-            "paragraph_index": 5,
-            "paragraph_id": "paragraph:zspd_thunderstorm+zspd_departure_weather_bird",
-            "topic": "weather",
-            "role": "transit",
-            "text": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
-            "source_fact_ids": [
-              "zspd_thunderstorm",
-              "zspd_departure_weather_bird"
-            ],
-            "source_record_ids": [
-              "zspd_thunderstorm",
-              "zspd_departure_weather_bird"
-            ],
-            "source_clauses": [
-              "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
-              "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。"
-            ],
-            "source_original_texts": [
-              "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
-              "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。"
-            ],
-            "source_files": [
-              "config/airport_supplements.json",
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
-            ],
-            "source_sections": [
-              "airport_supplements.json／上海浦东／core_threats／夏季雷雨",
-              "20260720手册第448页／东侧海岸鸟情；补充知识库／夏季雷雨"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "briefing_priority": 355,
-            "text_before_polish": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
-            "text_after_polish": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
-            "polish_applied": false,
-            "polish_fallback_reason": ""
-          },
-          {
-            "paragraph_index": 6,
-            "paragraph_id": "paragraph:zspd_adgs_entry+zspd_departure_ground",
-            "topic": "landing_ground",
-            "role": "transit",
-            "text": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
-            "source_fact_ids": [
-              "zspd_adgs_entry",
               "zspd_departure_ground"
             ],
             "source_record_ids": [
-              "zspd_adgs_entry",
               "zspd_departure_ground"
             ],
             "source_clauses": [
-              "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。",
               "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。"
             ],
             "source_original_texts": [
-              "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。",
               "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。"
             ],
             "source_files": [
               "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
             ],
             "source_sections": [
-              "二、核心威胁／4.其他威胁／第(3)项",
               "20260720手册第448-449页／指挥特点与地面滑行引导车"
             ],
             "condition_scope": {},
             "condition_contexts": [],
-            "briefing_priority": 305,
-            "text_before_polish": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
-            "text_after_polish": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
+            "briefing_priority": 275,
+            "text_before_polish": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
+            "text_after_polish": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
             "polish_applied": false,
             "polish_fallback_reason": ""
           }
         ],
-        "丽江三义": [
+        "沈阳桃仙": [
           {
             "paragraph_index": 1,
-            "paragraph_id": "zplj_descent",
-            "topic": "arrival_energy",
-            "role": "transit",
-            "text": "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。",
+            "paragraph_id": "沈阳桃仙_core_record_7",
+            "topic": "approach_intercept",
+            "role": "arrival",
+            "text": "ILS06/24下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口7-3海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
             "source_fact_ids": [
-              "zplj_descent"
+              "沈阳桃仙_core_record_7"
             ],
             "source_record_ids": [
-              "zplj_descent"
+              "沈阳桃仙:core:d08f3314a7a88b56"
             ],
             "source_clauses": [
-              "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。"
+              "ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。"
             ],
             "source_original_texts": [
-              "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。"
+              "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。"
             ],
             "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
+              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf"
             ],
             "source_sections": [
-              "丽江人工精选／下降剖面"
+              "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／指挥特点"
             ],
             "condition_scope": {},
             "condition_contexts": [],
-            "briefing_priority": 415,
-            "text_before_polish": "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。",
-            "text_after_polish": "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。",
+            "briefing_priority": 405,
+            "text_before_polish": "ILS06/24下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口7-3海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+            "text_after_polish": "ILS06/24下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口7-3海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
             "polish_applied": false,
             "polish_fallback_reason": ""
           },
           {
             "paragraph_index": 2,
-            "paragraph_id": "zplj_runway20",
+            "paragraph_id": "沈阳桃仙_core_record_6",
             "topic": "approach_intercept",
-            "role": "transit",
-            "text": "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。",
+            "role": "arrival",
+            "text": "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。",
             "source_fact_ids": [
-              "zplj_runway20"
+              "沈阳桃仙_core_record_6"
             ],
             "source_record_ids": [
-              "zplj_runway20"
+              "沈阳桃仙:core:d08f3314a7a88b56"
             ],
             "source_clauses": [
-              "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。"
+              "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。"
             ],
             "source_original_texts": [
-              "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。"
+              "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。"
             ],
             "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
+              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf"
             ],
             "source_sections": [
-              "丽江人工精选／20号跑道进近"
+              "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／指挥特点"
             ],
             "condition_scope": {},
             "condition_contexts": [],
-            "briefing_priority": 405,
-            "text_before_polish": "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。",
-            "text_after_polish": "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。",
+            "briefing_priority": 370,
+            "text_before_polish": "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。",
+            "text_after_polish": "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。",
             "polish_applied": false,
             "polish_fallback_reason": ""
           },
           {
             "paragraph_index": 3,
-            "paragraph_id": "zplj_terrain",
-            "topic": "terrain",
-            "role": "transit",
-            "text": "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。",
+            "paragraph_id": "沈阳桃仙_core_record_35",
+            "topic": "approach",
+            "role": "arrival",
+            "text": "TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。",
             "source_fact_ids": [
-              "zplj_terrain"
+              "沈阳桃仙_core_record_35"
             ],
             "source_record_ids": [
-              "zplj_terrain"
+              "沈阳桃仙:core:70520b6dd73077c1"
             ],
             "source_clauses": [
-              "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。"
+              "指挥特点：TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。"
             ],
             "source_original_texts": [
-              "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。"
+              "进场：指挥特点：TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。"
             ],
             "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
+              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf"
             ],
             "source_sections": [
-              "丽江人工精选／高原地形"
+              "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／进场"
             ],
             "condition_scope": {},
             "condition_contexts": [],
-            "briefing_priority": 405,
-            "text_before_polish": "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。",
-            "text_after_polish": "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。",
+            "briefing_priority": 355,
+            "text_before_polish": "TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。",
+            "text_after_polish": "TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。",
             "polish_applied": false,
             "polish_fallback_reason": ""
           },
           {
             "paragraph_index": 4,
-            "paragraph_id": "zplj_navigation",
-            "topic": "special",
-            "role": "transit",
-            "text": "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。",
+            "paragraph_id": "沈阳桃仙_core_record_19",
+            "topic": "landing_ground",
+            "role": "arrival",
+            "text": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
             "source_fact_ids": [
-              "zplj_navigation"
+              "沈阳桃仙_core_record_19"
             ],
             "source_record_ids": [
-              "zplj_navigation"
+              "沈阳桃仙:core:bf89a99bd6bce515"
             ],
             "source_clauses": [
-              "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。"
+              "沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。"
             ],
             "source_original_texts": [
-              "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。"
+              "地面：注意事项： （1）沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。 （2）沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。 （3）晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。"
             ],
             "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
+              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf"
             ],
             "source_sections": [
-              "丽江人工精选／ADS-B与GPS"
+              "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面"
             ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "briefing_priority": 395,
-            "text_before_polish": "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。",
-            "text_after_polish": "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。",
-            "polish_applied": false,
-            "polish_fallback_reason": ""
-          },
-          {
-            "paragraph_index": 5,
-            "paragraph_id": "zplj_rain",
-            "topic": "weather",
-            "role": "transit",
-            "text": "我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。",
-            "source_fact_ids": [
-              "zplj_rain"
+            "condition_scope": {
+              "daypart": "night"
+            },
+            "condition_contexts": [
+              "夜间"
             ],
-            "source_record_ids": [
-              "zplj_rain"
-            ],
-            "source_clauses": [
-              "我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。"
-            ],
-            "source_original_texts": [
-              "丽江5月至9月处于雨季。我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。"
-            ],
-            "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
-            ],
-            "source_sections": [
-              "丽江人工精选／雨季运行"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "briefing_priority": 354,
-            "text_before_polish": "我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。",
-            "text_after_polish": "我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。",
+            "briefing_priority": 275,
+            "text_before_polish": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
+            "text_after_polish": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
             "polish_applied": false,
             "polish_fallback_reason": ""
           }
         ]
       },
-      "content_sha256": "c9b5b3f337de7744571b51714f1cbec058f52a8e5b8070d57beeb7a4d0a404ad",
+      "content_sha256": "d39ab90ff3fc82894cf65c3d7e26253871c71c0d36332aa71aca598c14f90f89",
       "_english_content": ""
     }
   ],
   "warnings": [
     "上海浦东匹配最新机场特点章节：上 海 / 浦 东 机 场 运 行 特 点（ZSPD）",
-    "丽江三义匹配最新机场特点章节：丽 江 / 三 义 机 场 运 行 特 点（ZPLJ）"
+    "沈阳桃仙匹配最新机场特点章节：沈 阳 / 桃 仙 机 场 运 行 特 点（ZYTX）"
   ],
   "weather": {
     "上海浦东": {
       "icao": "ZSPD",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-08-15T12:00:00+00:00",
+        "2026-08-16T18:00:00+00:00"
+      ],
       "relevant_times": [
-        "2026-08-14T13:45:00+08:00",
-        "2026-08-14T21:50:00+08:00"
+        "2026-08-17T21:35:00+08:00"
       ],
       "taf_decoded_by_time": [],
       "decoded": [],
       "fetch_error": ""
     },
-    "丽江三义": {
-      "icao": "ZPLJ",
+    "沈阳桃仙": {
+      "icao": "ZYTX",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-08-15T06:00:00+00:00",
+        "2026-08-16T06:00:00+00:00"
+      ],
       "relevant_times": [
-        "2026-08-14T17:35:00+08:00",
-        "2026-08-14T18:20:00+08:00"
+        "2026-08-18T00:05:00+08:00"
       ],
       "taf_decoded_by_time": [],
       "decoded": [],
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [],
+  "airport_experience_changes": [
+    "沈阳桃仙: 2026-08-12 -> 2026-08-13",
+    "上海浦东: 2026-08-10 -> 2026-08-13",
+    "上海浦东: 2026-08-13 -> 2026-08-14",
+    "丽江三义: 2026-07-28 -> 2026-08-14"
+  ],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
   "airport_information_version": 20260803,
   "airport_information_type": "PDF",
@@ -1788,22 +1790,20 @@
       "core": [
         "zspd_departure_navigation",
         "zspd_departure_procedure",
-        "paragraph:zspd_tcas+zspd_departure_traffic",
-        "zspd_runway_occupancy",
-        "paragraph:zspd_thunderstorm+zspd_departure_weather_bird",
-        "paragraph:zspd_adgs_entry+zspd_departure_ground"
+        "zspd_departure_weather_bird",
+        "zspd_departure_ground"
       ]
     },
-    "丽江三义": {
+    "沈阳桃仙": {
       "typical": [
-        "丽江三义_typical_record_1"
+        "沈阳桃仙_typical_record_1",
+        "沈阳桃仙_typical_record_2"
       ],
       "core": [
-        "zplj_descent",
-        "zplj_runway20",
-        "zplj_terrain",
-        "zplj_navigation",
-        "zplj_rain"
+        "沈阳桃仙_core_record_7",
+        "沈阳桃仙_core_record_6",
+        "沈阳桃仙_core_record_35",
+        "沈阳桃仙_core_record_19"
       ]
     }
   },
@@ -2095,7 +2095,7 @@
         "flight_scope": [],
         "route_scope": [],
         "topic": "departure",
-        "role": "transit",
+        "role": "departure",
         "source_fact_ids": [
           "zspd_departure_navigation"
         ],
@@ -2157,14 +2157,14 @@
         "flight_scope": [],
         "route_scope": [],
         "topic": "clearance",
-        "role": "transit",
+        "role": "departure",
         "source_fact_ids": [
           "zspd_departure_procedure"
         ],
         "condition_scope": {},
         "condition_contexts": [],
         "condition_group": "",
-        "briefing_priority": 415,
+        "briefing_priority": 395,
         "text_before_polish": "浦东2606期程序已经调整。驾驶舱准备阶段我们应核对实际跑道、SID、跑道过渡、离场公共段、第一航路点及全部高度速度限制，PF和PM独立检查MCDU，防止新旧程序混淆。",
         "text_after_polish": "浦东2606期程序已经调整。驾驶舱准备阶段我们应核对实际跑道、SID、跑道过渡、离场公共段、第一航路点及全部高度速度限制，PF和PM独立检查MCDU，防止新旧程序混淆。",
         "polish_applied": false,
@@ -2173,177 +2173,38 @@
         "category": "core"
       },
       {
-        "fact_id": "paragraph:zspd_tcas+zspd_departure_traffic",
-        "paragraph_id": "paragraph:zspd_tcas+zspd_departure_traffic",
-        "airport": "上海浦东",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "PDF",
-        "source_page": "448,451",
-        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-        "source_section": "20260720手册第448、451页／其他威胁：进近TA/RA | 20260720手册第448、451页／进近TA/RA",
-        "source_text_zh": "浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。 浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。",
-        "source_original_text": "浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。 浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。",
-        "source_original_texts": [
-          "浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
-          "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。"
-        ],
-        "source_record_ids": [
-          "zspd_tcas",
-          "zspd_departure_traffic"
-        ],
-        "source_clauses": [
-          "浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
-          "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。"
-        ],
-        "operational_phase": "approach",
-        "role_scope": [
-          "arrival"
-        ],
-        "operational_condition": [
-          "接近目标高度最后2000ft且有邻近航空器时",
-          "发生RA时严格执行现行程序",
-          "浦东空域航流密集",
-          "收到直飞或离场变化后重新核对MCDU和初始航路衔接",
-          "并按现行程序处置TA/RA"
-        ],
-        "applicability": [
-          "进近",
-          "离场"
-        ],
-        "risk": [
-          "浦东进近阶段曾多次触发TA/RA"
-        ],
-        "mitigation": [
-          "我们应合理控制升降率并持续监控冲突趋势",
-          "我们应严格执行初始高度、速度和航向指令",
-          "接近目标高度最后2000ft有邻近航空器时合理控制升降率"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
-        "text_en": "Multiple TA/RA events have occurred during approach to Pudong. Within the last 2000 ft before the cleared altitude, when nearby traffic is present, we must manage the vertical rate and monitor the conflict trend; comply strictly with the current RA procedure if an RA occurs. Pudong terminal traffic is dense. We must comply with initial altitude, speed, and heading instructions and recheck the MCDU and initial route connection after a direct clearance or departure change. Within the last 2000 ft before the target altitude, manage vertical rate for nearby traffic and apply the current TA/RA procedure.",
-        "rendered_text": "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "approach",
-        "role": "transit",
-        "source_fact_ids": [
-          "zspd_tcas",
-          "zspd_departure_traffic"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 395,
-        "text_before_polish": "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
-        "text_after_polish": "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "zspd_runway_occupancy",
-        "paragraph_id": "zspd_runway_occupancy",
+        "fact_id": "zspd_departure_weather_bird",
+        "paragraph_id": "zspd_departure_weather_bird",
         "airport": "上海浦东",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
         "source": "PDF",
         "source_page": "448",
-        "source_heading": "上海/浦东机场运行特点",
-        "source_section": "二、核心威胁／2.道面特点",
-        "source_text_zh": "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。",
-        "source_original_text": "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。",
+        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
+        "source_section": "20260720手册第448页／东侧海岸鸟情；补充知识库／夏季雷雨",
+        "source_text_zh": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
+        "source_original_text": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
         "source_original_texts": [
-          "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。"
-        ],
-        "source_record_ids": [
-          "zspd_runway_occupancy"
-        ],
-        "source_clauses": [
-          "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。"
-        ],
-        "operational_phase": "landing",
-        "role_scope": [
-          "arrival"
-        ],
-        "operational_condition": [
-          "浦东通常要求落地后占跑道时间不大于50秒",
-          "预计不能做到时"
-        ],
-        "applicability": [
-          "落地",
-          "跑道"
-        ],
-        "risk": [],
-        "mitigation": [
-          "应不晚于接地前5分钟通知ATC"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。",
-        "text_en": "Pudong normally requires runway occupancy after landing not to exceed 50 seconds. If we expect that this cannot be achieved, advise ATC no later than 5 minutes before touchdown.",
-        "rendered_text": "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "landing",
-        "role": "transit",
-        "source_fact_ids": [
-          "zspd_runway_occupancy"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 372,
-        "text_before_polish": "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。",
-        "text_after_polish": "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "paragraph:zspd_thunderstorm+zspd_departure_weather_bird",
-        "paragraph_id": "paragraph:zspd_thunderstorm+zspd_departure_weather_bird",
-        "airport": "上海浦东",
-        "source_file": "config/airport_supplements.json | knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "supplement",
-        "source_page": "N/A,448",
-        "source_heading": "上海浦东 | 上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-        "source_section": "airport_supplements.json／上海浦东／core_threats／夏季雷雨 | 20260720手册第448页／东侧海岸鸟情；补充知识库／夏季雷雨",
-        "source_text_zh": "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。 浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
-        "source_original_text": "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。 浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
-        "source_original_texts": [
-          "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
           "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。"
         ],
         "source_record_ids": [
-          "zspd_thunderstorm",
           "zspd_departure_weather_bird"
         ],
         "source_clauses": [
-          "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
           "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。"
         ],
         "operational_phase": "weather",
         "role_scope": [
-          "departure",
-          "arrival"
+          "departure"
         ],
         "operational_condition": [
-          "提前评估绕飞、等待、着陆性能和备降油量",
-          "出现风切变警告或状态不稳定时按程序复飞",
           "提前制定绕飞和返场预案",
           "并关注ATIS、ATC和机场鸟情通报"
         ],
         "applicability": [
           "跑道",
-          "着陆",
           "离场"
         ],
         "risk": [
-          "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变",
           "浦东夏季雷雨可能伴随低云、湿跑道和风切变",
           "东侧海岸鸟类活动也可能与低高度离场航迹重叠"
         ],
@@ -2352,9 +2213,9 @@
         ],
         "restriction": [],
         "excluded_source_clauses": [],
-        "text_zh": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
-        "text_en": "Summer thunderstorms at Pudong may bring low cloud, reduced visibility, a wet runway, and windshear. We must use the weather radar appropriately throughout the flight and assess deviation, holding, landing performance, and diversion fuel early; execute the prescribed go-around for a windshear warning or an unstable condition. Summer thunderstorms at Pudong may bring low cloud, a wet runway, and windshear, while coastal bird activity east of the airport may overlap the low-altitude departure path. We must use the weather radar appropriately throughout the flight, prepare deviation and return plans early, and monitor ATIS, ATC, and airport bird advisories.",
-        "rendered_text": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
+        "text_zh": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
+        "text_en": "Summer thunderstorms at Pudong may bring low cloud, a wet runway, and windshear, while coastal bird activity east of the airport may overlap the low-altitude departure path. We must use the weather radar appropriately throughout the flight, prepare deviation and return plans early, and monitor ATIS, ATC, and airport bird advisories.",
+        "rendered_text": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
         "season_scope": [
           6,
           7,
@@ -2363,55 +2224,46 @@
         "flight_scope": [],
         "route_scope": [],
         "topic": "weather",
-        "role": "transit",
+        "role": "departure",
         "source_fact_ids": [
-          "zspd_thunderstorm",
           "zspd_departure_weather_bird"
         ],
         "condition_scope": {},
         "condition_contexts": [],
         "condition_group": "",
-        "briefing_priority": 355,
-        "text_before_polish": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
-        "text_after_polish": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
+        "briefing_priority": 330,
+        "text_before_polish": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
+        "text_after_polish": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
         "polish_applied": false,
         "polish_fallback_reason": "",
-        "airport_specific": false,
+        "airport_specific": true,
         "category": "core"
       },
       {
-        "fact_id": "paragraph:zspd_adgs_entry+zspd_departure_ground",
-        "paragraph_id": "paragraph:zspd_adgs_entry+zspd_departure_ground",
+        "fact_id": "zspd_departure_ground",
+        "paragraph_id": "zspd_departure_ground",
         "airport": "上海浦东",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
         "source": "PDF",
-        "source_page": "448,448-449",
-        "source_heading": "上海/浦东机场运行特点 | 上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-        "source_section": "二、核心威胁／4.其他威胁／第(3)项 | 20260720手册第448-449页／指挥特点与地面滑行引导车",
-        "source_text_zh": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。 浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
-        "source_original_text": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。 浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
+        "source_page": "448-449",
+        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
+        "source_section": "20260720手册第448-449页／指挥特点与地面滑行引导车",
+        "source_text_zh": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
+        "source_original_text": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
         "source_original_texts": [
-          "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。",
           "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。"
         ],
         "source_record_ids": [
-          "zspd_adgs_entry",
           "zspd_departure_ground"
         ],
         "source_clauses": [
-          "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。",
           "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。"
         ],
         "operational_phase": "ground",
         "role_scope": [
-          "arrival",
           "departure"
         ],
         "operational_condition": [
-          "进入设有ADGS的机位时",
-          "如引导指示有疑问",
-          "或人工引导机位的地面接机人员未就位",
-          "并保持发动机运转等待处置",
           "滑行中如发现地面滑行引导车"
         ],
         "applicability": [
@@ -2421,407 +2273,428 @@
           "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令"
         ],
         "mitigation": [
-          "我们应立即停止滑行、通知ATC",
           "我们应准确区分并完整复诵",
           "应按机场细则关闭滑行灯并跟随引导车滑行"
         ],
         "restriction": [],
         "excluded_source_clauses": [],
-        "text_zh": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
-        "text_en": "When entering a stand equipped with ADGS, if the guidance is doubtful or the ground reception personnel are not in position at a manually guided stand, we must stop, notify ATC, and keep the engines running while awaiting further action. At Pudong, the apron may issue either a push-and-start clearance or an instruction to report after pushback. We must distinguish and read back the instruction accurately. If a ground follow-me vehicle is encountered during taxi, switch off the taxi light and follow the vehicle as required by the airport rules.",
-        "rendered_text": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
+        "text_zh": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
+        "text_en": "At Pudong, the apron may issue either a push-and-start clearance or an instruction to report after pushback. We must distinguish and read back the instruction accurately. If a ground follow-me vehicle is encountered during taxi, switch off the taxi light and follow the vehicle as required by the airport rules.",
+        "rendered_text": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
         "season_scope": [],
         "flight_scope": [],
         "route_scope": [],
-        "topic": "landing_ground",
-        "role": "transit",
+        "topic": "ground_departure",
+        "role": "departure",
         "source_fact_ids": [
-          "zspd_adgs_entry",
           "zspd_departure_ground"
         ],
         "condition_scope": {},
         "condition_contexts": [],
         "condition_group": "",
-        "briefing_priority": 305,
-        "text_before_polish": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
-        "text_after_polish": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
+        "briefing_priority": 275,
+        "text_before_polish": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
+        "text_after_polish": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
         "polish_applied": false,
         "polish_fallback_reason": "",
         "airport_specific": true,
         "category": "core"
       }
     ],
-    "丽江三义": [
+    "沈阳桃仙": [
       {
-        "fact_id": "丽江三义_typical_record_1",
+        "fact_id": "沈阳桃仙_typical_record_1",
         "paragraph_id": "",
-        "airport": "丽江三义",
+        "airport": "沈阳桃仙",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
         "source": "PDF",
-        "source_page": "795-799",
-        "source_heading": "丽 江 / 三 义 机 场 运 行 特 点",
-        "source_section": "丽 江 / 三 义 机 场 运 行 特 点／典型不安全事件",
-        "source_text_zh": "该机场曾发生，SINK RATE，风切变，重着陆，形态超高度限制，请机组识别相关风险。 A320-251/B-324G号机执行 9C6617上海浦东-丽江航班。丽江进近期间，在18852 英尺建立形态一，后续管制指挥上高度，机组保持形态一爬升，高度超过 20000 英尺，持续约 1 分 43 秒，最大高度到21120 英尺。",
-        "source_original_text": "该机场曾发生，SINK RATE，风切变，重着陆，形态超高度限制，请机组识别相关风险。 A320-251/B-324G号机执行 9C6617上海浦东-丽江航班。丽江进近期间，在18852 英尺建立形态一，后续管制指挥上高度，机组保持形态一爬升，高度超过 20000 英尺，持续约 1 分 43 秒，最大高度到21120 英尺。",
+        "source_page": "N/A",
+        "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+        "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／典型不安全事件",
+        "source_text_zh": "曾因在五边GPS 信号丢失触发虚假地形警告。",
+        "source_original_text": "曾因在五边GPS 信号丢失触发虚假地形警告。",
         "source_original_texts": [
-          "该机场曾发生，SINK RATE，风切变，重着陆，形态超高度限制，请机组识别相关风险。 A320-251/B-324G号机执行 9C6617上海浦东-丽江航班。丽江进近期间，在18852 英尺建立形态一，后续管制指挥上高度，机组保持形态一爬升，高度超过 20000 英尺，持续约 1 分 43 秒，最大高度到21120 英尺。"
+          "曾因在五边GPS 信号丢失触发虚假地形警告。"
         ],
         "source_record_ids": [
-          "丽江三义:typical:80b65a51acea71a5"
+          "沈阳桃仙:typical:71193b1d48a0c644"
         ],
         "source_clauses": [
-          "该机场曾发生，SINK RATE，风切变，重着陆，形态超高度限制，请机组识别相关风险。 A320-251/B-324G号机执行 9C6617上海浦东-丽江航班。丽江进近期间，在18852 英尺建立形态一，后续管制指挥上高度，机组保持形态一爬升，高度超过 20000 英尺，持续约 1 分 43 秒，最大高度到21120 英尺。"
+          "曾因在五边GPS 信号丢失触发虚假地形警告。"
         ],
         "operational_phase": "incident",
         "role_scope": [],
-        "operational_condition": [
-          "该机场曾发生",
-          "SINK RATE",
-          "风切变",
-          "重着陆",
-          "A320-251/B-324G号机执行 9C6617上海浦东-丽江航班",
-          "丽江进近期间",
-          "在18852 英尺建立形态一",
-          "后续管制指挥上高度",
-          "机组保持形态一爬升",
-          "高度超过 20000 英尺",
-          "持续约 1 分 43 秒",
-          "最大高度到21120 英尺"
+        "operational_condition": [],
+        "applicability": [],
+        "risk": [
+          "曾因在五边GPS 信号丢失触发虚假地形警告"
         ],
-        "applicability": [
-          "着陆",
-          "进近"
-        ],
-        "risk": [],
-        "mitigation": [
-          "请机组识别相关风险"
-        ],
-        "restriction": [
-          "形态超高度限制"
-        ],
+        "mitigation": [],
+        "restriction": [],
         "excluded_source_clauses": [],
-        "text_zh": "该机场曾发生，SINK RATE，风切变，重着陆，形态超高度限制，请机组识别相关风险。 A320-251/B-324G号机执行9C6617上海浦东-丽江航班。丽江进近期间，在18852英尺建立形态一，后续管制指挥上高度，机组保持形态一爬升，高度超过20000英尺，持续约1分43秒，最大高度到21120英尺。",
-        "text_en": "Strong wind, turbulence, or windshear can cause speed fluctuation, high descent rate, and an unstable landing condition.",
-        "rendered_text": "该机场曾发生，SINK RATE，风切变，重着陆，形态超高度限制，请机组识别相关风险。 A320-251/B-324G号机执行9C6617上海浦东-丽江航班。丽江进近期间，在18852英尺建立形态一，后续管制指挥上高度，机组保持形态一爬升，高度超过20000英尺，持续约1分43秒，最大高度到21120英尺。",
+        "text_zh": "曾因在五边GPS信号丢失触发虚假地形警告。",
+        "text_en": "",
+        "rendered_text": "曾因在五边GPS信号丢失触发虚假地形警告。",
         "season_scope": [],
         "flight_scope": [],
         "route_scope": [],
-        "topic": "weather",
+        "topic": "terrain",
         "role": "",
         "source_fact_ids": [
-          "丽江三义_typical_record_1"
+          "沈阳桃仙_typical_record_1"
         ],
         "condition_scope": {},
         "condition_contexts": [],
         "condition_group": "",
         "briefing_priority": 0,
-        "text_before_polish": "该机场曾发生，SINK RATE，风切变，重着陆，形态超高度限制，请机组识别相关风险。 A320-251/B-324G号机执行9C6617上海浦东-丽江航班。丽江进近期间，在18852英尺建立形态一，后续管制指挥上高度，机组保持形态一爬升，高度超过20000英尺，持续约1分43秒，最大高度到21120英尺。",
-        "text_after_polish": "该机场曾发生，SINK RATE，风切变，重着陆，形态超高度限制，请机组识别相关风险。 A320-251/B-324G号机执行9C6617上海浦东-丽江航班。丽江进近期间，在18852英尺建立形态一，后续管制指挥上高度，机组保持形态一爬升，高度超过20000英尺，持续约1分43秒，最大高度到21120英尺。",
+        "text_before_polish": "曾因在五边GPS信号丢失触发虚假地形警告。",
+        "text_after_polish": "曾因在五边GPS信号丢失触发虚假地形警告。",
         "polish_applied": false,
         "polish_fallback_reason": "",
         "airport_specific": true,
         "category": "typical"
       },
       {
-        "fact_id": "zplj_descent",
-        "paragraph_id": "zplj_descent",
-        "airport": "丽江三义",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "CURATED",
-        "source_page": "795-799",
-        "source_heading": "丽江/三义机场运行特点",
-        "source_section": "丽江人工精选／下降剖面",
-        "source_text_zh": "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。",
-        "source_original_text": "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。",
+        "fact_id": "沈阳桃仙_typical_record_2",
+        "paragraph_id": "",
+        "airport": "沈阳桃仙",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+        "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／典型不安全事件",
+        "source_text_zh": "曾因风切变导致低空不稳定状态后机组复飞。",
+        "source_original_text": "曾因风切变导致低空不稳定状态后机组复飞。",
         "source_original_texts": [
-          "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。"
+          "曾因风切变导致低空不稳定状态后机组复飞。"
         ],
         "source_record_ids": [
-          "zplj_descent"
+          "沈阳桃仙:typical:fd49e9407fe7bcf1"
         ],
         "source_clauses": [
-          "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。"
+          "曾因风切变导致低空不稳定状态后机组复飞。"
         ],
-        "operational_phase": "arrival",
-        "role_scope": [],
-        "operational_condition": [
-          "尽量在低于5700m后选择形态",
-          "不能稳定时复飞"
-        ],
-        "applicability": [
-          "进近"
-        ],
-        "risk": [
-          "丽江进近可能下降偏晚、剖面偏高"
-        ],
-        "mitigation": [
-          "我们应提前计划下降、减速和构型",
-          "结合剩余距离、顺风、地速和下降率及时申请"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。",
-        "text_en": "Descent clearance into Lijiang may be late and the profile may remain high. We must plan descent, deceleration, and configuration early and make timely requests using remaining distance, tailwind, groundspeed, and descent rate; select configuration below 5700 m whenever possible and go around if the approach cannot be stabilized.",
-        "rendered_text": "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "arrival_energy",
-        "role": "transit",
-        "source_fact_ids": [
-          "zplj_descent"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 415,
-        "text_before_polish": "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。",
-        "text_after_polish": "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "zplj_runway20",
-        "paragraph_id": "zplj_runway20",
-        "airport": "丽江三义",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "CURATED",
-        "source_page": "795-799",
-        "source_heading": "丽江/三义机场运行特点",
-        "source_section": "丽江人工精选／20号跑道进近",
-        "source_text_zh": "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。",
-        "source_original_text": "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。",
-        "source_original_texts": [
-          "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。"
-        ],
-        "source_record_ids": [
-          "zplj_runway20"
-        ],
-        "source_clauses": [
-          "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。"
-        ],
-        "operational_phase": "approach",
-        "role_scope": [],
-        "operational_condition": [
-          "20号跑道相关进近下降梯度较大",
-          "持续监控下降率、速度、推力和垂直偏差",
-          "未在规定高度达到稳定标准时复飞"
-        ],
-        "applicability": [
-          "20号跑道",
-          "进近",
-          "着陆"
-        ],
-        "risk": [
-          "五边可能有顺风"
-        ],
-        "mitigation": [
-          "我们应提前建立着陆构型"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。",
-        "text_en": "Approaches associated with runway 20 have a steep descent gradient and may have a tailwind on final. We must establish landing configuration early and monitor descent rate, speed, thrust, and vertical deviation; go around if stabilization criteria are not met by the required altitude.",
-        "rendered_text": "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "approach_intercept",
-        "role": "transit",
-        "source_fact_ids": [
-          "zplj_runway20"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 405,
-        "text_before_polish": "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。",
-        "text_after_polish": "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "zplj_terrain",
-        "paragraph_id": "zplj_terrain",
-        "airport": "丽江三义",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "CURATED",
-        "source_page": "795-799",
-        "source_heading": "丽江/三义机场运行特点",
-        "source_section": "丽江人工精选／高原地形",
-        "source_text_zh": "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。",
-        "source_original_text": "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。",
-        "source_original_texts": [
-          "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。"
-        ],
-        "source_record_ids": [
-          "zplj_terrain"
-        ],
-        "source_clauses": [
-          "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。"
-        ],
-        "operational_phase": "terrain",
-        "role_scope": [],
-        "operational_condition": [
-          "丽江机场标高7358ft",
-          "四周地形复杂",
-          "持续监控航迹、高度、最低安全高度和导航精度",
-          "接受雷达引导、直飞或天气绕飞前"
-        ],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [
-          "我们应严格按照公布程序飞行"
-        ],
-        "restriction": [
-          "必须确认地形间隔"
-        ],
-        "excluded_source_clauses": [],
-        "text_zh": "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。",
-        "text_en": "Lijiang Airport elevation is 7358 ft and the surrounding terrain is complex. We must follow the published procedure and monitor track, altitude, minimum safe altitude, and navigation accuracy; before accepting radar vectors, a direct clearance, or a weather deviation, confirm terrain clearance.",
-        "rendered_text": "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "terrain",
-        "role": "transit",
-        "source_fact_ids": [
-          "zplj_terrain"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 405,
-        "text_before_polish": "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。",
-        "text_after_polish": "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "zplj_navigation",
-        "paragraph_id": "zplj_navigation",
-        "airport": "丽江三义",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "CURATED",
-        "source_page": "795-799",
-        "source_heading": "丽江/三义机场运行特点",
-        "source_section": "丽江人工精选／ADS-B与GPS",
-        "source_text_zh": "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。",
-        "source_original_text": "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。",
-        "source_original_texts": [
-          "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。"
-        ],
-        "source_record_ids": [
-          "zplj_navigation"
-        ],
-        "source_clauses": [
-          "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。"
-        ],
-        "operational_phase": "navigation",
-        "role_scope": [],
-        "operational_condition": [
-          "丽江进近区域实施ADS-B管制",
-          "出现GPS PRIMARY LOST或导航性能下降时"
-        ],
-        "applicability": [
-          "进近"
-        ],
-        "risk": [
-          "GPS可能不稳定"
-        ],
-        "mitigation": [
-          "我们应监控GPS状态、导航精度、位置和航迹",
-          "及时报告ATC并准备使用其他导航方式"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。",
-        "text_en": "ADS-B control is used in the Lijiang approach area, and GPS may be unstable. We must monitor GPS status, navigation accuracy, position, and track; after GPS PRIMARY LOST or degraded navigation performance, report promptly to ATC and prepare to use other navigation sources.",
-        "rendered_text": "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "special",
-        "role": "transit",
-        "source_fact_ids": [
-          "zplj_navigation"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 395,
-        "text_before_polish": "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。",
-        "text_after_polish": "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "zplj_rain",
-        "paragraph_id": "zplj_rain",
-        "airport": "丽江三义",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-        "source": "CURATED",
-        "source_page": "795-799",
-        "source_heading": "丽江/三义机场运行特点",
-        "source_section": "丽江人工精选／雨季运行",
-        "source_text_zh": "丽江5月至9月处于雨季。我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。",
-        "source_original_text": "丽江5月至9月处于雨季。我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。",
-        "source_original_texts": [
-          "丽江5月至9月处于雨季。我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。"
-        ],
-        "source_record_ids": [
-          "zplj_rain"
-        ],
-        "source_clauses": [
-          "我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。"
-        ],
-        "operational_phase": "weather",
+        "operational_phase": "incident",
         "role_scope": [],
         "operational_condition": [],
+        "applicability": [],
+        "risk": [
+          "曾因风切变导致低空不稳定状态后机组复飞"
+        ],
+        "mitigation": [],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "曾因风切变导致低空不稳定状态后机组复飞。",
+        "text_en": "Strong wind, turbulence, or windshear can cause speed fluctuation, high descent rate, and an unstable landing condition.",
+        "rendered_text": "曾因风切变导致低空不稳定状态后机组复飞。",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "weather",
+        "role": "",
+        "source_fact_ids": [
+          "沈阳桃仙_typical_record_2"
+        ],
+        "condition_scope": {},
+        "condition_contexts": [],
+        "condition_group": "",
+        "briefing_priority": 0,
+        "text_before_polish": "曾因风切变导致低空不稳定状态后机组复飞。",
+        "text_after_polish": "曾因风切变导致低空不稳定状态后机组复飞。",
+        "polish_applied": false,
+        "polish_fallback_reason": "",
+        "airport_specific": true,
+        "category": "typical"
+      },
+      {
+        "fact_id": "沈阳桃仙_core_record_7",
+        "paragraph_id": "沈阳桃仙_core_record_7",
+        "airport": "沈阳桃仙",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+        "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／指挥特点",
+        "source_text_zh": "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+        "source_original_text": "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+        "source_original_texts": [
+          "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。"
+        ],
+        "source_record_ids": [
+          "沈阳桃仙:core:d08f3314a7a88b56"
+        ],
+        "source_clauses": [
+          "ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。"
+        ],
+        "operational_phase": "approach",
+        "role_scope": [
+          "arrival"
+        ],
+        "operational_condition": [
+          "干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近"
+        ],
         "applicability": [
           "跑道",
-          "着陆"
+          "起飞"
         ],
-        "risk": [],
+        "risk": [
+          "ILS06/24 下滑道信号易受到干扰"
+        ],
         "mitigation": [
-          "我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离",
-          "并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案"
+          "尤其有飞机使用全跑道起飞跑道外等时",
+          "机组注意做好盲降信号异常时的处置",
+          "同时注意内外结合",
+          "防止丢失状态"
         ],
         "restriction": [],
         "excluded_source_clauses": [
           {
-            "clause": "丽江5月至9月处于雨季",
-            "reason": "目标月份为8月，不在资料明确季节适用月份5,9月内"
+            "clause": "通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。",
+            "reason": "同一来源记录中的其他完整运行子句"
+          },
+          {
+            "clause": "机组注意 FLYSMART性能计算。",
+            "reason": "同一来源记录中的其他完整运行子句"
+          },
+          {
+            "clause": "地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。",
+            "reason": "同一来源记录中的其他完整运行子句"
+          },
+          {
+            "clause": "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。",
+            "reason": "同一来源记录中的其他完整运行子句"
           }
         ],
-        "text_zh": "我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。",
-        "text_en": "",
-        "rendered_text": "我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。",
-        "season_scope": [
-          5,
-          9
-        ],
+        "text_zh": "ILS06/24下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口7-3海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+        "text_en": "Before intercept, we must verify position, intercept angle, altitude, and distance and monitor LOC/GS, FMA, descent rate, and speed; apply the procedure for false or unstable capture and go around if necessary.",
+        "rendered_text": "ILS06/24下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口7-3海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+        "season_scope": [],
         "flight_scope": [],
         "route_scope": [],
-        "topic": "weather",
-        "role": "transit",
+        "topic": "approach_intercept",
+        "role": "arrival",
         "source_fact_ids": [
-          "zplj_rain"
+          "沈阳桃仙_core_record_7"
         ],
         "condition_scope": {},
         "condition_contexts": [],
         "condition_group": "",
-        "briefing_priority": 354,
-        "text_before_polish": "我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。",
-        "text_after_polish": "我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。",
+        "briefing_priority": 405,
+        "text_before_polish": "ILS06/24下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口7-3海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+        "text_after_polish": "ILS06/24下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口7-3海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+        "polish_applied": false,
+        "polish_fallback_reason": "",
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "沈阳桃仙_core_record_6",
+        "paragraph_id": "沈阳桃仙_core_record_6",
+        "airport": "沈阳桃仙",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+        "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／指挥特点",
+        "source_text_zh": "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+        "source_original_text": "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+        "source_original_texts": [
+          "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。"
+        ],
+        "source_record_ids": [
+          "沈阳桃仙:core:d08f3314a7a88b56"
+        ],
+        "source_clauses": [
+          "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。"
+        ],
+        "operational_phase": "approach",
+        "role_scope": [
+          "arrival"
+        ],
+        "operational_condition": [
+          "进近时",
+          "经常不会飞完整的进场程序",
+          "根据前后机排序间隔等雷达引导",
+          "第二会雷达引导或指挥自行转向五边"
+        ],
+        "applicability": [
+          "进近",
+          "进场"
+        ],
+        "risk": [],
+        "mitigation": [
+          "第一注意能量管理",
+          "机组一定注意判断切入点位置",
+          "避免出现高截获"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [
+          {
+            "clause": "通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。",
+            "reason": "同一来源记录中的其他完整运行子句"
+          },
+          {
+            "clause": "机组注意 FLYSMART性能计算。",
+            "reason": "同一来源记录中的其他完整运行子句"
+          },
+          {
+            "clause": "地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。",
+            "reason": "同一来源记录中的其他完整运行子句"
+          },
+          {
+            "clause": "ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+            "reason": "同一来源记录中的其他完整运行子句"
+          }
+        ],
+        "text_zh": "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。",
+        "text_en": "Before intercept, we must verify position, intercept angle, altitude, and distance and monitor LOC/GS, FMA, descent rate, and speed; apply the procedure for false or unstable capture and go around if necessary.",
+        "rendered_text": "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "approach_intercept",
+        "role": "arrival",
+        "source_fact_ids": [
+          "沈阳桃仙_core_record_6"
+        ],
+        "condition_scope": {},
+        "condition_contexts": [],
+        "condition_group": "",
+        "briefing_priority": 370,
+        "text_before_polish": "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。",
+        "text_after_polish": "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。",
+        "polish_applied": false,
+        "polish_fallback_reason": "",
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "沈阳桃仙_core_record_35",
+        "paragraph_id": "沈阳桃仙_core_record_35",
+        "airport": "沈阳桃仙",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+        "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／进场",
+        "source_text_zh": "进场：指挥特点：TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。",
+        "source_original_text": "进场：指挥特点：TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。",
+        "source_original_texts": [
+          "进场：指挥特点：TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。"
+        ],
+        "source_record_ids": [
+          "沈阳桃仙:core:70520b6dd73077c1"
+        ],
+        "source_clauses": [
+          "指挥特点：TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。"
+        ],
+        "operational_phase": "arrival",
+        "role_scope": [
+          "arrival"
+        ],
+        "operational_condition": [
+          "指挥特点：TOSID方向通常在TOSID前区调指挥保持当前航迹",
+          "联系进近后指挥加入进场"
+        ],
+        "applicability": [
+          "进近",
+          "进场"
+        ],
+        "risk": [],
+        "mitigation": [],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。",
+        "text_en": "",
+        "rendered_text": "TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "approach",
+        "role": "arrival",
+        "source_fact_ids": [
+          "沈阳桃仙_core_record_35"
+        ],
+        "condition_scope": {},
+        "condition_contexts": [],
+        "condition_group": "",
+        "briefing_priority": 355,
+        "text_before_polish": "TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。",
+        "text_after_polish": "TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。",
+        "polish_applied": false,
+        "polish_fallback_reason": "",
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "沈阳桃仙_core_record_19",
+        "paragraph_id": "沈阳桃仙_core_record_19",
+        "airport": "沈阳桃仙",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+        "source": "PDF",
+        "source_page": "N/A",
+        "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+        "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+        "source_text_zh": "地面：注意事项： （1）沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。 （2）沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。 （3）晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
+        "source_original_text": "地面：注意事项： （1）沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。 （2）沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。 （3）晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
+        "source_original_texts": [
+          "地面：注意事项： （1）沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。 （2）沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。 （3）晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。"
+        ],
+        "source_record_ids": [
+          "沈阳桃仙:core:bf89a99bd6bce515"
+        ],
+        "source_clauses": [
+          "沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。"
+        ],
+        "operational_phase": "ground",
+        "role_scope": [],
+        "operational_condition": [
+          "沈阳机场地面夜间滑行时",
+          "滑行道 N 转滑行道B 时滑行道没有中线灯"
+        ],
+        "applicability": [
+          "滑行"
+        ],
+        "risk": [],
+        "mitigation": [
+          "注意地面标志"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [
+          {
+            "clause": "沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。",
+            "reason": "同一来源记录中的其他完整运行子句"
+          },
+          {
+            "clause": "晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
+            "reason": "同一来源记录中的其他完整运行子句"
+          },
+          {
+            "clause": "注意事项：",
+            "reason": "broken_or_incomplete_source"
+          }
+        ],
+        "text_zh": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
+        "text_en": "",
+        "rendered_text": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "landing_ground",
+        "role": "arrival",
+        "source_fact_ids": [
+          "沈阳桃仙_core_record_19"
+        ],
+        "condition_scope": {
+          "daypart": "night"
+        },
+        "condition_contexts": [
+          "夜间"
+        ],
+        "condition_group": "沈阳桃仙:core:bf89a99bd6bce515:condition-piece-1",
+        "briefing_priority": 275,
+        "text_before_polish": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
+        "text_after_polish": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
         "polish_applied": false,
         "polish_fallback_reason": "",
         "airport_specific": true,
@@ -2849,10 +2722,70 @@
       "reason": "目标月份为8月，不在资料明确季节适用月份12月内"
     },
     {
-      "airport": "丽江三义",
-      "fact_id": "zplj_rain",
-      "clause": "丽江5月至9月处于雨季",
-      "reason": "目标月份为8月，不在资料明确季节适用月份5,9月内"
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_7",
+      "clause": "通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_7",
+      "clause": "机组注意 FLYSMART性能计算。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_7",
+      "clause": "地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_7",
+      "clause": "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_6",
+      "clause": "通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_6",
+      "clause": "机组注意 FLYSMART性能计算。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_6",
+      "clause": "地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_6",
+      "clause": "ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_19",
+      "clause": "沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_19",
+      "clause": "晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_19",
+      "clause": "注意事项：",
+      "reason": "broken_or_incomplete_source"
     },
     {
       "airport": "上海浦东",
@@ -2876,12 +2809,262 @@
     },
     {
       "airport": "上海浦东",
-      "fact_id": "zspd_bird",
+      "fact_id": "zspd_departure_traffic",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
-      "source_page": "448",
+      "source_page": "448,451",
       "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-      "source_section": "20260720手册第448页／其他威胁：东侧海岸鸟类活动",
-      "clause": "浦东东侧海岸鸟类活动与低高度进近航迹可能重叠。我们应关注ATIS、ATC和机场鸟情通报，加强低高度外部观察；发现鸟群或发生鸟击后，根据飞机状态执行程序并及时报告。",
+      "source_section": "20260720手册第448、451页／进近TA/RA",
+      "clause": "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。",
+      "reason": "与当前机场departure角色不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_8",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／气象特点",
+      "clause": "冬春季大风乱流明显，尤其是 06 号短五边气流明显，机组应多关注风向风速变化，做好出现风切变或者状态不稳定导致复飞的预案",
+      "reason": "目标月份为8月，不在资料明确季节适用月份1,2,3,4,5,12月内"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_9",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／气象特点",
+      "clause": "24 号向阳落地，对着陆目视有影响。",
+      "reason": "当前任务为明确夜间时段，与资料明确日照条件不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_10",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+      "clause": "沈阳机场发布了最新的《冬季运行保障方案》，其中对于除防冰的要求是春秋及其除冰代理航班原则上停放115-117 区域，根据航班小时峰谷波动情况向 114 方向动态调整",
+      "reason": "目标月份为8月，不在资料明确季节适用月份1,2,12月内"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_10",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+      "clause": "沈阳机场为本公司自行除防冰，如果一步除冰法用的是 I 型防冰液，如果是两步法，第一步是用 I 型除冰，第二步用 IV型，需要根据手册的相关能见度的表查询保持时间",
+      "reason": "目标月份为8月，不在资料明确季节适用月份1,2,12月内"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_11",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+      "clause": "沈阳机场为了提高冬季运行效率，严禁在跑道里进行甩冰/暖车操作，需要甩冰必须提前联系管制员获得许可后方可执行",
+      "reason": "目标月份为8月，不在资料明确季节适用月份1,2,12月内"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_12",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+      "clause": "其他威胁： （1）沈阳机场发布了最新的《冬季运行保障方案》，其中对于除防冰的要求是春秋及其除冰代理航班原则上停放115-117 区域，根据航班小时峰谷波动情况向 114 方向动态调整；沈阳机场为本公司自行除防冰，如果一步除冰法用的是 I 型防冰液，如果是两步法，第一步是用 I 型除冰，第二步用 IV型，需要根据手册的相关能见度的表查询保持时间。 （2）沈阳机场为了提高冬季运行效率，严禁在跑道里进行甩冰/暖车操作，需要甩冰必须提前联系管制员获得许可后方可执行（3）9C7635 和 浦东-白山 9C6135 同时刻同行路 注意相识航班号和管制指令 避免误听指令（4）沈阳机场近期频发离地姿态大事件，起飞擦机尾风险增高，建议机组操纵起飞时保持较低的拉杆速率，确保飞机完全离地（无线电高度表数值增加）方可继续带杆增加姿态。",
+      "reason": "与当前航班/航线不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_33",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／离场",
+      "clause": "离场：注意事项： （1）06 号起飞通常过了 1200m 才可以申请提前右转。 （2）9C6261 沈阳-连云港，CZ6621；9C8731 沈阳-宁波，9C8732 航班可能在同一频率出现相似航班号，请机组注意。",
+      "reason": "与当前航班/航线不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_13",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／其他威胁",
+      "clause": "其他威胁： （1）沈阳机场发布了最新的《冬季运行保障方案》，其中对于除防冰的要求是春秋及其除冰代理航班原则上停放115-117 区域，根据航班小时峰谷波动情况向 114 方向动态调整；沈阳机场为本公司自行除防冰，如果一步除冰法用的是 I 型防冰液，如果是两步法，第一步是用 I 型除冰，第二步用 IV型，需要根据手册的相关能见度的表查询保持时间。 （2）沈阳机场为了提高冬季运行效率，严禁在跑道里进行甩冰/暖车操作，需要甩冰必须提前联系管制员获得许可后方可执行（3）9C7635 和 浦东-白山 9C6135 同时刻同行路 注意相识航班号和管制指令 避免误听指令（4）沈阳机场近期频发离地姿态大事件，起飞擦机尾风险增高，建议机组操纵起飞时保持较低的拉杆速率，确保飞机完全离地（无线电高度表数值增加）方可继续带杆增加姿态。",
+      "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_16",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+      "clause": "地面：指挥特点： （1）有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。 （2）经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
+      "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_17",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+      "clause": "地面：指挥特点： （1）有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。 （2）经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
+      "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_18",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+      "clause": "地面：指挥特点： （1）有时飞机推至远机位开车，在获得离场时间后，塔台给出开车指令。未经塔台明确许可，不得在滑行道上开车。 （2）经沈阳维修部门评估，边推边开风险较大，机组根据机务指挥确定是否执行。",
+      "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_20",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+      "clause": "地面：注意事项： （1）沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。 （2）沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。 （3）晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
+      "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_22",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+      "clause": "地面：除/防冰能力： （1）有（2）沈阳机场发动机甩冰程序运行提示1 相关程序需按照公司 FOIB《关于结冰条件下在地面发动机操作的提示》内容执行。 2 沈阳机场运行环境受限，严控航空器在进入跑道后实施甩冰、暖车动作，共同提高跑道利用率。 3 塔台在确保绝对安全的前提下，可考虑使用 R 滑、平滑等区域进行冲突调解； 4 判断需要执行该程序，应在第一时间与地面或塔台频率进行联系。机组在确定执行发动机甩冰程序时，以“航班号+需要执行发动机甩冰程序+最晚执行甩冰程序时间(北京时)”的格式。 （3）注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后，方可操作。 2 指令必须分离：管制员不得将执行指令与起飞指令合并发布。机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令。……",
+      "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_23",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+      "clause": "地面：除/防冰能力： （1）有（2）沈阳机场发动机甩冰程序运行提示1 相关程序需按照公司 FOIB《关于结冰条件下在地面发动机操作的提示》内容执行。 2 沈阳机场运行环境受限，严控航空器在进入跑道后实施甩冰、暖车动作，共同提高跑道利用率。 3 塔台在确保绝对安全的前提下，可考虑使用 R 滑、平滑等区域进行冲突调解； 4 判断需要执行该程序，应在第一时间与地面或塔台频率进行联系。机组在确定执行发动机甩冰程序时，以“航班号+需要执行发动机甩冰程序+最晚执行甩冰程序时间(北京时)”的格式。 （3）注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后，方可操作。 2 指令必须分离：管制员不得将执行指令与起飞指令合并发布。机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令。……",
+      "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_24",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+      "clause": "地面：除/防冰能力： （1）有（2）沈阳机场发动机甩冰程序运行提示1 相关程序需按照公司 FOIB《关于结冰条件下在地面发动机操作的提示》内容执行。 2 沈阳机场运行环境受限，严控航空器在进入跑道后实施甩冰、暖车动作，共同提高跑道利用率。 3 塔台在确保绝对安全的前提下，可考虑使用 R 滑、平滑等区域进行冲突调解； 4 判断需要执行该程序，应在第一时间与地面或塔台频率进行联系。机组在确定执行发动机甩冰程序时，以“航班号+需要执行发动机甩冰程序+最晚执行甩冰程序时间(北京时)”的格式。 （3）注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后，方可操作。 2 指令必须分离：管制员不得将执行指令与起飞指令合并发布。机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令。……",
+      "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_26",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+      "clause": "地面：除/防冰能力： （1）有（2）沈阳机场发动机甩冰程序运行提示1 相关程序需按照公司 FOIB《关于结冰条件下在地面发动机操作的提示》内容执行。 2 沈阳机场运行环境受限，严控航空器在进入跑道后实施甩冰、暖车动作，共同提高跑道利用率。 3 塔台在确保绝对安全的前提下，可考虑使用 R 滑、平滑等区域进行冲突调解； 4 判断需要执行该程序，应在第一时间与地面或塔台频率进行联系。机组在确定执行发动机甩冰程序时，以“航班号+需要执行发动机甩冰程序+最晚执行甩冰程序时间(北京时)”的格式。 （3）注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后，方可操作。 2 指令必须分离：管制员不得将执行指令与起飞指令合并发布。机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令。……",
+      "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_27",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+      "clause": "地面：除/防冰能力： （1）有（2）沈阳机场发动机甩冰程序运行提示1 相关程序需按照公司 FOIB《关于结冰条件下在地面发动机操作的提示》内容执行。 2 沈阳机场运行环境受限，严控航空器在进入跑道后实施甩冰、暖车动作，共同提高跑道利用率。 3 塔台在确保绝对安全的前提下，可考虑使用 R 滑、平滑等区域进行冲突调解； 4 判断需要执行该程序，应在第一时间与地面或塔台频率进行联系。机组在确定执行发动机甩冰程序时，以“航班号+需要执行发动机甩冰程序+最晚执行甩冰程序时间(北京时)”的格式。 （3）注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后，方可操作。 2 指令必须分离：管制员不得将执行指令与起飞指令合并发布。机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令。……",
+      "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_29",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+      "clause": "地面：除/防冰能力： （1）有（2）沈阳机场发动机甩冰程序运行提示1 相关程序需按照公司 FOIB《关于结冰条件下在地面发动机操作的提示》内容执行。 2 沈阳机场运行环境受限，严控航空器在进入跑道后实施甩冰、暖车动作，共同提高跑道利用率。 3 塔台在确保绝对安全的前提下，可考虑使用 R 滑、平滑等区域进行冲突调解； 4 判断需要执行该程序，应在第一时间与地面或塔台频率进行联系。机组在确定执行发动机甩冰程序时，以“航班号+需要执行发动机甩冰程序+最晚执行甩冰程序时间(北京时)”的格式。 （3）注意事项： 1 严禁擅自执行：机组必须在获得管制员明确的“可以执行甩冰程序”指令后，方可操作。 2 指令必须分离：管制员不得将执行指令与起飞指令合并发布。机组须清晰辨别“执行甩冰”和“起飞”是两个独立的指令。……",
+      "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_3",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／指挥特点",
+      "clause": "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+      "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_31",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／离场",
+      "clause": "离场：指挥特点：现沈机场实施离地自动脱播，放行中会提示，航行通告中也明确，若塔台提示换频，机组可不回复。",
+      "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_32",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／离场",
+      "clause": "离场：注意事项： （1）06 号起飞通常过了 1200m 才可以申请提前右转。 （2）9C6261 沈阳-连云港，CZ6621；9C8731 沈阳-宁波，9C8732 航班可能在同一频率出现相似航班号，请机组注意。",
+      "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_4",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／指挥特点",
+      "clause": "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+      "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_5",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／指挥特点",
+      "clause": "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+      "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_47",
+      "source_file": "config/airport_supplements.json",
+      "source_page": "N/A",
+      "source_heading": "沈阳桃仙",
+      "source_section": "airport_supplements.json／沈阳桃仙／core_threats",
+      "clause": "严防程序、跑道和离场点输入错误；任何变化均需补充简令和交叉检查。",
+      "reason": "与当前机场arrival角色不匹配"
+    },
+    {
+      "airport": "沈阳桃仙",
+      "fact_id": "沈阳桃仙_core_record_21",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "沈 阳 / 桃 仙 机 场 运 行 特 点",
+      "source_section": "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面",
+      "clause": "晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。",
       "reason": "运行价值排序后未选入本次航前核心主题"
     }
   ],
@@ -2894,36 +3077,24 @@
         "zspd_departure_procedure"
       ],
       [
-        "zspd_tcas",
-        "zspd_departure_traffic"
-      ],
-      [
-        "zspd_runway_occupancy"
-      ],
-      [
-        "zspd_thunderstorm",
         "zspd_departure_weather_bird"
       ],
       [
-        "zspd_adgs_entry",
         "zspd_departure_ground"
       ]
     ],
-    "丽江三义": [
+    "沈阳桃仙": [
       [
-        "zplj_descent"
+        "沈阳桃仙_core_record_7"
       ],
       [
-        "zplj_runway20"
+        "沈阳桃仙_core_record_6"
       ],
       [
-        "zplj_terrain"
+        "沈阳桃仙_core_record_35"
       ],
       [
-        "zplj_navigation"
-      ],
-      [
-        "zplj_rain"
+        "沈阳桃仙_core_record_19"
       ]
     ]
   },
@@ -2933,7 +3104,7 @@
         "paragraph_index": 1,
         "paragraph_id": "zspd_departure_navigation",
         "topic": "departure",
-        "role": "transit",
+        "role": "departure",
         "text": "如实际涉及16L、17R、34R或35L跑道，我们应使用最新有效导航标准和航图勘误；执行VOR 17L或VOR 35R相关程序时，重点核对导航数据库修正内容和高度限制。",
         "source_fact_ids": [
           "zspd_departure_navigation"
@@ -2965,7 +3136,7 @@
         "paragraph_index": 2,
         "paragraph_id": "zspd_departure_procedure",
         "topic": "clearance",
-        "role": "transit",
+        "role": "departure",
         "text": "浦东2606期程序已经调整。驾驶舱准备阶段我们应核对实际跑道、SID、跑道过渡、离场公共段、第一航路点及全部高度速度限制，PF和PM独立检查MCDU，防止新旧程序混淆。",
         "source_fact_ids": [
           "zspd_departure_procedure"
@@ -2987,7 +3158,7 @@
         ],
         "condition_scope": {},
         "condition_contexts": [],
-        "briefing_priority": 415,
+        "briefing_priority": 395,
         "text_before_polish": "浦东2606期程序已经调整。驾驶舱准备阶段我们应核对实际跑道、SID、跑道过渡、离场公共段、第一航路点及全部高度速度限制，PF和PM独立检查MCDU，防止新旧程序混淆。",
         "text_after_polish": "浦东2606期程序已经调整。驾驶舱准备阶段我们应核对实际跑道、SID、跑道过渡、离场公共段、第一航路点及全部高度速度限制，PF和PM独立检查MCDU，防止新旧程序混淆。",
         "polish_applied": false,
@@ -2995,307 +3166,199 @@
       },
       {
         "paragraph_index": 3,
-        "paragraph_id": "paragraph:zspd_tcas+zspd_departure_traffic",
-        "topic": "approach",
-        "role": "transit",
-        "text": "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
+        "paragraph_id": "zspd_departure_weather_bird",
+        "topic": "weather",
+        "role": "departure",
+        "text": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
         "source_fact_ids": [
-          "zspd_tcas",
-          "zspd_departure_traffic"
+          "zspd_departure_weather_bird"
         ],
         "source_record_ids": [
-          "zspd_tcas",
-          "zspd_departure_traffic"
+          "zspd_departure_weather_bird"
         ],
         "source_clauses": [
-          "浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
-          "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。"
+          "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。"
         ],
         "source_original_texts": [
-          "浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
-          "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。"
+          "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。"
         ],
         "source_files": [
           "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
         ],
         "source_sections": [
-          "20260720手册第448、451页／其他威胁：进近TA/RA",
-          "20260720手册第448、451页／进近TA/RA"
+          "20260720手册第448页／东侧海岸鸟情；补充知识库／夏季雷雨"
         ],
         "condition_scope": {},
         "condition_contexts": [],
-        "briefing_priority": 395,
-        "text_before_polish": "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
-        "text_after_polish": "浦东空域航流密集。我们应严格执行初始高度、速度和航向指令，收到直飞或离场变化后重新核对MCDU和初始航路衔接；接近目标高度最后2000ft有邻近航空器时合理控制升降率，并按现行程序处置TA/RA。浦东进近阶段曾多次触发TA/RA。接近目标高度最后2000ft且有邻近航空器时，我们应合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
+        "briefing_priority": 330,
+        "text_before_polish": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
+        "text_after_polish": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。",
         "polish_applied": false,
         "polish_fallback_reason": ""
       },
       {
         "paragraph_index": 4,
-        "paragraph_id": "zspd_runway_occupancy",
-        "topic": "landing",
-        "role": "transit",
-        "text": "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。",
+        "paragraph_id": "zspd_departure_ground",
+        "topic": "ground_departure",
+        "role": "departure",
+        "text": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
         "source_fact_ids": [
-          "zspd_runway_occupancy"
-        ],
-        "source_record_ids": [
-          "zspd_runway_occupancy"
-        ],
-        "source_clauses": [
-          "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。"
-        ],
-        "source_original_texts": [
-          "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。"
-        ],
-        "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
-        ],
-        "source_sections": [
-          "二、核心威胁／2.道面特点"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "briefing_priority": 372,
-        "text_before_polish": "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。",
-        "text_after_polish": "浦东通常要求落地后占跑道时间不大于50秒；预计不能做到时，应不晚于接地前5分钟通知ATC。",
-        "polish_applied": false,
-        "polish_fallback_reason": ""
-      },
-      {
-        "paragraph_index": 5,
-        "paragraph_id": "paragraph:zspd_thunderstorm+zspd_departure_weather_bird",
-        "topic": "weather",
-        "role": "transit",
-        "text": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
-        "source_fact_ids": [
-          "zspd_thunderstorm",
-          "zspd_departure_weather_bird"
-        ],
-        "source_record_ids": [
-          "zspd_thunderstorm",
-          "zspd_departure_weather_bird"
-        ],
-        "source_clauses": [
-          "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
-          "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。"
-        ],
-        "source_original_texts": [
-          "浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
-          "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。"
-        ],
-        "source_files": [
-          "config/airport_supplements.json",
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
-        ],
-        "source_sections": [
-          "airport_supplements.json／上海浦东／core_threats／夏季雷雨",
-          "20260720手册第448页／东侧海岸鸟情；补充知识库／夏季雷雨"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "briefing_priority": 355,
-        "text_before_polish": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
-        "text_after_polish": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠。我们应全程合理使用气象雷达，提前制定绕飞和返场预案，并关注ATIS、ATC和机场鸟情通报。浦东夏季雷雨可能伴随低云、低能见、湿跑道和风切变。我们应全程合理使用气象雷达，提前评估绕飞、等待、着陆性能和备降油量；出现风切变警告或状态不稳定时按程序复飞。",
-        "polish_applied": false,
-        "polish_fallback_reason": ""
-      },
-      {
-        "paragraph_index": 6,
-        "paragraph_id": "paragraph:zspd_adgs_entry+zspd_departure_ground",
-        "topic": "landing_ground",
-        "role": "transit",
-        "text": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
-        "source_fact_ids": [
-          "zspd_adgs_entry",
           "zspd_departure_ground"
         ],
         "source_record_ids": [
-          "zspd_adgs_entry",
           "zspd_departure_ground"
         ],
         "source_clauses": [
-          "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。",
           "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。"
         ],
         "source_original_texts": [
-          "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。",
           "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。"
         ],
         "source_files": [
           "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
         ],
         "source_sections": [
-          "二、核心威胁／4.其他威胁／第(3)项",
           "20260720手册第448-449页／指挥特点与地面滑行引导车"
         ],
         "condition_scope": {},
         "condition_contexts": [],
-        "briefing_priority": 305,
-        "text_before_polish": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
-        "text_after_polish": "进入设有ADGS的机位时，如引导指示有疑问，或人工引导机位的地面接机人员未就位，我们应立即停止滑行、通知ATC，并保持发动机运转等待处置。浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
+        "briefing_priority": 275,
+        "text_before_polish": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
+        "text_after_polish": "浦东推出时可能收到“推出开车”或“推出到位报告”两类指令，我们应准确区分并完整复诵。滑行中如发现地面滑行引导车，应按机场细则关闭滑行灯并跟随引导车滑行。",
         "polish_applied": false,
         "polish_fallback_reason": ""
       }
     ],
-    "丽江三义": [
+    "沈阳桃仙": [
       {
         "paragraph_index": 1,
-        "paragraph_id": "zplj_descent",
-        "topic": "arrival_energy",
-        "role": "transit",
-        "text": "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。",
+        "paragraph_id": "沈阳桃仙_core_record_7",
+        "topic": "approach_intercept",
+        "role": "arrival",
+        "text": "ILS06/24下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口7-3海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
         "source_fact_ids": [
-          "zplj_descent"
+          "沈阳桃仙_core_record_7"
         ],
         "source_record_ids": [
-          "zplj_descent"
+          "沈阳桃仙:core:d08f3314a7a88b56"
         ],
         "source_clauses": [
-          "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。"
+          "ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。"
         ],
         "source_original_texts": [
-          "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。"
+          "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。"
         ],
         "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
+          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf"
         ],
         "source_sections": [
-          "丽江人工精选／下降剖面"
+          "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／指挥特点"
         ],
         "condition_scope": {},
         "condition_contexts": [],
-        "briefing_priority": 415,
-        "text_before_polish": "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。",
-        "text_after_polish": "丽江进近可能下降偏晚、剖面偏高。我们应提前计划下降、减速和构型，结合剩余距离、顺风、地速和下降率及时申请；尽量在低于5700m后选择形态，不能稳定时复飞。",
+        "briefing_priority": 405,
+        "text_before_polish": "ILS06/24下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口7-3海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
+        "text_after_polish": "ILS06/24下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口7-3海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。",
         "polish_applied": false,
         "polish_fallback_reason": ""
       },
       {
         "paragraph_index": 2,
-        "paragraph_id": "zplj_runway20",
+        "paragraph_id": "沈阳桃仙_core_record_6",
         "topic": "approach_intercept",
-        "role": "transit",
-        "text": "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。",
+        "role": "arrival",
+        "text": "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。",
         "source_fact_ids": [
-          "zplj_runway20"
+          "沈阳桃仙_core_record_6"
         ],
         "source_record_ids": [
-          "zplj_runway20"
+          "沈阳桃仙:core:d08f3314a7a88b56"
         ],
         "source_clauses": [
-          "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。"
+          "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。"
         ],
         "source_original_texts": [
-          "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。"
+          "指挥特点：通常 06 号跑道离场使用 A2 离场，24 号跑道使用 A8 离场。机组注意 FLYSMART性能计算。地面通常会让A2/A8 前等待,然后换频塔台后再给跑道外等待指令。进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。 ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态。"
         ],
         "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
+          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf"
         ],
         "source_sections": [
-          "丽江人工精选／20号跑道进近"
+          "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／指挥特点"
         ],
         "condition_scope": {},
         "condition_contexts": [],
-        "briefing_priority": 405,
-        "text_before_polish": "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。",
-        "text_after_polish": "20号跑道相关进近下降梯度较大，五边可能有顺风。我们应提前建立着陆构型，持续监控下降率、速度、推力和垂直偏差；未在规定高度达到稳定标准时复飞。",
+        "briefing_priority": 370,
+        "text_before_polish": "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。",
+        "text_after_polish": "进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获。",
         "polish_applied": false,
         "polish_fallback_reason": ""
       },
       {
         "paragraph_index": 3,
-        "paragraph_id": "zplj_terrain",
-        "topic": "terrain",
-        "role": "transit",
-        "text": "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。",
+        "paragraph_id": "沈阳桃仙_core_record_35",
+        "topic": "approach",
+        "role": "arrival",
+        "text": "TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。",
         "source_fact_ids": [
-          "zplj_terrain"
+          "沈阳桃仙_core_record_35"
         ],
         "source_record_ids": [
-          "zplj_terrain"
+          "沈阳桃仙:core:70520b6dd73077c1"
         ],
         "source_clauses": [
-          "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。"
+          "指挥特点：TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。"
         ],
         "source_original_texts": [
-          "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。"
+          "进场：指挥特点：TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。"
         ],
         "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
+          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf"
         ],
         "source_sections": [
-          "丽江人工精选／高原地形"
+          "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／进场"
         ],
         "condition_scope": {},
         "condition_contexts": [],
-        "briefing_priority": 405,
-        "text_before_polish": "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。",
-        "text_after_polish": "丽江机场标高7358ft，四周地形复杂。我们应严格按照公布程序飞行，持续监控航迹、高度、最低安全高度和导航精度；接受雷达引导、直飞或天气绕飞前，必须确认地形间隔。",
+        "briefing_priority": 355,
+        "text_before_polish": "TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。",
+        "text_after_polish": "TOSID方向通常在TOSID前区调指挥保持当前航迹，联系进近后指挥加入进场。",
         "polish_applied": false,
         "polish_fallback_reason": ""
       },
       {
         "paragraph_index": 4,
-        "paragraph_id": "zplj_navigation",
-        "topic": "special",
-        "role": "transit",
-        "text": "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。",
+        "paragraph_id": "沈阳桃仙_core_record_19",
+        "topic": "landing_ground",
+        "role": "arrival",
+        "text": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
         "source_fact_ids": [
-          "zplj_navigation"
+          "沈阳桃仙_core_record_19"
         ],
         "source_record_ids": [
-          "zplj_navigation"
+          "沈阳桃仙:core:bf89a99bd6bce515"
         ],
         "source_clauses": [
-          "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。"
+          "沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。"
         ],
         "source_original_texts": [
-          "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。"
+          "地面：注意事项： （1）沈阳机场地面夜间滑行时，滑行道 N 转滑行道B 时滑行道没有中线灯，注意地面标志。 （2）沈阳06 号跑道起飞地面指挥 H A N 前等，现在主滑行道A 与 M 连接线已经清除，所以 H 左转A 后左侧第一条连接的滑行线即为 N 滑行线，机组应结合航图和地面标识认真识别。 （3）晚上机位紧张，G滑行道会临时作为机位使用，机位名称为：L05，航图没有标识，请机组注意。"
         ],
         "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
+          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf"
         ],
         "source_sections": [
-          "丽江人工精选／ADS-B与GPS"
+          "沈 阳 / 桃 仙 机 场 运 行 特 点／核心威胁与运行特点／地面"
         ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "briefing_priority": 395,
-        "text_before_polish": "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。",
-        "text_after_polish": "丽江进近区域实施ADS-B管制，GPS可能不稳定。我们应监控GPS状态、导航精度、位置和航迹；出现GPS PRIMARY LOST或导航性能下降时，及时报告ATC并准备使用其他导航方式。",
-        "polish_applied": false,
-        "polish_fallback_reason": ""
-      },
-      {
-        "paragraph_index": 5,
-        "paragraph_id": "zplj_rain",
-        "topic": "weather",
-        "role": "transit",
-        "text": "我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。",
-        "source_fact_ids": [
-          "zplj_rain"
+        "condition_scope": {
+          "daypart": "night"
+        },
+        "condition_contexts": [
+          "夜间"
         ],
-        "source_record_ids": [
-          "zplj_rain"
-        ],
-        "source_clauses": [
-          "我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。"
-        ],
-        "source_original_texts": [
-          "丽江5月至9月处于雨季。我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。"
-        ],
-        "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf"
-        ],
-        "source_sections": [
-          "丽江人工精选／雨季运行"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "briefing_priority": 354,
-        "text_before_polish": "我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。",
-        "text_after_polish": "我们应评估降水、低云、风切变、湿跑道、顺风和着陆距离，并根据跑道状况、风、重量和制动效应明确复飞、等待或备降预案。",
+        "briefing_priority": 275,
+        "text_before_polish": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
+        "text_after_polish": "沈阳机场地面夜间滑行时，滑行道N转滑行道B时滑行道没有中线灯，注意地面标志。",
         "polish_applied": false,
         "polish_fallback_reason": ""
       }
