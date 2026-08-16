@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-08-17",
-  "generated_at_beijing": "2026-08-16T00:56:56.103845+08:00",
+  "generated_at_beijing": "2026-08-16T10:25:35.619164+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C7021"
@@ -121,7 +121,10 @@
         "上海浦东": {
           "icao": "ZSPD",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "taf_validity_utc": [
+            "2026-08-16T00:00:00+00:00",
+            "2026-08-17T06:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-08-17T21:35:00+08:00"
           ],
@@ -132,10 +135,7 @@
         "沈阳桃仙": {
           "icao": "ZYTX",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [
-            "2026-08-15T18:00:00+00:00",
-            "2026-08-16T18:00:00+00:00"
-          ],
+          "taf_validity_utc": [],
           "relevant_times": [
             "2026-08-18T00:05:00+08:00"
           ],
@@ -1741,7 +1741,10 @@
     "上海浦东": {
       "icao": "ZSPD",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-08-16T00:00:00+00:00",
+        "2026-08-17T06:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-08-17T21:35:00+08:00"
       ],
@@ -1752,10 +1755,7 @@
     "沈阳桃仙": {
       "icao": "ZYTX",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-08-15T18:00:00+00:00",
-        "2026-08-16T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-08-18T00:05:00+08:00"
       ],
@@ -1764,11 +1764,7 @@
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [
-    "昆明长水: - -> 2026-08-15",
-    "丽江三义: 2026-08-14 -> 2026-08-15",
-    "上海浦东: 2026-08-14 -> 2026-08-15"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
   "airport_information_version": 20260803,
   "airport_information_type": "PDF",
