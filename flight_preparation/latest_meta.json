@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-08-18",
-  "generated_at_beijing": "2026-08-17T00:57:24.940838+08:00",
+  "generated_at_beijing": "2026-08-17T10:24:20.808508+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C7757X",
@@ -221,17 +221,14 @@
         "沈阳桃仙": {
           "icao": "ZYTX",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [
-            "2026-08-16T18:00:00+00:00",
-            "2026-08-17T18:00:00+00:00"
-          ],
+          "taf_validity_utc": [],
           "relevant_times": [
             "2026-08-18T15:00:00+08:00",
             "2026-08-18T23:55:00+08:00"
           ],
           "taf_decoded_by_time": [],
           "decoded": [],
-          "fetch_error": "METAR获取失败: HTTPError: 502 Server Error: Bad Gateway for url: https://aviationweather.gov/api/data/metar?ids=ZYTX&format=raw"
+          "fetch_error": ""
         },
         "威海大水泊": {
           "icao": "ZSWH",
@@ -245,7 +242,7 @@
           ],
           "taf_decoded_by_time": [],
           "decoded": [],
-          "fetch_error": "TAF获取失败: HTTPError: 502 Server Error: Bad Gateway for url: https://aviationweather.gov/api/data/taf?ids=ZSWH&format=raw"
+          "fetch_error": ""
         }
       },
       "airport_fact_ids": {
@@ -2416,15 +2413,12 @@
           ],
           "taf_decoded_by_time": [],
           "decoded": [],
-          "fetch_error": "TAF获取失败: HTTPError: 502 Server Error: Bad Gateway for url: https://aviationweather.gov/api/data/taf?ids=ZSWH&format=raw"
+          "fetch_error": ""
         },
         "南京禄口": {
           "icao": "ZSNJ",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [
-            "2026-08-16T18:00:00+00:00",
-            "2026-08-17T18:00:00+00:00"
-          ],
+          "taf_validity_utc": [],
           "relevant_times": [
             "2026-08-18T19:00:00+08:00",
             "2026-08-18T20:00:00+08:00"
@@ -3201,22 +3195,19 @@
           ],
           "taf_decoded_by_time": [],
           "decoded": [],
-          "fetch_error": "TAF获取失败: HTTPError: 502 Server Error: Bad Gateway for url: https://aviationweather.gov/api/data/taf?ids=ZSWH&format=raw"
+          "fetch_error": ""
         },
         "沈阳桃仙": {
           "icao": "ZYTX",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [
-            "2026-08-16T18:00:00+00:00",
-            "2026-08-17T18:00:00+00:00"
-          ],
+          "taf_validity_utc": [],
           "relevant_times": [
             "2026-08-18T15:00:00+08:00",
             "2026-08-18T23:55:00+08:00"
           ],
           "taf_decoded_by_time": [],
           "decoded": [],
-          "fetch_error": "METAR获取失败: HTTPError: 502 Server Error: Bad Gateway for url: https://aviationweather.gov/api/data/metar?ids=ZYTX&format=raw"
+          "fetch_error": ""
         }
       },
       "airport_fact_ids": {
@@ -4851,8 +4842,6 @@
     }
   ],
   "warnings": [
-    "沈阳桃仙天气获取提示：METAR获取失败: HTTPError: 502 Server Error: Bad Gateway for url: https://aviationweather.gov/api/data/metar?ids=ZYTX&format=raw",
-    "威海大水泊天气获取提示：TAF获取失败: HTTPError: 502 Server Error: Bad Gateway for url: https://aviationweather.gov/api/data/taf?ids=ZSWH&format=raw",
     "沈阳桃仙匹配最新机场特点章节：沈 阳 / 桃 仙 机 场 运 行 特 点（ZYTX）",
     "威海大水泊匹配最新机场特点章节：威 海 / 大 水 泊 机 场 运 行 特 点（ZSWH）",
     "南京禄口匹配最新机场特点章节：南 京 / 禄 口 机 场 运 行 特 点（ZSNJ）"
@@ -4861,17 +4850,14 @@
     "沈阳桃仙": {
       "icao": "ZYTX",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-08-16T18:00:00+00:00",
-        "2026-08-17T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-08-18T15:00:00+08:00",
         "2026-08-18T23:55:00+08:00"
       ],
       "taf_decoded_by_time": [],
       "decoded": [],
-      "fetch_error": "METAR获取失败: HTTPError: 502 Server Error: Bad Gateway for url: https://aviationweather.gov/api/data/metar?ids=ZYTX&format=raw"
+      "fetch_error": ""
     },
     "威海大水泊": {
       "icao": "ZSWH",
@@ -4885,15 +4871,12 @@
       ],
       "taf_decoded_by_time": [],
       "decoded": [],
-      "fetch_error": "TAF获取失败: HTTPError: 502 Server Error: Bad Gateway for url: https://aviationweather.gov/api/data/taf?ids=ZSWH&format=raw"
+      "fetch_error": ""
     },
     "南京禄口": {
       "icao": "ZSNJ",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-08-16T18:00:00+00:00",
-        "2026-08-17T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-08-18T19:00:00+08:00",
         "2026-08-18T20:00:00+08:00"
