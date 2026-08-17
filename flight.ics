@@ -1968,7 +1968,7 @@ UID:f28102aa916bb1edf6c8dc592837316b@crew-calendar
 SUMMARY:✈️ 9C7021 上海浦东→沈阳桃仙(+1)
 DTSTART;TZID=Asia/Shanghai:20260817T213500
 DTEND;TZID=Asia/Shanghai:20260818T000500
-DESCRIPTION:08月17日 周一\n类型：航班\n航班：9C7021\n航线：上海浦东 → 沈阳桃仙(+1)\n地点：上海浦东\n签到：19:45｜上海浦东\n任务：21:35 - 00:05\n机型：A320｜注册号：B9920\n\n人员名单：\n• 徐忠民(T2\,R)\n• 高劲驰(R)\n• 段洋硕\n• 倪明(P\,B)\n\n版本：2026-08-17 18:59
+DESCRIPTION:08月17日 周一\n类型：航班\n航班：9C7021\n航线：上海浦东 → 沈阳桃仙(+1)\n地点：上海浦东\n签到：19:45｜上海浦东\n任务：21:35 - 00:05\n机型：A320｜注册号：B9920\n\n人员名单：\n• 徐忠民(T2\,R)\n• 高劲驰(R)\n• 段洋硕\n• 倪明(P\,B)\n\n版本：2026-08-17 19:48
 X-CONTENT-SIGNATURE:b808a5eace0bf905200b2d9407f64299
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -1982,7 +1982,7 @@ UID:1bae54c3f2555246f36b6eb9fb47c77e@crew-calendar
 SUMMARY:✈️ 9C7757X 沈阳桃仙→威海大水泊
 DTSTART;TZID=Asia/Shanghai:20260818T150000
 DTEND;TZID=Asia/Shanghai:20260818T163500
-DESCRIPTION:08月18日 周二\n类型：航班\n航班：9C7757X\n航线：沈阳桃仙 → 威海大水泊\n地点：沈阳桃仙\n签到：13:10｜沈阳桃仙\n任务：15:00 - 16:35\n机型：A320｜注册号：B8371\n\n人员名单：\n• 徐忠民(T2\,R)\n• 高劲驰(R)\n• 段洋硕\n• 刘智超(B)\n\n版本：2026-08-17 18:59
+DESCRIPTION:08月18日 周二\n类型：航班\n航班：9C7757X\n航线：沈阳桃仙 → 威海大水泊\n地点：沈阳桃仙\n签到：13:10｜沈阳桃仙\n任务：15:00 - 16:35\n机型：A320｜注册号：B8371\n\n人员名单：\n• 徐忠民(T2\,R)\n• 高劲驰(R)\n• 段洋硕\n• 刘智超(B)\n\n版本：2026-08-17 19:48
 X-CONTENT-SIGNATURE:dd71488c6007958bfdd906d5efbcb0a8
 LOCATION:沈阳桃仙
 BEGIN:VALARM
@@ -1996,7 +1996,7 @@ UID:7e1833dbd09c3238414845be5442569a@crew-calendar
 SUMMARY:✈️ 9C7757Y 威海大水泊→南京禄口
 DTSTART;TZID=Asia/Shanghai:20260818T172000
 DTEND;TZID=Asia/Shanghai:20260818T190000
-DESCRIPTION:08月18日 周二\n类型：航班\n航班：9C7757Y\n航线：威海大水泊 → 南京禄口\n地点：威海大水泊\n签到：15:45｜威海大水泊\n任务：17:20 - 19:00\n机型：A320｜注册号：B8371\n\n人员名单：\n• 徐忠民(T2\,R)\n• 高劲驰(R)\n• 段洋硕\n• 刘智超(B)\n\n版本：2026-08-17 18:59
+DESCRIPTION:08月18日 周二\n类型：航班\n航班：9C7757Y\n航线：威海大水泊 → 南京禄口\n地点：威海大水泊\n签到：15:45｜威海大水泊\n任务：17:20 - 19:00\n机型：A320｜注册号：B8371\n\n人员名单：\n• 徐忠民(T2\,R)\n• 高劲驰(R)\n• 段洋硕\n• 刘智超(B)\n\n版本：2026-08-17 19:48
 X-CONTENT-SIGNATURE:da1dc6c7adb5f85248c96a1b39a02246
 LOCATION:威海大水泊
 BEGIN:VALARM
@@ -2010,7 +2010,7 @@ UID:530324a96c6d215658ff2f13475e348f@crew-calendar
 SUMMARY:✈️ 9C7758X 南京禄口→威海大水泊
 DTSTART;TZID=Asia/Shanghai:20260818T200000
 DTEND;TZID=Asia/Shanghai:20260818T214500
-DESCRIPTION:08月18日 周二\n类型：航班\n航班：9C7758X\n航线：南京禄口 → 威海大水泊\n地点：南京禄口\n签到：18:25｜南京禄口\n任务：20:00 - 21:45\n机型：A320｜注册号：B8371\n\n人员名单：\n• 徐忠民(T2\,R)\n• 高劲驰(R)\n• 段洋硕\n• 刘智超(B)\n\n版本：2026-08-17 18:59
+DESCRIPTION:08月18日 周二\n类型：航班\n航班：9C7758X\n航线：南京禄口 → 威海大水泊\n地点：南京禄口\n签到：18:25｜南京禄口\n任务：20:00 - 21:45\n机型：A320｜注册号：B8371\n\n人员名单：\n• 徐忠民(T2\,R)\n• 高劲驰(R)\n• 段洋硕\n• 刘智超(B)\n\n版本：2026-08-17 19:48
 X-CONTENT-SIGNATURE:7eb999cc71fea39551abd0ad964771ae
 LOCATION:南京禄口
 BEGIN:VALARM
@@ -2024,7 +2024,7 @@ UID:f649e863644255141428a6e4d6d6d72f@crew-calendar
 SUMMARY:✈️ 9C7758Y 威海大水泊→沈阳桃仙
 DTSTART;TZID=Asia/Shanghai:20260818T223000
 DTEND;TZID=Asia/Shanghai:20260818T235500
-DESCRIPTION:08月18日 周二\n类型：航班\n航班：9C7758Y\n航线：威海大水泊 → 沈阳桃仙\n地点：威海大水泊\n签到：20:55｜威海大水泊\n任务：22:30 - 23:55\n机型：A320｜注册号：B8371\n\n人员名单：\n• 徐忠民(T2\,R)\n• 高劲驰(R)\n• 段洋硕\n• 刘智超(B)\n\n版本：2026-08-17 18:59
+DESCRIPTION:08月18日 周二\n类型：航班\n航班：9C7758Y\n航线：威海大水泊 → 沈阳桃仙\n地点：威海大水泊\n签到：20:55｜威海大水泊\n任务：22:30 - 23:55\n机型：A320｜注册号：B8371\n\n人员名单：\n• 徐忠民(T2\,R)\n• 高劲驰(R)\n• 段洋硕\n• 刘智超(B)\n\n版本：2026-08-17 19:48
 X-CONTENT-SIGNATURE:e48847532737fcda680221b85df709ce
 LOCATION:威海大水泊
 BEGIN:VALARM
@@ -2038,7 +2038,7 @@ UID:ea1e4ecfe6b726373f59393bcdbce06b@crew-calendar
 SUMMARY:✈️ 9C7022 沈阳桃仙→上海浦东(+1)
 DTSTART;TZID=Asia/Shanghai:20260819T221500
 DTEND;TZID=Asia/Shanghai:20260820T004500
-DESCRIPTION:08月19日 周三\n类型：航班\n航班：9C7022\n航线：沈阳桃仙 → 上海浦东(+1)\n地点：沈阳桃仙\n签到：20:25｜沈阳桃仙\n任务：22:15 - 00:45\n机型：A320｜注册号：B6902\n\n人员名单：\n• 徐忠民(T2\,R)\n• 高劲驰(R)\n• 段洋硕\n• 黄昶(B)\n\n版本：2026-08-17 18:59
+DESCRIPTION:08月19日 周三\n类型：航班\n航班：9C7022\n航线：沈阳桃仙 → 上海浦东(+1)\n地点：沈阳桃仙\n签到：20:25｜沈阳桃仙\n任务：22:15 - 00:45\n机型：A320｜注册号：B6902\n\n人员名单：\n• 徐忠民(T2\,R)\n• 高劲驰(R)\n• 段洋硕\n• 黄昶(B)\n\n版本：2026-08-17 19:48
 X-CONTENT-SIGNATURE:7f9e69766bcee710c1f7d65db8febfa6
 LOCATION:沈阳桃仙
 BEGIN:VALARM
@@ -2052,7 +2052,7 @@ UID:3e98ccbac71de0e11d11d626d1525527@crew-calendar
 SUMMARY:✈️ 9C6833 上海虹桥→西宁曹家堡
 DTSTART;TZID=Asia/Shanghai:20260822T164000
 DTEND;TZID=Asia/Shanghai:20260822T201000
-DESCRIPTION:08月22日 周六\n类型：航班\n航班：9C6833\n航线：上海虹桥 → 西宁曹家堡\n地点：上海虹桥\n签到：14:55｜上海虹桥\n任务：16:40 - 20:10\n机型：A320｜注册号：B1656\n\n人员名单：\n• 郑宁(T\,R)\n• 黎明宇(R)\n• 段洋硕\n• 郑云姗(B)\n\n版本：2026-08-17 18:59
+DESCRIPTION:08月22日 周六\n类型：航班\n航班：9C6833\n航线：上海虹桥 → 西宁曹家堡\n地点：上海虹桥\n签到：14:55｜上海虹桥\n任务：16:40 - 20:10\n机型：A320｜注册号：B1656\n\n人员名单：\n• 郑宁(T\,R)\n• 黎明宇(R)\n• 段洋硕\n• 郑云姗(B)\n\n版本：2026-08-17 19:48
 X-CONTENT-SIGNATURE:d9e9a5e532709d9ca3852e818f1a5e7b
 LOCATION:上海虹桥
 BEGIN:VALARM
@@ -2066,7 +2066,7 @@ UID:7b994f805a5c660e9691531017cb8997@crew-calendar
 SUMMARY:✈️ 9C6834 西宁曹家堡→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260822T205500
 DTEND;TZID=Asia/Shanghai:20260822T234000
-DESCRIPTION:08月22日 周六\n类型：航班\n航班：9C6834\n航线：西宁曹家堡 → 上海虹桥\n地点：西宁曹家堡\n签到：19:20｜西宁曹家堡\n任务：20:55 - 23:40\n机型：A320｜注册号：B1656\n\n人员名单：\n• 郑宁(T\,R)\n• 黎明宇(R)\n• 段洋硕\n• 郑云姗(B)\n\n版本：2026-08-17 18:59
+DESCRIPTION:08月22日 周六\n类型：航班\n航班：9C6834\n航线：西宁曹家堡 → 上海虹桥\n地点：西宁曹家堡\n签到：19:20｜西宁曹家堡\n任务：20:55 - 23:40\n机型：A320｜注册号：B1656\n\n人员名单：\n• 郑宁(T\,R)\n• 黎明宇(R)\n• 段洋硕\n• 郑云姗(B)\n\n版本：2026-08-17 19:48
 X-CONTENT-SIGNATURE:53590ad11a7b2c184199ce07186df2f9
 LOCATION:西宁曹家堡
 BEGIN:VALARM
