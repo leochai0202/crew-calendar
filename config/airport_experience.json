@@ -1,6 +1,6 @@
 {
   "rolling_days": 90,
-  "as_of": "2026-08-17",
+  "as_of": "2026-08-18",
   "airports": {
     "西安咸阳": {
       "last_operated": "2026-05-26",
@@ -21,9 +21,9 @@
       "within_90_days": true
     },
     "上海浦东": {
-      "last_operated": "2026-08-15",
+      "last_operated": "2026-08-17",
       "source": "completed_schedule_event",
-      "flight_number": "9C711T",
+      "flight_number": "9C7021",
       "within_90_days": true
     },
     "札幌新千岁": {
@@ -129,9 +129,9 @@
       "within_90_days": true
     },
     "沈阳桃仙": {
-      "last_operated": "2026-08-13",
+      "last_operated": "2026-08-17",
       "source": "completed_schedule_event",
-      "flight_number": "9C7636",
+      "flight_number": "9C7021",
       "within_90_days": true
     },
     "兰州中川": {
