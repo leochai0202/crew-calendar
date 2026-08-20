@@ -2449,7 +2449,7 @@ UID:f0933cd0fe013ccfbd49a4aef1e1a864@crew-calendar
 SUMMARY:✈️ 9C6833 上海虹桥→西宁曹家堡
 DTSTART;TZID=Asia/Shanghai:20260822T164000
 DTEND;TZID=Asia/Shanghai:20260822T201000
-DESCRIPTION:08月22日 周六\n类型：航班\n航班：9C6833\n航线：上海虹桥 → 西宁曹家堡\n地点：上海虹桥\n签到：14:55｜上海虹桥\n任务：16:40 - 20:10\n机型：A320｜注册号：B328H\n\n人员名单：\n• 郑宁(T\,R)\n• 黎明宇(R)\n• 段洋硕\n• 郑云姗(B)\n\n版本：2026-08-19 18:57
+DESCRIPTION:08月22日 周六\n类型：航班\n航班：9C6833\n航线：上海虹桥 → 西宁曹家堡\n地点：上海虹桥\n签到：14:55｜上海虹桥\n任务：16:40 - 20:10\n机型：A320｜注册号：B328H\n\n人员名单：\n• 郑宁(T\,R)\n• 黎明宇(R)\n• 段洋硕\n• 郑云姗(B)\n\n版本：2026-08-20 18:02
 X-CONTENT-SIGNATURE:1d30f2fe7db62154d6c3e89b5479ed34
 LOCATION:上海虹桥
 BEGIN:VALARM
@@ -2463,7 +2463,7 @@ UID:34d27106dbd5ee08cb3e10fdca5be2f9@crew-calendar
 SUMMARY:✈️ 9C6834 西宁曹家堡→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260822T205500
 DTEND;TZID=Asia/Shanghai:20260822T234000
-DESCRIPTION:08月22日 周六\n类型：航班\n航班：9C6834\n航线：西宁曹家堡 → 上海虹桥\n地点：西宁曹家堡\n签到：19:20｜西宁曹家堡\n任务：20:55 - 23:40\n机型：A320｜注册号：B328H\n\n人员名单：\n• 郑宁(T\,R)\n• 黎明宇(R)\n• 段洋硕\n• 郑云姗(B)\n\n版本：2026-08-19 18:57
+DESCRIPTION:08月22日 周六\n类型：航班\n航班：9C6834\n航线：西宁曹家堡 → 上海虹桥\n地点：西宁曹家堡\n签到：19:20｜西宁曹家堡\n任务：20:55 - 23:40\n机型：A320｜注册号：B328H\n\n人员名单：\n• 郑宁(T\,R)\n• 黎明宇(R)\n• 段洋硕\n• 郑云姗(B)\n\n版本：2026-08-20 18:02
 X-CONTENT-SIGNATURE:9e1add6e1918591ea5a27aa2f770bad5
 LOCATION:西宁曹家堡
 BEGIN:VALARM
@@ -2473,12 +2473,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:c831e558bde90beeb43d00a19e0b059d@crew-calendar
+UID:2740ef840200342d421e368d4b84318d@crew-calendar
 SUMMARY:✈️ 9C8697 上海浦东→张掖甘州
 DTSTART;TZID=Asia/Shanghai:20260823T171000
 DTEND;TZID=Asia/Shanghai:20260823T211000
-DESCRIPTION:08月23日 周日\n类型：航班\n航班：9C8697\n航线：上海浦东 → 张掖甘州\n地点：上海浦东\n签到：15:20｜上海浦东\n任务：17:10 - 21:10\n机型：A320｜注册号：B328U\n\n人员名单：\n• 杨剑(T\,R)\n• 贾成浩(R)\n• 段洋硕\n• 任月明(B)\n\n版本：2026-08-19 18:57
-X-CONTENT-SIGNATURE:d48ad65f23ac6b278a9ca472a8a155e2
+DESCRIPTION:08月23日 周日\n类型：航班\n航班：9C8697\n航线：上海浦东 → 张掖甘州\n地点：上海浦东\n签到：15:20｜上海浦东\n任务：17:10 - 21:10\n机型：A320｜注册号：B328T\n\n人员名单：\n• 杨剑(T\,R)\n• 贾成浩(R)\n• 段洋硕\n• 任月明(B)\n\n版本：2026-08-20 18:02
+X-CONTENT-SIGNATURE:e95c8a3b70c6cd747dac067ec68de68b
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -2487,12 +2487,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:c8f11d1ff1f0363a1efa5a87093943e6@crew-calendar
+UID:f5dbb93bb750880bee19021049f6494c@crew-calendar
 SUMMARY:✈️ 9C8698 张掖甘州→上海浦东(+1)
 DTSTART;TZID=Asia/Shanghai:20260823T215500
 DTEND;TZID=Asia/Shanghai:20260824T012000
-DESCRIPTION:08月23日 周日\n类型：航班\n航班：9C8698\n航线：张掖甘州 → 上海浦东(+1)\n地点：张掖甘州\n签到：20:20｜张掖甘州\n任务：21:55 - 01:20\n机型：A320｜注册号：B328U\n\n人员名单：\n• 杨剑(T\,R)\n• 贾成浩(R)\n• 段洋硕\n• 任月明(B)\n\n版本：2026-08-19 18:57
-X-CONTENT-SIGNATURE:b621e040ab26a29bfd04ba436d68b390
+DESCRIPTION:08月23日 周日\n类型：航班\n航班：9C8698\n航线：张掖甘州 → 上海浦东(+1)\n地点：张掖甘州\n签到：20:20｜张掖甘州\n任务：21:55 - 01:20\n机型：A320｜注册号：B328T\n\n人员名单：\n• 杨剑(T\,R)\n• 贾成浩(R)\n• 段洋硕\n• 任月明(B)\n\n版本：2026-08-20 18:02
+X-CONTENT-SIGNATURE:ef959608715ee6c3b87878a64d22db2d
 LOCATION:张掖甘州
 BEGIN:VALARM
 TRIGGER:-PT90M
