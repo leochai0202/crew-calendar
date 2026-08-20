@@ -1,6 +1,6 @@
 {
   "rolling_days": 90,
-  "as_of": "2026-08-20",
+  "as_of": "2026-08-21",
   "airports": {
     "西安咸阳": {
       "last_operated": "2026-05-26",
@@ -126,7 +126,7 @@
       "last_operated": "2026-05-22",
       "source": "completed_schedule_event",
       "flight_number": "9C7685",
-      "within_90_days": true
+      "within_90_days": false
     },
     "沈阳桃仙": {
       "last_operated": "2026-08-19",

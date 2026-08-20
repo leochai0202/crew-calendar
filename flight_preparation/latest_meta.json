@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-08-22",
-  "generated_at_beijing": "2026-08-20T18:51:33.509967+08:00",
+  "generated_at_beijing": "2026-08-21T01:04:56.128360+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C6833",
@@ -187,10 +187,7 @@
         "上海虹桥": {
           "icao": "ZSSS",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [
-            "2026-08-20T06:00:00+00:00",
-            "2026-08-21T12:00:00+00:00"
-          ],
+          "taf_validity_utc": [],
           "relevant_times": [
             "2026-08-22T16:40:00+08:00",
             "2026-08-22T23:40:00+08:00"
@@ -1986,10 +1983,7 @@
     "上海虹桥": {
       "icao": "ZSSS",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-08-20T06:00:00+00:00",
-        "2026-08-21T12:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-08-22T16:40:00+08:00",
         "2026-08-22T23:40:00+08:00"
@@ -2011,13 +2005,7 @@
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [
-    "沈阳桃仙: 2026-08-17 -> 2026-08-18",
-    "威海大水泊: 2026-05-29 -> 2026-08-18",
-    "南京禄口: - -> 2026-08-18",
-    "沈阳桃仙: 2026-08-18 -> 2026-08-19",
-    "上海浦东: 2026-08-17 -> 2026-08-19"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260803-Manual.pdf",
   "airport_information_version": 20260803,
   "airport_information_type": "PDF",
