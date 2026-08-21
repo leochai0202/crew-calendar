@@ -1649,6 +1649,7 @@ def complete_dynamic_password_login(
     request_recovery_timeout_seconds: int = (
         OTP_REQUEST_RECOVERY_TIMEOUT_SECONDS
     ),
+    before_otp_request: Callable[[int], None] | None = None,
 ) -> AuthObservation:
     if max_otp_attempts < 1:
         raise ValueError("动态密码申请次数必须至少为1")
@@ -1689,6 +1690,8 @@ def complete_dynamic_password_login(
             "IMAP_BASELINE_RECORDED",
             attempt=attempt,
         )
+        if before_otp_request is not None:
+            before_otp_request(attempt)
         request_button.click()
         _report_login_stage(
             stage_reporter,
