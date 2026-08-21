@@ -3,6 +3,7 @@ import inspect
 import json
 import subprocess
 import sys
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -383,7 +384,7 @@ def test_authenticated_status_enters_existing_processing_flow(
     monkeypatch.setattr(
         calendar,
         "navigate_and_probe",
-        lambda page: auth.AuthObservation(
+        lambda page, **_kwargs: auth.AuthObservation(
             auth.AuthStatus.AUTHENTICATED,
             auth.AuthSignals(),
         ),
@@ -534,9 +535,143 @@ def test_persistent_profile_reuses_session_without_imap_and_saves_backup(
             "channel": "msedge",
         }
     ]
-    assert calls == ["restore-backup", "backup:True:True"]
+    assert calls == ["backup:True:True"]
     assert context.closed is True
     assert browser.closed is False
+
+
+def test_missing_profile_session_storage_recovers_local_bundle_first(
+    monkeypatch,
+) -> None:
+    context = object()
+    page = object()
+    local_backup = auth.AuthBundle({}, {"https://cp.9cair.com": {"k": "v"}})
+    secret_bundle = auth.AuthBundle({}, {"https://cp.9cair.com": {"s": "v"}})
+    events: list[str] = []
+
+    def verify(_playwright, bundle, *, channel):
+        events.append(
+            "verify-local" if bundle is local_backup else "verify-secret"
+        )
+        return auth.AuthObservation(
+            auth.AuthStatus.AUTHENTICATED,
+            auth.AuthSignals(mission_heading=True, task_container=True),
+        )
+
+    monkeypatch.setattr(calendar, "verify_auth_bundle", verify)
+    monkeypatch.setattr(
+        calendar,
+        "restore_auth_bundle_to_existing_context",
+        lambda passed_context, bundle: events.append(
+            f"restore:{passed_context is context}:{bundle is local_backup}"
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "navigate_and_probe",
+        lambda passed_page: events.append(f"probe:{passed_page is page}")
+        or auth.AuthObservation(
+            auth.AuthStatus.AUTHENTICATED,
+            auth.AuthSignals(mission_heading=True, task_container=True),
+        ),
+    )
+
+    observation = calendar._recover_persistent_authentication(
+        object(),
+        context,
+        page,
+        initial_observation=auth.AuthObservation(
+            auth.AuthStatus.LOGIN_REQUIRED,
+            auth.AuthSignals(login_url_hint=True),
+        ),
+        local_backup=local_backup,
+        secret_bundle=secret_bundle,
+        channel="msedge",
+    )
+
+    assert observation.status == auth.AuthStatus.AUTHENTICATED
+    assert events == ["verify-local", "restore:True:True", "probe:True"]
+
+
+def test_invalid_local_backup_falls_back_to_verified_secret(monkeypatch) -> None:
+    local_backup = auth.AuthBundle({}, {})
+    secret_bundle = auth.AuthBundle({}, {"https://cp.9cair.com": {"k": "v"}})
+    events: list[str] = []
+
+    def verify(_playwright, bundle, *, channel):
+        events.append("local" if bundle is local_backup else "secret")
+        status = (
+            auth.AuthStatus.LOGIN_REQUIRED
+            if bundle is local_backup
+            else auth.AuthStatus.AUTHENTICATED
+        )
+        return auth.AuthObservation(status, auth.AuthSignals())
+
+    monkeypatch.setattr(calendar, "verify_auth_bundle", verify)
+    monkeypatch.setattr(
+        calendar,
+        "restore_auth_bundle_to_existing_context",
+        lambda _context, bundle: events.append(
+            "restore-secret" if bundle is secret_bundle else "restore-local"
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "navigate_and_probe",
+        lambda _page: auth.AuthObservation(
+            auth.AuthStatus.AUTHENTICATED,
+            auth.AuthSignals(mission_heading=True, task_container=True),
+        ),
+    )
+
+    observation = calendar._recover_persistent_authentication(
+        object(),
+        object(),
+        object(),
+        initial_observation=auth.AuthObservation(
+            auth.AuthStatus.LOGIN_REQUIRED,
+            auth.AuthSignals(login_url_hint=True),
+        ),
+        local_backup=local_backup,
+        secret_bundle=secret_bundle,
+        channel="msedge",
+    )
+
+    assert observation.status == auth.AuthStatus.AUTHENTICATED
+    assert events == ["local", "secret", "restore-secret"]
+
+
+def test_valid_profile_is_not_overwritten_by_backup_or_secret(monkeypatch) -> None:
+    valid = auth.AuthObservation(
+        auth.AuthStatus.AUTHENTICATED,
+        auth.AuthSignals(mission_heading=True, task_container=True),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "verify_auth_bundle",
+        lambda *_args, **_kwargs: (_ for _ in ()).throw(
+            AssertionError("valid profile must not verify fallback bundles")
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "restore_auth_bundle_to_existing_context",
+        lambda *_args, **_kwargs: (_ for _ in ()).throw(
+            AssertionError("valid profile cookies must remain untouched")
+        ),
+    )
+
+    observation = calendar._recover_persistent_authentication(
+        object(),
+        object(),
+        object(),
+        initial_observation=valid,
+        local_backup=auth.AuthBundle({}, {}),
+        secret_bundle=auth.AuthBundle({}, {}),
+        channel="msedge",
+    )
+
+    assert observation is valid
 
 
 def test_filtered_auth_backup_is_atomic_and_excludes_other_origins(
@@ -667,7 +802,7 @@ def test_missing_or_corrupt_secret_falls_back_without_writing(
     monkeypatch.setattr(
         calendar,
         "navigate_and_probe",
-        lambda page: auth.AuthObservation(
+        lambda page, **_kwargs: auth.AuthObservation(
             auth.AuthStatus.LOGIN_REQUIRED,
             auth.AuthSignals(login_url_hint=True),
         ),
@@ -675,7 +810,7 @@ def test_missing_or_corrupt_secret_falls_back_without_writing(
     monkeypatch.setattr(
         calendar,
         "attempt_cloud_dynamic_password_login",
-        lambda page: auth.AuthObservation(
+        lambda page, **_kwargs: auth.AuthObservation(
             auth.AuthStatus.LOGIN_REQUIRED,
             auth.AuthSignals(login_url_hint=True),
         ),
@@ -715,7 +850,7 @@ def test_confirmed_login_required_uses_cloud_fallback_then_processes(
     monkeypatch.setattr(
         calendar,
         "attempt_cloud_dynamic_password_login",
-        lambda page: calls.append("fallback")
+        lambda page, **_kwargs: calls.append("fallback")
         or auth.AuthObservation(
             auth.AuthStatus.AUTHENTICATED,
             auth.AuthSignals(mission_heading=True, task_container=True),
@@ -754,6 +889,102 @@ def test_confirmed_login_required_uses_cloud_fallback_then_processes(
         "snapshot",
         "rebuild",
         "open",
+        "create",
+    ]
+
+
+def test_successful_cloud_login_refreshes_backup_before_processing(
+    monkeypatch,
+    tmp_path: Path,
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    install_valid_bundle(monkeypatch)
+    _, _, context, _ = install_fake_browser(monkeypatch)
+    profile_dir = tmp_path / "runner-data" / "browser-profile"
+    backup_path = tmp_path / "runner-data" / "auth-backup" / "session.json"
+    events: list[str] = []
+    monkeypatch.setattr(
+        calendar,
+        "resolve_persistent_profile_dir",
+        lambda: profile_dir,
+    )
+    monkeypatch.setattr(
+        calendar,
+        "resolve_auth_backup_path",
+        lambda _profile: backup_path,
+    )
+    monkeypatch.setattr(
+        calendar,
+        "resolve_auth_control_path",
+        lambda _profile: tmp_path / "runner-data" / "auth-control.json",
+    )
+    monkeypatch.setattr(
+        calendar,
+        "navigate_and_probe",
+        lambda _page: auth.AuthObservation(
+            auth.AuthStatus.LOGIN_REQUIRED,
+            auth.AuthSignals(login_url_hint=True),
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "_recover_persistent_authentication",
+        lambda *_args, **_kwargs: auth.AuthObservation(
+            auth.AuthStatus.LOGIN_REQUIRED,
+            auth.AuthSignals(login_url_hint=True),
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "attempt_cloud_dynamic_password_login",
+        lambda _page, **_kwargs: events.append("fallback")
+        or auth.AuthObservation(
+            auth.AuthStatus.AUTHENTICATED,
+            auth.AuthSignals(mission_heading=True, task_container=True),
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "_write_filtered_auth_backup",
+        lambda passed_context, path: events.append(
+            f"backup:{passed_context is context}:{path == backup_path}"
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "snapshot_existing_calendars",
+        lambda: events.append("snapshot"),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "rebuild_airport_indexes",
+        lambda: events.append("rebuild"),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "open_mission_page",
+        lambda _page: events.append("open"),
+    )
+    monkeypatch.setattr(calendar, "detect_page_year", lambda _page: 2026)
+    monkeypatch.setattr(
+        calendar,
+        "collect_day_blocks",
+        lambda _page: [{"cards": ["card"]}],
+    )
+    monkeypatch.setattr(
+        calendar,
+        "create_multi_calendars_from_blocks",
+        lambda _blocks, _year: events.append("create"),
+    )
+
+    assert calendar.run() == 0
+    assert events == [
+        "fallback",
+        "backup:True:True",
+        "snapshot",
+        "rebuild",
+        "open",
+        "backup:True:True",
         "create",
     ]
 
@@ -797,6 +1028,111 @@ def test_cloud_fallback_uses_fixed_qq_imap_and_secret_phone(
     assert captured["allow_manual_slider"] is False
     assert captured["save_diagnostics"] is False
     assert captured["expected_otp_length"] == 6
+    assert callable(captured["before_otp_request"])
+
+
+def test_three_workflows_allow_one_otp_event_in_24_hours(
+    monkeypatch,
+    tmp_path: Path,
+    capsys,
+) -> None:
+    control_path = tmp_path / "auth-control.json"
+    monkeypatch.setenv("CREW_PHONE", "13000000000")
+    monkeypatch.setenv("IMAP_EMAIL", "crew@example.invalid")
+    monkeypatch.setenv("IMAP_AUTH_CODE", "test-auth-code")
+    events: list[str] = []
+
+    class Reader:
+        def __init__(self, *args, **kwargs) -> None:
+            events.append("reader")
+
+        def close(self) -> None:
+            events.append("close")
+
+    def fail_after_request(_page, _reader, **options):
+        options["before_otp_request"](1)
+        events.append("otp-request")
+        return auth.AuthObservation(
+            auth.AuthStatus.NETWORK_OR_SITE_ERROR,
+            auth.AuthSignals(network_or_site_error=True),
+        )
+
+    monkeypatch.setattr(calendar, "ImapOtpReader", Reader)
+    monkeypatch.setattr(
+        calendar,
+        "complete_dynamic_password_login",
+        fail_after_request,
+    )
+    start = datetime(2026, 8, 21, 9, 30, tzinfo=timezone.utc)
+
+    first = calendar.attempt_cloud_dynamic_password_login(
+        object(), auth_control_path=control_path, now=start
+    )
+    second = calendar.attempt_cloud_dynamic_password_login(
+        object(),
+        auth_control_path=control_path,
+        now=start + timedelta(hours=1),
+    )
+    third = calendar.attempt_cloud_dynamic_password_login(
+        object(),
+        auth_control_path=control_path,
+        now=start + timedelta(hours=2),
+    )
+
+    assert first.status == auth.AuthStatus.NETWORK_OR_SITE_ERROR
+    assert second.status == auth.AuthStatus.LOGIN_REQUIRED
+    assert third.status == auth.AuthStatus.LOGIN_REQUIRED
+    assert events == ["reader", "otp-request", "close"]
+    assert capsys.readouterr().out.count("OTP_COOLDOWN_ACTIVE") >= 2
+    payload = json.loads(control_path.read_text(encoding="utf-8"))
+    assert payload == {
+        "format": calendar.AUTH_CONTROL_FORMAT,
+        "last_failure_reason": "NETWORK_OR_SITE_ERROR",
+        "last_otp_request_at": "2026-08-21T09:30:00Z",
+        "last_otp_result": "FAILED",
+    }
+    serialized = json.dumps(payload)
+    assert "13000000000" not in serialized
+    assert "test-auth-code" not in serialized
+
+
+def test_successful_otp_records_safe_result(monkeypatch, tmp_path: Path) -> None:
+    control_path = tmp_path / "auth-control.json"
+    monkeypatch.setenv("CREW_PHONE", "13000000000")
+    monkeypatch.setenv("IMAP_EMAIL", "crew@example.invalid")
+    monkeypatch.setenv("IMAP_AUTH_CODE", "test-auth-code")
+
+    class Reader:
+        def __init__(self, *args, **kwargs) -> None:
+            return None
+
+        def close(self) -> None:
+            return None
+
+    def succeed_after_request(_page, _reader, **options):
+        options["before_otp_request"](1)
+        return auth.AuthObservation(
+            auth.AuthStatus.AUTHENTICATED,
+            auth.AuthSignals(mission_heading=True, task_container=True),
+        )
+
+    monkeypatch.setattr(calendar, "ImapOtpReader", Reader)
+    monkeypatch.setattr(
+        calendar,
+        "complete_dynamic_password_login",
+        succeed_after_request,
+    )
+
+    observation = calendar.attempt_cloud_dynamic_password_login(
+        object(),
+        auth_control_path=control_path,
+        now=datetime(2026, 8, 21, 9, 30, tzinfo=timezone.utc),
+    )
+
+    assert observation.status == auth.AuthStatus.AUTHENTICATED
+    payload = json.loads(control_path.read_text(encoding="utf-8"))
+    assert payload["last_otp_result"] == "AUTHENTICATED"
+    assert payload["last_failure_reason"] == ""
 
 
 def test_cloud_fallback_missing_secret_does_not_connect_imap(

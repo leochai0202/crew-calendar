@@ -275,10 +275,6 @@ def restore_auth_bundle_to_existing_context(
     bundle: AuthBundle,
 ) -> None:
     storage_state = filter_storage_state(bundle.storage_state)
-    cookies = storage_state.get("cookies", [])
-    if cookies:
-        context.add_cookies(cookies)
-
     local_storage: dict[str, dict[str, str]] = {}
     for origin_data in storage_state.get("origins", []):
         origin = str(origin_data.get("origin", ""))
@@ -290,9 +286,13 @@ def restore_auth_bundle_to_existing_context(
             for entry in entries
             if isinstance(entry, dict) and entry.get("name")
         }
-    if any(local_storage.values()):
+    session_storage = filter_session_storage(bundle.session_storage)
+    if any(local_storage.values()) or any(session_storage.values()):
         serialized = json.dumps(
-            local_storage,
+            {
+                "local": local_storage,
+                "session": session_storage,
+            },
             ensure_ascii=False,
             separators=(",", ":"),
         )
@@ -301,13 +301,22 @@ def restore_auth_bundle_to_existing_context(
                 "(() => {"
                 f"const states={serialized};"
                 "const origin=window.location.origin;"
-                "if(!Object.prototype.hasOwnProperty.call(states,origin))return;"
-                "for(const [key,value] of Object.entries(states[origin]))"
+                "const local=states.local[origin]||{};"
+                "const session=states.session[origin]||{};"
+                "for(const [key,value] of Object.entries(local))"
                 "window.localStorage.setItem(key,value);"
+                "for(const [key,value] of Object.entries(session))"
+                "window.sessionStorage.setItem(key,value);"
                 "})();"
             )
         )
-    add_session_storage_init_script(context, bundle.session_storage)
+
+    # Register the complete, origin-scoped storage restoration in one script
+    # before changing cookies. A script-registration failure therefore leaves
+    # the persistent profile's cookies untouched.
+    cookies = storage_state.get("cookies", [])
+    if cookies:
+        context.add_cookies(cookies)
 
 
 def create_context_from_auth_bundle(
@@ -375,8 +384,10 @@ def probe_page(page: Any) -> AuthObservation:
     compact_text = re.sub(r"\s+", "", body_text)
     try:
         parsed = urlsplit(str(page.url))
-        path_probe = f"{parsed.netloc}{parsed.path}".lower()
+        host_probe = str(parsed.hostname or "").lower()
+        path_probe = str(parsed.path or "").lower()
     except Exception:
+        host_probe = ""
         path_probe = ""
 
     signals = AuthSignals(
@@ -420,11 +431,28 @@ def probe_page(page: Any) -> AuthObservation:
         access_denied=any(
             marker in compact_text for marker in ACCESS_DENIED_MARKERS
         ),
-        login_url_hint=any(
-            marker in path_probe for marker in ("/login", "/auth", "/sso")
+        login_url_hint=(
+            host_probe == "cas.9cair.com"
+            or any(
+                marker in path_probe
+                for marker in ("/login", "/auth", "/sso")
+            )
         ),
     )
     return AuthObservation(classify_auth_signals(signals), signals)
+
+
+def confirm_login_required(
+    page: Any,
+    observation: AuthObservation,
+    *,
+    delay_ms: int = 2_000,
+) -> AuthObservation:
+    """Require two consecutive, explicit login-page observations."""
+    if observation.status != AuthStatus.LOGIN_REQUIRED:
+        return observation
+    page.wait_for_timeout(delay_ms)
+    return probe_page(page)
 
 
 def navigate_and_probe(
@@ -443,11 +471,14 @@ def navigate_and_probe(
         if response_status >= 500:
             signals = AuthSignals(network_or_site_error=True)
             return AuthObservation(AuthStatus.NETWORK_OR_SITE_ERROR, signals)
-        if response_status in {401, 403}:
-            signals = AuthSignals(login_url_hint=True)
-            return AuthObservation(AuthStatus.LOGIN_REQUIRED, signals)
         page.wait_for_timeout(2_000)
-        return probe_page(page)
+        observation = probe_page(page)
+        if observation.status == AuthStatus.LOGIN_REQUIRED:
+            return confirm_login_required(page, observation)
+        if response_status in {401, 403}:
+            signals = AuthSignals(access_denied=True)
+            return AuthObservation(AuthStatus.PAGE_CHANGED_OR_UNKNOWN, signals)
+        return observation
     except Exception:
         signals = AuthSignals(network_or_site_error=True)
         return AuthObservation(AuthStatus.NETWORK_OR_SITE_ERROR, signals)

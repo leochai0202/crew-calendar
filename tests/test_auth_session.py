@@ -106,6 +106,18 @@ class FakeTextPage:
         return FakeTextLocator(self.text, selector)
 
 
+class FakeNavigationPage:
+    def __init__(self, status: int = 200) -> None:
+        self.response = SimpleNamespace(status=status)
+        self.waits: list[int] = []
+
+    def goto(self, *_args, **_kwargs):
+        return self.response
+
+    def wait_for_timeout(self, delay: int) -> None:
+        self.waits.append(delay)
+
+
 class FakeBrowser:
     def __init__(self):
         self.contexts: list[FakeContext] = []
@@ -215,6 +227,18 @@ def test_existing_context_restores_only_scoped_auth_material() -> None:
     assert "https://cp.9cair.com" in scripts
     assert "https://cas.9cair.com" in scripts
     assert "example.com" not in scripts
+
+
+def test_existing_context_storage_script_failure_leaves_cookies_untouched() -> None:
+    context = FakeContext({})
+    context.add_init_script = lambda **_kwargs: (_ for _ in ()).throw(
+        RuntimeError("script registration failed")
+    )
+
+    with pytest.raises(RuntimeError, match="script registration failed"):
+        auth.restore_auth_bundle_to_existing_context(context, sample_bundle())
+
+    assert context.cookies == []
 
 
 def test_verify_closes_browser_when_context_creation_fails(
@@ -337,6 +361,77 @@ def test_expired_state_redirect_is_login_required() -> None:
         auth.AuthSignals(login_text=True, login_url_hint=True)
     )
     assert status == auth.AuthStatus.LOGIN_REQUIRED
+
+
+def test_explicit_cas_host_is_login_required() -> None:
+    page = FakeTextPage("")
+    page.url = "https://cas.9cair.com/login"
+
+    observation = auth.probe_page(page)
+
+    assert observation.status == auth.AuthStatus.LOGIN_REQUIRED
+
+
+def test_temporary_http_403_is_not_login_required(monkeypatch) -> None:
+    page = FakeNavigationPage(status=403)
+    monkeypatch.setattr(
+        auth,
+        "probe_page",
+        lambda _page: auth.AuthObservation(
+            auth.AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+            auth.AuthSignals(),
+        ),
+    )
+
+    observation = auth.navigate_and_probe(page)
+
+    assert observation.status == auth.AuthStatus.PAGE_CHANGED_OR_UNKNOWN
+    assert observation.signals.access_denied is True
+    assert page.waits == [2_000]
+
+
+def test_explicit_login_page_requires_two_confirmations(monkeypatch) -> None:
+    page = FakeNavigationPage(status=200)
+    observations = iter(
+        [
+            auth.AuthObservation(
+                auth.AuthStatus.LOGIN_REQUIRED,
+                auth.AuthSignals(login_url_hint=True),
+            ),
+            auth.AuthObservation(
+                auth.AuthStatus.LOGIN_REQUIRED,
+                auth.AuthSignals(login_form=True),
+            ),
+        ]
+    )
+    monkeypatch.setattr(auth, "probe_page", lambda _page: next(observations))
+
+    observation = auth.navigate_and_probe(page)
+
+    assert observation.status == auth.AuthStatus.LOGIN_REQUIRED
+    assert page.waits == [2_000, 2_000]
+
+
+def test_transient_login_page_does_not_survive_confirmation(monkeypatch) -> None:
+    page = FakeNavigationPage(status=200)
+    observations = iter(
+        [
+            auth.AuthObservation(
+                auth.AuthStatus.LOGIN_REQUIRED,
+                auth.AuthSignals(login_url_hint=True),
+            ),
+            auth.AuthObservation(
+                auth.AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+                auth.AuthSignals(),
+            ),
+        ]
+    )
+    monkeypatch.setattr(auth, "probe_page", lambda _page: next(observations))
+
+    observation = auth.navigate_and_probe(page)
+
+    assert observation.status == auth.AuthStatus.PAGE_CHANGED_OR_UNKNOWN
+    assert page.waits == [2_000, 2_000]
 
 
 @pytest.mark.parametrize("marker", ["登录已过期", "会话已过期"])

@@ -48,6 +48,7 @@ jobs:
           IMAP_AUTH_CODE: ${{ secrets.IMAP_AUTH_CODE }}
           CREW_PERSISTENT_PROFILE_DIR: C:\crew-calendar-data\browser-profile
           CREW_AUTH_BACKUP_PATH: C:\crew-calendar-data\auth-backup\crew-auth-session.json
+          CREW_AUTH_CONTROL_PATH: C:\crew-calendar-data\auth-control.json
           CREW_BROWSER_CHANNEL: msedge
           HEADLESS: '1'
           CREW_AUTH_DIAGNOSTIC_PATH: ${{ runner.temp }}\crew-auth-diagnostic.json

@@ -8,7 +8,7 @@ import shutil
 import hashlib
 import logging
 from itertools import product
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
@@ -30,6 +30,7 @@ from crew_auth_session import (
     load_auth_bundle_file,
     navigate_and_probe,
     restore_auth_bundle_to_existing_context,
+    verify_auth_bundle,
 )
 from authenticate_crew_session import (
     AdditionalVerificationRequiredError,
@@ -83,12 +84,19 @@ SEGMENT_CARD_MARKER = "__SEGMENT_CARD__"
 AUTH_DIAGNOSTIC_PATH_ENV = "CREW_AUTH_DIAGNOSTIC_PATH"
 PERSISTENT_PROFILE_DIR_ENV = "CREW_PERSISTENT_PROFILE_DIR"
 AUTH_BACKUP_PATH_ENV = "CREW_AUTH_BACKUP_PATH"
+AUTH_CONTROL_PATH_ENV = "CREW_AUTH_CONTROL_PATH"
 BROWSER_CHANNEL_ENV = "CREW_BROWSER_CHANNEL"
 ROUTE_DIAGNOSTIC_DIR_ENV = "CREW_ROUTE_DIAGNOSTIC_DIR"
 ROUTE_DIAGNOSTIC_DIR = "debug_output"
 WINDOWS_DEFAULT_PROFILE_DIR = Path(
     r"C:\crew-calendar-data\browser-profile"
 )
+AUTH_CONTROL_FORMAT = "crew-auth-control-v1"
+OTP_COOLDOWN_DURATION = timedelta(hours=24)
+
+
+class OtpCooldownActiveError(RuntimeError):
+    pass
 
 
 def ensure_artifact_dir() -> bool:
@@ -5913,6 +5921,7 @@ def _new_cloud_login_diagnostic() -> dict:
         "stages": [],
         "last_stage": "",
         "error_category": "",
+        "guard_status": "",
         "auth_status": "",
         "page": {},
     }
@@ -6064,6 +6073,92 @@ def _cloud_error_category(diagnostic: dict) -> str:
     return "LOGIN_RESULT_UNKNOWN"
 
 
+def _utc_now() -> datetime:
+    return datetime.now(timezone.utc)
+
+
+def _format_utc_timestamp(value: datetime) -> str:
+    return (
+        value.astimezone(timezone.utc)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z")
+    )
+
+
+def _parse_utc_timestamp(value: object) -> datetime | None:
+    if not isinstance(value, str) or not value.strip():
+        return None
+    try:
+        parsed = datetime.fromisoformat(value.strip().replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc)
+
+
+def _read_auth_control_state(path: Path | None) -> dict:
+    if path is None or not path.exists():
+        return {}
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError):
+        return {}
+    if not isinstance(payload, dict):
+        return {}
+    if payload.get("format") != AUTH_CONTROL_FORMAT:
+        return {}
+    return payload
+
+
+def _otp_cooldown_active(
+    path: Path | None,
+    *,
+    now: datetime | None = None,
+) -> bool:
+    requested_at = _parse_utc_timestamp(
+        _read_auth_control_state(path).get("last_otp_request_at")
+    )
+    if requested_at is None:
+        return False
+    current = (now or _utc_now()).astimezone(timezone.utc)
+    return current - requested_at < OTP_COOLDOWN_DURATION
+
+
+def _safe_auth_failure_reason(value: str) -> str:
+    normalized = re.sub(r"[^A-Z0-9_]+", "_", str(value).upper()).strip("_")
+    return normalized[:64]
+
+
+def _write_auth_control_state(
+    path: Path | None,
+    *,
+    requested_at: datetime,
+    result: str,
+    failure_reason: str = "",
+) -> None:
+    if path is None:
+        return
+    payload = {
+        "format": AUTH_CONTROL_FORMAT,
+        "last_otp_request_at": _format_utc_timestamp(requested_at),
+        "last_otp_result": _safe_auth_failure_reason(result),
+        "last_failure_reason": _safe_auth_failure_reason(failure_reason),
+    }
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        temporary.write_text(
+            json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True)
+            + "\n",
+            encoding="utf-8",
+        )
+        os.replace(temporary, path)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
 def _emit_page_changed_snapshot(snapshot: dict) -> None:
     print(f"LOGIN_PAGE_DOMAIN={snapshot.get('domain', '')}", flush=True)
     print(f"LOGIN_PAGE_PATH={snapshot.get('path', '')}", flush=True)
@@ -6123,9 +6218,15 @@ def _write_cloud_auth_diagnostic(
             pass
 
 
-def attempt_cloud_dynamic_password_login(page) -> AuthObservation:
+def attempt_cloud_dynamic_password_login(
+    page,
+    *,
+    auth_control_path: Path | None = None,
+    now: datetime | None = None,
+) -> AuthObservation:
     diagnostic = _new_cloud_login_diagnostic()
     stage_reporter = _cloud_stage_reporter(diagnostic)
+    request_timestamp = (now or _utc_now()).astimezone(timezone.utc)
     phone_number = os.environ.get("CREW_PHONE", "").strip()
     email_address = os.environ.get("IMAP_EMAIL", "").strip()
     auth_code = os.environ.get("IMAP_AUTH_CODE", "")
@@ -6141,6 +6242,36 @@ def attempt_cloud_dynamic_password_login(page) -> AuthObservation:
             "OTP_REQUEST_FAILED",
         )
         return observation
+
+    if _otp_cooldown_active(auth_control_path, now=request_timestamp):
+        diagnostic["guard_status"] = "OTP_COOLDOWN_ACTIVE"
+        print("OTP_COOLDOWN_ACTIVE", flush=True)
+        observation = AuthObservation(
+            AuthStatus.LOGIN_REQUIRED,
+            AuthSignals(login_url_hint=True),
+        )
+        _write_cloud_auth_diagnostic(
+            page,
+            diagnostic,
+            observation,
+            "OTP_COOLDOWN_ACTIVE",
+        )
+        return observation
+
+    request_recorded = False
+
+    def reserve_otp_event(_attempt: int) -> None:
+        nonlocal request_recorded
+        if request_recorded:
+            return
+        if _otp_cooldown_active(auth_control_path, now=request_timestamp):
+            raise OtpCooldownActiveError("OTP_COOLDOWN_ACTIVE")
+        _write_auth_control_state(
+            auth_control_path,
+            requested_at=request_timestamp,
+            result="REQUESTED",
+        )
+        request_recorded = True
 
     otp_reader = ImapOtpReader(
         email_address,
@@ -6158,7 +6289,16 @@ def attempt_cloud_dynamic_password_login(page) -> AuthObservation:
             save_diagnostics=False,
             stage_reporter=stage_reporter,
             expected_otp_length=6,
+            before_otp_request=reserve_otp_event,
         )
+    except OtpCooldownActiveError:
+        diagnostic["guard_status"] = "OTP_COOLDOWN_ACTIVE"
+        print("OTP_COOLDOWN_ACTIVE", flush=True)
+        observation = AuthObservation(
+            AuthStatus.LOGIN_REQUIRED,
+            AuthSignals(login_url_hint=True),
+        )
+        error_category = "OTP_COOLDOWN_ACTIVE"
     except LoginToggleError as exc:
         observation = AuthObservation(
             AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
@@ -6210,6 +6350,25 @@ def attempt_cloud_dynamic_password_login(page) -> AuthObservation:
     finally:
         otp_reader.close()
 
+    if request_recorded:
+        result = (
+            "AUTHENTICATED"
+            if observation.status == AuthStatus.AUTHENTICATED
+            else "FAILED"
+        )
+        failure_reason = "" if result == "AUTHENTICATED" else (
+            error_category or observation.status.value
+        )
+        try:
+            _write_auth_control_state(
+                auth_control_path,
+                requested_at=request_timestamp,
+                result=result,
+                failure_reason=failure_reason,
+            )
+        except Exception:
+            print("OTP_CONTROL_UPDATE_FAILED", flush=True)
+
     _write_cloud_auth_diagnostic(
         page,
         diagnostic,
@@ -6253,6 +6412,23 @@ def _validate_persistent_profile_dir(profile_dir: Path) -> None:
             raise RuntimeError("不得使用日常Edge用户目录作为自动化profile")
 
 
+def resolve_auth_control_path(profile_dir: Path | None) -> Path | None:
+    configured = os.environ.get(AUTH_CONTROL_PATH_ENV, "").strip()
+    if configured:
+        return Path(configured).expanduser().resolve()
+    if profile_dir is None:
+        return None
+    return profile_dir.parent / "auth-control.json"
+
+
+def _validate_auth_control_path(path: Path | None) -> None:
+    if path is None:
+        return
+    repository_dir = Path(__file__).resolve().parent
+    if _path_is_within(path, repository_dir):
+        raise RuntimeError("验证码熔断状态必须位于Git仓库之外")
+
+
 def resolve_auth_backup_path(profile_dir: Path | None) -> Path | None:
     configured = os.environ.get(AUTH_BACKUP_PATH_ENV, "").strip()
     if configured:
@@ -6269,6 +6445,65 @@ def _load_local_auth_backup(path: Path | None) -> AuthBundle | None:
         return load_auth_bundle_file(path)
     except AuthBundleError:
         return None
+
+
+def _recover_persistent_authentication(
+    playwright,
+    context,
+    page,
+    *,
+    initial_observation: AuthObservation,
+    local_backup: AuthBundle | None,
+    secret_bundle: AuthBundle | None,
+    channel: str,
+) -> AuthObservation:
+    if initial_observation.status != AuthStatus.LOGIN_REQUIRED:
+        return initial_observation
+
+    uncertain_observation: AuthObservation | None = None
+    for source, candidate in (
+        ("LOCAL_BACKUP", local_backup),
+        ("SECRET_BUNDLE", secret_bundle),
+    ):
+        if candidate is None:
+            continue
+        try:
+            verification = verify_auth_bundle(
+                playwright,
+                candidate,
+                channel=channel,
+            )
+        except Exception:
+            verification = AuthObservation(
+                AuthStatus.NETWORK_OR_SITE_ERROR,
+                AuthSignals(network_or_site_error=True),
+            )
+        logger.info(
+            "AUTH_RECOVERY_SOURCE=%s STATUS=%s",
+            source,
+            verification.status.value,
+        )
+        if verification.status == AuthStatus.AUTHENTICATED:
+            try:
+                restore_auth_bundle_to_existing_context(context, candidate)
+                recovered = navigate_and_probe(page)
+            except Exception:
+                return AuthObservation(
+                    AuthStatus.NETWORK_OR_SITE_ERROR,
+                    AuthSignals(network_or_site_error=True),
+                )
+            if recovered.status == AuthStatus.AUTHENTICATED:
+                logger.info("AUTH_RECOVERY_APPLIED=%s", source)
+                return recovered
+            if recovered.status != AuthStatus.LOGIN_REQUIRED:
+                return recovered
+            continue
+        if verification.status != AuthStatus.LOGIN_REQUIRED:
+            uncertain_observation = verification
+
+    # An uncertain bundle verification is not proof that authentication has
+    # expired, so it must not be followed by an OTP request.
+    return uncertain_observation or initial_observation
 
 
 def _write_filtered_auth_backup(context, path: Path | None) -> None:
@@ -6303,9 +6538,9 @@ def run() -> int:
     logger.info("代码版本: multi-task-v15-positioning-time-bound")
     logger.info("=" * 60)
 
-    bundle = None
+    secret_bundle = None
     try:
-        bundle = decode_auth_bundle(
+        secret_bundle = decode_auth_bundle(
             os.environ.get("CREW_STORAGE_STATE_B64", "")
         )
     except AuthBundleError:
@@ -6313,22 +6548,21 @@ def run() -> int:
 
     profile_dir = resolve_persistent_profile_dir()
     backup_path = resolve_auth_backup_path(profile_dir)
+    local_backup = None
     if profile_dir is not None:
         _validate_persistent_profile_dir(profile_dir)
-        if bundle is None:
-            bundle = _load_local_auth_backup(backup_path)
+        local_backup = _load_local_auth_backup(backup_path)
+    auth_control_path = resolve_auth_control_path(profile_dir)
+    _validate_auth_control_path(auth_control_path)
 
     browser = None
     context = None
+    channel = ""
 
     try:
         with sync_playwright() as p:
             try:
                 if profile_dir is not None:
-                    profile_existed = (
-                        profile_dir.exists()
-                        and any(profile_dir.iterdir())
-                    )
                     profile_dir.mkdir(parents=True, exist_ok=True)
                     configured_channel = os.environ.get(
                         BROWSER_CHANNEL_ENV,
@@ -6348,21 +6582,16 @@ def run() -> int:
                     context = p.chromium.launch_persistent_context(
                         **launch_options
                     )
-                    if not profile_existed and bundle is not None:
-                        restore_auth_bundle_to_existing_context(
-                            context,
-                            bundle,
-                        )
                 else:
                     browser = p.chromium.launch(headless=HEADLESS)
-                    if bundle is None:
+                    if secret_bundle is None:
                         context = browser.new_context(
                             viewport={"width": 1400, "height": 1000},
                         )
                     else:
                         context = create_context_from_auth_bundle(
                             browser,
-                            bundle,
+                            secret_bundle,
                             viewport={"width": 1400, "height": 1000},
                         )
 
@@ -6374,10 +6603,28 @@ def run() -> int:
                 page.set_default_navigation_timeout(90000)
 
                 observation = navigate_and_probe(page)
+                if profile_dir is not None:
+                    observation = _recover_persistent_authentication(
+                        p,
+                        context,
+                        page,
+                        initial_observation=observation,
+                        local_backup=local_backup,
+                        secret_bundle=secret_bundle,
+                        channel=channel,
+                    )
                 used_cloud_fallback = False
                 if observation.status == AuthStatus.LOGIN_REQUIRED:
                     used_cloud_fallback = True
-                    observation = attempt_cloud_dynamic_password_login(page)
+                    observation = attempt_cloud_dynamic_password_login(
+                        page,
+                        auth_control_path=auth_control_path,
+                    )
+                    if (
+                        observation.status == AuthStatus.AUTHENTICATED
+                        and profile_dir is not None
+                    ):
+                        _write_filtered_auth_backup(context, backup_path)
                 if (
                     observation.status
                     == AuthStatus.PAGE_CHANGED_OR_UNKNOWN

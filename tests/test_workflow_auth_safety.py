@@ -46,6 +46,10 @@ def test_schedule_keeps_three_times_and_uses_expected_secrets() -> None:
         "CREW_PERSISTENT_PROFILE_DIR: "
         r"C:\crew-calendar-data\browser-profile" in workflow
     )
+    assert (
+        "CREW_AUTH_CONTROL_PATH: "
+        r"C:\crew-calendar-data\auth-control.json" in workflow
+    )
     assert "CREW_BROWSER_CHANNEL: msedge" in workflow
     assert "playwright install" not in workflow
     assert "apt-get" not in workflow
