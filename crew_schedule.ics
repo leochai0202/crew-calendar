@@ -2449,7 +2449,7 @@ UID:2f60b12bb3fd5ce2474cb3bf37cada0e@crew-calendar
 SUMMARY:✈️ 9C6833 上海虹桥→西宁曹家堡
 DTSTART;TZID=Asia/Shanghai:20260822T164000
 DTEND;TZID=Asia/Shanghai:20260822T201000
-DESCRIPTION:08月22日 周六\n类型：航班\n航班：9C6833\n航线：上海虹桥 → 西宁曹家堡\n地点：上海虹桥\n签到：14:55｜上海虹桥\n任务：16:40 - 20:10\n机型：A320｜注册号：B327J\n\n人员名单：\n• 郑宁(T\,R)\n• 黎明宇(R)\n• 段洋硕\n• 郑云姗(B)\n\n版本：2026-08-21 19:00
+DESCRIPTION:08月22日 周六\n类型：航班\n航班：9C6833\n航线：上海虹桥 → 西宁曹家堡\n地点：上海虹桥\n签到：14:55｜上海虹桥\n任务：16:40 - 20:10\n机型：A320｜注册号：B327J\n\n人员名单：\n• 郑宁(T\,R)\n• 黎明宇(R)\n• 段洋硕\n• 郑云姗(B)\n\n版本：2026-08-21 19:50
 X-CONTENT-SIGNATURE:73a3e6c33bdc1a2a76c454187171d76c
 LOCATION:上海虹桥
 BEGIN:VALARM
@@ -2463,7 +2463,7 @@ UID:37d3d7332f9e77c1d82cf1b1db275556@crew-calendar
 SUMMARY:✈️ 9C6834 西宁曹家堡→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260822T205500
 DTEND;TZID=Asia/Shanghai:20260822T234000
-DESCRIPTION:08月22日 周六\n类型：航班\n航班：9C6834\n航线：西宁曹家堡 → 上海虹桥\n地点：西宁曹家堡\n签到：19:20｜西宁曹家堡\n任务：20:55 - 23:40\n机型：A320｜注册号：B327J\n\n人员名单：\n• 郑宁(T\,R)\n• 黎明宇(R)\n• 段洋硕\n• 郑云姗(B)\n\n版本：2026-08-21 19:00
+DESCRIPTION:08月22日 周六\n类型：航班\n航班：9C6834\n航线：西宁曹家堡 → 上海虹桥\n地点：西宁曹家堡\n签到：19:20｜西宁曹家堡\n任务：20:55 - 23:40\n机型：A320｜注册号：B327J\n\n人员名单：\n• 郑宁(T\,R)\n• 黎明宇(R)\n• 段洋硕\n• 郑云姗(B)\n\n版本：2026-08-21 19:50
 X-CONTENT-SIGNATURE:2cbdc9497c422d0c027ab6d329a0516e
 LOCATION:西宁曹家堡
 BEGIN:VALARM
@@ -2477,7 +2477,7 @@ UID:c831e558bde90beeb43d00a19e0b059d@crew-calendar
 SUMMARY:✈️ 9C8697 上海浦东→张掖甘州
 DTSTART;TZID=Asia/Shanghai:20260823T171000
 DTEND;TZID=Asia/Shanghai:20260823T211000
-DESCRIPTION:08月23日 周日\n类型：航班\n航班：9C8697\n航线：上海浦东 → 张掖甘州\n地点：上海浦东\n签到：15:20｜上海浦东\n任务：17:10 - 21:10\n机型：A320｜注册号：B328U\n\n人员名单：\n• 杨剑(T\,R)\n• 贾成浩(R)\n• 段洋硕\n• 任月明(B)\n\n版本：2026-08-21 19:00
+DESCRIPTION:08月23日 周日\n类型：航班\n航班：9C8697\n航线：上海浦东 → 张掖甘州\n地点：上海浦东\n签到：15:20｜上海浦东\n任务：17:10 - 21:10\n机型：A320｜注册号：B328U\n\n人员名单：\n• 杨剑(T\,R)\n• 贾成浩(R)\n• 段洋硕\n• 任月明(B)\n\n版本：2026-08-21 19:50
 X-CONTENT-SIGNATURE:d48ad65f23ac6b278a9ca472a8a155e2
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -2491,7 +2491,7 @@ UID:c8f11d1ff1f0363a1efa5a87093943e6@crew-calendar
 SUMMARY:✈️ 9C8698 张掖甘州→上海浦东(+1)
 DTSTART;TZID=Asia/Shanghai:20260823T215500
 DTEND;TZID=Asia/Shanghai:20260824T012000
-DESCRIPTION:08月23日 周日\n类型：航班\n航班：9C8698\n航线：张掖甘州 → 上海浦东(+1)\n地点：张掖甘州\n签到：20:20｜张掖甘州\n任务：21:55 - 01:20\n机型：A320｜注册号：B328U\n\n人员名单：\n• 杨剑(T\,R)\n• 贾成浩(R)\n• 段洋硕\n• 任月明(B)\n\n版本：2026-08-21 19:00
+DESCRIPTION:08月23日 周日\n类型：航班\n航班：9C8698\n航线：张掖甘州 → 上海浦东(+1)\n地点：张掖甘州\n签到：20:20｜张掖甘州\n任务：21:55 - 01:20\n机型：A320｜注册号：B328U\n\n人员名单：\n• 杨剑(T\,R)\n• 贾成浩(R)\n• 段洋硕\n• 任月明(B)\n\n版本：2026-08-21 19:50
 X-CONTENT-SIGNATURE:b621e040ab26a29bfd04ba436d68b390
 LOCATION:张掖甘州
 BEGIN:VALARM
@@ -2505,7 +2505,7 @@ UID:0d0a4269eec0c673da51d2b5ae5f224a@crew-calendar
 SUMMARY:✈️ 9C8885 上海虹桥→贵阳龙洞堡
 DTSTART;TZID=Asia/Shanghai:20260826T170500
 DTEND;TZID=Asia/Shanghai:20260826T195500
-DESCRIPTION:08月26日 周三\n类型：航班\n航班：9C8885\n航线：上海虹桥 → 贵阳龙洞堡\n地点：上海虹桥\n签到：15:20｜上海虹桥\n任务：17:05 - 19:55\n机型：A320｜注册号：B1839\n\n人员名单：\n• 李双星\n• 钱涛\n• 段洋硕\n• 郭大勇(B)\n\n版本：2026-08-21 19:00
+DESCRIPTION:08月26日 周三\n类型：航班\n航班：9C8885\n航线：上海虹桥 → 贵阳龙洞堡\n地点：上海虹桥\n签到：15:20｜上海虹桥\n任务：17:05 - 19:55\n机型：A320｜注册号：B1839\n\n人员名单：\n• 李双星\n• 钱涛\n• 段洋硕\n• 郭大勇(B)\n\n版本：2026-08-21 19:50
 X-CONTENT-SIGNATURE:265fe464b9db44a851fb8986c90b0528
 LOCATION:上海虹桥
 BEGIN:VALARM
@@ -2519,7 +2519,7 @@ UID:b1c4ea676e5487eb44520c269e17f01e@crew-calendar
 SUMMARY:✈️ 9C8970 贵阳龙洞堡→扬州泰州
 DTSTART;TZID=Asia/Shanghai:20260826T205500
 DTEND;TZID=Asia/Shanghai:20260826T232500
-DESCRIPTION:08月26日 周三\n类型：航班\n航班：9C8970\n航线：贵阳龙洞堡 → 扬州泰州\n地点：贵阳龙洞堡\n签到：19:20｜贵阳龙洞堡\n任务：20:55 - 23:25\n机型：A320｜注册号：B1839\n\n人员名单：\n• 李双星\n• 钱涛\n• 段洋硕\n• 郭大勇(B)\n\n版本：2026-08-21 19:00
+DESCRIPTION:08月26日 周三\n类型：航班\n航班：9C8970\n航线：贵阳龙洞堡 → 扬州泰州\n地点：贵阳龙洞堡\n签到：19:20｜贵阳龙洞堡\n任务：20:55 - 23:25\n机型：A320｜注册号：B1839\n\n人员名单：\n• 李双星\n• 钱涛\n• 段洋硕\n• 郭大勇(B)\n\n版本：2026-08-21 19:50
 X-CONTENT-SIGNATURE:5aaf3f2d4602ceaa6bab18065ad61227
 LOCATION:贵阳龙洞堡
 BEGIN:VALARM
