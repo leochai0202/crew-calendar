@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-08-23",
-  "generated_at_beijing": "2026-08-22T01:05:15.970737+08:00",
+  "generated_at_beijing": "2026-08-22T10:20:14.195068+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C8697",
@@ -187,7 +187,10 @@
         "上海浦东": {
           "icao": "ZSPD",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "taf_validity_utc": [
+            "2026-08-22T00:00:00+00:00",
+            "2026-08-23T06:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-08-23T17:10:00+08:00",
             "2026-08-24T01:20:00+08:00"
@@ -1659,7 +1662,10 @@
     "上海浦东": {
       "icao": "ZSPD",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-08-22T00:00:00+00:00",
+        "2026-08-23T06:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-08-23T17:10:00+08:00",
         "2026-08-24T01:20:00+08:00"
