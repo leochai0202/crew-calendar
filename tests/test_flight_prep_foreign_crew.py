@@ -359,7 +359,7 @@ def test_bilingual_render_hides_internal_flight_metadata() -> None:
         assert value not in chinese
         assert value not in english
     assert "机组" not in chinese
-    assert "个人对本次航班中识别的风险：" not in chinese
+    assert "个人对本次航班中识别的风险：" in chinese
     assert "Risks I have identified for this flight:" not in english
     assert "新加坡樟宜机场典型不安全事件：" not in chinese
     assert "Singapore Changi Airport typical unsafe events:" not in english

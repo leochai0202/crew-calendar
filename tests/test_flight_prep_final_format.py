@@ -413,8 +413,11 @@ def test_structurally_complete_briefing_has_no_length_floor() -> None:
     )
     content = (
         "我是来自飞行十五中队的副驾驶段洋硕。\n\n"
-        "上海浦东机场典型不安全事件：\n事件。\n\n"
-        "恩施许家坪机场典型不安全事件：\n事件。\n\n"
+        "上一次飞行中机长/教员对我优缺点的评价（作为PF/PM各取最近一次）：\n"
+        "上一次作为PF教员评价：评价；作为PM机长评价：评价。\n\n"
+        "个人对本次航班中识别的风险：\n天气及动态资料以航前资料为准。\n\n"
+        "上海浦东机场典型不安全事件：\n1. 事件。\n\n"
+        "恩施许家坪机场典型不安全事件：\n1. 事件。\n\n"
         "核心威胁：\n\n"
         "上海浦东机场：\n来源事实。\n\n"
         "恩施许家坪机场：\n来源事实。\n"
@@ -1494,6 +1497,9 @@ def test_language_editor_falls_back_on_new_operational_language(
     assert result.text_after_polish == source
     assert result.polish_applied is False
     assert "语言编辑新增运行词" in result.polish_fallback_reason
+    assert result.guard_failed is True
+    assert result.fallback_used == "text_before_polish"
+    assert result.paragraph_dropped is False
     assert result.source_fact_ids == ("fallback",)
     assert result.source_clauses == (source,)
 
@@ -1687,7 +1693,7 @@ def test_real_august_four_final_confirmed_format(
     assert "（含模拟机）" not in intro
     assert "近期机场经历" not in content
     assert "近期注意点" not in content
-    assert "个人对本次航班中识别的风险：" not in content
+    assert "个人对本次航班中识别的风险：" in content
     assert "•" not in content
     assert "None" not in content and "null" not in content
     assert (
@@ -1695,7 +1701,7 @@ def test_real_august_four_final_confirmed_format(
         "着陆后快速脱离道口前及时减速至30节以下；作为PM机长评价：增加SOP熟练度，"
         "标准喊话声音大一些。"
     ) in content
-    assert not re.search(r"(?m)^\d+[.、]曾", content)
+    assert re.search(r"(?m)^1\.\s+\S", content)
     assert content.count("核心威胁：") == 1
     core = content.split("核心威胁：", 1)[1]
     assert core.index("上海浦东机场：") < core.index("恩施许家坪机场：")
@@ -1905,9 +1911,12 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
         assert "上一次实际操纵落地为7月28日上海浦东机场" in intro
         assert "近一个月起落" not in intro
         assert "（含模拟机）" not in intro
-        assert "个人对本次航班中识别的风险：" not in content
+        assert "个人对本次航班中识别的风险：" in content
         assert "核心威胁：" in content
-        assert not re.search(r"(?m)^\s*(?:\d+[.、]|[•●▪])\s*\S", content)
+        assert not re.search(
+            r"(?m)^\s*(?:\d+[.、]|[•●▪])\s*\S",
+            content.split("核心威胁：", 1)[1],
+        )
         assert (
             "上一次作为PF教员评价：30尺以下带杆量欠一点；"
             "着陆后快速脱离道口前及时减速至30节以下"

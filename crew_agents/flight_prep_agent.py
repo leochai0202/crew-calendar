@@ -174,6 +174,10 @@ class BilingualFact:
     text_after_polish: str = ""
     polish_applied: bool = False
     polish_fallback_reason: str = ""
+    guard_failed: bool = False
+    guard_reason: str = ""
+    fallback_used: str = ""
+    paragraph_dropped: bool = False
 
     # Compatibility aliases keep the rendering code and older tests readable while
     # the structured names above make provenance explicit.
@@ -6404,6 +6408,30 @@ def clean_output_fact(value: str) -> str:
     return normalize_text(text)
 
 
+def weather_sentence_for_airports(
+    weather_sentence: str,
+    group_airports: list[str],
+    all_airports: list[str],
+) -> str:
+    """Keep only airport-specific weather clauses that belong to this prep group."""
+    if not weather_sentence.strip() or set(group_airports) == set(all_airports):
+        return weather_sentence
+    selected: list[str] = []
+    for sentence in re.findall(r"[^。]+。?", weather_sentence):
+        text = sentence.strip()
+        if not text:
+            continue
+        mentioned = [
+            airport
+            for airport in all_airports
+            if canonical_airport_name(airport) in text
+            or airport_with_suffix(airport) in text
+        ]
+        if not mentioned or any(airport in group_airports for airport in mentioned):
+            selected.append(text.rstrip("。") + "。")
+    return "".join(selected)
+
+
 def duty_risk_text(
     duty: CalendarEvent | DutyContext,
     records: list[dict],
@@ -6417,13 +6445,13 @@ def duty_risk_text(
     checkin = _checkin_time(first)
     if checkin and int(checkin.split(":", 1)[0]) < 6:
         sentences.append(
-            f"我们识别到本次为早班，{checkin}签到，"
+            f"本次为早班，{checkin}签到，"
             f"任务时段{first.start:%H:%M}-{last.end:%H:%M}，"
             "应提前做好休息和精力管理"
         )
     elif last.end.date() > first.start.date():
         sentences.append(
-            f"我们识别到本次任务从{first.start:%H:%M}"
+            f"本次任务从{first.start:%H:%M}"
             f"持续至次日{last.end:%H:%M}，应重点做好跨夜精力管理"
         )
     if len(flights) > 1:
@@ -6436,14 +6464,14 @@ def duty_risk_text(
                 )
         detail = "、".join(turnarounds)
         sentences.append(
-            f"我们识别到本次为{len(flights)}段连续任务"
+            f"本次为{len(flights)}段连续任务"
             + (f"，{detail}" if detail else "")
             + "，应在过站期间合理分配准备和恢复时间"
         )
     for record in records:
         if not record.get("within"):
             sentences.append(
-                f"我们识别到近3个月未运行过"
+                f"近3个月未运行过"
                 f"{airport_with_suffix(record.get('airport', ''))}，"
                 "应重点复习最新机场特点和有效程序"
             )
@@ -6629,6 +6657,22 @@ def validate_condition_preservation(fact: BilingualFact) -> list[str]:
     return errors
 
 
+def complete_source_evidence(fact: BilingualFact) -> str:
+    """Return every approved source text attached to one selected fact."""
+    evidence = unique(
+        normalize_text(value)
+        for value in (
+            *fact.source_clauses,
+            *fact.source_original_texts,
+            fact.source_text_zh,
+            *fact.mitigation,
+            *fact.restriction,
+        )
+        if normalize_text(value)
+    )
+    return "；".join(evidence)
+
+
 def validate_source_semantic_preservation(fact: BilingualFact) -> list[str]:
     """Ensure a rendered source fact retains explicit source controls and facts."""
     if not fact.source_text_zh.strip():
@@ -6646,7 +6690,8 @@ def validate_source_semantic_preservation(fact: BilingualFact) -> list[str]:
         f"来源语义未完整保留：{fact.fact_id}缺少{','.join(missing_anchors)}"
     ] if missing_anchors else []
 
-    source_literals = source_literal_tokens(semantic_source)
+    source_evidence = complete_source_evidence(fact) or semantic_source
+    source_literals = source_literal_tokens(source_evidence)
     rendered_literals = source_literal_tokens(rendered)
     added_literals = sorted(rendered_literals - source_literals)
     if added_literals:
@@ -6654,16 +6699,21 @@ def validate_source_semantic_preservation(fact: BilingualFact) -> list[str]:
             f"来源语义新增内容：{fact.fact_id}新增{','.join(added_literals)}"
         )
 
-    source_controls = "；".join([*fact.mitigation, *fact.restriction])
+    required_source_controls = "；".join([*fact.mitigation, *fact.restriction])
     control_groups = (
         (r"禁止|不得|严禁", r"禁止|不得|严禁", "禁止性要求"),
         (r"只能|仅允许", r"只能|仅允许", "唯一允许范围"),
         (r"必须", r"必须", "强制要求"),
         (r"限制", r"限制", "限制条件"),
         (r"应|建议|注意|需", r"应|建议|注意|需", "控制措施"),
+        (
+            r"做好|防止|提前|确认|证实|监控|复飞|申请|严格执行|关注",
+            r"做好|防止|提前|确认|证实|监控|复飞|申请|严格执行|关注",
+            "运行措施",
+        ),
     )
     for source_pattern, rendered_pattern, label in control_groups:
-        if re.search(source_pattern, source_controls) and not re.search(
+        if re.search(source_pattern, required_source_controls) and not re.search(
             rendered_pattern, rendered
         ):
             errors.append(f"来源语义未完整保留：{fact.fact_id}缺少{label}")
@@ -6675,7 +6725,7 @@ def validate_source_semantic_preservation(fact: BilingualFact) -> list[str]:
     source_control_labels = {
         label
         for pattern, _, label in control_groups
-        if re.search(pattern, source_controls)
+        if re.search(pattern, source_evidence)
     }
     invented_controls = sorted(rendered_controls - source_control_labels)
     if invented_controls:
@@ -6726,7 +6776,7 @@ def validate_polish_lexical_additions(
 ) -> list[str]:
     """Reject newly introduced flight-operational language after selection."""
     source = normalize_text(
-        " ".join(fact.source_clauses) or fact.source_text_zh or before
+        complete_source_evidence(fact) or before
     ).upper()
     # The pre-polish paragraph has already passed the source semantic guard and
     # remains an allowed lexical baseline for formatting-only transformations.
@@ -6932,6 +6982,10 @@ def polish_chinese_briefing_paragraphs(
                     text_after_polish=before,
                     polish_applied=False,
                     polish_fallback_reason="；".join(errors),
+                    guard_failed=True,
+                    guard_reason="；".join(errors),
+                    fallback_used="text_before_polish",
+                    paragraph_dropped=False,
                 )
             )
             continue
@@ -6943,6 +6997,109 @@ def polish_chinese_briefing_paragraphs(
             )
         )
     return sorted(polished, key=lambda fact: _polished_reading_order(fact, role))
+
+
+def source_grounded_minimal_text(fact: BilingualFact) -> str:
+    """Build the closest safe fallback from already selected source clauses."""
+    source_values = fact.source_clauses or (
+        (fact.source_text_zh,) if fact.source_text_zh else fact.source_original_texts
+    )
+    clauses = unique(
+        clean_output_fact(value)
+        for value in source_values
+        if clean_output_fact(value)
+    )
+    return "；".join(clauses)
+
+
+def apply_source_guard_fallbacks(
+    facts: list[BilingualFact],
+    diagnostics: list[dict[str, object]],
+) -> list[BilingualFact]:
+    """Resolve one fact locally so a guard failure cannot discard the whole report."""
+    resolved: list[BilingualFact] = []
+    for fact in facts:
+        source_ids = list(fact.source_fact_ids or (fact.fact_id,))
+        source_originals = list(
+            fact.source_original_texts
+            or ((fact.source_text_zh,) if fact.source_text_zh else ())
+        )
+        initial_errors = validate_source_semantic_preservation(fact)
+        if not initial_errors:
+            resolved.append(fact)
+            if fact.guard_failed:
+                diagnostics.append(
+                    {
+                        "airport": fact.airport,
+                        "fact_id": fact.fact_id,
+                        "guard_failed": True,
+                        "guard_reason": fact.guard_reason or fact.polish_fallback_reason,
+                        "source_fact_ids": source_ids,
+                        "source_original_text": "；".join(source_originals),
+                        "source_original_texts": source_originals,
+                        "fallback_used": fact.fallback_used or "text_before_polish",
+                        "paragraph_dropped": False,
+                    }
+                )
+            continue
+
+        before = fact.text_before_polish or ""
+        fallback_candidates: list[tuple[str, str]] = []
+        if before and normalize_text(before) != normalize_text(fact.text_zh):
+            fallback_candidates.append(("text_before_polish", before))
+        minimal = source_grounded_minimal_text(fact)
+        if minimal and all(
+            normalize_text(minimal) != normalize_text(text)
+            for _, text in fallback_candidates
+        ):
+            fallback_candidates.append(("source_grounded_minimal", minimal))
+
+        fallback_errors: list[str] = []
+        for fallback_name, fallback_text in fallback_candidates:
+            candidate = replace(
+                fact,
+                text_zh=fallback_text,
+                text_after_polish=fallback_text,
+                polish_applied=False,
+                guard_failed=True,
+                guard_reason="；".join(initial_errors),
+                fallback_used=fallback_name,
+                paragraph_dropped=False,
+            )
+            errors = validate_source_semantic_preservation(candidate)
+            if errors:
+                fallback_errors.extend(errors)
+                continue
+            resolved.append(candidate)
+            diagnostics.append(
+                {
+                    "airport": fact.airport,
+                    "fact_id": fact.fact_id,
+                    "guard_failed": True,
+                    "guard_reason": "；".join(initial_errors),
+                    "source_fact_ids": source_ids,
+                    "source_original_text": "；".join(source_originals),
+                    "source_original_texts": source_originals,
+                    "fallback_used": fallback_name,
+                    "paragraph_dropped": False,
+                }
+            )
+            break
+        else:
+            diagnostics.append(
+                {
+                    "airport": fact.airport,
+                    "fact_id": fact.fact_id,
+                    "guard_failed": True,
+                    "guard_reason": "；".join(unique([*initial_errors, *fallback_errors])),
+                    "source_fact_ids": source_ids,
+                    "source_original_text": "；".join(source_originals),
+                    "source_original_texts": source_originals,
+                    "fallback_used": "dropped",
+                    "paragraph_dropped": True,
+                }
+            )
+    return resolved
 
 
 def validate_bilingual_facts(facts: list[BilingualFact]) -> list[str]:
@@ -7001,7 +7158,10 @@ def render_chinese_briefing(
     if feedback:
         sections.append(feedback)
 
-    del target, weather_sentence
+    risk_text = duty_risk_text(event, records, core_facts, weather_sentence)
+    sections.append("个人对本次航班中识别的风险：\n" + risk_text)
+
+    del target
 
     airports = unique([airport for airport in event.route if airport])
     for airport in airports:
@@ -7012,8 +7172,9 @@ def render_chinese_briefing(
         ]
         if not items:
             continue
-        typical_text = "\n\n".join(
-            clean_output_fact(fact.zh) + "。" for fact in items
+        typical_text = "\n".join(
+            f"{index}. {clean_output_fact(fact.zh)}。"
+            for index, fact in enumerate(items, start=1)
         )
         sections.append(
             f"{airport_with_suffix(airport)}典型不安全事件：\n{typical_text}"
@@ -7181,10 +7342,28 @@ def validate_content(
         errors.append("正文缺少姓名")
     if not content.lstrip().startswith(expected_start):
         errors.append("正文未直接从个人信息开始")
-    if risk_heading in content:
-        errors.append("正文仍包含已取消的个人风险识别栏目")
+    feedback_heading = (
+        "上一次飞行中机长/教员对我优缺点的评价（作为PF/PM各取最近一次）："
+        if language == "zh"
+        else "Latest PF/PM feedback:"
+    )
+    if feedback_heading not in content:
+        errors.append("正文缺少PF/PM评价栏目")
+    if language == "zh" and risk_heading not in content:
+        errors.append("正文缺少个人风险识别栏目")
+    if language != "zh" and risk_heading in content:
+        errors.append("英文正文不应新增个人风险识别栏目")
     if core_heading not in content:
         errors.append("正文缺少核心威胁标题")
+    if language == "zh" and all(
+        heading in content for heading in (feedback_heading, risk_heading, core_heading)
+    ):
+        if not (
+            content.index(feedback_heading)
+            < content.index(risk_heading)
+            < content.index(core_heading)
+        ):
+            errors.append("正式正文栏目顺序不符合固定标准")
 
     forbidden_metadata = [
         event.flight_number,
@@ -7232,6 +7411,9 @@ def validate_content(
                 errors.append(f"正文漏掉{typical_title}")
             if not real_typical and typical_title in content:
                 errors.append(f"正文不应显示无可靠事件的{typical_title}")
+        if typical_title in content and core_heading in content:
+            if content.index(typical_title) > content.index(core_heading):
+                errors.append(f"{typical_title}必须位于核心威胁之前")
         if core_title not in content:
             errors.append(f"正文漏掉{core_title}")
 
@@ -7266,8 +7448,12 @@ def validate_content(
         for token in ("近期注意点：", "•", "核心威胁与控制措施：")
     ):
         errors.append("正文仍包含旧版栏目或黑点列表")
-    if re.search(r"(?m)^\s*(?:\d+[.、]|[•●▪])\s*\S", content):
-        errors.append("正式正文仍包含编号或项目符号")
+    if re.search(r"(?m)^\s*[•●▪]\s*\S", content):
+        errors.append("正式正文仍包含项目符号")
+    if language == "zh" and core_heading in content:
+        core_content = content.split(core_heading, 1)[1]
+        if re.search(r"(?m)^\s*\d+[.、]\s*\S", core_content):
+            errors.append("核心威胁不得使用数字编号")
 
     for airport in airports:
         if language == "zh":
@@ -7282,6 +7468,25 @@ def validate_content(
             rf"(?m)^{re.escape(typical_title)}\n\S", content
         ):
             errors.append(f"{typical_title}缺少事件内容")
+        if language == "zh" and typical_title in content:
+            section_start = content.index(typical_title) + len(typical_title)
+            later_titles = [
+                content.find(f"{airport_with_suffix(other)}典型不安全事件：", section_start)
+                for other in airports
+            ]
+            later_titles.append(content.find(core_heading, section_start))
+            section_boundaries = [index for index in later_titles if index >= 0]
+            section_end = min(section_boundaries) if section_boundaries else len(content)
+            event_lines = [
+                line.strip()
+                for line in content[section_start:section_end].splitlines()
+                if line.strip()
+            ]
+            if not event_lines or any(
+                not re.match(rf"^{index}\.\s+\S", line)
+                for index, line in enumerate(event_lines, start=1)
+            ):
+                errors.append(f"{typical_title}必须从1开始连续数字编号")
         if not re.search(rf"(?m)^{re.escape(core_title)}\n\S", content):
             errors.append(f"{core_title}缺少核心威胁内容")
     return errors
@@ -7367,6 +7572,10 @@ def fact_source_metadata(fact: BilingualFact) -> dict[str, object]:
         "text_after_polish": fact.text_after_polish or fact.text_zh,
         "polish_applied": fact.polish_applied,
         "polish_fallback_reason": fact.polish_fallback_reason,
+        "guard_failed": fact.guard_failed,
+        "guard_reason": fact.guard_reason,
+        "fallback_used": fact.fallback_used,
+        "paragraph_dropped": fact.paragraph_dropped,
         "airport_specific": fact.airport_specific,
         "category": fact.category,
     }
@@ -7586,6 +7795,18 @@ def main() -> int:
                 source_records=airport_source_records,
                 exclusion_log=fact_exclusions,
             )
+            source_guard_outcomes: list[dict[str, object]] = []
+            for airport in group_airports:
+                typical_facts[airport] = apply_source_guard_fallbacks(
+                    typical_facts[airport], source_guard_outcomes
+                )
+                core_facts[airport] = apply_source_guard_fallbacks(
+                    core_facts[airport], source_guard_outcomes
+                )
+            all_facts = [
+                *(fact for airport in group_airports for fact in typical_facts[airport]),
+                *(fact for airport in group_airports for fact in core_facts[airport]),
+            ]
             (
                 english_required,
                 english_confirmation_required,
@@ -7602,7 +7823,9 @@ def main() -> int:
                 group_records,
                 typical_facts,
                 core_facts,
-                weather_sentence,
+                weather_sentence_for_airports(
+                    weather_sentence, group_airports, airports
+                ),
             )
             english_content = (
                 render_english_briefing(
@@ -7638,11 +7861,6 @@ def main() -> int:
                     f"{group_label}：{item}"
                     for item in validate_airport_fact_bindings(airport, bound_facts)
                 )
-                for fact in bound_facts:
-                    errors.extend(
-                        f"{group_label}：{item}"
-                        for item in validate_source_semantic_preservation(fact)
-                    )
             if english_required:
                 errors.extend(
                     f"{group_label}：{item}"
@@ -7719,6 +7937,7 @@ def main() -> int:
                         for airport in group_airports
                     },
                     "excluded_source_clauses": group_exclusions,
+                    "source_guard_outcomes": source_guard_outcomes,
                     "core_paragraph_fact_ids": {
                         airport: [
                             list(fact.source_fact_ids or (fact.fact_id,))
@@ -7774,6 +7993,10 @@ def main() -> int:
                                 "polish_fallback_reason": (
                                     fact.polish_fallback_reason
                                 ),
+                                "guard_failed": fact.guard_failed,
+                                "guard_reason": fact.guard_reason,
+                                "fallback_used": fact.fallback_used,
+                                "paragraph_dropped": fact.paragraph_dropped,
                             }
                             for paragraph_index, fact in enumerate(
                                 core_facts[airport], start=1
@@ -7866,6 +8089,11 @@ def main() -> int:
             for group in rendered_groups
             for exclusion in group["excluded_source_clauses"]
         ]
+        all_source_guard_outcomes = [
+            outcome
+            for group in rendered_groups
+            for outcome in group["source_guard_outcomes"]
+        ]
         english_names = unique(
             name
             for group in rendered_groups
@@ -7908,6 +8136,7 @@ def main() -> int:
                 "airport_fact_ids": top_airport_fact_ids,
                 "airport_fact_sources": top_airport_fact_sources,
                 "excluded_source_clauses": all_exclusions,
+                "source_guard_outcomes": all_source_guard_outcomes,
                 "core_paragraph_fact_ids": top_core_paragraph_ids,
                 "core_paragraphs": top_core_paragraphs,
             },
