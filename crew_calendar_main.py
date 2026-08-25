@@ -6117,9 +6117,10 @@ def _otp_cooldown_active(
     *,
     now: datetime | None = None,
 ) -> bool:
-    requested_at = _parse_utc_timestamp(
-        _read_auth_control_state(path).get("last_otp_request_at")
-    )
+    state = _read_auth_control_state(path)
+    if state.get("last_otp_result") == "AUTHENTICATED":
+        return False
+    requested_at = _parse_utc_timestamp(state.get("last_otp_request_at"))
     if requested_at is None:
         return False
     current = (now or _utc_now()).astimezone(timezone.utc)
@@ -6247,7 +6248,7 @@ def attempt_cloud_dynamic_password_login(
         diagnostic["guard_status"] = "OTP_COOLDOWN_ACTIVE"
         print("OTP_COOLDOWN_ACTIVE", flush=True)
         observation = AuthObservation(
-            AuthStatus.LOGIN_REQUIRED,
+            AuthStatus.AUTH_DEFERRED_OTP_COOLDOWN,
             AuthSignals(login_url_hint=True),
         )
         _write_cloud_auth_diagnostic(
@@ -6295,7 +6296,7 @@ def attempt_cloud_dynamic_password_login(
         diagnostic["guard_status"] = "OTP_COOLDOWN_ACTIVE"
         print("OTP_COOLDOWN_ACTIVE", flush=True)
         observation = AuthObservation(
-            AuthStatus.LOGIN_REQUIRED,
+            AuthStatus.AUTH_DEFERRED_OTP_COOLDOWN,
             AuthSignals(login_url_hint=True),
         )
         error_category = "OTP_COOLDOWN_ACTIVE"
@@ -6638,6 +6639,15 @@ def run() -> int:
                         "LOGIN_RESULT_UNKNOWN",
                     )
                 emit_auth_status(observation.status)
+                if (
+                    observation.status
+                    == AuthStatus.AUTH_DEFERRED_OTP_COOLDOWN
+                ):
+                    print(
+                        "CALENDAR_UPDATE=SKIPPED_PRESERVE_LAST_GOOD",
+                        flush=True,
+                    )
+                    return STATUS_EXIT_CODES[observation.status]
                 if observation.status != AuthStatus.AUTHENTICATED:
                     return STATUS_EXIT_CODES[observation.status]
 

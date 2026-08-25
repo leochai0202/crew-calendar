@@ -1080,8 +1080,8 @@ def test_three_workflows_allow_one_otp_event_in_24_hours(
     )
 
     assert first.status == auth.AuthStatus.NETWORK_OR_SITE_ERROR
-    assert second.status == auth.AuthStatus.LOGIN_REQUIRED
-    assert third.status == auth.AuthStatus.LOGIN_REQUIRED
+    assert second.status == auth.AuthStatus.AUTH_DEFERRED_OTP_COOLDOWN
+    assert third.status == auth.AuthStatus.AUTH_DEFERRED_OTP_COOLDOWN
     assert events == ["reader", "otp-request", "close"]
     assert capsys.readouterr().out.count("OTP_COOLDOWN_ACTIVE") >= 2
     payload = json.loads(control_path.read_text(encoding="utf-8"))
@@ -1094,6 +1094,57 @@ def test_three_workflows_allow_one_otp_event_in_24_hours(
     serialized = json.dumps(payload)
     assert "13000000000" not in serialized
     assert "test-auth-code" not in serialized
+
+
+def test_expired_cooldown_allows_one_new_otp_event(
+    monkeypatch,
+    tmp_path: Path,
+) -> None:
+    control_path = tmp_path / "auth-control.json"
+    start = datetime(2026, 8, 21, 9, 30, tzinfo=timezone.utc)
+    calendar._write_auth_control_state(
+        control_path,
+        requested_at=start,
+        result="FAILED",
+        failure_reason="NETWORK_OR_SITE_ERROR",
+    )
+    monkeypatch.setenv("CREW_PHONE", "13000000000")
+    monkeypatch.setenv("IMAP_EMAIL", "crew@example.invalid")
+    monkeypatch.setenv("IMAP_AUTH_CODE", "test-auth-code")
+    events: list[str] = []
+
+    class Reader:
+        def __init__(self, *args, **kwargs) -> None:
+            events.append("reader")
+
+        def close(self) -> None:
+            events.append("close")
+
+    def request_once(_page, _reader, **options):
+        options["before_otp_request"](1)
+        events.append("otp-request")
+        return auth.AuthObservation(
+            auth.AuthStatus.NETWORK_OR_SITE_ERROR,
+            auth.AuthSignals(network_or_site_error=True),
+        )
+
+    monkeypatch.setattr(calendar, "ImapOtpReader", Reader)
+    monkeypatch.setattr(
+        calendar,
+        "complete_dynamic_password_login",
+        request_once,
+    )
+
+    observation = calendar.attempt_cloud_dynamic_password_login(
+        object(),
+        auth_control_path=control_path,
+        now=start + timedelta(hours=24),
+    )
+
+    assert observation.status == auth.AuthStatus.NETWORK_OR_SITE_ERROR
+    assert events == ["reader", "otp-request", "close"]
+    payload = json.loads(control_path.read_text(encoding="utf-8"))
+    assert payload["last_otp_request_at"] == "2026-08-22T09:30:00Z"
 
 
 def test_successful_otp_records_safe_result(monkeypatch, tmp_path: Path) -> None:
@@ -1133,6 +1184,10 @@ def test_successful_otp_records_safe_result(monkeypatch, tmp_path: Path) -> None
     payload = json.loads(control_path.read_text(encoding="utf-8"))
     assert payload["last_otp_result"] == "AUTHENTICATED"
     assert payload["last_failure_reason"] == ""
+    assert calendar._otp_cooldown_active(
+        control_path,
+        now=datetime(2026, 8, 21, 10, 30, tzinfo=timezone.utc),
+    ) is False
 
 
 def test_cloud_fallback_missing_secret_does_not_connect_imap(
@@ -1152,6 +1207,59 @@ def test_cloud_fallback_missing_secret_does_not_connect_imap(
     observation = calendar.attempt_cloud_dynamic_password_login(object())
 
     assert observation.status == auth.AuthStatus.LOGIN_REQUIRED
+
+
+def test_cooldown_deferred_run_preserves_last_good_calendars(
+    monkeypatch,
+    tmp_path: Path,
+    capsys,
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    existing_flight = tmp_path / "flight.ics"
+    existing_schedule = tmp_path / "crew_schedule.ics"
+    existing_flight.write_text("last-good-flight", encoding="utf-8")
+    existing_schedule.write_text("last-good-schedule", encoding="utf-8")
+    install_valid_bundle(monkeypatch)
+    _, browser, context, _ = install_fake_browser(monkeypatch)
+    calls: list[str] = []
+    forbid_legacy_and_processing(monkeypatch, calls)
+    monkeypatch.setattr(
+        calendar,
+        "navigate_and_probe",
+        lambda _page: auth.AuthObservation(
+            auth.AuthStatus.LOGIN_REQUIRED,
+            auth.AuthSignals(login_url_hint=True),
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "attempt_cloud_dynamic_password_login",
+        lambda _page, **_kwargs: auth.AuthObservation(
+            auth.AuthStatus.AUTH_DEFERRED_OTP_COOLDOWN,
+            auth.AuthSignals(login_url_hint=True),
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "ImapOtpReader",
+        lambda *args, **kwargs: (_ for _ in ()).throw(
+            AssertionError("cooldown must not read IMAP")
+        ),
+    )
+
+    assert calendar.run() == 7
+    assert capsys.readouterr().out == (
+        "AUTH_STATUS=AUTH_DEFERRED_OTP_COOLDOWN\n"
+        "CALENDAR_UPDATE=SKIPPED_PRESERVE_LAST_GOOD\n"
+    )
+    assert calls == []
+    assert existing_flight.read_text(encoding="utf-8") == "last-good-flight"
+    assert (
+        existing_schedule.read_text(encoding="utf-8")
+        == "last-good-schedule"
+    )
+    assert context.closed is True
+    assert browser.closed is True
 
 
 def test_cloud_slider_requires_additional_verification(

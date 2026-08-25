@@ -210,6 +210,24 @@ def test_non_auth_failure_does_not_send_or_create_state(
     assert not state_path.exists()
 
 
+def test_otp_cooldown_deferred_does_not_notify_or_create_state(
+    tmp_path: Path,
+) -> None:
+    state_path = tmp_path / "state.json"
+    messages: list[tuple[str, str, datetime]] = []
+
+    result = notification.handle_auth_status(
+        "AUTH_DEFERRED_OTP_COOLDOWN",
+        state_path,
+        recording_sender(messages),
+        FIXED_TIME,
+    )
+
+    assert result == "NO_ACTION"
+    assert messages == []
+    assert not state_path.exists()
+
+
 def test_non_auth_failures_preserve_incident_and_recovery_sends_once(
     tmp_path: Path,
 ) -> None:
