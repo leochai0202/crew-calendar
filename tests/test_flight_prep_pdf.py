@@ -343,7 +343,8 @@ def test_real_flight_before_after_pdf_regression(
             upgraded_group,
             f"{airport}机场典型不安全事件：",
         )
-        assert not re.search(r"(?m)^\d+[.、]", typical_section)
+        assert re.search(r"(?m)^1\.\s+\S", typical_section)
+        assert not re.search(r"(?m)^\d+、", typical_section)
         assert "责任中队" not in typical_section
         assert "机场运行特点" not in typical_section
 
