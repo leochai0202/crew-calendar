@@ -2505,7 +2505,7 @@ UID:8bf40c37c4ac83840583cc3b9e077e54@crew-calendar
 SUMMARY:✈️ 9C8885 上海虹桥→贵阳龙洞堡
 DTSTART;TZID=Asia/Shanghai:20260826T170500
 DTEND;TZID=Asia/Shanghai:20260826T195500
-DESCRIPTION:08月26日 周三\n类型：航班\n航班：9C8885\n航线：上海虹桥 → 贵阳龙洞堡\n地点：上海虹桥\n签到：15:20｜上海虹桥\n任务：17:05 - 19:55\n机型：A320｜注册号：B6667\n\n人员名单：\n• 李双星\n• 钱涛\n• 段洋硕\n• 郭大勇(B)\n\n版本：2026-08-24 19:51
+DESCRIPTION:08月26日 周三\n类型：航班\n航班：9C8885\n航线：上海虹桥 → 贵阳龙洞堡\n地点：上海虹桥\n签到：15:20｜上海虹桥\n任务：17:05 - 19:55\n机型：A320｜注册号：B6667\n\n人员名单：\n• 李双星\n• 钱涛\n• 段洋硕\n• 郭大勇(B)\n\n版本：2026-08-25 19:02
 X-CONTENT-SIGNATURE:f51314059100161a7b8c2d52611dec80
 LOCATION:上海虹桥
 BEGIN:VALARM
@@ -2519,7 +2519,7 @@ UID:f1986fac8c66b225805d3ad7ba8555bd@crew-calendar
 SUMMARY:✈️ 9C8970 贵阳龙洞堡→扬州泰州
 DTSTART;TZID=Asia/Shanghai:20260826T205500
 DTEND;TZID=Asia/Shanghai:20260826T232500
-DESCRIPTION:08月26日 周三\n类型：航班\n航班：9C8970\n航线：贵阳龙洞堡 → 扬州泰州\n地点：贵阳龙洞堡\n签到：19:20｜贵阳龙洞堡\n任务：20:55 - 23:25\n机型：A320｜注册号：B6667\n\n人员名单：\n• 李双星\n• 钱涛\n• 段洋硕\n• 郭大勇(B)\n\n版本：2026-08-24 19:51
+DESCRIPTION:08月26日 周三\n类型：航班\n航班：9C8970\n航线：贵阳龙洞堡 → 扬州泰州\n地点：贵阳龙洞堡\n签到：19:20｜贵阳龙洞堡\n任务：20:55 - 23:25\n机型：A320｜注册号：B6667\n\n人员名单：\n• 李双星\n• 钱涛\n• 段洋硕\n• 郭大勇(B)\n\n版本：2026-08-25 19:02
 X-CONTENT-SIGNATURE:79a90d195e220ca51a024dc4270158be
 LOCATION:贵阳龙洞堡
 BEGIN:VALARM
@@ -2533,7 +2533,7 @@ UID:4066808457a4cb534b334df1c8fcd415@crew-calendar
 SUMMARY:✈️ 9C7619 扬州泰州→绵阳南郊
 DTSTART;TZID=Asia/Shanghai:20260827T185500
 DTEND;TZID=Asia/Shanghai:20260827T214500
-DESCRIPTION:08月27日 周四\n类型：航班\n航班：9C7619\n航线：扬州泰州 → 绵阳南郊\n地点：扬州泰州\n签到：17:05｜扬州泰州\n任务：18:55 - 21:45\n机型：A320｜注册号：B6667\n\n人员名单：\n• 党琳凯(R)\n• 钱涛(R)\n• 段洋硕\n• 杜希武(P\,B)\n\n版本：2026-08-24 19:51
+DESCRIPTION:08月27日 周四\n类型：航班\n航班：9C7619\n航线：扬州泰州 → 绵阳南郊\n地点：扬州泰州\n签到：17:05｜扬州泰州\n任务：18:55 - 21:45\n机型：A320｜注册号：B6667\n\n人员名单：\n• 党琳凯(R)\n• 钱涛(R)\n• 段洋硕\n• 杜希武(P\,B)\n\n版本：2026-08-25 19:02
 X-CONTENT-SIGNATURE:bd2193e11cd1712cf766477228c4e2cd
 LOCATION:扬州泰州
 BEGIN:VALARM
@@ -2547,7 +2547,7 @@ UID:f8db3ec64edc5e8275f9baab59573d83@crew-calendar
 SUMMARY:✈️ 9C7620 绵阳南郊→扬州泰州(+1)
 DTSTART;TZID=Asia/Shanghai:20260827T223000
 DTEND;TZID=Asia/Shanghai:20260828T010500
-DESCRIPTION:08月27日 周四\n类型：航班\n航班：9C7620\n航线：绵阳南郊 → 扬州泰州(+1)\n地点：绵阳南郊\n签到：20:55｜绵阳南郊\n任务：22:30 - 01:05\n机型：A320｜注册号：B6667\n\n人员名单：\n• 党琳凯(R)\n• 钱涛(R)\n• 段洋硕\n• 杜希武(P\,B)\n\n版本：2026-08-24 19:51
+DESCRIPTION:08月27日 周四\n类型：航班\n航班：9C7620\n航线：绵阳南郊 → 扬州泰州(+1)\n地点：绵阳南郊\n签到：20:55｜绵阳南郊\n任务：22:30 - 01:05\n机型：A320｜注册号：B6667\n\n人员名单：\n• 党琳凯(R)\n• 钱涛(R)\n• 段洋硕\n• 杜希武(P\,B)\n\n版本：2026-08-25 19:02
 X-CONTENT-SIGNATURE:3da364026bf9cab3f8d19369fb22efb9
 LOCATION:绵阳南郊
 BEGIN:VALARM
@@ -2557,12 +2557,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:3d078dd281b1f79d775e7467a6c8cefc@crew-calendar
+UID:72d4db17cae4e1a7fedc1cac5e7e03d2@crew-calendar
 SUMMARY:✈️ 9C8969 扬州泰州→贵阳龙洞堡
 DTSTART;TZID=Asia/Shanghai:20260828T162000
 DTEND;TZID=Asia/Shanghai:20260828T190000
-DESCRIPTION:08月28日 周五\n类型：航班\n航班：9C8969\n航线：扬州泰州 → 贵阳龙洞堡\n地点：扬州泰州\n签到：14:40｜扬州泰州\n任务：16:20 - 19:00\n机型：A320｜注册号：B6752\n\n人员名单：\n• 李双星\n• 朱良珩\n• 段洋硕\n• 柳洋(B)\n\n版本：2026-08-24 19:51
-X-CONTENT-SIGNATURE:177b0c0438c1be15537f85ca3909772f
+DESCRIPTION:08月28日 周五\n类型：航班\n航班：9C8969\n航线：扬州泰州 → 贵阳龙洞堡\n地点：扬州泰州\n签到：14:40｜扬州泰州\n任务：16:20 - 19:00\n机型：A320｜注册号：B8645\n\n人员名单：\n• 李双星\n• 朱良珩\n• 段洋硕\n• 柳洋(B)\n\n版本：2026-08-25 19:02
+X-CONTENT-SIGNATURE:92afb8610d29c903b0f6df023fd02b40
 LOCATION:扬州泰州
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -2571,12 +2571,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:b0c5414a7b552e1ae5195440b9aded27@crew-calendar
+UID:d633c26c88d99299f6f2526c1db040dd@crew-calendar
 SUMMARY:✈️ 9C8886 贵阳龙洞堡→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260828T200000
 DTEND;TZID=Asia/Shanghai:20260828T222500
-DESCRIPTION:08月28日 周五\n类型：航班\n航班：9C8886\n航线：贵阳龙洞堡 → 上海虹桥\n地点：贵阳龙洞堡\n签到：18:25｜贵阳龙洞堡\n任务：20:00 - 22:25\n机型：A320｜注册号：B6752\n\n人员名单：\n• 李双星\n• 朱良珩\n• 段洋硕\n• 柳洋(B)\n\n版本：2026-08-24 19:51
-X-CONTENT-SIGNATURE:7465720140039bc94aab6a8661d67766
+DESCRIPTION:08月28日 周五\n类型：航班\n航班：9C8886\n航线：贵阳龙洞堡 → 上海虹桥\n地点：贵阳龙洞堡\n签到：18:25｜贵阳龙洞堡\n任务：20:00 - 22:25\n机型：A320｜注册号：B8645\n\n人员名单：\n• 李双星\n• 朱良珩\n• 段洋硕\n• 柳洋(B)\n\n版本：2026-08-25 19:02
+X-CONTENT-SIGNATURE:69cf0f2dc3a8f7df5a5e9a474fc504c4
 LOCATION:贵阳龙洞堡
 BEGIN:VALARM
 TRIGGER:-PT90M
