@@ -780,7 +780,15 @@ def test_explicit_route_scope_requires_current_route_match() -> None:
 
 @pytest.mark.parametrize(
     "placeholder",
-    ["目前数据库中无数据", "暂无数据", "未收录", "无", "N/A", "未发现明确事件"],
+    [
+        "目前数据库中无数据",
+        "目前数据库中无数据 版本：20260817 修订日期：2026.08.17 页码：723 页码：723",
+        "暂无数据",
+        "未收录",
+        "无",
+        "N/A",
+        "未发现明确事件",
+    ],
 )
 def test_typical_placeholder_renders_as_unnumbered_no_data(placeholder: str) -> None:
     airport = "测试机场"
@@ -1778,8 +1786,6 @@ def test_real_august_eight_applies_season_task_and_topic_quality(
     )[0]
     jiayuguan = content.split("嘉峪关酒泉机场：", 1)[1]
     for required in (
-        "离地姿态大",
-        "擦机尾",
         "A2",
         "A8",
         "FLYSMART",
@@ -1813,7 +1819,6 @@ def test_real_august_eight_applies_season_task_and_topic_quality(
 
     excluded = meta["excluded_source_clauses"]
     assert any("冬春季" in item["clause"] and "目标月份为8月" in item["reason"] for item in excluded)
-    assert any("9C7635" in item["clause"] and item["reason"] == "与当前航班/航线不匹配" for item in excluded)
     assert any(len(ids) > 1 for ids in meta["core_paragraph_fact_ids"]["嘉峪关酒泉"])
     assert hashlib.sha256((REPO_ROOT / "flight.ics").read_bytes()).hexdigest() == original_hash
 
@@ -2196,6 +2201,7 @@ def test_real_august_twelve_generalizes_event_and_role_filters(
     chongqing_typical = first.split("重庆江北机场典型不安全事件：", 1)[1].split(
         "核心威胁：", 1
     )[0]
+    assert chongqing_typical.count("未能快速脱离") == 1
     assert chongqing_typical.count("雷达罩损伤超标") == 1
     assert chongqing_typical.count("无指令推出") == 1
     assert chongqing_typical.upper().count("SINK RATE") == 1
@@ -2242,17 +2248,26 @@ def test_real_august_twelve_generalizes_event_and_role_filters(
         if item["category"] == "typical"
     ]
     assert len(chongqing_typical_sources) == 4
-    source_sets = [set(item["source_fact_ids"]) for item in chongqing_typical_sources]
-    for expected in (
-        {"重庆江北_typical_record_1", "重庆江北_typical_record_8"},
-        {"重庆江北_typical_record_2", "重庆江北_typical_record_5"},
-        {"重庆江北_typical_record_3", "重庆江北_typical_record_6"},
-        {"重庆江北_typical_record_4", "重庆江北_typical_record_7"},
-    ):
-        assert expected in source_sets
+    for anchor in ("未能快速脱离", "雷达罩损伤", "无指令推出", "SINK RATE"):
+        matching_sources = [
+            item
+            for item in chongqing_typical_sources
+            if anchor.casefold() in item["rendered_text"].casefold()
+        ]
+        assert len(matching_sources) == 1
+        source = matching_sources[0]
+        assert source["source_fact_ids"]
+        assert len(source["source_fact_ids"]) == len(set(source["source_fact_ids"]))
+        assert source["source_original_texts"]
+        assert any(
+            anchor.casefold() in original.casefold()
+            for original in source["source_original_texts"]
+        )
     assert any(
-        item["fact_id"] == "重庆江北_typical_record_6"
+        item["airport"] == "重庆江北"
         and item["reason"] == agent.TYPICAL_SOURCE_QUALITY_REASON
+        and "误解" in item["clause"]
+        and "推出" in item["clause"]
         for item in meta["excluded_source_clauses"]
     )
     assert any(

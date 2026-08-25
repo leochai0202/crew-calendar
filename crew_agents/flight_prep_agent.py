@@ -4976,11 +4976,16 @@ TYPICAL_NO_DATA_RE = re.compile(
     r"^(?:目前数据库中)?(?:无数据|暂无数据|未收录|无|N/?A|未发现明确事件)$",
     re.IGNORECASE,
 )
+TYPICAL_SOURCE_METADATA_RE = re.compile(
+    r"(?:版本(?:号)?|修订日期|页码)[:：]?[0-9./-]+",
+    re.IGNORECASE,
+)
 
 
 def is_typical_no_data(value: str) -> bool:
     compact = re.sub(r"[\s。；;，,]+", "", normalize_text(value))
-    return bool(TYPICAL_NO_DATA_RE.fullmatch(compact))
+    without_source_metadata = TYPICAL_SOURCE_METADATA_RE.sub("", compact)
+    return bool(TYPICAL_NO_DATA_RE.fullmatch(without_source_metadata))
 
 
 TYPICAL_SOURCE_QUALITY_REASON = "来源文本质量不足，未进入正式正文"
