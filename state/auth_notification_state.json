@@ -1,7 +1,7 @@
 {
-  "failure_notified_at": "2026-07-30T00:26:46+08:00",
-  "incident_active": false,
-  "incident_started_at": "2026-07-30T00:26:46+08:00",
-  "last_failure_status": "PAGE_CHANGED_OR_UNKNOWN",
-  "recovery_notified_at": "2026-07-30T21:00:54+08:00"
+  "failure_notified_at": "2026-08-26T18:05:52+08:00",
+  "incident_active": true,
+  "incident_started_at": "2026-08-26T18:05:52+08:00",
+  "last_failure_status": "LOGIN_REQUIRED",
+  "recovery_notified_at": ""
 }
