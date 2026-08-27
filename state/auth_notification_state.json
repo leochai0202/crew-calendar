@@ -1,7 +1,7 @@
 {
   "failure_notified_at": "2026-08-26T18:05:52+08:00",
-  "incident_active": true,
+  "incident_active": false,
   "incident_started_at": "2026-08-26T18:05:52+08:00",
   "last_failure_status": "LOGIN_REQUIRED",
-  "recovery_notified_at": ""
+  "recovery_notified_at": "2026-08-28T03:58:43+08:00"
 }
