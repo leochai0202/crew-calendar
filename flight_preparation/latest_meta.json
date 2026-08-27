@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-08-28",
-  "generated_at_beijing": "2026-08-27T02:22:07.869015+08:00",
+  "generated_at_beijing": "2026-08-27T19:10:02.395174+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C8969",
@@ -165,16 +165,25 @@
         },
         "贵阳龙洞堡": {
           "icao": "ZUGY",
-          "source_used": "OUTSIDE_VALID_WINDOW",
+          "source_used": "TAF",
           "taf_validity_utc": [
-            "2026-08-26T18:00:00+00:00",
-            "2026-08-27T18:00:00+00:00"
+            "2026-08-27T12:00:00+00:00",
+            "2026-08-28T12:00:00+00:00"
           ],
           "relevant_times": [
             "2026-08-28T19:00:00+08:00",
             "2026-08-28T20:00:00+08:00"
           ],
-          "taf_decoded_by_time": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-08-28T19:00:00+08:00",
+              "decoded": []
+            },
+            {
+              "time": "2026-08-28T20:00:00+08:00",
+              "decoded": []
+            }
+          ],
           "decoded": [],
           "fetch_error": ""
         }
@@ -2326,7 +2335,7 @@
           }
         ]
       },
-      "content_sha256": "2d10387052b50c523073cdbe11b8dd989e2fd03875cea4f39bcd76f2f7fc659d",
+      "content_sha256": "6a4b6e7bf78e29a7d1928845d6e866a12420632c9448072fb7177c2f5634dcaa",
       "_english_content": ""
     },
     {
@@ -2389,27 +2398,44 @@
       "weather": {
         "贵阳龙洞堡": {
           "icao": "ZUGY",
-          "source_used": "OUTSIDE_VALID_WINDOW",
+          "source_used": "TAF",
           "taf_validity_utc": [
-            "2026-08-26T18:00:00+00:00",
-            "2026-08-27T18:00:00+00:00"
+            "2026-08-27T12:00:00+00:00",
+            "2026-08-28T12:00:00+00:00"
           ],
           "relevant_times": [
             "2026-08-28T19:00:00+08:00",
             "2026-08-28T20:00:00+08:00"
           ],
-          "taf_decoded_by_time": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-08-28T19:00:00+08:00",
+              "decoded": []
+            },
+            {
+              "time": "2026-08-28T20:00:00+08:00",
+              "decoded": []
+            }
+          ],
           "decoded": [],
           "fetch_error": ""
         },
         "上海虹桥": {
           "icao": "ZSSS",
-          "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "source_used": "TAF",
+          "taf_validity_utc": [
+            "2026-08-27T12:00:00+00:00",
+            "2026-08-28T18:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-08-28T22:25:00+08:00"
           ],
-          "taf_decoded_by_time": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-08-28T22:25:00+08:00",
+              "decoded": []
+            }
+          ],
           "decoded": [],
           "fetch_error": ""
         }
@@ -7098,7 +7124,7 @@
           }
         ]
       },
-      "content_sha256": "ee5bbbd35302882fc74302f501b30ef7183fbd7e918a056062cb4ec3664fdbe6",
+      "content_sha256": "21ba2001043a51912f8ccc905e207384260f79a7af0689c6bfc45ba4e7dabf1f",
       "_english_content": ""
     }
   ],
@@ -7121,36 +7147,49 @@
     },
     "贵阳龙洞堡": {
       "icao": "ZUGY",
-      "source_used": "OUTSIDE_VALID_WINDOW",
+      "source_used": "TAF",
       "taf_validity_utc": [
-        "2026-08-26T18:00:00+00:00",
-        "2026-08-27T18:00:00+00:00"
+        "2026-08-27T12:00:00+00:00",
+        "2026-08-28T12:00:00+00:00"
       ],
       "relevant_times": [
         "2026-08-28T19:00:00+08:00",
         "2026-08-28T20:00:00+08:00"
       ],
-      "taf_decoded_by_time": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-08-28T19:00:00+08:00",
+          "decoded": []
+        },
+        {
+          "time": "2026-08-28T20:00:00+08:00",
+          "decoded": []
+        }
+      ],
       "decoded": [],
       "fetch_error": ""
     },
     "上海虹桥": {
       "icao": "ZSSS",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-08-27T12:00:00+00:00",
+        "2026-08-28T18:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-08-28T22:25:00+08:00"
       ],
-      "taf_decoded_by_time": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-08-28T22:25:00+08:00",
+          "decoded": []
+        }
+      ],
       "decoded": [],
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [
-    "上海虹桥: 2026-08-22 -> 2026-08-26",
-    "贵阳龙洞堡: - -> 2026-08-26",
-    "扬州泰州: 2026-08-12 -> 2026-08-26"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
   "airport_information_version": 20260824,
   "airport_information_type": "PDF",
