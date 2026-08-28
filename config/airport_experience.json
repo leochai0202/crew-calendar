@@ -1,6 +1,6 @@
 {
   "rolling_days": 90,
-  "as_of": "2026-08-27",
+  "as_of": "2026-08-29",
   "airports": {
     "西安咸阳": {
       "last_operated": "2026-05-26",
@@ -9,9 +9,9 @@
       "within_90_days": false
     },
     "上海虹桥": {
-      "last_operated": "2026-08-26",
+      "last_operated": "2026-08-28",
       "source": "completed_schedule_event",
-      "flight_number": "9C8885",
+      "flight_number": "9C8886",
       "within_90_days": true
     },
     "重庆江北": {
@@ -165,9 +165,9 @@
       "within_90_days": true
     },
     "扬州泰州": {
-      "last_operated": "2026-08-26",
+      "last_operated": "2026-08-28",
       "source": "completed_schedule_event",
-      "flight_number": "9C8970",
+      "flight_number": "9C8969",
       "within_90_days": true
     },
     "郑州新郑": {
@@ -267,9 +267,15 @@
       "within_90_days": true
     },
     "贵阳龙洞堡": {
-      "last_operated": "2026-08-26",
+      "last_operated": "2026-08-28",
       "source": "completed_schedule_event",
-      "flight_number": "9C8885",
+      "flight_number": "9C8969",
+      "within_90_days": true
+    },
+    "绵阳南郊": {
+      "last_operated": "2026-08-27",
+      "source": "completed_schedule_event",
+      "flight_number": "9C7619",
       "within_90_days": true
     }
   },
