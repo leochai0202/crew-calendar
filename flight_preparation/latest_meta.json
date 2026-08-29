@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-08-31",
-  "generated_at_beijing": "2026-08-29T23:07:40.257770+08:00",
+  "generated_at_beijing": "2026-08-30T03:31:02.095959+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C6223",
@@ -198,10 +198,7 @@
         "上海浦东": {
           "icao": "ZSPD",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [
-            "2026-08-29T12:00:00+00:00",
-            "2026-08-30T18:00:00+00:00"
-          ],
+          "taf_validity_utc": [],
           "relevant_times": [
             "2026-08-31T17:00:00+08:00"
           ],
@@ -213,8 +210,8 @@
           "icao": "ZGOW",
           "source_used": "OUTSIDE_VALID_WINDOW",
           "taf_validity_utc": [
-            "2026-08-29T12:00:00+00:00",
-            "2026-08-30T12:00:00+00:00"
+            "2026-08-29T18:00:00+00:00",
+            "2026-08-30T18:00:00+00:00"
           ],
           "relevant_times": [
             "2026-08-31T19:10:00+08:00",
@@ -2128,8 +2125,8 @@
           "icao": "ZGOW",
           "source_used": "OUTSIDE_VALID_WINDOW",
           "taf_validity_utc": [
-            "2026-08-29T12:00:00+00:00",
-            "2026-08-30T12:00:00+00:00"
+            "2026-08-29T18:00:00+00:00",
+            "2026-08-30T18:00:00+00:00"
           ],
           "relevant_times": [
             "2026-08-31T19:10:00+08:00",
@@ -2142,10 +2139,7 @@
         "上海虹桥": {
           "icao": "ZSSS",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [
-            "2026-08-29T12:00:00+00:00",
-            "2026-08-30T18:00:00+00:00"
-          ],
+          "taf_validity_utc": [],
           "relevant_times": [
             "2026-08-31T22:00:00+08:00",
             "2026-08-31T23:05:00+08:00"
@@ -6783,10 +6777,7 @@
         "上海虹桥": {
           "icao": "ZSSS",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [
-            "2026-08-29T12:00:00+00:00",
-            "2026-08-30T18:00:00+00:00"
-          ],
+          "taf_validity_utc": [],
           "relevant_times": [
             "2026-08-31T22:00:00+08:00",
             "2026-08-31T23:05:00+08:00"
@@ -6799,8 +6790,8 @@
           "icao": "ZSAM",
           "source_used": "OUTSIDE_VALID_WINDOW",
           "taf_validity_utc": [
-            "2026-08-29T12:00:00+00:00",
-            "2026-08-30T12:00:00+00:00"
+            "2026-08-29T18:00:00+00:00",
+            "2026-08-30T18:00:00+00:00"
           ],
           "relevant_times": [
             "2026-09-01T00:50:00+08:00"
@@ -11218,10 +11209,7 @@
     "上海浦东": {
       "icao": "ZSPD",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-08-29T12:00:00+00:00",
-        "2026-08-30T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-08-31T17:00:00+08:00"
       ],
@@ -11233,8 +11221,8 @@
       "icao": "ZGOW",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-08-29T12:00:00+00:00",
-        "2026-08-30T12:00:00+00:00"
+        "2026-08-29T18:00:00+00:00",
+        "2026-08-30T18:00:00+00:00"
       ],
       "relevant_times": [
         "2026-08-31T19:10:00+08:00",
@@ -11247,10 +11235,7 @@
     "上海虹桥": {
       "icao": "ZSSS",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-08-29T12:00:00+00:00",
-        "2026-08-30T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-08-31T22:00:00+08:00",
         "2026-08-31T23:05:00+08:00"
@@ -11263,8 +11248,8 @@
       "icao": "ZSAM",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-08-29T12:00:00+00:00",
-        "2026-08-30T12:00:00+00:00"
+        "2026-08-29T18:00:00+00:00",
+        "2026-08-30T18:00:00+00:00"
       ],
       "relevant_times": [
         "2026-09-01T00:50:00+08:00"
