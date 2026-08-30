@@ -196,6 +196,103 @@ def test_unprovable_single_fact_is_dropped_without_discarding_safe_fact() -> Non
     assert diagnostics[0]["paragraph_dropped"] is True
 
 
+@pytest.mark.parametrize(
+    "value",
+    [
+        "版本：20260817 修订日期：2026.08.17 页码：512",
+        "机场标高：10ft",
+        "是否存在短跑道：否",
+        "离场前地面运行阶段",
+        "目前数据库中无数据",
+        "非受控文件。",
+    ],
+)
+def test_manual_structure_fields_are_not_operational_facts(value: str) -> None:
+    assert agent.manual_source_quality_issue(value)
+    assert agent.typical_source_quality_issue(value)
+
+
+def test_typical_event_quality_requires_event_semantics() -> None:
+    assert agent.typical_source_quality_issue("机场运行密度高，注意间隔。")
+    assert agent.typical_source_quality_issue("跑道有坡度。")
+    assert not agent.typical_source_quality_issue(
+        "2024年6月曾发生两起进位未到线事件。"
+    )
+
+
+def test_structured_manual_parser_joins_records_and_strips_table_ordinals() -> None:
+    typical, core = agent.extract_structured_manual_items(
+        [
+            "1. 概述",
+            "1.1 基本信息",
+            "（1）机场标高：10ft",
+            "2. 离场前地面运行阶段",
+            "2.1 早航班08:00前通常使用就近跑道离场。",
+            "2.2 36R通常使用H7非全跑道离场，注意性能计算。",
+            "2.3 飞机从L10滑出，有时管制员让L01前等，",
+            "地面无等待线，注意留足距离。",
+            "版本：20260817 修订日期：2026.08.17 页码：512",
+            "7. 其他",
+            "7.5 历史不安全事件",
+            "（1）2024年6月曾发生两起进位未到线事件。",
+        ],
+        100,
+    )
+
+    assert typical == ["2024年6月曾发生两起进位未到线事件。"]
+    joined = "".join(core)
+    assert "早航班08:00前" in joined
+    assert "36R通常使用H7" in joined
+    assert "L10" in joined and "L01" in joined and "地面无等待线" in joined
+    assert not re.search(r"(?:^|[：。])\s*[123]\s*(?:早航班|36R|飞机)", joined)
+    assert all(token not in joined for token in ("机场标高", "版本", "页码"))
+
+
+@pytest.mark.parametrize(
+    "value",
+    [
+        "面滑行路线与停机位标识。",
+        "意，在虹桥机场保持间隔。",
+        "此种情况建议准备高截获程序。",
+        "比如SASAN9进港，ESBAG过渡段，通波X。",
+        "否则要被管制纠正。",
+    ],
+)
+def test_detached_pdf_fragments_fail_source_quality_gate(value: str) -> None:
+    assert agent.manual_source_quality_issue(value) == "PDF断句或残片未形成完整运行事实"
+
+
+def test_table_ordinals_and_runway_status_light_text_are_safely_normalized() -> None:
+    assert agent.clean_manual_item("2 36R通常使用H7非全跑道离场。") == (
+        "36R通常使用H7非全跑道离场。"
+    )
+    polished = agent.polish_chinese_briefing_text(
+        "跑道状态灯注意事项如下：灯光仅两种状态，红色灯亮或者熄灭"
+        "跑道进入灯灭，与ATC进跑道指令同时获得才可以进跑道"
+        "起飞等待灯灭且有起飞指令，才可以起飞"
+        "任何情况与之不一致，必须和ATC确认。"
+    )
+    assert "跑道状态灯注意事项如下" not in polished
+    assert "熄灭；跑道进入灯" in polished
+    assert "进跑道；起飞等待灯" in polished
+    assert "才可以起飞；任何情况" in polished
+
+
+def test_malformed_route_and_procedure_run_on_fails_quality_gate() -> None:
+    assert agent.manual_source_quality_issue(
+        "距本场约140海里可以听到通播，沈阳-威海 SANK052F03ILS-Z落地。"
+    ) == "来源包含无法可靠恢复的明显OCR错位"
+
+
+def test_season_scope_distinguishes_cold_ground_procedure_from_event_date() -> None:
+    assert agent.detected_season_scope(
+        "发动机甩冰程序，进入跑道后不得实施甩冰、暖车动作。"
+    ) == tuple(sorted(agent.SEASON_MONTHS["冬季"]))
+    assert agent.detected_season_scope(
+        "2023年12月19日曾发生进近警告事件。"
+    ) == ()
+
+
 def _copy_runtime_repo(destination: Path) -> None:
     (destination / "config").mkdir(parents=True)
     (destination / "knowledge" / "pdf").mkdir(parents=True)
@@ -276,6 +373,115 @@ def test_real_august_twenty_six_generates_with_local_guard_fallbacks(
     ]
     assert all(item["guard_failed"] for item in guiyang_outcomes)
     assert all("source_original_text" in item for item in guiyang_outcomes)
+
+
+@pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含机场手册PDF")
+def test_real_august_twenty_eight_filters_pdf_structure_and_fragments(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    repo = tmp_path / "august-28"
+    _copy_runtime_repo(repo)
+    monkeypatch.setattr(
+        agent,
+        "fetch_airport_weather",
+        lambda *args, **kwargs: SimpleNamespace(icao="", metar="", taf="", error=""),
+    )
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        ["flight_prep_agent.py", "--repo", str(repo), "--target-date", "2026-08-28"],
+    )
+    monkeypatch.delenv("GITHUB_STEP_SUMMARY", raising=False)
+    agent.extract_pdf_text.cache_clear()
+
+    assert agent.main() == 0
+
+    output = repo / "flight_preparation"
+    meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
+    content = (output / "2026-08-28_航前准备.txt").read_text(encoding="utf-8")
+    assert meta["status"] == "SUCCESS"
+    assert all(
+        f"{airport}机场：" in content
+        for airport in ("扬州泰州", "贵阳龙洞堡", "上海虹桥")
+    )
+    forbidden = (
+        "版本：",
+        "修订日期：",
+        "页码：",
+        "机场标高：",
+        "是否存在短跑道",
+        "是否为多跑道",
+        "离场前地面运行阶段",
+        "离场（起飞/爬升）阶段",
+        "进场进近和着陆阶段",
+        "目前数据库中无数据",
+    )
+    assert all(token not in content for token in forbidden)
+    assert not re.search(r"(?m)^(?:面滑行路线与|意，在虹桥机场)", content)
+    assert all(
+        token not in content
+        for token in (
+            "跑道状态灯注意事项如下",
+            "比如SASAN9",
+            "否则要被管制纠正",
+            "飞飞MLJ",
+        )
+    )
+    assert "近期注意点" not in content
+    for group in meta["prep_groups"]:
+        group_content = (output / group["output"]).read_text(encoding="utf-8")
+        assert group_content.count("核心威胁：") == 1
+        assert not re.search(
+            r"(?m)^\s*[1-9]\s*(?:早航班|36R|飞机|所有航空器|除非经ATC)",
+            group_content,
+        )
+
+    hongqiao = (output / meta["prep_groups"][1]["output"]).read_text(
+        encoding="utf-8"
+    ).split("上海虹桥机场：", 1)[1]
+    for marker in (
+        "运行密度",
+        "08:00",
+        "H7",
+        "L10",
+        "L01",
+        "L20",
+        "H4",
+        "K4",
+        "K5",
+        "跑道状态灯",
+        "H1",
+        "SASAN",
+        "LID",
+        "待命航道",
+        "高截获",
+        "快速脱离",
+        "111",
+        "112",
+    ):
+        assert marker in hongqiao
+
+    for marker in (
+        "丘陵",
+        "四边",
+        "五边",
+        "雷达引导",
+        "剖面",
+        "6000",
+        "UGUGU",
+        "01L/19L",
+        "单发加速高度",
+        "跑道两头高",
+        "中间低",
+        "VOR/DME",
+        "01R",
+        "盲降信号不稳定",
+        "PAPI",
+        "不停航施工",
+        "未开放区域",
+    ):
+        assert marker in content
 
 
 @pytest.mark.parametrize("target_date", ["2026-08-14", "2026-08-18"])
