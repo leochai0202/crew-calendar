@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-08-31",
-  "generated_at_beijing": "2026-08-30T03:31:02.095959+08:00",
+  "generated_at_beijing": "2026-08-30T14:33:48.913683+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C6223",
@@ -197,22 +197,31 @@
       "weather": {
         "上海浦东": {
           "icao": "ZSPD",
-          "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "source_used": "TAF",
+          "taf_validity_utc": [
+            "2026-08-30T06:00:00+00:00",
+            "2026-08-31T12:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-08-31T17:00:00+08:00"
           ],
-          "taf_decoded_by_time": [],
-          "decoded": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-08-31T17:00:00+08:00",
+              "decoded": [
+                "多云，云底约1500英尺"
+              ]
+            }
+          ],
+          "decoded": [
+            "多云，云底约1500英尺"
+          ],
           "fetch_error": ""
         },
         "揭阳潮汕": {
           "icao": "ZGOW",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [
-            "2026-08-29T18:00:00+00:00",
-            "2026-08-30T18:00:00+00:00"
-          ],
+          "taf_validity_utc": [],
           "relevant_times": [
             "2026-08-31T19:10:00+08:00",
             "2026-08-31T20:00:00+08:00"
@@ -2060,7 +2069,7 @@
           }
         ]
       },
-      "content_sha256": "0dd0e7f23d45c4dd2ee4241e6143d2399503f8da736c8f3e9b6b06b28d37049d",
+      "content_sha256": "02b72a2114fc6dcdb1773c17c9ed147da24730f45139a3424bf0b300cbae25a4",
       "_english_content": ""
     },
     {
@@ -2124,10 +2133,7 @@
         "揭阳潮汕": {
           "icao": "ZGOW",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [
-            "2026-08-29T18:00:00+00:00",
-            "2026-08-30T18:00:00+00:00"
-          ],
+          "taf_validity_utc": [],
           "relevant_times": [
             "2026-08-31T19:10:00+08:00",
             "2026-08-31T20:00:00+08:00"
@@ -2139,7 +2145,10 @@
         "上海虹桥": {
           "icao": "ZSSS",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "taf_validity_utc": [
+            "2026-08-30T06:00:00+00:00",
+            "2026-08-31T12:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-08-31T22:00:00+08:00",
             "2026-08-31T23:05:00+08:00"
@@ -6777,7 +6786,10 @@
         "上海虹桥": {
           "icao": "ZSSS",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "taf_validity_utc": [
+            "2026-08-30T06:00:00+00:00",
+            "2026-08-31T12:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-08-31T22:00:00+08:00",
             "2026-08-31T23:05:00+08:00"
@@ -6790,8 +6802,8 @@
           "icao": "ZSAM",
           "source_used": "OUTSIDE_VALID_WINDOW",
           "taf_validity_utc": [
-            "2026-08-29T18:00:00+00:00",
-            "2026-08-30T18:00:00+00:00"
+            "2026-08-30T06:00:00+00:00",
+            "2026-08-31T06:00:00+00:00"
           ],
           "relevant_times": [
             "2026-09-01T00:50:00+08:00"
@@ -11208,22 +11220,31 @@
   "weather": {
     "上海浦东": {
       "icao": "ZSPD",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-08-30T06:00:00+00:00",
+        "2026-08-31T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-08-31T17:00:00+08:00"
       ],
-      "taf_decoded_by_time": [],
-      "decoded": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-08-31T17:00:00+08:00",
+          "decoded": [
+            "多云，云底约1500英尺"
+          ]
+        }
+      ],
+      "decoded": [
+        "多云，云底约1500英尺"
+      ],
       "fetch_error": ""
     },
     "揭阳潮汕": {
       "icao": "ZGOW",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-08-29T18:00:00+00:00",
-        "2026-08-30T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-08-31T19:10:00+08:00",
         "2026-08-31T20:00:00+08:00"
@@ -11235,7 +11256,10 @@
     "上海虹桥": {
       "icao": "ZSSS",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-08-30T06:00:00+00:00",
+        "2026-08-31T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-08-31T22:00:00+08:00",
         "2026-08-31T23:05:00+08:00"
@@ -11248,8 +11272,8 @@
       "icao": "ZSAM",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-08-29T18:00:00+00:00",
-        "2026-08-30T18:00:00+00:00"
+        "2026-08-30T06:00:00+00:00",
+        "2026-08-31T06:00:00+00:00"
       ],
       "relevant_times": [
         "2026-09-01T00:50:00+08:00"
