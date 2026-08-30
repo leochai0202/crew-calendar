@@ -2188,12 +2188,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:a2dd75fb91c4f4525202dc1991901a68@crew-calendar
+UID:d5fd3bd5650f194b8fa11b48b4ef176a@crew-calendar
 SUMMARY:✈️ 9C6223 上海浦东→揭阳潮汕
 DTSTART;TZID=Asia/Shanghai:20260831T170000
 DTEND;TZID=Asia/Shanghai:20260831T191000
-DESCRIPTION:08月31日 周一\n类型：航班\n航班：9C6223\n航线：上海浦东 → 揭阳潮汕\n地点：上海浦东\n签到：15:10｜上海浦东\n任务：17:00 - 19:10\n机型：A320｜注册号：B30CM\n\n人员名单：\n• 杜博文(R)\n• 段洋硕\n• 李冬(R)\n• 沈艳1(B)\n• 纪志恒\n• 刘毅\n\n版本：2026-08-29 05:29
-X-CONTENT-SIGNATURE:a50498b1cc679f544e396ce778fb19a2
+DESCRIPTION:08月31日 周一\n类型：航班\n航班：9C6223\n航线：上海浦东 → 揭阳潮汕\n地点：上海浦东\n签到：15:10｜上海浦东\n任务：17:00 - 19:10\n机型：A320｜注册号：B9965\n\n人员名单：\n• 杜博文(R)\n• 段洋硕\n• 李冬(R)\n• 沈艳1(B)\n• 纪志恒\n• 刘毅\n\n版本：2026-08-30 22:32
+X-CONTENT-SIGNATURE:073f7d207b6da011de6ab4397990e3c0
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -2202,12 +2202,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:c676b5c4be562c0e7f90ff4370e580c2@crew-calendar
+UID:67e2d7bbcda72394bac735918ff34856@crew-calendar
 SUMMARY:✈️ 9C7682 揭阳潮汕→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260831T200000
 DTEND;TZID=Asia/Shanghai:20260831T220000
-DESCRIPTION:08月31日 周一\n类型：航班\n航班：9C7682\n航线：揭阳潮汕 → 上海虹桥\n地点：揭阳潮汕\n签到：18:10｜揭阳潮汕\n任务：20:00 - 22:00\n机型：A320｜注册号：B30CM\n\n人员名单：\n• 杜博文(R)\n• 段洋硕\n• 李冬(R)\n• 沈艳1(B)\n\n版本：2026-08-29 05:29
-X-CONTENT-SIGNATURE:3bf4e2874dae48aba065d80d3f5b3811
+DESCRIPTION:08月31日 周一\n类型：航班\n航班：9C7682\n航线：揭阳潮汕 → 上海虹桥\n地点：揭阳潮汕\n签到：18:10｜揭阳潮汕\n任务：20:00 - 22:00\n机型：A320｜注册号：B9965\n\n人员名单：\n• 杜博文(R)\n• 段洋硕\n• 李冬(R)\n• 沈艳1(B)\n\n版本：2026-08-30 22:32
+X-CONTENT-SIGNATURE:83913f8d8490b58ba7bd0d6da2793695
 LOCATION:揭阳潮汕
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -2216,12 +2216,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:a38d7d1ac51e6c690afb1a6af16cc138@crew-calendar
+UID:f24186a6ac708dd661ec073218d6c87a@crew-calendar
 SUMMARY:✈️ 9C8807 上海虹桥→厦门高崎(+1)
 DTSTART;TZID=Asia/Shanghai:20260831T230500
 DTEND;TZID=Asia/Shanghai:20260901T005000
-DESCRIPTION:08月31日 周一\n类型：航班\n航班：9C8807\n航线：上海虹桥 → 厦门高崎(+1)\n地点：上海虹桥\n签到：21:20｜上海虹桥\n任务：23:05 - 00:50\n机型：A320｜注册号：B30CM\n\n人员名单：\n• 杜博文(R)\n• 段洋硕\n• 李冬(R)\n• 路翔(B)\n\n版本：2026-08-29 05:29
-X-CONTENT-SIGNATURE:ba6a5511cb24178f95406f45f5e820e7
+DESCRIPTION:08月31日 周一\n类型：航班\n航班：9C8807\n航线：上海虹桥 → 厦门高崎(+1)\n地点：上海虹桥\n签到：21:20｜上海虹桥\n任务：23:05 - 00:50\n机型：A320｜注册号：B9965\n\n人员名单：\n• 杜博文(R)\n• 段洋硕\n• 李冬(R)\n• 路翔(B)\n\n版本：2026-08-30 22:32
+X-CONTENT-SIGNATURE:6aefb0d49a4931431e7a6ac0c202e0f7
 LOCATION:上海虹桥
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -2234,7 +2234,7 @@ UID:818b0e99918b18c413d19553db5358b5@crew-calendar
 SUMMARY:✈️ 9C8838 厦门高崎→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260901T145000
 DTEND;TZID=Asia/Shanghai:20260901T164500
-DESCRIPTION:09月01日 周二\n类型：航班\n航班：9C8838\n航线：厦门高崎 → 上海虹桥\n地点：厦门高崎\n签到：13:10｜厦门高崎\n任务：14:50 - 16:45\n机型：A320｜注册号：B6862\n\n人员名单：\n• 杜博文(R)\n• 段洋硕\n• 李冬(R)\n• 吴杰珺(B)\n\n版本：2026-08-29 05:29
+DESCRIPTION:09月01日 周二\n类型：航班\n航班：9C8838\n航线：厦门高崎 → 上海虹桥\n地点：厦门高崎\n签到：13:10｜厦门高崎\n任务：14:50 - 16:45\n机型：A320｜注册号：B6862\n\n人员名单：\n• 杜博文(R)\n• 段洋硕\n• 李冬(R)\n• 吴杰珺(B)\n\n版本：2026-08-30 22:32
 X-CONTENT-SIGNATURE:534bdecf9b8f3e8befb3a9f7faec0266
 LOCATION:厦门高崎
 BEGIN:VALARM
@@ -2248,7 +2248,7 @@ UID:b3917d14b31b3a6cd2415d99048957fa@crew-calendar
 SUMMARY:✈️ 9C6475 上海虹桥→衡阳南岳
 DTSTART;TZID=Asia/Shanghai:20260901T180000
 DTEND;TZID=Asia/Shanghai:20260901T200000
-DESCRIPTION:09月01日 周二\n类型：航班\n航班：9C6475\n航线：上海虹桥 → 衡阳南岳\n地点：上海虹桥\n签到：16:15｜上海虹桥\n任务：18:00 - 20:00\n机型：A320｜注册号：B6862\n\n人员名单：\n• 杜博文(R)\n• 段洋硕\n• 李冬(R)\n• 胡怡康(B)\n\n版本：2026-08-29 05:29
+DESCRIPTION:09月01日 周二\n类型：航班\n航班：9C6475\n航线：上海虹桥 → 衡阳南岳\n地点：上海虹桥\n签到：16:15｜上海虹桥\n任务：18:00 - 20:00\n机型：A320｜注册号：B6862\n\n人员名单：\n• 杜博文(R)\n• 段洋硕\n• 李冬(R)\n• 胡怡康(B)\n\n版本：2026-08-30 22:32
 X-CONTENT-SIGNATURE:40217d9462a86b24575bc2fa1cc11b66
 LOCATION:上海虹桥
 BEGIN:VALARM
@@ -2262,7 +2262,7 @@ UID:ec9aefd2c166b7b59f162afce4b489ad@crew-calendar
 SUMMARY:✈️ 9C6476 衡阳南岳→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260901T204500
 DTEND;TZID=Asia/Shanghai:20260901T225000
-DESCRIPTION:09月01日 周二\n类型：航班\n航班：9C6476\n航线：衡阳南岳 → 上海虹桥\n地点：衡阳南岳\n签到：19:10｜衡阳南岳\n任务：20:45 - 22:50\n机型：A320｜注册号：B6862\n\n人员名单：\n• 杜博文(R)\n• 段洋硕\n• 李冬(R)\n• 胡怡康(B)\n\n版本：2026-08-29 05:29
+DESCRIPTION:09月01日 周二\n类型：航班\n航班：9C6476\n航线：衡阳南岳 → 上海虹桥\n地点：衡阳南岳\n签到：19:10｜衡阳南岳\n任务：20:45 - 22:50\n机型：A320｜注册号：B6862\n\n人员名单：\n• 杜博文(R)\n• 段洋硕\n• 李冬(R)\n• 胡怡康(B)\n\n版本：2026-08-30 22:32
 X-CONTENT-SIGNATURE:a1f0b520c4b3dc7e2a8e173329f4da66
 LOCATION:衡阳南岳
 BEGIN:VALARM
@@ -2272,12 +2272,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:4a0d102e732091444eb5b310dc7be5f7@crew-calendar
+UID:0eb01f3429b01fb88bb8797e3e5466f1@crew-calendar
 SUMMARY:✈️ 9C6445 上海浦东→广元盘龙
 DTSTART;TZID=Asia/Shanghai:20260902T144500
 DTEND;TZID=Asia/Shanghai:20260902T175000
-DESCRIPTION:09月02日 周三\n类型：航班\n航班：9C6445\n航线：上海浦东 → 广元盘龙\n地点：上海浦东\n签到：12:55｜上海浦东\n任务：14:45 - 17:50\n机型：A320｜注册号：B32KQ\n\n人员名单：\n• 宋如意(T2\,R)\n• 李皋(R)\n• 段洋硕\n• 黄超杰(B)\n\n版本：2026-08-29 05:29
-X-CONTENT-SIGNATURE:1e0993cec8df04af1c5c2e6497359fdd
+DESCRIPTION:09月02日 周三\n类型：航班\n航班：9C6445\n航线：上海浦东 → 广元盘龙\n地点：上海浦东\n签到：12:55｜上海浦东\n任务：14:45 - 17:50\n机型：A320｜注册号：B32MX\n\n人员名单：\n• 宋如意(T2\,R)\n• 李皋(R)\n• 段洋硕\n• 黄超杰(B)\n\n版本：2026-08-30 22:32
+X-CONTENT-SIGNATURE:ceff47f99e1faffedffb9dffd7078e63
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -2286,12 +2286,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:e6d285cf4434ce5a1b4c8e9891071171@crew-calendar
+UID:65bcddf5295a8612c62671b010879019@crew-calendar
 SUMMARY:✈️ 9C6446 广元盘龙→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260902T185000
 DTEND;TZID=Asia/Shanghai:20260902T213000
-DESCRIPTION:09月02日 周三\n类型：航班\n航班：9C6446\n航线：广元盘龙 → 上海浦东\n地点：广元盘龙\n签到：17:15｜广元盘龙\n任务：18:50 - 21:30\n机型：A320｜注册号：B32KQ\n\n人员名单：\n• 宋如意(T2\,R)\n• 李皋(R)\n• 段洋硕\n• 黄超杰(B)\n\n版本：2026-08-29 05:29
-X-CONTENT-SIGNATURE:1d3bc33c5cb8e7278bc1984f68a7f7ce
+DESCRIPTION:09月02日 周三\n类型：航班\n航班：9C6446\n航线：广元盘龙 → 上海浦东\n地点：广元盘龙\n签到：17:15｜广元盘龙\n任务：18:50 - 21:30\n机型：A320｜注册号：B32MX\n\n人员名单：\n• 宋如意(T2\,R)\n• 李皋(R)\n• 段洋硕\n• 黄超杰(B)\n\n版本：2026-08-30 22:32
+X-CONTENT-SIGNATURE:0396990cd4a2e04e6c715c23ac96db1b
 LOCATION:广元盘龙
 BEGIN:VALARM
 TRIGGER:-PT90M
