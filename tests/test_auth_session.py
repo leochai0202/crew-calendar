@@ -344,6 +344,7 @@ def test_loaded_bundle_is_verified_before_session_recovery(
     [
         (auth.AuthStatus.LOGIN_REQUIRED, True),
         (auth.AuthStatus.AUTHENTICATED, False),
+        (auth.AuthStatus.AUTH_DEFERRED_OTP_COOLDOWN, False),
         (auth.AuthStatus.ADDITIONAL_VERIFICATION_REQUIRED, False),
         (auth.AuthStatus.PAGE_CHANGED_OR_UNKNOWN, False),
         (auth.AuthStatus.NETWORK_OR_SITE_ERROR, False),

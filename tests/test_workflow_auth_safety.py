@@ -86,12 +86,15 @@ def test_schedule_maps_auth_status_and_gates_clean_and_commit() -> None:
         '4 { "ADDITIONAL_VERIFICATION_REQUIRED" }',
         '5 { "PAGE_CHANGED_OR_UNKNOWN" }',
         '6 { "NETWORK_OR_SITE_ERROR" }',
+        '7 { "AUTH_DEFERRED_OTP_COOLDOWN" }',
         'default { "SCRAPER_ERROR" }',
     )
     for mapping in expected_mappings:
         assert mapping in workflow
     assert '"auth_status=$authStatus"' in workflow
     assert "$env:GITHUB_OUTPUT" in workflow
+    assert "if ($exitCode -eq 7)" in workflow
+    assert "exit 0" in workflow
     gate = (
         "steps.scraper.outcome == 'success' && "
         "steps.scraper.outputs.auth_status == 'AUTHENTICATED'"

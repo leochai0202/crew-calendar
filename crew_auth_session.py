@@ -56,6 +56,7 @@ ACCESS_DENIED_MARKERS = (
 
 class AuthStatus(str, Enum):
     AUTHENTICATED = "AUTHENTICATED"
+    AUTH_DEFERRED_OTP_COOLDOWN = "AUTH_DEFERRED_OTP_COOLDOWN"
     LOGIN_REQUIRED = "LOGIN_REQUIRED"
     ADDITIONAL_VERIFICATION_REQUIRED = "ADDITIONAL_VERIFICATION_REQUIRED"
     PAGE_CHANGED_OR_UNKNOWN = "PAGE_CHANGED_OR_UNKNOWN"
@@ -64,6 +65,9 @@ class AuthStatus(str, Enum):
 
 SAFE_STATUS_MESSAGES = {
     AuthStatus.AUTHENTICATED: "认证有效。",
+    AuthStatus.AUTH_DEFERRED_OTP_COOLDOWN: (
+        "认证已确认失效，但验证码请求仍处于冷却期，本次有意跳过。"
+    ),
     AuthStatus.LOGIN_REQUIRED: "认证包缺失、损坏或已失效，需要在本机重新认证。",
     AuthStatus.ADDITIONAL_VERIFICATION_REQUIRED: "网站要求人工完成手机、邮箱或二次验证。",
     AuthStatus.PAGE_CHANGED_OR_UNKNOWN: "页面已加载，但无法安全确认认证状态。",
@@ -72,6 +76,7 @@ SAFE_STATUS_MESSAGES = {
 
 STATUS_EXIT_CODES = {
     AuthStatus.AUTHENTICATED: 0,
+    AuthStatus.AUTH_DEFERRED_OTP_COOLDOWN: 7,
     AuthStatus.LOGIN_REQUIRED: 3,
     AuthStatus.ADDITIONAL_VERIFICATION_REQUIRED: 4,
     AuthStatus.PAGE_CHANGED_OR_UNKNOWN: 5,

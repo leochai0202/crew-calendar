@@ -63,11 +63,15 @@ jobs:
             4 { "ADDITIONAL_VERIFICATION_REQUIRED" }
             5 { "PAGE_CHANGED_OR_UNKNOWN" }
             6 { "NETWORK_OR_SITE_ERROR" }
+            7 { "AUTH_DEFERRED_OTP_COOLDOWN" }
             default { "SCRAPER_ERROR" }
           }
 
           "auth_status=$authStatus" |
             Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          if ($exitCode -eq 7) {
+            exit 0
+          }
           exit $exitCode
 
       - name: Upload safe authentication diagnostic
