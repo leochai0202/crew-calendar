@@ -110,7 +110,8 @@ PASSWORD_CAPTCHA_IMAGE_SELECTOR = (
     "img[alt*='验证码'], img[src^='data:image']"
 )
 PASSWORD_LOGIN_BUTTON_SELECTOR = (
-    "#Login, #login, button[type='submit'], input[type='submit'], "
+    "#loginBtn1, #Login, #login, button[type='submit'], "
+    "input[type='submit'], "
     "button:has-text('Login'), button:has-text('登录'), "
     "input[type='button'][value='Login'], "
     "input[type='button'][value*='登录']"
@@ -986,7 +987,7 @@ def solve_captcha(page, attempt_no: int = 0) -> str:
     return solve_captcha_with_tesseract(img_bytes, attempt_no=attempt_no)
 
 
-def _first_visible_auth_locator(page, selector: str, description: str):
+def _optional_visible_auth_locator(page, selector: str):
     locator = page.locator(selector)
     for index in range(min(locator.count(), 8)):
         candidate = locator.nth(index)
@@ -995,6 +996,13 @@ def _first_visible_auth_locator(page, selector: str, description: str):
                 return candidate
         except Exception:
             continue
+    return None
+
+
+def _first_visible_auth_locator(page, selector: str, description: str):
+    candidate = _optional_visible_auth_locator(page, selector)
+    if candidate is not None:
+        return candidate
     raise RuntimeError(f"未找到可见的{description}")
 
 
@@ -1106,8 +1114,9 @@ def attempt_cloud_password_captcha_login(
             AuthSignals(password_captcha_form=True, login_url_hint=True),
         )
 
-    for attempt in range(1, max_attempts + 1):
-        logger.info("PASSWORD_CAPTCHA_ATTEMPT=%d", attempt)
+    captcha_attempts = 0
+    direct_login_attempted = False
+    while True:
         try:
             username_field = _first_visible_auth_locator(
                 page,
@@ -1119,27 +1128,47 @@ def attempt_cloud_password_captcha_login(
                 PASSWORD_INPUT_SELECTOR,
                 "密码输入框",
             )
-            captcha_field = _first_visible_auth_locator(
+            captcha_field = _optional_visible_auth_locator(
                 page,
                 PASSWORD_CAPTCHA_INPUT_SELECTOR,
-                "图片验证码输入框",
             )
-            captcha_bytes, captcha_image = extract_password_captcha_bytes(page)
-            captcha = solve_password_captcha_safely(captcha_bytes)
-            if len(captcha) != 4:
-                logger.warning(
-                    "PASSWORD_CAPTCHA_OCR_FAILED ATTEMPT=%d",
-                    attempt,
-                )
-                try:
-                    captcha_image.click(timeout=2_000)
-                except Exception:
-                    pass
-                continue
-
             username_field.fill(username)
             password_field.fill(password)
-            captcha_field.fill(captcha)
+
+            captcha_image = None
+            if captcha_field is not None:
+                if captcha_attempts >= max_attempts:
+                    break
+                captcha_attempts += 1
+                logger.info(
+                    "PASSWORD_CAPTCHA_ATTEMPT=%d CAPTCHA_PRESENT=true",
+                    captcha_attempts,
+                )
+                captcha_bytes, captcha_image = (
+                    extract_password_captcha_bytes(page)
+                )
+                captcha = solve_password_captcha_safely(captcha_bytes)
+                if len(captcha) != 4:
+                    logger.warning(
+                        "PASSWORD_CAPTCHA_OCR_FAILED ATTEMPT=%d",
+                        captcha_attempts,
+                    )
+                    try:
+                        captcha_image.click(timeout=2_000)
+                    except Exception:
+                        pass
+                    if captcha_attempts < max_attempts:
+                        continue
+                    break
+                captcha_field.fill(captcha)
+            else:
+                if direct_login_attempted:
+                    break
+                direct_login_attempted = True
+                logger.info(
+                    "PASSWORD_LOGIN_ATTEMPT=1 CAPTCHA_PRESENT=false"
+                )
+
             submit = _first_visible_auth_locator(
                 page,
                 PASSWORD_LOGIN_BUTTON_SELECTOR,
@@ -1163,21 +1192,25 @@ def attempt_cloud_password_captcha_login(
                 return observation
             if observation.status == AuthStatus.NETWORK_OR_SITE_ERROR:
                 return observation
+            if observation.status == AuthStatus.LOGIN_REQUIRED_DYNAMIC_OTP:
+                return observation
+            if observation.status == AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA:
+                if _optional_visible_auth_locator(
+                    page,
+                    PASSWORD_CAPTCHA_INPUT_SELECTOR,
+                ) is not None:
+                    continue
+                break
             if not is_login_required_status(observation.status):
                 return observation
         except Exception as exc:
             logger.warning(
-                "PASSWORD_CAPTCHA_ATTEMPT_FAILED ATTEMPT=%d ERROR=%s",
-                attempt,
+                "PASSWORD_LOGIN_ATTEMPT_FAILED CAPTCHA_ATTEMPTS=%d ERROR=%s",
+                captcha_attempts,
                 type(exc).__name__,
             )
-
-        if attempt < max_attempts:
-            try:
-                _, captcha_image = extract_password_captcha_bytes(page)
-                captcha_image.click(timeout=2_000)
-            except Exception:
-                pass
+            if captcha_attempts >= max_attempts or direct_login_attempted:
+                break
 
     _save_safe_password_captcha_diagnostic(page)
     return AuthObservation(
@@ -6687,6 +6720,14 @@ def attempt_cloud_adaptive_login(
         print("AUTH_PAGE_TYPE=PASSWORD_CAPTCHA", flush=True)
         print("AUTH_METHOD=PASSWORD_CAPTCHA", flush=True)
         observation = attempt_cloud_password_captcha_login(page)
+        if observation.status == AuthStatus.LOGIN_REQUIRED_DYNAMIC_OTP:
+            print("AUTH_PAGE_TYPE=DYNAMIC_OTP", flush=True)
+            print("AUTH_METHOD=DYNAMIC_OTP", flush=True)
+            return attempt_cloud_dynamic_password_login(
+                page,
+                auth_control_path=auth_control_path,
+                now=now,
+            )
         error_category = (
             "PASSWORD_CAPTCHA_FAILED"
             if observation.status
