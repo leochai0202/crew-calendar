@@ -790,7 +790,7 @@ def test_explicit_route_scope_requires_current_route_match() -> None:
         "未发现明确事件",
     ],
 )
-def test_typical_placeholder_renders_as_unnumbered_no_data(placeholder: str) -> None:
+def test_typical_placeholder_is_omitted_from_formal_output(placeholder: str) -> None:
     airport = "测试机场"
     records = [
         _quality_record(
@@ -812,9 +812,7 @@ def test_typical_placeholder_renders_as_unnumbered_no_data(placeholder: str) -> 
         target=date(2026, 8, 8),
     )
 
-    assert len(facts) == 1
-    assert facts[0].category == "typical_no_data"
-    assert facts[0].zh == agent.TYPICAL_NO_DATA_TEXT_ZH
+    assert facts == []
 
 
 def test_profile_labels_become_one_traceable_natural_paragraph() -> None:

@@ -8,6 +8,7 @@ import sys
 import traceback
 from dataclasses import dataclass, replace
 from datetime import date, datetime, timedelta, timezone
+from difflib import SequenceMatcher
 from functools import lru_cache
 from pathlib import Path
 
@@ -839,6 +840,9 @@ MONTH_SCOPE_RE = re.compile(
     r"(?P<end>1[0-2]|[1-9])\s*月"
 )
 SINGLE_MONTH_SCOPE_RE = re.compile(r"(?<!\d)(?P<month>1[0-2]|[1-9])\s*月")
+GROUND_WINTER_OPERATION_RE = re.compile(
+    r"(?:发动机.{0,16}甩冰|甩冰.{0,24}暖车|除\s*/?\s*防冰(?:程序|方案|操作))"
+)
 
 CORE_TOPIC_ORDER = (
     "preparation",
@@ -2025,21 +2029,90 @@ def match_manual_section(index: list[dict], airport: str, icao: str) -> dict | N
     return matches[0] if matches else None
 
 
+SOURCE_METADATA_FIELD_RE = re.compile(
+    r"(?:版本(?:号)?|修订日期|修改日期|页码)\s*[:：]?\s*[A-Za-z0-9./-]+",
+    re.IGNORECASE,
+)
+AIRPORT_ATTRIBUTE_FIELD_RE = re.compile(
+    r"^(?:机场(?:名称|代码|标高)|ICAO|IATA|跑道长度|"
+    r"现场/签派频率|除/防冰能力|"
+    r"是否(?:存在短跑道|为多跑道(?:运行)?|为高原机场|为单头盲降))\s*[:：]?",
+    re.IGNORECASE,
+)
+MANUAL_STAGE_HEADING_RE = re.compile(
+    r"^(?:概述|基本信息|固有属性|离场前地面运行阶段|"
+    r"离场(?:（起飞/爬升）|\(起飞/爬升\))?阶段|"
+    r"进场进近和着陆阶段|着陆后地面运行阶段|"
+        r"特定环境运行特点|其他运行特点|其他|历史不安全事件)\s*[:：]?\s*$"
+)
+MANUAL_TABLE_HEADING_RE = re.compile(
+    r"^(?:威胁类别|典型威胁|缓解措施|现场/签派频率|责任中队)\s*[:：]?\s*$"
+)
+MANUAL_PLACEHOLDER_RE = re.compile(
+    r"^(?:目前数据库中无数据|暂无数据|未收录|未发现明确事件|无|N/?A)[。.]?$",
+    re.IGNORECASE,
+)
+MANUAL_PAGE_FOOTER_RE = re.compile(
+    r"^(?:非受\s*控文件|FOR\s*REFERENCE\s*ONLY)[。.]?$",
+    re.IGNORECASE,
+)
+
+
+def strip_source_metadata(value: str) -> str:
+    """Remove PDF page/version metadata without touching operating facts."""
+    text = normalize_text(value)
+    text = SOURCE_METADATA_FIELD_RE.sub("", text)
+    return text.strip(" ；;，,。")
+
+
+def strip_manual_ordinal_prefix(value: str) -> str:
+    """Strip table/list ordinals while preserving runway, altitude and dates."""
+    text = normalize_text(value)
+    text = re.sub(r"^\s*\d+(?:\.\d+)+\s*[、.．)）:：]?\s*", "", text)
+    text = re.sub(r"^\s*[（(]\d+[）)]\s*", "", text)
+    text = re.sub(r"^\s*\d+\s*[、.．)）:：]\s*", "", text)
+    # OCR often loses the separator after a one-digit table item: "1早航班",
+    # "2 36R" and "6所有航空器".  A leading zero is deliberately excluded
+    # so runway identifiers such as 01L remain intact.
+    text = re.sub(
+        r"^\s*[1-9](?=\s*(?:早航班|所有航空器|除非|飞机|夜间运行|通常|本场|进场|离场|着陆|起飞|跑道|[0-9]{2}[LRC]))\s*",
+        "",
+        text,
+    )
+    return text.strip()
+
+
+def is_manual_structure_only(value: str) -> bool:
+    text = strip_manual_ordinal_prefix(strip_source_metadata(value))
+    compact = compact_key(text)
+    if not compact:
+        return True
+    return bool(
+        AIRPORT_ATTRIBUTE_FIELD_RE.match(text)
+        or MANUAL_STAGE_HEADING_RE.fullmatch(text)
+        or MANUAL_TABLE_HEADING_RE.fullmatch(text)
+        or MANUAL_PLACEHOLDER_RE.fullmatch(text)
+        or MANUAL_PAGE_FOOTER_RE.fullmatch(text)
+    )
+
+
 def is_boilerplate_line(line: str) -> bool:
     compact = compact_key(line)
     if not compact:
         return True
     if compact.startswith("非受控文件") or "FORREFERENCEONLY" in compact:
         return True
-    if compact.startswith("版本号") or compact.startswith("修改日期"):
+    if compact.startswith(("版本", "修订日期", "修改日期", "页码")):
         return True
     if re.fullmatch(r"\d+/\d+", compact):
         return True
     if compact.startswith("更新日期") or compact.startswith("责任中队"):
         return True
+    if is_manual_structure_only(line):
+        return True
     if compact.endswith("机场运行特点"):
         return True
-    if re.fullmatch(r"[A-Z0-9/]+", compact):
+    if re.fullmatch(r"[A-Z]{3,4}(?:/[A-Z]{3,4})?", compact):
         return True
     return False
 
@@ -2060,7 +2133,8 @@ def heading_kind(line: str) -> str:
 
 
 def clean_manual_item(value: str) -> str:
-    value = normalize_text(value)
+    value = strip_source_metadata(value)
+    value = strip_manual_ordinal_prefix(value)
     value = re.sub(
         r"^(?:[一二三四五六七八九十]+[、.．，,:：]|[（(]?\d+[）).、，,:：]\s*)+",
         "",
@@ -2069,12 +2143,9 @@ def clean_manual_item(value: str) -> str:
     value = value.strip("；;，,。 ")
     value = re.sub(r"\s+([，。；：、）])", r"\1", value)
     value = re.sub(r"([（])\s+", r"\1", value)
-    if not value:
+    if not value or is_manual_structure_only(value):
         return ""
-    if len(value) > 360:
-        cut = max(value.rfind("。", 0, 360), value.rfind("；", 0, 360))
-        value = value[: cut + 1 if cut >= 100 else 360].rstrip("，； ") + "……"
-    elif not value.endswith(("。", "！", "？", "……")):
+    if not value.endswith(("。", "！", "？", "……")):
         value += "。"
     return value
 
@@ -2114,6 +2185,35 @@ def lines_to_numbered_items(lines: list[str], max_items: int) -> list[str]:
         cleaned = clean_manual_item(current)
         if cleaned:
             items.append(cleaned)
+    return unique(items)[:max_items]
+
+
+def lines_to_source_fact_items(lines: list[str], max_items: int) -> list[str]:
+    """Recover each numbered/sub-numbered fact instead of a whole table row."""
+    items: list[str] = []
+    current: list[str] = []
+    item_re = re.compile(
+        r"^\s*(?:[（(]\d+[）)]|\d+\s*[).、，:：．])\s*"
+    )
+
+    def flush() -> None:
+        nonlocal current
+        cleaned = clean_manual_item(_join_pdf_record_lines(current))
+        current = []
+        if cleaned and not is_manual_structure_only(cleaned):
+            items.append(cleaned)
+
+    for raw in lines:
+        line = normalize_text(raw)
+        if not line or is_boilerplate_line(line) or heading_kind(line):
+            continue
+        if any(word in line for word in EXCLUDE_KEYWORDS):
+            continue
+        if item_re.match(line):
+            flush()
+            line = item_re.sub("", line, count=1)
+        current.append(line)
+    flush()
     return unique(items)[:max_items]
 
 
@@ -2175,9 +2275,145 @@ def extract_operational_section_items(
     items: list[str] = []
     for phase in ("ground", "departure", "arrival"):
         label = OPERATION_PHASE_LABELS[phase]
-        for item in lines_to_numbered_items(phase_lines[phase], max_items):
+        for item in lines_to_source_fact_items(phase_lines[phase], max_items):
             items.append(f"{label}：{item}")
     return unique(items)[:max_items]
+
+
+STRUCTURED_STAGE_RE = re.compile(
+    r"^\s*\d+\s*[.．、]?\s*(?P<label>概述|基本信息|固有属性|"
+    r"离场前地面运行阶段|离场(?:（起飞/爬升）|\(起飞/爬升\))?阶段|"
+    r"进场进近和着陆阶段|着陆后地面运行阶段|"
+    r"特定环境运行特点|其他运行特点|其他)\s*[:：]?\s*$"
+)
+STRUCTURED_ITEM_RE = re.compile(
+    r"^\s*(?P<number>\d+(?:\.\d+)+)\s*[、.．]?\s*(?P<body>.*)$"
+)
+STRUCTURED_SUBITEM_RE = re.compile(r"^\s*[（(](?P<number>\d+)[）)]\s*(?P<body>.*)$")
+STRUCTURED_STAGE_PHASES = {
+    "离场前地面运行阶段": "ground",
+    "离场（起飞/爬升）阶段": "departure",
+    "离场(起飞/爬升)阶段": "departure",
+    "离场阶段": "departure",
+    "进场进近和着陆阶段": "arrival",
+    "着陆后地面运行阶段": "landing_ground",
+    "特定环境运行特点": "special",
+    "其他运行特点": "special",
+}
+STRUCTURED_PHASE_LABELS = {
+    "ground": "地面",
+    "departure": "离场",
+    "arrival": "进场",
+    "landing_ground": "着陆后地面",
+    "special": "运行特点",
+}
+
+
+def _join_pdf_record_lines(parts: list[str]) -> str:
+    """Join adjacent lines from one numbered record without guessing text."""
+    result = ""
+    for raw in parts:
+        line = strip_source_metadata(raw).strip()
+        if not line or is_manual_structure_only(line):
+            continue
+        if not result:
+            result = line
+            continue
+        separator = ""
+        if not re.search(r"[，。；：、（(\-/]$", result) and not re.match(
+            r"^[，。；：、）)]", line
+        ):
+            separator = " "
+        result += separator + line
+    return normalize_text(result)
+
+
+def extract_structured_manual_items(
+    lines: list[str],
+    max_items: int,
+) -> tuple[list[str], list[str]]:
+    """Parse the numbered stage layout used by newer airport-manual pages.
+
+    The parser keeps a whole numbered record together, discards page metadata
+    and structural fields, and labels only the explicit source stage.  It never
+    infers a runway, procedure or mitigation from the airport name.
+    """
+    if sum(bool(STRUCTURED_STAGE_RE.match(normalize_text(line))) for line in lines) < 2:
+        return [], []
+
+    typical: list[str] = []
+    core: list[str] = []
+    phase = ""
+    current_parts: list[str] = []
+    current_typical = False
+
+    def flush() -> None:
+        nonlocal current_parts
+        text = _join_pdf_record_lines(current_parts)
+        current_parts = []
+        if not text:
+            return
+        text = clean_manual_item(text)
+        if not text or is_manual_structure_only(text):
+            return
+        if current_typical:
+            typical.append(text)
+            return
+        if not phase or phase in {"overview"}:
+            return
+        label = STRUCTURED_PHASE_LABELS.get(phase, "运行特点")
+        core.append(f"{label}：{text}")
+
+    for raw in lines:
+        line = normalize_text(raw)
+        if not line:
+            continue
+        stage_match = STRUCTURED_STAGE_RE.match(line)
+        if stage_match:
+            flush()
+            label = stage_match.group("label")
+            phase = STRUCTURED_STAGE_PHASES.get(label, "overview")
+            current_typical = False
+            continue
+        item_match = STRUCTURED_ITEM_RE.match(line)
+        if item_match:
+            flush()
+            body = item_match.group("body").strip()
+            current_typical = "历史不安全事件" in body or "典型不安全事件" in body
+            if current_typical:
+                current_parts = []
+            elif body and not is_manual_structure_only(body):
+                current_parts = [body]
+            continue
+
+        if is_boilerplate_line(line):
+            continue
+
+        subitem_match = STRUCTURED_SUBITEM_RE.match(line)
+        if subitem_match:
+            body = subitem_match.group("body").strip()
+            if current_typical:
+                flush()
+                current_typical = True
+                current_parts = [body]
+            elif current_parts:
+                if not re.search(r"[，。；：、]$", current_parts[-1]):
+                    current_parts[-1] += "；"
+                current_parts.append(body)
+            continue
+
+        if current_typical:
+            # A new unnumbered event starts only after the previous complete
+            # sentence. Otherwise this is a continuation of the same event.
+            if current_parts and re.search(r"[。！？!?]$", current_parts[-1]):
+                flush()
+                current_typical = True
+            current_parts.append(line)
+        elif current_parts:
+            current_parts.append(line)
+
+    flush()
+    return unique(typical)[:max_items], unique(core)[:max_items]
 
 
 TABLE_CATEGORIES = ("天气", "环境和地形", "机场", "飞行程序", "ATC")
@@ -2361,9 +2597,13 @@ def extract_manual_lists(section: dict, max_items: int) -> tuple[list[str], list
             core_lines.append(raw)
 
     typical = lines_to_numbered_items(typical_lines, max_items)
-    core = lines_to_numbered_items(core_lines, max_items)
+    core = lines_to_source_fact_items(core_lines, max_items)
     operational = extract_operational_section_items(lines, max_items)
-    core = unique([*core, *operational])[:max_items]
+    structured_typical, structured_core = extract_structured_manual_items(
+        lines, max_items
+    )
+    typical = unique([*typical, *structured_typical])[:max_items]
+    core = unique([*core, *operational, *structured_core])[:max_items]
 
     table_records = extract_threat_table_entries(section)
     # 机场特点表格用于生成核心威胁，不能直接当“典型不安全事件”。
@@ -2371,19 +2611,6 @@ def extract_manual_lists(section: dict, max_items: int) -> tuple[list[str], list
     if not core and table_records:
         core = table_core_items(table_records, max_items)
 
-    if not typical:
-        whole_candidates: list[str] = []
-        for raw in lines:
-            line = normalize_text(raw)
-            if is_boilerplate_line(line) or heading_kind(line):
-                continue
-            if any(word in line for word in EXCLUDE_KEYWORDS):
-                continue
-            if any(word in line for word in RISK_KEYWORDS):
-                item = clean_manual_item(line)
-                if item:
-                    whole_candidates.append(item)
-        typical = unique(whole_candidates)[:max_items]
     if not core:
         # Some narrative chapters use detailed “运行特点” subsections without
         # a standalone “核心威胁” heading. Reuse the strongest operational
@@ -2395,7 +2622,10 @@ def extract_manual_lists(section: dict, max_items: int) -> tuple[list[str], list
                 continue
             if any(word in line for word in EXCLUDE_KEYWORDS):
                 continue
-            if any(word in line for word in RISK_KEYWORDS):
+            if (
+                any(word in line for word in RISK_KEYWORDS)
+                and not is_manual_structure_only(line)
+            ):
                 item = clean_manual_item(line)
                 if item:
                     core_candidates.append(item)
@@ -2466,12 +2696,26 @@ def supplements_for_airport(supplements: dict, airport: str) -> tuple[dict, str]
 
 
 SOURCE_HEADING_RE = re.compile(
-    r"^(指挥特点|注意事项|气象特点|道面特点|其他威胁|运行特点|地面|离场|进场)"
+    r"^(指挥特点|注意事项|气象特点|道面特点|其他威胁|运行特点|"
+    r"着陆后地面|地面|离场|进场)"
     r"\s*[:：]?\s*"
 )
 SOURCE_SENTENCE_RE = re.compile(r"[^。！？!?]+[。！？!?]")
 SOURCE_INCOMPLETE_END_RE = re.compile(
     r"(?:[，、：:；;]|请机|后面就|关于.+(?:进近方式|程序|速)|的|及|和|或)$"
+)
+SOURCE_BROKEN_START_RE = re.compile(
+    r"^(?:[）),，、；;。]|面滑行|意[，,]|的《|后面就|请机(?:[，,。]|$)|"
+    r"容[，,。]|号(?:ILS|盲降|跑道)|(?:请机组)?在(?:此|该)位置|"
+    r"此种情况|比如|例如|否则|任何情况与之)"
+)
+SOURCE_BROKEN_FRAGMENT_RE = re.compile(
+    r"(?:时地[。.]?$|如下[:：]?[。.]?$|关于《[^》]{0,18}$|"
+    r"低温运行进近方式速[。.]?$|^[^，；。]{2,30}[（(][^）)]{1,20}[）)][。.]$)"
+)
+SOURCE_OBVIOUS_OCR_ERROR_RE = re.compile(
+    r"(?:飞飞(?=[A-Z]{2,})|预的选|(?<!\d)\d{3}年\d{1,2}月|"
+    r"[\u4e00-\u9fff]{2,12}\s*[-—–]\s*[\u4e00-\u9fff]{2,12}\s*(?=[A-Z0-9]))"
 )
 CONDITION_TRIGGER_RE = re.compile(
     r"当.+?时|如遇|如果|若遇|使用[A-Z0-9-]+[^，。；]*?时|"
@@ -2559,11 +2803,46 @@ def detected_condition_contexts(value: str) -> tuple[str, ...]:
 
 
 def _source_clause_has_substance(value: str) -> bool:
-    text = normalize_text(value)
+    text = strip_source_metadata(value)
+    text = strip_manual_ordinal_prefix(text)
     text = SOURCE_HEADING_RE.sub("", text)
-    text = re.sub(r"^[（(]?\d+[）).、]?\s*", "", text)
+    if (
+        not text
+        or is_manual_structure_only(text)
+        or SOURCE_BROKEN_START_RE.search(text)
+        or SOURCE_BROKEN_FRAGMENT_RE.search(text)
+    ):
+        return False
     text = re.sub(r"[\s。；;，,：:（）()]+", "", text)
     return len(text) >= 4 and not SOURCE_INCOMPLETE_END_RE.search(text)
+
+
+def manual_source_quality_issue(value: str) -> str:
+    """Return an objective source-quality reason, never an editorial opinion."""
+    raw = normalize_text(value)
+    if not raw:
+        return "清洗后无实质运行内容"
+    if MANUAL_PAGE_FOOTER_RE.fullmatch(raw):
+        return "PDF页眉页脚不进入正式正文"
+    if SOURCE_METADATA_FIELD_RE.search(raw) and not strip_source_metadata(raw):
+        return "PDF版本、修订日期或页码元数据不进入正式正文"
+    cleaned = strip_manual_ordinal_prefix(strip_source_metadata(raw))
+    if AIRPORT_ATTRIBUTE_FIELD_RE.match(cleaned):
+        return "机场基础属性字段不进入正式正文"
+    if MANUAL_STAGE_HEADING_RE.fullmatch(cleaned) or MANUAL_TABLE_HEADING_RE.fullmatch(cleaned):
+        return "PDF阶段或表格标题不进入正式正文"
+    if MANUAL_PLACEHOLDER_RE.fullmatch(cleaned):
+        return "资料占位文本不进入正式正文"
+    if re.fullmatch(
+        r"[^，；。]{2,40}(?:航站楼|机坪)[（(][^）)]{1,20}[）)][。.]?",
+        cleaned,
+    ):
+        return "PDF断句或残片未形成完整运行事实"
+    if SOURCE_OBVIOUS_OCR_ERROR_RE.search(cleaned):
+        return "来源包含无法可靠恢复的明显OCR错位"
+    if not _source_clause_has_substance(cleaned):
+        return "PDF断句或残片未形成完整运行事实"
+    return ""
 
 
 def _source_clause_identifiers(value: str) -> set[str]:
@@ -2580,6 +2859,8 @@ def _source_clause_phase(value: str, heading: str) -> str:
         return "departure"
     if heading == "进场":
         return "arrival"
+    if heading == "着陆后地面":
+        return "landing_ground"
     if heading == "气象特点":
         return "weather"
     if any(token in value for token in ("进近", "着陆", "落地", "五边", "下滑道", "盲降", "ILS")):
@@ -2593,6 +2874,30 @@ def _source_clause_phase(value: str, heading: str) -> str:
     if any(token in value for token in ("雷暴", "风切变", "大风", "结冰")):
         return "weather"
     return "unspecified"
+
+
+def split_mixed_role_semicolons(value: str, heading: str) -> str:
+    """Turn a semicolon into a sentence boundary only across explicit phases."""
+    parts = value.split("；")
+    if len(parts) < 2:
+        return value
+    output = parts[0]
+    previous = parts[0]
+    for current in parts[1:]:
+        previous_phase = _source_clause_phase(previous, heading)
+        current_phase = _source_clause_phase(current, heading)
+        separator = "；"
+        if (
+            previous_phase != "unspecified"
+            and current_phase != "unspecified"
+            and previous_phase != current_phase
+            and _source_clause_has_substance(previous)
+            and _source_clause_has_substance(current)
+        ):
+            separator = "。"
+        output += separator + current
+        previous = current
+    return output
 
 
 def split_source_record_clauses(value: str) -> list[ManualFactClause]:
@@ -2610,6 +2915,8 @@ def split_source_record_clauses(value: str) -> list[ManualFactClause]:
     if heading_match:
         heading = heading_match.group(1)
         text = text[heading_match.end() :].strip()
+
+    text = split_mixed_role_semicolons(text, heading)
 
     numbered_pieces = re.split(r"(?=[（(]\d+[）)])", text)
     raw_clauses: list[tuple[str, int]] = []
@@ -2884,14 +3191,39 @@ def airport_risks(
         ) -> None:
             for item in items:
                 source_original = normalize_text(item)
+                cleaned_item = clean_manual_item(item)
+                source_quality_issue = manual_source_quality_issue(cleaned_item)
                 source_record_id = (
                     f"{canonical_airport_name(airport)}:{category}:"
                     f"{hashlib.sha256(source_original.encode('utf-8')).hexdigest()[:16]}"
                 )
+                if source_quality_issue:
+                    records.append(
+                        {
+                            "airport": canonical_airport_name(airport),
+                            "source_file": source_file,
+                            "source": source,
+                            "source_page": source_page,
+                            "source_heading": source_heading,
+                            "source_section": source_section,
+                            "operational_phase": "unspecified",
+                            "role_scope": (),
+                            "operation_subsection": False,
+                            "importance": 0,
+                            "airport_specific": True,
+                            "category": category,
+                            "text_zh": "",
+                            "text_en": "",
+                            "source_original_text": source_original,
+                            "source_record_id": source_record_id,
+                            "pre_excluded_reason": source_quality_issue,
+                        }
+                    )
+                    continue
                 split_items = (
                     [
                         ManualFactClause(
-                            text=strip_terminal_punct(item) + "。",
+                            text=strip_terminal_punct(cleaned_item) + "。",
                             heading="",
                             phase="incident",
                             role_scope=(),
@@ -2899,7 +3231,7 @@ def airport_risks(
                         )
                     ]
                     if category == "typical"
-                    else split_source_record_clauses(item)
+                    else split_source_record_clauses(cleaned_item)
                 )
                 if not split_items:
                     records.append(
@@ -2926,6 +3258,30 @@ def airport_risks(
                     continue
                 for clause in split_items:
                     text_zh = clause.text
+                    clause_quality_issue = manual_source_quality_issue(text_zh)
+                    if clause_quality_issue:
+                        records.append(
+                            {
+                                "airport": canonical_airport_name(airport),
+                                "source_file": source_file,
+                                "source": source,
+                                "source_page": source_page,
+                                "source_heading": source_heading,
+                                "source_section": source_section,
+                                "operational_phase": clause.phase,
+                                "role_scope": clause.role_scope,
+                                "operation_subsection": False,
+                                "importance": 0,
+                                "airport_specific": True,
+                                "category": category,
+                                "text_zh": "",
+                                "text_en": "",
+                                "source_original_text": clause.source_original_text,
+                                "source_record_id": source_record_id,
+                                "pre_excluded_reason": clause_quality_issue,
+                            }
+                        )
+                        continue
                     item_heading = clause.heading
                     phase = clause.phase
                     operation_subsection = item_heading in OPERATION_SECTION_PHASES
@@ -4029,7 +4385,9 @@ def best_source_record(
     }
 
 
-SOURCE_RESTRICTION_RE = re.compile(r"禁止|只能|仅允许|必须|不得|严禁|限制")
+SOURCE_RESTRICTION_RE = re.compile(
+    r"禁止|只能|仅允许|必须|不得|不可|严禁|限制|才(?:能|可以)"
+)
 SOURCE_MITIGATION_RE = re.compile(r"应|建议|注意|需|请|防止|避免|控制|确认|使用|采取")
 SOURCE_RISK_RE = re.compile(r"风险|易|可能|导致|触发|威胁|危险")
 SOURCE_APPLICABILITY_RE = re.compile(
@@ -4045,12 +4403,26 @@ RUNWAY_ENTRY_DISPLACEMENT_RE = re.compile(
 )
 
 
+def normalize_source_ocr_spacing(value: str) -> str:
+    """Remove PDF extraction spaces only when both neighbours are Chinese."""
+    return re.sub(
+        r"(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])",
+        "",
+        normalize_text(value),
+    )
+
+
 def source_semantics(text: str) -> SourceSemantics:
+    semantic_text = re.sub(
+        r"(?:跑道状态灯)?注意事项如下[:：]?",
+        "",
+        normalize_source_ocr_spacing(text),
+    )
     clauses = tuple(
         unique(
             [
                 clause.strip()
-                for clause in re.split(r"[，,；;。]+", normalize_text(text))
+                for clause in re.split(r"[，,；;。]+", semantic_text)
                 if clause.strip()
             ]
         )
@@ -4076,7 +4448,7 @@ def source_semantics(text: str) -> SourceSemantics:
         if clause not in restriction and clause not in mitigation and clause not in risk
     )
     applicability = tuple(
-        unique(SOURCE_APPLICABILITY_RE.findall(normalize_text(text)))
+        unique(SOURCE_APPLICABILITY_RE.findall(semantic_text))
     )
     return SourceSemantics(
         operational_condition=operational_condition,
@@ -4163,7 +4535,7 @@ def project_source_fact_for_applicability(
     remaining clauses, especially mitigations and restrictions, stay verbatim.
     Unrecognised structures are returned unchanged.
     """
-    original = strip_terminal_punct(normalize_text(text))
+    original = strip_terminal_punct(normalize_source_ocr_spacing(text))
     rewritten = original
     excluded: list[str] = []
     reasons: list[str] = []
@@ -4284,7 +4656,20 @@ def detected_season_scope(text: str) -> tuple[int, ...]:
     for match in SINGLE_MONTH_SCOPE_RE.finditer(normalized):
         if any(start <= match.start() < end for start, end in range_spans):
             continue
+        prefix = normalized[max(0, match.start() - 8) : match.start()]
+        suffix = normalized[match.end() : match.end() + 5]
+        if re.search(r"\d{4}\s*年\s*$", prefix) or re.match(
+            r"\s*\d{1,2}\s*日", suffix
+        ):
+            # Historical event dates are provenance, not season scope.
+            continue
         months.add(int(match.group("month")))
+    # The manual may title a ground cold-weather procedure by the operation
+    # itself instead of repeating the word "冬季".  Limit this implicit scope
+    # to explicit engine ice-shedding / de-icing procedures; generic icing
+    # weather facts remain unspecified and are never inferred away.
+    if not months and GROUND_WINTER_OPERATION_RE.search(normalized):
+        months.update(SEASON_MONTHS["冬季"])
     return tuple(month for month in range(1, 13) if month in months)
 
 
@@ -4369,6 +4754,10 @@ ROUTE_SCOPE_RE = re.compile(
     r"(?:→|至|-)\s*"
     r"(?P<arrival>[\u4e00-\u9fffA-Za-z0-9]{2,20})"
 )
+ROUTE_SUFFIX_SCOPE_RE = re.compile(
+    r"(?:^|(?<=航线))(?P<departure>[\u4e00-\u9fff]{2,12})\s*(?:→|至|-)\s*"
+    r"(?P<arrival>[\u4e00-\u9fff]{2,12})(?:\s*航线|(?=[，,]))"
+)
 
 
 def record_flight_scope(record: dict[str, object], text: str) -> tuple[str, ...]:
@@ -4407,6 +4796,13 @@ def record_route_scope(
             )
         )
     for match in ROUTE_SCOPE_RE.finditer(text):
+        routes.append(
+            (
+                canonical_airport_name(match.group("departure")),
+                canonical_airport_name(match.group("arrival")),
+            )
+        )
+    for match in ROUTE_SUFFIX_SCOPE_RE.finditer(text):
         routes.append(
             (
                 canonical_airport_name(match.group("departure")),
@@ -4467,6 +4863,7 @@ def exclusion_log_entry(
         "source_section": fact.source_section,
         "clause": clause,
         "reason": reason,
+        "discarded_reason": reason,
     }
 
 
@@ -4550,6 +4947,14 @@ def filter_fact_for_duty(
             exclusion_log.append(exclusion_log_entry(fact, fact.source_text_zh or fact.zh, reason))
         return None
 
+    display_text = fact.zh
+    if fact.route_scope:
+        # The matched route is an applicability condition, not report metadata.
+        # Once that condition has been proved against the current duty, retain
+        # its meaning without echoing the itinerary itself into the briefing.
+        display_text = ROUTE_SUFFIX_SCOPE_RE.sub("该航线", display_text)
+        display_text = ROUTE_SCOPE_RE.sub("该航线", display_text)
+
     condition_matches, condition_reason = condition_matches_duty(fact, event)
     if not condition_matches:
         if exclusion_log is not None:
@@ -4562,7 +4967,7 @@ def filter_fact_for_duty(
             )
         return None
 
-    filtered, clauses, reasons, scope = filter_seasonal_text(fact.zh, target.month)
+    filtered, clauses, reasons, scope = filter_seasonal_text(display_text, target.month)
     if not filtered:
         if exclusion_log is not None:
             for clause, reason in zip(clauses or (fact.zh,), reasons or ("季节范围不适用",)):
@@ -4621,6 +5026,15 @@ def source_record_facts(
         ).strip()
         if not source_clause or record.get("pre_excluded_reason"):
             if exclusion_log is not None and source_original_text:
+                pre_excluded_reason = str(
+                    record.get("pre_excluded_reason")
+                    or "清洗后无实质运行内容"
+                )
+                if category == "typical" and pre_excluded_reason in {
+                    "来源包含无法可靠恢复的明显OCR错位",
+                    "PDF断句或残片未形成完整运行事实",
+                }:
+                    pre_excluded_reason = TYPICAL_SOURCE_QUALITY_REASON
                 exclusion_log.append(
                     {
                         "airport": canonical,
@@ -4630,10 +5044,8 @@ def source_record_facts(
                         "source_heading": str(record.get("source_heading") or canonical),
                         "source_section": str(record.get("source_section") or "未标明章节"),
                         "clause": source_original_text,
-                        "reason": str(
-                            record.get("pre_excluded_reason")
-                            or "清洗后无实质运行内容"
-                        ),
+                        "reason": pre_excluded_reason,
+                        "discarded_reason": pre_excluded_reason,
                     }
                 )
             continue
@@ -4884,15 +5296,6 @@ def select_airport_facts(
             )
         )
 
-    if role == "transit":
-        primary = [
-            fact
-            for fact in eligible
-            if not is_manual_operation_subsection_fact(fact)
-        ]
-        if primary:
-            eligible = primary
-
     phase_order = ROLE_PHASE_PRIORITY[role]
     selection_order = sorted(
         eligible,
@@ -4943,17 +5346,6 @@ def select_airport_facts(
             break
         if fact.fact_id in selected_ids:
             continue
-        if (
-            is_manual_operation_subsection_fact(fact)
-            and fact.topic in selected_topics
-            and not any(
-                set(fact.source_record_ids or (fact.fact_id,)).intersection(
-                    selected_fact.source_record_ids or (selected_fact.fact_id,)
-                )
-                for selected_fact in selected
-            )
-        ):
-            continue
         selected.append(fact)
         selected_ids.add(fact.fact_id)
         selected_topics.add(fact.topic)
@@ -4989,16 +5381,35 @@ def is_typical_no_data(value: str) -> bool:
 
 
 TYPICAL_SOURCE_QUALITY_REASON = "来源文本质量不足，未进入正式正文"
+TYPICAL_NOT_EVENT_REASON = "普通运行特点或基础字段不属于典型不安全事件"
 TYPICAL_DUPLICATE_REASON = "同一典型不安全事件已由更短且完整的来源表达"
+TYPICAL_EVENT_SEMANTICS_RE = re.compile(
+    r"曾(?:经)?发生|历史上|事件|案例|某航班|\d{4}年|\d+起|"
+    r"(?:导致|致使|造成).*(?:复飞|警告|损伤|偏离|侵入)|"
+    r"触发.*警告|飞错|进位.*(?:异常|未到线)|无指令推出|"
+    r"塔台.*(?:复飞|终止进近)",
+    re.IGNORECASE,
+)
 
 
 def typical_source_quality_issue(value: str) -> str:
-    """Reject only objectively broken incident text; never guess missing content."""
+    """Require a complete historical/event fact, not a manual data field."""
     text = normalize_text(value)
+    generic_issue = manual_source_quality_issue(text)
+    if generic_issue:
+        if generic_issue == "来源包含无法可靠恢复的明显OCR错位":
+            return TYPICAL_SOURCE_QUALITY_REASON
+        return generic_issue
     if re.search(r"(?<!\d)\d{3}年", text):
         return TYPICAL_SOURCE_QUALITY_REASON
-    if not _source_clause_has_substance(text):
-        return TYPICAL_SOURCE_QUALITY_REASON
+    # A complete detail row in a dedicated typical-event section may omit the
+    # introductory words (for example, "曾发生") while still carrying an
+    # unambiguous event identity shared with its summary row.  Treat that as
+    # event evidence; source-quality faults above still take precedence.
+    if typical_incident_signature(text):
+        return ""
+    if not TYPICAL_EVENT_SEMANTICS_RE.search(text):
+        return TYPICAL_NOT_EVENT_REASON
     return ""
 
 
@@ -5017,6 +5428,16 @@ def typical_incident_signature(value: str) -> str:
         return "sink-rate-go-around"
     if "脱离" in text and "后机" in text and "复飞" in text:
         return "runway-exit-following-go-around"
+    if "跑道" in text and "异物" in text and "复飞" in text:
+        return "runway-object-go-around"
+    if "121" in text and "进位" in text and any(
+        marker in text for marker in ("未到线", "不到位")
+    ):
+        return "stand-121-docking-short"
+    if "离场" in text and any(
+        marker in text for marker in ("选择错误", "飞错离场")
+    ):
+        return "wrong-departure-selection"
     return ""
 
 
@@ -5188,26 +5609,15 @@ def bilingual_typical_facts(
             replace(fact, text_zh=naturalize_typical_incident(fact.text_zh))
             for fact in real_facts[:max_items]
         ]
-    if placeholders:
-        source = placeholders[0]
-        return [
-            replace(
-                source,
-                fact_id=f"{canonical}_typical_no_data",
-                text_zh=TYPICAL_NO_DATA_TEXT_ZH,
-                text_en=TYPICAL_NO_DATA_TEXT_EN,
-                category="typical_no_data",
-                source_fact_ids=tuple(
-                    unique(
-                        [
-                            fact_id
-                            for fact in placeholders
-                            for fact_id in (fact.source_fact_ids or (fact.fact_id,))
-                        ]
-                    )
-                ),
+    if placeholders and exclusion_log is not None:
+        exclusion_log.extend(
+            exclusion_log_entry(
+                fact,
+                fact.source_text_zh or fact.text_zh,
+                "典型不安全事件占位文本不进入正式正文",
             )
-        ]
+            for fact in placeholders
+        )
     return []
 
 
@@ -5427,6 +5837,12 @@ PARAGRAPH_TOPIC_PRIORITY = {
     "departure": (
         "takeoff",
         "clearance",
+        "ground_waiting",
+        "ground_crossing",
+        "ground_lighting",
+        "ground_signage",
+        "ground_stand",
+        "night_ground",
         "ground_departure",
         "departure_performance",
         "departure_atc",
@@ -5436,20 +5852,41 @@ PARAGRAPH_TOPIC_PRIORITY = {
         "special",
     ),
     "arrival": (
+        "arrival_procedure",
+        "arrival_restrictions",
         "arrival_energy",
+        "traffic_spacing",
         "approach_intercept",
         "approach",
         "weather",
         "terrain",
         "landing",
+        "runway_exit",
+        "ground_crossing",
+        "ground_lighting",
+        "ground_signage",
+        "ground_stand",
+        "night_ground",
+        "ground_departure",
         "landing_ground",
+        "construction",
         "special",
     ),
     "transit": (
+        "arrival_procedure",
+        "arrival_restrictions",
         "arrival_energy",
+        "traffic_spacing",
         "approach_intercept",
         "approach",
         "landing",
+        "runway_exit",
+        "ground_waiting",
+        "ground_crossing",
+        "ground_lighting",
+        "ground_signage",
+        "ground_stand",
+        "night_ground",
         "landing_ground",
         "clearance",
         "ground_departure",
@@ -5459,6 +5896,7 @@ PARAGRAPH_TOPIC_PRIORITY = {
         "departure",
         "weather",
         "terrain",
+        "construction",
         "special",
     ),
 }
@@ -5478,8 +5916,28 @@ def source_grounded_paragraph_topic(fact: BilingualFact, role: str) -> str:
         token in upper for token in ("PDC", "放行", "ACARS")
     ):
         return "clearance"
+    if any(token in text for token in ("不停航施工", "施工", "未开放区域")):
+        return "construction"
     if phase in {"ground", "landing_ground"}:
+        if any(token in text for token in ("夜间", "夜航", "强照明", "灯光污染")):
+            return "night_ground"
+        if any(token in text for token in ("快速脱离", "脱离跑道", "脱离道")):
+            return "runway_exit"
+        if any(token in text for token in ("状态灯", "等待灯光", "跑道进入灯", "起飞等待灯")):
+            return "ground_lighting"
+        if any(token in text for token in ("穿越", "进跑道")):
+            return "ground_crossing"
+        if any(token in text for token in ("起飞", "离场", "非全跑道")):
+            return "ground_departure"
+        if any(token in text for token in ("等待线", "等待点", "前等", "较窄", "翼展")):
+            return "ground_waiting"
+        if any(token in text for token in ("标志", "标识", "指示牌")):
+            return "ground_signage"
+        if any(token in text for token in ("机位", "泊位", "进位")):
+            return "ground_stand"
         return "ground_departure" if role == "departure" else "landing_ground"
+    if any(token in text for token in ("快速脱离", "脱离跑道", "脱离道")):
+        return "runway_exit"
     if role == "departure" and any(
         token in upper for token in ("BY ATC", "BYATC", "雷达引导", "直飞")
     ) and any(token in text for token in ("离场", "进/离场", "进、离场", "进离场")):
@@ -5499,11 +5957,25 @@ def source_grounded_paragraph_topic(fact: BilingualFact, role: str) -> str:
     ):
         return "landing"
     if role != "departure" and any(
+        token in text for token in ("跑道两头高", "中间低", "目视错觉", "视觉错觉")
+    ):
+        return "landing"
+    if role != "departure" and any(
         token in upper
         for token in ("盲降", "ILS", "截获", "下滑道", "航向道", "五边", "KL508", "KL503")
     ):
         return "approach_intercept"
+    if phase in {"arrival", "approach"} and any(
+        token in text for token in ("运行密度", "五边间隔", "尾流间隔")
+    ):
+        return "traffic_spacing"
     if phase == "arrival":
+        if any(token in upper for token in ("SASAN", "LID", "过渡段", "进场点融合")):
+            if any(token in text for token in ("高度", "速度", "不得", "限制")):
+                return "arrival_restrictions"
+            return "arrival_procedure"
+        if any(token in text for token in ("运行密度", "五边间隔", "尾流间隔")):
+            return "traffic_spacing"
         if any(
             token in text
             for token in ("能量", "下降", "剖面", "高度", "距离短", "调速")
@@ -5531,26 +6003,54 @@ BRIEFING_PRIORITY_BASE = {
         "departure_atc": 350,
         "departure": 340,
         "clearance": 300,
+        "ground_waiting": 275,
+        "ground_crossing": 285,
+        "ground_lighting": 290,
+        "ground_signage": 270,
+        "ground_stand": 255,
+        "night_ground": 275,
         "weather": 285,
         "terrain": 285,
         "ground_departure": 230,
         "special": 190,
     },
     "arrival": {
+        "arrival_procedure": 365,
+        "arrival_restrictions": 375,
         "arrival_energy": 370,
+        "traffic_spacing": 355,
         "approach_intercept": 360,
         "approach": 350,
         "terrain": 340,
         "landing": 330,
+        "runway_exit": 325,
+        "ground_waiting": 295,
+        "ground_crossing": 300,
+        "ground_lighting": 305,
+        "ground_signage": 285,
+        "ground_stand": 275,
+        "night_ground": 290,
+        "ground_departure": 280,
         "weather": 310,
         "landing_ground": 260,
+        "construction": 315,
         "special": 190,
     },
     "transit": {
+        "arrival_procedure": 365,
+        "arrival_restrictions": 375,
         "arrival_energy": 370,
+        "traffic_spacing": 355,
         "approach_intercept": 360,
         "approach": 350,
         "landing": 330,
+        "runway_exit": 325,
+        "ground_waiting": 280,
+        "ground_crossing": 300,
+        "ground_lighting": 305,
+        "ground_signage": 285,
+        "ground_stand": 275,
+        "night_ground": 290,
         "clearance": 320,
         "takeoff": 370,
         "departure_performance": 360,
@@ -5558,6 +6058,7 @@ BRIEFING_PRIORITY_BASE = {
         "departure": 340,
         "weather": 310,
         "terrain": 310,
+        "construction": 315,
         "landing_ground": 260,
         "ground_departure": 250,
         "special": 190,
@@ -5592,6 +6093,10 @@ def source_grounded_briefing_priority(fact: BilingualFact, role: str) -> int:
         token in text for token in ("跑道有坡度", "着陆时的下沉")
     ):
         score += 45
+    if role in {"arrival", "transit"} and "剖面" in text and any(
+        token in text for token in ("顺风", "调速", "下降", "能量")
+    ):
+        score += 35
     if any(
         token in text
         for token in (
@@ -5616,6 +6121,36 @@ def source_grounded_briefing_priority(fact: BilingualFact, role: str) -> int:
     ):
         score -= 45
     return score
+
+
+def briefing_coverage_families(fact: BilingualFact) -> set[str]:
+    """Identify source-backed operating themes for coverage, not generation."""
+    text = normalize_text(fact.text_zh).upper()
+    families: set[str] = set()
+    marker_groups = {
+        "airspace_atc": ("ATC", "管制", "空域", "雷达引导", "LID"),
+        "ground": ("滑行", "穿越", "等待点", "等待线", "机位", "标志", "状态灯"),
+        "ground_waiting": ("等待点", "等待线", "前等"),
+        "ground_width": ("较窄", "翼展", "间隔"),
+        "runway_crossing": ("穿越", "进跑道"),
+        "ground_signage": ("标志", "标识", "指示牌"),
+        "runway_lights": ("状态灯", "等待灯光", "跑道进入灯", "起飞等待灯"),
+        "stand_guidance": ("机位", "泊位", "进位"),
+        "departure": ("起飞", "离场", "SID", "初始爬升", "走廊口"),
+        "arrival": ("进场", "进近", "五边", "盲降", "ILS", "下滑道", "PAPI"),
+        "arrival_procedure": ("SASAN", "LID", "过渡段", "进场点融合"),
+        "approach_intercept": ("高截获", "双截获", "待命航道", "待命盲降"),
+        "traffic_spacing": ("运行密度", "五边间隔", "尾流间隔", "稳定进近"),
+        "runway_restriction": ("跑道", "高度", "速度限制", "未经许可", "不得", "禁止"),
+        "runway_exit": ("脱离跑道", "快速脱离", "脱离道"),
+        "terrain_weather": ("地形", "丘陵", "CFIT", "风切变", "雷暴", "错觉"),
+        "construction": ("施工", "未开放区域"),
+        "night": ("夜间", "夜航", "照明灯光", "灯光"),
+    }
+    for family, markers in marker_groups.items():
+        if any(marker.upper() in text for marker in markers):
+            families.add(family)
+    return families or {fact.topic or "special"}
 
 
 def _condition_scopes_compatible(
@@ -5659,6 +6194,11 @@ def _topic_facts_can_merge(first: BilingualFact, second: BilingualFact) -> bool:
         "weather",
         "terrain",
         "ground_departure",
+        "ground_waiting",
+        "ground_crossing",
+        "ground_lighting",
+        "traffic_spacing",
+        "arrival_procedure",
         "landing_ground",
     }
 
@@ -5674,13 +6214,26 @@ def _paragraph_topic_family(topic: str) -> str:
     }:
         return "departure"
     if topic in {
+        "arrival_procedure",
+        "arrival_restrictions",
         "arrival_energy",
+        "traffic_spacing",
         "approach_intercept",
         "approach",
         "landing",
-        "landing_ground",
     }:
         return "arrival"
+    if topic in {
+        "ground_waiting",
+        "ground_crossing",
+        "ground_lighting",
+        "ground_signage",
+        "ground_stand",
+        "night_ground",
+        "landing_ground",
+        "runway_exit",
+    }:
+        return "ground"
     return topic
 
 
@@ -5720,26 +6273,110 @@ def operational_duplicate_signature(value: str) -> str:
         token in text for token in ("不按标准程序", "按照规定程序", "按规定程序")
     ):
         return "military-nonstandard-arrival-departure"
+    if "待命航道" in text and "待命盲降" in text:
+        return "localizer-then-ils-clearance"
+    if "SASAN" in text.upper() and "3600" in text and "4800" in text:
+        return "sasan-airspace-altitude-restriction"
+    if "速度限制" in text and "260" in text:
+        return "all-segment-260-speed-restriction"
+    if "H4" in text.upper() and "穿越" in text:
+        return "h4-runway-crossing"
+    if "H4" in text.upper() and "不可用于脱离跑道" in text:
+        return "h4-not-for-runway-exit"
+    if "快速脱离" in text and "脱离跑道" in text:
+        return "prompt-rapid-runway-exit"
     return ""
 
 
 def _facts_are_duplicates(first: BilingualFact, second: BilingualFact) -> bool:
-    if _paragraph_topic_family(first.topic) != _paragraph_topic_family(second.topic):
-        return False
-    first_key = compact_key(first.text_zh).upper()
-    second_key = compact_key(second.text_zh).upper()
-    if not first_key or not second_key:
-        return False
     first_signature = operational_duplicate_signature(first.text_zh)
     second_signature = operational_duplicate_signature(second.text_zh)
     if first_signature and first_signature == second_signature:
         return True
+    if _paragraph_topic_family(first.topic) != _paragraph_topic_family(second.topic):
+        return False
+    first_key = operational_duplicate_text_key(first.text_zh)
+    second_key = operational_duplicate_text_key(second.text_zh)
+    if not first_key or not second_key:
+        return False
     if first_key in second_key or second_key in first_key:
         return True
-    overlap = _paragraph_overlap_markers(first.text_zh) & _paragraph_overlap_markers(
-        second.text_zh
+    if SequenceMatcher(None, first_key, second_key).ratio() >= 0.82:
+        return True
+    shorter, longer = (
+        (first, second)
+        if len(first_key) <= len(second_key)
+        else (second, first)
     )
-    return len(overlap) >= 4
+    shorter_tokens = critical_fact_tokens(shorter.text_zh)
+    longer_tokens = critical_fact_tokens(longer.text_zh)
+    if (
+        len(operational_duplicate_text_key(shorter.text_zh)) <= 32
+        and "速度限制" in shorter.text_zh
+        and "速度限制" in longer.text_zh
+        and shorter_tokens
+        and shorter_tokens <= longer_tokens
+    ):
+        return True
+    return False
+
+
+def operational_duplicate_text_key(value: str) -> str:
+    key = compact_key(value).upper()
+    key = re.sub(
+        r"使用飞?非全跑道([A-Z]\d+)(?:起飞|离场)",
+        r"使用\1非全跑道离场",
+        key,
+    )
+    for source, replacement in (
+        ("没法", "无法"),
+        ("我司", "春秋航空"),
+        ("飞非全跑道", "非全跑道"),
+        ("起飞", "离场"),
+        ("落地", "着陆"),
+    ):
+        key = key.replace(source.upper(), replacement.upper())
+    return key
+
+
+def source_sentences_are_duplicates(first: str, second: str) -> bool:
+    first_key = operational_duplicate_text_key(first)
+    second_key = operational_duplicate_text_key(second)
+    if not first_key or not second_key:
+        return False
+    if first_key in second_key or second_key in first_key:
+        return True
+    similarity = SequenceMatcher(None, first_key, second_key).ratio()
+    if similarity >= 0.82:
+        return True
+    first_runway_designators = set(re.findall(r"(?<![A-Z0-9])\d{2}[LCR](?![A-Z0-9])", first.upper()))
+    second_runway_designators = set(re.findall(r"(?<![A-Z0-9])\d{2}[LCR](?![A-Z0-9])", second.upper()))
+    if (
+        similarity >= 0.76
+        and len(first_runway_designators & second_runway_designators) >= 2
+    ):
+        return True
+    shorter, longer = (
+        (first, second)
+        if len(first_key) <= len(second_key)
+        else (second, first)
+    )
+    short_tokens = critical_fact_tokens(shorter)
+    long_tokens = critical_fact_tokens(longer)
+    short_markers = _paragraph_overlap_markers(shorter)
+    long_markers = _paragraph_overlap_markers(longer)
+    short_anchors = source_semantic_anchors(shorter)
+    long_anchors = source_semantic_anchors(longer)
+    return bool(
+        len(operational_duplicate_text_key(longer))
+        >= len(operational_duplicate_text_key(shorter)) * 2
+        and short_anchors
+        and short_anchors <= long_anchors
+        and (
+            (short_tokens and short_tokens <= long_tokens)
+            or (len(short_markers) >= 2 and short_markers <= long_markers)
+        )
+    )
 
 
 def _richer_fact(first: BilingualFact, second: BilingualFact) -> BilingualFact:
@@ -5747,11 +6384,16 @@ def _richer_fact(first: BilingualFact, second: BilingualFact) -> BilingualFact:
     if shared_signature and shared_signature == operational_duplicate_signature(
         second.text_zh
     ):
+        prefer_complete = shared_signature == "sasan-airspace-altitude-restriction"
         return min(
             (first, second),
             key=lambda fact: (
                 SOURCE_PRIORITY.get(fact.source, 9),
-                len(normalize_text(fact.text_zh)),
+                (
+                    -len(normalize_text(fact.text_zh))
+                    if prefer_complete
+                    else len(normalize_text(fact.text_zh))
+                ),
                 fact.fact_id,
             ),
         )
@@ -5845,11 +6487,31 @@ def collapse_shared_runway_procedure_context(sentences: list[str]) -> str:
 
 
 def _join_source_sentences(facts: list[BilingualFact]) -> str:
-    sentences = unique(
-        naturalize_source_fact(fact.text_zh)
-        for fact in sorted(facts, key=_fact_sequence)
-        if _source_clause_has_substance(fact.text_zh)
-    )
+    candidates: list[str] = []
+    for fact in sorted(facts, key=_fact_sequence):
+        if not _source_clause_has_substance(fact.text_zh):
+            continue
+        naturalized = naturalize_source_fact(fact.text_zh)
+        split_sentences = SOURCE_SENTENCE_RE.findall(naturalized)
+        candidates.extend(split_sentences or [naturalized])
+    candidates = unique(candidates)
+    sentences: list[str] = []
+    for candidate in candidates:
+        duplicate_index = next(
+            (
+                index
+                for index, current in enumerate(sentences)
+                if source_sentences_are_duplicates(current, candidate)
+            ),
+            None,
+        )
+        if duplicate_index is None:
+            sentences.append(candidate)
+            continue
+        if len(operational_duplicate_text_key(candidate)) > len(
+            operational_duplicate_text_key(sentences[duplicate_index])
+        ):
+            sentences[duplicate_index] = candidate
     return collapse_shared_runway_procedure_context(sentences)
 
 
@@ -5889,6 +6551,26 @@ def prune_redundant_operational_subclauses(
             output.append(fact)
             continue
         text = "；".join(strip_terminal_punct(part) for part in kept) + "。"
+        residual_quality_issue = manual_source_quality_issue(text)
+        if residual_quality_issue:
+            if exclusion_log is not None:
+                exclusion_log.extend(
+                    exclusion_log_entry(
+                        fact,
+                        strip_terminal_punct(part) + "。",
+                        residual_quality_issue,
+                    )
+                    for part in kept
+                )
+                exclusion_log.extend(
+                    exclusion_log_entry(
+                        fact,
+                        clause,
+                        "重复运行主题由独立来源表达",
+                    )
+                    for clause in removed
+                )
+            continue
         semantics = source_semantics(text)
         projected = replace(
             fact,
@@ -6052,8 +6734,15 @@ def organize_source_grounded_briefing_paragraphs(
             )
             if (
                 condition_chain_compatible
-                and _paragraph_topic_family(grouped[-1].topic)
-                == _paragraph_topic_family(fact.topic)
+                and (
+                    same_condition_chain
+                    or grouped[-1].topic == fact.topic
+                    or (
+                        _paragraph_topic_family(grouped[-1].topic)
+                        == _paragraph_topic_family(fact.topic)
+                        and _paragraph_topic_family(fact.topic) != "ground"
+                    )
+                )
                 and (
                     same_condition_chain
                     or len(shared_markers) >= 2
@@ -6131,6 +6820,29 @@ def organize_source_grounded_briefing_paragraphs(
             briefing_priority=source_grounded_briefing_priority(merged, role),
         )
 
+    # A same-record merge can expose a duplicate only after the first pass
+    # (for example a complete restriction beside its shorter table summary).
+    # Run the same evidence-based check once more at paragraph granularity.
+    paragraph_deduplicated: list[BilingualFact] = []
+    for paragraph in paragraphs:
+        duplicate_index = next(
+            (
+                index
+                for index, current in enumerate(paragraph_deduplicated)
+                if _facts_are_duplicates(current, paragraph)
+            ),
+            None,
+        )
+        if duplicate_index is None:
+            paragraph_deduplicated.append(paragraph)
+            continue
+        current = paragraph_deduplicated[duplicate_index]
+        paragraph_deduplicated[duplicate_index] = merge_duplicate_fact_paragraph(
+            current,
+            paragraph,
+        )
+    paragraphs = paragraph_deduplicated
+
     order = PARAGRAPH_TOPIC_PRIORITY[role]
     ranked = sorted(
         paragraphs,
@@ -6142,6 +6854,7 @@ def organize_source_grounded_briefing_paragraphs(
     )
     selected: list[BilingualFact] = []
     selected_topics: set[str] = set()
+    selected_families: set[str] = set()
     for paragraph in ranked:
         if len(selected) >= max_paragraphs:
             break
@@ -6149,6 +6862,20 @@ def organize_source_grounded_briefing_paragraphs(
             continue
         selected.append(paragraph)
         selected_topics.add(paragraph.topic)
+        selected_families.update(briefing_coverage_families(paragraph))
+    # Add a paragraph only when it contributes a distinct, explicit operating
+    # family (for example runway exit, night lighting or construction). This
+    # improves manual coverage without reopening low-value raw table rows.
+    for paragraph in ranked:
+        if len(selected) >= max_paragraphs:
+            break
+        if paragraph in selected or paragraph.briefing_priority < 230:
+            continue
+        families = briefing_coverage_families(paragraph)
+        if families <= selected_families:
+            continue
+        selected.append(paragraph)
+        selected_families.update(families)
     for paragraph in ranked:
         if len(selected) >= max_paragraphs:
             break
@@ -6194,12 +6921,14 @@ def organize_core_fact_paragraphs(
     facts: list[BilingualFact],
     role: str = "transit",
     *,
+    max_paragraphs: int = 8,
     exclusion_log: list[dict[str, object]] | None = None,
 ) -> list[BilingualFact]:
     """Compatibility wrapper for the source-grounded paragraph editor."""
     return organize_source_grounded_briefing_paragraphs(
         facts,
         role,
+        max_paragraphs=max_paragraphs,
         exclusion_log=exclusion_log,
     )
 
@@ -6230,6 +6959,7 @@ def prepare_operational_facts(
     return organize_core_fact_paragraphs(
         selected,
         role,
+        max_paragraphs=max_items,
         exclusion_log=exclusion_log,
     )
 
@@ -6323,7 +7053,7 @@ def airport_operational_facts(
         canonical,
         target,
         candidates,
-        max_items=8 if role == "transit" else 5,
+        max_items=18,
         exclusion_log=exclusion_log,
     )
 
@@ -6401,16 +7131,20 @@ def _checkin_time(event: CalendarEvent) -> str:
 
 
 def clean_output_fact(value: str) -> str:
-    text = strip_terminal_punct(value)
+    text = strip_source_metadata(value)
+    text = strip_manual_ordinal_prefix(text)
+    text = strip_terminal_punct(text)
     text = re.sub(r"^[.。；;，,\s]+", "", text)
     text = re.sub(
         r"^(?:常用程序|指挥特点|注意事项|气象特点|道面特点|其他威胁|运行特点)\s*[:：]\s*",
         "",
         text,
     )
-    text = re.sub(r"^[（(]?\d+[）).、]\s*", "", text)
+    text = strip_manual_ordinal_prefix(text)
     text = re.sub(r"/\s+", "/", text)
-    return normalize_text(text)
+    text = re.sub(r"(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])", "", text)
+    text = normalize_text(text)
+    return "" if is_manual_structure_only(text) else text
 
 
 def weather_sentence_for_airports(
@@ -6665,7 +7399,7 @@ def validate_condition_preservation(fact: BilingualFact) -> list[str]:
 def complete_source_evidence(fact: BilingualFact) -> str:
     """Return every approved source text attached to one selected fact."""
     evidence = unique(
-        normalize_text(value)
+        normalize_source_ocr_spacing(value)
         for value in (
             *fact.source_clauses,
             *fact.source_original_texts,
@@ -6707,7 +7441,11 @@ def validate_source_semantic_preservation(fact: BilingualFact) -> list[str]:
     required_source_controls = "；".join([*fact.mitigation, *fact.restriction])
     control_groups = (
         (r"禁止|不得|严禁", r"禁止|不得|严禁", "禁止性要求"),
-        (r"只能|仅允许", r"只能|仅允许", "唯一允许范围"),
+        (
+            r"只能|仅允许|才(?:能|可以)",
+            r"只能|仅允许|才(?:能|可以)",
+            "唯一允许范围",
+        ),
         (r"必须", r"必须", "强制要求"),
         (r"限制", r"限制", "限制条件"),
         (r"应|建议|注意|需", r"应|建议|注意|需", "控制措施"),
@@ -6882,6 +7620,23 @@ def _remove_duplicate_control_targets(value: str) -> str:
 def polish_chinese_briefing_text(value: str) -> str:
     """Apply deterministic, fact-neutral Chinese language normalization."""
     text = naturalize_source_fact(value)
+    text = re.sub(r"飞飞(?=[A-Z]{2,})", "飞", text)
+    text = re.sub(
+        r"跑道状态灯注意事项如下[:：]灯光",
+        "跑道状态灯",
+        text,
+    )
+    text = re.sub(r"熄灭(?=跑道进入灯)", "熄灭；", text)
+    text = re.sub(r"进跑道(?=起飞等待灯)", "进跑道；", text)
+    text = re.sub(r"才可以起飞(?=任何情况)", "才可以起飞；", text)
+    text = re.sub(r"（([^（）]+)\)\s*\+", r"（\1）+", text)
+    text = text.replace("）」", "）")
+    text = re.sub(
+        r"使用飞?非全跑道(?P<intersection>[A-Z]\d+)起飞",
+        r"使用\g<intersection>非全跑道起飞",
+        text,
+    )
+    text = re.sub(r"(?<=[A-Z])\s+(?=[A-Z]{1,5}(?:\b|\d))", "", text)
     text = re.sub(
         r"(?<![A-Za-z])by\s*ATC(?![A-Za-z])",
         "BY ATC",
