@@ -63,7 +63,7 @@ PASSWORD_CAPTCHA_INPUT_SELECTOR = (
 )
 DYNAMIC_PHONE_SELECTOR = (
     "#phone, input[name*='phone' i], "
-    "input[placeholder*='手机号'], input[placeholder*='邮箱验证码']"
+    "input[placeholder*='手机号']"
 )
 DYNAMIC_OTP_SELECTOR = (
     "#dynamic, input[name*='dynamic' i], "
@@ -503,7 +503,6 @@ def probe_page(page: Any) -> AuthObservation:
         password_captcha_form=(
             password_username_visible
             and password_visible
-            and password_captcha_visible
         ),
         dynamic_otp_form=(
             dynamic_phone_visible

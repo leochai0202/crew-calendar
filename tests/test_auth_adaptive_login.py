@@ -76,19 +76,33 @@ class FakeAuthPage:
         self.saved_screenshot.write_bytes(b"safe-diagnostic")
 
 
-def password_page() -> tuple[FakeAuthPage, dict[str, FakeElement]]:
+def password_page(
+    *,
+    with_captcha: bool = True,
+) -> tuple[FakeAuthPage, dict[str, FakeElement]]:
     fields = {
         auth.PASSWORD_USERNAME_SELECTOR: FakeElement(),
         auth.PASSWORD_INPUT_SELECTOR: FakeElement(),
-        auth.PASSWORD_CAPTCHA_INPUT_SELECTOR: FakeElement(),
-        calendar.PASSWORD_CAPTCHA_IMAGE_SELECTOR: FakeElement(),
         calendar.PASSWORD_LOGIN_BUTTON_SELECTOR: FakeElement(),
     }
+    if with_captcha:
+        fields[auth.PASSWORD_CAPTCHA_INPUT_SELECTOR] = FakeElement()
+        fields[calendar.PASSWORD_CAPTCHA_IMAGE_SELECTOR] = FakeElement()
     return FakeAuthPage(fields), fields
 
 
 def test_probe_identifies_password_captcha_page() -> None:
     page, _fields = password_page()
+
+    observation = auth.probe_page(page)
+
+    assert observation.status == auth.AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA
+    assert observation.signals.password_captcha_form is True
+    assert observation.signals.dynamic_otp_form is False
+
+
+def test_probe_identifies_password_page_without_captcha() -> None:
+    page, _fields = password_page(with_captcha=False)
 
     observation = auth.probe_page(page)
 
@@ -111,6 +125,148 @@ def test_probe_identifies_dynamic_otp_page() -> None:
     assert observation.status == auth.AuthStatus.LOGIN_REQUIRED_DYNAMIC_OTP
     assert observation.signals.dynamic_otp_form is True
     assert observation.signals.password_captcha_form is False
+
+
+def test_dynamic_page_requires_distinct_phone_otp_and_request_fields() -> None:
+    page = FakeAuthPage(
+        {
+            auth.DYNAMIC_OTP_SELECTOR: FakeElement(),
+            auth.DYNAMIC_REQUEST_SELECTOR: FakeElement(),
+        }
+    )
+
+    observation = auth.probe_page(page)
+
+    assert observation.status != auth.AuthStatus.LOGIN_REQUIRED_DYNAMIC_OTP
+    assert observation.signals.dynamic_otp_form is False
+
+
+def test_password_login_without_captcha_authenticates_without_otp(
+    monkeypatch,
+    capsys,
+) -> None:
+    page, fields = password_page(with_captcha=False)
+    monkeypatch.setenv("CREW_USERNAME", "preferred-user")
+    monkeypatch.setenv("CREW_PASSWORD", "preferred-password")
+    monkeypatch.setattr(
+        calendar,
+        "prepare_login_page_for_auth_method",
+        lambda *_args, **_kwargs: auth.AuthObservation(
+            auth.AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA,
+            auth.AuthSignals(password_captcha_form=True),
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "solve_password_captcha_safely",
+        lambda _image: (_ for _ in ()).throw(
+            AssertionError("OCR must not run without a captcha field")
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "navigate_and_probe",
+        lambda *_args, **_kwargs: auth.AuthObservation(
+            auth.AuthStatus.AUTHENTICATED,
+            auth.AuthSignals(mission_heading=True, task_container=True),
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "attempt_cloud_dynamic_password_login",
+        lambda *_args, **_kwargs: (_ for _ in ()).throw(
+            AssertionError("password login must not use OTP")
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "_write_cloud_auth_diagnostic",
+        lambda *args, **kwargs: None,
+    )
+
+    observation = calendar.attempt_cloud_adaptive_login(page)
+
+    assert observation.status == auth.AuthStatus.AUTHENTICATED
+    assert fields[auth.PASSWORD_USERNAME_SELECTOR].value == "preferred-user"
+    assert fields[auth.PASSWORD_INPUT_SELECTOR].value == "preferred-password"
+    assert fields[calendar.PASSWORD_LOGIN_BUTTON_SELECTOR].clicks == 1
+    output = capsys.readouterr().out
+    assert "AUTH_PAGE_TYPE=PASSWORD_CAPTCHA" in output
+    assert "AUTH_METHOD=PASSWORD_CAPTCHA" in output
+    assert "OTP_REQUESTS=0" in output
+    assert "IMAP_READS=0" in output
+
+
+def test_password_login_handles_captcha_that_appears_after_first_submit(
+    monkeypatch,
+) -> None:
+    page, fields = password_page(with_captcha=False)
+    monkeypatch.setenv("CREW_USERNAME", "preferred-user")
+    monkeypatch.setenv("CREW_PASSWORD", "preferred-password")
+    observations = iter(
+        [
+            auth.AuthObservation(
+                auth.AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA,
+                auth.AuthSignals(password_captcha_form=True),
+            ),
+            auth.AuthObservation(
+                auth.AuthStatus.AUTHENTICATED,
+                auth.AuthSignals(mission_heading=True, task_container=True),
+            ),
+        ]
+    )
+
+    def probe_after_submit(*_args, **_kwargs):
+        observation = next(observations)
+        if observation.status == auth.AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA:
+            fields[auth.PASSWORD_CAPTCHA_INPUT_SELECTOR] = FakeElement()
+            fields[calendar.PASSWORD_CAPTCHA_IMAGE_SELECTOR] = FakeElement()
+        return observation
+
+    ocr_calls: list[bytes] = []
+    monkeypatch.setattr(calendar, "navigate_and_probe", probe_after_submit)
+    monkeypatch.setattr(
+        calendar,
+        "solve_password_captcha_safely",
+        lambda image: ocr_calls.append(image) or "A1B2",
+    )
+
+    observation = calendar.attempt_cloud_password_captcha_login(page)
+
+    assert observation.status == auth.AuthStatus.AUTHENTICATED
+    assert fields[calendar.PASSWORD_LOGIN_BUTTON_SELECTOR].clicks == 2
+    assert fields[auth.PASSWORD_CAPTCHA_INPUT_SELECTOR].value == "A1B2"
+    assert len(ocr_calls) == 1
+
+
+def test_password_login_failure_without_captcha_never_enters_otp(
+    monkeypatch,
+) -> None:
+    page, fields = password_page(with_captcha=False)
+    monkeypatch.setenv("CREW_USERNAME", "preferred-user")
+    monkeypatch.setenv("CREW_PASSWORD", "preferred-password")
+    monkeypatch.setattr(
+        calendar,
+        "navigate_and_probe",
+        lambda *_args, **_kwargs: auth.AuthObservation(
+            auth.AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA,
+            auth.AuthSignals(password_captcha_form=True),
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "attempt_cloud_dynamic_password_login",
+        lambda *_args, **_kwargs: (_ for _ in ()).throw(
+            AssertionError("password failure must not enter OTP")
+        ),
+    )
+
+    observation = calendar.attempt_cloud_password_captcha_login(page)
+
+    assert observation.status == (
+        auth.AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA_FAILED
+    )
+    assert fields[calendar.PASSWORD_LOGIN_BUTTON_SELECTOR].clicks == 1
 
 
 def test_password_captcha_login_uses_preferred_credentials_without_otp(
@@ -264,6 +420,43 @@ def test_explicit_dynamic_page_uses_only_existing_otp_flow(monkeypatch, capsys) 
     output = capsys.readouterr().out
     assert "AUTH_PAGE_TYPE=DYNAMIC_OTP" in output
     assert "AUTH_METHOD=DYNAMIC_OTP" in output
+
+
+def test_password_submit_transitions_to_otp_only_after_explicit_dynamic_page(
+    monkeypatch,
+) -> None:
+    page = FakeAuthPage()
+    monkeypatch.setattr(
+        calendar,
+        "prepare_login_page_for_auth_method",
+        lambda *_args, **_kwargs: auth.AuthObservation(
+            auth.AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA,
+            auth.AuthSignals(password_captcha_form=True),
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "attempt_cloud_password_captcha_login",
+        lambda *_args, **_kwargs: auth.AuthObservation(
+            auth.AuthStatus.LOGIN_REQUIRED_DYNAMIC_OTP,
+            auth.AuthSignals(dynamic_otp_form=True),
+        ),
+    )
+    events: list[str] = []
+    monkeypatch.setattr(
+        calendar,
+        "attempt_cloud_dynamic_password_login",
+        lambda *_args, **_kwargs: events.append("dynamic")
+        or auth.AuthObservation(
+            auth.AuthStatus.AUTHENTICATED,
+            auth.AuthSignals(mission_heading=True, task_container=True),
+        ),
+    )
+
+    observation = calendar.attempt_cloud_adaptive_login(page)
+
+    assert observation.status == auth.AuthStatus.AUTHENTICATED
+    assert events == ["dynamic"]
 
 
 def test_password_captcha_login_ignores_active_otp_cooldown(
