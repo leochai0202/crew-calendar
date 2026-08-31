@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-09-01",
-  "generated_at_beijing": "2026-08-31T09:39:24.325057+08:00",
+  "generated_at_beijing": "2026-08-31T14:58:56.472974+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C8838",
@@ -189,7 +189,10 @@
         "厦门高崎": {
           "icao": "ZSAM",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "taf_validity_utc": [
+            "2026-08-31T06:00:00+00:00",
+            "2026-09-01T06:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-09-01T14:50:00+08:00"
           ],
@@ -201,15 +204,28 @@
           "icao": "ZSSS",
           "source_used": "OUTSIDE_VALID_WINDOW",
           "taf_validity_utc": [
-            "2026-08-31T00:00:00+00:00",
-            "2026-09-01T06:00:00+00:00"
+            "2026-08-31T06:00:00+00:00",
+            "2026-09-01T12:00:00+00:00"
           ],
           "relevant_times": [
             "2026-09-01T16:45:00+08:00",
             "2026-09-01T18:00:00+08:00",
             "2026-09-01T22:50:00+08:00"
           ],
-          "taf_decoded_by_time": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-01T16:45:00+08:00",
+              "decoded": [
+                "多云，云底约2000英尺"
+              ]
+            },
+            {
+              "time": "2026-09-01T18:00:00+08:00",
+              "decoded": [
+                "多云，云底约2000英尺"
+              ]
+            }
+          ],
           "decoded": [],
           "fetch_error": ""
         }
@@ -4113,15 +4129,28 @@
           "icao": "ZSSS",
           "source_used": "OUTSIDE_VALID_WINDOW",
           "taf_validity_utc": [
-            "2026-08-31T00:00:00+00:00",
-            "2026-09-01T06:00:00+00:00"
+            "2026-08-31T06:00:00+00:00",
+            "2026-09-01T12:00:00+00:00"
           ],
           "relevant_times": [
             "2026-09-01T16:45:00+08:00",
             "2026-09-01T18:00:00+08:00",
             "2026-09-01T22:50:00+08:00"
           ],
-          "taf_decoded_by_time": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-01T16:45:00+08:00",
+              "decoded": [
+                "多云，云底约2000英尺"
+              ]
+            },
+            {
+              "time": "2026-09-01T18:00:00+08:00",
+              "decoded": [
+                "多云，云底约2000英尺"
+              ]
+            }
+          ],
           "decoded": [],
           "fetch_error": ""
         },
@@ -8431,7 +8460,10 @@
     "厦门高崎": {
       "icao": "ZSAM",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-08-31T06:00:00+00:00",
+        "2026-09-01T06:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-09-01T14:50:00+08:00"
       ],
@@ -8443,15 +8475,28 @@
       "icao": "ZSSS",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-08-31T00:00:00+00:00",
-        "2026-09-01T06:00:00+00:00"
+        "2026-08-31T06:00:00+00:00",
+        "2026-09-01T12:00:00+00:00"
       ],
       "relevant_times": [
         "2026-09-01T16:45:00+08:00",
         "2026-09-01T18:00:00+08:00",
         "2026-09-01T22:50:00+08:00"
       ],
-      "taf_decoded_by_time": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-09-01T16:45:00+08:00",
+          "decoded": [
+            "多云，云底约2000英尺"
+          ]
+        },
+        {
+          "time": "2026-09-01T18:00:00+08:00",
+          "decoded": [
+            "多云，云底约2000英尺"
+          ]
+        }
+      ],
       "decoded": [],
       "fetch_error": ""
     },
