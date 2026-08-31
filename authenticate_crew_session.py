@@ -20,6 +20,9 @@ from crew_auth_session import (
     AuthObservation,
     AuthSignals,
     AuthStatus,
+    PASSWORD_CAPTCHA_INPUT_SELECTOR,
+    PASSWORD_INPUT_SELECTOR,
+    PASSWORD_USERNAME_SELECTOR,
     MISSION_URL,
     STATUS_EXIT_CODES,
     auth_bundle_to_dict,
@@ -461,6 +464,11 @@ def collect_safe_login_page_snapshot(page: Any) -> dict[str, Any]:
             "qr_login_page": qr_page,
             "password_login_tab": visible(PASSWORD_LOGIN_TAB_SELECTOR),
             "dynamic_login_tab": visible(DYNAMIC_LOGIN_TAB_SELECTOR),
+            "username_field": visible(PASSWORD_USERNAME_SELECTOR),
+            "password_field": visible(PASSWORD_INPUT_SELECTOR),
+            "image_captcha_field": visible(
+                PASSWORD_CAPTCHA_INPUT_SELECTOR
+            ),
             "phone_field": visible(PHONE_OR_EMAIL_SELECTOR),
             "otp_request_button": visible(
                 REQUEST_DYNAMIC_PASSWORD_SELECTOR
@@ -1371,6 +1379,75 @@ def _save_login_switch_diagnostics(page: Any, reason: str) -> None:
         print("登录页切换失败，诊断信息保存失败。", flush=True)
 
 
+def prepare_login_page_for_auth_method(
+    page: Any,
+    *,
+    stage_reporter: LoginStageReporter | None = None,
+) -> AuthObservation:
+    """Expose the actual account-login form without choosing its method.
+
+    Direct password-captcha and dynamic-OTP pages are returned unchanged. A
+    QR landing page is switched once to the account panel, where the site's
+    default password tab is inspected before any OTP-specific action occurs.
+    """
+    observation = probe_page(page)
+    if observation.status in {
+        AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA,
+        AuthStatus.LOGIN_REQUIRED_DYNAMIC_OTP,
+    }:
+        return observation
+    if observation.status != AuthStatus.LOGIN_REQUIRED:
+        return observation
+
+    try:
+        state, qr_heading = _wait_for_stable_login_page_state(
+            page,
+            stage_reporter=stage_reporter,
+        )
+        if state == "DYNAMIC":
+            return probe_page(page)
+
+        if state == "QR":
+            _report_login_stage(
+                stage_reporter,
+                "QR_LOGIN_PAGE_DETECTED",
+            )
+            password_tab, dynamic_tab = _open_account_login_panel(
+                page,
+                qr_heading,
+                stage_reporter=stage_reporter,
+            )
+            password_tab.wait_for(state="visible", timeout=10_000)
+            dynamic_tab.wait_for(state="visible", timeout=10_000)
+            _report_login_stage(stage_reporter, "LOGIN_PAGE_SWITCHED")
+            _report_login_stage(
+                stage_reporter,
+                "ACCOUNT_LOGIN_PANEL_VISIBLE",
+            )
+        else:
+            password_tab = page.locator(PASSWORD_LOGIN_TAB_SELECTOR)
+
+        prepared = probe_page(page)
+        if prepared.status in {
+            AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA,
+            AuthStatus.LOGIN_REQUIRED_DYNAMIC_OTP,
+        }:
+            return prepared
+
+        # The account panel normally defaults to password login. Click its
+        # verified tab only when the first post-switch probe remains generic.
+        password_tab.click()
+        try:
+            page.wait_for_timeout(300)
+        except Exception:
+            time.sleep(0.3)
+        return probe_page(page)
+    except (LoginToggleError, LoginPageStateError):
+        raise
+    except Exception as exc:
+        raise LoginPageStateError("LOGIN_PAGE_TYPE_DETECTION_FAILED") from exc
+
+
 def _switch_to_dynamic_password_login(
     page: Any,
     *,
@@ -1971,7 +2048,10 @@ def verify_loaded_auth_bundle(
 
 
 def should_start_dynamic_password_login(status: AuthStatus) -> bool:
-    return status == AuthStatus.LOGIN_REQUIRED
+    return status in {
+        AuthStatus.LOGIN_REQUIRED,
+        AuthStatus.LOGIN_REQUIRED_DYNAMIC_OTP,
+    }
 
 
 def run_manual_authentication(args: argparse.Namespace) -> int:

@@ -23,11 +23,18 @@ from crew_auth_session import (
     AuthSignals,
     AuthBundleError,
     AuthStatus,
+    DYNAMIC_OTP_SELECTOR,
+    DYNAMIC_PHONE_SELECTOR,
+    DYNAMIC_REQUEST_SELECTOR,
+    PASSWORD_CAPTCHA_INPUT_SELECTOR,
+    PASSWORD_INPUT_SELECTOR,
+    PASSWORD_USERNAME_SELECTOR,
     STATUS_EXIT_CODES,
     auth_bundle_to_dict,
     create_context_from_auth_bundle,
     decode_auth_bundle,
     load_auth_bundle_file,
+    is_login_required_status,
     navigate_and_probe,
     restore_auth_bundle_to_existing_context,
     verify_auth_bundle,
@@ -41,6 +48,7 @@ from authenticate_crew_session import (
     capture_storage_state,
     collect_safe_login_page_snapshot,
     complete_dynamic_password_login,
+    prepare_login_page_for_auth_method,
 )
 from imap_otp import (
     IMAP_HOST,
@@ -85,6 +93,7 @@ AUTH_DIAGNOSTIC_PATH_ENV = "CREW_AUTH_DIAGNOSTIC_PATH"
 PERSISTENT_PROFILE_DIR_ENV = "CREW_PERSISTENT_PROFILE_DIR"
 AUTH_BACKUP_PATH_ENV = "CREW_AUTH_BACKUP_PATH"
 AUTH_CONTROL_PATH_ENV = "CREW_AUTH_CONTROL_PATH"
+AUTH_PASSWORD_SCREENSHOT_PATH_ENV = "CREW_AUTH_PASSWORD_SCREENSHOT_PATH"
 BROWSER_CHANNEL_ENV = "CREW_BROWSER_CHANNEL"
 ROUTE_DIAGNOSTIC_DIR_ENV = "CREW_ROUTE_DIAGNOSTIC_DIR"
 ROUTE_DIAGNOSTIC_DIR = "debug_output"
@@ -93,6 +102,19 @@ WINDOWS_DEFAULT_PROFILE_DIR = Path(
 )
 AUTH_CONTROL_FORMAT = "crew-auth-control-v1"
 OTP_COOLDOWN_DURATION = timedelta(hours=24)
+PASSWORD_CAPTCHA_MAX_ATTEMPTS = 3
+PASSWORD_CAPTCHA_IMAGE_SELECTOR = (
+    "img#Validcode, img#validcode, img[id*='validcode' i], "
+    "img[name*='validcode' i], img[src*='captcha' i], "
+    "img[src*='validcode' i], img[alt*='图片验证码'], "
+    "img[alt*='验证码'], img[src^='data:image']"
+)
+PASSWORD_LOGIN_BUTTON_SELECTOR = (
+    "#Login, #login, button[type='submit'], input[type='submit'], "
+    "button:has-text('Login'), button:has-text('登录'), "
+    "input[type='button'][value='Login'], "
+    "input[type='button'][value*='登录']"
+)
 
 
 class OtpCooldownActiveError(RuntimeError):
@@ -932,7 +954,10 @@ def solve_captcha_with_tesseract(img_bytes: bytes, attempt_no: int = 0) -> str:
         for cfg in configs:
             raw = pytesseract.image_to_string(variant, config=cfg)
             cleaned = normalize_candidate(raw)
-            raw_log.append(f"{variant_name} | {cfg} | raw={raw!r} | cleaned={cleaned!r}")
+            raw_log.append(
+                f"{variant_name} | {cfg} | "
+                f"raw_length={len(raw)} | cleaned_length={len(cleaned)}"
+            )
             if cleaned:
                 candidates.append(cleaned)
 
@@ -952,10 +977,213 @@ def solve_captcha(page, attempt_no: int = 0) -> str:
     if HAS_DDDDOCR:
         result = solve_captcha_with_ddddocr(img_bytes)
         if len(result) == 4:
-            save_text(f"captcha_attempt_{attempt_no}_ddddocr.txt", result)
+            save_text(
+                f"captcha_attempt_{attempt_no}_ddddocr.txt",
+                f"recognized_length={len(result)}",
+            )
             return result
 
     return solve_captcha_with_tesseract(img_bytes, attempt_no=attempt_no)
+
+
+def _first_visible_auth_locator(page, selector: str, description: str):
+    locator = page.locator(selector)
+    for index in range(min(locator.count(), 8)):
+        candidate = locator.nth(index)
+        try:
+            if candidate.is_visible(timeout=500):
+                return candidate
+        except Exception:
+            continue
+    raise RuntimeError(f"未找到可见的{description}")
+
+
+def extract_password_captcha_bytes(page) -> tuple[bytes, object]:
+    image = _first_visible_auth_locator(
+        page,
+        PASSWORD_CAPTCHA_IMAGE_SELECTOR,
+        "图片验证码",
+    )
+    try:
+        content = image.screenshot(type="png")
+    except Exception:
+        src = image.get_attribute("src", timeout=1_000) or ""
+        if not src.startswith("data:image") or "," not in src:
+            raise RuntimeError("图片验证码无法安全截取")
+        content = base64.b64decode(src.split(",", 1)[1])
+    if not content:
+        raise RuntimeError("图片验证码内容为空")
+    return content, image
+
+
+def solve_password_captcha_safely(img_bytes: bytes) -> str:
+    candidate = solve_captcha_with_ddddocr(img_bytes)
+    if len(candidate) == 4:
+        return candidate
+
+    configs = (
+        r"--psm 7 -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+        r"--psm 8 -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+        r"--psm 13 -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+    )
+    candidates: list[str] = []
+    for _variant_name, variant in build_variants(img_bytes):
+        for config in configs:
+            try:
+                raw = pytesseract.image_to_string(variant, config=config)
+            except Exception:
+                continue
+            normalized = normalize_candidate(raw)
+            if len(normalized) == 4:
+                candidates.append(normalized)
+    if not candidates:
+        return ""
+    return sorted(candidates, key=score_candidate, reverse=True)[0]
+
+
+def _password_credentials_from_environment() -> tuple[str, str]:
+    username = (
+        os.environ.get("CREW_USERNAME", "").strip()
+        or os.environ.get("USERNAME", "").strip()
+    )
+    password = (
+        os.environ.get("CREW_PASSWORD", "")
+        or os.environ.get("PASSWORD", "")
+    )
+    return username, password
+
+
+def _clear_password_captcha_fields(page) -> None:
+    for selector in (
+        PASSWORD_USERNAME_SELECTOR,
+        PASSWORD_INPUT_SELECTOR,
+        PASSWORD_CAPTCHA_INPUT_SELECTOR,
+    ):
+        try:
+            locator = page.locator(selector)
+            for index in range(min(locator.count(), 8)):
+                candidate = locator.nth(index)
+                try:
+                    if candidate.is_visible(timeout=200):
+                        candidate.fill("")
+                except Exception:
+                    continue
+        except Exception:
+            continue
+
+
+def _save_safe_password_captcha_diagnostic(page) -> None:
+    configured = os.environ.get(
+        AUTH_PASSWORD_SCREENSHOT_PATH_ENV,
+        "",
+    ).strip()
+    if not configured:
+        return
+    _clear_password_captcha_fields(page)
+    path = Path(configured)
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        page.screenshot(path=str(path), full_page=True)
+        print("PASSWORD_CAPTCHA_DIAGNOSTIC_SAVED", flush=True)
+    except Exception:
+        print("PASSWORD_CAPTCHA_DIAGNOSTIC_SAVE_FAILED", flush=True)
+
+
+def attempt_cloud_password_captcha_login(
+    page,
+    *,
+    max_attempts: int = PASSWORD_CAPTCHA_MAX_ATTEMPTS,
+) -> AuthObservation:
+    if max_attempts != PASSWORD_CAPTCHA_MAX_ATTEMPTS:
+        raise ValueError("账号密码图片验证码登录必须固定最多尝试3次")
+
+    username, password = _password_credentials_from_environment()
+    if not username or not password:
+        logger.error("PASSWORD_CAPTCHA_CONFIGURATION_MISSING")
+        _save_safe_password_captcha_diagnostic(page)
+        return AuthObservation(
+            AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA_FAILED,
+            AuthSignals(password_captcha_form=True, login_url_hint=True),
+        )
+
+    for attempt in range(1, max_attempts + 1):
+        logger.info("PASSWORD_CAPTCHA_ATTEMPT=%d", attempt)
+        try:
+            username_field = _first_visible_auth_locator(
+                page,
+                PASSWORD_USERNAME_SELECTOR,
+                "账号输入框",
+            )
+            password_field = _first_visible_auth_locator(
+                page,
+                PASSWORD_INPUT_SELECTOR,
+                "密码输入框",
+            )
+            captcha_field = _first_visible_auth_locator(
+                page,
+                PASSWORD_CAPTCHA_INPUT_SELECTOR,
+                "图片验证码输入框",
+            )
+            captcha_bytes, captcha_image = extract_password_captcha_bytes(page)
+            captcha = solve_password_captcha_safely(captcha_bytes)
+            if len(captcha) != 4:
+                logger.warning(
+                    "PASSWORD_CAPTCHA_OCR_FAILED ATTEMPT=%d",
+                    attempt,
+                )
+                try:
+                    captcha_image.click(timeout=2_000)
+                except Exception:
+                    pass
+                continue
+
+            username_field.fill(username)
+            password_field.fill(password)
+            captcha_field.fill(captcha)
+            submit = _first_visible_auth_locator(
+                page,
+                PASSWORD_LOGIN_BUTTON_SELECTOR,
+                "账号密码登录按钮",
+            )
+            submit.click(timeout=10_000)
+            try:
+                page.wait_for_load_state(
+                    "domcontentloaded",
+                    timeout=10_000,
+                )
+            except Exception:
+                pass
+            try:
+                page.wait_for_timeout(1_000)
+            except Exception:
+                pass
+            observation = navigate_and_probe(page, MISSION_URL)
+            if observation.status == AuthStatus.AUTHENTICATED:
+                logger.info("PASSWORD_CAPTCHA_LOGIN=AUTHENTICATED")
+                return observation
+            if observation.status == AuthStatus.NETWORK_OR_SITE_ERROR:
+                return observation
+            if not is_login_required_status(observation.status):
+                return observation
+        except Exception as exc:
+            logger.warning(
+                "PASSWORD_CAPTCHA_ATTEMPT_FAILED ATTEMPT=%d ERROR=%s",
+                attempt,
+                type(exc).__name__,
+            )
+
+        if attempt < max_attempts:
+            try:
+                _, captcha_image = extract_password_captcha_bytes(page)
+                captcha_image.click(timeout=2_000)
+            except Exception:
+                pass
+
+    _save_safe_password_captcha_diagnostic(page)
+    return AuthObservation(
+        AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA_FAILED,
+        AuthSignals(password_captcha_form=True, login_url_hint=True),
+    )
 
 
 def fill_login_form(page, code: str):
@@ -989,7 +1217,10 @@ def login(page, max_retries: int = 10):
             continue
 
         candidates = generate_code_candidates(best_code, limit=20)
-        save_text(f"login_attempt_{attempt}_candidates.txt", "\n".join(candidates))
+        save_text(
+            f"login_attempt_{attempt}_candidates.txt",
+            f"candidate_count={len(candidates)}",
+        )
 
         for idx, cand in enumerate(candidates, start=1):
             try:
@@ -1009,12 +1240,12 @@ def login(page, max_retries: int = 10):
 
                 save_page_screenshot(
                     page,
-                    f"login_attempt_{attempt}_{idx}_{cand}.png",
+                    f"login_attempt_{attempt}_{idx}.png",
                 )
-                save_text(f"login_attempt_{attempt}_{idx}_{cand}.txt", body_text)
+                save_text(f"login_attempt_{attempt}_{idx}.txt", body_text)
 
                 if ("统一认证中心" not in body_text) and ("Login" not in body_text):
-                    logger.info(f"登录成功，验证码：{cand}")
+                    logger.info("登录成功")
                     return
 
                 try:
@@ -1024,7 +1255,7 @@ def login(page, max_retries: int = 10):
                     pass
 
             except Exception as e:
-                logger.error(f"验证码 {cand} 尝试失败: {e}")
+                logger.error("验证码尝试失败: %s", type(e).__name__)
 
     raise RuntimeError("多次尝试后仍无法登录")
 
@@ -5923,6 +6154,10 @@ def _new_cloud_login_diagnostic() -> dict:
         "error_category": "",
         "guard_status": "",
         "auth_status": "",
+        "auth_page_type": "",
+        "auth_method": "",
+        "otp_requests": 0,
+        "imap_reads": 0,
         "page": {},
     }
 
@@ -5941,6 +6176,16 @@ def _cloud_stage_reporter(diagnostic: dict):
         if stage not in LOGIN_STAGE_NAMES:
             return
         entry = {"stage": stage}
+        if stage == "OTP_REQUEST_CLICKED":
+            diagnostic["otp_requests"] = max(
+                int(diagnostic.get("otp_requests", 0)),
+                max(1, int(details.get("attempt", 1))),
+            )
+        if stage == "IMAP_BASELINE_RECORDED":
+            diagnostic["imap_reads"] = max(
+                int(diagnostic.get("imap_reads", 0)),
+                max(1, int(details.get("attempt", 1))),
+            )
         if stage == "OTP_MAIL_RECEIVED":
             otp_length = int(details.get("otp_length", 0))
             entry["otp_length"] = otp_length
@@ -6052,6 +6297,13 @@ def _cloud_stage_reporter(diagnostic: dict):
         diagnostic["last_stage"] = stage
 
     return report
+
+
+def _emit_auth_io_counts(diagnostic: dict) -> None:
+    otp_requests = max(0, int(diagnostic.get("otp_requests", 0)))
+    imap_reads = max(0, int(diagnostic.get("imap_reads", 0)))
+    print(f"OTP_REQUESTS={otp_requests}", flush=True)
+    print(f"IMAP_READS={imap_reads}", flush=True)
 
 
 def _cloud_error_category(diagnostic: dict) -> str:
@@ -6168,6 +6420,9 @@ def _emit_page_changed_snapshot(snapshot: dict) -> None:
         "qr_login_page",
         "password_login_tab",
         "dynamic_login_tab",
+        "username_field",
+        "password_field",
+        "image_captcha_field",
         "phone_field",
         "otp_request_button",
         "otp_field",
@@ -6232,8 +6487,8 @@ def attempt_cloud_dynamic_password_login(
     auth_code = os.environ.get("IMAP_AUTH_CODE", "")
     if not phone_number or not email_address or not auth_code:
         observation = AuthObservation(
-            AuthStatus.LOGIN_REQUIRED,
-            AuthSignals(login_url_hint=True),
+            AuthStatus.LOGIN_REQUIRED_DYNAMIC_OTP,
+            AuthSignals(dynamic_otp_form=True, login_url_hint=True),
         )
         _write_cloud_auth_diagnostic(
             page,
@@ -6241,14 +6496,15 @@ def attempt_cloud_dynamic_password_login(
             observation,
             "OTP_REQUEST_FAILED",
         )
+        _emit_auth_io_counts(diagnostic)
         return observation
 
     if _otp_cooldown_active(auth_control_path, now=request_timestamp):
         diagnostic["guard_status"] = "OTP_COOLDOWN_ACTIVE"
         print("OTP_COOLDOWN_ACTIVE", flush=True)
         observation = AuthObservation(
-            AuthStatus.LOGIN_REQUIRED,
-            AuthSignals(login_url_hint=True),
+            AuthStatus.AUTH_DEFERRED_OTP_COOLDOWN,
+            AuthSignals(dynamic_otp_form=True, login_url_hint=True),
         )
         _write_cloud_auth_diagnostic(
             page,
@@ -6256,6 +6512,7 @@ def attempt_cloud_dynamic_password_login(
             observation,
             "OTP_COOLDOWN_ACTIVE",
         )
+        _emit_auth_io_counts(diagnostic)
         return observation
 
     request_recorded = False
@@ -6270,6 +6527,10 @@ def attempt_cloud_dynamic_password_login(
             auth_control_path,
             requested_at=request_timestamp,
             result="REQUESTED",
+        )
+        diagnostic["otp_requests"] = max(
+            1,
+            int(diagnostic.get("otp_requests", 0)),
         )
         request_recorded = True
 
@@ -6295,8 +6556,8 @@ def attempt_cloud_dynamic_password_login(
         diagnostic["guard_status"] = "OTP_COOLDOWN_ACTIVE"
         print("OTP_COOLDOWN_ACTIVE", flush=True)
         observation = AuthObservation(
-            AuthStatus.LOGIN_REQUIRED,
-            AuthSignals(login_url_hint=True),
+            AuthStatus.AUTH_DEFERRED_OTP_COOLDOWN,
+            AuthSignals(dynamic_otp_form=True, login_url_hint=True),
         )
         error_category = "OTP_COOLDOWN_ACTIVE"
     except LoginToggleError as exc:
@@ -6375,6 +6636,100 @@ def attempt_cloud_dynamic_password_login(
         observation,
         error_category,
     )
+    _emit_auth_io_counts(diagnostic)
+    return observation
+
+
+def attempt_cloud_adaptive_login(
+    page,
+    *,
+    auth_control_path: Path | None = None,
+    now: datetime | None = None,
+) -> AuthObservation:
+    diagnostic = _new_cloud_login_diagnostic()
+    stage_reporter = _cloud_stage_reporter(diagnostic)
+    try:
+        requirement = prepare_login_page_for_auth_method(
+            page,
+            stage_reporter=stage_reporter,
+        )
+    except (LoginToggleError, LoginPageStateError) as exc:
+        observation = AuthObservation(
+            AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+            AuthSignals(),
+        )
+        category = getattr(exc, "category", type(exc).__name__)
+        _write_cloud_auth_diagnostic(
+            page,
+            diagnostic,
+            observation,
+            str(category),
+        )
+        _emit_auth_io_counts(diagnostic)
+        return observation
+    except Exception:
+        observation = AuthObservation(
+            AuthStatus.NETWORK_OR_SITE_ERROR,
+            AuthSignals(network_or_site_error=True),
+        )
+        _write_cloud_auth_diagnostic(
+            page,
+            diagnostic,
+            observation,
+            "LOGIN_PAGE_TYPE_DETECTION_FAILED",
+        )
+        _emit_auth_io_counts(diagnostic)
+        return observation
+
+    if requirement.status == AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA:
+        diagnostic["auth_page_type"] = "PASSWORD_CAPTCHA"
+        diagnostic["auth_method"] = "PASSWORD_CAPTCHA"
+        print("AUTH_PAGE_TYPE=PASSWORD_CAPTCHA", flush=True)
+        print("AUTH_METHOD=PASSWORD_CAPTCHA", flush=True)
+        observation = attempt_cloud_password_captcha_login(page)
+        error_category = (
+            "PASSWORD_CAPTCHA_FAILED"
+            if observation.status
+            == AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA_FAILED
+            else ""
+        )
+        _write_cloud_auth_diagnostic(
+            page,
+            diagnostic,
+            observation,
+            error_category,
+        )
+        _emit_auth_io_counts(diagnostic)
+        return observation
+
+    if requirement.status == AuthStatus.LOGIN_REQUIRED_DYNAMIC_OTP:
+        print("AUTH_PAGE_TYPE=DYNAMIC_OTP", flush=True)
+        print("AUTH_METHOD=DYNAMIC_OTP", flush=True)
+        return attempt_cloud_dynamic_password_login(
+            page,
+            auth_control_path=auth_control_path,
+            now=now,
+        )
+
+    observation = (
+        requirement
+        if requirement.status
+        in {
+            AuthStatus.NETWORK_OR_SITE_ERROR,
+            AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+        }
+        else AuthObservation(
+            AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+            requirement.signals,
+        )
+    )
+    _write_cloud_auth_diagnostic(
+        page,
+        diagnostic,
+        observation,
+        "LOGIN_PAGE_TYPE_UNKNOWN",
+    )
+    _emit_auth_io_counts(diagnostic)
     return observation
 
 
@@ -6457,7 +6812,7 @@ def _recover_persistent_authentication(
     secret_bundle: AuthBundle | None,
     channel: str,
 ) -> AuthObservation:
-    if initial_observation.status != AuthStatus.LOGIN_REQUIRED:
+    if not is_login_required_status(initial_observation.status):
         return initial_observation
 
     uncertain_observation: AuthObservation | None = None
@@ -6495,10 +6850,10 @@ def _recover_persistent_authentication(
             if recovered.status == AuthStatus.AUTHENTICATED:
                 logger.info("AUTH_RECOVERY_APPLIED=%s", source)
                 return recovered
-            if recovered.status != AuthStatus.LOGIN_REQUIRED:
+            if not is_login_required_status(recovered.status):
                 return recovered
             continue
-        if verification.status != AuthStatus.LOGIN_REQUIRED:
+        if not is_login_required_status(verification.status):
             uncertain_observation = verification
 
     # An uncertain bundle verification is not proof that authentication has
@@ -6614,9 +6969,9 @@ def run() -> int:
                         channel=channel,
                     )
                 used_cloud_fallback = False
-                if observation.status == AuthStatus.LOGIN_REQUIRED:
+                if is_login_required_status(observation.status):
                     used_cloud_fallback = True
-                    observation = attempt_cloud_dynamic_password_login(
+                    observation = attempt_cloud_adaptive_login(
                         page,
                         auth_control_path=auth_control_path,
                     )

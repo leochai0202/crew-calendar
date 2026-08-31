@@ -23,6 +23,8 @@ SMTP_PORT = 465
 AUTHENTICATED = "AUTHENTICATED"
 FAILURE_STATUSES = {
     "LOGIN_REQUIRED",
+    "LOGIN_REQUIRED_PASSWORD_CAPTCHA_FAILED",
+    "LOGIN_REQUIRED_DYNAMIC_OTP",
     "ADDITIONAL_VERIFICATION_REQUIRED",
     "PAGE_CHANGED_OR_UNKNOWN",
 }
@@ -31,6 +33,14 @@ STATUS_EXPLANATIONS = {
     "LOGIN_REQUIRED": (
         "云端认证会话已经失效或缺失。",
         "需要在本机重新扫码登录。",
+    ),
+    "LOGIN_REQUIRED_PASSWORD_CAPTCHA_FAILED": (
+        "账号密码图片验证码登录连续三次未能完成。",
+        "请检查账号密码配置及安全诊断截图；程序没有请求动态验证码。",
+    ),
+    "LOGIN_REQUIRED_DYNAMIC_OTP": (
+        "网站已确认显示动态验证码登录页，但动态验证码登录未能启动。",
+        "请检查手机和QQ邮箱验证码配置。",
     ),
     "ADDITIONAL_VERIFICATION_REQUIRED": (
         "网站要求完成手机、短信、邮箱或其他附加验证。",
@@ -44,6 +54,12 @@ STATUS_EXPLANATIONS = {
 
 FAILURE_SUBJECTS = {
     "LOGIN_REQUIRED": "【Crew Calendar】登录认证已失效",
+    "LOGIN_REQUIRED_PASSWORD_CAPTCHA_FAILED": (
+        "【Crew Calendar】账号密码图片验证码登录失败"
+    ),
+    "LOGIN_REQUIRED_DYNAMIC_OTP": (
+        "【Crew Calendar】动态验证码登录未能启动"
+    ),
     "ADDITIONAL_VERIFICATION_REQUIRED": "【Crew Calendar】需要人工完成附加验证",
     "PAGE_CHANGED_OR_UNKNOWN": "【Crew Calendar】无法安全确认登录状态",
 }
