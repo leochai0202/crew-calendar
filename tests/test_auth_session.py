@@ -343,6 +343,8 @@ def test_loaded_bundle_is_verified_before_session_recovery(
     ("status", "expected"),
     [
         (auth.AuthStatus.LOGIN_REQUIRED, True),
+        (auth.AuthStatus.LOGIN_REQUIRED_DYNAMIC_OTP, True),
+        (auth.AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA, False),
         (auth.AuthStatus.AUTHENTICATED, False),
         (auth.AuthStatus.ADDITIONAL_VERIFICATION_REQUIRED, False),
         (auth.AuthStatus.PAGE_CHANGED_OR_UNKNOWN, False),

@@ -43,6 +43,10 @@ jobs:
         id: scraper
         env:
           CREW_STORAGE_STATE_B64: ${{ secrets.CREW_STORAGE_STATE_B64 }}
+          CREW_USERNAME: ${{ secrets.CREW_USERNAME }}
+          CREW_PASSWORD: ${{ secrets.CREW_PASSWORD }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
           CREW_PHONE: ${{ secrets.CREW_PHONE }}
           IMAP_EMAIL: ${{ secrets.IMAP_EMAIL }}
           IMAP_AUTH_CODE: ${{ secrets.IMAP_AUTH_CODE }}
@@ -52,6 +56,7 @@ jobs:
           CREW_BROWSER_CHANNEL: msedge
           HEADLESS: '1'
           CREW_AUTH_DIAGNOSTIC_PATH: ${{ runner.temp }}\crew-auth-diagnostic.json
+          CREW_AUTH_PASSWORD_SCREENSHOT_PATH: ${{ runner.temp }}\crew-auth-password-captcha.png
         run: |
           $PSNativeCommandUseErrorActionPreference = $false
           python crew_calendar_main.py
@@ -63,11 +68,19 @@ jobs:
             4 { "ADDITIONAL_VERIFICATION_REQUIRED" }
             5 { "PAGE_CHANGED_OR_UNKNOWN" }
             6 { "NETWORK_OR_SITE_ERROR" }
+            7 { "AUTH_DEFERRED_OTP_COOLDOWN" }
+            8 { "LOGIN_REQUIRED_PASSWORD_CAPTCHA_FAILED" }
+            9 { "LOGIN_REQUIRED_DYNAMIC_OTP" }
+            10 { "LOGIN_REQUIRED_PASSWORD_CAPTCHA" }
             default { "SCRAPER_ERROR" }
           }
 
           "auth_status=$authStatus" |
             Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          if ($authStatus -eq "AUTH_DEFERRED_OTP_COOLDOWN") {
+            Write-Host "CALENDAR_UPDATE=SKIPPED_PRESERVE_LAST_GOOD"
+            exit 0
+          }
           exit $exitCode
 
       - name: Upload safe authentication diagnostic
@@ -75,7 +88,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: crew-auth-diagnostic-${{ github.run_id }}
-          path: ${{ runner.temp }}\crew-auth-diagnostic.json
+          path: |
+            ${{ runner.temp }}\crew-auth-diagnostic.json
+            ${{ runner.temp }}\crew-auth-password-captcha.png
           if-no-files-found: ignore
           retention-days: 7
 

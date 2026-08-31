@@ -43,6 +43,38 @@ ADDITIONAL_VERIFICATION_MARKERS = (
     "安全验证",
     "验证身份",
 )
+PASSWORD_USERNAME_SELECTOR = (
+    "input#Username, input#username, "
+    "input[name='Username'], input[name='username'], "
+    "input[name*='user' i], input[autocomplete='username'], "
+    "input[placeholder*='账号'], input[placeholder*='用户名'], "
+    "input[placeholder*='Username' i]"
+)
+PASSWORD_INPUT_SELECTOR = (
+    "input#Password, input#password, input[type='password'], "
+    "input[name*='password' i], "
+    "input[autocomplete='current-password']"
+)
+PASSWORD_CAPTCHA_INPUT_SELECTOR = (
+    "input#Validcode, input#validcode, "
+    "input[name*='validcode' i], input[name*='captcha' i], "
+    "input[placeholder*='图片验证码'], "
+    "input[placeholder*='Validcode' i]"
+)
+DYNAMIC_PHONE_SELECTOR = (
+    "#phone, input[name*='phone' i], "
+    "input[placeholder*='手机号'], input[placeholder*='邮箱验证码']"
+)
+DYNAMIC_OTP_SELECTOR = (
+    "#dynamic, input[name*='dynamic' i], "
+    "input[placeholder*='动态密码'], input[placeholder*='短信验证码'], "
+    "input[placeholder*='邮箱验证码']"
+)
+DYNAMIC_REQUEST_SELECTOR = (
+    "#btnGetDynamic, button:has-text('获取验证码'), "
+    "button:has-text('获取动态密码'), "
+    "input[type='button'][value*='获取验证码']"
+)
 SESSION_EXPIRED_MARKERS = (
     "登录已过期",
     "会话已过期",
@@ -57,6 +89,14 @@ ACCESS_DENIED_MARKERS = (
 class AuthStatus(str, Enum):
     AUTHENTICATED = "AUTHENTICATED"
     LOGIN_REQUIRED = "LOGIN_REQUIRED"
+    LOGIN_REQUIRED_PASSWORD_CAPTCHA = (
+        "LOGIN_REQUIRED_PASSWORD_CAPTCHA"
+    )
+    LOGIN_REQUIRED_DYNAMIC_OTP = "LOGIN_REQUIRED_DYNAMIC_OTP"
+    AUTH_DEFERRED_OTP_COOLDOWN = "AUTH_DEFERRED_OTP_COOLDOWN"
+    LOGIN_REQUIRED_PASSWORD_CAPTCHA_FAILED = (
+        "LOGIN_REQUIRED_PASSWORD_CAPTCHA_FAILED"
+    )
     ADDITIONAL_VERIFICATION_REQUIRED = "ADDITIONAL_VERIFICATION_REQUIRED"
     PAGE_CHANGED_OR_UNKNOWN = "PAGE_CHANGED_OR_UNKNOWN"
     NETWORK_OR_SITE_ERROR = "NETWORK_OR_SITE_ERROR"
@@ -65,6 +105,18 @@ class AuthStatus(str, Enum):
 SAFE_STATUS_MESSAGES = {
     AuthStatus.AUTHENTICATED: "认证有效。",
     AuthStatus.LOGIN_REQUIRED: "认证包缺失、损坏或已失效，需要在本机重新认证。",
+    AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA: (
+        "已确认账号密码和图片验证码登录页。"
+    ),
+    AuthStatus.LOGIN_REQUIRED_DYNAMIC_OTP: (
+        "已确认手机或邮箱动态验证码登录页。"
+    ),
+    AuthStatus.AUTH_DEFERRED_OTP_COOLDOWN: (
+        "动态验证码处于冷却期，本次保留现有日历并跳过更新。"
+    ),
+    AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA_FAILED: (
+        "账号密码图片验证码登录未能在安全尝试次数内完成。"
+    ),
     AuthStatus.ADDITIONAL_VERIFICATION_REQUIRED: "网站要求人工完成手机、邮箱或二次验证。",
     AuthStatus.PAGE_CHANGED_OR_UNKNOWN: "页面已加载，但无法安全确认认证状态。",
     AuthStatus.NETWORK_OR_SITE_ERROR: "网络连接或站点服务异常，请稍后重试。",
@@ -76,6 +128,10 @@ STATUS_EXIT_CODES = {
     AuthStatus.ADDITIONAL_VERIFICATION_REQUIRED: 4,
     AuthStatus.PAGE_CHANGED_OR_UNKNOWN: 5,
     AuthStatus.NETWORK_OR_SITE_ERROR: 6,
+    AuthStatus.AUTH_DEFERRED_OTP_COOLDOWN: 7,
+    AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA_FAILED: 8,
+    AuthStatus.LOGIN_REQUIRED_DYNAMIC_OTP: 9,
+    AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA: 10,
 }
 
 
@@ -95,6 +151,8 @@ class AuthSignals:
     task_container: bool = False
     user_indicator: bool = False
     login_form: bool = False
+    password_captcha_form: bool = False
+    dynamic_otp_form: bool = False
     login_text: bool = False
     qr_indicator: bool = False
     additional_verification: bool = False
@@ -339,6 +397,10 @@ def create_context_from_auth_bundle(
 def classify_auth_signals(signals: AuthSignals) -> AuthStatus:
     if signals.network_or_site_error:
         return AuthStatus.NETWORK_OR_SITE_ERROR
+    if signals.password_captcha_form:
+        return AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA
+    if signals.dynamic_otp_form:
+        return AuthStatus.LOGIN_REQUIRED_DYNAMIC_OTP
     if signals.additional_verification:
         return AuthStatus.ADDITIONAL_VERIFICATION_REQUIRED
     if signals.session_expired:
@@ -359,6 +421,14 @@ def classify_auth_signals(signals: AuthSignals) -> AuthStatus:
     ):
         return AuthStatus.LOGIN_REQUIRED
     return AuthStatus.PAGE_CHANGED_OR_UNKNOWN
+
+
+def is_login_required_status(status: AuthStatus) -> bool:
+    return status in {
+        AuthStatus.LOGIN_REQUIRED,
+        AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA,
+        AuthStatus.LOGIN_REQUIRED_DYNAMIC_OTP,
+    }
 
 
 def _locator_visible(page: Any, selector: str) -> bool:
@@ -390,6 +460,22 @@ def probe_page(page: Any) -> AuthObservation:
         host_probe = ""
         path_probe = ""
 
+    password_username_visible = _locator_visible(
+        page,
+        PASSWORD_USERNAME_SELECTOR,
+    )
+    password_visible = _locator_visible(page, PASSWORD_INPUT_SELECTOR)
+    password_captcha_visible = _locator_visible(
+        page,
+        PASSWORD_CAPTCHA_INPUT_SELECTOR,
+    )
+    dynamic_phone_visible = _locator_visible(page, DYNAMIC_PHONE_SELECTOR)
+    dynamic_otp_visible = _locator_visible(page, DYNAMIC_OTP_SELECTOR)
+    dynamic_request_visible = _locator_visible(
+        page,
+        DYNAMIC_REQUEST_SELECTOR,
+    )
+
     signals = AuthSignals(
         mission_heading=(
             "我的任务" in compact_text
@@ -409,11 +495,20 @@ def probe_page(page: Any) -> AuthObservation:
             or _locator_visible(page, "[class*='user-info' i]")
         ),
         login_form=(
-            _locator_visible(page, "input[type='password']")
-            or _locator_visible(page, "form input[name*='password' i]")
-            or _locator_visible(
-                page, "form input[autocomplete='current-password']"
-            )
+            password_visible
+            or password_username_visible
+            or password_captcha_visible
+            or (dynamic_phone_visible and dynamic_otp_visible)
+        ),
+        password_captcha_form=(
+            password_username_visible
+            and password_visible
+            and password_captcha_visible
+        ),
+        dynamic_otp_form=(
+            dynamic_phone_visible
+            and dynamic_otp_visible
+            and dynamic_request_visible
         ),
         login_text=any(marker in compact_text for marker in LOGIN_TEXT_MARKERS),
         qr_indicator=(
@@ -449,7 +544,7 @@ def confirm_login_required(
     delay_ms: int = 2_000,
 ) -> AuthObservation:
     """Require two consecutive, explicit login-page observations."""
-    if observation.status != AuthStatus.LOGIN_REQUIRED:
+    if not is_login_required_status(observation.status):
         return observation
     page.wait_for_timeout(delay_ms)
     return probe_page(page)
@@ -473,7 +568,7 @@ def navigate_and_probe(
             return AuthObservation(AuthStatus.NETWORK_OR_SITE_ERROR, signals)
         page.wait_for_timeout(2_000)
         observation = probe_page(page)
-        if observation.status == AuthStatus.LOGIN_REQUIRED:
+        if is_login_required_status(observation.status):
             return confirm_login_required(page, observation)
         if response_status in {401, 403}:
             signals = AuthSignals(access_denied=True)

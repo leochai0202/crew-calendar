@@ -28,6 +28,8 @@ def test_schedule_keeps_three_times_and_uses_expected_secrets() -> None:
         "${{ secrets.CREW_STORAGE_STATE_B64 }}" in workflow
     )
     for secret_name in (
+        "CREW_USERNAME",
+        "CREW_PASSWORD",
         "CREW_PHONE",
         "IMAP_EMAIL",
         "IMAP_AUTH_CODE",
@@ -54,22 +56,14 @@ def test_schedule_keeps_three_times_and_uses_expected_secrets() -> None:
     assert "playwright install" not in workflow
     assert "apt-get" not in workflow
     assert "actions/setup-python" not in workflow
-    for forbidden in (
-        "CREW_USERNAME",
-        "CREW_PASSWORD",
-        "tesseract-ocr",
-        "ddddocr",
-    ):
+    for forbidden in ("tesseract-ocr", "ddddocr"):
         assert forbidden not in workflow
     assert "actions/upload-artifact@v4" in workflow
     assert r"${{ runner.temp }}\crew-auth-diagnostic.json" in workflow
     assert "if-no-files-found: ignore" in workflow
-    for forbidden_artifact in (
-        "screenshot",
-        "page.html",
-        "playwright/.auth/",
-    ):
+    for forbidden_artifact in ("page.html", "playwright/.auth/"):
         assert forbidden_artifact not in workflow
+    assert r"${{ runner.temp }}\crew-auth-password-captcha.png" in workflow
     assert "debug_output/route_parse_failed_*.txt" in workflow
     assert "debug_output/route_parse_failed_*.png" in workflow
     assert workflow.count("debug_output/") == 2
@@ -86,6 +80,10 @@ def test_schedule_maps_auth_status_and_gates_clean_and_commit() -> None:
         '4 { "ADDITIONAL_VERIFICATION_REQUIRED" }',
         '5 { "PAGE_CHANGED_OR_UNKNOWN" }',
         '6 { "NETWORK_OR_SITE_ERROR" }',
+        '7 { "AUTH_DEFERRED_OTP_COOLDOWN" }',
+        '8 { "LOGIN_REQUIRED_PASSWORD_CAPTCHA_FAILED" }',
+        '9 { "LOGIN_REQUIRED_DYNAMIC_OTP" }',
+        '10 { "LOGIN_REQUIRED_PASSWORD_CAPTCHA" }',
         'default { "SCRAPER_ERROR" }',
     )
     for mapping in expected_mappings:
@@ -97,6 +95,8 @@ def test_schedule_maps_auth_status_and_gates_clean_and_commit() -> None:
         "steps.scraper.outputs.auth_status == 'AUTHENTICATED'"
     )
     assert workflow.count(gate) == 2
+    assert 'if ($authStatus -eq "AUTH_DEFERRED_OTP_COOLDOWN")' in workflow
+    assert "CALENDAR_UPDATE=SKIPPED_PRESERVE_LAST_GOOD" in workflow
 
 
 def test_auth_notification_is_non_blocking_and_persists_only_safe_state() -> None:

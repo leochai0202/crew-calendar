@@ -189,7 +189,11 @@ def test_active_incident_never_sends_a_second_failure_message(
 
 @pytest.mark.parametrize(
     "status",
-    ["NETWORK_OR_SITE_ERROR", "SCRAPER_ERROR"],
+    [
+        "NETWORK_OR_SITE_ERROR",
+        "SCRAPER_ERROR",
+        "AUTH_DEFERRED_OTP_COOLDOWN",
+    ],
 )
 def test_non_auth_failure_does_not_send_or_create_state(
     status: str,

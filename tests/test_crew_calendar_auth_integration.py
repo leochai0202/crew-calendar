@@ -737,6 +737,8 @@ def test_filtered_auth_backup_is_atomic_and_excludes_other_origins(
         (auth.AuthStatus.ADDITIONAL_VERIFICATION_REQUIRED, 4),
         (auth.AuthStatus.PAGE_CHANGED_OR_UNKNOWN, 5),
         (auth.AuthStatus.NETWORK_OR_SITE_ERROR, 6),
+        (auth.AuthStatus.AUTH_DEFERRED_OTP_COOLDOWN, 7),
+        (auth.AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA_FAILED, 8),
     ],
 )
 def test_non_authenticated_status_never_processes_or_writes_ics(
@@ -809,7 +811,7 @@ def test_missing_or_corrupt_secret_falls_back_without_writing(
     )
     monkeypatch.setattr(
         calendar,
-        "attempt_cloud_dynamic_password_login",
+        "attempt_cloud_adaptive_login",
         lambda page, **_kwargs: auth.AuthObservation(
             auth.AuthStatus.LOGIN_REQUIRED,
             auth.AuthSignals(login_url_hint=True),
@@ -849,7 +851,7 @@ def test_confirmed_login_required_uses_cloud_fallback_then_processes(
     )
     monkeypatch.setattr(
         calendar,
-        "attempt_cloud_dynamic_password_login",
+        "attempt_cloud_adaptive_login",
         lambda page, **_kwargs: calls.append("fallback")
         or auth.AuthObservation(
             auth.AuthStatus.AUTHENTICATED,
@@ -936,7 +938,7 @@ def test_successful_cloud_login_refreshes_backup_before_processing(
     )
     monkeypatch.setattr(
         calendar,
-        "attempt_cloud_dynamic_password_login",
+        "attempt_cloud_adaptive_login",
         lambda _page, **_kwargs: events.append("fallback")
         or auth.AuthObservation(
             auth.AuthStatus.AUTHENTICATED,
@@ -1080,8 +1082,8 @@ def test_three_workflows_allow_one_otp_event_in_24_hours(
     )
 
     assert first.status == auth.AuthStatus.NETWORK_OR_SITE_ERROR
-    assert second.status == auth.AuthStatus.LOGIN_REQUIRED
-    assert third.status == auth.AuthStatus.LOGIN_REQUIRED
+    assert second.status == auth.AuthStatus.AUTH_DEFERRED_OTP_COOLDOWN
+    assert third.status == auth.AuthStatus.AUTH_DEFERRED_OTP_COOLDOWN
     assert events == ["reader", "otp-request", "close"]
     assert capsys.readouterr().out.count("OTP_COOLDOWN_ACTIVE") >= 2
     payload = json.loads(control_path.read_text(encoding="utf-8"))
@@ -1151,7 +1153,7 @@ def test_cloud_fallback_missing_secret_does_not_connect_imap(
 
     observation = calendar.attempt_cloud_dynamic_password_login(object())
 
-    assert observation.status == auth.AuthStatus.LOGIN_REQUIRED
+    assert observation.status == auth.AuthStatus.LOGIN_REQUIRED_DYNAMIC_OTP
 
 
 def test_cloud_slider_requires_additional_verification(
@@ -1635,7 +1637,7 @@ def test_import_does_not_touch_repository_debug_output(
 def test_formal_run_has_no_legacy_login_or_ocr_call_path() -> None:
     source = inspect.getsource(calendar.run)
 
-    assert "attempt_cloud_dynamic_password_login(" in source
+    assert "attempt_cloud_adaptive_login(" in source
     for forbidden in (
         "solve_captcha",
         "extract_captcha_bytes",
