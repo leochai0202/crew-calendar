@@ -110,11 +110,12 @@ PASSWORD_CAPTCHA_IMAGE_SELECTOR = (
     "img[alt*='验证码'], img[src^='data:image']"
 )
 PASSWORD_LOGIN_BUTTON_SELECTOR = (
-    "#loginBtn1, #Login, #login, button[type='submit'], "
-    "input[type='submit'], "
-    "button:has-text('Login'), button:has-text('登录'), "
-    "input[type='button'][value='Login'], "
-    "input[type='button'][value*='登录']"
+    "#loginBtn1, #logincontentFm1 button[type='submit'], "
+    "#logincontentFm1 input[type='submit'], "
+    "#logincontentFm1 button:has-text('Login'), "
+    "#logincontentFm1 button:has-text('登录'), "
+    "#logincontentFm1 input[type='button'][value='Login'], "
+    "#logincontentFm1 input[type='button'][value*='登录']"
 )
 
 

@@ -111,6 +111,17 @@ def test_probe_identifies_password_page_without_captcha() -> None:
     assert observation.signals.dynamic_otp_form is False
 
 
+def test_password_submit_selector_is_scoped_to_password_form() -> None:
+    selector = calendar.PASSWORD_LOGIN_BUTTON_SELECTOR
+
+    assert "#loginBtn1" in selector
+    assert "#logincontentFm1" in selector
+    assert "#Login," not in selector
+    assert "#login," not in selector
+    assert ", button[type='submit']" not in selector
+    assert ", button:has-text('登录')" not in selector
+
+
 def test_probe_identifies_dynamic_otp_page() -> None:
     page = FakeAuthPage(
         {
