@@ -109,14 +109,30 @@ PASSWORD_CAPTCHA_IMAGE_SELECTOR = (
     "img[src*='validcode' i], img[alt*='图片验证码'], "
     "img[alt*='验证码'], img[src^='data:image']"
 )
-PASSWORD_LOGIN_BUTTON_SELECTOR = (
-    "#loginBtn1, #logincontentFm1 button[type='submit'], "
-    "#logincontentFm1 input[type='submit'], "
-    "#logincontentFm1 button:has-text('Login'), "
-    "#logincontentFm1 button:has-text('登录'), "
-    "#logincontentFm1 input[type='button'][value='Login'], "
-    "#logincontentFm1 input[type='button'][value*='登录']"
+PASSWORD_LOGIN_BUTTON_CANDIDATES = (
+    "#loginBtn1",
+    "#logincontentFm1 button[type='submit']",
+    "#logincontentFm1 input[type='submit']",
+    "#logincontentFm1 button:has-text('Login')",
+    "#logincontentFm1 button:has-text('登录')",
+    "#logincontentFm1 input[type='button'][value='Login']",
+    "#logincontentFm1 input[type='button'][value*='登录']",
 )
+PASSWORD_LOGIN_BUTTON_SELECTOR = ", ".join(
+    PASSWORD_LOGIN_BUTTON_CANDIDATES
+)
+PASSWORD_LOGIN_ERROR_SELECTOR = (
+    "#logincontentFm1 [role='alert'], "
+    "#logincontentFm1 [class*='error' i], "
+    "#logincontentFm1 [class*='message' i], "
+    "#logincontentFm1 [class*='tips' i], "
+    "#logincontentFm1 [class*='msg' i], "
+    ".layui-layer-content, .el-message__content"
+)
+PASSWORD_LOGIN_NETWORK_HOSTS = {"cas.9cair.com", "cp.9cair.com"}
+PASSWORD_POST_CLICK_DELAYS_MS = (500, 1_500, 3_000)
+PASSWORD_POST_CLICK_LABELS = ("500MS", "2S", "5S")
+PASSWORD_LOGIN_NETWORK_CAPTURE_TAIL_MS = 5_000
 
 
 class OtpCooldownActiveError(RuntimeError):
@@ -1098,10 +1114,496 @@ def _save_safe_password_captcha_diagnostic(page) -> None:
         print("PASSWORD_CAPTCHA_DIAGNOSTIC_SAVE_FAILED", flush=True)
 
 
+def _safe_dom_token(value: object, *, max_length: int = 80) -> str:
+    normalized = re.sub(
+        r"[^A-Za-z0-9_.:-]+",
+        "_",
+        str(value or "").strip(),
+    ).strip("_")
+    return normalized[:max_length]
+
+
+def _safe_auth_url(value: object) -> str:
+    try:
+        parsed = urlsplit(str(value or ""))
+    except Exception:
+        return ""
+    path = parsed.path or "/"
+    if parsed.scheme in {"http", "https"} and parsed.netloc:
+        return f"{parsed.scheme}://{parsed.netloc}{path}"
+    if not parsed.scheme and not parsed.netloc:
+        return path
+    return ""
+
+
+def _safe_element_attribute(element, name: str) -> str:
+    try:
+        value = element.get_attribute(name, timeout=500)
+    except Exception:
+        return ""
+    return str(value or "")
+
+
+def _safe_element_evaluate(element, script: str, argument=None):
+    try:
+        if argument is None:
+            return element.evaluate(script)
+        return element.evaluate(script, argument)
+    except Exception:
+        return ""
+
+
+def _matched_password_submit_selector(element) -> str:
+    for selector in PASSWORD_LOGIN_BUTTON_CANDIDATES:
+        matched = _safe_element_evaluate(
+            element,
+            "(element, selector) => element.matches(selector)",
+            selector,
+        )
+        if matched is True:
+            return selector
+    if _safe_element_attribute(element, "id") == "loginBtn1":
+        return "#loginBtn1"
+    form_id = str(
+        _safe_element_evaluate(
+            element,
+            "element => { const form = element.form || "
+            "element.closest('form'); return form ? form.id : ''; }",
+        )
+        or ""
+    )
+    tag = str(
+        _safe_element_evaluate(
+            element,
+            "element => element.tagName ? element.tagName.toLowerCase() : ''",
+        )
+        or ""
+    ).lower()
+    element_type = _safe_element_attribute(element, "type").lower()
+    if form_id == "logincontentFm1" and element_type == "submit":
+        if tag == "button":
+            return "#logincontentFm1 button[type='submit']"
+        if tag == "input":
+            return "#logincontentFm1 input[type='submit']"
+    try:
+        text = " ".join(str(element.inner_text(timeout=500)).split())
+    except Exception:
+        text = ""
+    value = _safe_element_attribute(element, "value")
+    if form_id == "logincontentFm1" and tag == "button":
+        if "登录" in text:
+            return "#logincontentFm1 button:has-text('登录')"
+        if "login" in text.lower():
+            return "#logincontentFm1 button:has-text('Login')"
+    if (
+        form_id == "logincontentFm1"
+        and tag == "input"
+        and element_type == "button"
+    ):
+        if "登录" in value:
+            return "#logincontentFm1 input[type='button'][value*='登录']"
+        if value == "Login":
+            return "#logincontentFm1 input[type='button'][value='Login']"
+    return "UNKNOWN_SCOPED_PASSWORD_SUBMIT"
+
+
+def _password_submit_safe_details(element) -> dict:
+    tag = _safe_dom_token(
+        _safe_element_evaluate(
+            element,
+            "element => element.tagName ? element.tagName.toLowerCase() : ''",
+        )
+    ).lower()
+    form_id = _safe_dom_token(
+        _safe_element_evaluate(
+            element,
+            "element => { const form = element.form || "
+            "element.closest('form'); return form ? form.id : ''; }",
+        )
+    )
+    form_action = _safe_auth_url(
+        _safe_element_evaluate(
+            element,
+            "element => { const form = element.form || "
+            "element.closest('form'); return form ? "
+            "(form.getAttribute('action') || form.action || '') : ''; }",
+        )
+    )
+    form_method = _safe_dom_token(
+        _safe_element_evaluate(
+            element,
+            "element => { const form = element.form || "
+            "element.closest('form'); return form ? "
+            "(form.getAttribute('method') || form.method || '') : ''; }",
+        )
+    ).upper()
+    try:
+        visible = bool(element.is_visible(timeout=500))
+    except Exception:
+        visible = False
+    try:
+        enabled = bool(element.is_enabled(timeout=500))
+    except Exception:
+        enabled = False
+    return {
+        "selector": _matched_password_submit_selector(element),
+        "tag": tag,
+        "id": _safe_dom_token(_safe_element_attribute(element, "id")),
+        "type": _safe_dom_token(
+            _safe_element_attribute(element, "type")
+        ).lower(),
+        "name": _safe_dom_token(_safe_element_attribute(element, "name")),
+        "form_id": form_id,
+        "form_action": form_action,
+        "form_method": form_method,
+        "visible": visible,
+        "enabled": enabled,
+    }
+
+
+def _emit_password_submit_details(details: dict) -> None:
+    print(
+        f"PASSWORD_SUBMIT_SELECTOR={details.get('selector', '')}",
+        flush=True,
+    )
+    for key in ("tag", "id", "type", "name", "form_id"):
+        print(
+            f"PASSWORD_SUBMIT_{key.upper()}={details.get(key, '')}",
+            flush=True,
+        )
+    print(
+        f"PASSWORD_SUBMIT_VISIBLE="
+        f"{'true' if details.get('visible') else 'false'}",
+        flush=True,
+    )
+    print(
+        f"PASSWORD_SUBMIT_ENABLED="
+        f"{'true' if details.get('enabled') else 'false'}",
+        flush=True,
+    )
+    print(f"PASSWORD_FORM_ID={details.get('form_id', '')}", flush=True)
+    print(
+        f"PASSWORD_FORM_ACTION={details.get('form_action', '')}",
+        flush=True,
+    )
+    print(
+        f"PASSWORD_FORM_METHOD={details.get('form_method', '')}",
+        flush=True,
+    )
+
+
+def _filled_field_length(field) -> int:
+    try:
+        value = field.input_value(timeout=1_000)
+    except Exception:
+        value = _safe_element_evaluate(field, "element => element.value || ''")
+    return len(str(value or ""))
+
+
+def _record_password_credential_fill_state(
+    diagnostic: dict | None,
+    username_field,
+    password_field,
+) -> bool:
+    username_length = _filled_field_length(username_field)
+    password_length = _filled_field_length(password_field)
+    details = {
+        "username_filled": username_length > 0,
+        "username_length": username_length,
+        "password_filled": password_length > 0,
+        "password_length": password_length,
+    }
+    if diagnostic is not None:
+        diagnostic["password_credentials"] = details
+    print(
+        "PASSWORD_USERNAME_FILLED="
+        + ("true" if details["username_filled"] else "false"),
+        flush=True,
+    )
+    print(f"PASSWORD_USERNAME_LENGTH={username_length}", flush=True)
+    print(
+        "PASSWORD_PASSWORD_FILLED="
+        + ("true" if details["password_filled"] else "false"),
+        flush=True,
+    )
+    print(f"PASSWORD_PASSWORD_LENGTH={password_length}", flush=True)
+    return bool(details["username_filled"] and details["password_filled"])
+
+
+def _network_property(value: object, name: str, default=""):
+    try:
+        result = getattr(value, name)
+        return result() if callable(result) else result
+    except Exception:
+        return default
+
+
+def _safe_password_network_event(request) -> dict | None:
+    method = _safe_dom_token(_network_property(request, "method")).upper()
+    try:
+        parsed = urlsplit(str(_network_property(request, "url")))
+    except Exception:
+        return None
+    host = parsed.hostname.lower() if parsed.hostname else ""
+    if host not in PASSWORD_LOGIN_NETWORK_HOSTS:
+        return None
+    resource_type = str(
+        _network_property(request, "resource_type", "")
+    ).lower()
+    if method != "POST" and resource_type != "document":
+        return None
+    return {
+        "method": method,
+        "host": host,
+        "path": parsed.path or "/",
+        "response_status": 0,
+    }
+
+
+def _start_password_login_network_capture(page) -> dict:
+    state = {
+        "events": [],
+        "request_events": {},
+        "request_handler": None,
+        "response_handler": None,
+        "listening": False,
+    }
+
+    def on_request(request) -> None:
+        event = _safe_password_network_event(request)
+        if event is None or len(state["events"]) >= 20:
+            return
+        state["events"].append(event)
+        state["request_events"][id(request)] = event
+
+    def on_response(response) -> None:
+        request = _network_property(response, "request", None)
+        if request is None:
+            return
+        event = state["request_events"].get(id(request))
+        if event is None:
+            event = _safe_password_network_event(request)
+            if event is None or len(state["events"]) >= 20:
+                return
+            state["events"].append(event)
+            state["request_events"][id(request)] = event
+        try:
+            event["response_status"] = max(
+                0,
+                min(599, int(_network_property(response, "status", 0))),
+            )
+        except (TypeError, ValueError):
+            event["response_status"] = 0
+
+    state["request_handler"] = on_request
+    state["response_handler"] = on_response
+    try:
+        page.on("request", on_request)
+        page.on("response", on_response)
+        state["listening"] = True
+    except Exception:
+        state["listening"] = False
+    return state
+
+
+def _stop_password_login_network_capture(page, state: dict) -> dict:
+    if state.get("listening"):
+        for event_name, handler_key in (
+            ("request", "request_handler"),
+            ("response", "response_handler"),
+        ):
+            try:
+                page.off(event_name, state.get(handler_key))
+            except Exception:
+                pass
+    events = [dict(item) for item in state.get("events", ())]
+    primary = next(
+        (item for item in events if item.get("method") == "POST"),
+        None,
+    )
+    return {
+        "submit": primary is not None,
+        "request_method": primary.get("method", "") if primary else "",
+        "request_host": primary.get("host", "") if primary else "",
+        "request_path": primary.get("path", "") if primary else "",
+        "response_status": (
+            int(primary.get("response_status", 0)) if primary else 0
+        ),
+        "events": events,
+    }
+
+
+def _emit_password_login_network_summary(
+    summary: dict,
+    diagnostic: dict | None,
+) -> None:
+    if diagnostic is not None:
+        diagnostic["password_login_network"] = summary
+    print(
+        "PASSWORD_LOGIN_NETWORK_SUBMIT="
+        + ("true" if summary.get("submit") else "false"),
+        flush=True,
+    )
+    print(
+        f"PASSWORD_LOGIN_REQUEST_METHOD="
+        f"{summary.get('request_method', '')}",
+        flush=True,
+    )
+    print(
+        f"PASSWORD_LOGIN_REQUEST_HOST={summary.get('request_host', '')}",
+        flush=True,
+    )
+    print(
+        f"PASSWORD_LOGIN_REQUEST_PATH={summary.get('request_path', '')}",
+        flush=True,
+    )
+    print(
+        f"PASSWORD_LOGIN_RESPONSE_STATUS="
+        f"{summary.get('response_status', 0)}",
+        flush=True,
+    )
+    for event in summary.get("events", ()):
+        print(
+            "PASSWORD_LOGIN_NETWORK_EVENT="
+            + json.dumps(
+                event,
+                ensure_ascii=False,
+                separators=(",", ":"),
+                sort_keys=True,
+            ),
+            flush=True,
+        )
+
+
+def _safe_visible_password_login_error(
+    page,
+    *,
+    secrets: tuple[str, ...] = (),
+) -> str:
+    error = _optional_visible_auth_locator(page, PASSWORD_LOGIN_ERROR_SELECTOR)
+    if error is None:
+        return "NONE"
+    try:
+        text = " ".join(str(error.inner_text(timeout=500)).split())
+    except Exception:
+        return "NONE"
+    for secret in secrets:
+        if len(secret) >= 3:
+            text = text.replace(secret, "[REDACTED]")
+    text = re.sub(r"[\x00-\x1f\x7f]+", " ", text).strip()
+    return text[:100] or "NONE"
+
+
+def _password_post_click_snapshot(page, label: str) -> dict:
+    snapshot = collect_safe_login_page_snapshot(page)
+    visible = snapshot.get("visible_elements", {})
+    details = {
+        "label": label,
+        "url": _safe_auth_url(getattr(page, "url", "")),
+        "qr_visible": bool(visible.get("qr_login_page")),
+        "username_visible": bool(visible.get("username_field")),
+        "password_visible": bool(visible.get("password_field")),
+        "captcha_visible": bool(visible.get("image_captcha_field")),
+        "otp_visible": bool(visible.get("otp_field")),
+        "mission_visible": bool(visible.get("mission_area")),
+        "slider_visible": bool(visible.get("slider")),
+    }
+    print(f"PASSWORD_POST_CLICK_{label}_URL={details['url']}", flush=True)
+    for key in (
+        "qr_visible",
+        "username_visible",
+        "password_visible",
+        "captcha_visible",
+        "otp_visible",
+        "mission_visible",
+        "slider_visible",
+    ):
+        print(
+            f"PASSWORD_POST_CLICK_{label}_{key.upper()}="
+            + ("true" if details[key] else "false"),
+            flush=True,
+        )
+    return details
+
+
+def _collect_password_post_click_diagnostics(
+    page,
+    *,
+    secrets: tuple[str, ...],
+    diagnostic: dict | None,
+) -> tuple[list[dict], str]:
+    snapshots: list[dict] = []
+    visible_error = "NONE"
+    for delay_ms, label in zip(
+        PASSWORD_POST_CLICK_DELAYS_MS,
+        PASSWORD_POST_CLICK_LABELS,
+    ):
+        try:
+            page.wait_for_timeout(delay_ms)
+        except Exception:
+            pass
+        snapshots.append(_password_post_click_snapshot(page, label))
+        current_error = _safe_visible_password_login_error(
+            page,
+            secrets=secrets,
+        )
+        if current_error != "NONE":
+            visible_error = current_error
+    print(f"PASSWORD_LOGIN_VISIBLE_ERROR={visible_error}", flush=True)
+    if diagnostic is not None:
+        diagnostic["password_post_click_snapshots"] = snapshots
+        diagnostic["password_login_visible_error"] = visible_error
+    return snapshots, visible_error
+
+
+def _wait_for_password_network_capture_tail(page) -> None:
+    try:
+        page.wait_for_timeout(PASSWORD_LOGIN_NETWORK_CAPTURE_TAIL_MS)
+    except Exception:
+        pass
+
+
+def _password_login_failure_reason(
+    network: dict,
+    snapshots: list[dict],
+    visible_error: str,
+) -> str:
+    if not network.get("submit"):
+        return "NO_NETWORK_SUBMIT"
+    if visible_error != "NONE" and re.search(
+        r"(?:用户名|账号|账户|密码|username|password|credential)"
+        r".{0,24}(?:错误|不正确|失败|无效|锁定|禁用|incorrect|invalid|locked)",
+        visible_error,
+        flags=re.IGNORECASE,
+    ):
+        return "CREDENTIAL_REJECTED"
+    if any(
+        item.get("captcha_visible")
+        or item.get("otp_visible")
+        or item.get("slider_visible")
+        for item in snapshots
+    ):
+        return "ADDITIONAL_VERIFICATION"
+    if snapshots and snapshots[-1].get("qr_visible"):
+        return "RETURNED_TO_QR"
+    return "UNKNOWN"
+
+
+def _record_password_login_failure_reason(
+    diagnostic: dict | None,
+    reason: str,
+) -> None:
+    safe_reason = _safe_auth_failure_reason(reason) or "UNKNOWN"
+    if diagnostic is not None:
+        diagnostic["password_login_failure_reason"] = safe_reason
+    print(f"PASSWORD_LOGIN_FAILURE_REASON={safe_reason}", flush=True)
+
+
 def attempt_cloud_password_captcha_login(
     page,
     *,
     max_attempts: int = PASSWORD_CAPTCHA_MAX_ATTEMPTS,
+    diagnostic: dict | None = None,
 ) -> AuthObservation:
     if max_attempts != PASSWORD_CAPTCHA_MAX_ATTEMPTS:
         raise ValueError("账号密码图片验证码登录必须固定最多尝试3次")
@@ -1109,6 +1611,22 @@ def attempt_cloud_password_captcha_login(
     username, password = _password_credentials_from_environment()
     if not username or not password:
         logger.error("PASSWORD_CAPTCHA_CONFIGURATION_MISSING")
+        missing_details = {
+            "username_filled": False,
+            "username_length": 0,
+            "password_filled": False,
+            "password_length": 0,
+        }
+        if diagnostic is not None:
+            diagnostic["password_credentials"] = missing_details
+        print("PASSWORD_USERNAME_FILLED=false", flush=True)
+        print("PASSWORD_USERNAME_LENGTH=0", flush=True)
+        print("PASSWORD_PASSWORD_FILLED=false", flush=True)
+        print("PASSWORD_PASSWORD_LENGTH=0", flush=True)
+        _record_password_login_failure_reason(
+            diagnostic,
+            "PASSWORD_CREDENTIALS_MISSING",
+        )
         _save_safe_password_captcha_diagnostic(page)
         return AuthObservation(
             AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA_FAILED,
@@ -1117,7 +1635,22 @@ def attempt_cloud_password_captcha_login(
 
     captcha_attempts = 0
     direct_login_attempted = False
+    last_failure_reason = "UNKNOWN"
     while True:
+        network_state = None
+        network_summary = {
+            "submit": False,
+            "request_method": "",
+            "request_host": "",
+            "request_path": "",
+            "response_status": 0,
+            "events": [],
+        }
+        snapshots: list[dict] = []
+        visible_error = "NONE"
+        captcha = ""
+        network_emitted = False
+        click_sent = False
         try:
             username_field = _first_visible_auth_locator(
                 page,
@@ -1135,6 +1668,17 @@ def attempt_cloud_password_captcha_login(
             )
             username_field.fill(username)
             password_field.fill(password)
+            if not _record_password_credential_fill_state(
+                diagnostic,
+                username_field,
+                password_field,
+            ):
+                last_failure_reason = "PASSWORD_CREDENTIALS_MISSING"
+                _record_password_login_failure_reason(
+                    diagnostic,
+                    last_failure_reason,
+                )
+                break
 
             captcha_image = None
             if captcha_field is not None:
@@ -1175,7 +1719,31 @@ def attempt_cloud_password_captcha_login(
                 PASSWORD_LOGIN_BUTTON_SELECTOR,
                 "账号密码登录按钮",
             )
+            submit_details = _password_submit_safe_details(submit)
+            if diagnostic is not None:
+                diagnostic["password_submit"] = submit_details
+            _emit_password_submit_details(submit_details)
+
+            network_state = _start_password_login_network_capture(page)
+            click_sent = True
             submit.click(timeout=10_000)
+            snapshots, visible_error = (
+                _collect_password_post_click_diagnostics(
+                    page,
+                    secrets=(username, password, captcha),
+                    diagnostic=diagnostic,
+                )
+            )
+            _wait_for_password_network_capture_tail(page)
+            network_summary = _stop_password_login_network_capture(
+                page,
+                network_state,
+            )
+            _emit_password_login_network_summary(
+                network_summary,
+                diagnostic,
+            )
+            network_emitted = True
             try:
                 page.wait_for_load_state(
                     "domcontentloaded",
@@ -1196,6 +1764,15 @@ def attempt_cloud_password_captcha_login(
             if observation.status == AuthStatus.LOGIN_REQUIRED_DYNAMIC_OTP:
                 return observation
             if observation.status == AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA:
+                last_failure_reason = _password_login_failure_reason(
+                    network_summary,
+                    snapshots,
+                    visible_error,
+                )
+                _record_password_login_failure_reason(
+                    diagnostic,
+                    last_failure_reason,
+                )
                 if _optional_visible_auth_locator(
                     page,
                     PASSWORD_CAPTCHA_INPUT_SELECTOR,
@@ -1205,6 +1782,33 @@ def attempt_cloud_password_captcha_login(
             if not is_login_required_status(observation.status):
                 return observation
         except Exception as exc:
+            if network_state is not None and not network_emitted:
+                if click_sent and not snapshots:
+                    snapshots, visible_error = (
+                        _collect_password_post_click_diagnostics(
+                            page,
+                            secrets=(username, password, captcha),
+                            diagnostic=diagnostic,
+                        )
+                    )
+                    _wait_for_password_network_capture_tail(page)
+                network_summary = _stop_password_login_network_capture(
+                    page,
+                    network_state,
+                )
+                _emit_password_login_network_summary(
+                    network_summary,
+                    diagnostic,
+                )
+            last_failure_reason = _password_login_failure_reason(
+                network_summary,
+                snapshots,
+                visible_error,
+            )
+            _record_password_login_failure_reason(
+                diagnostic,
+                last_failure_reason,
+            )
             logger.warning(
                 "PASSWORD_LOGIN_ATTEMPT_FAILED CAPTCHA_ATTEMPTS=%d ERROR=%s",
                 captcha_attempts,
@@ -1213,6 +1817,13 @@ def attempt_cloud_password_captcha_login(
             if captcha_attempts >= max_attempts or direct_login_attempted:
                 break
 
+    if diagnostic is not None and not diagnostic.get(
+        "password_login_failure_reason"
+    ):
+        _record_password_login_failure_reason(
+            diagnostic,
+            last_failure_reason,
+        )
     _save_safe_password_captcha_diagnostic(page)
     return AuthObservation(
         AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA_FAILED,
@@ -6720,7 +7331,10 @@ def attempt_cloud_adaptive_login(
         diagnostic["auth_method"] = "PASSWORD_CAPTCHA"
         print("AUTH_PAGE_TYPE=PASSWORD_CAPTCHA", flush=True)
         print("AUTH_METHOD=PASSWORD_CAPTCHA", flush=True)
-        observation = attempt_cloud_password_captcha_login(page)
+        observation = attempt_cloud_password_captcha_login(
+            page,
+            diagnostic=diagnostic,
+        )
         if observation.status == AuthStatus.LOGIN_REQUIRED_DYNAMIC_OTP:
             print("AUTH_PAGE_TYPE=DYNAMIC_OTP", flush=True)
             print("AUTH_METHOD=DYNAMIC_OTP", flush=True)

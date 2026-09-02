@@ -7,9 +7,26 @@ import crew_calendar_main as calendar
 
 
 class FakeElement:
-    def __init__(self, *, text: str = "", image: bytes = b"captcha") -> None:
+    def __init__(
+        self,
+        *,
+        text: str = "",
+        image: bytes = b"captcha",
+        tag: str = "input",
+        attributes: dict[str, str] | None = None,
+        form_id: str = "",
+        form_action: str = "",
+        form_method: str = "",
+        matched_selectors: set[str] | None = None,
+    ) -> None:
         self.text = text
         self.image = image
+        self.tag = tag
+        self.attributes = attributes or {}
+        self.form_id = form_id
+        self.form_action = form_action
+        self.form_method = form_method
+        self.matched_selectors = matched_selectors or set()
         self.value = ""
         self.clicks = 0
 
@@ -19,8 +36,14 @@ class FakeElement:
     def is_visible(self, timeout: int = 0) -> bool:
         return True
 
+    def is_enabled(self, timeout: int = 0) -> bool:
+        return True
+
     def fill(self, value: str) -> None:
         self.value = value
+
+    def input_value(self, timeout: int = 0) -> str:
+        return self.value
 
     def click(self, timeout: int = 0) -> None:
         self.clicks += 1
@@ -28,8 +51,23 @@ class FakeElement:
     def screenshot(self, **_kwargs) -> bytes:
         return self.image
 
-    def get_attribute(self, _name: str, timeout: int = 0):
-        return None
+    def get_attribute(self, name: str, timeout: int = 0):
+        return self.attributes.get(name)
+
+    def evaluate(self, script: str, argument=None):
+        if "matches(selector)" in script:
+            return argument in self.matched_selectors
+        if "tagName" in script:
+            return self.tag
+        if "element.value" in script:
+            return self.value
+        if "form.id" in script:
+            return self.form_id
+        if "form.getAttribute('action')" in script:
+            return self.form_action
+        if "form.getAttribute('method')" in script:
+            return self.form_method
+        return ""
 
 
 class FakeLocator:
@@ -83,7 +121,14 @@ def password_page(
     fields = {
         auth.PASSWORD_USERNAME_SELECTOR: FakeElement(),
         auth.PASSWORD_INPUT_SELECTOR: FakeElement(),
-        calendar.PASSWORD_LOGIN_BUTTON_SELECTOR: FakeElement(),
+        calendar.PASSWORD_LOGIN_BUTTON_SELECTOR: FakeElement(
+            tag="button",
+            attributes={"id": "loginBtn1", "type": "submit"},
+            form_id="logincontentFm1",
+            form_action="https://cas.9cair.com/login?service=redacted",
+            form_method="post",
+            matched_selectors={"#loginBtn1"},
+        ),
     }
     if with_captcha:
         fields[auth.PASSWORD_CAPTCHA_INPUT_SELECTOR] = FakeElement()
@@ -278,6 +323,36 @@ def test_password_login_failure_without_captcha_never_enters_otp(
         auth.AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA_FAILED
     )
     assert fields[calendar.PASSWORD_LOGIN_BUTTON_SELECTOR].clicks == 1
+
+
+def test_password_login_does_not_click_when_filled_value_is_missing(
+    monkeypatch,
+    capsys,
+) -> None:
+    class NonFillingElement(FakeElement):
+        def fill(self, value: str) -> None:
+            self.value = ""
+
+    page, fields = password_page(with_captcha=False)
+    fields[auth.PASSWORD_INPUT_SELECTOR] = NonFillingElement()
+    monkeypatch.setenv("CREW_USERNAME", "preferred-user")
+    monkeypatch.setenv("CREW_PASSWORD", "preferred-password")
+
+    observation = calendar.attempt_cloud_password_captcha_login(page)
+
+    assert observation.status == (
+        auth.AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA_FAILED
+    )
+    assert fields[calendar.PASSWORD_LOGIN_BUTTON_SELECTOR].clicks == 0
+    output = capsys.readouterr().out
+    assert "PASSWORD_PASSWORD_FILLED=false" in output
+    assert "PASSWORD_PASSWORD_LENGTH=0" in output
+    assert (
+        "PASSWORD_LOGIN_FAILURE_REASON=PASSWORD_CREDENTIALS_MISSING"
+        in output
+    )
+    assert "preferred-user" not in output
+    assert "preferred-password" not in output
 
 
 def test_password_captcha_login_uses_preferred_credentials_without_otp(
