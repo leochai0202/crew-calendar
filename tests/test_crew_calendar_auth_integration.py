@@ -811,7 +811,7 @@ def test_missing_or_corrupt_secret_falls_back_without_writing(
     )
     monkeypatch.setattr(
         calendar,
-        "attempt_cloud_adaptive_login",
+        "attempt_cloud_dynamic_password_login",
         lambda page, **_kwargs: auth.AuthObservation(
             auth.AuthStatus.LOGIN_REQUIRED,
             auth.AuthSignals(login_url_hint=True),
@@ -851,7 +851,7 @@ def test_confirmed_login_required_uses_cloud_fallback_then_processes(
     )
     monkeypatch.setattr(
         calendar,
-        "attempt_cloud_adaptive_login",
+        "attempt_cloud_dynamic_password_login",
         lambda page, **_kwargs: calls.append("fallback")
         or auth.AuthObservation(
             auth.AuthStatus.AUTHENTICATED,
@@ -893,6 +893,54 @@ def test_confirmed_login_required_uses_cloud_fallback_then_processes(
         "open",
         "create",
     ]
+
+
+def test_password_login_page_still_uses_dynamic_otp_fallback(
+    monkeypatch,
+    tmp_path: Path,
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    install_valid_bundle(monkeypatch)
+    install_fake_browser(monkeypatch)
+    calls: list[str] = []
+    monkeypatch.setattr(
+        calendar,
+        "navigate_and_probe",
+        lambda _page: auth.AuthObservation(
+            auth.AuthStatus.LOGIN_REQUIRED_PASSWORD_CAPTCHA,
+            auth.AuthSignals(
+                login_form=True,
+                password_captcha_form=True,
+                login_url_hint=True,
+            ),
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "attempt_cloud_dynamic_password_login",
+        lambda _page, **_kwargs: calls.append("dynamic-otp")
+        or auth.AuthObservation(
+            auth.AuthStatus.PAGE_CHANGED_OR_UNKNOWN,
+            auth.AuthSignals(),
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "attempt_cloud_adaptive_login",
+        lambda *_args, **_kwargs: (_ for _ in ()).throw(
+            AssertionError("production must not choose password login")
+        ),
+    )
+    monkeypatch.setattr(
+        calendar,
+        "attempt_cloud_password_captcha_login",
+        lambda *_args, **_kwargs: (_ for _ in ()).throw(
+            AssertionError("production must not submit username/password")
+        ),
+    )
+
+    assert calendar.run() == 5
+    assert calls == ["dynamic-otp"]
 
 
 def test_successful_cloud_login_refreshes_backup_before_processing(
@@ -938,7 +986,7 @@ def test_successful_cloud_login_refreshes_backup_before_processing(
     )
     monkeypatch.setattr(
         calendar,
-        "attempt_cloud_adaptive_login",
+        "attempt_cloud_dynamic_password_login",
         lambda _page, **_kwargs: events.append("fallback")
         or auth.AuthObservation(
             auth.AuthStatus.AUTHENTICATED,
@@ -1637,8 +1685,10 @@ def test_import_does_not_touch_repository_debug_output(
 def test_formal_run_has_no_legacy_login_or_ocr_call_path() -> None:
     source = inspect.getsource(calendar.run)
 
-    assert "attempt_cloud_adaptive_login(" in source
+    assert "attempt_cloud_dynamic_password_login(" in source
     for forbidden in (
+        "attempt_cloud_adaptive_login(",
+        "attempt_cloud_password_captcha_login(",
         "solve_captcha",
         "extract_captcha_bytes",
         "pytesseract",

@@ -6821,6 +6821,9 @@ def _cloud_stage_reporter(diagnostic: dict):
         if stage not in LOGIN_STAGE_NAMES:
             return
         entry = {"stage": stage}
+        if stage == "DYNAMIC_TAB_OPENED":
+            diagnostic["auth_page_type"] = "DYNAMIC_OTP"
+            print("AUTH_PAGE_TYPE=DYNAMIC_OTP", flush=True)
         if stage == "OTP_REQUEST_CLICKED":
             diagnostic["otp_requests"] = max(
                 int(diagnostic.get("otp_requests", 0)),
@@ -7125,6 +7128,8 @@ def attempt_cloud_dynamic_password_login(
     now: datetime | None = None,
 ) -> AuthObservation:
     diagnostic = _new_cloud_login_diagnostic()
+    diagnostic["auth_method"] = "DYNAMIC_OTP"
+    print("AUTH_METHOD=DYNAMIC_OTP", flush=True)
     stage_reporter = _cloud_stage_reporter(diagnostic)
     request_timestamp = (now or _utc_now()).astimezone(timezone.utc)
     phone_number = os.environ.get("CREW_PHONE", "").strip()
@@ -7627,7 +7632,10 @@ def run() -> int:
                 used_cloud_fallback = False
                 if is_login_required_status(observation.status):
                     used_cloud_fallback = True
-                    observation = attempt_cloud_adaptive_login(
+                    # The supported automatic recovery path is deliberately
+                    # limited to the dynamic-password tab.  Account/password
+                    # variants may be detected, but are never submitted.
+                    observation = attempt_cloud_dynamic_password_login(
                         page,
                         auth_control_path=auth_control_path,
                     )
