@@ -1,7 +1,7 @@
 {
   "failure_notified_at": "2026-08-31T10:58:58+08:00",
-  "incident_active": true,
+  "incident_active": false,
   "incident_started_at": "2026-08-31T10:58:58+08:00",
   "last_failure_status": "LOGIN_REQUIRED_PASSWORD_CAPTCHA_FAILED",
-  "recovery_notified_at": ""
+  "recovery_notified_at": "2026-09-03T22:52:41+08:00"
 }
