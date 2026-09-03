@@ -1,6 +1,6 @@
 {
   "rolling_days": 90,
-  "as_of": "2026-09-01",
+  "as_of": "2026-09-04",
   "airports": {
     "西安咸阳": {
       "last_operated": "2026-05-26",
@@ -9,9 +9,9 @@
       "within_90_days": false
     },
     "上海虹桥": {
-      "last_operated": "2026-08-31",
+      "last_operated": "2026-09-01",
       "source": "completed_schedule_event",
-      "flight_number": "9C7682",
+      "flight_number": "9C8838",
       "within_90_days": true
     },
     "重庆江北": {
@@ -21,9 +21,9 @@
       "within_90_days": true
     },
     "上海浦东": {
-      "last_operated": "2026-08-31",
+      "last_operated": "2026-09-02",
       "source": "completed_schedule_event",
-      "flight_number": "9C6223",
+      "flight_number": "9C6445",
       "within_90_days": true
     },
     "札幌新千岁": {
@@ -42,7 +42,7 @@
       "last_operated": "2026-06-04",
       "source": "completed_schedule_event",
       "flight_number": "9C6777Y",
-      "within_90_days": true
+      "within_90_days": false
     },
     "泉州晋江": {
       "last_operated": "2026-04-18",
@@ -75,9 +75,9 @@
       "within_90_days": false
     },
     "厦门高崎": {
-      "last_operated": "2026-08-31",
+      "last_operated": "2026-09-01",
       "source": "completed_schedule_event",
-      "flight_number": "9C8807",
+      "flight_number": "9C8838",
       "within_90_days": true
     },
     "西宁曹家堡": {
@@ -174,7 +174,7 @@
       "last_operated": "2026-06-05",
       "source": "completed_schedule_event",
       "flight_number": "9C7069",
-      "within_90_days": true
+      "within_90_days": false
     },
     "呼和浩特白塔": {
       "last_operated": "2026-06-06",
@@ -276,6 +276,18 @@
       "last_operated": "2026-08-27",
       "source": "completed_schedule_event",
       "flight_number": "9C7619",
+      "within_90_days": true
+    },
+    "衡阳南岳": {
+      "last_operated": "2026-09-01",
+      "source": "completed_schedule_event",
+      "flight_number": "9C6475",
+      "within_90_days": true
+    },
+    "广元盘龙": {
+      "last_operated": "2026-09-02",
+      "source": "completed_schedule_event",
+      "flight_number": "9C6445",
       "within_90_days": true
     }
   },
