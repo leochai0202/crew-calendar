@@ -102,12 +102,28 @@ def test_schedule_maps_auth_status_and_gates_clean_and_commit() -> None:
     assert "CALENDAR_UPDATE=SKIPPED_PRESERVE_LAST_GOOD" in workflow
 
 
+def test_diagnostic_artifact_uploads_are_always_non_blocking() -> None:
+    workflow = SCHEDULE.read_text(encoding="utf-8")
+
+    auth_upload = workflow.split(
+        "- name: Upload safe authentication diagnostic", 1
+    )[1].split("- name: Upload safe route parsing diagnostic", 1)[0]
+    route_upload = workflow.split(
+        "- name: Upload safe route parsing diagnostic", 1
+    )[1].split("- name: Clean ICS people lists", 1)[0]
+
+    for step in (auth_upload, route_upload):
+        assert "if: ${{ always() }}" in step
+        assert "continue-on-error: true" in step
+        assert "uses: actions/upload-artifact@v4" in step
+
+
 def test_auth_notification_is_non_blocking_and_persists_only_safe_state() -> None:
     workflow = SCHEDULE.read_text(encoding="utf-8")
 
     assert "id: auth_notification" in workflow
     assert "python crew_auth_notification.py" in workflow
-    assert workflow.count("continue-on-error: true") == 2
+    assert workflow.count("continue-on-error: true") == 4
     assert (
         "always() && steps.auth_notification.outcome == 'success'"
         in workflow
