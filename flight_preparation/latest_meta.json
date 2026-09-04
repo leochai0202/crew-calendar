@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-09-05",
-  "generated_at_beijing": "2026-09-04T03:25:51.566657+08:00",
+  "generated_at_beijing": "2026-09-04T13:47:36.180997+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C8791",
@@ -198,28 +198,55 @@
       "weather": {
         "上海浦东": {
           "icao": "ZSPD",
-          "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "source_used": "TAF",
+          "taf_validity_utc": [
+            "2026-09-04T06:00:00+00:00",
+            "2026-09-05T12:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-09-05T08:20:00+08:00",
             "2026-09-05T17:00:00+08:00"
           ],
-          "taf_decoded_by_time": [],
-          "decoded": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-05T08:20:00+08:00",
+              "decoded": [
+                "多云，云底约2000英尺"
+              ]
+            },
+            {
+              "time": "2026-09-05T17:00:00+08:00",
+              "decoded": [
+                "多云，云底约2000英尺"
+              ]
+            }
+          ],
+          "decoded": [
+            "多云，云底约2000英尺"
+          ],
           "fetch_error": ""
         },
         "札幌新千岁": {
           "icao": "RJCC",
-          "source_used": "OUTSIDE_VALID_WINDOW",
+          "source_used": "TAF",
           "taf_validity_utc": [
-            "2026-09-03T18:00:00+00:00",
-            "2026-09-05T00:00:00+00:00"
+            "2026-09-04T06:00:00+00:00",
+            "2026-09-05T12:00:00+00:00"
           ],
           "relevant_times": [
             "2026-09-05T11:50:00+08:00",
             "2026-09-05T12:50:00+08:00"
           ],
-          "taf_decoded_by_time": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-05T11:50:00+08:00",
+              "decoded": []
+            },
+            {
+              "time": "2026-09-05T12:50:00+08:00",
+              "decoded": []
+            }
+          ],
           "decoded": [],
           "fetch_error": ""
         }
@@ -3657,7 +3684,7 @@
           }
         ]
       },
-      "content_sha256": "0108f6e0f7aee72101861c00ac240ca666460bb7c73a75b0020996bd46b5c8de",
+      "content_sha256": "4e113fd92611de080af6e511e5ce8d533f2091b4d694268f866e306bbc2439b8",
       "_english_content": ""
     }
   ],
@@ -3668,39 +3695,60 @@
   "weather": {
     "上海浦东": {
       "icao": "ZSPD",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-09-04T06:00:00+00:00",
+        "2026-09-05T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-09-05T08:20:00+08:00",
         "2026-09-05T17:00:00+08:00"
       ],
-      "taf_decoded_by_time": [],
-      "decoded": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-09-05T08:20:00+08:00",
+          "decoded": [
+            "多云，云底约2000英尺"
+          ]
+        },
+        {
+          "time": "2026-09-05T17:00:00+08:00",
+          "decoded": [
+            "多云，云底约2000英尺"
+          ]
+        }
+      ],
+      "decoded": [
+        "多云，云底约2000英尺"
+      ],
       "fetch_error": ""
     },
     "札幌新千岁": {
       "icao": "RJCC",
-      "source_used": "OUTSIDE_VALID_WINDOW",
+      "source_used": "TAF",
       "taf_validity_utc": [
-        "2026-09-03T18:00:00+00:00",
-        "2026-09-05T00:00:00+00:00"
+        "2026-09-04T06:00:00+00:00",
+        "2026-09-05T12:00:00+00:00"
       ],
       "relevant_times": [
         "2026-09-05T11:50:00+08:00",
         "2026-09-05T12:50:00+08:00"
       ],
-      "taf_decoded_by_time": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-09-05T11:50:00+08:00",
+          "decoded": []
+        },
+        {
+          "time": "2026-09-05T12:50:00+08:00",
+          "decoded": []
+        }
+      ],
       "decoded": [],
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [
-    "厦门高崎: 2026-08-31 -> 2026-09-01",
-    "上海虹桥: 2026-08-31 -> 2026-09-01",
-    "衡阳南岳: - -> 2026-09-01",
-    "上海浦东: 2026-08-31 -> 2026-09-02",
-    "广元盘龙: - -> 2026-09-02"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
   "airport_information_version": 20260824,
   "airport_information_type": "PDF",
