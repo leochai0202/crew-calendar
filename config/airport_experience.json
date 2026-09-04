@@ -1,6 +1,6 @@
 {
   "rolling_days": 90,
-  "as_of": "2026-09-04",
+  "as_of": "2026-09-05",
   "airports": {
     "西安咸阳": {
       "last_operated": "2026-05-26",
@@ -180,7 +180,7 @@
       "last_operated": "2026-06-06",
       "source": "completed_schedule_event",
       "flight_number": "9C6731",
-      "within_90_days": true
+      "within_90_days": false
     },
     "长春龙嘉": {
       "last_operated": "2026-07-18",
