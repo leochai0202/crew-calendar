@@ -2701,7 +2701,7 @@ UID:5566281720ec1a995ad330dd2e3e864c@crew-calendar
 SUMMARY:✈️ 9C8791 上海浦东→札幌新千岁
 DTSTART;TZID=Asia/Shanghai:20260905T082000
 DTEND;TZID=Asia/Shanghai:20260905T115000
-DESCRIPTION:09月05日 周六\n类型：航班\n航班：9C8791\n航线：上海浦东 → 札幌新千岁\n地点：上海浦东\n签到：06:15｜上海浦东\n任务：08:20 - 11:50\n机型：A320｜注册号：B32HZ\n\n人员名单：\n• MARTINS BORGES NETO RUBENS(R)\n• 段洋硕\n• 王闯(R)\n• 杨钰莹(B)\n• 唐毅(MP)\n\n版本：2026-09-05 21:58
+DESCRIPTION:09月05日 周六\n类型：航班\n航班：9C8791\n航线：上海浦东 → 札幌新千岁\n地点：上海浦东\n签到：06:15｜上海浦东\n任务：08:20 - 11:50\n机型：A320｜注册号：B32HZ\n\n人员名单：\n• MARTINS BORGES NETO RUBENS(R)\n• 段洋硕\n• 王闯(R)\n• 杨钰莹(B)\n• 唐毅(MP)\n\n版本：2026-09-05 22:50
 X-CONTENT-SIGNATURE:e852aee29bebe60682cb1a442eaf3f37
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -2715,7 +2715,7 @@ UID:0332b35375bd55820159f1340769c8a0@crew-calendar
 SUMMARY:✈️ 9C8792 札幌新千岁→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260905T125000
 DTEND;TZID=Asia/Shanghai:20260905T170000
-DESCRIPTION:09月05日 周六\n类型：航班\n航班：9C8792\n航线：札幌新千岁 → 上海浦东\n地点：札幌新千岁\n签到：11:15｜札幌新千岁\n任务：12:50 - 17:00\n机型：A320｜注册号：B32HZ\n\n人员名单：\n• MARTINS BORGES NETO RUBENS(R)\n• 段洋硕\n• 王闯(R)\n• 杨钰莹(B)\n• 唐毅(MP)\n\n版本：2026-09-05 21:58
+DESCRIPTION:09月05日 周六\n类型：航班\n航班：9C8792\n航线：札幌新千岁 → 上海浦东\n地点：札幌新千岁\n签到：11:15｜札幌新千岁\n任务：12:50 - 17:00\n机型：A320｜注册号：B32HZ\n\n人员名单：\n• MARTINS BORGES NETO RUBENS(R)\n• 段洋硕\n• 王闯(R)\n• 杨钰莹(B)\n• 唐毅(MP)\n\n版本：2026-09-05 22:50
 X-CONTENT-SIGNATURE:222a0d300c47f5012df1132987489e58
 LOCATION:札幌新千岁
 BEGIN:VALARM
@@ -2729,7 +2729,7 @@ UID:3b06e1457d16becb18e96853848f8406@crew-calendar
 SUMMARY:✈️ 9C6833 上海虹桥→西宁曹家堡
 DTSTART;TZID=Asia/Shanghai:20260906T164000
 DTEND;TZID=Asia/Shanghai:20260906T201000
-DESCRIPTION:09月06日 周日\n类型：航班\n航班：9C6833\n航线：上海虹桥 → 西宁曹家堡\n地点：上海虹桥\n签到：14:55｜上海虹桥\n任务：16:40 - 20:10\n机型：A320｜注册号：B32F7\n\n人员名单：\n• 张治刚(T2)\n• 赵越\n• 段洋硕\n• 李文英(B)\n\n版本：2026-09-05 21:58
+DESCRIPTION:09月06日 周日\n类型：航班\n航班：9C6833\n航线：上海虹桥 → 西宁曹家堡\n地点：上海虹桥\n签到：14:55｜上海虹桥\n任务：16:40 - 20:10\n机型：A320｜注册号：B32F7\n\n人员名单：\n• 张治刚(T2)\n• 赵越\n• 段洋硕\n• 李文英(B)\n\n版本：2026-09-05 22:50
 X-CONTENT-SIGNATURE:39a92a0bf38f0d0f298ca619aef70929
 LOCATION:上海虹桥
 BEGIN:VALARM
@@ -2743,7 +2743,7 @@ UID:b220da3a60125a70c07bce2d900f8733@crew-calendar
 SUMMARY:✈️ 9C6834 西宁曹家堡→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260906T205500
 DTEND;TZID=Asia/Shanghai:20260906T234000
-DESCRIPTION:09月06日 周日\n类型：航班\n航班：9C6834\n航线：西宁曹家堡 → 上海虹桥\n地点：西宁曹家堡\n签到：19:20｜西宁曹家堡\n任务：20:55 - 23:40\n机型：A320｜注册号：B32F7\n\n人员名单：\n• 张治刚(T2)\n• 赵越\n• 段洋硕\n• 李文英(B)\n\n版本：2026-09-05 21:58
+DESCRIPTION:09月06日 周日\n类型：航班\n航班：9C6834\n航线：西宁曹家堡 → 上海虹桥\n地点：西宁曹家堡\n签到：19:20｜西宁曹家堡\n任务：20:55 - 23:40\n机型：A320｜注册号：B32F7\n\n人员名单：\n• 张治刚(T2)\n• 赵越\n• 段洋硕\n• 李文英(B)\n\n版本：2026-09-05 22:50
 X-CONTENT-SIGNATURE:7819a04f8c6e5b193b93659e103b3fad
 LOCATION:西宁曹家堡
 BEGIN:VALARM
@@ -2757,7 +2757,7 @@ UID:5c9c63dd6766abbca1f6a3cca2e1cbdb@crew-calendar
 SUMMARY:🎓 模拟机-副驾驶能力提升-复飞(FTD)
 DTSTART;TZID=Asia/Shanghai:20260907T133000
 DTEND;TZID=Asia/Shanghai:20260907T173000
-DESCRIPTION:09月07日 周一\n类型：训练\n事项：模拟机-副驾驶能力提升-复飞(FTD)\n地点：春秋航空总部大楼\n任务：13:30 - 17:30\n\n人员名单：\n• 段洋硕\n• 施超杰\n• 李贯涵\n• 郭满成\n• 黄俊杰\n\n版本：2026-09-05 21:58
+DESCRIPTION:09月07日 周一\n类型：训练\n事项：模拟机-副驾驶能力提升-复飞(FTD)\n地点：春秋航空总部大楼\n任务：13:30 - 17:30\n\n人员名单：\n• 段洋硕\n• 施超杰\n• 李贯涵\n• 郭满成\n• 黄俊杰\n\n版本：2026-09-05 22:50
 X-CONTENT-SIGNATURE:05f2e0f9efdb36cc0a4748b180bc3879
 LOCATION:春秋航空总部大楼
 BEGIN:VALARM
@@ -2771,7 +2771,7 @@ UID:da5cf2c9872b5065cd2afd3d48d4ec84@crew-calendar
 SUMMARY:✈️ 9C8891 上海浦东→曼谷素旺那普
 DTSTART;TZID=Asia/Shanghai:20260910T082000
 DTEND;TZID=Asia/Shanghai:20260910T125000
-DESCRIPTION:09月10日 周四\n类型：航班\n航班：9C8891\n航线：上海浦东 → 曼谷素旺那普\n地点：上海浦东\n签到：06:15｜上海浦东\n任务：08:20 - 12:50\n机型：A320｜注册号：B8590\n\n人员名单：\n• 丁晓华(R)\n• 周光伟(R)\n• 段洋硕\n• 王郁聪(B)\n\n版本：2026-09-05 21:58
+DESCRIPTION:09月10日 周四\n类型：航班\n航班：9C8891\n航线：上海浦东 → 曼谷素旺那普\n地点：上海浦东\n签到：06:15｜上海浦东\n任务：08:20 - 12:50\n机型：A320｜注册号：B8590\n\n人员名单：\n• 丁晓华(R)\n• 周光伟(R)\n• 段洋硕\n• 王郁聪(B)\n\n版本：2026-09-05 22:50
 X-CONTENT-SIGNATURE:fc5ff7818154bc64f6058a1cb48b7e40
 LOCATION:上海浦东
 BEGIN:VALARM
