@@ -28,10 +28,127 @@ jobs:
         shell: pwsh
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - name: Bootstrap repository from GitHub API
+        id: bootstrap
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          $ErrorActionPreference = "Stop"
+          if ([string]::IsNullOrWhiteSpace($env:GITHUB_TOKEN)) {
+            throw "GITHUB_TOKEN is required"
+          }
+
+          function New-DirectHttpClient {
+            $handler = [System.Net.Http.HttpClientHandler]::new()
+            $handler.UseProxy = $false
+            $handler.AllowAutoRedirect = $false
+            $client = [System.Net.Http.HttpClient]::new($handler)
+            $client.Timeout = [TimeSpan]::FromSeconds(45)
+            $client.DefaultRequestHeaders.UserAgent.ParseAdd(
+              "crew-calendar-workflow-bootstrap"
+            )
+            return $client
+          }
+
+          function Invoke-DirectApiJson {
+            param(
+              [Parameter(Mandatory = $true)]
+              [string]$Uri,
+              [Parameter(Mandatory = $true)]
+              [string]$Label
+            )
+            $lastError = $null
+            for ($attempt = 1; $attempt -le 3; $attempt++) {
+              $client = New-DirectHttpClient
+              try {
+                $request = [System.Net.Http.HttpRequestMessage]::new(
+                  [System.Net.Http.HttpMethod]::Get,
+                  $Uri
+                )
+                try {
+                  $request.Headers.Authorization = (
+                    [System.Net.Http.Headers.AuthenticationHeaderValue]::new(
+                      "Bearer",
+                      $env:GITHUB_TOKEN
+                    )
+                  )
+                  $request.Headers.Accept.ParseAdd("application/vnd.github+json")
+                  $request.Headers.Add("X-GitHub-Api-Version", "2022-11-28")
+                  $response = $client.SendAsync($request).GetAwaiter().GetResult()
+                  try {
+                    if (-not $response.IsSuccessStatusCode) {
+                      throw "$Label returned HTTP $([int]$response.StatusCode)"
+                    }
+                    $body = $response.Content.ReadAsStringAsync().GetAwaiter().GetResult()
+                    return $body | ConvertFrom-Json
+                  }
+                  finally {
+                    $response.Dispose()
+                  }
+                }
+                finally {
+                  $request.Dispose()
+                }
+              }
+              catch {
+                $lastError = $_
+                Write-Host "$Label attempt $attempt/3 failed"
+                if ($attempt -lt 3) {
+                  Start-Sleep -Seconds @(5, 15)[$attempt - 1]
+                }
+              }
+              finally {
+                $client.Dispose()
+              }
+            }
+            throw "$Label failed after 3 attempts: $($lastError.Exception.GetType().Name)"
+          }
+
+          $apiBase = "https://api.github.com"
+          $refUri = "$apiBase/repos/$env:GITHUB_REPOSITORY/git/ref/heads/main"
+          $mainRef = Invoke-DirectApiJson -Uri $refUri -Label "Main ref lookup"
+          $bootstrapSha = [string]$mainRef.object.sha
+          if ($bootstrapSha -notmatch "^[0-9a-fA-F]{40}$") {
+            throw "Main ref response did not contain a full commit SHA"
+          }
+          Write-Host "BOOTSTRAP_MAIN_SHA=$bootstrapSha"
+
+          $helperUri = (
+            "$apiBase/repos/$env:GITHUB_REPOSITORY/contents/" +
+            "scripts/bootstrap_repository.ps1?ref=$bootstrapSha"
+          )
+          $helper = Invoke-DirectApiJson -Uri $helperUri -Label "Bootstrap helper lookup"
+          if ([string]$helper.encoding -ne "base64") {
+            throw "Bootstrap helper response did not use base64 encoding"
+          }
+          $helperContent = ([string]$helper.content) -replace "\s", ""
+          if ([string]::IsNullOrWhiteSpace($helperContent)) {
+            throw "Bootstrap helper response was empty"
+          }
+          try {
+            $helperBytes = [Convert]::FromBase64String($helperContent)
+          }
+          catch {
+            throw "Bootstrap helper response contained invalid base64"
+          }
+
+          $helperPath = Join-Path $env:RUNNER_TEMP (
+            "crew-calendar-bootstrap-" + [Guid]::NewGuid().ToString("N") + ".ps1"
+          )
+          [IO.File]::WriteAllBytes($helperPath, $helperBytes)
+          try {
+            & $helperPath `
+              -Repository $env:GITHUB_REPOSITORY `
+              -TargetSha $bootstrapSha `
+              -Workspace $env:GITHUB_WORKSPACE `
+              -RunnerTemp $env:RUNNER_TEMP
+          }
+          finally {
+            if (Test-Path -LiteralPath $helperPath) {
+              Remove-Item -LiteralPath $helperPath -Force
+            }
+          }
 
       - name: Verify self-hosted runtime
         run: |
@@ -76,28 +193,6 @@ jobs:
           }
           exit $exitCode
 
-      - name: Upload safe authentication diagnostic
-        if: ${{ always() }}
-        continue-on-error: true
-        uses: actions/upload-artifact@v4
-        with:
-          name: crew-auth-diagnostic-${{ github.run_id }}
-          path: ${{ runner.temp }}\crew-auth-diagnostic.json
-          if-no-files-found: ignore
-          retention-days: 7
-
-      - name: Upload safe route parsing diagnostic
-        if: ${{ always() }}
-        continue-on-error: true
-        uses: actions/upload-artifact@v4
-        with:
-          name: crew-route-diagnostic-${{ github.run_id }}
-          path: |
-            debug_output/route_parse_failed_*.txt
-            debug_output/route_parse_failed_*.png
-          if-no-files-found: ignore
-          retention-days: 7
-
       - name: Clean ICS people lists
         if: ${{ steps.scraper.outcome == 'success' && steps.scraper.outputs.auth_status == 'AUTHENTICATED' }}
         run: |
@@ -106,29 +201,37 @@ jobs:
             exit $LASTEXITCODE
           }
 
-      - name: Commit and push ICS files
+      - name: Publish ICS files through GitHub API
+        id: ics_publish
         if: ${{ steps.scraper.outcome == 'success' && steps.scraper.outputs.auth_status == 'AUTHENTICATED' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           $ErrorActionPreference = "Stop"
           $PSNativeCommandUseErrorActionPreference = $false
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- *.ics airport_aliases.json
-
-          git diff --cached --quiet
-          if ($LASTEXITCODE -eq 0) {
-            Write-Host "No changes to commit"
-            exit 0
+          $candidateFiles = @(
+            Get-ChildItem -LiteralPath $env:GITHUB_WORKSPACE -Filter "*.ics" -File |
+              ForEach-Object { $_.Name }
+          )
+          if (Test-Path -LiteralPath "airport_aliases.json") {
+            $candidateFiles += "airport_aliases.json"
           }
-          if ($LASTEXITCODE -ne 1) {
-            exit $LASTEXITCODE
+          if ($candidateFiles.Count -eq 0) {
+            throw "No approved calendar output files were found"
           }
 
-          git commit -m "Update crew calendar"
-          if ($LASTEXITCODE -ne 0) {
-            exit $LASTEXITCODE
-          }
-          git push
+          $publisherArgs = @(
+            "github_api_publish.py",
+            "--repository", $env:GITHUB_REPOSITORY,
+            "--branch", "main",
+            "--message", "Update crew calendar",
+            "--root", $env:GITHUB_WORKSPACE,
+            "--github-output", $env:GITHUB_OUTPUT,
+            "--status-prefix", "ICS_API",
+            "--files"
+          ) + $candidateFiles
+          python @publisherArgs
           exit $LASTEXITCODE
 
       - name: Send authentication status notification
@@ -151,9 +254,12 @@ jobs:
             --state-file state/auth_notification_state.json
           exit $LASTEXITCODE
 
-      - name: Commit authentication notification state
+      - name: Publish authentication notification state through GitHub API
         if: ${{ always() && steps.auth_notification.outcome == 'success' }}
         continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           $ErrorActionPreference = "Stop"
           $PSNativeCommandUseErrorActionPreference = $false
@@ -162,20 +268,11 @@ jobs:
             exit 0
           }
 
-          git add -- $stateFile
-          git diff --cached --quiet
-          if ($LASTEXITCODE -eq 0) {
-            exit 0
-          }
-          if ($LASTEXITCODE -ne 1) {
-            exit $LASTEXITCODE
-          }
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Update authentication notification state"
-          if ($LASTEXITCODE -ne 0) {
-            exit $LASTEXITCODE
-          }
-          git push
+          python github_api_publish.py `
+            --repository $env:GITHUB_REPOSITORY `
+            --branch main `
+            --message "Update authentication notification state" `
+            --root $env:GITHUB_WORKSPACE `
+            --status-prefix AUTH_STATE_API `
+            --files $stateFile
           exit $LASTEXITCODE
