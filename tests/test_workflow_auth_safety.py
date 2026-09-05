@@ -56,10 +56,13 @@ def test_schedule_keeps_three_times_and_uses_expected_secrets() -> None:
     assert "actions/setup-python" not in workflow
     for forbidden in ("tesseract-ocr", "ddddocr"):
         assert forbidden not in workflow
-    assert "actions/upload-artifact@v4" in workflow
     assert r"${{ runner.temp }}\crew-auth-diagnostic.json" in workflow
-    assert "if-no-files-found: ignore" in workflow
-    for forbidden_artifact in ("page.html", "playwright/.auth/"):
+    for forbidden_artifact in (
+        "actions/upload-artifact",
+        "if-no-files-found",
+        "page.html",
+        "playwright/.auth/",
+    ):
         assert forbidden_artifact not in workflow
     for removed_password_secret in (
         "CREW_USERNAME",
@@ -69,11 +72,7 @@ def test_schedule_keeps_three_times_and_uses_expected_secrets() -> None:
     ):
         assert removed_password_secret not in workflow
     assert "crew-auth-password-captcha.png" not in workflow
-    assert "debug_output/route_parse_failed_*.txt" in workflow
-    assert "debug_output/route_parse_failed_*.png" in workflow
-    assert workflow.count("debug_output/") == 2
-    assert "path: debug_output" not in workflow
-    assert "debug_output/**" not in workflow
+    assert "debug_output/" not in workflow
 
 
 def test_schedule_maps_auth_status_and_gates_clean_and_commit() -> None:
@@ -102,20 +101,14 @@ def test_schedule_maps_auth_status_and_gates_clean_and_commit() -> None:
     assert "CALENDAR_UPDATE=SKIPPED_PRESERVE_LAST_GOOD" in workflow
 
 
-def test_diagnostic_artifact_uploads_are_always_non_blocking() -> None:
+def test_schedule_has_no_remote_actions_or_diagnostic_uploads() -> None:
     workflow = SCHEDULE.read_text(encoding="utf-8")
 
-    auth_upload = workflow.split(
-        "- name: Upload safe authentication diagnostic", 1
-    )[1].split("- name: Upload safe route parsing diagnostic", 1)[0]
-    route_upload = workflow.split(
-        "- name: Upload safe route parsing diagnostic", 1
-    )[1].split("- name: Clean ICS people lists", 1)[0]
-
-    for step in (auth_upload, route_upload):
-        assert "if: ${{ always() }}" in step
-        assert "continue-on-error: true" in step
-        assert "uses: actions/upload-artifact@v4" in step
+    assert "uses:" not in workflow
+    assert "actions/checkout" not in workflow
+    assert "actions/upload-artifact" not in workflow
+    assert "Upload safe authentication diagnostic" not in workflow
+    assert "Upload safe route parsing diagnostic" not in workflow
 
 
 def test_auth_notification_is_non_blocking_and_persists_only_safe_state() -> None:
@@ -123,19 +116,42 @@ def test_auth_notification_is_non_blocking_and_persists_only_safe_state() -> Non
 
     assert "id: auth_notification" in workflow
     assert "python crew_auth_notification.py" in workflow
-    assert workflow.count("continue-on-error: true") == 4
+    assert workflow.count("continue-on-error: true") == 2
     assert (
         "always() && steps.auth_notification.outcome == 'success'"
         in workflow
     )
-    assert (
-        'git add -- $stateFile'
-        in workflow
-    )
-    assert "git add -A" not in workflow
-    assert workflow.index("Commit and push ICS files") < workflow.index(
+    state_step = workflow.split(
+        "- name: Publish authentication notification state through GitHub API", 1
+    )[1]
+    assert "github_api_publish.py" in state_step
+    assert "state/auth_notification_state.json" in state_step
+    assert "--message \"Update authentication notification state\"" in state_step
+    assert "--status-prefix AUTH_STATE_API" in state_step
+    assert workflow.index("Publish ICS files through GitHub API") < workflow.index(
         "Send authentication status notification"
     )
+
+
+def test_schedule_uses_only_api_and_codeload_transport_for_repository_io() -> None:
+    workflow = SCHEDULE.read_text(encoding="utf-8")
+
+    for forbidden in (
+        "git fetch",
+        "git pull",
+        "git push",
+        "git add",
+        "git diff",
+        "git commit",
+        "git config",
+        "https://github.com",
+    ):
+        assert forbidden not in workflow
+    assert "https://api.github.com" in workflow
+    assert "github_api_publish.py" in workflow
+    assert '"--status-prefix", "ICS_API"' in workflow
+    assert "*.ics" in workflow
+    assert "airport_aliases.json" in workflow
 
 
 def test_maintenance_workflow_has_no_scraper_or_raw_diagnostics_path() -> None:

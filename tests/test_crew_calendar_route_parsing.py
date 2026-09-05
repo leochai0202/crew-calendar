@@ -180,12 +180,12 @@ def test_august_fourteen_routes_do_not_regress(flight_no, route, expected) -> No
     assert parsed[2:] == expected
 
 
-def test_schedule_uploads_route_diagnostic_only_from_failure_glob() -> None:
+def test_production_schedule_does_not_upload_route_diagnostics() -> None:
     workflow = (
         calendar.Path(".github/workflows/schedule.yml").read_text(encoding="utf-8")
     )
 
-    assert "crew-route-diagnostic-${{ github.run_id }}" in workflow
-    assert "debug_output/route_parse_failed_*.txt" in workflow
-    assert "debug_output/route_parse_failed_*.png" in workflow
-    assert "if-no-files-found: ignore" in workflow
+    assert "crew-route-diagnostic-${{ github.run_id }}" not in workflow
+    assert "debug_output/route_parse_failed_*.txt" not in workflow
+    assert "debug_output/route_parse_failed_*.png" not in workflow
+    assert "actions/upload-artifact" not in workflow
