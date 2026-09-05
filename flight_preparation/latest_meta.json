@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-09-06",
-  "generated_at_beijing": "2026-09-05T03:08:02.818390+08:00",
+  "generated_at_beijing": "2026-09-05T13:38:22.022411+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C6833",
@@ -187,12 +187,22 @@
         "上海虹桥": {
           "icao": "ZSSS",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "taf_validity_utc": [
+            "2026-09-05T06:00:00+00:00",
+            "2026-09-06T12:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-09-06T16:40:00+08:00",
             "2026-09-06T23:40:00+08:00"
           ],
-          "taf_decoded_by_time": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-06T16:40:00+08:00",
+              "decoded": [
+                "多云，云底约2000英尺"
+              ]
+            }
+          ],
           "decoded": [],
           "fetch_error": ""
         },
@@ -3755,12 +3765,22 @@
     "上海虹桥": {
       "icao": "ZSSS",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-09-05T06:00:00+00:00",
+        "2026-09-06T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-09-06T16:40:00+08:00",
         "2026-09-06T23:40:00+08:00"
       ],
-      "taf_decoded_by_time": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-09-06T16:40:00+08:00",
+          "decoded": [
+            "多云，云底约2000英尺"
+          ]
+        }
+      ],
       "decoded": [],
       "fetch_error": ""
     },
@@ -3777,7 +3797,10 @@
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [],
+  "airport_experience_changes": [
+    "上海浦东: 2026-09-02 -> 2026-09-05",
+    "札幌新千岁: 2026-03-18 -> 2026-09-05"
+  ],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
   "airport_information_version": 20260824,
   "airport_information_type": "PDF",
