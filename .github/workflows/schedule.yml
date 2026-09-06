@@ -21,7 +21,7 @@ permissions:
 jobs:
   build:
     runs-on: [self-hosted, Windows, X64, crew-calendar]
-    timeout-minutes: 20
+    timeout-minutes: 30
 
     defaults:
       run:
