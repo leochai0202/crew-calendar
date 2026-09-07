@@ -154,6 +154,7 @@ def _stub_airport_risks(
                 "source_heading": f"{airport}测试章节",
                 "source_section": f"{airport}测试章节",
                 "operational_phase": "arrival",
+                "role_scope": ("departure", "arrival"),
                 "airport_specific": True,
                 "category": "core",
                 "text_zh": "雷达引导后应关注下降剖面。",
@@ -170,9 +171,11 @@ def _run_stubbed_main(
     repo: Path,
     event: CalendarEvent,
     *,
+    events: list[CalendarEvent] | None = None,
     existing_english: str = "",
+    generate_english: str = "auto",
 ) -> Path:
-    _prepare_stub_repo(repo, [event])
+    _prepare_stub_repo(repo, events or [event])
     if existing_english:
         output = repo / "flight_preparation"
         output.mkdir()
@@ -199,6 +202,8 @@ def _run_stubbed_main(
             event.route[0],
             "--arrival",
             event.route[1],
+            "--generate-english",
+            generate_english,
         ],
     )
     assert agent.main() == 0
@@ -244,7 +249,7 @@ def test_international_flight_without_foreign_name_does_not_trigger_english(
     assert not (output / "latest_detail_en.txt").exists()
 
 
-def test_domestic_flight_with_latin_name_requires_english_confirmation(
+def test_domestic_flight_with_latin_name_generates_bilingual_output_automatically(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
 ) -> None:
@@ -269,14 +274,45 @@ def test_domestic_flight_with_latin_name_requires_english_confirmation(
     assert foreign_crew_names(event) == ["JOHN SMITH(R)"]
     assert meta["foreign_crew_detected"] is True
     assert meta["foreign_crew_names"] == ["JOHN SMITH(R)"]
-    assert meta["english_confirmation_required"] is True
-    assert meta["english_generated"] is False
-    assert (output / "latest_en.txt").read_text(encoding="utf-8") == (
-        "existing confirmed English briefing\n"
+    assert meta["english_confirmation_required"] is False
+    assert meta["english_generated"] is True
+    assert (output / "latest.txt").exists()
+    english = (output / "latest_en.txt").read_text(encoding="utf-8")
+    assert english != "existing confirmed English briefing\n"
+    assert english.startswith("I am Duan Yangshuo")
+    assert "Core threats:" in english
+    for private_value in ("9C1001", "B32D6", "JOHN SMITH"):
+        assert private_value not in english
+
+
+def test_international_flight_with_marques_generates_english_automatically(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    event = _event(
+        uid="international-foreign",
+        number="9C8552",
+        departure="新加坡樟宜",
+        arrival="上海浦东",
+        people=EXPECTED_PEOPLE,
     )
 
+    output = _run_stubbed_main(
+        monkeypatch,
+        tmp_path / "international-foreign",
+        event,
+    )
+    meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
 
-def test_legacy_automatic_english_setting_cannot_bypass_confirmation() -> None:
+    assert meta["foreign_crew_detected"] is True
+    assert meta["foreign_crew_names"] == ["MARQUES SANTANNA HELIO(R)"]
+    assert meta["english_trigger_names"] == ["MARQUES SANTANNA HELIO(R)"]
+    assert meta["english_confirmation_required"] is False
+    assert meta["english_generated"] is True
+    assert (output / "latest_en.txt").exists()
+
+
+def test_auto_mode_generates_english_for_foreign_crew_without_confirmation() -> None:
     event = _event(
         uid="foreign-confirmation",
         number="9C1001",
@@ -287,12 +323,118 @@ def test_legacy_automatic_english_setting_cannot_bypass_confirmation() -> None:
 
     generate, confirmation, names = agent.english_generation_decision(
         event,
-        {"foreign_crew_english_mode": "always"},
+        {"foreign_crew_english_mode": "auto"},
     )
 
-    assert generate is False
-    assert confirmation is True
+    assert generate is True
+    assert confirmation is False
     assert names == ["JOHN SMITH(R)"]
+
+
+def test_generate_english_yes_forces_english_without_foreign_crew(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    event = _event(
+        uid="forced-english",
+        number="9C1002",
+        departure="上海浦东",
+        arrival="南昌昌北",
+        people=["左争世(R)", "段洋硕", "罗一敏(B)"],
+        checkin="08:00｜上海浦东",
+    )
+
+    output = _run_stubbed_main(
+        monkeypatch,
+        tmp_path / "forced-english",
+        event,
+        generate_english="yes",
+    )
+    meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
+
+    assert meta["foreign_crew_detected"] is False
+    assert meta["english_generated"] is True
+    assert meta["english_confirmation_required"] is False
+    assert (output / "latest_en.txt").exists()
+
+
+def test_generate_english_no_suppresses_foreign_crew_english_output(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    event = _event(
+        uid="suppressed-english",
+        number="9C1003",
+        departure="上海浦东",
+        arrival="南昌昌北",
+        people=["JOHN SMITH(R)", "段洋硕"],
+        checkin="08:00｜上海浦东",
+    )
+
+    output = _run_stubbed_main(
+        monkeypatch,
+        tmp_path / "suppressed-english",
+        event,
+        existing_english="stale English briefing\n",
+        generate_english="no",
+    )
+    meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
+
+    assert meta["foreign_crew_detected"] is True
+    assert meta["english_generated"] is False
+    assert meta["english_confirmation_required"] is False
+    assert not (output / "latest_en.txt").exists()
+
+
+def test_multiple_prep_groups_generate_english_only_for_foreign_group(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    first = _event(
+        uid="group-one-foreign",
+        number="9C6809",
+        departure="上海浦东",
+        arrival="桂林两江",
+        people=["JOHN SMITH(R)", "段洋硕"],
+        checkin="05:00｜上海浦东",
+    )
+    second = replace(
+        _event(
+            uid="group-two-chinese",
+            number="9C7080",
+            departure="桂林两江",
+            arrival="扬州泰州",
+            people=["左争世(R)", "段洋硕", "罗一敏(B)"],
+            checkin="11:00｜桂林两江",
+        ),
+        start=datetime(2026, 7, 23, 12, 0, tzinfo=ZoneInfo("Asia/Shanghai")),
+        end=datetime(2026, 7, 23, 14, 0, tzinfo=ZoneInfo("Asia/Shanghai")),
+    )
+
+    output = _run_stubbed_main(
+        monkeypatch,
+        tmp_path / "multiple-groups",
+        first,
+        events=[first, second],
+    )
+    meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
+    groups = meta["prep_groups"]
+
+    assert [group["flight_numbers"] for group in groups] == [
+        ["9C6809"],
+        ["9C7080"],
+    ]
+    assert groups[0]["english_generated"] is True
+    assert groups[0]["english_confirmation_required"] is False
+    assert groups[0]["foreign_crew_names"] == ["JOHN SMITH(R)"]
+    assert groups[0]["english_output"].endswith("_EN.txt")
+    assert (output / groups[0]["english_output"]).exists()
+    assert groups[1]["english_generated"] is False
+    assert groups[1]["english_confirmation_required"] is False
+    assert groups[1]["foreign_crew_names"] == []
+    assert groups[1]["english_output"] == ""
+    assert not list(output.glob("*9C7080_EN.txt"))
+    assert (output / "latest_en.txt").exists()
 
 
 def test_bilingual_render_hides_internal_flight_metadata() -> None:
@@ -785,7 +927,7 @@ def test_xining_nanchang_real_route_keeps_own_special_limits() -> None:
 
 
 @pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含机场手册PDF")
-def test_real_9c8552_exact_event_requires_english_confirmation(
+def test_real_9c8552_exact_event_keeps_source_grounded_chinese_when_english_suppressed(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
 ) -> None:
@@ -836,6 +978,8 @@ def test_real_9c8552_exact_event_requires_english_confirmation(
             "新加坡樟宜",
             "--arrival",
             "上海浦东",
+            "--generate-english",
+            "no",
         ],
     )
     agent.extract_pdf_text.cache_clear()
@@ -851,7 +995,7 @@ def test_real_9c8552_exact_event_requires_english_confirmation(
     assert meta["matched_people"] == EXPECTED_PEOPLE
     assert meta["english_trigger_names"] == ["MARQUES SANTANNA HELIO(R)"]
     assert meta["foreign_crew_detected"] is True
-    assert meta["english_confirmation_required"] is True
+    assert meta["english_confirmation_required"] is False
     assert meta["english_generated"] is False
     assert meta["airport_information_version"] == REAL_PDF_VERSION
     assert meta["airport_information_type"] == "PDF"

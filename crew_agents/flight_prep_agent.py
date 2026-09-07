@@ -4276,9 +4276,11 @@ def english_generation_decision(
     names = foreign_crew_names(event)
     if override == "yes":
         return True, False, names
-    if not names:
+    if override == "no":
         return False, False, names
-    return False, True, names
+    if names:
+        return True, False, names
+    return False, False, names
 
 
 def should_generate_english(event: CalendarEvent | DutyContext) -> bool:
@@ -8828,6 +8830,8 @@ def main() -> int:
         if aggregate_english:
             atomic_write_text(output_dir / dated_english_name, aggregate_english)
             atomic_write_text(output_dir / "latest_en.txt", aggregate_english)
+        else:
+            (output_dir / "latest_en.txt").unlink(missing_ok=True)
         for stale in output_dir.glob(f"{target.isoformat()}_航前准备_*.txt"):
             if stale.name not in desired_outputs:
                 stale.unlink()
