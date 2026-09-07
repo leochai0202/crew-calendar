@@ -501,7 +501,15 @@ def test_existing_august_regressions_still_generate(
     monkeypatch.setattr(
         sys,
         "argv",
-        ["flight_prep_agent.py", "--repo", str(repo), "--target-date", target_date],
+        [
+            "flight_prep_agent.py",
+            "--repo",
+            str(repo),
+            "--target-date",
+            target_date,
+            "--generate-english",
+            "no",
+        ],
     )
     monkeypatch.delenv("GITHUB_STEP_SUMMARY", raising=False)
     agent.extract_pdf_text.cache_clear()
