@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-09-10",
-  "generated_at_beijing": "2026-09-08T22:38:28.366249+08:00",
+  "generated_at_beijing": "2026-09-09T03:34:46.428950+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C8891"
@@ -18,23 +18,23 @@
   "english_confirmation_required": false,
   "english_trigger_names": [],
   "matched_event_uids": [
-    "c83256b41ce18bfe02d0d471d11297e8@crew-calendar"
+    "4f158ebd73a41569b1368a9a054118c1@crew-calendar"
   ],
   "matched_flights": [
     {
-      "uid": "c83256b41ce18bfe02d0d471d11297e8@crew-calendar",
+      "uid": "4f158ebd73a41569b1368a9a054118c1@crew-calendar",
       "summary": "✈️ 9C8891 上海浦东→曼谷素旺那普",
       "start": "2026-09-10T08:20:00+08:00",
       "end": "2026-09-10T12:50:00+08:00",
-      "description": "09月10日 周四\n类型：航班\n航班：9C8891\n航线：上海浦东 → 曼谷素旺那普\n地点：上海浦东\n签到：06:15｜上海浦东\n任务：08:20 - 12:50\n机型：A320｜注册号：B32MX\n\n人员名单：\n• 丁晓华(R)\n• 周光伟(R)\n• 段洋硕\n• 王郁聪(B)\n\n版本：2026-09-08 00:37",
+      "description": "09月10日 周四\n类型：航班\n航班：9C8891\n航线：上海浦东 → 曼谷素旺那普\n地点：上海浦东\n签到：06:15｜上海浦东\n任务：08:20 - 12:50\n机型：A320｜注册号：B8370\n\n人员名单：\n• 丁晓华(R)\n• 周光伟(R)\n• 段洋硕\n• 王郁聪(B)\n\n版本：2026-09-08 23:29",
       "location": "上海浦东",
       "properties": {
-        "UID": "c83256b41ce18bfe02d0d471d11297e8@crew-calendar",
+        "UID": "4f158ebd73a41569b1368a9a054118c1@crew-calendar",
         "SUMMARY": "✈️ 9C8891 上海浦东→曼谷素旺那普",
         "DTSTART": "20260910T082000",
         "DTEND": "20260910T125000",
-        "DESCRIPTION": "09月10日 周四\\n类型：航班\\n航班：9C8891\\n航线：上海浦东 → 曼谷素旺那普\\n地点：上海浦东\\n签到：06:15｜上海浦东\\n任务：08:20 - 12:50\\n机型：A320｜注册号：B32MX\\n\\n人员名单：\\n• 丁晓华(R)\\n• 周光伟(R)\\n• 段洋硕\\n• 王郁聪(B)\\n\\n版本：2026-09-08 00:37",
-        "X-CONTENT-SIGNATURE": "6b91bd3e3a0f03d783ac73f4204ff546",
+        "DESCRIPTION": "09月10日 周四\\n类型：航班\\n航班：9C8891\\n航线：上海浦东 → 曼谷素旺那普\\n地点：上海浦东\\n签到：06:15｜上海浦东\\n任务：08:20 - 12:50\\n机型：A320｜注册号：B8370\\n\\n人员名单：\\n• 丁晓华(R)\\n• 周光伟(R)\\n• 段洋硕\\n• 王郁聪(B)\\n\\n版本：2026-09-08 23:29",
+        "X-CONTENT-SIGNATURE": "71d574f94db912173d694614a54fc75c",
         "LOCATION": "上海浦东"
       },
       "source_file": "flight.ics",
@@ -42,7 +42,7 @@
       "departure": "上海浦东",
       "arrival": "曼谷素旺那普",
       "aircraft_type": "A320",
-      "registration": "B32MX",
+      "registration": "B8370",
       "checkin": "06:15｜上海浦东",
       "people": [
         "丁晓华(R)",
@@ -76,23 +76,23 @@
       "foreign_crew_names": [],
       "english_confirmation_required": false,
       "matched_event_uids": [
-        "c83256b41ce18bfe02d0d471d11297e8@crew-calendar"
+        "4f158ebd73a41569b1368a9a054118c1@crew-calendar"
       ],
       "matched_flights": [
         {
-          "uid": "c83256b41ce18bfe02d0d471d11297e8@crew-calendar",
+          "uid": "4f158ebd73a41569b1368a9a054118c1@crew-calendar",
           "summary": "✈️ 9C8891 上海浦东→曼谷素旺那普",
           "start": "2026-09-10T08:20:00+08:00",
           "end": "2026-09-10T12:50:00+08:00",
-          "description": "09月10日 周四\n类型：航班\n航班：9C8891\n航线：上海浦东 → 曼谷素旺那普\n地点：上海浦东\n签到：06:15｜上海浦东\n任务：08:20 - 12:50\n机型：A320｜注册号：B32MX\n\n人员名单：\n• 丁晓华(R)\n• 周光伟(R)\n• 段洋硕\n• 王郁聪(B)\n\n版本：2026-09-08 00:37",
+          "description": "09月10日 周四\n类型：航班\n航班：9C8891\n航线：上海浦东 → 曼谷素旺那普\n地点：上海浦东\n签到：06:15｜上海浦东\n任务：08:20 - 12:50\n机型：A320｜注册号：B8370\n\n人员名单：\n• 丁晓华(R)\n• 周光伟(R)\n• 段洋硕\n• 王郁聪(B)\n\n版本：2026-09-08 23:29",
           "location": "上海浦东",
           "properties": {
-            "UID": "c83256b41ce18bfe02d0d471d11297e8@crew-calendar",
+            "UID": "4f158ebd73a41569b1368a9a054118c1@crew-calendar",
             "SUMMARY": "✈️ 9C8891 上海浦东→曼谷素旺那普",
             "DTSTART": "20260910T082000",
             "DTEND": "20260910T125000",
-            "DESCRIPTION": "09月10日 周四\\n类型：航班\\n航班：9C8891\\n航线：上海浦东 → 曼谷素旺那普\\n地点：上海浦东\\n签到：06:15｜上海浦东\\n任务：08:20 - 12:50\\n机型：A320｜注册号：B32MX\\n\\n人员名单：\\n• 丁晓华(R)\\n• 周光伟(R)\\n• 段洋硕\\n• 王郁聪(B)\\n\\n版本：2026-09-08 00:37",
-            "X-CONTENT-SIGNATURE": "6b91bd3e3a0f03d783ac73f4204ff546",
+            "DESCRIPTION": "09月10日 周四\\n类型：航班\\n航班：9C8891\\n航线：上海浦东 → 曼谷素旺那普\\n地点：上海浦东\\n签到：06:15｜上海浦东\\n任务：08:20 - 12:50\\n机型：A320｜注册号：B8370\\n\\n人员名单：\\n• 丁晓华(R)\\n• 周光伟(R)\\n• 段洋硕\\n• 王郁聪(B)\\n\\n版本：2026-09-08 23:29",
+            "X-CONTENT-SIGNATURE": "71d574f94db912173d694614a54fc75c",
             "LOCATION": "上海浦东"
           },
           "source_file": "flight.ics",
@@ -100,7 +100,7 @@
           "departure": "上海浦东",
           "arrival": "曼谷素旺那普",
           "aircraft_type": "A320",
-          "registration": "B32MX",
+          "registration": "B8370",
           "checkin": "06:15｜上海浦东",
           "people": [
             "丁晓华(R)",
@@ -121,10 +121,7 @@
         "上海浦东": {
           "icao": "ZSPD",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [
-            "2026-09-08T12:00:00+00:00",
-            "2026-09-09T18:00:00+00:00"
-          ],
+          "taf_validity_utc": [],
           "relevant_times": [
             "2026-09-10T08:20:00+08:00"
           ],
@@ -135,10 +132,7 @@
         "曼谷素旺那普": {
           "icao": "VTBS",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [
-            "2026-09-08T12:00:00+00:00",
-            "2026-09-09T18:00:00+00:00"
-          ],
+          "taf_validity_utc": [],
           "relevant_times": [
             "2026-09-10T12:50:00+08:00"
           ],
@@ -2047,10 +2041,7 @@
     "上海浦东": {
       "icao": "ZSPD",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-09-08T12:00:00+00:00",
-        "2026-09-09T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-09-10T08:20:00+08:00"
       ],
@@ -2061,10 +2052,7 @@
     "曼谷素旺那普": {
       "icao": "VTBS",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-09-08T12:00:00+00:00",
-        "2026-09-09T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-09-10T12:50:00+08:00"
       ],
@@ -2073,10 +2061,7 @@
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [
-    "上海虹桥: 2026-09-01 -> 2026-09-06",
-    "西宁曹家堡: 2026-08-22 -> 2026-09-06"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
   "airport_information_version": 20260824,
   "airport_information_type": "PDF",
