@@ -17,17 +17,139 @@ jobs:
   sync:
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: [self-hosted, Windows, X64, crew-calendar]
-    timeout-minutes: 15
+    timeout-minutes: 30
 
     defaults:
       run:
         shell: pwsh
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - name: Bootstrap repository from GitHub API
+        id: bootstrap
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          $ErrorActionPreference = "Stop"
+          if ([string]::IsNullOrWhiteSpace($env:GITHUB_TOKEN)) {
+            throw "GITHUB_TOKEN is required"
+          }
+
+          function New-DirectHttpClient {
+            $handler = [System.Net.Http.HttpClientHandler]::new()
+            $handler.UseProxy = $false
+            $handler.AllowAutoRedirect = $false
+            $client = [System.Net.Http.HttpClient]::new($handler)
+            $client.Timeout = [TimeSpan]::FromSeconds(45)
+            $client.DefaultRequestHeaders.UserAgent.ParseAdd(
+              "crew-calendar-workflow-bootstrap"
+            )
+            return $client
+          }
+
+          function Invoke-DirectApiJson {
+            param(
+              [Parameter(Mandatory = $true)]
+              [string]$Uri,
+              [Parameter(Mandatory = $true)]
+              [string]$Label
+            )
+            $lastError = $null
+            for ($attempt = 1; $attempt -le 3; $attempt++) {
+              $client = New-DirectHttpClient
+              try {
+                $request = [System.Net.Http.HttpRequestMessage]::new(
+                  [System.Net.Http.HttpMethod]::Get,
+                  $Uri
+                )
+                try {
+                  $request.Headers.Authorization = (
+                    [System.Net.Http.Headers.AuthenticationHeaderValue]::new(
+                      "Bearer",
+                      $env:GITHUB_TOKEN
+                    )
+                  )
+                  $request.Headers.Accept.ParseAdd("application/vnd.github+json")
+                  $request.Headers.Add("X-GitHub-Api-Version", "2022-11-28")
+                  $response = $client.SendAsync($request).GetAwaiter().GetResult()
+                  try {
+                    if (-not $response.IsSuccessStatusCode) {
+                      throw "$Label returned HTTP $([int]$response.StatusCode)"
+                    }
+                    $body = $response.Content.ReadAsStringAsync().GetAwaiter().GetResult()
+                    return $body | ConvertFrom-Json
+                  }
+                  finally {
+                    $response.Dispose()
+                  }
+                }
+                finally {
+                  $request.Dispose()
+                }
+              }
+              catch {
+                $lastError = $_
+                Write-Host "$Label attempt $attempt/3 failed"
+                if ($attempt -lt 3) {
+                  Start-Sleep -Seconds @(5, 15)[$attempt - 1]
+                }
+              }
+              finally {
+                $client.Dispose()
+              }
+            }
+            throw "$Label failed after 3 attempts: $($lastError.Exception.GetType().Name)"
+          }
+
+          $apiBase = "https://api.github.com"
+          $refUri = "$apiBase/repos/$env:GITHUB_REPOSITORY/git/ref/heads/main"
+          $mainRef = Invoke-DirectApiJson -Uri $refUri -Label "Main ref lookup"
+          $bootstrapSha = [string]$mainRef.object.sha
+          if ($bootstrapSha -notmatch "^[0-9a-fA-F]{40}$") {
+            throw "Main ref response did not contain a full commit SHA"
+          }
+          Write-Host "BOOTSTRAP_MAIN_SHA=$bootstrapSha"
+
+          $helperUri = (
+            "$apiBase/repos/$env:GITHUB_REPOSITORY/contents/" +
+            "scripts/bootstrap_repository.ps1?ref=$bootstrapSha"
+          )
+          $helper = Invoke-DirectApiJson -Uri $helperUri -Label "Bootstrap helper lookup"
+          if ([string]$helper.encoding -ne "base64") {
+            throw "Bootstrap helper response did not use base64 encoding"
+          }
+          $helperContent = ([string]$helper.content) -replace "\s", ""
+          if ([string]::IsNullOrWhiteSpace($helperContent)) {
+            throw "Bootstrap helper response was empty"
+          }
+          try {
+            $helperBytes = [Convert]::FromBase64String($helperContent)
+          }
+          catch {
+            throw "Bootstrap helper response contained invalid base64"
+          }
+
+          $helperPath = Join-Path $env:RUNNER_TEMP (
+            "crew-calendar-bootstrap-" + [Guid]::NewGuid().ToString("N") + ".ps1"
+          )
+          [IO.File]::WriteAllBytes($helperPath, $helperBytes)
+          try {
+            & $helperPath `
+              -Repository $env:GITHUB_REPOSITORY `
+              -TargetSha $bootstrapSha `
+              -Workspace $env:GITHUB_WORKSPACE `
+              -RunnerTemp $env:RUNNER_TEMP
+          }
+          finally {
+            if (Test-Path -LiteralPath $helperPath) {
+              Remove-Item -LiteralPath $helperPath -Force
+            }
+          }
+
+      - name: Verify self-hosted runtime
+        run: |
+          $ErrorActionPreference = "Stop"
+          python --version
 
       - name: Install PDF validation dependency
         run: python -m pip install -r requirements-agent.txt
@@ -45,32 +167,29 @@ jobs:
             exit $LASTEXITCODE
           }
 
-      - name: Commit and push updated airport manual
+      - name: Publish updated airport manual through GitHub API
+        id: publish_manual
         if: ${{ steps.sync_manual.outputs.changed == 'true' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           $ErrorActionPreference = "Stop"
           $PSNativeCommandUseErrorActionPreference = $false
-
-          git add --all -- knowledge/pdf
-          git diff --cached --quiet
-          if ($LASTEXITCODE -eq 0) {
-            Write-Host "No repository change detected"
-            exit 0
-          }
-          if ($LASTEXITCODE -ne 1) {
-            exit $LASTEXITCODE
+          $manuals = @(
+            Get-ChildItem -LiteralPath "knowledge/pdf" -Filter "*.pdf" -File
+          )
+          if ($manuals.Count -ne 1) {
+            throw "knowledge/pdf must contain exactly one validated airport manual"
           }
 
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Update airport manual"
-          if ($LASTEXITCODE -ne 0) {
-            exit $LASTEXITCODE
-          }
-
-          git pull --rebase origin main
-          if ($LASTEXITCODE -ne 0) {
-            exit $LASTEXITCODE
-          }
-          git push origin HEAD:main
+          python github_api_publish.py `
+            --repository $env:GITHUB_REPOSITORY `
+            --branch main `
+            --message "Update airport manual" `
+            --root $env:GITHUB_WORKSPACE `
+            --github-output $env:GITHUB_OUTPUT `
+            --status-prefix AIRPORT_MANUAL_API `
+            --expected-main-sha "${{ steps.bootstrap.outputs.bootstrap_main_sha }}" `
+            --airport-manual $manuals[0].FullName
           exit $LASTEXITCODE
