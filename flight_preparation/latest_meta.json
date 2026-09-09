@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-09-10",
-  "generated_at_beijing": "2026-09-09T03:34:46.428950+08:00",
+  "generated_at_beijing": "2026-09-09T10:10:45.576823+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C8891"
@@ -120,24 +120,44 @@
       "weather": {
         "上海浦东": {
           "icao": "ZSPD",
-          "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "source_used": "TAF",
+          "taf_validity_utc": [
+            "2026-09-09T00:00:00+00:00",
+            "2026-09-10T06:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-09-10T08:20:00+08:00"
           ],
-          "taf_decoded_by_time": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-10T08:20:00+08:00",
+              "decoded": []
+            }
+          ],
           "decoded": [],
           "fetch_error": ""
         },
         "曼谷素旺那普": {
           "icao": "VTBS",
-          "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "source_used": "TAF",
+          "taf_validity_utc": [
+            "2026-09-09T00:00:00+00:00",
+            "2026-09-10T06:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-09-10T12:50:00+08:00"
           ],
-          "taf_decoded_by_time": [],
-          "decoded": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-10T12:50:00+08:00",
+              "decoded": [
+                "能见度10公里以上"
+              ]
+            }
+          ],
+          "decoded": [
+            "能见度10公里以上"
+          ],
           "fetch_error": ""
         }
       },
@@ -2029,7 +2049,7 @@
           }
         ]
       },
-      "content_sha256": "e3f6f74f8cb96754b4f4a1723dea980ab1065f3df5cc33cad7042fc998f5a6f7",
+      "content_sha256": "379231f4a8d262b9b48bc85591f338915e26a5479946a6afab88a97f6e661584",
       "_english_content": ""
     }
   ],
@@ -2040,24 +2060,44 @@
   "weather": {
     "上海浦东": {
       "icao": "ZSPD",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-09-09T00:00:00+00:00",
+        "2026-09-10T06:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-09-10T08:20:00+08:00"
       ],
-      "taf_decoded_by_time": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-09-10T08:20:00+08:00",
+          "decoded": []
+        }
+      ],
       "decoded": [],
       "fetch_error": ""
     },
     "曼谷素旺那普": {
       "icao": "VTBS",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-09-09T00:00:00+00:00",
+        "2026-09-10T06:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-09-10T12:50:00+08:00"
       ],
-      "taf_decoded_by_time": [],
-      "decoded": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-09-10T12:50:00+08:00",
+          "decoded": [
+            "能见度10公里以上"
+          ]
+        }
+      ],
+      "decoded": [
+        "能见度10公里以上"
+      ],
       "fetch_error": ""
     }
   },
