@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-09-10",
-  "generated_at_beijing": "2026-09-09T10:10:45.576823+08:00",
+  "generated_at_beijing": "2026-09-09T12:50:11.892183+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C8891"
@@ -122,8 +122,8 @@
           "icao": "ZSPD",
           "source_used": "TAF",
           "taf_validity_utc": [
-            "2026-09-09T00:00:00+00:00",
-            "2026-09-10T06:00:00+00:00"
+            "2026-09-09T06:00:00+00:00",
+            "2026-09-10T12:00:00+00:00"
           ],
           "relevant_times": [
             "2026-09-10T08:20:00+08:00"
@@ -165,9 +165,7 @@
         "上海浦东": {
           "typical": [
             "上海浦东_typical_record_1",
-            "上海浦东_typical_record_2",
-            "上海浦东_typical_record_3",
-            "上海浦东_typical_record_5"
+            "上海浦东_typical_record_2"
           ],
           "core": [
             "zspd_departure_navigation",
@@ -199,76 +197,18 @@
             "fact_id": "上海浦东_typical_record_1",
             "paragraph_id": "",
             "airport": "上海浦东",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
             "source": "PDF",
             "source_page": "448-451",
-            "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-            "source_section": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)／典型不安全事件",
-            "source_text_zh": "曾因低高度失去目视参考导致复飞。",
-            "source_original_text": "曾因低高度失去目视参考导致复飞。",
-            "source_original_texts": [
-              "曾因低高度失去目视参考导致复飞。"
-            ],
-            "source_record_ids": [
-              "上海浦东:typical:3f8fcdd987a43f7a"
-            ],
-            "source_clauses": [
-              "曾因低高度失去目视参考导致复飞。"
-            ],
-            "operational_phase": "incident",
-            "role_scope": [],
-            "operational_condition": [],
-            "applicability": [],
-            "risk": [
-              "曾因低高度失去目视参考导致复飞"
-            ],
-            "mitigation": [],
-            "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "曾因低高度失去目视参考导致复飞。",
-            "text_en": "",
-            "rendered_text": "曾因低高度失去目视参考导致复飞。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "special",
-            "role": "",
-            "source_fact_ids": [
-              "上海浦东_typical_record_1"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 0,
-            "text_before_polish": "曾因低高度失去目视参考导致复飞。",
-            "text_after_polish": "曾因低高度失去目视参考导致复飞。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "guard_failed": false,
-            "guard_reason": "",
-            "fallback_used": "",
-            "paragraph_dropped": false,
-            "airport_specific": true,
-            "category": "typical"
-          },
-          {
-            "fact_id": "上海浦东_typical_record_2",
-            "paragraph_id": "",
-            "airport": "上海浦东",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
-            "source": "PDF",
-            "source_page": "448-451",
-            "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-            "source_section": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)／典型不安全事件",
+            "source_heading": "上海/浦东机场运行特点",
+            "source_section": "上海/浦东机场运行特点／典型不安全事件",
             "source_text_zh": "曾因低高度鸟击导致雷达罩处损伤超标。",
-            "source_original_text": "曾因低高度鸟击导致雷达罩处损伤超标。 2023年10月1 日，一A320NEO飞机执行普吉岛至上海浦东 航班，23:54起飞，次日04:34落地。滑入后检查发现雷达罩上 部区域有鸟击痕迹（血迹、羽毛）残留，执行鸟击后的检查，发 现鸟击处雷达罩内部区域存在分层，经评估损伤超标。分层区域 最大直径370MM，依据手册AMM53-15-11-200-001-A01判断损伤 超标，依据手册AMM53-15-11-000/400-001-A更换损伤的雷达 罩，检查测试正常无后续影响。机组反映浦东35L跑道进近阶段 高度500英尺遭鸟击，鸟击信息确认表已与航司维修部门签字确 认。鸟击残留物已采样送至南师大鸟击残留物鉴定重点实验室检 测（样品编号ZSPD2023-504）。经鉴定，鸟击物种为绿鹭（Butorides striata）。",
+            "source_original_text": "曾因低高度鸟击导致雷达罩处损伤超标。",
             "source_original_texts": [
-              "曾因低高度鸟击导致雷达罩处损伤超标。",
-              "2023年10月1 日，一A320NEO飞机执行普吉岛至上海浦东 航班，23:54起飞，次日04:34落地。滑入后检查发现雷达罩上 部区域有鸟击痕迹（血迹、羽毛）残留，执行鸟击后的检查，发 现鸟击处雷达罩内部区域存在分层，经评估损伤超标。分层区域 最大直径370MM，依据手册AMM53-15-11-200-001-A01判断损伤 超标，依据手册AMM53-15-11-000/400-001-A更换损伤的雷达 罩，检查测试正常无后续影响。机组反映浦东35L跑道进近阶段 高度500英尺遭鸟击，鸟击信息确认表已与航司维修部门签字确 认。鸟击残留物已采样送至南师大鸟击残留物鉴定重点实验室检 测（样品编号ZSPD2023-504）。经鉴定，鸟击物种为绿鹭（Butorides striata）。"
+              "曾因低高度鸟击导致雷达罩处损伤超标。"
             ],
             "source_record_ids": [
-              "上海浦东:typical:cd96a8e3541106df",
-              "上海浦东:typical:076be56ea220ecf5"
+              "上海浦东:typical:cd96a8e3541106df"
             ],
             "source_clauses": [
               "曾因低高度鸟击导致雷达罩处损伤超标。"
@@ -282,12 +222,7 @@
             ],
             "mitigation": [],
             "restriction": [],
-            "excluded_source_clauses": [
-              {
-                "clause": "2023年10月1 日，一A320NEO飞机执行普吉岛至上海浦东 航班，23:54起飞，次日04:34落地。滑入后检查发现雷达罩上 部区域有鸟击痕迹（血迹、羽毛）残留，执行鸟击后的检查，发 现鸟击处雷达罩内部区域存在分层，经评估损伤超标。分层区域 最大直径370MM，依据手册AMM53-15-11-200-001-A01判断损伤 超标，依据手册AMM53-15-11-000/400-001-A更换损伤的雷达 罩，检查测试正常无后续影响。机组反映浦东35L跑道进近阶段 高度500英尺遭鸟击，鸟击信息确认表已与航司维修部门签字确 认。鸟击残留物已采样送至南师大鸟击残留物鉴定重点实验室检 测（样品编号ZSPD2023-504）。经鉴定，鸟击物种为绿鹭（Butorides striata）。",
-                "reason": "同一典型不安全事件已由更短且完整的来源表达"
-              }
-            ],
+            "excluded_source_clauses": [],
             "text_zh": "曾因低高度鸟击导致雷达罩处损伤超标。",
             "text_en": "Bird activity around the airport can create a low-altitude bird-strike risk during departure, approach, and landing.",
             "rendered_text": "曾因低高度鸟击导致雷达罩处损伤超标。",
@@ -297,8 +232,7 @@
             "topic": "approach",
             "role": "",
             "source_fact_ids": [
-              "上海浦东_typical_record_2",
-              "上海浦东_typical_record_6"
+              "上海浦东_typical_record_1"
             ],
             "condition_scope": {},
             "condition_contexts": [],
@@ -316,144 +250,54 @@
             "category": "typical"
           },
           {
-            "fact_id": "上海浦东_typical_record_3",
+            "fact_id": "上海浦东_typical_record_2",
             "paragraph_id": "",
             "airport": "上海浦东",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
             "source": "PDF",
             "source_page": "448-451",
-            "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-            "source_section": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)／典型不安全事件",
-            "source_text_zh": "2024年1月31 日，一架A320飞机执行兰州-上海浦东航班，机长PF、副驾驶PM，在浦东机场使用35L跑道执行1类盲降进 近，DA时能见进近灯光系统，进近到100英尺左右，除进近灯 光系统之外无任何目视参考，机长决策复飞，无线电高度59英 尺加油门至TOGA。复飞期间最低高度无线电高度35英尺，复飞 后备降虹桥机场，落地剩油。",
-            "source_original_text": "2024年1月31 日，一架A320飞机执行兰州-上海浦东航班，机长PF、副驾驶PM，在浦东机场使用35L跑道执行1类盲降进 近，DA时能见进近灯光系统，进近到100英尺左右，除进近灯 光系统之外无任何目视参考，机长决策复飞，无线电高度59英 尺加油门至TOGA。复飞期间最低高度无线电高度35英尺，复飞 后备降虹桥机场，落地剩油。",
+            "source_heading": "上海/浦东机场运行特点",
+            "source_section": "上海/浦东机场运行特点／典型不安全事件",
+            "source_text_zh": "曾发生更改跑道后输错飞行计划事件。",
+            "source_original_text": "曾发生更改跑道后输错飞行计划事件。",
             "source_original_texts": [
-              "2024年1月31 日，一架A320飞机执行兰州-上海浦东航班，机长PF、副驾驶PM，在浦东机场使用35L跑道执行1类盲降进 近，DA时能见进近灯光系统，进近到100英尺左右，除进近灯 光系统之外无任何目视参考，机长决策复飞，无线电高度59英 尺加油门至TOGA。复飞期间最低高度无线电高度35英尺，复飞 后备降虹桥机场，落地剩油。"
+              "曾发生更改跑道后输错飞行计划事件。"
             ],
             "source_record_ids": [
-              "上海浦东:typical:be1f3352d658c6dc"
+              "上海浦东:typical:df9c4a14c46daa54"
             ],
             "source_clauses": [
-              "2024年1月31 日，一架A320飞机执行兰州-上海浦东航班，机长PF、副驾驶PM，在浦东机场使用35L跑道执行1类盲降进 近，DA时能见进近灯光系统，进近到100英尺左右，除进近灯 光系统之外无任何目视参考，机长决策复飞，无线电高度59英 尺加油门至TOGA。复飞期间最低高度无线电高度35英尺，复飞 后备降虹桥机场，落地剩油。"
+              "曾发生更改跑道后输错飞行计划事件。"
             ],
             "operational_phase": "incident",
             "role_scope": [],
             "operational_condition": [
-              "2024年1月31 日",
-              "一架A320飞机执行兰州-上海浦东航班",
-              "机长PF、副驾驶PM",
-              "DA时能见进近灯光系统",
-              "进近到100英尺左右",
-              "除进近灯光系统之外无任何目视参考",
-              "机长决策复飞",
-              "无线电高度59英尺加油门至TOGA",
-              "复飞期间最低高度无线电高度35英尺",
-              "复飞后备降虹桥机场",
-              "落地剩油"
+              "曾发生更改跑道后输错飞行计划事件"
             ],
             "applicability": [
-              "跑道",
-              "进近",
-              "落地"
+              "跑道"
             ],
             "risk": [],
-            "mitigation": [
-              "在浦东机场使用35L跑道执行1类盲降进近"
-            ],
-            "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "2024年1月31日，一架A320飞机执行兰州-上海浦东航班，机长PF、副驾驶PM，在浦东机场使用35L跑道执行1类盲降进近，DA时能见进近灯光系统，进近到100英尺左右，除进近灯光系统之外无任何目视参考，机长决策复飞，无线电高度59英尺加油门至TOGA。复飞期间最低高度无线电高度35英尺，复飞后备降虹桥机场，落地剩油。",
-            "text_en": "",
-            "rendered_text": "2024年1月31日，一架A320飞机执行兰州-上海浦东航班，机长PF、副驾驶PM，在浦东机场使用35L跑道执行1类盲降进近，DA时能见进近灯光系统，进近到100英尺左右，除进近灯光系统之外无任何目视参考，机长决策复飞，无线电高度59英尺加油门至TOGA。复飞期间最低高度无线电高度35英尺，复飞后备降虹桥机场，落地剩油。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "approach",
-            "role": "",
-            "source_fact_ids": [
-              "上海浦东_typical_record_3"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 0,
-            "text_before_polish": "2024年1月31日，一架A320飞机执行兰州-上海浦东航班，机长PF、副驾驶PM，在浦东机场使用35L跑道执行1类盲降进近，DA时能见进近灯光系统，进近到100英尺左右，除进近灯光系统之外无任何目视参考，机长决策复飞，无线电高度59英尺加油门至TOGA。复飞期间最低高度无线电高度35英尺，复飞后备降虹桥机场，落地剩油。",
-            "text_after_polish": "2024年1月31日，一架A320飞机执行兰州-上海浦东航班，机长PF、副驾驶PM，在浦东机场使用35L跑道执行1类盲降进近，DA时能见进近灯光系统，进近到100英尺左右，除进近灯光系统之外无任何目视参考，机长决策复飞，无线电高度59英尺加油门至TOGA。复飞期间最低高度无线电高度35英尺，复飞后备降虹桥机场，落地剩油。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "guard_failed": false,
-            "guard_reason": "",
-            "fallback_used": "",
-            "paragraph_dropped": false,
-            "airport_specific": true,
-            "category": "typical"
-          },
-          {
-            "fact_id": "上海浦东_typical_record_5",
-            "paragraph_id": "",
-            "airport": "上海浦东",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
-            "source": "PDF",
-            "source_page": "448-451",
-            "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-            "source_section": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)／典型不安全事件",
-            "source_text_zh": "2023年12月19 日，一架A321飞机执行长春至浦东航班，在浦东机场35L跑道雷达引导ILS进近，自动驾驶接通、保持高 度600米平飞过程中，飞机触发两声“TERRAIN ”警告声随即消 失，检查飞机各项指示和状态正常，机组继续进近并保持监控， 后续正常落地浦东机场。根据数据显示警告发生时飞机在平飞过 程中，判断GPWS警告是由于无线电高度表RA指示有较大变化导 致。QAR译码:GMT17:43:31气压高度表2003英尺、无线电高度 1916英尺；GMT17:43:32气压高度表2003英尺、无线电高度1414 英尺；GMT17:43:33气压高度表2003英尺、无线电高度1387 英 尺；触发GPWS警告1秒GMT17:43:34气压高度表2003英尺、无 线电高度1745英尺；GMT17:43:35气压高度表2003 英尺、无线 电高度1882英尺；浦东机场天气实况： METARZSPD191730Z33007MPSCAVOK03/M01Q1033NOSIG=。",
-            "source_original_text": "2023年12月19 日，一架A321飞机执行长春至浦东航班，在浦东机场35L跑道雷达引导ILS进近，自动驾驶接通、保持高 度600米平飞过程中，飞机触发两声“TERRAIN ”警告声随即消 失，检查飞机各项指示和状态正常，机组继续进近并保持监控， 后续正常落地浦东机场。根据数据显示警告发生时飞机在平飞过 程中，判断GPWS警告是由于无线电高度表RA指示有较大变化导 致。QAR译码:GMT17:43:31气压高度表2003英尺、无线电高度 1916英尺；GMT17:43:32气压高度表2003英尺、无线电高度1414 英尺；GMT17:43:33气压高度表2003英尺、无线电高度1387 英 尺；触发GPWS警告1秒GMT17:43:34气压高度表2003英尺、无 线电高度1745英尺；GMT17:43:35气压高度表2003 英尺、无线 电高度1882英尺；浦东机场天气实况： METARZSPD191730Z33007MPSCAVOK03/M01Q1033NOSIG=。",
-            "source_original_texts": [
-              "2023年12月19 日，一架A321飞机执行长春至浦东航班，在浦东机场35L跑道雷达引导ILS进近，自动驾驶接通、保持高 度600米平飞过程中，飞机触发两声“TERRAIN ”警告声随即消 失，检查飞机各项指示和状态正常，机组继续进近并保持监控， 后续正常落地浦东机场。根据数据显示警告发生时飞机在平飞过 程中，判断GPWS警告是由于无线电高度表RA指示有较大变化导 致。QAR译码:GMT17:43:31气压高度表2003英尺、无线电高度 1916英尺；GMT17:43:32气压高度表2003英尺、无线电高度1414 英尺；GMT17:43:33气压高度表2003英尺、无线电高度1387 英 尺；触发GPWS警告1秒GMT17:43:34气压高度表2003英尺、无 线电高度1745英尺；GMT17:43:35气压高度表2003 英尺、无线 电高度1882英尺；浦东机场天气实况： METARZSPD191730Z33007MPSCAVOK03/M01Q1033NOSIG=。"
-            ],
-            "source_record_ids": [
-              "上海浦东:typical:ba2a7da1cecfb59d"
-            ],
-            "source_clauses": [
-              "2023年12月19 日，一架A321飞机执行长春至浦东航班，在浦东机场35L跑道雷达引导ILS进近，自动驾驶接通、保持高 度600米平飞过程中，飞机触发两声“TERRAIN ”警告声随即消 失，检查飞机各项指示和状态正常，机组继续进近并保持监控， 后续正常落地浦东机场。根据数据显示警告发生时飞机在平飞过 程中，判断GPWS警告是由于无线电高度表RA指示有较大变化导 致。QAR译码:GMT17:43:31气压高度表2003英尺、无线电高度 1916英尺；GMT17:43:32气压高度表2003英尺、无线电高度1414 英尺；GMT17:43:33气压高度表2003英尺、无线电高度1387 英 尺；触发GPWS警告1秒GMT17:43:34气压高度表2003英尺、无 线电高度1745英尺；GMT17:43:35气压高度表2003 英尺、无线 电高度1882英尺；浦东机场天气实况： METARZSPD191730Z33007MPSCAVOK03/M01Q1033NOSIG=。"
-            ],
-            "operational_phase": "incident",
-            "role_scope": [],
-            "operational_condition": [
-              "2023年12月19 日",
-              "一架A321飞机执行长春至浦东航班",
-              "在浦东机场35L跑道雷达引导ILS进近",
-              "自动驾驶接通、保持高度600米平飞过程中",
-              "检查飞机各项指示和状态正常",
-              "机组继续进近并保持监控",
-              "后续正常落地浦东机场",
-              "根据数据显示警告发生时飞机在平飞过程中",
-              "QAR译码:GMT17:43:31气压高度表2003英尺、无线电高度 1916英尺",
-              "GMT17:43:32气压高度表2003英尺、无线电高度1414 英尺",
-              "GMT17:43:33气压高度表2003英尺、无线电高度1387 英尺",
-              "GMT17:43:35气压高度表2003 英尺、无线电高度1882英尺",
-              "浦东机场天气实况： METARZSPD191730Z33007MPSCAVOK03/M01Q1033NOSIG="
-            ],
-            "applicability": [
-              "跑道",
-              "进近",
-              "落地"
-            ],
-            "risk": [
-              "飞机触发两声“TERRAIN ”警告声随即消失",
-              "判断GPWS警告是由于无线电高度表RA指示有较大变化导致",
-              "触发GPWS警告1秒GMT17:43:34气压高度表2003英尺、无线电高度1745英尺"
-            ],
             "mitigation": [],
             "restriction": [],
             "excluded_source_clauses": [],
-            "text_zh": "2023年12月19日，一架A321飞机执行长春至浦东航班，在浦东机场35L跑道雷达引导ILS进近，自动驾驶接通、保持高度600米平飞过程中，飞机触发两声“TERRAIN ”警告声随即消失，检查飞机各项指示和状态正常，机组继续进近并保持监控， 后续正常落地浦东机场。根据数据显示警告发生时飞机在平飞过程中，判断GPWS警告是由于无线电高度表RA指示有较大变化导致。QAR译码:GMT17:43:31气压高度表2003英尺、无线电高度1916英尺；GMT17:43:32气压高度表2003英尺、无线电高度1414英尺；GMT17:43:33气压高度表2003英尺、无线电高度1387英尺；触发GPWS警告1秒GMT17:43:34气压高度表2003英尺、无线电高度1745英尺；GMT17:43:35气压高度表2003英尺、无线电高度1882英尺；浦东机场天气实况： METARZSPD191730Z33007MPSCAVOK03/M01Q1033NOSIG=。",
+            "text_zh": "曾发生更改跑道后输错飞行计划事件。",
             "text_en": "",
-            "rendered_text": "2023年12月19日，一架A321飞机执行长春至浦东航班，在浦东机场35L跑道雷达引导ILS进近，自动驾驶接通、保持高度600米平飞过程中，飞机触发两声“TERRAIN ”警告声随即消失，检查飞机各项指示和状态正常，机组继续进近并保持监控， 后续正常落地浦东机场。根据数据显示警告发生时飞机在平飞过程中，判断GPWS警告是由于无线电高度表RA指示有较大变化导致。QAR译码:GMT17:43:31气压高度表2003英尺、无线电高度1916英尺；GMT17:43:32气压高度表2003英尺、无线电高度1414英尺；GMT17:43:33气压高度表2003英尺、无线电高度1387英尺；触发GPWS警告1秒GMT17:43:34气压高度表2003英尺、无线电高度1745英尺；GMT17:43:35气压高度表2003英尺、无线电高度1882英尺；浦东机场天气实况： METARZSPD191730Z33007MPSCAVOK03/M01Q1033NOSIG=。",
+            "rendered_text": "曾发生更改跑道后输错飞行计划事件。",
             "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
-            "topic": "weather",
+            "topic": "special",
             "role": "",
             "source_fact_ids": [
-              "上海浦东_typical_record_5"
+              "上海浦东_typical_record_2"
             ],
             "condition_scope": {},
             "condition_contexts": [],
             "condition_group": "",
             "briefing_priority": 0,
-            "text_before_polish": "2023年12月19日，一架A321飞机执行长春至浦东航班，在浦东机场35L跑道雷达引导ILS进近，自动驾驶接通、保持高度600米平飞过程中，飞机触发两声“TERRAIN ”警告声随即消失，检查飞机各项指示和状态正常，机组继续进近并保持监控， 后续正常落地浦东机场。根据数据显示警告发生时飞机在平飞过程中，判断GPWS警告是由于无线电高度表RA指示有较大变化导致。QAR译码:GMT17:43:31气压高度表2003英尺、无线电高度1916英尺；GMT17:43:32气压高度表2003英尺、无线电高度1414英尺；GMT17:43:33气压高度表2003英尺、无线电高度1387英尺；触发GPWS警告1秒GMT17:43:34气压高度表2003英尺、无线电高度1745英尺；GMT17:43:35气压高度表2003英尺、无线电高度1882英尺；浦东机场天气实况： METARZSPD191730Z33007MPSCAVOK03/M01Q1033NOSIG=。",
-            "text_after_polish": "2023年12月19日，一架A321飞机执行长春至浦东航班，在浦东机场35L跑道雷达引导ILS进近，自动驾驶接通、保持高度600米平飞过程中，飞机触发两声“TERRAIN ”警告声随即消失，检查飞机各项指示和状态正常，机组继续进近并保持监控， 后续正常落地浦东机场。根据数据显示警告发生时飞机在平飞过程中，判断GPWS警告是由于无线电高度表RA指示有较大变化导致。QAR译码:GMT17:43:31气压高度表2003英尺、无线电高度1916英尺；GMT17:43:32气压高度表2003英尺、无线电高度1414英尺；GMT17:43:33气压高度表2003英尺、无线电高度1387英尺；触发GPWS警告1秒GMT17:43:34气压高度表2003英尺、无线电高度1745英尺；GMT17:43:35气压高度表2003英尺、无线电高度1882英尺；浦东机场天气实况： METARZSPD191730Z33007MPSCAVOK03/M01Q1033NOSIG=。",
+            "text_before_polish": "曾发生更改跑道后输错飞行计划事件。",
+            "text_after_polish": "曾发生更改跑道后输错飞行计划事件。",
             "polish_applied": false,
             "polish_fallback_reason": "",
             "guard_failed": false,
@@ -735,7 +579,7 @@
             "fact_id": "曼谷素旺那普_typical_record_1",
             "paragraph_id": "",
             "airport": "曼谷素旺那普",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
             "source": "PDF",
             "source_page": "N/A",
             "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -794,7 +638,7 @@
             "fact_id": "曼谷素旺那普_core_record_12",
             "paragraph_id": "曼谷素旺那普_core_record_12",
             "airport": "曼谷素旺那普",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
             "source": "PDF",
             "source_page": "N/A",
             "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -860,7 +704,7 @@
             "fact_id": "曼谷素旺那普_core_record_15",
             "paragraph_id": "曼谷素旺那普_core_record_15",
             "airport": "曼谷素旺那普",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
             "source": "PDF",
             "source_page": "N/A",
             "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -924,7 +768,7 @@
             "fact_id": "曼谷素旺那普_core_record_9",
             "paragraph_id": "曼谷素旺那普_core_record_9",
             "airport": "曼谷素旺那普",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
             "source": "PDF",
             "source_page": "N/A",
             "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -991,7 +835,7 @@
             "fact_id": "曼谷素旺那普_core_record_18",
             "paragraph_id": "曼谷素旺那普_core_record_18",
             "airport": "曼谷素旺那普",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
             "source": "PDF",
             "source_page": "N/A",
             "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -1055,7 +899,7 @@
             "fact_id": "曼谷素旺那普_core_record_10",
             "paragraph_id": "曼谷素旺那普_core_record_10",
             "airport": "曼谷素旺那普",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
             "source": "PDF",
             "source_page": "N/A",
             "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -1123,7 +967,7 @@
             "fact_id": "曼谷素旺那普_core_record_11",
             "paragraph_id": "曼谷素旺那普_core_record_11",
             "airport": "曼谷素旺那普",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
             "source": "PDF",
             "source_page": "N/A",
             "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -1191,7 +1035,7 @@
             "fact_id": "曼谷素旺那普_core_record_19",
             "paragraph_id": "曼谷素旺那普_core_record_19",
             "airport": "曼谷素旺那普",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
             "source": "PDF",
             "source_page": "N/A",
             "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -1250,7 +1094,7 @@
             "fact_id": "paragraph:曼谷素旺那普_core_record_13+曼谷素旺那普_core_record_4",
             "paragraph_id": "paragraph:曼谷素旺那普_core_record_13+曼谷素旺那普_core_record_4",
             "airport": "曼谷素旺那普",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
             "source": "PDF",
             "source_page": "N/A",
             "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -1316,7 +1160,7 @@
             "fact_id": "曼谷素旺那普_core_record_3",
             "paragraph_id": "曼谷素旺那普_core_record_3",
             "airport": "曼谷素旺那普",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
             "source": "PDF",
             "source_page": "N/A",
             "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -1373,12 +1217,6 @@
       "excluded_source_clauses": [
         {
           "airport": "上海浦东",
-          "fact_id": "上海浦东_typical_record_2",
-          "clause": "2023年10月1 日，一A320NEO飞机执行普吉岛至上海浦东 航班，23:54起飞，次日04:34落地。滑入后检查发现雷达罩上 部区域有鸟击痕迹（血迹、羽毛）残留，执行鸟击后的检查，发 现鸟击处雷达罩内部区域存在分层，经评估损伤超标。分层区域 最大直径370MM，依据手册AMM53-15-11-200-001-A01判断损伤 超标，依据手册AMM53-15-11-000/400-001-A更换损伤的雷达 罩，检查测试正常无后续影响。机组反映浦东35L跑道进近阶段 高度500英尺遭鸟击，鸟击信息确认表已与航司维修部门签字确 认。鸟击残留物已采样送至南师大鸟击残留物鉴定重点实验室检 测（样品编号ZSPD2023-504）。经鉴定，鸟击物种为绿鹭（Butorides striata）。",
-          "reason": "同一典型不安全事件已由更短且完整的来源表达"
-        },
-        {
-          "airport": "上海浦东",
           "fact_id": "zspd_departure_weather_bird",
           "clause": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠",
           "reason": "目标月份为9月，不在资料明确季节适用月份6,7,8月内"
@@ -1403,28 +1241,6 @@
         },
         {
           "airport": "上海浦东",
-          "fact_id": "",
-          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
-          "source_page": "448-451",
-          "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-          "source_section": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)／典型不安全事件",
-          "clause": "39吨。",
-          "reason": "来源文本质量不足，未进入正式正文",
-          "discarded_reason": "来源文本质量不足，未进入正式正文"
-        },
-        {
-          "airport": "上海浦东",
-          "fact_id": "上海浦东_typical_record_6",
-          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
-          "source_page": "448-451",
-          "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-          "source_section": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)／典型不安全事件",
-          "clause": "2023年10月1 日，一A320NEO飞机执行普吉岛至上海浦东 航班，23:54起飞，次日04:34落地。滑入后检查发现雷达罩上 部区域有鸟击痕迹（血迹、羽毛）残留，执行鸟击后的检查，发 现鸟击处雷达罩内部区域存在分层，经评估损伤超标。分层区域 最大直径370MM，依据手册AMM53-15-11-200-001-A01判断损伤 超标，依据手册AMM53-15-11-000/400-001-A更换损伤的雷达 罩，检查测试正常无后续影响。机组反映浦东35L跑道进近阶段 高度500英尺遭鸟击，鸟击信息确认表已与航司维修部门签字确 认。鸟击残留物已采样送至南师大鸟击残留物鉴定重点实验室检 测（样品编号ZSPD2023-504）。经鉴定，鸟击物种为绿鹭（Butorides striata）。",
-          "reason": "同一典型不安全事件已由更短且完整的来源表达",
-          "discarded_reason": "同一典型不安全事件已由更短且完整的来源表达"
-        },
-        {
-          "airport": "上海浦东",
           "fact_id": "zspd_departure_traffic",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
           "source_page": "448,451",
@@ -1437,7 +1253,7 @@
         {
           "airport": "曼谷素旺那普",
           "fact_id": "",
-          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
           "source_section": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
@@ -1448,7 +1264,7 @@
         {
           "airport": "曼谷素旺那普",
           "fact_id": "",
-          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
           "source_section": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
@@ -1459,7 +1275,7 @@
         {
           "airport": "曼谷素旺那普",
           "fact_id": "曼谷素旺那普_core_record_14",
-          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
           "source_section": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点／气象特点",
@@ -1470,7 +1286,7 @@
         {
           "airport": "曼谷素旺那普",
           "fact_id": "曼谷素旺那普_core_record_2",
-          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
           "source_section": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
@@ -1481,7 +1297,7 @@
         {
           "airport": "曼谷素旺那普",
           "fact_id": "曼谷素旺那普_core_record_8",
-          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
           "source_section": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
@@ -1492,7 +1308,7 @@
         {
           "airport": "曼谷素旺那普",
           "fact_id": "曼谷素旺那普_core_record_17",
-          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
           "source_section": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
@@ -1503,7 +1319,7 @@
         {
           "airport": "曼谷素旺那普",
           "fact_id": "曼谷素旺那普_core_record_5",
-          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
           "source_section": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
@@ -1514,7 +1330,7 @@
         {
           "airport": "曼谷素旺那普",
           "fact_id": "曼谷素旺那普_core_record_7",
-          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
           "source_section": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
@@ -1737,7 +1553,7 @@
               "曼谷进近只给出进场STAR程序，不告知跑道，虽然通 波只告知一条进近跑道，但仍有可能使用通波没有列出的跑道 机组建立五边之前务必证实跑道和进近方式。"
             ],
             "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf"
+              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf"
             ],
             "source_sections": [
               "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点"
@@ -1773,7 +1589,7 @@
               "导航设施：SVB 台因迁移长期不工作，已无VOR 进近程序 盲降测距仪与跑道头位置有误差，避免不稳定。"
             ],
             "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf"
+              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf"
             ],
             "source_sections": [
               "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点"
@@ -1809,7 +1625,7 @@
               "三跑道运行，原 01R/19L,跑道更名为01/19 跑道，原 01L/19R跑道更名为 02R/20L跑道。第三跑道02L/20R 将会作为 非精密进近跑道使用，可以使用RNP 进近程序。"
             ],
             "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf"
+              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf"
             ],
             "source_sections": [
               "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点"
@@ -1845,7 +1661,7 @@
               "本机场实施 RNP 进近程序期间，ATC 指挥可能与程 序设计逻辑存在差异，请以公司飞行操作通告为准。"
             ],
             "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf"
+              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf"
             ],
             "source_sections": [
               "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点"
@@ -1881,7 +1697,7 @@
               "南面进出港:19 用于起飞和落地，20L 用于起飞，20R 用于落地。北面进出港:01 用于起飞和落地，02R 用于起飞，02L 用于落地。"
             ],
             "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf"
+              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf"
             ],
             "source_sections": [
               "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点"
@@ -1917,7 +1733,7 @@
               "南面进出港:19 用于起飞和落地，20L 用于起飞，20R 用于落地。北面进出港:01 用于起飞和落地，02R 用于起飞，02L 用于落地。"
             ],
             "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf"
+              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf"
             ],
             "source_sections": [
               "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点"
@@ -1953,7 +1769,7 @@
               "地面：道面特点：频率129.050，如果我们的机组人员在素万那普机场有任何疑问 例如需要TOBT/TSAT/停机位方面的信息，或者需要飞行计划方。"
             ],
             "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf"
+              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf"
             ],
             "source_sections": [
               "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点／地面"
@@ -1993,7 +1809,7 @@
               "如预计经过沥青道面，不建议单发滑行。"
             ],
             "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf"
+              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf"
             ],
             "source_sections": [
               "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点／道面特点",
@@ -2030,7 +1846,7 @@
               "运行限制：。"
             ],
             "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf"
+              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf"
             ],
             "source_sections": [
               "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点"
@@ -2049,12 +1865,12 @@
           }
         ]
       },
-      "content_sha256": "379231f4a8d262b9b48bc85591f338915e26a5479946a6afab88a97f6e661584",
+      "content_sha256": "16c08ff2c680dbce38dc0874c5472ab80a84944e56f582f6aac9460717a2f4a8",
       "_english_content": ""
     }
   ],
   "warnings": [
-    "上海浦东匹配最新机场特点章节：上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)（ZSPD）",
+    "上海浦东匹配最新机场特点章节：上海/浦东机场运行特点（ZSPD）",
     "曼谷素旺那普匹配最新机场特点章节：曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)（VTBS）"
   ],
   "weather": {
@@ -2062,8 +1878,8 @@
       "icao": "ZSPD",
       "source_used": "TAF",
       "taf_validity_utc": [
-        "2026-09-09T00:00:00+00:00",
-        "2026-09-10T06:00:00+00:00"
+        "2026-09-09T06:00:00+00:00",
+        "2026-09-10T12:00:00+00:00"
       ],
       "relevant_times": [
         "2026-09-10T08:20:00+08:00"
@@ -2102,16 +1918,14 @@
     }
   },
   "airport_experience_changes": [],
-  "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
-  "airport_information_version": 20260824,
+  "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
+  "airport_information_version": 20260907,
   "airport_information_type": "PDF",
   "airport_fact_ids": {
     "上海浦东": {
       "typical": [
         "上海浦东_typical_record_1",
-        "上海浦东_typical_record_2",
-        "上海浦东_typical_record_3",
-        "上海浦东_typical_record_5"
+        "上海浦东_typical_record_2"
       ],
       "core": [
         "zspd_departure_navigation",
@@ -2143,76 +1957,18 @@
         "fact_id": "上海浦东_typical_record_1",
         "paragraph_id": "",
         "airport": "上海浦东",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
         "source": "PDF",
         "source_page": "448-451",
-        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-        "source_section": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)／典型不安全事件",
-        "source_text_zh": "曾因低高度失去目视参考导致复飞。",
-        "source_original_text": "曾因低高度失去目视参考导致复飞。",
-        "source_original_texts": [
-          "曾因低高度失去目视参考导致复飞。"
-        ],
-        "source_record_ids": [
-          "上海浦东:typical:3f8fcdd987a43f7a"
-        ],
-        "source_clauses": [
-          "曾因低高度失去目视参考导致复飞。"
-        ],
-        "operational_phase": "incident",
-        "role_scope": [],
-        "operational_condition": [],
-        "applicability": [],
-        "risk": [
-          "曾因低高度失去目视参考导致复飞"
-        ],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "曾因低高度失去目视参考导致复飞。",
-        "text_en": "",
-        "rendered_text": "曾因低高度失去目视参考导致复飞。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "special",
-        "role": "",
-        "source_fact_ids": [
-          "上海浦东_typical_record_1"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 0,
-        "text_before_polish": "曾因低高度失去目视参考导致复飞。",
-        "text_after_polish": "曾因低高度失去目视参考导致复飞。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "guard_failed": false,
-        "guard_reason": "",
-        "fallback_used": "",
-        "paragraph_dropped": false,
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "上海浦东_typical_record_2",
-        "paragraph_id": "",
-        "airport": "上海浦东",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
-        "source": "PDF",
-        "source_page": "448-451",
-        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-        "source_section": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)／典型不安全事件",
+        "source_heading": "上海/浦东机场运行特点",
+        "source_section": "上海/浦东机场运行特点／典型不安全事件",
         "source_text_zh": "曾因低高度鸟击导致雷达罩处损伤超标。",
-        "source_original_text": "曾因低高度鸟击导致雷达罩处损伤超标。 2023年10月1 日，一A320NEO飞机执行普吉岛至上海浦东 航班，23:54起飞，次日04:34落地。滑入后检查发现雷达罩上 部区域有鸟击痕迹（血迹、羽毛）残留，执行鸟击后的检查，发 现鸟击处雷达罩内部区域存在分层，经评估损伤超标。分层区域 最大直径370MM，依据手册AMM53-15-11-200-001-A01判断损伤 超标，依据手册AMM53-15-11-000/400-001-A更换损伤的雷达 罩，检查测试正常无后续影响。机组反映浦东35L跑道进近阶段 高度500英尺遭鸟击，鸟击信息确认表已与航司维修部门签字确 认。鸟击残留物已采样送至南师大鸟击残留物鉴定重点实验室检 测（样品编号ZSPD2023-504）。经鉴定，鸟击物种为绿鹭（Butorides striata）。",
+        "source_original_text": "曾因低高度鸟击导致雷达罩处损伤超标。",
         "source_original_texts": [
-          "曾因低高度鸟击导致雷达罩处损伤超标。",
-          "2023年10月1 日，一A320NEO飞机执行普吉岛至上海浦东 航班，23:54起飞，次日04:34落地。滑入后检查发现雷达罩上 部区域有鸟击痕迹（血迹、羽毛）残留，执行鸟击后的检查，发 现鸟击处雷达罩内部区域存在分层，经评估损伤超标。分层区域 最大直径370MM，依据手册AMM53-15-11-200-001-A01判断损伤 超标，依据手册AMM53-15-11-000/400-001-A更换损伤的雷达 罩，检查测试正常无后续影响。机组反映浦东35L跑道进近阶段 高度500英尺遭鸟击，鸟击信息确认表已与航司维修部门签字确 认。鸟击残留物已采样送至南师大鸟击残留物鉴定重点实验室检 测（样品编号ZSPD2023-504）。经鉴定，鸟击物种为绿鹭（Butorides striata）。"
+          "曾因低高度鸟击导致雷达罩处损伤超标。"
         ],
         "source_record_ids": [
-          "上海浦东:typical:cd96a8e3541106df",
-          "上海浦东:typical:076be56ea220ecf5"
+          "上海浦东:typical:cd96a8e3541106df"
         ],
         "source_clauses": [
           "曾因低高度鸟击导致雷达罩处损伤超标。"
@@ -2226,12 +1982,7 @@
         ],
         "mitigation": [],
         "restriction": [],
-        "excluded_source_clauses": [
-          {
-            "clause": "2023年10月1 日，一A320NEO飞机执行普吉岛至上海浦东 航班，23:54起飞，次日04:34落地。滑入后检查发现雷达罩上 部区域有鸟击痕迹（血迹、羽毛）残留，执行鸟击后的检查，发 现鸟击处雷达罩内部区域存在分层，经评估损伤超标。分层区域 最大直径370MM，依据手册AMM53-15-11-200-001-A01判断损伤 超标，依据手册AMM53-15-11-000/400-001-A更换损伤的雷达 罩，检查测试正常无后续影响。机组反映浦东35L跑道进近阶段 高度500英尺遭鸟击，鸟击信息确认表已与航司维修部门签字确 认。鸟击残留物已采样送至南师大鸟击残留物鉴定重点实验室检 测（样品编号ZSPD2023-504）。经鉴定，鸟击物种为绿鹭（Butorides striata）。",
-            "reason": "同一典型不安全事件已由更短且完整的来源表达"
-          }
-        ],
+        "excluded_source_clauses": [],
         "text_zh": "曾因低高度鸟击导致雷达罩处损伤超标。",
         "text_en": "Bird activity around the airport can create a low-altitude bird-strike risk during departure, approach, and landing.",
         "rendered_text": "曾因低高度鸟击导致雷达罩处损伤超标。",
@@ -2241,8 +1992,7 @@
         "topic": "approach",
         "role": "",
         "source_fact_ids": [
-          "上海浦东_typical_record_2",
-          "上海浦东_typical_record_6"
+          "上海浦东_typical_record_1"
         ],
         "condition_scope": {},
         "condition_contexts": [],
@@ -2260,144 +2010,54 @@
         "category": "typical"
       },
       {
-        "fact_id": "上海浦东_typical_record_3",
+        "fact_id": "上海浦东_typical_record_2",
         "paragraph_id": "",
         "airport": "上海浦东",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
         "source": "PDF",
         "source_page": "448-451",
-        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-        "source_section": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)／典型不安全事件",
-        "source_text_zh": "2024年1月31 日，一架A320飞机执行兰州-上海浦东航班，机长PF、副驾驶PM，在浦东机场使用35L跑道执行1类盲降进 近，DA时能见进近灯光系统，进近到100英尺左右，除进近灯 光系统之外无任何目视参考，机长决策复飞，无线电高度59英 尺加油门至TOGA。复飞期间最低高度无线电高度35英尺，复飞 后备降虹桥机场，落地剩油。",
-        "source_original_text": "2024年1月31 日，一架A320飞机执行兰州-上海浦东航班，机长PF、副驾驶PM，在浦东机场使用35L跑道执行1类盲降进 近，DA时能见进近灯光系统，进近到100英尺左右，除进近灯 光系统之外无任何目视参考，机长决策复飞，无线电高度59英 尺加油门至TOGA。复飞期间最低高度无线电高度35英尺，复飞 后备降虹桥机场，落地剩油。",
+        "source_heading": "上海/浦东机场运行特点",
+        "source_section": "上海/浦东机场运行特点／典型不安全事件",
+        "source_text_zh": "曾发生更改跑道后输错飞行计划事件。",
+        "source_original_text": "曾发生更改跑道后输错飞行计划事件。",
         "source_original_texts": [
-          "2024年1月31 日，一架A320飞机执行兰州-上海浦东航班，机长PF、副驾驶PM，在浦东机场使用35L跑道执行1类盲降进 近，DA时能见进近灯光系统，进近到100英尺左右，除进近灯 光系统之外无任何目视参考，机长决策复飞，无线电高度59英 尺加油门至TOGA。复飞期间最低高度无线电高度35英尺，复飞 后备降虹桥机场，落地剩油。"
+          "曾发生更改跑道后输错飞行计划事件。"
         ],
         "source_record_ids": [
-          "上海浦东:typical:be1f3352d658c6dc"
+          "上海浦东:typical:df9c4a14c46daa54"
         ],
         "source_clauses": [
-          "2024年1月31 日，一架A320飞机执行兰州-上海浦东航班，机长PF、副驾驶PM，在浦东机场使用35L跑道执行1类盲降进 近，DA时能见进近灯光系统，进近到100英尺左右，除进近灯 光系统之外无任何目视参考，机长决策复飞，无线电高度59英 尺加油门至TOGA。复飞期间最低高度无线电高度35英尺，复飞 后备降虹桥机场，落地剩油。"
+          "曾发生更改跑道后输错飞行计划事件。"
         ],
         "operational_phase": "incident",
         "role_scope": [],
         "operational_condition": [
-          "2024年1月31 日",
-          "一架A320飞机执行兰州-上海浦东航班",
-          "机长PF、副驾驶PM",
-          "DA时能见进近灯光系统",
-          "进近到100英尺左右",
-          "除进近灯光系统之外无任何目视参考",
-          "机长决策复飞",
-          "无线电高度59英尺加油门至TOGA",
-          "复飞期间最低高度无线电高度35英尺",
-          "复飞后备降虹桥机场",
-          "落地剩油"
+          "曾发生更改跑道后输错飞行计划事件"
         ],
         "applicability": [
-          "跑道",
-          "进近",
-          "落地"
+          "跑道"
         ],
         "risk": [],
-        "mitigation": [
-          "在浦东机场使用35L跑道执行1类盲降进近"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "2024年1月31日，一架A320飞机执行兰州-上海浦东航班，机长PF、副驾驶PM，在浦东机场使用35L跑道执行1类盲降进近，DA时能见进近灯光系统，进近到100英尺左右，除进近灯光系统之外无任何目视参考，机长决策复飞，无线电高度59英尺加油门至TOGA。复飞期间最低高度无线电高度35英尺，复飞后备降虹桥机场，落地剩油。",
-        "text_en": "",
-        "rendered_text": "2024年1月31日，一架A320飞机执行兰州-上海浦东航班，机长PF、副驾驶PM，在浦东机场使用35L跑道执行1类盲降进近，DA时能见进近灯光系统，进近到100英尺左右，除进近灯光系统之外无任何目视参考，机长决策复飞，无线电高度59英尺加油门至TOGA。复飞期间最低高度无线电高度35英尺，复飞后备降虹桥机场，落地剩油。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "approach",
-        "role": "",
-        "source_fact_ids": [
-          "上海浦东_typical_record_3"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 0,
-        "text_before_polish": "2024年1月31日，一架A320飞机执行兰州-上海浦东航班，机长PF、副驾驶PM，在浦东机场使用35L跑道执行1类盲降进近，DA时能见进近灯光系统，进近到100英尺左右，除进近灯光系统之外无任何目视参考，机长决策复飞，无线电高度59英尺加油门至TOGA。复飞期间最低高度无线电高度35英尺，复飞后备降虹桥机场，落地剩油。",
-        "text_after_polish": "2024年1月31日，一架A320飞机执行兰州-上海浦东航班，机长PF、副驾驶PM，在浦东机场使用35L跑道执行1类盲降进近，DA时能见进近灯光系统，进近到100英尺左右，除进近灯光系统之外无任何目视参考，机长决策复飞，无线电高度59英尺加油门至TOGA。复飞期间最低高度无线电高度35英尺，复飞后备降虹桥机场，落地剩油。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "guard_failed": false,
-        "guard_reason": "",
-        "fallback_used": "",
-        "paragraph_dropped": false,
-        "airport_specific": true,
-        "category": "typical"
-      },
-      {
-        "fact_id": "上海浦东_typical_record_5",
-        "paragraph_id": "",
-        "airport": "上海浦东",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
-        "source": "PDF",
-        "source_page": "448-451",
-        "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-        "source_section": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)／典型不安全事件",
-        "source_text_zh": "2023年12月19 日，一架A321飞机执行长春至浦东航班，在浦东机场35L跑道雷达引导ILS进近，自动驾驶接通、保持高 度600米平飞过程中，飞机触发两声“TERRAIN ”警告声随即消 失，检查飞机各项指示和状态正常，机组继续进近并保持监控， 后续正常落地浦东机场。根据数据显示警告发生时飞机在平飞过 程中，判断GPWS警告是由于无线电高度表RA指示有较大变化导 致。QAR译码:GMT17:43:31气压高度表2003英尺、无线电高度 1916英尺；GMT17:43:32气压高度表2003英尺、无线电高度1414 英尺；GMT17:43:33气压高度表2003英尺、无线电高度1387 英 尺；触发GPWS警告1秒GMT17:43:34气压高度表2003英尺、无 线电高度1745英尺；GMT17:43:35气压高度表2003 英尺、无线 电高度1882英尺；浦东机场天气实况： METARZSPD191730Z33007MPSCAVOK03/M01Q1033NOSIG=。",
-        "source_original_text": "2023年12月19 日，一架A321飞机执行长春至浦东航班，在浦东机场35L跑道雷达引导ILS进近，自动驾驶接通、保持高 度600米平飞过程中，飞机触发两声“TERRAIN ”警告声随即消 失，检查飞机各项指示和状态正常，机组继续进近并保持监控， 后续正常落地浦东机场。根据数据显示警告发生时飞机在平飞过 程中，判断GPWS警告是由于无线电高度表RA指示有较大变化导 致。QAR译码:GMT17:43:31气压高度表2003英尺、无线电高度 1916英尺；GMT17:43:32气压高度表2003英尺、无线电高度1414 英尺；GMT17:43:33气压高度表2003英尺、无线电高度1387 英 尺；触发GPWS警告1秒GMT17:43:34气压高度表2003英尺、无 线电高度1745英尺；GMT17:43:35气压高度表2003 英尺、无线 电高度1882英尺；浦东机场天气实况： METARZSPD191730Z33007MPSCAVOK03/M01Q1033NOSIG=。",
-        "source_original_texts": [
-          "2023年12月19 日，一架A321飞机执行长春至浦东航班，在浦东机场35L跑道雷达引导ILS进近，自动驾驶接通、保持高 度600米平飞过程中，飞机触发两声“TERRAIN ”警告声随即消 失，检查飞机各项指示和状态正常，机组继续进近并保持监控， 后续正常落地浦东机场。根据数据显示警告发生时飞机在平飞过 程中，判断GPWS警告是由于无线电高度表RA指示有较大变化导 致。QAR译码:GMT17:43:31气压高度表2003英尺、无线电高度 1916英尺；GMT17:43:32气压高度表2003英尺、无线电高度1414 英尺；GMT17:43:33气压高度表2003英尺、无线电高度1387 英 尺；触发GPWS警告1秒GMT17:43:34气压高度表2003英尺、无 线电高度1745英尺；GMT17:43:35气压高度表2003 英尺、无线 电高度1882英尺；浦东机场天气实况： METARZSPD191730Z33007MPSCAVOK03/M01Q1033NOSIG=。"
-        ],
-        "source_record_ids": [
-          "上海浦东:typical:ba2a7da1cecfb59d"
-        ],
-        "source_clauses": [
-          "2023年12月19 日，一架A321飞机执行长春至浦东航班，在浦东机场35L跑道雷达引导ILS进近，自动驾驶接通、保持高 度600米平飞过程中，飞机触发两声“TERRAIN ”警告声随即消 失，检查飞机各项指示和状态正常，机组继续进近并保持监控， 后续正常落地浦东机场。根据数据显示警告发生时飞机在平飞过 程中，判断GPWS警告是由于无线电高度表RA指示有较大变化导 致。QAR译码:GMT17:43:31气压高度表2003英尺、无线电高度 1916英尺；GMT17:43:32气压高度表2003英尺、无线电高度1414 英尺；GMT17:43:33气压高度表2003英尺、无线电高度1387 英 尺；触发GPWS警告1秒GMT17:43:34气压高度表2003英尺、无 线电高度1745英尺；GMT17:43:35气压高度表2003 英尺、无线 电高度1882英尺；浦东机场天气实况： METARZSPD191730Z33007MPSCAVOK03/M01Q1033NOSIG=。"
-        ],
-        "operational_phase": "incident",
-        "role_scope": [],
-        "operational_condition": [
-          "2023年12月19 日",
-          "一架A321飞机执行长春至浦东航班",
-          "在浦东机场35L跑道雷达引导ILS进近",
-          "自动驾驶接通、保持高度600米平飞过程中",
-          "检查飞机各项指示和状态正常",
-          "机组继续进近并保持监控",
-          "后续正常落地浦东机场",
-          "根据数据显示警告发生时飞机在平飞过程中",
-          "QAR译码:GMT17:43:31气压高度表2003英尺、无线电高度 1916英尺",
-          "GMT17:43:32气压高度表2003英尺、无线电高度1414 英尺",
-          "GMT17:43:33气压高度表2003英尺、无线电高度1387 英尺",
-          "GMT17:43:35气压高度表2003 英尺、无线电高度1882英尺",
-          "浦东机场天气实况： METARZSPD191730Z33007MPSCAVOK03/M01Q1033NOSIG="
-        ],
-        "applicability": [
-          "跑道",
-          "进近",
-          "落地"
-        ],
-        "risk": [
-          "飞机触发两声“TERRAIN ”警告声随即消失",
-          "判断GPWS警告是由于无线电高度表RA指示有较大变化导致",
-          "触发GPWS警告1秒GMT17:43:34气压高度表2003英尺、无线电高度1745英尺"
-        ],
         "mitigation": [],
         "restriction": [],
         "excluded_source_clauses": [],
-        "text_zh": "2023年12月19日，一架A321飞机执行长春至浦东航班，在浦东机场35L跑道雷达引导ILS进近，自动驾驶接通、保持高度600米平飞过程中，飞机触发两声“TERRAIN ”警告声随即消失，检查飞机各项指示和状态正常，机组继续进近并保持监控， 后续正常落地浦东机场。根据数据显示警告发生时飞机在平飞过程中，判断GPWS警告是由于无线电高度表RA指示有较大变化导致。QAR译码:GMT17:43:31气压高度表2003英尺、无线电高度1916英尺；GMT17:43:32气压高度表2003英尺、无线电高度1414英尺；GMT17:43:33气压高度表2003英尺、无线电高度1387英尺；触发GPWS警告1秒GMT17:43:34气压高度表2003英尺、无线电高度1745英尺；GMT17:43:35气压高度表2003英尺、无线电高度1882英尺；浦东机场天气实况： METARZSPD191730Z33007MPSCAVOK03/M01Q1033NOSIG=。",
+        "text_zh": "曾发生更改跑道后输错飞行计划事件。",
         "text_en": "",
-        "rendered_text": "2023年12月19日，一架A321飞机执行长春至浦东航班，在浦东机场35L跑道雷达引导ILS进近，自动驾驶接通、保持高度600米平飞过程中，飞机触发两声“TERRAIN ”警告声随即消失，检查飞机各项指示和状态正常，机组继续进近并保持监控， 后续正常落地浦东机场。根据数据显示警告发生时飞机在平飞过程中，判断GPWS警告是由于无线电高度表RA指示有较大变化导致。QAR译码:GMT17:43:31气压高度表2003英尺、无线电高度1916英尺；GMT17:43:32气压高度表2003英尺、无线电高度1414英尺；GMT17:43:33气压高度表2003英尺、无线电高度1387英尺；触发GPWS警告1秒GMT17:43:34气压高度表2003英尺、无线电高度1745英尺；GMT17:43:35气压高度表2003英尺、无线电高度1882英尺；浦东机场天气实况： METARZSPD191730Z33007MPSCAVOK03/M01Q1033NOSIG=。",
+        "rendered_text": "曾发生更改跑道后输错飞行计划事件。",
         "season_scope": [],
         "flight_scope": [],
         "route_scope": [],
-        "topic": "weather",
+        "topic": "special",
         "role": "",
         "source_fact_ids": [
-          "上海浦东_typical_record_5"
+          "上海浦东_typical_record_2"
         ],
         "condition_scope": {},
         "condition_contexts": [],
         "condition_group": "",
         "briefing_priority": 0,
-        "text_before_polish": "2023年12月19日，一架A321飞机执行长春至浦东航班，在浦东机场35L跑道雷达引导ILS进近，自动驾驶接通、保持高度600米平飞过程中，飞机触发两声“TERRAIN ”警告声随即消失，检查飞机各项指示和状态正常，机组继续进近并保持监控， 后续正常落地浦东机场。根据数据显示警告发生时飞机在平飞过程中，判断GPWS警告是由于无线电高度表RA指示有较大变化导致。QAR译码:GMT17:43:31气压高度表2003英尺、无线电高度1916英尺；GMT17:43:32气压高度表2003英尺、无线电高度1414英尺；GMT17:43:33气压高度表2003英尺、无线电高度1387英尺；触发GPWS警告1秒GMT17:43:34气压高度表2003英尺、无线电高度1745英尺；GMT17:43:35气压高度表2003英尺、无线电高度1882英尺；浦东机场天气实况： METARZSPD191730Z33007MPSCAVOK03/M01Q1033NOSIG=。",
-        "text_after_polish": "2023年12月19日，一架A321飞机执行长春至浦东航班，在浦东机场35L跑道雷达引导ILS进近，自动驾驶接通、保持高度600米平飞过程中，飞机触发两声“TERRAIN ”警告声随即消失，检查飞机各项指示和状态正常，机组继续进近并保持监控， 后续正常落地浦东机场。根据数据显示警告发生时飞机在平飞过程中，判断GPWS警告是由于无线电高度表RA指示有较大变化导致。QAR译码:GMT17:43:31气压高度表2003英尺、无线电高度1916英尺；GMT17:43:32气压高度表2003英尺、无线电高度1414英尺；GMT17:43:33气压高度表2003英尺、无线电高度1387英尺；触发GPWS警告1秒GMT17:43:34气压高度表2003英尺、无线电高度1745英尺；GMT17:43:35气压高度表2003英尺、无线电高度1882英尺；浦东机场天气实况： METARZSPD191730Z33007MPSCAVOK03/M01Q1033NOSIG=。",
+        "text_before_polish": "曾发生更改跑道后输错飞行计划事件。",
+        "text_after_polish": "曾发生更改跑道后输错飞行计划事件。",
         "polish_applied": false,
         "polish_fallback_reason": "",
         "guard_failed": false,
@@ -2679,7 +2339,7 @@
         "fact_id": "曼谷素旺那普_typical_record_1",
         "paragraph_id": "",
         "airport": "曼谷素旺那普",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
         "source": "PDF",
         "source_page": "N/A",
         "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -2738,7 +2398,7 @@
         "fact_id": "曼谷素旺那普_core_record_12",
         "paragraph_id": "曼谷素旺那普_core_record_12",
         "airport": "曼谷素旺那普",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
         "source": "PDF",
         "source_page": "N/A",
         "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -2804,7 +2464,7 @@
         "fact_id": "曼谷素旺那普_core_record_15",
         "paragraph_id": "曼谷素旺那普_core_record_15",
         "airport": "曼谷素旺那普",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
         "source": "PDF",
         "source_page": "N/A",
         "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -2868,7 +2528,7 @@
         "fact_id": "曼谷素旺那普_core_record_9",
         "paragraph_id": "曼谷素旺那普_core_record_9",
         "airport": "曼谷素旺那普",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
         "source": "PDF",
         "source_page": "N/A",
         "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -2935,7 +2595,7 @@
         "fact_id": "曼谷素旺那普_core_record_18",
         "paragraph_id": "曼谷素旺那普_core_record_18",
         "airport": "曼谷素旺那普",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
         "source": "PDF",
         "source_page": "N/A",
         "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -2999,7 +2659,7 @@
         "fact_id": "曼谷素旺那普_core_record_10",
         "paragraph_id": "曼谷素旺那普_core_record_10",
         "airport": "曼谷素旺那普",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
         "source": "PDF",
         "source_page": "N/A",
         "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -3067,7 +2727,7 @@
         "fact_id": "曼谷素旺那普_core_record_11",
         "paragraph_id": "曼谷素旺那普_core_record_11",
         "airport": "曼谷素旺那普",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
         "source": "PDF",
         "source_page": "N/A",
         "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -3135,7 +2795,7 @@
         "fact_id": "曼谷素旺那普_core_record_19",
         "paragraph_id": "曼谷素旺那普_core_record_19",
         "airport": "曼谷素旺那普",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
         "source": "PDF",
         "source_page": "N/A",
         "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -3194,7 +2854,7 @@
         "fact_id": "paragraph:曼谷素旺那普_core_record_13+曼谷素旺那普_core_record_4",
         "paragraph_id": "paragraph:曼谷素旺那普_core_record_13+曼谷素旺那普_core_record_4",
         "airport": "曼谷素旺那普",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
         "source": "PDF",
         "source_page": "N/A",
         "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -3260,7 +2920,7 @@
         "fact_id": "曼谷素旺那普_core_record_3",
         "paragraph_id": "曼谷素旺那普_core_record_3",
         "airport": "曼谷素旺那普",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
         "source": "PDF",
         "source_page": "N/A",
         "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -3317,12 +2977,6 @@
   "excluded_source_clauses": [
     {
       "airport": "上海浦东",
-      "fact_id": "上海浦东_typical_record_2",
-      "clause": "2023年10月1 日，一A320NEO飞机执行普吉岛至上海浦东 航班，23:54起飞，次日04:34落地。滑入后检查发现雷达罩上 部区域有鸟击痕迹（血迹、羽毛）残留，执行鸟击后的检查，发 现鸟击处雷达罩内部区域存在分层，经评估损伤超标。分层区域 最大直径370MM，依据手册AMM53-15-11-200-001-A01判断损伤 超标，依据手册AMM53-15-11-000/400-001-A更换损伤的雷达 罩，检查测试正常无后续影响。机组反映浦东35L跑道进近阶段 高度500英尺遭鸟击，鸟击信息确认表已与航司维修部门签字确 认。鸟击残留物已采样送至南师大鸟击残留物鉴定重点实验室检 测（样品编号ZSPD2023-504）。经鉴定，鸟击物种为绿鹭（Butorides striata）。",
-      "reason": "同一典型不安全事件已由更短且完整的来源表达"
-    },
-    {
-      "airport": "上海浦东",
       "fact_id": "zspd_departure_weather_bird",
       "clause": "浦东夏季雷雨可能伴随低云、湿跑道和风切变，东侧海岸鸟类活动也可能与低高度离场航迹重叠",
       "reason": "目标月份为9月，不在资料明确季节适用月份6,7,8月内"
@@ -3347,28 +3001,6 @@
     },
     {
       "airport": "上海浦东",
-      "fact_id": "",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
-      "source_page": "448-451",
-      "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-      "source_section": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)／典型不安全事件",
-      "clause": "39吨。",
-      "reason": "来源文本质量不足，未进入正式正文",
-      "discarded_reason": "来源文本质量不足，未进入正式正文"
-    },
-    {
-      "airport": "上海浦东",
-      "fact_id": "上海浦东_typical_record_6",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
-      "source_page": "448-451",
-      "source_heading": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)",
-      "source_section": "上海/浦东机场运行特点 SHANGHAIPUDONG(PVG/ZSPD)／典型不安全事件",
-      "clause": "2023年10月1 日，一A320NEO飞机执行普吉岛至上海浦东 航班，23:54起飞，次日04:34落地。滑入后检查发现雷达罩上 部区域有鸟击痕迹（血迹、羽毛）残留，执行鸟击后的检查，发 现鸟击处雷达罩内部区域存在分层，经评估损伤超标。分层区域 最大直径370MM，依据手册AMM53-15-11-200-001-A01判断损伤 超标，依据手册AMM53-15-11-000/400-001-A更换损伤的雷达 罩，检查测试正常无后续影响。机组反映浦东35L跑道进近阶段 高度500英尺遭鸟击，鸟击信息确认表已与航司维修部门签字确 认。鸟击残留物已采样送至南师大鸟击残留物鉴定重点实验室检 测（样品编号ZSPD2023-504）。经鉴定，鸟击物种为绿鹭（Butorides striata）。",
-      "reason": "同一典型不安全事件已由更短且完整的来源表达",
-      "discarded_reason": "同一典型不安全事件已由更短且完整的来源表达"
-    },
-    {
-      "airport": "上海浦东",
       "fact_id": "zspd_departure_traffic",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260720-Manual.pdf",
       "source_page": "448,451",
@@ -3381,7 +3013,7 @@
     {
       "airport": "曼谷素旺那普",
       "fact_id": "",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
       "source_section": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
@@ -3392,7 +3024,7 @@
     {
       "airport": "曼谷素旺那普",
       "fact_id": "",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
       "source_section": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
@@ -3403,7 +3035,7 @@
     {
       "airport": "曼谷素旺那普",
       "fact_id": "曼谷素旺那普_core_record_14",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
       "source_section": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点／气象特点",
@@ -3414,7 +3046,7 @@
     {
       "airport": "曼谷素旺那普",
       "fact_id": "曼谷素旺那普_core_record_2",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
       "source_section": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
@@ -3425,7 +3057,7 @@
     {
       "airport": "曼谷素旺那普",
       "fact_id": "曼谷素旺那普_core_record_8",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
       "source_section": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
@@ -3436,7 +3068,7 @@
     {
       "airport": "曼谷素旺那普",
       "fact_id": "曼谷素旺那普_core_record_17",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
       "source_section": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
@@ -3447,7 +3079,7 @@
     {
       "airport": "曼谷素旺那普",
       "fact_id": "曼谷素旺那普_core_record_5",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
       "source_section": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
@@ -3458,7 +3090,7 @@
     {
       "airport": "曼谷素旺那普",
       "fact_id": "曼谷素旺那普_core_record_7",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
       "source_section": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
@@ -3681,7 +3313,7 @@
           "曼谷进近只给出进场STAR程序，不告知跑道，虽然通 波只告知一条进近跑道，但仍有可能使用通波没有列出的跑道 机组建立五边之前务必证实跑道和进近方式。"
         ],
         "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf"
+          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf"
         ],
         "source_sections": [
           "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点"
@@ -3717,7 +3349,7 @@
           "导航设施：SVB 台因迁移长期不工作，已无VOR 进近程序 盲降测距仪与跑道头位置有误差，避免不稳定。"
         ],
         "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf"
+          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf"
         ],
         "source_sections": [
           "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点"
@@ -3753,7 +3385,7 @@
           "三跑道运行，原 01R/19L,跑道更名为01/19 跑道，原 01L/19R跑道更名为 02R/20L跑道。第三跑道02L/20R 将会作为 非精密进近跑道使用，可以使用RNP 进近程序。"
         ],
         "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf"
+          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf"
         ],
         "source_sections": [
           "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点"
@@ -3789,7 +3421,7 @@
           "本机场实施 RNP 进近程序期间，ATC 指挥可能与程 序设计逻辑存在差异，请以公司飞行操作通告为准。"
         ],
         "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf"
+          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf"
         ],
         "source_sections": [
           "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点"
@@ -3825,7 +3457,7 @@
           "南面进出港:19 用于起飞和落地，20L 用于起飞，20R 用于落地。北面进出港:01 用于起飞和落地，02R 用于起飞，02L 用于落地。"
         ],
         "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf"
+          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf"
         ],
         "source_sections": [
           "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点"
@@ -3861,7 +3493,7 @@
           "南面进出港:19 用于起飞和落地，20L 用于起飞，20R 用于落地。北面进出港:01 用于起飞和落地，02R 用于起飞，02L 用于落地。"
         ],
         "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf"
+          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf"
         ],
         "source_sections": [
           "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点"
@@ -3897,7 +3529,7 @@
           "地面：道面特点：频率129.050，如果我们的机组人员在素万那普机场有任何疑问 例如需要TOBT/TSAT/停机位方面的信息，或者需要飞行计划方。"
         ],
         "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf"
+          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf"
         ],
         "source_sections": [
           "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点／地面"
@@ -3937,7 +3569,7 @@
           "如预计经过沥青道面，不建议单发滑行。"
         ],
         "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf"
+          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf"
         ],
         "source_sections": [
           "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点／道面特点",
@@ -3974,7 +3606,7 @@
           "运行限制：。"
         ],
         "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260824-Manual.pdf"
+          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf"
         ],
         "source_sections": [
           "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点"
