@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-09-10",
-  "generated_at_beijing": "2026-09-09T12:50:11.892183+08:00",
+  "generated_at_beijing": "2026-09-09T13:56:10.740274+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C8891"
@@ -141,8 +141,8 @@
           "icao": "VTBS",
           "source_used": "TAF",
           "taf_validity_utc": [
-            "2026-09-09T00:00:00+00:00",
-            "2026-09-10T06:00:00+00:00"
+            "2026-09-09T06:00:00+00:00",
+            "2026-09-10T12:00:00+00:00"
           ],
           "relevant_times": [
             "2026-09-10T12:50:00+08:00"
@@ -1897,8 +1897,8 @@
       "icao": "VTBS",
       "source_used": "TAF",
       "taf_validity_utc": [
-        "2026-09-09T00:00:00+00:00",
-        "2026-09-10T06:00:00+00:00"
+        "2026-09-09T06:00:00+00:00",
+        "2026-09-10T12:00:00+00:00"
       ],
       "relevant_times": [
         "2026-09-10T12:50:00+08:00"
