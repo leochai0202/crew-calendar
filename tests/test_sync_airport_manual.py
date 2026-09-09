@@ -284,23 +284,37 @@ def test_cli_reports_failed_safe_without_candidate(
     assert "SYNC_RESULT=FAILED_SAFE" in capsys.readouterr().out
 
 
-def test_workflow_is_self_hosted_and_only_commits_validated_target() -> None:
+def test_workflow_uses_api_transport_for_only_the_validated_target() -> None:
     workflow = WORKFLOW.read_text(encoding="utf-8")
 
     for required in (
         "name: Sync Airport Manual",
         "workflow_dispatch:",
         "runs-on: [self-hosted, Windows, X64, crew-calendar]",
+        "timeout-minutes: 30",
+        "Bootstrap repository from GitHub API",
+        "/git/ref/heads/main",
+        "scripts/bootstrap_repository.ps1?ref=$bootstrapSha",
+        "-TargetSha $bootstrapSha",
         "AIRPORT_MANUAL_SOURCE_FOLDER: "
         "${{ vars.AIRPORT_MANUAL_SOURCE_FOLDER }}",
         "python tools/sync_airport_manual.py",
         "steps.sync_manual.outputs.changed == 'true'",
-        "git add --all -- knowledge/pdf",
-        'git commit -m "Update airport manual"',
-        "git push origin HEAD:main",
+        "Publish updated airport manual through GitHub API",
+        "python github_api_publish.py",
+        "--status-prefix AIRPORT_MANUAL_API",
+        "--expected-main-sha "
+        '"${{ steps.bootstrap.outputs.bootstrap_main_sha }}"',
+        "--airport-manual $manuals[0].FullName",
     ):
         assert required in workflow
     for forbidden in (
+        "actions/checkout",
+        "uses:",
+        "git pull",
+        "git push",
+        "git add",
+        "git commit",
         "actions/upload-artifact",
         "flight_preparation",
         "flight.ics",
@@ -310,3 +324,6 @@ def test_workflow_is_self_hosted_and_only_commits_validated_target() -> None:
         "force",
     ):
         assert forbidden not in workflow
+    assert workflow.index("Bootstrap repository from GitHub API") < workflow.index(
+        "Install PDF validation dependency"
+    )
