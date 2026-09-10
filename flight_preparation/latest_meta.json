@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-09-11",
-  "generated_at_beijing": "2026-09-10T03:29:02.393071+08:00",
+  "generated_at_beijing": "2026-09-10T13:54:02.192719+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C8892"
@@ -120,23 +120,43 @@
       "weather": {
         "曼谷素旺那普": {
           "icao": "VTBS",
-          "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "source_used": "TAF",
+          "taf_validity_utc": [
+            "2026-09-10T06:00:00+00:00",
+            "2026-09-11T12:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-09-11T13:50:00+08:00"
           ],
-          "taf_decoded_by_time": [],
-          "decoded": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-11T13:50:00+08:00",
+              "decoded": [
+                "能见度10公里以上"
+              ]
+            }
+          ],
+          "decoded": [
+            "能见度10公里以上"
+          ],
           "fetch_error": ""
         },
         "上海浦东": {
           "icao": "ZSPD",
-          "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "source_used": "TAF",
+          "taf_validity_utc": [
+            "2026-09-10T06:00:00+00:00",
+            "2026-09-11T12:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-09-11T18:25:00+08:00"
           ],
-          "taf_decoded_by_time": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-11T18:25:00+08:00",
+              "decoded": []
+            }
+          ],
           "decoded": [],
           "fetch_error": ""
         }
@@ -1360,7 +1380,7 @@
           }
         ]
       },
-      "content_sha256": "bd6296504c02d50d98e7c5d6819c31352747c540eaf5c5ef857c2c8be8ea0235",
+      "content_sha256": "f6cc2c21b53263e01c143a542430df606a8f97973b21c9f002ae7a76d6534ccb",
       "_english_content": ""
     }
   ],
@@ -1371,28 +1391,51 @@
   "weather": {
     "曼谷素旺那普": {
       "icao": "VTBS",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-09-10T06:00:00+00:00",
+        "2026-09-11T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-09-11T13:50:00+08:00"
       ],
-      "taf_decoded_by_time": [],
-      "decoded": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-09-11T13:50:00+08:00",
+          "decoded": [
+            "能见度10公里以上"
+          ]
+        }
+      ],
+      "decoded": [
+        "能见度10公里以上"
+      ],
       "fetch_error": ""
     },
     "上海浦东": {
       "icao": "ZSPD",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-09-10T06:00:00+00:00",
+        "2026-09-11T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-09-11T18:25:00+08:00"
       ],
-      "taf_decoded_by_time": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-09-11T18:25:00+08:00",
+          "decoded": []
+        }
+      ],
       "decoded": [],
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [],
+  "airport_experience_changes": [
+    "上海浦东: 2026-09-05 -> 2026-09-10",
+    "曼谷素旺那普: 2026-04-14 -> 2026-09-10"
+  ],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
   "airport_information_version": 20260907,
   "airport_information_type": "PDF",

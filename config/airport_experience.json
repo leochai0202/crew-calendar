@@ -21,9 +21,9 @@
       "within_90_days": true
     },
     "上海浦东": {
-      "last_operated": "2026-09-05",
+      "last_operated": "2026-09-10",
       "source": "completed_schedule_event",
-      "flight_number": "9C8791",
+      "flight_number": "9C8891",
       "within_90_days": true
     },
     "札幌新千岁": {
@@ -33,10 +33,10 @@
       "within_90_days": true
     },
     "曼谷素旺那普": {
-      "last_operated": "2026-04-14",
+      "last_operated": "2026-09-10",
       "source": "completed_schedule_event",
-      "flight_number": "9C7419",
-      "within_90_days": false
+      "flight_number": "9C8891",
+      "within_90_days": true
     },
     "南宁吴圩": {
       "last_operated": "2026-06-04",
