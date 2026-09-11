@@ -2785,7 +2785,7 @@ UID:f43e38281e184070377720a97e14b7aa@crew-calendar
 SUMMARY:✈️ 9C8892 曼谷素旺那普→上海浦东
 DTSTART;TZID=Asia/Shanghai:20260911T144500
 DTEND;TZID=Asia/Shanghai:20260911T192000
-DESCRIPTION:09月11日 周五\n类型：航班\n航班：9C8892\n航线：曼谷素旺那普 → 上海浦东\n地点：曼谷素旺那普\n签到：13:10｜曼谷素旺那普\n任务：14:45 - 19:20\n机型：A320｜注册号：B1026\n\n人员名单：\n• 丁晓华(R)\n• 周光伟(R)\n• 段洋硕\n• 陈立成(P\,B)\n\n版本：2026-09-11 22:08
+DESCRIPTION:09月11日 周五\n类型：航班\n航班：9C8892\n航线：曼谷素旺那普 → 上海浦东\n地点：曼谷素旺那普\n签到：13:10｜曼谷素旺那普\n任务：14:45 - 19:20\n机型：A320｜注册号：B1026\n\n人员名单：\n• 丁晓华(R)\n• 周光伟(R)\n• 段洋硕\n• 陈立成(P\,B)\n\n版本：2026-09-11 22:57
 X-CONTENT-SIGNATURE:116397a7468064e541bdc5d6a6223dfc
 LOCATION:曼谷素旺那普
 BEGIN:VALARM
@@ -2799,7 +2799,7 @@ UID:0250f948ec7b8c22b242681ddf092e49@crew-calendar
 SUMMARY:✈️ 9C6833 上海虹桥→西宁曹家堡
 DTSTART;TZID=Asia/Shanghai:20260912T164000
 DTEND;TZID=Asia/Shanghai:20260912T201000
-DESCRIPTION:09月12日 周六\n类型：航班\n航班：9C6833\n航线：上海虹桥 → 西宁曹家堡\n地点：上海虹桥\n签到：14:55｜上海虹桥\n任务：16:40 - 20:10\n机型：A320｜注册号：B32CP\n\n人员名单：\n• 杨辉(T\,R)\n• 林峰(R)\n• 段洋硕\n• 钮正(B)\n\n版本：2026-09-11 22:08
+DESCRIPTION:09月12日 周六\n类型：航班\n航班：9C6833\n航线：上海虹桥 → 西宁曹家堡\n地点：上海虹桥\n签到：14:55｜上海虹桥\n任务：16:40 - 20:10\n机型：A320｜注册号：B32CP\n\n人员名单：\n• 杨辉(T\,R)\n• 林峰(R)\n• 段洋硕\n• 钮正(B)\n\n版本：2026-09-11 22:57
 X-CONTENT-SIGNATURE:cb3d4a16e569201a708def9b3d1a8607
 LOCATION:上海虹桥
 BEGIN:VALARM
@@ -2813,7 +2813,7 @@ UID:8ae77062013f0ef9317144b5456fd92b@crew-calendar
 SUMMARY:✈️ 9C6834 西宁曹家堡→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20260912T205500
 DTEND;TZID=Asia/Shanghai:20260912T234000
-DESCRIPTION:09月12日 周六\n类型：航班\n航班：9C6834\n航线：西宁曹家堡 → 上海虹桥\n地点：西宁曹家堡\n签到：19:20｜西宁曹家堡\n任务：20:55 - 23:40\n机型：A320｜注册号：B32CP\n\n人员名单：\n• 杨辉(T\,R)\n• 林峰(R)\n• 段洋硕\n• 钮正(B)\n• 郭汉清\n\n版本：2026-09-11 22:08
+DESCRIPTION:09月12日 周六\n类型：航班\n航班：9C6834\n航线：西宁曹家堡 → 上海虹桥\n地点：西宁曹家堡\n签到：19:20｜西宁曹家堡\n任务：20:55 - 23:40\n机型：A320｜注册号：B32CP\n\n人员名单：\n• 杨辉(T\,R)\n• 林峰(R)\n• 段洋硕\n• 钮正(B)\n• 郭汉清\n\n版本：2026-09-11 22:57
 X-CONTENT-SIGNATURE:d5fc2d7c956ac687248b396db5fedc5d
 LOCATION:西宁曹家堡
 BEGIN:VALARM
@@ -2827,8 +2827,8 @@ UID:76092f26eae02c235d6db0ffa0ce5bd8@crew-calendar
 SUMMARY:✈️ 9C6897 上海浦东→安顺黄果树
 DTSTART;TZID=Asia/Shanghai:20260915T065500
 DTEND;TZID=Asia/Shanghai:20260915T100500
-DESCRIPTION:09月15日 周二\n类型：航班\n航班：9C6897\n航线：上海浦东 → 安顺黄果树\n地点：上海浦东\n签到：05:05｜上海浦东\n任务：06:55 - 10:05\n机型：A320｜注册号：B30AR\n\n人员名单：\n• 姚平(T\,R)\n• 林成希(R)\n• 段洋硕\n\n版本：2026-09-11 22:08
-X-CONTENT-SIGNATURE:b324be513968d3a8077e6822bb64e89a
+DESCRIPTION:09月15日 周二\n类型：航班\n航班：9C6897\n航线：上海浦东 → 安顺黄果树\n地点：上海浦东\n签到：05:05｜上海浦东\n任务：06:55 - 10:05\n机型：A320｜注册号：B30AR\n\n人员名单：\n• 姚平(T\,R)\n• 林成希(R)\n• 段洋硕\n• 黄奇韬(B)\n\n版本：2026-09-11 22:57
+X-CONTENT-SIGNATURE:a0b409cfeb21941217e3c9c3f4a52de2
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -2841,8 +2841,8 @@ UID:7b6b974df4279a89f1461021ff665aab@crew-calendar
 SUMMARY:✈️ 9C8577 安顺黄果树→宁波栎社
 DTSTART;TZID=Asia/Shanghai:20260915T105000
 DTEND;TZID=Asia/Shanghai:20260915T125500
-DESCRIPTION:09月15日 周二\n类型：航班\n航班：9C8577\n航线：安顺黄果树 → 宁波栎社\n地点：安顺黄果树\n签到：09:15｜安顺黄果树\n任务：10:50 - 12:55\n机型：A320｜注册号：B30AR\n\n人员名单：\n• 姚平(T\,R)\n• 林成希(R)\n• 段洋硕\n\n版本：2026-09-11 22:08
-X-CONTENT-SIGNATURE:6d7430954bbe7f02fc8dac9039d1de74
+DESCRIPTION:09月15日 周二\n类型：航班\n航班：9C8577\n航线：安顺黄果树 → 宁波栎社\n地点：安顺黄果树\n签到：09:15｜安顺黄果树\n任务：10:50 - 12:55\n机型：A320｜注册号：B30AR\n\n人员名单：\n• 姚平(T\,R)\n• 林成希(R)\n• 段洋硕\n• 黄奇韬(B)\n\n版本：2026-09-11 22:57
+X-CONTENT-SIGNATURE:154c53c4f84e92c8fba0a8cfd01e3a81
 LOCATION:安顺黄果树
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -2855,7 +2855,7 @@ UID:f7a4f992f02c1a8236ac3397a4822b86@crew-calendar
 SUMMARY:✈️ 9C8683 宁波栎社→哈尔滨太平
 DTSTART;TZID=Asia/Shanghai:20260916T084000
 DTEND;TZID=Asia/Shanghai:20260916T114500
-DESCRIPTION:09月16日 周三\n类型：航班\n航班：9C8683\n航线：宁波栎社 → 哈尔滨太平\n地点：宁波栎社\n签到：06:55｜宁波栎社\n任务：08:40 - 11:45\n机型：A320｜注册号：B30D5\n\n人员名单：\n• 姚平(T\,R)\n• 林成希(R)\n• 段洋硕\n• 郑佳(B)\n\n版本：2026-09-11 22:08
+DESCRIPTION:09月16日 周三\n类型：航班\n航班：9C8683\n航线：宁波栎社 → 哈尔滨太平\n地点：宁波栎社\n签到：06:55｜宁波栎社\n任务：08:40 - 11:45\n机型：A320｜注册号：B30D5\n\n人员名单：\n• 姚平(T\,R)\n• 林成希(R)\n• 段洋硕\n• 郑佳(B)\n\n版本：2026-09-11 22:57
 X-CONTENT-SIGNATURE:faf4bedbe426568a209247e517ad3e32
 LOCATION:宁波栎社
 BEGIN:VALARM
@@ -2869,7 +2869,7 @@ UID:5cd5487c0bfc0367e444e28c10ff642e@crew-calendar
 SUMMARY:✈️ 9C8684 哈尔滨太平→宁波栎社
 DTSTART;TZID=Asia/Shanghai:20260916T124500
 DTEND;TZID=Asia/Shanghai:20260916T155500
-DESCRIPTION:09月16日 周三\n类型：航班\n航班：9C8684\n航线：哈尔滨太平 → 宁波栎社\n地点：哈尔滨太平\n签到：10:45｜哈尔滨太平\n任务：12:45 - 15:55\n机型：A320｜注册号：B30D5\n\n人员名单：\n• 姚平(T\,R)\n• 林成希(R)\n• 段洋硕\n• 郑佳(B)\n\n版本：2026-09-11 22:08
+DESCRIPTION:09月16日 周三\n类型：航班\n航班：9C8684\n航线：哈尔滨太平 → 宁波栎社\n地点：哈尔滨太平\n签到：10:45｜哈尔滨太平\n任务：12:45 - 15:55\n机型：A320｜注册号：B30D5\n\n人员名单：\n• 姚平(T\,R)\n• 林成希(R)\n• 段洋硕\n• 郑佳(B)\n\n版本：2026-09-11 22:57
 X-CONTENT-SIGNATURE:eeb0e248d817f06b3254c0d0fd72cbd9
 LOCATION:哈尔滨太平
 BEGIN:VALARM
