@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-09-12",
-  "generated_at_beijing": "2026-09-11T03:15:40.812387+08:00",
+  "generated_at_beijing": "2026-09-11T13:53:06.497921+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C6833",
@@ -191,12 +191,20 @@
         "上海虹桥": {
           "icao": "ZSSS",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "taf_validity_utc": [
+            "2026-09-11T06:00:00+00:00",
+            "2026-09-12T12:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-09-12T16:40:00+08:00",
             "2026-09-12T23:40:00+08:00"
           ],
-          "taf_decoded_by_time": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-12T16:40:00+08:00",
+              "decoded": []
+            }
+          ],
           "decoded": [],
           "fetch_error": ""
         },
@@ -3023,12 +3031,20 @@
     "上海虹桥": {
       "icao": "ZSSS",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-09-11T06:00:00+00:00",
+        "2026-09-12T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-09-12T16:40:00+08:00",
         "2026-09-12T23:40:00+08:00"
       ],
-      "taf_decoded_by_time": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-09-12T16:40:00+08:00",
+          "decoded": []
+        }
+      ],
       "decoded": [],
       "fetch_error": ""
     },
