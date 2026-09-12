@@ -587,8 +587,14 @@ def test_real_september_ten_uses_latest_manual_quality_engine(
         "曼谷素旺那普机场：", 1
     )[0]
     assert "离场方式" in pudong
-    assert "TA/RA" in pudong
+    assert "TA/RA" not in pudong
     assert "驱鸟" in pudong
+    assert any(
+        item.get("airport") == "上海浦东"
+        and item.get("required_topic") == "traffic_tcas"
+        and item.get("discarded_reason") == "required_topic_role_mismatch"
+        for item in meta["excluded_source_clauses"]
+    )
 
     for airport in ("上海浦东", "曼谷素旺那普"):
         assert all(

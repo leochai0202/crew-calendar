@@ -42,6 +42,7 @@ def _fact(
     topic: str = "",
     importance: int = 60,
     source_record_id: str | None = None,
+    role_scope: tuple[str, ...] = (),
 ) -> agent.BilingualFact:
     return agent.BilingualFact(
         fact_id=fact_id,
@@ -56,6 +57,7 @@ def _fact(
         source_heading="测试机场运行特点",
         source_section="运行特点",
         operational_phase=phase,
+        role_scope=role_scope,
         airport_specific=True,
         category="core",
         importance=importance,
@@ -97,6 +99,29 @@ def test_generic_empty_headings_are_structure_only() -> None:
 def test_meaningful_generic_heading_keeps_value_without_label() -> None:
     value = agent.naturalize_source_fact("导航设施：ABC台长期不工作。")
     assert value == "ABC台长期不工作。"
+
+
+def test_operational_subject_and_condition_labels_are_not_stripped() -> None:
+    cases = {
+        "ATC要求：保持5000ft。": ("ATC要求", "5000ft"),
+        "RNP进近程序：ATC指挥可能与程序设计逻辑存在差异。": (
+            "RNP进近程序",
+            "ATC指挥可能与程序设计逻辑存在差异",
+        ),
+        "36R跑道限制：必须使用全跑道起飞。": ("36R跑道限制", "必须"),
+        "SASAN程序：保持5000ft。": ("SASAN程序", "5000ft"),
+        "夜间运行要求：使用指定滑行路线。": ("夜间运行要求", "指定滑行路线"),
+    }
+    for source, anchors in cases.items():
+        naturalized = agent.naturalize_source_fact(source)
+        cleaned = agent.clean_output_fact(source)
+        assert all(anchor in naturalized for anchor in anchors)
+        assert all(anchor in cleaned for anchor in anchors)
+        guarded = replace(_fact("label", source), text_zh=naturalized)
+        assert not agent.validate_source_semantic_preservation(guarded)
+        assert not agent.validate_source_semantic_preservation(
+            replace(guarded, text_zh=cleaned)
+        )
 
 
 def test_pdf_cross_line_record_is_reconstructed_before_quality_gate() -> None:
@@ -212,7 +237,16 @@ def test_low_value_contact_cannot_displace_runway_fact() -> None:
 
 def test_required_topic_is_generic_and_source_backed() -> None:
     facts = [
-        _fact("ordinary", "离场后联系管制。", phase="departure", importance=100),
+        replace(
+            _fact(
+                "ordinary",
+                "20R跑道必须使用全跑道起飞。",
+                phase="departure",
+                topic="takeoff",
+                importance=100,
+            ),
+            restriction=True,
+        ),
         _fact("tcas", "空域内可能出现TA/RA告警。", topic="traffic_tcas", importance=50),
     ]
     selected = agent.select_airport_facts(
@@ -223,6 +257,81 @@ def test_required_topic_is_generic_and_source_backed() -> None:
         required_topics=("traffic_tcas",),
     )
     assert [fact.fact_id for fact in selected] == ["tcas"]
+    paragraphs = agent.organize_source_grounded_briefing_paragraphs(
+        facts,
+        "departure",
+        max_paragraphs=1,
+        required_topics=("traffic_tcas",),
+    )
+    assert len(paragraphs) == 1
+    assert paragraphs[0].source_fact_ids == ("tcas",)
+
+
+def test_arrival_only_required_fact_cannot_enter_departure_briefing() -> None:
+    diagnostics: list[dict[str, object]] = []
+    selected = agent.select_airport_facts(
+        "测试机场",
+        "departure",
+        [
+            _fact(
+                "arrival-tcas",
+                "进近阶段可能出现TA/RA告警。",
+                phase="approach",
+                topic="traffic_tcas",
+                role_scope=("arrival",),
+            )
+        ],
+        max_items=1,
+        required_topics=("traffic_tcas",),
+        exclusion_log=diagnostics,
+    )
+    assert not selected
+    assert any(
+        item.get("discarded_reason") == "required_topic_role_mismatch"
+        for item in diagnostics
+    )
+
+
+def test_departure_only_required_fact_cannot_enter_arrival_briefing() -> None:
+    diagnostics: list[dict[str, object]] = []
+    selected = agent.select_airport_facts(
+        "测试机场",
+        "arrival",
+        [
+            _fact(
+                "departure-tcas",
+                "离场阶段可能出现TA/RA告警。",
+                phase="departure",
+                topic="traffic_tcas",
+                role_scope=("departure",),
+            )
+        ],
+        max_items=1,
+        required_topics=("traffic_tcas",),
+        exclusion_log=diagnostics,
+    )
+    assert not selected
+    assert any(
+        item.get("discarded_reason") == "required_topic_role_mismatch"
+        for item in diagnostics
+    )
+
+
+def test_role_neutral_required_tcas_is_selectable_for_both_roles() -> None:
+    neutral = _fact(
+        "neutral-tcas",
+        "空域内可能出现TA/RA告警。",
+        topic="traffic_tcas",
+    )
+    for role in ("departure", "arrival"):
+        selected = agent.select_airport_facts(
+            "测试机场",
+            role,
+            [neutral],
+            max_items=1,
+            required_topics=("traffic_tcas",),
+        )
+        assert [fact.fact_id for fact in selected] == ["neutral-tcas"]
 
 
 def test_missing_required_topic_creates_diagnostic_not_fact() -> None:

@@ -2071,6 +2071,14 @@ GENERIC_SOURCE_LABEL_RE = re.compile(
     r"(?:特点|设施|要求|限制|注意事项|威胁|信息|程序))"
     r"\s*[:：]\s*(?P<value>.+)$"
 )
+OPERATIONAL_SOURCE_LABEL_ANCHOR_RE = re.compile(
+    r"(?:ATC|RNP|ILS|SID|STAR|RNAV|PBN|VOR|DME|TCAS|TA/RA|GPS|MCDU|"
+    r"\d|跑道|滑行道|航路点|进场|离场|进近|着陆|起飞|复飞|航路|空域|"
+    r"管制|塔台|机组|军航|军方|夜间|白天|高度|速度|航向|气压|间隔|距离|"
+    r"时间|等待|穿越|推出|滑行|使用|如遇|如果|禁止|不得|必须|仅|"
+    r"(?<![A-Z0-9])[A-Z]{3,6}(?![A-Z0-9]))",
+    re.IGNORECASE,
+)
 MANUAL_PLACEHOLDER_RE = re.compile(
     r"^(?:目前数据库中无数据|暂无数据|未收录|未发现明确事件|无|N/?A)[。.]?$",
     re.IGNORECASE,
@@ -2118,6 +2126,17 @@ def is_manual_structure_only(value: str) -> bool:
         or MANUAL_PLACEHOLDER_RE.fullmatch(text)
         or MANUAL_PAGE_FOOTER_RE.fullmatch(text)
     )
+
+
+def source_label_has_operational_semantics(label: str) -> bool:
+    """Return whether removing a field label would remove source meaning.
+
+    Generic labels such as ``导航设施`` merely name a table field, whereas
+    ``ATC要求`` and ``RNP进近程序`` carry the actor or applicability condition
+    for the value that follows. Preserve the latter verbatim; do not infer or
+    add connective wording.
+    """
+    return bool(OPERATIONAL_SOURCE_LABEL_ANCHOR_RE.search(normalize_text(label)))
 
 
 def is_boilerplate_line(line: str) -> bool:
@@ -5443,24 +5462,29 @@ def select_airport_facts(
 ) -> list[BilingualFact]:
     canonical = canonical_airport_name(airport)
     eligible: list[BilingualFact] = []
+    required_role_mismatches: set[str] = set()
     for fact in fuse_airport_facts(facts):
         if canonical_airport_name(fact.airport) != canonical:
             continue
         topic = source_grounded_paragraph_topic(fact, role)
-        required = topic in required_topics and fact.source in {
-            "PDF",
-            "TXT",
-            "USER_CONFIRMED",
-        }
-        if not fact_matches_airport_role(fact, role) and not required:
+        required = topic in required_topics
+        if not fact_matches_airport_role(fact, role):
+            if required:
+                required_role_mismatches.add(topic)
             if exclusion_log is not None:
-                exclusion_log.append(
-                    exclusion_log_entry(
-                        fact,
-                        fact.source_text_zh or fact.zh,
-                        f"与当前机场{role}角色不匹配",
-                    )
+                entry = exclusion_log_entry(
+                    fact,
+                    fact.source_text_zh or fact.zh,
+                    f"与当前机场{role}角色不匹配",
                 )
+                if required:
+                    entry.update(
+                        {
+                            "required_topic": topic,
+                            "discarded_reason": "required_topic_role_mismatch",
+                        }
+                    )
+                exclusion_log.append(entry)
             continue
         eligible.append(
             replace(
@@ -5485,7 +5509,8 @@ def select_airport_facts(
     selected_ids: set[str] = set()
 
     # Configuration can protect a topic only when an authoritative source fact
-    # actually exists.  It never creates text or bypasses source validation.
+    # exists *and* already passed clause-level airport-role applicability. It
+    # never creates text, bypasses source validation, or crosses roles.
     for topic in required_topics:
         candidate = next(
             (fact for fact in selection_order if fact.topic == topic),
@@ -5493,6 +5518,8 @@ def select_airport_facts(
         )
         if candidate is None:
             if exclusion_log is not None:
+                if topic in required_role_mismatches:
+                    continue
                 exclusion_log.append(
                     {
                         "airport": canonical,
@@ -5898,6 +5925,8 @@ def naturalize_source_fact(value: str) -> str:
         return _polish_source_chinese(f"该机场属于{detail}。")
     if label == "特殊复杂程序":
         return _polish_source_chinese(f"特殊程序{detail}。")
+    if source_label_has_operational_semantics(label):
+        return _polish_source_chinese(f"{label}：{detail.rstrip('。')}。")
     if label != "地形":
         return _polish_source_chinese(detail.rstrip("。") + "。")
     detail = detail.replace("～", "至").replace("—", "至")
@@ -7553,7 +7582,10 @@ def clean_output_fact(value: str) -> str:
     text = re.sub(r"^[.。；;，,\s]+", "", text)
     label_match = SOURCE_LABEL_RE.match(text) or GENERIC_SOURCE_LABEL_RE.match(text)
     if label_match and not is_manual_structure_only(text):
-        text = label_match.group("value")
+        if source_label_has_operational_semantics(label_match.group("label")):
+            text = f"{label_match.group('label')}：{label_match.group('value')}"
+        else:
+            text = label_match.group("value")
     text = strip_manual_ordinal_prefix(text)
     text = re.sub(r"/\s+", "/", text)
     text = re.sub(r"(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])", "", text)
