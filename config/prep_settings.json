@@ -18,6 +18,14 @@
     "min": 2,
     "max": 100
   },
+  "required_core_topics": {
+    "上海浦东": [
+      "traffic_tcas"
+    ],
+    "上海虹桥": [
+      "traffic_tcas"
+    ]
+  },
   "foreign_crew_english_mode": "auto",
   "schedule_beijing": {
     "draft_d_minus_2": "18:17",
