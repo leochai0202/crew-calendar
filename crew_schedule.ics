@@ -2823,12 +2823,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:76092f26eae02c235d6db0ffa0ce5bd8@crew-calendar
+UID:9c597692c5085025f8fc313629bf21f3@crew-calendar
 SUMMARY:✈️ 9C6897 上海浦东→安顺黄果树
 DTSTART;TZID=Asia/Shanghai:20260915T065500
 DTEND;TZID=Asia/Shanghai:20260915T100500
-DESCRIPTION:09月15日 周二\n类型：航班\n航班：9C6897\n航线：上海浦东 → 安顺黄果树\n地点：上海浦东\n签到：05:05｜上海浦东\n任务：06:55 - 10:05\n机型：A320｜注册号：B30AR\n\n人员名单：\n• 姚平(T\,R)\n• 林成希(R)\n• 段洋硕\n• 黄奇韬(B)\n\n版本：2026-09-11 23:30
-X-CONTENT-SIGNATURE:a0b409cfeb21941217e3c9c3f4a52de2
+DESCRIPTION:09月15日 周二\n类型：航班\n航班：9C6897\n航线：上海浦东 → 安顺黄果树\n地点：上海浦东\n签到：05:05｜上海浦东\n任务：06:55 - 10:05\n机型：A320｜注册号：B32F7\n\n人员名单：\n• 姚平(T\,R)\n• 林成希(R)\n• 段洋硕\n• 黄奇韬(B)\n\n版本：2026-09-13 02:46
+X-CONTENT-SIGNATURE:210322ca5f1a586e2ac38bb0d56fa2fc
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -2837,12 +2837,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:7b6b974df4279a89f1461021ff665aab@crew-calendar
+UID:065c7c92130bfa2a4c4f0c2c823b8cd6@crew-calendar
 SUMMARY:✈️ 9C8577 安顺黄果树→宁波栎社
 DTSTART;TZID=Asia/Shanghai:20260915T105000
 DTEND;TZID=Asia/Shanghai:20260915T125500
-DESCRIPTION:09月15日 周二\n类型：航班\n航班：9C8577\n航线：安顺黄果树 → 宁波栎社\n地点：安顺黄果树\n签到：09:15｜安顺黄果树\n任务：10:50 - 12:55\n机型：A320｜注册号：B30AR\n\n人员名单：\n• 姚平(T\,R)\n• 林成希(R)\n• 段洋硕\n• 黄奇韬(B)\n\n版本：2026-09-11 23:30
-X-CONTENT-SIGNATURE:154c53c4f84e92c8fba0a8cfd01e3a81
+DESCRIPTION:09月15日 周二\n类型：航班\n航班：9C8577\n航线：安顺黄果树 → 宁波栎社\n地点：安顺黄果树\n签到：09:15｜安顺黄果树\n任务：10:50 - 12:55\n机型：A320｜注册号：B32F7\n\n人员名单：\n• 姚平(T\,R)\n• 林成希(R)\n• 段洋硕\n• 黄奇韬(B)\n\n版本：2026-09-13 02:46
+X-CONTENT-SIGNATURE:b0528d77a28b2e3c3d3e96e19ee28cc7
 LOCATION:安顺黄果树
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -2851,12 +2851,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:f7a4f992f02c1a8236ac3397a4822b86@crew-calendar
+UID:e4757d8bb69242ed4cf5c31bbe6794fd@crew-calendar
 SUMMARY:✈️ 9C8683 宁波栎社→哈尔滨太平
 DTSTART;TZID=Asia/Shanghai:20260916T084000
 DTEND;TZID=Asia/Shanghai:20260916T114500
-DESCRIPTION:09月16日 周三\n类型：航班\n航班：9C8683\n航线：宁波栎社 → 哈尔滨太平\n地点：宁波栎社\n签到：06:55｜宁波栎社\n任务：08:40 - 11:45\n机型：A320｜注册号：B30D5\n\n人员名单：\n• 姚平(T\,R)\n• 林成希(R)\n• 段洋硕\n• 郑佳(B)\n\n版本：2026-09-11 23:30
-X-CONTENT-SIGNATURE:faf4bedbe426568a209247e517ad3e32
+DESCRIPTION:09月16日 周三\n类型：航班\n航班：9C8683\n航线：宁波栎社 → 哈尔滨太平\n地点：宁波栎社\n签到：06:55｜宁波栎社\n任务：08:40 - 11:45\n机型：A320｜注册号：B32SK\n\n人员名单：\n• 姚平(T\,R)\n• 林成希(R)\n• 段洋硕\n• 郑佳(B)\n\n版本：2026-09-13 02:46
+X-CONTENT-SIGNATURE:df55fc31c82e61d0d2b89704ab89b23d
 LOCATION:宁波栎社
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -2865,16 +2865,44 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:5cd5487c0bfc0367e444e28c10ff642e@crew-calendar
+UID:b201eff47e9be5327d0af2fe647aad92@crew-calendar
 SUMMARY:✈️ 9C8684 哈尔滨太平→宁波栎社
 DTSTART;TZID=Asia/Shanghai:20260916T124500
 DTEND;TZID=Asia/Shanghai:20260916T155500
-DESCRIPTION:09月16日 周三\n类型：航班\n航班：9C8684\n航线：哈尔滨太平 → 宁波栎社\n地点：哈尔滨太平\n签到：10:45｜哈尔滨太平\n任务：12:45 - 15:55\n机型：A320｜注册号：B30D5\n\n人员名单：\n• 姚平(T\,R)\n• 林成希(R)\n• 段洋硕\n• 郑佳(B)\n\n版本：2026-09-11 23:30
-X-CONTENT-SIGNATURE:eeb0e248d817f06b3254c0d0fd72cbd9
+DESCRIPTION:09月16日 周三\n类型：航班\n航班：9C8684\n航线：哈尔滨太平 → 宁波栎社\n地点：哈尔滨太平\n签到：10:45｜哈尔滨太平\n任务：12:45 - 15:55\n机型：A320｜注册号：B32SK\n\n人员名单：\n• 姚平(T\,R)\n• 林成希(R)\n• 段洋硕\n• 郑佳(B)\n\n版本：2026-09-13 02:46
+X-CONTENT-SIGNATURE:c04d753be17916ef5db5ca56c6522267
 LOCATION:哈尔滨太平
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C8684 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:ec89f8ad2058de72f21f603f91db25b4@crew-calendar
+SUMMARY:✈️ 9C8578 宁波栎社→安顺黄果树
+DTSTART;TZID=Asia/Shanghai:20260917T135500
+DTEND;TZID=Asia/Shanghai:20260917T165000
+DESCRIPTION:09月17日 周四\n类型：航班\n航班：9C8578\n航线：宁波栎社 → 安顺黄果树\n地点：宁波栎社\n签到：12:10｜宁波栎社\n任务：13:55 - 16:50\n机型：A320｜注册号：B8871\n\n人员名单：\n• 姚平(T\,R)\n• 林成希(R)\n• 段洋硕\n• 倪婷(B)\n\n版本：2026-09-13 02:46
+X-CONTENT-SIGNATURE:1df3bcb5c1711d3581e79ac7ee52b142
+LOCATION:宁波栎社
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C8578 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:179544519c3d91fc7554838d239d618d@crew-calendar
+SUMMARY:✈️ 9C6898 安顺黄果树→上海浦东
+DTSTART;TZID=Asia/Shanghai:20260917T173500
+DTEND;TZID=Asia/Shanghai:20260917T203000
+DESCRIPTION:09月17日 周四\n类型：航班\n航班：9C6898\n航线：安顺黄果树 → 上海浦东\n地点：安顺黄果树\n签到：16:00｜安顺黄果树\n任务：17:35 - 20:30\n机型：A320｜注册号：B8871\n\n人员名单：\n• 姚平(T\,R)\n• 林成希(R)\n• 段洋硕\n• 倪婷(B)\n\n版本：2026-09-13 02:46
+X-CONTENT-SIGNATURE:5035488e5b6cd3382cecfeb5c84a5a0b
+LOCATION:安顺黄果树
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C6898 签到提醒
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
