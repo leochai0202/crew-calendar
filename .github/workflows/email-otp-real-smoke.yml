@@ -1,0 +1,108 @@
+name: Isolated email OTP real smoke
+
+on:
+  push:
+    branches:
+      - smoke/email-otp-real-20260913
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: [self-hosted, Windows, X64, crew-calendar]
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Bootstrap isolated smoke repository from GitHub API
+        id: bootstrap
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          SMOKE_TARGET_SHA: ${{ github.sha }}
+        run: |
+          $ErrorActionPreference = "Stop"
+          if ($env:SMOKE_TARGET_SHA -notmatch "^[0-9a-fA-F]{40}$") {
+            throw "SMOKE_TARGET_SHA_INVALID"
+          }
+          $handler = [System.Net.Http.HttpClientHandler]::new()
+          $handler.UseProxy = $false
+          $handler.AllowAutoRedirect = $false
+          $client = [System.Net.Http.HttpClient]::new($handler)
+          $client.Timeout = [TimeSpan]::FromSeconds(45)
+          $client.DefaultRequestHeaders.UserAgent.ParseAdd("crew-email-smoke-bootstrap")
+          $helperPath = Join-Path $env:RUNNER_TEMP (
+            "email-smoke-bootstrap-" + [Guid]::NewGuid().ToString("N") + ".ps1"
+          )
+          try {
+            $helperUri = (
+              "https://api.github.com/repos/$env:GITHUB_REPOSITORY/contents/" +
+              "scripts/bootstrap_repository.ps1?ref=$env:SMOKE_TARGET_SHA"
+            )
+            $request = [System.Net.Http.HttpRequestMessage]::new(
+              [System.Net.Http.HttpMethod]::Get, $helperUri
+            )
+            try {
+              $request.Headers.Authorization = (
+                [System.Net.Http.Headers.AuthenticationHeaderValue]::new(
+                  "Bearer", $env:GITHUB_TOKEN
+                )
+              )
+              $request.Headers.Accept.ParseAdd("application/vnd.github+json")
+              $request.Headers.Add("X-GitHub-Api-Version", "2022-11-28")
+              $response = $client.SendAsync($request).GetAwaiter().GetResult()
+              try {
+                if (-not $response.IsSuccessStatusCode) {
+                  throw "SMOKE_BOOTSTRAP_HELPER_HTTP_FAILED"
+                }
+                $helper = $response.Content.ReadAsStringAsync().GetAwaiter().GetResult() |
+                  ConvertFrom-Json
+                if ([string]$helper.encoding -ne "base64") {
+                  throw "SMOKE_BOOTSTRAP_HELPER_ENCODING_INVALID"
+                }
+                $helperBytes = [Convert]::FromBase64String(
+                  ([string]$helper.content) -replace "\s", ""
+                )
+                [IO.File]::WriteAllBytes($helperPath, $helperBytes)
+              }
+              finally {
+                $response.Dispose()
+              }
+            }
+            finally {
+              $request.Dispose()
+            }
+            # Do not replace the production job's shared repository workspace.
+            $smokeWorkspace = Join-Path $env:RUNNER_TEMP (
+              "crew-email-smoke-workspace-" + [Guid]::NewGuid().ToString("N")
+            )
+            & $helperPath -Repository $env:GITHUB_REPOSITORY `
+              -TargetSha $env:SMOKE_TARGET_SHA -Workspace $smokeWorkspace `
+              -RunnerTemp $env:RUNNER_TEMP
+            "smoke_workspace=$smokeWorkspace" |
+              Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          }
+          catch {
+            throw "SMOKE_BOOTSTRAP_SAFE_FAILURE"
+          }
+          finally {
+            $client.Dispose()
+            if (Test-Path -LiteralPath $helperPath) {
+              Remove-Item -LiteralPath $helperPath -Force
+            }
+          }
+
+      - name: Run one isolated email OTP smoke test
+        working-directory: ${{ steps.bootstrap.outputs.smoke_workspace }}
+        env:
+          CREW_USERNAME: ${{ secrets.CREW_USERNAME }}
+          CREW_PASSWORD: ${{ secrets.CREW_PASSWORD }}
+          IMAP_EMAIL: ${{ secrets.IMAP_EMAIL }}
+          IMAP_AUTH_CODE: ${{ secrets.IMAP_AUTH_CODE }}
+          CREW_BROWSER_CHANNEL: msedge
+        run: |
+          $PSNativeCommandUseErrorActionPreference = $false
+          python -u -B scripts/email_otp_real_smoke.py
+          exit $LASTEXITCODE
