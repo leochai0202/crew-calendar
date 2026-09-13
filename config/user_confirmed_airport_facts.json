@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "facts": [
+    {
+      "airport": "上海浦东",
+      "topic": "traffic_tcas",
+      "text_zh": "接近目标高度最后2000ft且有邻近航空器时，合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
+      "text_en": "When within the final 2000ft approaching the target altitude with nearby aircraft, appropriately control the vertical rate and continuously monitor conflict trends; in the event of an RA, strictly follow current procedures.",
+      "role_scope": ["departure", "arrival"],
+      "source": "USER_CONFIRMED",
+      "source_note": "用户明确确认上海浦东、上海虹桥两场航前准备长期保留此TCAS运行控制内容，不作为历史事件来源。",
+      "confirmed_date": "2026-09-13"
+    },
+    {
+      "airport": "上海虹桥",
+      "topic": "traffic_tcas",
+      "text_zh": "接近目标高度最后2000ft且有邻近航空器时，合理控制升降率并持续监控冲突趋势；发生RA时严格执行现行程序。",
+      "text_en": "When within the final 2000ft approaching the target altitude with nearby aircraft, appropriately control the vertical rate and continuously monitor conflict trends; in the event of an RA, strictly follow current procedures.",
+      "role_scope": ["departure", "arrival"],
+      "source": "USER_CONFIRMED",
+      "source_note": "用户明确确认上海浦东、上海虹桥两场航前准备长期保留此TCAS运行控制内容，不作为历史事件来源。",
+      "confirmed_date": "2026-09-13"
+    }
+  ]
+}

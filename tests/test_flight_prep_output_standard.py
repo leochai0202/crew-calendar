@@ -303,6 +303,7 @@ def _copy_runtime_repo(destination: Path) -> None:
         "pilot_profile.json",
         "airport_experience.json",
         "airport_supplements.json",
+        "user_confirmed_airport_facts.json",
     ):
         shutil.copy2(REPO_ROOT / "config" / name, destination / "config" / name)
     settings_path = destination / "config" / "prep_settings.json"
@@ -453,7 +454,17 @@ def test_real_august_twenty_eight_filters_pdf_structure_and_fragments(
         assert marker in hongqiao
     assert "08:00前通常使用36R/18L跑道离场" not in hongqiao
     assert "H7非全跑道离场" not in hongqiao
-    assert any(
+    assert all(marker in hongqiao for marker in ("2000ft", "RA", "冲突趋势"))
+    hongqiao_tcas = [
+        paragraph
+        for paragraph in meta["prep_groups"][1]["core_paragraphs"]["上海虹桥"]
+        if paragraph["topic"] == "traffic_tcas"
+    ]
+    assert len(hongqiao_tcas) == 1
+    assert hongqiao_tcas[0]["source"] == "USER_CONFIRMED"
+    assert hongqiao_tcas[0]["source_authority"] == "user_confirmed"
+    assert hongqiao_tcas[0]["role_scope"] == ["departure", "arrival"]
+    assert not any(
         item.get("airport") == "上海虹桥"
         and item.get("discarded_reason") == "required_topic_source_missing"
         for item in meta["prep_groups"][1]["excluded_source_clauses"]
@@ -587,7 +598,17 @@ def test_real_september_ten_uses_latest_manual_quality_engine(
         "曼谷素旺那普机场：", 1
     )[0]
     assert "离场方式" in pudong
-    assert "TA/RA" not in pudong
+    assert all(marker in pudong for marker in ("2000ft", "RA", "冲突趋势"))
+    assert "进近阶段曾多次触发TA/RA" not in pudong
+    pudong_tcas = [
+        paragraph for paragraph in meta["core_paragraphs"]["上海浦东"]
+        if paragraph["topic"] == "traffic_tcas"
+    ]
+    assert len(pudong_tcas) == 1
+    assert pudong_tcas[0]["source"] == "USER_CONFIRMED"
+    assert pudong_tcas[0]["source_authority"] == "user_confirmed"
+    assert pudong_tcas[0]["role_scope"] == ["departure", "arrival"]
+    assert all("进场" not in section for section in pudong_tcas[0]["source_sections"])
     assert "驱鸟" in pudong
     assert any(
         item.get("airport") == "上海浦东"
@@ -598,8 +619,14 @@ def test_real_september_ten_uses_latest_manual_quality_engine(
 
     for airport in ("上海浦东", "曼谷素旺那普"):
         assert all(
-            fact["source_authority"] == "latest_airport_manual"
-            and fact["source_version"] == "20260907"
+            (
+                fact["source_authority"] == "latest_airport_manual"
+                and fact["source_version"] == "20260907"
+            ) or (
+                fact["topic"] == "traffic_tcas"
+                and fact["source_authority"] == "user_confirmed"
+                and fact["source"] == "USER_CONFIRMED"
+            )
             for fact in meta["airport_fact_sources"][airport]
         )
     assert any(

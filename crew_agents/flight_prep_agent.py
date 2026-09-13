@@ -146,6 +146,8 @@ class BilingualFact:
     source_page: str = "N/A"
     source_heading: str = ""
     source_section: str = "通用运行要求"
+    source_note: str = ""
+    confirmed_date: str = ""
     operational_phase: str = "general"
     airport_specific: bool = False
     category: str = "general"
@@ -3237,6 +3239,87 @@ def operation_subsection_importance(text: str) -> int:
     return 55
 
 
+USER_CONFIRMED_AIRPORT_FACTS_FILE = "config/user_confirmed_airport_facts.json"
+
+
+def load_user_confirmed_airport_records(
+    repo: Path,
+) -> dict[str, list[dict[str, object]]]:
+    """Load explicit user-authorized data, never infer airport facts or roles.
+
+    These core records use the normal fact pipeline. Unlike unversioned legacy
+    supplements, matching a latest manual does not disable user confirmation.
+    """
+    config = load_json(repo / USER_CONFIRMED_AIRPORT_FACTS_FILE, None)
+    if config is None:
+        return {}
+    if not isinstance(config, dict) or config.get("schema_version") != 1:
+        raise ValueError("用户确认机场事实配置结构无效")
+    entries = config.get("facts")
+    if not isinstance(entries, list):
+        raise ValueError("用户确认机场事实列表无效")
+    records: dict[str, list[dict[str, object]]] = {}
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise ValueError("用户确认机场事实条目无效")
+        required_strings = (
+            "airport", "topic", "text_zh", "source_note", "confirmed_date",
+        )
+        if any(
+            not isinstance(entry.get(key), str) or not entry[key].strip()
+            for key in required_strings
+        ) or entry.get("source") != "USER_CONFIRMED":
+            raise ValueError("用户确认机场事实缺少明确来源或内容")
+        roles = entry.get("role_scope")
+        if (
+            not isinstance(roles, list)
+            or not roles
+            or any(role not in ("departure", "arrival") for role in roles)
+        ):
+            raise ValueError("用户确认机场事实角色范围无效")
+        date.fromisoformat(entry["confirmed_date"])
+        airport = canonical_airport_name(entry["airport"])
+        original = entry["text_zh"].strip()
+        cleaned = clean_manual_item(original)
+        identity = json.dumps(
+            [airport, entry["topic"], sorted(set(roles)), original],
+            ensure_ascii=False,
+        )
+        fact_id = "user_confirmed:" + hashlib.sha256(
+            identity.encode("utf-8")
+        ).hexdigest()[:24]
+        records.setdefault(airport, []).append(
+            {
+                "fact_id": fact_id,
+                "airport": airport,
+                "topic": entry["topic"].strip(),
+                "category": "core",
+                "source": "USER_CONFIRMED",
+                "source_authority": SOURCE_AUTHORITY["USER_CONFIRMED"],
+                "source_file": USER_CONFIRMED_AIRPORT_FACTS_FILE,
+                "source_version": entry["confirmed_date"],
+                "source_note": entry["source_note"].strip(),
+                "confirmed_date": entry["confirmed_date"],
+                "source_page": "N/A",
+                "source_heading": airport,
+                "source_section": f"用户确认机场运行要求／{entry['topic']}",
+                "operational_phase": "unspecified",
+                "role_scope": tuple(unique(roles)),
+                "airport_specific": True,
+                "importance": 85,
+                "semantic_key": fact_id,
+                "source_record_id": fact_id,
+                "text_zh": cleaned,
+                "text_en": str(entry.get("text_en") or ""),
+                "source_original_text": original,
+                "condition_scope": detected_condition_scope(original),
+                "condition_contexts": detected_condition_contexts(original),
+                "pre_excluded_reason": manual_source_quality_issue(cleaned),
+            }
+        )
+    return records
+
+
 def airport_risks(
     repo: Path,
     airports: list[str],
@@ -3252,6 +3335,7 @@ def airport_risks(
     str,
 ]:
     supplements = load_json(repo / "config" / "airport_supplements.json", {}) or {}
+    user_confirmed = load_user_confirmed_airport_records(repo)
     manual_data, manual_source, manual_ver, manual_type, source_warnings = manual_airport_data(
         repo / "knowledge", airports, icao_map, max_items=max_items
     )
@@ -3543,10 +3627,13 @@ def airport_risks(
                 "最新版机场手册已匹配，旧人工精选不进入正式正文"
             ),
         )
+        confirmed_records = user_confirmed.get(canonical_airport_name(airport), [])
+        records.extend(confirmed_records)
         source_records[airport] = records
 
         # Authority policy: once the latest manual chapter is matched, only that
-        # version defines formal airport facts.  Unversioned supplements and old
+        # version defines manual airport facts. Explicit user-confirmed core
+        # controls remain eligible. Unversioned supplements and old
         # curated text remain in source_records as explicit exclusions for audit,
         # rather than silently filling gaps in a newer manual.
         if manual:
@@ -3569,6 +3656,17 @@ def airport_risks(
                     ),
                 ]
             )[:max_items]
+
+        merged_threats = unique(
+            [
+                *merged_threats,
+                *(
+                    str(record["text_zh"])
+                    for record in confirmed_records
+                    if not record["pre_excluded_reason"]
+                ),
+            ]
+        )
 
         if not merged_risks:
             warnings.append(f"{airport}未在最新机场特点或补充知识库中找到典型风险")
@@ -5312,6 +5410,7 @@ def source_record_facts(
             text_en,
             airport=canonical,
             operational_phase=phase,
+            topic=str(record.get("topic") or ""),
         )
         candidate_fact = BilingualFact(
             fact_id,
@@ -5328,6 +5427,8 @@ def source_record_facts(
             source_page=str(record.get("source_page") or "N/A"),
             source_heading=str(record.get("source_heading") or canonical),
             source_section=str(record.get("source_section") or "未标明章节"),
+            source_note=str(record.get("source_note") or ""),
+            confirmed_date=str(record.get("confirmed_date") or ""),
             operational_phase=phase,
             airport_specific=bool(record.get("airport_specific", True)),
             category=category,
@@ -6035,6 +6136,8 @@ def merge_fact_paragraph(
         source_page=",".join(unique([fact.source_page for fact in facts if fact.source_page])),
         source_heading=" | ".join(unique([fact.source_heading for fact in facts if fact.source_heading])),
         source_section=" | ".join(unique([fact.source_section for fact in facts if fact.source_section])),
+        source_note=" | ".join(unique([fact.source_note for fact in facts if fact.source_note])),
+        confirmed_date=" | ".join(unique([fact.confirmed_date for fact in facts if fact.confirmed_date])),
         operational_phase=first.operational_phase,
         airport_specific=all(fact.airport_specific for fact in facts),
         category="core",
@@ -6185,6 +6288,8 @@ PARAGRAPH_TOPIC_PRIORITY = {
 
 
 def source_grounded_paragraph_topic(fact: BilingualFact, role: str) -> str:
+    if fact.source == "USER_CONFIRMED" and fact.topic:
+        return fact.topic
     text = normalize_text(fact.text_zh)
     upper = text.upper()
     phase = fact.operational_phase
@@ -8734,6 +8839,8 @@ def fact_source_metadata(fact: BilingualFact) -> dict[str, object]:
         "source_page": fact.source_page,
         "source_heading": fact.source_heading,
         "source_section": fact.source_section,
+        "source_note": fact.source_note,
+        "confirmed_date": fact.confirmed_date,
         "source_text_zh": fact.source_text_zh,
         "source_original_text": " ".join(
             fact.source_original_texts or (fact.source_text_zh,)
@@ -9183,6 +9290,10 @@ def main() -> int:
                                     if source_file.strip()
                                 ),
                                 "source_authority": fact.source_authority,
+                                "source": fact.source,
+                                "role_scope": list(fact.role_scope),
+                                "source_note": fact.source_note,
+                                "confirmed_date": fact.confirmed_date,
                                 "source_version": fact.source_version,
                                 "source_sections": unique(
                                     section.strip()
