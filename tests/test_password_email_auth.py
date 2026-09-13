@@ -170,6 +170,119 @@ class Reader:
         self.closed = True
 
 
+class SemanticRadio(Element):
+    def __init__(self, *, email=False, visible=True):
+        super().__init__(attrs={"type": "radio", "name": "sendType"})
+        self.visible = visible
+        self.segment_result = email
+        self.evaluations = 0
+
+    def is_visible(self):
+        return self.visible
+
+    def evaluate(self, script):
+        # The browser returns only the email/phone semantic predicate, not text.
+        assert 'form.id !== "fm1"' in script
+        assert "range.setStartAfter(element)" in script
+        assert "range.setEndBefore(radios[position + 1])" in script
+        assert "range.setEnd(form, form.childNodes.length)" in script
+        assert 'text.includes("邮箱验证") && !text.includes("手机号验证")' in script
+        self.evaluations += 1
+        return self.segment_result
+
+
+class VerificationForm:
+    def __init__(self, *radios, labelled=()):
+        self.radios = radios
+        self.labelled = labelled
+        self.fallback_queries = 0
+
+    def get_by_label(self, text, *, exact):
+        assert text == "邮箱验证" and exact is True
+        return Collection(*self.labelled)
+
+    def locator(self, selector):
+        assert selector == "input[type='radio'][name='sendType']"
+        self.fallback_queries += 1
+        return Collection(*self.radios)
+
+
+def test_standard_email_label_remains_first_priority(capsys):
+    labelled = SemanticRadio()
+    fallback = SemanticRadio(email=True)
+    form = VerificationForm(fallback, labelled=(labelled,))
+    email_auth._select_email_verification(form)
+    assert labelled.is_checked() and not fallback.is_checked()
+    assert form.fallback_queries == labelled.evaluations == fallback.evaluations == 0
+    assert capsys.readouterr().out == "EMAIL_VERIFICATION_METHOD=EMAIL\n"
+
+
+@pytest.mark.parametrize("reverse", [False, True])
+def test_unlabelled_radios_selected_by_trailing_semantics_not_order(reverse):
+    phone = SemanticRadio()
+    phone.checked = True  # Default selection must not decide the email method.
+    email = SemanticRadio(email=True)
+    radios = [phone, email]
+    if reverse:
+        radios.reverse()
+    email_auth._select_email_verification(VerificationForm(*radios))
+    assert email.is_checked()
+    assert email.evaluations == phone.evaluations == 1
+
+
+@pytest.mark.parametrize("matches", [(False, False), (True, True)])
+def test_missing_or_ambiguous_trailing_semantics_fail_without_selecting(matches):
+    radios = [SemanticRadio(email=match) for match in matches]
+    with pytest.raises(email_auth.EmailLoginError,
+                       match="^EMAIL_VERIFICATION_METHOD_UNRESOLVED$"):
+        email_auth._select_email_verification(VerificationForm(*radios))
+    assert not any(radio.is_checked() for radio in radios)
+
+
+def test_hidden_email_radio_is_not_a_candidate():
+    hidden = SemanticRadio(email=True, visible=False)
+    visible = SemanticRadio(email=True)
+    email_auth._select_email_verification(VerificationForm(hidden, visible))
+    assert visible.is_checked() and not hidden.is_checked()
+    assert hidden.evaluations == 0
+
+
+@pytest.mark.parametrize("label_case", ["hidden", "ambiguous", "wrong_type"])
+def test_unusable_label_path_uses_unique_semantic_fallback(label_case):
+    first = SemanticRadio(visible=label_case != "hidden")
+    if label_case == "wrong_type":
+        first.attrs["type"] = "text"
+    labelled = (first, SemanticRadio()) if label_case == "ambiguous" else (first,)
+    email = SemanticRadio(email=True)
+    email_auth._select_email_verification(VerificationForm(email, labelled=labelled))
+    assert email.is_checked() and not any(radio.is_checked() for radio in labelled)
+
+
+@pytest.mark.parametrize("attribute,value", [("type", "text"), ("name", "unrelated")])
+def test_semantic_candidate_must_still_be_sendtype_radio(attribute, value):
+    email = SemanticRadio(email=True)
+    email.attrs[attribute] = value
+    with pytest.raises(email_auth.EmailLoginError,
+                       match="^EMAIL_VERIFICATION_METHOD_UNRESOLVED$"):
+        email_auth._select_email_verification(VerificationForm(email))
+    assert not email.is_checked()
+
+
+def test_email_selection_must_be_verified(monkeypatch):
+    email = SemanticRadio(email=True)
+    check = Mock()
+    monkeypatch.setattr(email, "check", check)
+    with pytest.raises(email_auth.EmailLoginError,
+                       match="^EMAIL_VERIFICATION_METHOD_UNRESOLVED$"):
+        email_auth._select_email_verification(VerificationForm(email))
+    check.assert_called_once_with(timeout=5_000)
+
+
+def test_browser_semantic_helper_rejects_non_boolean_results():
+    email = SemanticRadio(email="unexpected-browser-text")
+    assert not email_auth._radio_trailing_segment_is_email(email)
+
+
 @pytest.fixture(autouse=True)
 def setup(monkeypatch):
     monkeypatch.setenv("CREW_USERNAME", "private-crew-account")
@@ -181,6 +294,33 @@ def setup(monkeypatch):
     monkeypatch.setattr(email_auth, "_cp_cookie_state", lambda _page: ({"session": "private-cookie"}, []))
     monkeypatch.setattr(email_auth, "_recover_post_login_mission_page",
                         lambda *_args, **_kwargs: AUTHENTICATED)
+
+
+@pytest.mark.parametrize("matches", [(False, True), (False, False), (True, True)])
+def test_semantic_fallback_is_resolved_before_mail_or_request(monkeypatch, capsys, matches):
+    page = Page()
+    page.form.radio.evaluate = Mock(return_value=matches[1])
+    phone = SemanticRadio(email=matches[0])
+    original_locator = page.form.locator
+    monkeypatch.setattr(page.form, "get_by_label", lambda *_args, **_kwargs: Collection())
+    monkeypatch.setattr(page.form, "locator", lambda selector:
+                        Collection(phone, page.form.radio)
+                        if selector == "input[type='radio'][name='sendType']"
+                        else original_locator(selector))
+    reader = Reader(page)
+    result = email_auth.attempt_password_email_login(page, reader_factory=lambda: reader)
+    output = capsys.readouterr().out
+    if matches == (False, True):
+        assert result.status == AuthStatus.AUTHENTICATED
+        assert reader.polls == 1
+        assert page.events.count("send") == 1
+    else:
+        assert result.status == AuthStatus.LOGIN_REQUIRED
+        assert page.events == [] and reader.polls == 0
+        assert "EMAIL_LOGIN_FAILURE_REASON=EMAIL_VERIFICATION_METHOD_UNRESOLVED" in output
+        assert "EMAIL_OTP_REQUESTS=0\nEMAIL_IMAP_READS=0" in output
+    for sensitive in ("private-crew-account", "private-crew-password", "205083"):
+        assert sensitive not in output
 
 
 @pytest.mark.parametrize("result", ["countdown", "disabled_countdown"])
