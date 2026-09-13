@@ -8,6 +8,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: crew-calendar
+  cancel-in-progress: false
+
 jobs:
   smoke:
     runs-on: [self-hosted, Windows, X64, crew-calendar]
@@ -24,72 +28,141 @@ jobs:
           SMOKE_TARGET_SHA: ${{ github.sha }}
         run: |
           $ErrorActionPreference = "Stop"
-          if ($env:SMOKE_TARGET_SHA -notmatch "^[0-9a-fA-F]{40}$") {
-            throw "SMOKE_TARGET_SHA_INVALID"
+          $smokeStage = "FETCH_HELPER"
+          $helperPath = $null
+
+          function New-DirectHttpClient {
+            $handler = [System.Net.Http.HttpClientHandler]::new()
+            $handler.UseProxy = $false
+            $handler.AllowAutoRedirect = $false
+            $client = [System.Net.Http.HttpClient]::new($handler)
+            $client.Timeout = [TimeSpan]::FromSeconds(45)
+            $client.DefaultRequestHeaders.UserAgent.ParseAdd("crew-email-smoke-bootstrap")
+            return $client
           }
-          $handler = [System.Net.Http.HttpClientHandler]::new()
-          $handler.UseProxy = $false
-          $handler.AllowAutoRedirect = $false
-          $client = [System.Net.Http.HttpClient]::new($handler)
-          $client.Timeout = [TimeSpan]::FromSeconds(45)
-          $client.DefaultRequestHeaders.UserAgent.ParseAdd("crew-email-smoke-bootstrap")
-          $helperPath = Join-Path $env:RUNNER_TEMP (
-            "email-smoke-bootstrap-" + [Guid]::NewGuid().ToString("N") + ".ps1"
-          )
+
+          function Invoke-DirectApiJson {
+            param([Parameter(Mandatory = $true)][string]$Uri)
+            for ($attempt = 1; $attempt -le 3; $attempt++) {
+              $client = $null
+              try {
+                $client = New-DirectHttpClient
+                $request = [System.Net.Http.HttpRequestMessage]::new(
+                  [System.Net.Http.HttpMethod]::Get, $Uri
+                )
+                try {
+                  $request.Headers.Authorization = (
+                    [System.Net.Http.Headers.AuthenticationHeaderValue]::new(
+                      "Bearer", $env:GITHUB_TOKEN
+                    )
+                  )
+                  $request.Headers.Accept.ParseAdd("application/vnd.github+json")
+                  $request.Headers.Add("X-GitHub-Api-Version", "2022-11-28")
+                  $response = $client.SendAsync($request).GetAwaiter().GetResult()
+                  try {
+                    Write-Host "SMOKE_BOOTSTRAP_HTTP_STATUS=$([int]$response.StatusCode)"
+                    if (-not $response.IsSuccessStatusCode) {
+                      throw "SMOKE_BOOTSTRAP_HELPER_HTTP_FAILED"
+                    }
+                    $body = $response.Content.ReadAsStringAsync().GetAwaiter().GetResult()
+                    return $body | ConvertFrom-Json
+                  }
+                  finally {
+                    $response.Dispose()
+                  }
+                }
+                finally {
+                  $request.Dispose()
+                }
+              }
+              catch {
+                Write-Host "SMOKE_BOOTSTRAP_STAGE=FETCH_HELPER"
+                Write-Host "SMOKE_BOOTSTRAP_ERROR_TYPE=$($_.Exception.GetType().Name)"
+                Write-Host "SMOKE_BOOTSTRAP_FETCH_ATTEMPT=$attempt"
+                if ($attempt -lt 3) {
+                  Start-Sleep -Seconds @(5, 15)[$attempt - 1]
+                }
+              }
+              finally {
+                if ($null -ne $client) {
+                  $client.Dispose()
+                }
+              }
+            }
+            throw "SMOKE_BOOTSTRAP_HELPER_FETCH_FAILED"
+          }
+
           try {
+            Write-Host "SMOKE_BOOTSTRAP_STAGE=$smokeStage"
+            if ($env:SMOKE_TARGET_SHA -notmatch "^[0-9a-fA-F]{40}$") {
+              throw "SMOKE_TARGET_SHA_INVALID"
+            }
+            if ([string]::IsNullOrWhiteSpace($env:GITHUB_TOKEN)) {
+              throw "SMOKE_BOOTSTRAP_TOKEN_MISSING"
+            }
             $helperUri = (
               "https://api.github.com/repos/$env:GITHUB_REPOSITORY/contents/" +
               "scripts/bootstrap_repository.ps1?ref=$env:SMOKE_TARGET_SHA"
             )
-            $request = [System.Net.Http.HttpRequestMessage]::new(
-              [System.Net.Http.HttpMethod]::Get, $helperUri
+            $helper = Invoke-DirectApiJson -Uri $helperUri
+
+            $smokeStage = "DECODE_HELPER"
+            Write-Host "SMOKE_BOOTSTRAP_STAGE=$smokeStage"
+            if ([string]$helper.encoding -ne "base64") {
+              throw "SMOKE_BOOTSTRAP_HELPER_ENCODING_INVALID"
+            }
+            $helperContent = ([string]$helper.content) -replace "\s", ""
+            if ([string]::IsNullOrWhiteSpace($helperContent)) {
+              throw "SMOKE_BOOTSTRAP_HELPER_EMPTY"
+            }
+            $helperBytes = [Convert]::FromBase64String($helperContent)
+            $helperPath = Join-Path $env:RUNNER_TEMP (
+              "email-smoke-bootstrap-" + [Guid]::NewGuid().ToString("N") + ".ps1"
             )
-            try {
-              $request.Headers.Authorization = (
-                [System.Net.Http.Headers.AuthenticationHeaderValue]::new(
-                  "Bearer", $env:GITHUB_TOKEN
-                )
-              )
-              $request.Headers.Accept.ParseAdd("application/vnd.github+json")
-              $request.Headers.Add("X-GitHub-Api-Version", "2022-11-28")
-              $response = $client.SendAsync($request).GetAwaiter().GetResult()
-              try {
-                if (-not $response.IsSuccessStatusCode) {
-                  throw "SMOKE_BOOTSTRAP_HELPER_HTTP_FAILED"
-                }
-                $helper = $response.Content.ReadAsStringAsync().GetAwaiter().GetResult() |
-                  ConvertFrom-Json
-                if ([string]$helper.encoding -ne "base64") {
-                  throw "SMOKE_BOOTSTRAP_HELPER_ENCODING_INVALID"
-                }
-                $helperBytes = [Convert]::FromBase64String(
-                  ([string]$helper.content) -replace "\s", ""
-                )
-                [IO.File]::WriteAllBytes($helperPath, $helperBytes)
-              }
-              finally {
-                $response.Dispose()
-              }
-            }
-            finally {
-              $request.Dispose()
-            }
+            [IO.File]::WriteAllBytes($helperPath, $helperBytes)
+
+            $smokeStage = "RUN_HELPER"
+            Write-Host "SMOKE_BOOTSTRAP_STAGE=$smokeStage"
             # Do not replace the production job's shared repository workspace.
-            $smokeWorkspace = Join-Path $env:RUNNER_TEMP (
+            $runnerTempFull = [IO.Path]::GetFullPath($env:RUNNER_TEMP)
+            $smokeWorkspace = Join-Path $runnerTempFull (
               "crew-email-smoke-workspace-" + [Guid]::NewGuid().ToString("N")
             )
+            if (-not [IO.Path]::GetFullPath($smokeWorkspace).StartsWith(
+              $runnerTempFull.TrimEnd([IO.Path]::DirectorySeparatorChar) +
+                [IO.Path]::DirectorySeparatorChar,
+              [StringComparison]::OrdinalIgnoreCase
+            )) {
+              throw "SMOKE_WORKSPACE_OUTSIDE_RUNNER_TEMP"
+            }
             & $helperPath -Repository $env:GITHUB_REPOSITORY `
               -TargetSha $env:SMOKE_TARGET_SHA -Workspace $smokeWorkspace `
               -RunnerTemp $env:RUNNER_TEMP
+
+            $smokeStage = "VERIFY_WORKSPACE"
+            Write-Host "SMOKE_BOOTSTRAP_STAGE=$smokeStage"
+            foreach ($requiredFile in @(
+              "scripts/email_otp_real_smoke.py", "password_email_auth.py",
+              "crew_auth_session.py"
+            )) {
+              if (-not (Test-Path -LiteralPath (
+                Join-Path $smokeWorkspace $requiredFile
+              ) -PathType Leaf)) {
+                throw "SMOKE_WORKSPACE_INCOMPLETE"
+              }
+            }
             "smoke_workspace=$smokeWorkspace" |
               Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+            $smokeStage = "READY"
+            Write-Host "SMOKE_BOOTSTRAP_STAGE=$smokeStage"
           }
           catch {
+            Write-Host "SMOKE_BOOTSTRAP_STAGE=$smokeStage"
+            Write-Host "SMOKE_BOOTSTRAP_ERROR_TYPE=$($_.Exception.GetType().Name)"
             throw "SMOKE_BOOTSTRAP_SAFE_FAILURE"
           }
           finally {
-            $client.Dispose()
-            if (Test-Path -LiteralPath $helperPath) {
+            if ($null -ne $helperPath -and (Test-Path -LiteralPath $helperPath)) {
               Remove-Item -LiteralPath $helperPath -Force
             }
           }
