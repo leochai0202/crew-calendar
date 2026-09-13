@@ -160,6 +160,8 @@ jobs:
         id: scraper
         env:
           CREW_STORAGE_STATE_B64: ${{ secrets.CREW_STORAGE_STATE_B64 }}
+          CREW_USERNAME: ${{ secrets.CREW_USERNAME }}
+          CREW_PASSWORD: ${{ secrets.CREW_PASSWORD }}
           CREW_PHONE: ${{ secrets.CREW_PHONE }}
           IMAP_EMAIL: ${{ secrets.IMAP_EMAIL }}
           IMAP_AUTH_CODE: ${{ secrets.IMAP_AUTH_CODE }}
@@ -171,7 +173,7 @@ jobs:
           CREW_AUTH_DIAGNOSTIC_PATH: ${{ runner.temp }}\crew-auth-diagnostic.json
         run: |
           $PSNativeCommandUseErrorActionPreference = $false
-          python crew_calendar_main.py
+          python crew_calendar_email_entry.py
           $exitCode = $LASTEXITCODE
 
           $authStatus = switch ($exitCode) {
