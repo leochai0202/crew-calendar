@@ -116,8 +116,8 @@ class Page:
         assert self.form.password.value == "private-crew-password"
         self.events.append("send")
         self.result = self.results[min(self.events.count("send") - 1, len(self.results) - 1)]
-        self.form.request.text = "42秒后重新获取" if self.result == "countdown" else "获取动态密码"
-        self.form.request.enabled = self.result != "disabled"
+        self.form.request.text = "42秒后重新获取" if self.result in ("countdown", "disabled_countdown") else "获取动态密码"
+        self.form.request.enabled = self.result not in ("disabled", "disabled_countdown")
 
     def submit(self):
         assert self.form.code.value == "205083"
@@ -161,7 +161,7 @@ class Reader:
     def wait_for_new_otp(self, baseline_uid, *, not_before):
         assert baseline_uid == 7
         assert not_before.tzinfo is not None
-        assert self.page.result in ("countdown", "disabled")
+        assert self.page.result in ("countdown", "disabled_countdown")
         self.page.events.append("poll")
         self.polls += 1
         return "205083"
@@ -183,7 +183,7 @@ def setup(monkeypatch):
                         lambda *_args, **_kwargs: AUTHENTICATED)
 
 
-@pytest.mark.parametrize("result", ["countdown", "disabled"])
+@pytest.mark.parametrize("result", ["countdown", "disabled_countdown"])
 def test_request_must_be_accepted_before_body_polling(result, capsys):
     page = Page((result,))
     reader = Reader(page)
@@ -198,22 +198,46 @@ def test_request_must_be_accepted_before_body_polling(result, capsys):
         assert sensitive not in output
 
 
-@pytest.mark.parametrize("result", ["failure", "none"])
+@pytest.mark.parametrize("result", ["failure", "none", "disabled"])
 def test_failed_or_ambiguous_request_never_polls_mailbox(result, capsys):
     page = Page((result,))
     reader = Reader(page)
-    result = email_auth.attempt_password_email_login(page, reader_factory=lambda: reader)
-    assert result.status == AuthStatus.LOGIN_REQUIRED
+    observation = email_auth.attempt_password_email_login(page, reader_factory=lambda: reader)
+    assert observation.status == AuthStatus.LOGIN_REQUIRED
     assert reader.polls == 0
-    assert page.events.count("send") == 2
-    assert "EMAIL_OTP_REQUEST_ACCEPTED=false" in capsys.readouterr().out
+    assert page.events.count("send") == (1 if result == "disabled" else 2)
+    output = capsys.readouterr().out
+    assert "EMAIL_OTP_REQUEST_ACCEPTED=false" in output
+    assert "EMAIL_OTP_REQUEST_ACCEPTED=true" not in output
+    assert "EMAIL_IMAP_READS=0" in output
 
 
-def test_explicit_failure_wins_over_disabled_state():
+def test_explicit_failure_wins_over_disabled_and_countdown_state():
     page = Page(("failure",))
     page.result = "failure"
     page.form.request.enabled = False
+    page.form.request.text = "42秒后重新获取"
     assert not email_auth.email_request_accepted(page, page.form, page.form.request)
+
+
+def test_temporarily_disabled_then_send_failure_never_polls_mailbox(capsys):
+    page = Page(("disabled",))
+    reader = Reader(page)
+    waits = []
+
+    def wait(ms):
+        waits.append(ms)
+        page.result = "failure"
+        page.form.request.enabled = True
+
+    page.wait_for_timeout = wait
+    observation = email_auth.attempt_password_email_login(page, reader_factory=lambda: reader)
+    assert observation.status == AuthStatus.LOGIN_REQUIRED
+    assert waits  # Did not accept the initial temporary disabled state.
+    assert reader.polls == 0
+    output = capsys.readouterr().out
+    assert "EMAIL_OTP_REQUEST_ACCEPTED=true" not in output
+    assert "EMAIL_IMAP_READS=0" in output
 
 
 def test_failed_requests_call_original_phone_exactly_once_after_fresh_navigation(monkeypatch):

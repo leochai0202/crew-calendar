@@ -37,7 +37,9 @@ def extract_email_otp(raw_message: bytes, *, not_before: datetime) -> str | None
         if address.rsplit("@", 1)[1].lower() != EMAIL_SENDER_DOMAIN:
             return None
         sent_at = _message_date_utc(message)
-        if sent_at is None or sent_at < _as_utc(not_before):
+        # RFC Date headers have whole-second precision. Keep the UID boundary
+        # strict and allow only that same second, not arbitrary clock skew.
+        if sent_at is None or sent_at < _as_utc(not_before).replace(microsecond=0):
             return None
         codes = {
             match.group(1)

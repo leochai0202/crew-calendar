@@ -51,8 +51,14 @@ def test_rejects_wrong_identity_stale_missing_date_and_arbitrary_digits(changes)
     assert extract_email_otp(message(**changes), not_before=NOW) is None
 
 
-def test_email_date_before_actual_fractional_request_time_is_not_accepted():
-    assert extract_email_otp(message(), not_before=NOW.replace(microsecond=500_000)) is None
+@pytest.mark.parametrize("sent_at,expected", [
+    (NOW, "205083"),
+    (NOW - timedelta(seconds=1), None),
+])
+def test_email_date_uses_same_second_precision_but_rejects_previous_second(sent_at, expected):
+    assert extract_email_otp(
+        message(sent_at=sent_at), not_before=NOW.replace(microsecond=700_000),
+    ) == expected
 
 
 class Mailbox:
@@ -107,7 +113,9 @@ def test_new_uid_only_readonly_ssl_and_body_peek(capsys):
     reader = reader_with(mailbox)
     with reader:
         baseline = reader.current_max_uid()
-        assert reader.wait_for_new_otp(baseline, not_before=NOW) == "205083"
+        assert reader.wait_for_new_otp(
+            baseline, not_before=NOW.replace(microsecond=700_000),
+        ) == "205083"
     assert ("select", "INBOX", True) in mailbox.events
     fetched = [event[1] for event in mailbox.events
                if isinstance(event, tuple) and event[0] == "fetch"]
@@ -121,6 +129,8 @@ def test_old_uid_and_old_date_never_used_even_if_server_returns_them():
                        9: message(sender="bad@example.invalid")})
     reader = reader_with(mailbox)
     with reader, pytest.raises(OtpTimeoutError):
-        reader.wait_for_new_otp(7, not_before=NOW, timeout_seconds=1)
+        reader.wait_for_new_otp(
+            7, not_before=NOW.replace(microsecond=700_000), timeout_seconds=1,
+        )
     assert not any(event == ("fetch", ("7", "(BODY.PEEK[])"))
                    for event in mailbox.events)

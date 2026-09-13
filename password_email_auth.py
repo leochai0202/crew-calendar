@@ -78,14 +78,13 @@ def _visible(locator: Any) -> bool:
 
 
 def email_request_accepted(page: Any, form: Any, button: Any) -> bool:
-    """A sent click is not acceptance. Explicit failure takes precedence."""
+    """Require a resend countdown, not temporary disablement; failure wins."""
     for check in range(26):
         if _visible(page.get_by_text("发送验证码失败", exact=False)):
             return False
         button_text = button.text_content(timeout=1_000) or ""
         button_value = button.get_attribute("value") or ""
-        if (not button.is_enabled()
-                or COUNTDOWN_RE.search(button_text + button_value)
+        if (COUNTDOWN_RE.search(button_text + button_value)
                 or _visible(form.get_by_text(COUNTDOWN_RE))):
             return True
         if check < 25:
@@ -153,7 +152,7 @@ def attempt_password_email_login(
             reader.connect()
             baseline_uid = reader.current_max_uid()
             print("EMAIL_IMAP_BASELINE_RECORDED=true")
-            # Keep the actual request timestamp: never accept an earlier Date.
+            # The reader compares this timestamp at RFC Date's whole-second precision.
             requested_at = (clock or (lambda: datetime.now(timezone.utc)))()
             requests += 1
             request_button.click(timeout=5_000)
