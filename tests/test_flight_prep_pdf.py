@@ -348,7 +348,19 @@ def test_real_flight_before_after_pdf_regression(
         assert "责任中队" not in typical_section
         assert "机场运行特点" not in typical_section
 
-    for heading in ("上海浦东机场：", "西宁曹家堡机场："):
-        assert _section(upgraded_group, heading) == _section(baseline_group, heading)
+    for airport in KEY_AIRPORTS:
+        selected_sources = upgraded_meta["airport_fact_sources"][airport]
+        assert selected_sources
+        assert all(
+            item["source_authority"] == "latest_airport_manual"
+            for item in selected_sources
+        )
+        assert all(item["source"] == "PDF" for item in selected_sources)
 
-    assert len(upgraded_group) <= int(len(baseline_group) * 1.15)
+    stale_exclusions = [
+        item
+        for item in upgraded_meta["excluded_source_clauses"]
+        if "旧人工精选不进入正式正文" in item.get("reason", "")
+        or "无版本补充资料不进入正式正文" in item.get("reason", "")
+    ]
+    assert stale_exclusions

@@ -687,7 +687,7 @@ def test_same_phase_uses_curated_then_supplement_then_pdf_priority() -> None:
         [curated, supplement, base],
     )
 
-    assert [fact.source for fact in selected] == ["CURATED", "supplement", "PDF"]
+    assert [fact.source for fact in selected] == ["PDF", "supplement", "CURATED"]
 
 
 def test_curated_fact_is_not_dropped_by_five_pdf_facts() -> None:
@@ -719,7 +719,7 @@ def test_curated_fact_is_not_dropped_by_five_pdf_facts() -> None:
     )
 
     assert len(selected) == 5
-    assert "curated_special" in [fact.fact_id for fact in selected]
+    assert "curated_special" not in [fact.fact_id for fact in selected]
 
 
 def test_curated_expression_overrides_related_pdf_fact() -> None:
@@ -745,7 +745,7 @@ def test_curated_expression_overrides_related_pdf_fact() -> None:
         [pdf, curated],
     )
 
-    assert [fact.fact_id for fact in selected] == ["curated_energy"]
+    assert [fact.fact_id for fact in selected] == ["pdf_energy"]
 
 
 def test_final_airport_facts_are_traceable_and_share_bilingual_ids() -> None:
@@ -1019,17 +1019,12 @@ def test_real_9c8552_exact_event_keeps_source_grounded_chinese_when_english_supp
     assert "机组" in chinese
     assert "请我们注意" not in chinese
 
-    assert "新加坡属于低纬度机场" in chinese
-    assert "确认完成IRS完全校准" in chinese
+    assert "IRS完全校准" in chinese
+    assert "TOBT" in chinese
     assert "FOLLOW GREEN" not in _paragraph(chinese, "上海浦东机场：")
     pudong_core = chinese.split("核心威胁：", 1)[1].split("上海浦东机场：", 1)[1]
-    assert "50秒" in pudong_core
-    assert "zspd_adgs_entry" in meta["airport_fact_ids"]["上海浦东"]["core"]
-    assert "zspd_runway_occupancy" in meta["airport_fact_ids"]["上海浦东"]["core"]
-    assert not any(
-        "50秒" in paragraph and "ADGS" in paragraph
-        for paragraph in pudong_core.split("\n\n")
-    )
+    assert "TA/RA" in pudong_core
+    assert "17R/35L" in pudong_core
     assert set(meta["airport_fact_sources"]) == {"新加坡樟宜", "上海浦东"}
     for airport, facts in meta["airport_fact_sources"].items():
         assert all(item["airport"] == airport for item in facts)
@@ -1038,8 +1033,9 @@ def test_real_9c8552_exact_event_keeps_source_grounded_chinese_when_english_supp
         assert all(item["source_heading"] for item in facts)
         assert all(item["source_section"] for item in facts)
         assert all(item["fact_id"] for item in facts)
+        assert all(item["source_authority"] == "latest_airport_manual" for item in facts)
 
-    for token in ("进场", "雷雨", "TA/RA", "鸟击", "下降剖面", "ADGS"):
+    for token in ("进场", "TA/RA", "能量管理", "滑行", "驱鸟"):
         assert token in pudong_core
 
     for artifact in (

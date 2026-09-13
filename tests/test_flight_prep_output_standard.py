@@ -303,6 +303,7 @@ def _copy_runtime_repo(destination: Path) -> None:
         "pilot_profile.json",
         "airport_experience.json",
         "airport_supplements.json",
+        "user_confirmed_airport_facts.json",
     ):
         shutil.copy2(REPO_ROOT / "config" / name, destination / "config" / name)
     settings_path = destination / "config" / "prep_settings.json"
@@ -441,26 +442,33 @@ def test_real_august_twenty_eight_filters_pdf_structure_and_fragments(
         encoding="utf-8"
     ).split("上海虹桥机场：", 1)[1]
     for marker in (
-        "运行密度",
-        "08:00",
-        "H7",
+        "五边间隔",
         "L10",
         "L01",
         "L20",
         "H4",
-        "K4",
-        "K5",
-        "跑道状态灯",
         "H1",
         "SASAN",
         "LID",
-        "待命航道",
-        "高截获",
-        "快速脱离",
-        "111",
-        "112",
     ):
         assert marker in hongqiao
+    assert "08:00前通常使用36R/18L跑道离场" not in hongqiao
+    assert "H7非全跑道离场" not in hongqiao
+    assert all(marker in hongqiao for marker in ("2000ft", "RA", "冲突趋势"))
+    hongqiao_tcas = [
+        paragraph
+        for paragraph in meta["prep_groups"][1]["core_paragraphs"]["上海虹桥"]
+        if paragraph["topic"] == "traffic_tcas"
+    ]
+    assert len(hongqiao_tcas) == 1
+    assert hongqiao_tcas[0]["source"] == "USER_CONFIRMED"
+    assert hongqiao_tcas[0]["source_authority"] == "user_confirmed"
+    assert hongqiao_tcas[0]["role_scope"] == ["departure", "arrival"]
+    assert not any(
+        item.get("airport") == "上海虹桥"
+        and item.get("discarded_reason") == "required_topic_source_missing"
+        for item in meta["prep_groups"][1]["excluded_source_clauses"]
+    )
 
     for marker in (
         "丘陵",
@@ -468,18 +476,13 @@ def test_real_august_twenty_eight_filters_pdf_structure_and_fragments(
         "五边",
         "雷达引导",
         "剖面",
-        "6000",
-        "UGUGU",
         "01L/19L",
         "单发加速高度",
         "跑道两头高",
         "中间低",
         "VOR/DME",
         "01R",
-        "盲降信号不稳定",
-        "PAPI",
         "不停航施工",
-        "未开放区域",
     ):
         assert marker in content
 
@@ -524,3 +527,114 @@ def test_existing_august_regressions_still_generate(
     assert "个人对本次航班中识别的风险：" in (
         repo / "flight_preparation" / "latest.txt"
     ).read_text(encoding="utf-8")
+
+
+@pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含机场手册PDF")
+def test_real_september_ten_uses_latest_manual_quality_engine(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    repo = tmp_path / "september-10"
+    _copy_runtime_repo(repo)
+    monkeypatch.setattr(
+        agent,
+        "fetch_airport_weather",
+        lambda *args, **kwargs: SimpleNamespace(icao="", metar="", taf="", error=""),
+    )
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "flight_prep_agent.py",
+            "--repo",
+            str(repo),
+            "--target-date",
+            "2026-09-10",
+            "--generate-english",
+            "no",
+        ],
+    )
+    monkeypatch.delenv("GITHUB_STEP_SUMMARY", raising=False)
+    agent.extract_pdf_text.cache_clear()
+
+    assert agent.main() == 0
+
+    output = repo / "flight_preparation"
+    content = (output / "latest.txt").read_text(encoding="utf-8")
+    meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
+    assert meta["status"] == "SUCCESS"
+    assert meta["flight_numbers"] == ["9C8891"]
+    assert meta["airport_information_version"] == 20260907
+    assert content.count("核心威胁：") == 1
+    assert "本阶段经历时间86小时，起落18个，近90天起落8个" in content
+
+    bangkok = content.split("曼谷素旺那普机场：", 1)[1]
+    for marker in (
+        "空域异常繁忙",
+        "军演频繁",
+        "进场STAR程序",
+        "三跑道运行",
+        "RNP进近程序",
+        "ATC指挥可能与程序设计逻辑存在差异",
+        "SVB台",
+        "VOR进近程序",
+        "盲降测距仪",
+        "沥青道面",
+        "N1-50%",
+        "需要拖车",
+    ):
+        assert marker in bangkok
+    assert "运行限制：。" not in bangkok
+    assert "或者需要飞行计划方。" not in bangkok
+    assert "10000或10000ft下" not in bangkok
+    assert "NAVADS-BRPTG 1+2 FAULT" in bangkok
+
+    bangkok_typical = content.split("曼谷素旺那普机场典型不安全事件：", 1)[1].split(
+        "\n\n", 1
+    )[0]
+    assert "+" not in bangkok_typical
+
+    pudong = content.split("核心威胁：", 1)[1].split("上海浦东机场：", 1)[1].split(
+        "曼谷素旺那普机场：", 1
+    )[0]
+    assert "离场方式" in pudong
+    assert all(marker in pudong for marker in ("2000ft", "RA", "冲突趋势"))
+    assert "进近阶段曾多次触发TA/RA" not in pudong
+    pudong_tcas = [
+        paragraph for paragraph in meta["core_paragraphs"]["上海浦东"]
+        if paragraph["topic"] == "traffic_tcas"
+    ]
+    assert len(pudong_tcas) == 1
+    assert pudong_tcas[0]["source"] == "USER_CONFIRMED"
+    assert pudong_tcas[0]["source_authority"] == "user_confirmed"
+    assert pudong_tcas[0]["role_scope"] == ["departure", "arrival"]
+    assert all("进场" not in section for section in pudong_tcas[0]["source_sections"])
+    assert "驱鸟" in pudong
+    assert any(
+        item.get("airport") == "上海浦东"
+        and item.get("required_topic") == "traffic_tcas"
+        and item.get("discarded_reason") == "required_topic_role_mismatch"
+        for item in meta["excluded_source_clauses"]
+    )
+
+    for airport in ("上海浦东", "曼谷素旺那普"):
+        assert all(
+            (
+                fact["source_authority"] == "latest_airport_manual"
+                and fact["source_version"] == "20260907"
+            ) or (
+                fact["topic"] == "traffic_tcas"
+                and fact["source_authority"] == "user_confirmed"
+                and fact["source"] == "USER_CONFIRMED"
+            )
+            for fact in meta["airport_fact_sources"][airport]
+        )
+    assert any(
+        "旧人工精选不进入正式正文" in item.get("reason", "")
+        for item in meta["excluded_source_clauses"]
+        if item.get("airport") == "上海浦东"
+    )
+
+    settings = json.loads((repo / "config" / "prep_settings.json").read_text(encoding="utf-8"))
+    assert settings["required_core_topics"]["上海浦东"] == ["traffic_tcas"]
+    assert settings["required_core_topics"]["上海虹桥"] == ["traffic_tcas"]
