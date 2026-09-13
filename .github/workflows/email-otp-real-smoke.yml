@@ -20,7 +20,7 @@ jobs:
       run:
         shell: pwsh
     steps:
-      - name: Bootstrap isolated smoke repository from GitHub API
+      - name: Materialize isolated smoke files from GitHub Contents API
         id: bootstrap
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -28,8 +28,15 @@ jobs:
           SMOKE_TARGET_SHA: ${{ github.sha }}
         run: |
           $ErrorActionPreference = "Stop"
-          $smokeStage = "FETCH_HELPER"
-          $helperPath = $null
+          $smokeStage = "PREPARE_WORKSPACE"
+          $requiredFiles = @(
+            "scripts/email_otp_real_smoke.py",
+            "password_email_auth.py",
+            "springair_email_otp.py",
+            "authenticate_crew_session.py",
+            "crew_auth_session.py",
+            "imap_otp.py"
+          )
 
           function New-DirectHttpClient {
             $handler = [System.Net.Http.HttpClientHandler]::new()
@@ -41,14 +48,35 @@ jobs:
             return $client
           }
 
-          function Invoke-DirectApiJson {
-            param([Parameter(Mandatory = $true)][string]$Uri)
+          function Save-ContentsFile {
+            param(
+              [Parameter(Mandatory = $true)][string]$RelativePath,
+              [Parameter(Mandatory = $true)][string]$Workspace
+            )
+            if ($RelativePath -notin $requiredFiles) {
+              throw "SMOKE_FILE_NOT_ALLOWED"
+            }
+            $workspaceFull = [IO.Path]::GetFullPath($Workspace)
+            $targetPath = [IO.Path]::GetFullPath((Join-Path $workspaceFull $RelativePath))
+            if (-not $targetPath.StartsWith(
+              $workspaceFull.TrimEnd([IO.Path]::DirectorySeparatorChar) +
+                [IO.Path]::DirectorySeparatorChar,
+              [StringComparison]::OrdinalIgnoreCase
+            )) {
+              throw "SMOKE_FILE_OUTSIDE_WORKSPACE"
+            }
+            $uri = (
+              "https://api.github.com/repos/$env:GITHUB_REPOSITORY/contents/" +
+              "$RelativePath`?ref=$env:SMOKE_TARGET_SHA"
+            )
             for ($attempt = 1; $attempt -le 3; $attempt++) {
               $client = $null
+              Write-Host "SMOKE_FETCH_PATH=$RelativePath"
+              Write-Host "SMOKE_FETCH_ATTEMPT=$attempt"
               try {
                 $client = New-DirectHttpClient
                 $request = [System.Net.Http.HttpRequestMessage]::new(
-                  [System.Net.Http.HttpMethod]::Get, $Uri
+                  [System.Net.Http.HttpMethod]::Get, $uri
                 )
                 try {
                   $request.Headers.Authorization = (
@@ -62,10 +90,25 @@ jobs:
                   try {
                     Write-Host "SMOKE_BOOTSTRAP_HTTP_STATUS=$([int]$response.StatusCode)"
                     if (-not $response.IsSuccessStatusCode) {
-                      throw "SMOKE_BOOTSTRAP_HELPER_HTTP_FAILED"
+                      throw "SMOKE_CONTENTS_HTTP_FAILED"
                     }
                     $body = $response.Content.ReadAsStringAsync().GetAwaiter().GetResult()
-                    return $body | ConvertFrom-Json
+                    $file = $body | ConvertFrom-Json
+                    if ([string]$file.type -ne "file" -or
+                        [string]$file.path -ne $RelativePath -or
+                        [string]$file.encoding -ne "base64") {
+                      throw "SMOKE_CONTENTS_METADATA_INVALID"
+                    }
+                    $fileContent = ([string]$file.content) -replace "\s", ""
+                    if ([string]::IsNullOrWhiteSpace($fileContent)) {
+                      throw "SMOKE_CONTENTS_EMPTY"
+                    }
+                    $fileBytes = [Convert]::FromBase64String($fileContent)
+                    [IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($targetPath)) |
+                      Out-Null
+                    [IO.File]::WriteAllBytes($targetPath, $fileBytes)
+                    Write-Host "SMOKE_FILE_READY=$RelativePath"
+                    return
                   }
                   finally {
                     $response.Dispose()
@@ -76,9 +119,8 @@ jobs:
                 }
               }
               catch {
-                Write-Host "SMOKE_BOOTSTRAP_STAGE=FETCH_HELPER"
+                Write-Host "SMOKE_BOOTSTRAP_STAGE=FETCH_FILES"
                 Write-Host "SMOKE_BOOTSTRAP_ERROR_TYPE=$($_.Exception.GetType().Name)"
-                Write-Host "SMOKE_BOOTSTRAP_FETCH_ATTEMPT=$attempt"
                 if ($attempt -lt 3) {
                   Start-Sleep -Seconds @(5, 15)[$attempt - 1]
                 }
@@ -89,7 +131,7 @@ jobs:
                 }
               }
             }
-            throw "SMOKE_BOOTSTRAP_HELPER_FETCH_FAILED"
+            throw "SMOKE_CONTENTS_FETCH_FAILED"
           }
 
           try {
@@ -100,29 +142,6 @@ jobs:
             if ([string]::IsNullOrWhiteSpace($env:GITHUB_TOKEN)) {
               throw "SMOKE_BOOTSTRAP_TOKEN_MISSING"
             }
-            $helperUri = (
-              "https://api.github.com/repos/$env:GITHUB_REPOSITORY/contents/" +
-              "scripts/bootstrap_repository.ps1?ref=$env:SMOKE_TARGET_SHA"
-            )
-            $helper = Invoke-DirectApiJson -Uri $helperUri
-
-            $smokeStage = "DECODE_HELPER"
-            Write-Host "SMOKE_BOOTSTRAP_STAGE=$smokeStage"
-            if ([string]$helper.encoding -ne "base64") {
-              throw "SMOKE_BOOTSTRAP_HELPER_ENCODING_INVALID"
-            }
-            $helperContent = ([string]$helper.content) -replace "\s", ""
-            if ([string]::IsNullOrWhiteSpace($helperContent)) {
-              throw "SMOKE_BOOTSTRAP_HELPER_EMPTY"
-            }
-            $helperBytes = [Convert]::FromBase64String($helperContent)
-            $helperPath = Join-Path $env:RUNNER_TEMP (
-              "email-smoke-bootstrap-" + [Guid]::NewGuid().ToString("N") + ".ps1"
-            )
-            [IO.File]::WriteAllBytes($helperPath, $helperBytes)
-
-            $smokeStage = "RUN_HELPER"
-            Write-Host "SMOKE_BOOTSTRAP_STAGE=$smokeStage"
             # Do not replace the production job's shared repository workspace.
             $runnerTempFull = [IO.Path]::GetFullPath($env:RUNNER_TEMP)
             $smokeWorkspace = Join-Path $runnerTempFull (
@@ -135,16 +154,16 @@ jobs:
             )) {
               throw "SMOKE_WORKSPACE_OUTSIDE_RUNNER_TEMP"
             }
-            & $helperPath -Repository $env:GITHUB_REPOSITORY `
-              -TargetSha $env:SMOKE_TARGET_SHA -Workspace $smokeWorkspace `
-              -RunnerTemp $env:RUNNER_TEMP
+            [IO.Directory]::CreateDirectory($smokeWorkspace) | Out-Null
+            $smokeStage = "FETCH_FILES"
+            Write-Host "SMOKE_BOOTSTRAP_STAGE=$smokeStage"
+            foreach ($relativePath in $requiredFiles) {
+              Save-ContentsFile -RelativePath $relativePath -Workspace $smokeWorkspace
+            }
 
             $smokeStage = "VERIFY_WORKSPACE"
             Write-Host "SMOKE_BOOTSTRAP_STAGE=$smokeStage"
-            foreach ($requiredFile in @(
-              "scripts/email_otp_real_smoke.py", "password_email_auth.py",
-              "crew_auth_session.py"
-            )) {
+            foreach ($requiredFile in $requiredFiles) {
               if (-not (Test-Path -LiteralPath (
                 Join-Path $smokeWorkspace $requiredFile
               ) -PathType Leaf)) {
@@ -160,11 +179,6 @@ jobs:
             Write-Host "SMOKE_BOOTSTRAP_STAGE=$smokeStage"
             Write-Host "SMOKE_BOOTSTRAP_ERROR_TYPE=$($_.Exception.GetType().Name)"
             throw "SMOKE_BOOTSTRAP_SAFE_FAILURE"
-          }
-          finally {
-            if ($null -ne $helperPath -and (Test-Path -LiteralPath $helperPath)) {
-              Remove-Item -LiteralPath $helperPath -Force
-            }
           }
 
       - name: Run one isolated email OTP smoke test
