@@ -28,6 +28,8 @@ def test_schedule_keeps_three_times_and_uses_expected_secrets() -> None:
         "${{ secrets.CREW_STORAGE_STATE_B64 }}" in workflow
     )
     for secret_name in (
+        "CREW_USERNAME",
+        "CREW_PASSWORD",
         "CREW_PHONE",
         "IMAP_EMAIL",
         "IMAP_AUTH_CODE",
@@ -65,14 +67,14 @@ def test_schedule_keeps_three_times_and_uses_expected_secrets() -> None:
     ):
         assert forbidden_artifact not in workflow
     for removed_password_secret in (
-        "CREW_USERNAME",
-        "CREW_PASSWORD",
         "secrets.USERNAME",
         "secrets.PASSWORD",
     ):
         assert removed_password_secret not in workflow
     assert "crew-auth-password-captcha.png" not in workflow
     assert "debug_output/" not in workflow
+    assert "python crew_calendar_email_entry.py" in workflow
+    assert "python crew_calendar_main.py" not in workflow
 
 
 def test_schedule_maps_auth_status_and_gates_clean_and_commit() -> None:
