@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-09-15",
-  "generated_at_beijing": "2026-09-14T02:56:45.633780+08:00",
+  "generated_at_beijing": "2026-09-14T14:08:51.194967+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C6897",
@@ -154,12 +154,20 @@
       "weather": {
         "上海浦东": {
           "icao": "ZSPD",
-          "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "source_used": "TAF",
+          "taf_validity_utc": [
+            "2026-09-14T06:00:00+00:00",
+            "2026-09-15T12:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-09-15T06:55:00+08:00"
           ],
-          "taf_decoded_by_time": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-15T06:55:00+08:00",
+              "decoded": []
+            }
+          ],
           "decoded": [],
           "fetch_error": ""
         },
@@ -2496,7 +2504,7 @@
           }
         ]
       },
-      "content_sha256": "4e593634b191b9635d8c35289712991b3b76d2ed2e481d54c8ba876761e1c4c6",
+      "content_sha256": "6486aa419652f7480747b7feceb3b7ade4569129c78c08c5964eef1835a82adf",
       "_english_content": ""
     },
     {
@@ -2571,15 +2579,20 @@
         },
         "宁波栎社": {
           "icao": "ZSNB",
-          "source_used": "OUTSIDE_VALID_WINDOW",
+          "source_used": "TAF",
           "taf_validity_utc": [
-            "2026-09-13T18:00:00+00:00",
-            "2026-09-14T18:00:00+00:00"
+            "2026-09-14T06:00:00+00:00",
+            "2026-09-15T06:00:00+00:00"
           ],
           "relevant_times": [
             "2026-09-15T12:55:00+08:00"
           ],
-          "taf_decoded_by_time": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-15T12:55:00+08:00",
+              "decoded": []
+            }
+          ],
           "decoded": [],
           "fetch_error": ""
         }
@@ -5437,7 +5450,7 @@
           }
         ]
       },
-      "content_sha256": "9bbd61a7dc565bcd8c62fbaca164267e65e85f0c9f6c72b5ffc9c10f2e5fc4b1",
+      "content_sha256": "7df07e904b7fdaa8efd50706603b79956eddb0c7b4660d1e5b08f076f4adc4cd",
       "_english_content": ""
     }
   ],
@@ -5451,12 +5464,20 @@
   "weather": {
     "上海浦东": {
       "icao": "ZSPD",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-09-14T06:00:00+00:00",
+        "2026-09-15T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-09-15T06:55:00+08:00"
       ],
-      "taf_decoded_by_time": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-09-15T06:55:00+08:00",
+          "decoded": []
+        }
+      ],
       "decoded": [],
       "fetch_error": ""
     },
@@ -5474,15 +5495,20 @@
     },
     "宁波栎社": {
       "icao": "ZSNB",
-      "source_used": "OUTSIDE_VALID_WINDOW",
+      "source_used": "TAF",
       "taf_validity_utc": [
-        "2026-09-13T18:00:00+00:00",
-        "2026-09-14T18:00:00+00:00"
+        "2026-09-14T06:00:00+00:00",
+        "2026-09-15T06:00:00+00:00"
       ],
       "relevant_times": [
         "2026-09-15T12:55:00+08:00"
       ],
-      "taf_decoded_by_time": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-09-15T12:55:00+08:00",
+          "decoded": []
+        }
+      ],
       "decoded": [],
       "fetch_error": ""
     }
