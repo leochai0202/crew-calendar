@@ -1,7 +1,6 @@
 """Isolated #div1 password/email login; never select its phone-verification radio."""
 from __future__ import annotations
 
-import json
 import os
 import re
 from datetime import datetime, timezone
@@ -51,19 +50,49 @@ def _stage(stage: str, _details: dict[str, Any]) -> None:
     print(f"EMAIL_LOGIN_STAGE={stage}")
 
 
+def _radio_trailing_segment_is_email(radio: Any) -> bool:
+    # Keep text in the browser. Document order defines the range, not the method.
+    return radio.evaluate(r"""(element) => {
+        const form = element.closest("form");
+        if (!form || form.id !== "fm1") return false;
+        const radios = Array.from(form.querySelectorAll(
+            "input[type='radio'][name='sendType']"
+        ));
+        const position = radios.indexOf(element);
+        if (position < 0) return false;
+        const range = element.ownerDocument.createRange();
+        range.setStartAfter(element);
+        if (position + 1 < radios.length) {
+            range.setEndBefore(radios[position + 1]);
+        } else {
+            range.setEnd(form, form.childNodes.length);
+        }
+        const text = range.toString();
+        return text.includes("邮箱验证") && !text.includes("手机号验证");
+    }""") is True
+
+
 def _select_email_verification(form: Any) -> None:
-    # Resolve semantics from the actual label association, never radio index/value.
-    radios = form.get_by_label("邮箱验证", exact=True)
-    if radios.count() == 0:
-        label = _unique_visible(form.locator("label").filter(
-            has_text=re.compile(r"^\s*邮箱验证\s*$"),
-        ))
-        target_id = label.get_attribute("for")
-        radios = (
-            form.locator(f"input[id={json.dumps(target_id)}]")
-            if target_id else label.locator("input[type='radio']")
-        )
-    radio = _unique_visible(radios)
+    # Prefer a unique standard label; otherwise require unique local semantics.
+    try:
+        radio = _unique_visible(form.get_by_label("邮箱验证", exact=True))
+    except EmailLoginError:
+        radio = None
+    if radio is not None and (
+        radio.get_attribute("type") != "radio"
+        or radio.get_attribute("name") != "sendType"
+    ):
+        radio = None
+    if radio is None:
+        radios = form.locator("input[type='radio'][name='sendType']")
+        matches = []
+        for i in range(radios.count()):
+            candidate = radios.nth(i)
+            if candidate.is_visible() and _radio_trailing_segment_is_email(candidate):
+                matches.append(candidate)
+        if len(matches) != 1:
+            raise EmailLoginError("EMAIL_VERIFICATION_METHOD_UNRESOLVED")
+        radio = matches[0]
     if (radio.get_attribute("type") != "radio"
             or radio.get_attribute("name") != "sendType"):
         raise EmailLoginError("EMAIL_VERIFICATION_METHOD_UNRESOLVED")
