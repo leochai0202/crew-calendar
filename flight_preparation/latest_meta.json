@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-09-16",
-  "generated_at_beijing": "2026-09-15T04:31:56.251053+08:00",
+  "generated_at_beijing": "2026-09-15T14:07:19.672984+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C8683",
@@ -188,29 +188,43 @@
           "icao": "ZSNB",
           "source_used": "OUTSIDE_VALID_WINDOW",
           "taf_validity_utc": [
-            "2026-09-14T18:00:00+00:00",
-            "2026-09-15T18:00:00+00:00"
+            "2026-09-15T06:00:00+00:00",
+            "2026-09-16T06:00:00+00:00"
           ],
           "relevant_times": [
             "2026-09-16T08:40:00+08:00",
             "2026-09-16T15:55:00+08:00"
           ],
-          "taf_decoded_by_time": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-16T08:40:00+08:00",
+              "decoded": []
+            }
+          ],
           "decoded": [],
           "fetch_error": ""
         },
         "哈尔滨太平": {
           "icao": "ZYHB",
-          "source_used": "OUTSIDE_VALID_WINDOW",
+          "source_used": "TAF",
           "taf_validity_utc": [
-            "2026-09-14T18:00:00+00:00",
-            "2026-09-15T18:00:00+00:00"
+            "2026-09-15T06:00:00+00:00",
+            "2026-09-16T06:00:00+00:00"
           ],
           "relevant_times": [
             "2026-09-16T11:45:00+08:00",
             "2026-09-16T12:45:00+08:00"
           ],
-          "taf_decoded_by_time": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-16T11:45:00+08:00",
+              "decoded": []
+            },
+            {
+              "time": "2026-09-16T12:45:00+08:00",
+              "decoded": []
+            }
+          ],
           "decoded": [],
           "fetch_error": ""
         }
@@ -4548,7 +4562,7 @@
           }
         ]
       },
-      "content_sha256": "a3b48949e4a38d6bdbc940f51d7c960b5f42ca7217579f40f64095f3418d07a8",
+      "content_sha256": "002caf90cd840723fcd8a850da0ea026723179d305018d610a9e66ff2773e2b7",
       "_english_content": ""
     }
   ],
@@ -4561,34 +4575,52 @@
       "icao": "ZSNB",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-09-14T18:00:00+00:00",
-        "2026-09-15T18:00:00+00:00"
+        "2026-09-15T06:00:00+00:00",
+        "2026-09-16T06:00:00+00:00"
       ],
       "relevant_times": [
         "2026-09-16T08:40:00+08:00",
         "2026-09-16T15:55:00+08:00"
       ],
-      "taf_decoded_by_time": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-09-16T08:40:00+08:00",
+          "decoded": []
+        }
+      ],
       "decoded": [],
       "fetch_error": ""
     },
     "哈尔滨太平": {
       "icao": "ZYHB",
-      "source_used": "OUTSIDE_VALID_WINDOW",
+      "source_used": "TAF",
       "taf_validity_utc": [
-        "2026-09-14T18:00:00+00:00",
-        "2026-09-15T18:00:00+00:00"
+        "2026-09-15T06:00:00+00:00",
+        "2026-09-16T06:00:00+00:00"
       ],
       "relevant_times": [
         "2026-09-16T11:45:00+08:00",
         "2026-09-16T12:45:00+08:00"
       ],
-      "taf_decoded_by_time": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-09-16T11:45:00+08:00",
+          "decoded": []
+        },
+        {
+          "time": "2026-09-16T12:45:00+08:00",
+          "decoded": []
+        }
+      ],
       "decoded": [],
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [],
+  "airport_experience_changes": [
+    "上海浦东: 2026-09-11 -> 2026-09-15",
+    "安顺黄果树: - -> 2026-09-15",
+    "宁波栎社: 2026-07-18 -> 2026-09-15"
+  ],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
   "airport_information_version": 20260907,
   "airport_information_type": "PDF",
