@@ -2,15 +2,19 @@ from __future__ import annotations
 
 import argparse
 import base64
+import errno
 import hashlib
+import http.client
 import json
 import os
 import re
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
 from typing import Any, Iterable, Protocol
 
@@ -28,10 +32,16 @@ AIRPORT_MANUAL_FILENAME_MARKERS = (
 )
 MAX_GIT_BLOB_BYTES = 100_000_000
 AIRPORT_MANUAL_API_TIMEOUT_SECONDS = 180.0
+MAX_TRANSPORT_ATTEMPTS = 3
+TRANSPORT_RETRY_DELAYS = (5, 15)
 
 
 class GitHubApiError(RuntimeError):
     """A sanitized GitHub API failure that never includes credentials."""
+
+
+class GitHubMainMovedError(GitHubApiError):
+    """A ref changed while confirming an uncertain transport outcome."""
 
 
 class JsonClient(Protocol):
@@ -49,12 +59,10 @@ class GitHubApiClient:
             raise GitHubApiError("GITHUB_TOKEN is required")
         self._token = token
         self._timeout = timeout
-        # An empty ProxyHandler is an explicit direct connection. This avoids
-        # inheriting HTTP_PROXY/HTTPS_PROXY from the self-hosted runner.
-        self._opener = urllib.request.build_opener(
-            urllib.request.ProxyHandler({}),
-            urllib.request.HTTPSHandler(),
-        )
+        # build_opener installs the default ProxyHandler, inheriting the runner's
+        # HTTP_PROXY/HTTPS_PROXY/NO_PROXY (or the platform's default settings).
+        self._opener = urllib.request.build_opener(urllib.request.HTTPSHandler())
+        self._commit_parents: dict[str, str] = {}
 
     def request_json(
         self,
@@ -64,6 +72,19 @@ class GitHubApiClient:
     ) -> dict[str, Any]:
         if not path.startswith("/"):
             raise GitHubApiError("GitHub API path must be absolute")
+        # Git objects are content-addressed. Freeze commit identity AND date once
+        # so a lost response cannot turn the same POST into a different commit.
+        if method == "POST" and path.endswith("/git/commits") and payload:
+            payload = dict(payload)
+            date = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+            author = dict(payload.get("author") or {
+                "name": "github-actions[bot]",
+                "email": "41898282+github-actions[bot]@users.noreply.github.com",
+            })
+            author.setdefault("date", date)
+            committer = dict(payload.get("committer") or author)
+            committer.setdefault("date", date)
+            payload.update(author=author, committer=committer)
         data = None
         if payload is not None:
             data = json.dumps(payload, ensure_ascii=False).encode("utf-8")
@@ -79,27 +100,99 @@ class GitHubApiClient:
                 "X-GitHub-Api-Version": API_VERSION,
             },
         )
-        try:
-            with self._opener.open(request, timeout=self._timeout) as response:
-                body = response.read()
-        except urllib.error.HTTPError as exc:
-            raise GitHubApiError(
-                f"GitHub API {method} {path} failed with HTTP {exc.code}"
-            ) from None
-        except (urllib.error.URLError, TimeoutError, OSError) as exc:
-            raise GitHubApiError(
-                f"GitHub API {method} {path} network failure: "
-                f"{type(exc).__name__}"
-            ) from None
+        for attempt in range(1, MAX_TRANSPORT_ATTEMPTS + 1):
+            try:
+                parsed = self._request_once(request)
+            except urllib.error.HTTPError as exc:
+                # An explicit HTTP rejection is not an ambiguous transport loss.
+                raise GitHubApiError(
+                    f"GitHub API {method} failed with HTTP {exc.code}"
+                ) from None
+            except (http.client.IncompleteRead, urllib.error.URLError, OSError) as exc:
+                if not self._is_transient_transport_error(exc):
+                    raise GitHubApiError(
+                        f"GitHub API {method} failed: {type(exc).__name__}"
+                    ) from None
+                if method == "PATCH":
+                    recovered = self._recover_ref_update(path, payload)
+                    if recovered is not None:
+                        return recovered
+                elif method != "GET" and not (
+                    method == "POST"
+                    and re.fullmatch(r"/repos/[^/]+/[^/]+/git/(blobs|trees|commits)", path)
+                ):
+                    raise GitHubApiError("Uncertain write outcome; not retried") from None
+                if attempt == MAX_TRANSPORT_ATTEMPTS:
+                    raise GitHubApiError(
+                        f"GitHub API {method} transport failure after {attempt} attempts: "
+                        f"{type(exc).__name__}"
+                    ) from None
+                print(
+                    f"GITHUB_API_TRANSPORT_RETRY METHOD={method} "
+                    f"ATTEMPT={attempt}/{MAX_TRANSPORT_ATTEMPTS} "
+                    f"ERROR_TYPE={type(exc).__name__}"
+                )
+                time.sleep(TRANSPORT_RETRY_DELAYS[attempt - 1])
+                continue
+            if method == "POST" and path.endswith("/git/commits") and payload:
+                parents = payload.get("parents")
+                sha = parsed.get("sha")
+                if isinstance(sha, str) and isinstance(parents, list) and len(parents) == 1:
+                    self._commit_parents[sha] = parents[0]
+            return parsed
+        raise GitHubApiError("GitHub API transport attempts exhausted")
+
+    @staticmethod
+    def _is_transient_transport_error(exc: BaseException) -> bool:
+        if isinstance(exc, PermissionError):
+            return False
+        if isinstance(exc, (http.client.IncompleteRead, urllib.error.URLError, ConnectionError, TimeoutError)):
+            return True
+        return isinstance(exc, OSError) and exc.errno in {
+            None, errno.ECONNRESET, errno.ECONNABORTED, errno.ETIMEDOUT,
+            errno.EPIPE, errno.ENETDOWN, errno.ENETUNREACH, errno.EHOSTUNREACH,
+        }
+
+    def _recover_ref_update(
+        self, path: str, payload: dict[str, Any] | None,
+    ) -> dict[str, Any] | None:
+        if not payload or payload.get("force") is not False or not re.fullmatch(
+            r"/repos/[^/]+/[^/]+/git/refs/heads/.+", path
+        ):
+            raise GitHubApiError("Uncertain ref update; not retried") from None
+        target = payload.get("sha")
+        if not isinstance(target, str) or not re.fullmatch(r"[0-9a-f]{40}", target):
+            raise GitHubApiError("Uncertain ref update target") from None
+        ref = self.request_json("GET", path.replace("/git/refs/", "/git/ref/", 1))
+        current = _nested_string(ref, "object", "sha")
+        if current == target:
+            # The first PATCH succeeded; do not issue another main update.
+            return ref
+        base = self._commit_parents.get(target)
+        if not base:
+            prefix = path.split("/git/refs/", 1)[0]
+            commit = self.request_json("GET", f"{prefix}/git/commits/{target}")
+            parents = commit.get("parents")
+            if isinstance(parents, list) and len(parents) == 1:
+                base = _nested_string(parents[0], "sha")
+        if not base or not current:
+            raise GitHubApiError("Unable to confirm uncertain ref update") from None
+        if current != base:
+            raise GitHubMainMovedError("MAIN_MOVED during transport recovery") from None
+        return None
+
+    def _request_once(self, request: urllib.request.Request) -> dict[str, Any]:
+        with self._opener.open(request, timeout=self._timeout) as response:
+            body = response.read()
         try:
             parsed = json.loads(body.decode("utf-8"))
         except (UnicodeDecodeError, json.JSONDecodeError):
             raise GitHubApiError(
-                f"GitHub API {method} {path} returned invalid JSON"
+                "GitHub API returned invalid JSON"
             ) from None
         if not isinstance(parsed, dict):
             raise GitHubApiError(
-                f"GitHub API {method} {path} returned an unexpected payload"
+                "GitHub API returned an unexpected payload"
             )
         return parsed
 
@@ -313,11 +406,17 @@ def publish_files(
             commit_sha=new_commit_sha,
             base_sha=base_sha,
         )
-    client.request_json(
-        "PATCH",
-        _api_path(repository, f"/git/refs/heads/{quoted_branch}"),
-        {"sha": new_commit_sha, "force": False},
-    )
+    try:
+        client.request_json(
+            "PATCH",
+            _api_path(repository, f"/git/refs/heads/{quoted_branch}"),
+            {"sha": new_commit_sha, "force": False},
+        )
+    except GitHubMainMovedError:
+        return PublishResult(
+            status="MAIN_MOVED", changed_files=tuple(path for path, _ in changed),
+            commit_sha=new_commit_sha, base_sha=base_sha,
+        )
     return PublishResult(
         status="PUBLISHED",
         changed_files=tuple(path for path, _ in changed),
@@ -457,11 +556,17 @@ def publish_airport_manual(
             commit_sha=new_commit_sha,
             base_sha=base_sha,
         )
-    client.request_json(
-        "PATCH",
-        _api_path(repository, f"/git/refs/heads/{quoted_branch}"),
-        {"sha": new_commit_sha, "force": False},
-    )
+    try:
+        client.request_json(
+            "PATCH",
+            _api_path(repository, f"/git/refs/heads/{quoted_branch}"),
+            {"sha": new_commit_sha, "force": False},
+        )
+    except GitHubMainMovedError:
+        return PublishResult(
+            status="MAIN_MOVED", changed_files=changed_paths,
+            commit_sha=new_commit_sha, base_sha=base_sha,
+        )
     return PublishResult(
         status="PUBLISHED",
         changed_files=changed_paths,

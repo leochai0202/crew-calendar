@@ -10,7 +10,9 @@ param(
     [string]$ApiBase = "https://api.github.com",
     [string]$AllowedArchiveHost = "codeload.github.com",
     [int]$MaxAttempts = 3,
-    [int[]]$RetryDelaysSeconds = @(5, 15, 30)
+    [int[]]$RetryDelaysSeconds = @(5, 15),
+    [ValidateRange(1, 90)]
+    [int]$RequestTimeoutSeconds = 90
 )
 
 $ErrorActionPreference = "Stop"
@@ -25,12 +27,11 @@ if ($MaxAttempts -lt 1 -or $MaxAttempts -gt 3) {
     throw "MaxAttempts must be between 1 and 3"
 }
 
-function New-DirectHttpClient {
+function New-GitHubHttpClient {
     $handler = [System.Net.Http.HttpClientHandler]::new()
-    $handler.UseProxy = $false
     $handler.AllowAutoRedirect = $false
     $client = [System.Net.Http.HttpClient]::new($handler)
-    $client.Timeout = [TimeSpan]::FromSeconds(90)
+    $client.Timeout = [TimeSpan]::FromSeconds($RequestTimeoutSeconds)
     $client.DefaultRequestHeaders.UserAgent.ParseAdd(
         "crew-calendar-archive-bootstrap"
     )
@@ -51,6 +52,11 @@ function Invoke-WithLimitedRetry {
         }
         catch {
             $lastError = $_
+            # Close streams in the action's finally blocks, then remove partial
+            # bytes before backoff (including the final failed attempt).
+            if (Test-Path -LiteralPath $zipPath) {
+                Remove-Item -LiteralPath $zipPath -Force
+            }
             Write-Host "$Label attempt $attempt/$MaxAttempts failed"
             if ($attempt -lt $MaxAttempts) {
                 $delayIndex = [Math]::Min(
@@ -91,7 +97,10 @@ try {
         if (Test-Path -LiteralPath $zipPath) {
             Remove-Item -LiteralPath $zipPath -Force
         }
-        $apiClient = New-DirectHttpClient
+        $apiClient = New-GitHubHttpClient
+        $apiTimeout = [Threading.CancellationTokenSource]::new(
+            [TimeSpan]::FromSeconds($RequestTimeoutSeconds)
+        )
         try {
             $archiveApiUri = (
                 $ApiBase.TrimEnd("/") + "/repos/" + $Repository +
@@ -109,7 +118,9 @@ try {
             )
             $apiRequest.Headers.Accept.ParseAdd("application/vnd.github+json")
             $apiRequest.Headers.Add("X-GitHub-Api-Version", "2022-11-28")
-            $apiResponse = $apiClient.SendAsync($apiRequest).GetAwaiter().GetResult()
+            $apiResponse = $apiClient.SendAsync(
+                $apiRequest, $apiTimeout.Token
+            ).GetAwaiter().GetResult()
             try {
                 $status = [int]$apiResponse.StatusCode
                 if ($status -notin @(301, 302, 307, 308)) {
@@ -133,23 +144,32 @@ try {
         }
         finally {
             $apiClient.Dispose()
+            $apiTimeout.Dispose()
         }
 
-        $archiveClient = New-DirectHttpClient
+        $archiveClient = New-GitHubHttpClient
+        $archiveTimeout = [Threading.CancellationTokenSource]::new(
+            [TimeSpan]::FromSeconds($RequestTimeoutSeconds)
+        )
         try {
             $archiveResponse = $archiveClient.GetAsync(
                 $archiveUri,
-                [System.Net.Http.HttpCompletionOption]::ResponseHeadersRead
+                [System.Net.Http.HttpCompletionOption]::ResponseHeadersRead,
+                $archiveTimeout.Token
             ).GetAwaiter().GetResult()
             try {
                 if (-not $archiveResponse.IsSuccessStatusCode) {
                     throw "Archive host returned HTTP $([int]$archiveResponse.StatusCode)"
                 }
-                $inputStream = $archiveResponse.Content.ReadAsStreamAsync().GetAwaiter().GetResult()
+                $inputStream = $archiveResponse.Content.ReadAsStreamAsync(
+                    $archiveTimeout.Token
+                ).GetAwaiter().GetResult()
                 try {
                     $outputStream = [IO.File]::Create($zipPath)
                     try {
-                        $inputStream.CopyTo($outputStream)
+                        $inputStream.CopyToAsync(
+                            $outputStream, 81920, $archiveTimeout.Token
+                        ).GetAwaiter().GetResult()
                     }
                     finally {
                         $outputStream.Dispose()
@@ -165,6 +185,7 @@ try {
         }
         finally {
             $archiveClient.Dispose()
+            $archiveTimeout.Dispose()
         }
         if (-not (Test-Path -LiteralPath $zipPath)) {
             throw "Archive file was not created"
