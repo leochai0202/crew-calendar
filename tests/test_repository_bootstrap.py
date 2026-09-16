@@ -4,6 +4,8 @@ import io
 import os
 import subprocess
 import threading
+import time
+import urllib.parse
 import zipfile
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -26,16 +28,21 @@ def _zip_bytes(entries: dict[str, bytes]) -> bytes:
 
 
 class ArchiveServer:
-    def __init__(self, body: bytes, *, failures_before_success: int = 0) -> None:
+    def __init__(
+        self, body: bytes, *, failures_before_success: int = 0,
+        body_delay: float = 0, archive_host: str = "127.0.0.1",
+    ) -> None:
         self.body = body
         self.failures_before_success = failures_before_success
         self.api_requests = 0
         self.archive_requests = 0
+        self.body_delay = body_delay
         owner = self
 
         class Handler(BaseHTTPRequestHandler):
             def do_GET(self):  # noqa: N802
-                if self.path == f"/repos/owner/repo/zipball/{TARGET_SHA}":
+                path = urllib.parse.urlsplit(self.path).path
+                if path == f"/repos/owner/repo/zipball/{TARGET_SHA}":
                     owner.api_requests += 1
                     if owner.api_requests <= owner.failures_before_success:
                         self.send_response(503)
@@ -44,17 +51,23 @@ class ArchiveServer:
                     self.send_response(302)
                     self.send_header(
                         "Location",
-                        f"http://127.0.0.1:{owner.port}/archive.zip",
+                        f"http://{archive_host}:{owner.port}/archive.zip",
                     )
                     self.end_headers()
                     return
-                if self.path == "/archive.zip":
+                if path == "/archive.zip":
                     owner.archive_requests += 1
                     self.send_response(200)
                     self.send_header("Content-Type", "application/zip")
                     self.send_header("Content-Length", str(len(owner.body)))
                     self.end_headers()
-                    self.wfile.write(owner.body)
+                    try:
+                        self.wfile.write(owner.body[:8])
+                        self.wfile.flush()
+                        time.sleep(owner.body_delay)
+                        self.wfile.write(owner.body[8:])
+                    except (BrokenPipeError, ConnectionResetError):
+                        pass  # Expected when the client's bounded timeout cancels.
                     return
                 self.send_response(404)
                 self.end_headers()
@@ -85,6 +98,10 @@ def _run_bootstrap(
     server: ArchiveServer,
     *,
     workspace: Path | None = None,
+    timeout_seconds: int = 90,
+    api_host: str = "127.0.0.1",
+    archive_host: str = "127.0.0.1",
+    env_overrides: dict[str, str] | None = None,
 ) -> subprocess.CompletedProcess[str]:
     workspace = workspace or tmp_path / "workspace"
     runner_temp = tmp_path / "runner-temp"
@@ -97,14 +114,21 @@ def _run_bootstrap(
             f"-TargetSha '{TARGET_SHA}'",
             f"-Workspace {_quote_pwsh(workspace)}",
             f"-RunnerTemp {_quote_pwsh(runner_temp)}",
-            f"-ApiBase 'http://127.0.0.1:{server.port}'",
-            "-AllowedArchiveHost '127.0.0.1'",
+            f"-ApiBase 'http://{api_host}:{server.port}'",
+            f"-AllowedArchiveHost '{archive_host}'",
             "-MaxAttempts 3",
             "-RetryDelaysSeconds @(0,0,0)",
+            f"-RequestTimeoutSeconds {timeout_seconds}",
         )
     )
     env = os.environ.copy()
     env["GITHUB_TOKEN"] = "test-token-not-logged"
+    env["NO_PROXY"] = "127.0.0.1,localhost"
+    if env_overrides:
+        for name in ("HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "NO_PROXY"):
+            env.pop(name, None)
+            env.pop(name.lower(), None)
+        env.update(env_overrides)
     return subprocess.run(
         ["pwsh", "-NoLogo", "-NoProfile", "-Command", command],
         cwd=ROOT,
@@ -198,10 +222,16 @@ def test_archive_network_action_stops_after_third_failure(tmp_path: Path) -> Non
     assert sentinel.read_text(encoding="utf-8") == "preserve"
 
 
-def test_bootstrap_uses_explicit_direct_clients_and_safe_temporary_storage() -> None:
+def test_bootstrap_inherits_proxy_and_uses_safe_temporary_storage() -> None:
     script = SCRIPT.read_text(encoding="utf-8")
 
-    assert "$handler.UseProxy = $false" in script
+    assert "UseProxy = $false" not in script
+    assert "New-GitHubHttpClient" in script
+    assert "CancellationTokenSource" in script
+    assert "CopyToAsync(" in script
+    assert "$outputStream, 81920, $archiveTimeout.Token" in script
+    assert "ReadAsStreamAsync(" in script
+    assert "[ValidateRange(1, 90)]" in script
     assert "$handler.AllowAutoRedirect = $false" in script
     assert '"/zipball/" + $TargetSha' in script
     assert "127.0.0.1:7890" not in script
@@ -227,4 +257,38 @@ def test_workflow_resolves_main_once_and_bootstraps_before_scraper() -> None:
         "- name: Verify self-hosted runtime", 1
     )[0]
     assert "if: ${{ always() }}" not in bootstrap_step
-    assert "$handler.UseProxy = $false" in bootstrap_step
+    assert "UseProxy = $false" not in bootstrap_step
+    assert "New-GitHubHttpClient" in bootstrap_step
+
+
+def test_body_download_times_out_retries_and_removes_partial_zip(tmp_path: Path) -> None:
+    workspace = tmp_path / "workspace"
+    workspace.mkdir()
+    sentinel = workspace / "last-good.txt"
+    sentinel.write_bytes(b"preserve")
+    body = _zip_bytes({"owner-repo-sha/file.txt": b"complete"})
+    with ArchiveServer(body, body_delay=2) as server:
+        result = _run_bootstrap(tmp_path, server, workspace=workspace, timeout_seconds=1)
+    assert result.returncode != 0
+    assert server.api_requests == server.archive_requests == 3
+    assert "attempt 3/3 failed" in result.stdout
+    assert sentinel.read_bytes() == b"preserve"
+    assert not list((tmp_path / "runner-temp").rglob("*.zip"))
+    assert not list((tmp_path / "runner-temp").glob("crew-calendar-bootstrap-*"))
+    assert "test-token-not-logged" not in result.stdout + result.stderr
+
+
+def test_bootstrap_uses_environment_proxy_for_api_and_archive(tmp_path: Path) -> None:
+    # The .invalid hosts cannot resolve. A local forward proxy serves both
+    # absolute-URI requests, proving HttpClient inherits the child environment.
+    body = _zip_bytes({"owner-repo-sha/file.txt": b"proxied"})
+    with ArchiveServer(body, archive_host="archive.bootstrap.invalid") as server:
+        proxy = f"http://127.0.0.1:{server.port}"
+        result = _run_bootstrap(
+            tmp_path, server, api_host="api.bootstrap.invalid",
+            archive_host="archive.bootstrap.invalid",
+            env_overrides={"HTTP_PROXY": proxy, "HTTPS_PROXY": proxy, "NO_PROXY": ""},
+        )
+    assert result.returncode == 0, result.stderr
+    assert server.api_requests == server.archive_requests == 1
+    assert (tmp_path / "workspace/file.txt").read_bytes() == b"proxied"
