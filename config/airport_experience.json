@@ -87,9 +87,9 @@
       "within_90_days": true
     },
     "宁波栎社": {
-      "last_operated": "2026-09-15",
+      "last_operated": "2026-09-16",
       "source": "completed_schedule_event",
-      "flight_number": "9C8577",
+      "flight_number": "9C8683",
       "within_90_days": true
     },
     "石家庄正定": {
@@ -294,6 +294,12 @@
       "last_operated": "2026-09-15",
       "source": "completed_schedule_event",
       "flight_number": "9C6897",
+      "within_90_days": true
+    },
+    "哈尔滨太平": {
+      "last_operated": "2026-09-16",
+      "source": "completed_schedule_event",
+      "flight_number": "9C8683",
       "within_90_days": true
     }
   },

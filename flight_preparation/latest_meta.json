@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-09-17",
-  "generated_at_beijing": "2026-09-16T03:49:47.911843+08:00",
+  "generated_at_beijing": "2026-09-16T13:57:01.766340+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C8578",
@@ -144,15 +144,20 @@
       "weather": {
         "宁波栎社": {
           "icao": "ZSNB",
-          "source_used": "OUTSIDE_VALID_WINDOW",
+          "source_used": "TAF",
           "taf_validity_utc": [
-            "2026-09-15T18:00:00+00:00",
-            "2026-09-16T18:00:00+00:00"
+            "2026-09-16T06:00:00+00:00",
+            "2026-09-17T06:00:00+00:00"
           ],
           "relevant_times": [
             "2026-09-17T13:55:00+08:00"
           ],
-          "taf_decoded_by_time": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-17T13:55:00+08:00",
+              "decoded": []
+            }
+          ],
           "decoded": [],
           "fetch_error": ""
         },
@@ -3355,7 +3360,7 @@
           }
         ]
       },
-      "content_sha256": "1740728aa72a044539d9130f0b8a42e787c501094843d7c54451d113f92407ca",
+      "content_sha256": "153013b662a5d419021c177d0009fe916c4f12daf4f3e24ab3bfb8d076c27cff",
       "_english_content": ""
     },
     {
@@ -3427,7 +3432,10 @@
         "上海浦东": {
           "icao": "ZSPD",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "taf_validity_utc": [
+            "2026-09-16T06:00:00+00:00",
+            "2026-09-17T12:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-09-17T20:30:00+08:00"
           ],
@@ -5787,15 +5795,20 @@
   "weather": {
     "宁波栎社": {
       "icao": "ZSNB",
-      "source_used": "OUTSIDE_VALID_WINDOW",
+      "source_used": "TAF",
       "taf_validity_utc": [
-        "2026-09-15T18:00:00+00:00",
-        "2026-09-16T18:00:00+00:00"
+        "2026-09-16T06:00:00+00:00",
+        "2026-09-17T06:00:00+00:00"
       ],
       "relevant_times": [
         "2026-09-17T13:55:00+08:00"
       ],
-      "taf_decoded_by_time": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-09-17T13:55:00+08:00",
+          "decoded": []
+        }
+      ],
       "decoded": [],
       "fetch_error": ""
     },
@@ -5814,7 +5827,10 @@
     "上海浦东": {
       "icao": "ZSPD",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-09-16T06:00:00+00:00",
+        "2026-09-17T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-09-17T20:30:00+08:00"
       ],
@@ -5823,7 +5839,10 @@
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [],
+  "airport_experience_changes": [
+    "宁波栎社: 2026-09-15 -> 2026-09-16",
+    "哈尔滨太平: - -> 2026-09-16"
+  ],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
   "airport_information_version": 20260907,
   "airport_information_type": "PDF",
