@@ -286,6 +286,19 @@ def test_cli_reports_failed_safe_without_candidate(
 
 def test_workflow_uses_api_transport_for_only_the_validated_target() -> None:
     workflow = WORKFLOW.read_text(encoding="utf-8")
+    schedule = (ROOT / ".github" / "workflows" / "schedule.yml").read_text(
+        encoding="utf-8"
+    )
+
+    bootstrap_start = "          function New-GitHubHttpClient {"
+    bootstrap_end = "      - name: Verify self-hosted runtime"
+    sync_bootstrap = workflow.split(bootstrap_start, 1)[1].split(
+        bootstrap_end, 1
+    )[0]
+    schedule_bootstrap = schedule.split(bootstrap_start, 1)[1].split(
+        bootstrap_end, 1
+    )[0]
+    assert sync_bootstrap == schedule_bootstrap
 
     for required in (
         "name: Sync Airport Manual",
@@ -313,6 +326,7 @@ def test_workflow_uses_api_transport_for_only_the_validated_target() -> None:
         "uses:",
         "git pull",
         "git push",
+        "git clone",
         "git add",
         "git commit",
         "actions/upload-artifact",
@@ -322,6 +336,10 @@ def test_workflow_uses_api_transport_for_only_the_validated_target() -> None:
         "Flight_Data",
         "git add -A",
         "force",
+        "UseProxy = $false",
+        "New-DirectHttpClient",
+        "Invoke-DirectApiJson",
+        "127.0.0.1:7890",
     ):
         assert forbidden not in workflow
     assert workflow.index("Bootstrap repository from GitHub API") < workflow.index(
