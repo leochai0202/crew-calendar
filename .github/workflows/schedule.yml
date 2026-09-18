@@ -1,4 +1,4 @@
-name: Update Crew Calendar
+name: 更新机组日历
 
 on:
   workflow_dispatch:

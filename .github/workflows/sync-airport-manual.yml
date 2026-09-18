@@ -1,4 +1,4 @@
-name: Sync Airport Manual
+name: 同步机场手册
 
 on:
   workflow_dispatch:

@@ -301,7 +301,7 @@ def test_workflow_uses_api_transport_for_only_the_validated_target() -> None:
     assert sync_bootstrap == schedule_bootstrap
 
     for required in (
-        "name: Sync Airport Manual",
+        "name: 同步机场手册",
         "workflow_dispatch:",
         "runs-on: [self-hosted, Windows, X64, crew-calendar]",
         "timeout-minutes: 30",

@@ -2,16 +2,25 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).parents[1]
+WORKFLOWS = ROOT / ".github" / "workflows"
 SCHEDULE = ROOT / ".github" / "workflows" / "schedule.yml"
 CODE_TESTS = ROOT / ".github" / "workflows" / "auth-session-check.yml"
 RUNNER_SETUP = ROOT / "scripts" / "setup_self_hosted_runner.ps1"
-MAINTENANCE_WORKFLOW = (
-    ROOT
-    / ".github"
-    / "workflows"
-    / "crew-maintenance-free-v3-20260616.yml"
-)
 MAINTENANCE_AGENT = ROOT / "crew_agents" / "maintenance_agent.py"
+
+
+def test_actions_has_only_four_named_workflows() -> None:
+    expected = {
+        "auth-session-check.yml": "代码测试",
+        "flight-prep-free-v5-20260616.yml": "生成航前准备",
+        "schedule.yml": "更新机组日历",
+        "sync-airport-manual.yml": "同步机场手册",
+    }
+    assert {path.name for path in WORKFLOWS.glob("*.yml")} == set(expected)
+    for filename, display_name in expected.items():
+        workflow = (WORKFLOWS / filename).read_text(encoding="utf-8")
+        assert workflow.splitlines()[0] == f"name: {display_name}"
+        assert "workflow_run:" not in workflow
 
 
 def test_schedule_keeps_three_times_and_uses_expected_secrets() -> None:
@@ -154,28 +163,6 @@ def test_schedule_uses_only_api_and_codeload_transport_for_repository_io() -> No
     assert '"--status-prefix", "ICS_API"' in workflow
     assert "*.ics" in workflow
     assert "airport_aliases.json" in workflow
-
-
-def test_maintenance_workflow_has_no_scraper_or_raw_diagnostics_path() -> None:
-    workflow = MAINTENANCE_WORKFLOW.read_text(encoding="utf-8")
-
-    assert "workflow_dispatch:" in workflow
-    assert 'workflows: ["Update Crew Calendar"]' in workflow
-    assert "agent_output/maintenance/" in workflow
-    for forbidden in (
-        "run_scraper",
-        "crew_calendar_main.py",
-        "clean_ics_people.py",
-        "CREW_USERNAME",
-        "CREW_PASSWORD",
-        "CREW_STORAGE_STATE_B64",
-        "playwright",
-        "tesseract",
-        "ddddocr",
-        "agent_run",
-        "debug_output",
-    ):
-        assert forbidden not in workflow
 
 
 def test_maintenance_agent_is_static_and_checks_session_auth_integration() -> None:
