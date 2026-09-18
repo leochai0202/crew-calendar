@@ -12,7 +12,9 @@ param(
     [int]$MaxAttempts = 3,
     [int[]]$RetryDelaysSeconds = @(5, 15),
     [ValidateRange(1, 90)]
-    [int]$RequestTimeoutSeconds = 90
+    [int]$RequestTimeoutSeconds = 90,
+    [ValidateRange(1, 240)]
+    [int]$ArchiveTimeoutSeconds = 240
 )
 
 $ErrorActionPreference = "Stop"
@@ -28,10 +30,11 @@ if ($MaxAttempts -lt 1 -or $MaxAttempts -gt 3) {
 }
 
 function New-GitHubHttpClient {
+    param([Parameter(Mandatory = $true)][int]$TimeoutSeconds)
     $handler = [System.Net.Http.HttpClientHandler]::new()
     $handler.AllowAutoRedirect = $false
     $client = [System.Net.Http.HttpClient]::new($handler)
-    $client.Timeout = [TimeSpan]::FromSeconds($RequestTimeoutSeconds)
+    $client.Timeout = [TimeSpan]::FromSeconds($TimeoutSeconds)
     $client.DefaultRequestHeaders.UserAgent.ParseAdd(
         "crew-calendar-archive-bootstrap"
     )
@@ -93,11 +96,12 @@ $extractPath = Join-Path $operationRoot "extracted"
 
 $stopwatch = [Diagnostics.Stopwatch]::StartNew()
 try {
+    Write-Host "ARCHIVE_TIMEOUT_SECONDS=$ArchiveTimeoutSeconds"
     Invoke-WithLimitedRetry -Label "Archive download" -Action {
         if (Test-Path -LiteralPath $zipPath) {
             Remove-Item -LiteralPath $zipPath -Force
         }
-        $apiClient = New-GitHubHttpClient
+        $apiClient = New-GitHubHttpClient -TimeoutSeconds $RequestTimeoutSeconds
         $apiTimeout = [Threading.CancellationTokenSource]::new(
             [TimeSpan]::FromSeconds($RequestTimeoutSeconds)
         )
@@ -147,9 +151,9 @@ try {
             $apiTimeout.Dispose()
         }
 
-        $archiveClient = New-GitHubHttpClient
+        $archiveClient = New-GitHubHttpClient -TimeoutSeconds $ArchiveTimeoutSeconds
         $archiveTimeout = [Threading.CancellationTokenSource]::new(
-            [TimeSpan]::FromSeconds($RequestTimeoutSeconds)
+            [TimeSpan]::FromSeconds($ArchiveTimeoutSeconds)
         )
         try {
             $archiveResponse = $archiveClient.GetAsync(

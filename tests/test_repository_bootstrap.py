@@ -16,6 +16,7 @@ import pytest
 ROOT = Path(__file__).parents[1]
 SCRIPT = ROOT / "scripts" / "bootstrap_repository.ps1"
 WORKFLOW = ROOT / ".github" / "workflows" / "schedule.yml"
+SYNC_WORKFLOW = ROOT / ".github" / "workflows" / "sync-airport-manual.yml"
 TARGET_SHA = "a" * 40
 
 
@@ -99,6 +100,7 @@ def _run_bootstrap(
     *,
     workspace: Path | None = None,
     timeout_seconds: int = 90,
+    archive_timeout_seconds: int | None = None,
     api_host: str = "127.0.0.1",
     archive_host: str = "127.0.0.1",
     env_overrides: dict[str, str] | None = None,
@@ -107,20 +109,21 @@ def _run_bootstrap(
     runner_temp = tmp_path / "runner-temp"
     workspace.mkdir(parents=True, exist_ok=True)
     runner_temp.mkdir(parents=True, exist_ok=True)
-    command = " ".join(
-        (
-            f"& {_quote_pwsh(SCRIPT)}",
-            "-Repository 'owner/repo'",
-            f"-TargetSha '{TARGET_SHA}'",
-            f"-Workspace {_quote_pwsh(workspace)}",
-            f"-RunnerTemp {_quote_pwsh(runner_temp)}",
-            f"-ApiBase 'http://{api_host}:{server.port}'",
-            f"-AllowedArchiveHost '{archive_host}'",
-            "-MaxAttempts 3",
-            "-RetryDelaysSeconds @(0,0,0)",
-            f"-RequestTimeoutSeconds {timeout_seconds}",
-        )
-    )
+    command_parts = [
+        f"& {_quote_pwsh(SCRIPT)}",
+        "-Repository 'owner/repo'",
+        f"-TargetSha '{TARGET_SHA}'",
+        f"-Workspace {_quote_pwsh(workspace)}",
+        f"-RunnerTemp {_quote_pwsh(runner_temp)}",
+        f"-ApiBase 'http://{api_host}:{server.port}'",
+        f"-AllowedArchiveHost '{archive_host}'",
+        "-MaxAttempts 3",
+        "-RetryDelaysSeconds @(0,0,0)",
+        f"-RequestTimeoutSeconds {timeout_seconds}",
+    ]
+    if archive_timeout_seconds is not None:
+        command_parts.append(f"-ArchiveTimeoutSeconds {archive_timeout_seconds}")
+    command = " ".join(command_parts)
     env = os.environ.copy()
     env["GITHUB_TOKEN"] = "test-token-not-logged"
     env["NO_PROXY"] = "127.0.0.1,localhost"
@@ -160,6 +163,7 @@ def test_bootstrap_downloads_fixed_sha_and_cleans_then_copies_workspace(
 
     assert result.returncode == 0, result.stderr
     assert f"BOOTSTRAP_MAIN_SHA={TARGET_SHA}" in result.stdout
+    assert "ARCHIVE_TIMEOUT_SECONDS=240" in result.stdout
     assert "ARCHIVE_DOWNLOAD=SUCCESS" in result.stdout
     assert server.api_requests == 1
     assert server.archive_requests == 1
@@ -232,6 +236,19 @@ def test_bootstrap_inherits_proxy_and_uses_safe_temporary_storage() -> None:
     assert "$outputStream, 81920, $archiveTimeout.Token" in script
     assert "ReadAsStreamAsync(" in script
     assert "[ValidateRange(1, 90)]" in script
+    assert "[int]$RequestTimeoutSeconds = 90" in script
+    assert "[int]$ArchiveTimeoutSeconds = 240" in script
+    assert (
+        "$apiClient = New-GitHubHttpClient -TimeoutSeconds $RequestTimeoutSeconds"
+        in script
+    )
+    assert (
+        "$archiveClient = New-GitHubHttpClient -TimeoutSeconds $ArchiveTimeoutSeconds"
+        in script
+    )
+    assert "[TimeSpan]::FromSeconds($ArchiveTimeoutSeconds)" in script
+    assert "[int]$MaxAttempts = 3" in script
+    assert "[int[]]$RetryDelaysSeconds = @(5, 15)" in script
     assert "$handler.AllowAutoRedirect = $false" in script
     assert '"/zipball/" + $TargetSha' in script
     assert "127.0.0.1:7890" not in script
@@ -261,6 +278,34 @@ def test_workflow_resolves_main_once_and_bootstraps_before_scraper() -> None:
     assert "New-GitHubHttpClient" in bootstrap_step
 
 
+def test_both_workflows_use_fixed_sha_helper_before_production_steps() -> None:
+    for path, next_step in (
+        (WORKFLOW, "Run scraper"),
+        (SYNC_WORKFLOW, "Validate and synchronize airport manual"),
+    ):
+        workflow = path.read_text(encoding="utf-8")
+        assert "scripts/bootstrap_repository.ps1?ref=$bootstrapSha" in workflow
+        assert "-TargetSha $bootstrapSha" in workflow
+        assert workflow.index("Bootstrap repository from GitHub API") < workflow.index(
+            next_step
+        )
+        bootstrap_step = workflow.split("- name: Bootstrap repository", 1)[1].split(
+            "- name: Verify self-hosted runtime", 1
+        )[0]
+        assert "if: ${{ always() }}" not in bootstrap_step
+
+
+def test_archive_body_timeout_is_independent_of_api_timeout(tmp_path: Path) -> None:
+    body = _zip_bytes({"owner-repo-sha/file.txt": b"complete"})
+    with ArchiveServer(body, body_delay=2) as server:
+        result = _run_bootstrap(
+            tmp_path, server, timeout_seconds=1, archive_timeout_seconds=4
+        )
+    assert result.returncode == 0, result.stderr
+    assert "ARCHIVE_TIMEOUT_SECONDS=4" in result.stdout
+    assert server.api_requests == server.archive_requests == 1
+
+
 def test_body_download_times_out_retries_and_removes_partial_zip(tmp_path: Path) -> None:
     workspace = tmp_path / "workspace"
     workspace.mkdir()
@@ -268,7 +313,13 @@ def test_body_download_times_out_retries_and_removes_partial_zip(tmp_path: Path)
     sentinel.write_bytes(b"preserve")
     body = _zip_bytes({"owner-repo-sha/file.txt": b"complete"})
     with ArchiveServer(body, body_delay=2) as server:
-        result = _run_bootstrap(tmp_path, server, workspace=workspace, timeout_seconds=1)
+        result = _run_bootstrap(
+            tmp_path,
+            server,
+            workspace=workspace,
+            timeout_seconds=1,
+            archive_timeout_seconds=1,
+        )
     assert result.returncode != 0
     assert server.api_requests == server.archive_requests == 3
     assert "attempt 3/3 failed" in result.stdout
