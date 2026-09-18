@@ -1,4 +1,4 @@
-name: Generate Flight Preparation FREE v5
+name: 生成航前准备
 
 on:
   workflow_dispatch:

@@ -1,4 +1,4 @@
-name: Crew calendar code tests
+name: 代码测试
 
 on:
   workflow_dispatch:
