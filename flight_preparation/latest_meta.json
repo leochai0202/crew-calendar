@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-09-24",
-  "generated_at_beijing": "2026-09-23T03:53:23.503833+08:00",
+  "generated_at_beijing": "2026-09-23T13:53:49.863473+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C8527",
@@ -186,28 +186,49 @@
       "weather": {
         "上海浦东": {
           "icao": "ZSPD",
-          "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "source_used": "TAF",
+          "taf_validity_utc": [
+            "2026-09-23T06:00:00+00:00",
+            "2026-09-24T12:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-09-24T08:55:00+08:00",
             "2026-09-24T14:05:00+08:00"
           ],
-          "taf_decoded_by_time": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-24T08:55:00+08:00",
+              "decoded": []
+            },
+            {
+              "time": "2026-09-24T14:05:00+08:00",
+              "decoded": []
+            }
+          ],
           "decoded": [],
           "fetch_error": ""
         },
         "大连周水子": {
           "icao": "ZYTL",
-          "source_used": "OUTSIDE_VALID_WINDOW",
+          "source_used": "TAF",
           "taf_validity_utc": [
-            "2026-09-22T18:00:00+00:00",
-            "2026-09-23T18:00:00+00:00"
+            "2026-09-23T06:00:00+00:00",
+            "2026-09-24T06:00:00+00:00"
           ],
           "relevant_times": [
             "2026-09-24T10:55:00+08:00",
             "2026-09-24T12:00:00+08:00"
           ],
-          "taf_decoded_by_time": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-24T10:55:00+08:00",
+              "decoded": []
+            },
+            {
+              "time": "2026-09-24T12:00:00+08:00",
+              "decoded": []
+            }
+          ],
           "decoded": [],
           "fetch_error": ""
         }
@@ -4201,7 +4222,7 @@
           }
         ]
       },
-      "content_sha256": "20df64676876ee7ca218450be996ebcf7a5faac51884c4c288b0e8ced0a24208",
+      "content_sha256": "05da5acfcf96d7360f44692681415d6997673547d30e996320b68d8a1c1b918a",
       "_english_content": ""
     }
   ],
@@ -4212,28 +4233,49 @@
   "weather": {
     "上海浦东": {
       "icao": "ZSPD",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-09-23T06:00:00+00:00",
+        "2026-09-24T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-09-24T08:55:00+08:00",
         "2026-09-24T14:05:00+08:00"
       ],
-      "taf_decoded_by_time": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-09-24T08:55:00+08:00",
+          "decoded": []
+        },
+        {
+          "time": "2026-09-24T14:05:00+08:00",
+          "decoded": []
+        }
+      ],
       "decoded": [],
       "fetch_error": ""
     },
     "大连周水子": {
       "icao": "ZYTL",
-      "source_used": "OUTSIDE_VALID_WINDOW",
+      "source_used": "TAF",
       "taf_validity_utc": [
-        "2026-09-22T18:00:00+00:00",
-        "2026-09-23T18:00:00+00:00"
+        "2026-09-23T06:00:00+00:00",
+        "2026-09-24T06:00:00+00:00"
       ],
       "relevant_times": [
         "2026-09-24T10:55:00+08:00",
         "2026-09-24T12:00:00+08:00"
       ],
-      "taf_decoded_by_time": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-09-24T10:55:00+08:00",
+          "decoded": []
+        },
+        {
+          "time": "2026-09-24T12:00:00+08:00",
+          "decoded": []
+        }
+      ],
       "decoded": [],
       "fetch_error": ""
     }
