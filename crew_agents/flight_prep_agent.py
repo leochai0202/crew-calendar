@@ -8681,9 +8681,6 @@ def validate_content(
     forbidden_metadata = [
         event.flight_number,
         event.registration,
-        f"{event.route[0]}→{event.route[1]}",
-        f"{event.route[0]}至{event.route[1]}",
-        f"{english_airport_name(event.route[0])}-{english_airport_name(event.route[1])}",
         "签到：",
         "签到时间",
         "人员名单",
