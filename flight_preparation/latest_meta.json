@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-09-27",
-  "generated_at_beijing": "2026-09-26T04:07:41.706665+08:00",
+  "generated_at_beijing": "2026-09-26T14:06:35.412308+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C6595X",
@@ -154,28 +154,54 @@
       "weather": {
         "深圳宝安": {
           "icao": "ZGSZ",
-          "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "source_used": "TAF",
+          "taf_validity_utc": [
+            "2026-09-26T06:00:00+00:00",
+            "2026-09-27T12:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-09-27T06:25:00+08:00"
           ],
-          "taf_decoded_by_time": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-27T06:25:00+08:00",
+              "decoded": []
+            }
+          ],
           "decoded": [],
           "fetch_error": ""
         },
         "济南遥墙": {
           "icao": "ZSJN",
-          "source_used": "OUTSIDE_VALID_WINDOW",
+          "source_used": "TAF",
           "taf_validity_utc": [
-            "2026-09-25T18:00:00+00:00",
-            "2026-09-26T18:00:00+00:00"
+            "2026-09-26T06:00:00+00:00",
+            "2026-09-27T06:00:00+00:00"
           ],
           "relevant_times": [
             "2026-09-27T09:15:00+08:00",
             "2026-09-27T10:15:00+08:00"
           ],
-          "taf_decoded_by_time": [],
-          "decoded": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-27T09:15:00+08:00",
+              "decoded": [
+                "能见度4000米",
+                "轻雾"
+              ]
+            },
+            {
+              "time": "2026-09-27T10:15:00+08:00",
+              "decoded": [
+                "能见度4000米",
+                "轻雾"
+              ]
+            }
+          ],
+          "decoded": [
+            "能见度4000米",
+            "轻雾"
+          ],
           "fetch_error": ""
         }
       },
@@ -4601,7 +4627,7 @@
           }
         ]
       },
-      "content_sha256": "e0e14bd6bb9bd687fced4b3e294e2a6d887ed9ee9b8c0d09bb06205a541d563e",
+      "content_sha256": "65560ab4c9d017ce1ea4e8113aa05a2699fd1a449149304d3aa122858a56c0aa",
       "_english_content": ""
     },
     {
@@ -4664,30 +4690,53 @@
       "weather": {
         "济南遥墙": {
           "icao": "ZSJN",
-          "source_used": "OUTSIDE_VALID_WINDOW",
+          "source_used": "TAF",
           "taf_validity_utc": [
-            "2026-09-25T18:00:00+00:00",
-            "2026-09-26T18:00:00+00:00"
+            "2026-09-26T06:00:00+00:00",
+            "2026-09-27T06:00:00+00:00"
           ],
           "relevant_times": [
             "2026-09-27T09:15:00+08:00",
             "2026-09-27T10:15:00+08:00"
           ],
-          "taf_decoded_by_time": [],
-          "decoded": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-27T09:15:00+08:00",
+              "decoded": [
+                "能见度4000米",
+                "轻雾"
+              ]
+            },
+            {
+              "time": "2026-09-27T10:15:00+08:00",
+              "decoded": [
+                "能见度4000米",
+                "轻雾"
+              ]
+            }
+          ],
+          "decoded": [
+            "能见度4000米",
+            "轻雾"
+          ],
           "fetch_error": ""
         },
         "大连周水子": {
           "icao": "ZYTL",
-          "source_used": "OUTSIDE_VALID_WINDOW",
+          "source_used": "TAF",
           "taf_validity_utc": [
-            "2026-09-25T18:00:00+00:00",
-            "2026-09-26T18:00:00+00:00"
+            "2026-09-26T06:00:00+00:00",
+            "2026-09-27T06:00:00+00:00"
           ],
           "relevant_times": [
             "2026-09-27T11:25:00+08:00"
           ],
-          "taf_decoded_by_time": [],
+          "taf_decoded_by_time": [
+            {
+              "time": "2026-09-27T11:25:00+08:00",
+              "decoded": []
+            }
+          ],
           "decoded": [],
           "fetch_error": ""
         }
@@ -8239,7 +8288,7 @@
           }
         ]
       },
-      "content_sha256": "5f7cb07f2fe666e3246ea90dc752b98a1e9fc7697cd0a23a6a18e6d4a958e31a",
+      "content_sha256": "914e3e1e1cfb5a086de123e7a0613b09cea99fc13ff54166aa2bd9c8a0d70234",
       "_english_content": ""
     }
   ],
@@ -8251,48 +8300,77 @@
   "weather": {
     "深圳宝安": {
       "icao": "ZGSZ",
-      "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "source_used": "TAF",
+      "taf_validity_utc": [
+        "2026-09-26T06:00:00+00:00",
+        "2026-09-27T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-09-27T06:25:00+08:00"
       ],
-      "taf_decoded_by_time": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-09-27T06:25:00+08:00",
+          "decoded": []
+        }
+      ],
       "decoded": [],
       "fetch_error": ""
     },
     "济南遥墙": {
       "icao": "ZSJN",
-      "source_used": "OUTSIDE_VALID_WINDOW",
+      "source_used": "TAF",
       "taf_validity_utc": [
-        "2026-09-25T18:00:00+00:00",
-        "2026-09-26T18:00:00+00:00"
+        "2026-09-26T06:00:00+00:00",
+        "2026-09-27T06:00:00+00:00"
       ],
       "relevant_times": [
         "2026-09-27T09:15:00+08:00",
         "2026-09-27T10:15:00+08:00"
       ],
-      "taf_decoded_by_time": [],
-      "decoded": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-09-27T09:15:00+08:00",
+          "decoded": [
+            "能见度4000米",
+            "轻雾"
+          ]
+        },
+        {
+          "time": "2026-09-27T10:15:00+08:00",
+          "decoded": [
+            "能见度4000米",
+            "轻雾"
+          ]
+        }
+      ],
+      "decoded": [
+        "能见度4000米",
+        "轻雾"
+      ],
       "fetch_error": ""
     },
     "大连周水子": {
       "icao": "ZYTL",
-      "source_used": "OUTSIDE_VALID_WINDOW",
+      "source_used": "TAF",
       "taf_validity_utc": [
-        "2026-09-25T18:00:00+00:00",
-        "2026-09-26T18:00:00+00:00"
+        "2026-09-26T06:00:00+00:00",
+        "2026-09-27T06:00:00+00:00"
       ],
       "relevant_times": [
         "2026-09-27T11:25:00+08:00"
       ],
-      "taf_decoded_by_time": [],
+      "taf_decoded_by_time": [
+        {
+          "time": "2026-09-27T11:25:00+08:00",
+          "decoded": []
+        }
+      ],
       "decoded": [],
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [
-    "深圳宝安: 2026-06-25 -> 2026-09-25"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
   "airport_information_version": 20260907,
   "airport_information_type": "PDF",
