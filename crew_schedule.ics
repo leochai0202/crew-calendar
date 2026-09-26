@@ -2981,7 +2981,7 @@ UID:e59874898c7e83ed8bf19c8e55dd778d@crew-calendar
 SUMMARY:✈️ 9C6595X 深圳宝安→济南遥墙
 DTSTART;TZID=Asia/Shanghai:20260927T062500
 DTEND;TZID=Asia/Shanghai:20260927T091500
-DESCRIPTION:09月27日 周日\n类型：航班\n航班：9C6595X\n航线：深圳宝安 → 济南遥墙\n地点：深圳宝安\n签到：04:35｜深圳宝安\n任务：06:25 - 09:15\n机型：A320｜注册号：B32T0\n\n人员名单：\n• 刘涛(T2\,R)\n• 邓华志(R)\n• 段洋硕\n• 刘若琳(B)\n\n版本：2026-09-25 23:56
+DESCRIPTION:09月27日 周日\n类型：航班\n航班：9C6595X\n航线：深圳宝安 → 济南遥墙\n地点：深圳宝安\n签到：04:35｜深圳宝安\n任务：06:25 - 09:15\n机型：A320｜注册号：B32T0\n\n人员名单：\n• 刘涛(T2\,R)\n• 邓华志(R)\n• 段洋硕\n• 刘若琳(B)\n\n版本：2026-09-26 21:52
 X-CONTENT-SIGNATURE:6e593c6ffc8327a36554403f71677dc0
 LOCATION:深圳宝安
 BEGIN:VALARM
@@ -2995,7 +2995,7 @@ UID:8ff8d4a3ac57b98f23861910d1be3e35@crew-calendar
 SUMMARY:✈️ 9C6595Y 济南遥墙→大连周水子
 DTSTART;TZID=Asia/Shanghai:20260927T101500
 DTEND;TZID=Asia/Shanghai:20260927T112500
-DESCRIPTION:09月27日 周日\n类型：航班\n航班：9C6595Y\n航线：济南遥墙 → 大连周水子\n地点：济南遥墙\n签到：08:40｜济南遥墙\n任务：10:15 - 11:25\n机型：A320｜注册号：B32T0\n\n人员名单：\n• 刘涛(T2\,R)\n• 邓华志(R)\n• 段洋硕\n• 刘若琳(B)\n\n版本：2026-09-25 23:56
+DESCRIPTION:09月27日 周日\n类型：航班\n航班：9C6595Y\n航线：济南遥墙 → 大连周水子\n地点：济南遥墙\n签到：08:40｜济南遥墙\n任务：10:15 - 11:25\n机型：A320｜注册号：B32T0\n\n人员名单：\n• 刘涛(T2\,R)\n• 邓华志(R)\n• 段洋硕\n• 刘若琳(B)\n\n版本：2026-09-26 21:52
 X-CONTENT-SIGNATURE:c9b9755d2029daabf5a49e6ed2dc3bda
 LOCATION:济南遥墙
 BEGIN:VALARM
@@ -3009,7 +3009,7 @@ UID:fa75b6e066dd23a7174d2a4f48b3fc13@crew-calendar
 SUMMARY:✈️ 9C7132 大连周水子→宁波栎社
 DTSTART;TZID=Asia/Shanghai:20260929T180000
 DTEND;TZID=Asia/Shanghai:20260929T200500
-DESCRIPTION:09月29日 周二\n类型：航班\n航班：9C7132\n航线：大连周水子 → 宁波栎社\n地点：大连周水子\n签到：16:10｜大连周水子\n任务：18:00 - 20:05\n机型：A320｜注册号：B1839\n\n人员名单：\n• 刘涛(T2\,R)\n• 邓华志(R)\n• 段洋硕\n• 贾淑靖(B)\n\n版本：2026-09-25 23:56
+DESCRIPTION:09月29日 周二\n类型：航班\n航班：9C7132\n航线：大连周水子 → 宁波栎社\n地点：大连周水子\n签到：16:10｜大连周水子\n任务：18:00 - 20:05\n机型：A320｜注册号：B1839\n\n人员名单：\n• 刘涛(T2\,R)\n• 邓华志(R)\n• 段洋硕\n• 贾淑靖(B)\n\n版本：2026-09-26 21:52
 X-CONTENT-SIGNATURE:116058ef1196fd1756d0d19d8ac65faf
 LOCATION:大连周水子
 BEGIN:VALARM
@@ -3023,7 +3023,7 @@ UID:6880ba02777eb412da26b57fb3460d0c@crew-calendar
 SUMMARY:✈️ 9C7131 宁波栎社→大连周水子
 DTSTART;TZID=Asia/Shanghai:20260929T210000
 DTEND;TZID=Asia/Shanghai:20260929T231500
-DESCRIPTION:09月29日 周二\n类型：航班\n航班：9C7131\n航线：宁波栎社 → 大连周水子\n地点：宁波栎社\n签到：19:15｜宁波栎社\n任务：21:00 - 23:15\n机型：A320｜注册号：B1839\n\n人员名单：\n• 刘涛(T2\,R)\n• 邓华志(R)\n• 段洋硕\n• 贾淑靖(B)\n\n版本：2026-09-25 23:56
+DESCRIPTION:09月29日 周二\n类型：航班\n航班：9C7131\n航线：宁波栎社 → 大连周水子\n地点：宁波栎社\n签到：19:15｜宁波栎社\n任务：21:00 - 23:15\n机型：A320｜注册号：B1839\n\n人员名单：\n• 刘涛(T2\,R)\n• 邓华志(R)\n• 段洋硕\n• 贾淑靖(B)\n\n版本：2026-09-26 21:52
 X-CONTENT-SIGNATURE:875af5bfad62f8d78b610c9d6e24f6a0
 LOCATION:宁波栎社
 BEGIN:VALARM
@@ -3033,12 +3033,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:8141fe142a5f31795ea6fc4b9bc2e629@crew-calendar
+UID:33962acf00d40d2ff61419aef198caae@crew-calendar
 SUMMARY:✈️ 9C6813 大连周水子→西安咸阳
 DTSTART;TZID=Asia/Shanghai:20260930T191500
 DTEND;TZID=Asia/Shanghai:20260930T215500
-DESCRIPTION:09月30日 周三\n类型：航班\n航班：9C6813\n航线：大连周水子 → 西安咸阳\n地点：大连周水子\n签到：17:15｜大连周水子\n任务：19:15 - 21:55\n机型：A320｜注册号：B326R\n\n人员名单：\n• 刘涛(T2\,R)\n• 邓华志(R)\n• 段洋硕\n• 吴佳俊(B)\n\n版本：2026-09-25 23:56
-X-CONTENT-SIGNATURE:ef05659ed31d1bdd5df0901fd53928b4
+DESCRIPTION:09月30日 周三\n类型：航班\n航班：9C6813\n航线：大连周水子 → 西安咸阳\n地点：大连周水子\n签到：17:15｜大连周水子\n任务：19:15 - 21:55\n机型：A320｜注册号：B6862\n\n人员名单：\n• 刘涛(T2\,R)\n• 邓华志(R)\n• 段洋硕\n• 吴佳俊(B)\n\n版本：2026-09-26 21:52
+X-CONTENT-SIGNATURE:adf4c5860436f0e86784bd295ba54f3a
 LOCATION:大连周水子
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -3047,16 +3047,58 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:916c8c452000b62c902f1b049fc0ebfc@crew-calendar
+UID:e0e0ae6d819a81327669c78b10df8976@crew-calendar
 SUMMARY:✈️ 9C6814 西安咸阳→大连周水子(+1)
 DTSTART;TZID=Asia/Shanghai:20260930T230000
 DTEND;TZID=Asia/Shanghai:20261001T011500
-DESCRIPTION:09月30日 周三\n类型：航班\n航班：9C6814\n航线：西安咸阳 → 大连周水子(+1)\n地点：西安咸阳\n签到：21:25｜西安咸阳\n任务：23:00 - 01:15\n机型：A320｜注册号：B326R\n\n人员名单：\n• 刘涛(T2\,R)\n• 邓华志(R)\n• 段洋硕\n• 吴佳俊(B)\n\n版本：2026-09-25 23:56
-X-CONTENT-SIGNATURE:5912ba9b7554695a4421208050f21871
+DESCRIPTION:09月30日 周三\n类型：航班\n航班：9C6814\n航线：西安咸阳 → 大连周水子(+1)\n地点：西安咸阳\n签到：21:25｜西安咸阳\n任务：23:00 - 01:15\n机型：A320｜注册号：B6862\n\n人员名单：\n• 刘涛(T2\,R)\n• 邓华志(R)\n• 段洋硕\n• 吴佳俊(B)\n\n版本：2026-09-26 21:52
+X-CONTENT-SIGNATURE:a96817e84b510e8295486dbee6fe4298
 LOCATION:西安咸阳
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C6814 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:0803b8a03b1300bfaf7f7d19ae7dee67@crew-calendar
+SUMMARY:✈️ 9C6731 大连周水子→呼和浩特白塔
+DTSTART;TZID=Asia/Shanghai:20261001T161500
+DTEND;TZID=Asia/Shanghai:20261001T182000
+DESCRIPTION:10月01日 周四\n类型：航班\n航班：9C6731\n航线：大连周水子 → 呼和浩特白塔\n地点：大连周水子\n签到：14:25｜大连周水子\n任务：16:15 - 18:20\n机型：A320｜注册号：B320M\n\n人员名单：\n• 刘涛(T2\,R)\n• 张宏洋(R)\n• 段洋硕\n• 潘舒琪(B)\n\n版本：2026-09-26 21:52
+X-CONTENT-SIGNATURE:0e1066374605d362850f93d481fa0e81
+LOCATION:大连周水子
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C6731 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:776dc99781efecb70d11b227a1b5fa13@crew-calendar
+SUMMARY:✈️ 9C6732 呼和浩特白塔→大连周水子
+DTSTART;TZID=Asia/Shanghai:20261001T192000
+DTEND;TZID=Asia/Shanghai:20261001T211500
+DESCRIPTION:10月01日 周四\n类型：航班\n航班：9C6732\n航线：呼和浩特白塔 → 大连周水子\n地点：呼和浩特白塔\n签到：17:45｜呼和浩特白塔\n任务：19:20 - 21:15\n机型：A320｜注册号：B320M\n\n人员名单：\n• 刘涛(T2\,R)\n• 张宏洋(R)\n• 段洋硕\n• 潘舒琪(B)\n\n版本：2026-09-26 21:52
+X-CONTENT-SIGNATURE:ec7fcca59190393b29050fd2fe1fbd43
+LOCATION:呼和浩特白塔
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C6732 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:b47e8cb74e1b04437a0f44fda9b475d6@crew-calendar
+SUMMARY:✈️ 9C8982 大连周水子→上海浦东(+1)
+DTSTART;TZID=Asia/Shanghai:20261001T221500
+DTEND;TZID=Asia/Shanghai:20261002T002500
+DESCRIPTION:10月01日 周四\n类型：航班\n航班：9C8982\n航线：大连周水子 → 上海浦东(+1)\n地点：大连周水子\n签到：20:25｜大连周水子\n任务：22:15 - 00:25\n机型：A320｜注册号：B320M\n\n人员名单：\n• 刘涛(T2\,R)\n• 张宏洋(R)\n• 段洋硕\n• 潘舒琪(B)\n• 刘代辉\n\n版本：2026-09-26 21:52
+X-CONTENT-SIGNATURE:7710ae1a0af6d73794c2af87e018c08d
+LOCATION:大连周水子
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C8982 签到提醒
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
