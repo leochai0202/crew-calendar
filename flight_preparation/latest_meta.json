@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-09-29",
-  "generated_at_beijing": "2026-09-27T23:12:26.064139+08:00",
+  "generated_at_beijing": "2026-09-28T03:52:38.795179+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C7132",
@@ -19,24 +19,24 @@
   "english_confirmation_required": false,
   "english_trigger_names": [],
   "matched_event_uids": [
-    "fa75b6e066dd23a7174d2a4f48b3fc13@crew-calendar",
-    "6880ba02777eb412da26b57fb3460d0c@crew-calendar"
+    "f1b821efe7f0ae5825cd795e9d374c17@crew-calendar",
+    "58e4b4ecc5d947d51dad6cdddbd46662@crew-calendar"
   ],
   "matched_flights": [
     {
-      "uid": "fa75b6e066dd23a7174d2a4f48b3fc13@crew-calendar",
+      "uid": "f1b821efe7f0ae5825cd795e9d374c17@crew-calendar",
       "summary": "✈️ 9C7132 大连周水子→宁波栎社",
       "start": "2026-09-29T18:00:00+08:00",
       "end": "2026-09-29T20:05:00+08:00",
-      "description": "09月29日 周二\n类型：航班\n航班：9C7132\n航线：大连周水子 → 宁波栎社\n地点：大连周水子\n签到：16:10｜大连周水子\n任务：18:00 - 20:05\n机型：A320｜注册号：B1839\n\n人员名单：\n• 刘涛(T2,R)\n• 邓华志(R)\n• 段洋硕\n• 贾淑靖(B)\n\n版本：2026-09-26 23:04",
+      "description": "09月29日 周二\n类型：航班\n航班：9C7132\n航线：大连周水子 → 宁波栎社\n地点：大连周水子\n签到：16:10｜大连周水子\n任务：18:00 - 20:05\n机型：A320｜注册号：B8647\n\n人员名单：\n• 刘涛(T2,R)\n• 邓华志(R)\n• 段洋硕\n• 贾淑靖(B)\n\n版本：2026-09-27 23:49",
       "location": "大连周水子",
       "properties": {
-        "UID": "fa75b6e066dd23a7174d2a4f48b3fc13@crew-calendar",
+        "UID": "f1b821efe7f0ae5825cd795e9d374c17@crew-calendar",
         "SUMMARY": "✈️ 9C7132 大连周水子→宁波栎社",
         "DTSTART": "20260929T180000",
         "DTEND": "20260929T200500",
-        "DESCRIPTION": "09月29日 周二\\n类型：航班\\n航班：9C7132\\n航线：大连周水子 → 宁波栎社\\n地点：大连周水子\\n签到：16:10｜大连周水子\\n任务：18:00 - 20:05\\n机型：A320｜注册号：B1839\\n\\n人员名单：\\n• 刘涛(T2\\,R)\\n• 邓华志(R)\\n• 段洋硕\\n• 贾淑靖(B)\\n\\n版本：2026-09-26 23:04",
-        "X-CONTENT-SIGNATURE": "116058ef1196fd1756d0d19d8ac65faf",
+        "DESCRIPTION": "09月29日 周二\\n类型：航班\\n航班：9C7132\\n航线：大连周水子 → 宁波栎社\\n地点：大连周水子\\n签到：16:10｜大连周水子\\n任务：18:00 - 20:05\\n机型：A320｜注册号：B8647\\n\\n人员名单：\\n• 刘涛(T2\\,R)\\n• 邓华志(R)\\n• 段洋硕\\n• 贾淑靖(B)\\n\\n版本：2026-09-27 23:49",
+        "X-CONTENT-SIGNATURE": "5d6ca94a36e56c2ad463fef600c49aa7",
         "LOCATION": "大连周水子"
       },
       "source_file": "flight.ics",
@@ -44,7 +44,7 @@
       "departure": "大连周水子",
       "arrival": "宁波栎社",
       "aircraft_type": "A320",
-      "registration": "B1839",
+      "registration": "B8647",
       "checkin": "16:10｜大连周水子",
       "people": [
         "刘涛(T2,R)",
@@ -55,19 +55,19 @@
       "cross_day": false
     },
     {
-      "uid": "6880ba02777eb412da26b57fb3460d0c@crew-calendar",
+      "uid": "58e4b4ecc5d947d51dad6cdddbd46662@crew-calendar",
       "summary": "✈️ 9C7131 宁波栎社→大连周水子",
       "start": "2026-09-29T21:00:00+08:00",
       "end": "2026-09-29T23:15:00+08:00",
-      "description": "09月29日 周二\n类型：航班\n航班：9C7131\n航线：宁波栎社 → 大连周水子\n地点：宁波栎社\n签到：19:15｜宁波栎社\n任务：21:00 - 23:15\n机型：A320｜注册号：B1839\n\n人员名单：\n• 刘涛(T2,R)\n• 邓华志(R)\n• 段洋硕\n• 贾淑靖(B)\n\n版本：2026-09-26 23:04",
+      "description": "09月29日 周二\n类型：航班\n航班：9C7131\n航线：宁波栎社 → 大连周水子\n地点：宁波栎社\n签到：19:15｜宁波栎社\n任务：21:00 - 23:15\n机型：A320｜注册号：B8647\n\n人员名单：\n• 刘涛(T2,R)\n• 邓华志(R)\n• 段洋硕\n• 贾淑靖(B)\n\n版本：2026-09-27 23:49",
       "location": "宁波栎社",
       "properties": {
-        "UID": "6880ba02777eb412da26b57fb3460d0c@crew-calendar",
+        "UID": "58e4b4ecc5d947d51dad6cdddbd46662@crew-calendar",
         "SUMMARY": "✈️ 9C7131 宁波栎社→大连周水子",
         "DTSTART": "20260929T210000",
         "DTEND": "20260929T231500",
-        "DESCRIPTION": "09月29日 周二\\n类型：航班\\n航班：9C7131\\n航线：宁波栎社 → 大连周水子\\n地点：宁波栎社\\n签到：19:15｜宁波栎社\\n任务：21:00 - 23:15\\n机型：A320｜注册号：B1839\\n\\n人员名单：\\n• 刘涛(T2\\,R)\\n• 邓华志(R)\\n• 段洋硕\\n• 贾淑靖(B)\\n\\n版本：2026-09-26 23:04",
-        "X-CONTENT-SIGNATURE": "875af5bfad62f8d78b610c9d6e24f6a0",
+        "DESCRIPTION": "09月29日 周二\\n类型：航班\\n航班：9C7131\\n航线：宁波栎社 → 大连周水子\\n地点：宁波栎社\\n签到：19:15｜宁波栎社\\n任务：21:00 - 23:15\\n机型：A320｜注册号：B8647\\n\\n人员名单：\\n• 刘涛(T2\\,R)\\n• 邓华志(R)\\n• 段洋硕\\n• 贾淑靖(B)\\n\\n版本：2026-09-27 23:49",
+        "X-CONTENT-SIGNATURE": "6660a39719181bba223a33c7cca3619e",
         "LOCATION": "宁波栎社"
       },
       "source_file": "flight.ics",
@@ -75,7 +75,7 @@
       "departure": "宁波栎社",
       "arrival": "大连周水子",
       "aircraft_type": "A320",
-      "registration": "B1839",
+      "registration": "B8647",
       "checkin": "19:15｜宁波栎社",
       "people": [
         "刘涛(T2,R)",
@@ -110,24 +110,24 @@
       "foreign_crew_names": [],
       "english_confirmation_required": false,
       "matched_event_uids": [
-        "fa75b6e066dd23a7174d2a4f48b3fc13@crew-calendar",
-        "6880ba02777eb412da26b57fb3460d0c@crew-calendar"
+        "f1b821efe7f0ae5825cd795e9d374c17@crew-calendar",
+        "58e4b4ecc5d947d51dad6cdddbd46662@crew-calendar"
       ],
       "matched_flights": [
         {
-          "uid": "fa75b6e066dd23a7174d2a4f48b3fc13@crew-calendar",
+          "uid": "f1b821efe7f0ae5825cd795e9d374c17@crew-calendar",
           "summary": "✈️ 9C7132 大连周水子→宁波栎社",
           "start": "2026-09-29T18:00:00+08:00",
           "end": "2026-09-29T20:05:00+08:00",
-          "description": "09月29日 周二\n类型：航班\n航班：9C7132\n航线：大连周水子 → 宁波栎社\n地点：大连周水子\n签到：16:10｜大连周水子\n任务：18:00 - 20:05\n机型：A320｜注册号：B1839\n\n人员名单：\n• 刘涛(T2,R)\n• 邓华志(R)\n• 段洋硕\n• 贾淑靖(B)\n\n版本：2026-09-26 23:04",
+          "description": "09月29日 周二\n类型：航班\n航班：9C7132\n航线：大连周水子 → 宁波栎社\n地点：大连周水子\n签到：16:10｜大连周水子\n任务：18:00 - 20:05\n机型：A320｜注册号：B8647\n\n人员名单：\n• 刘涛(T2,R)\n• 邓华志(R)\n• 段洋硕\n• 贾淑靖(B)\n\n版本：2026-09-27 23:49",
           "location": "大连周水子",
           "properties": {
-            "UID": "fa75b6e066dd23a7174d2a4f48b3fc13@crew-calendar",
+            "UID": "f1b821efe7f0ae5825cd795e9d374c17@crew-calendar",
             "SUMMARY": "✈️ 9C7132 大连周水子→宁波栎社",
             "DTSTART": "20260929T180000",
             "DTEND": "20260929T200500",
-            "DESCRIPTION": "09月29日 周二\\n类型：航班\\n航班：9C7132\\n航线：大连周水子 → 宁波栎社\\n地点：大连周水子\\n签到：16:10｜大连周水子\\n任务：18:00 - 20:05\\n机型：A320｜注册号：B1839\\n\\n人员名单：\\n• 刘涛(T2\\,R)\\n• 邓华志(R)\\n• 段洋硕\\n• 贾淑靖(B)\\n\\n版本：2026-09-26 23:04",
-            "X-CONTENT-SIGNATURE": "116058ef1196fd1756d0d19d8ac65faf",
+            "DESCRIPTION": "09月29日 周二\\n类型：航班\\n航班：9C7132\\n航线：大连周水子 → 宁波栎社\\n地点：大连周水子\\n签到：16:10｜大连周水子\\n任务：18:00 - 20:05\\n机型：A320｜注册号：B8647\\n\\n人员名单：\\n• 刘涛(T2\\,R)\\n• 邓华志(R)\\n• 段洋硕\\n• 贾淑靖(B)\\n\\n版本：2026-09-27 23:49",
+            "X-CONTENT-SIGNATURE": "5d6ca94a36e56c2ad463fef600c49aa7",
             "LOCATION": "大连周水子"
           },
           "source_file": "flight.ics",
@@ -135,7 +135,7 @@
           "departure": "大连周水子",
           "arrival": "宁波栎社",
           "aircraft_type": "A320",
-          "registration": "B1839",
+          "registration": "B8647",
           "checkin": "16:10｜大连周水子",
           "people": [
             "刘涛(T2,R)",
@@ -146,19 +146,19 @@
           "cross_day": false
         },
         {
-          "uid": "6880ba02777eb412da26b57fb3460d0c@crew-calendar",
+          "uid": "58e4b4ecc5d947d51dad6cdddbd46662@crew-calendar",
           "summary": "✈️ 9C7131 宁波栎社→大连周水子",
           "start": "2026-09-29T21:00:00+08:00",
           "end": "2026-09-29T23:15:00+08:00",
-          "description": "09月29日 周二\n类型：航班\n航班：9C7131\n航线：宁波栎社 → 大连周水子\n地点：宁波栎社\n签到：19:15｜宁波栎社\n任务：21:00 - 23:15\n机型：A320｜注册号：B1839\n\n人员名单：\n• 刘涛(T2,R)\n• 邓华志(R)\n• 段洋硕\n• 贾淑靖(B)\n\n版本：2026-09-26 23:04",
+          "description": "09月29日 周二\n类型：航班\n航班：9C7131\n航线：宁波栎社 → 大连周水子\n地点：宁波栎社\n签到：19:15｜宁波栎社\n任务：21:00 - 23:15\n机型：A320｜注册号：B8647\n\n人员名单：\n• 刘涛(T2,R)\n• 邓华志(R)\n• 段洋硕\n• 贾淑靖(B)\n\n版本：2026-09-27 23:49",
           "location": "宁波栎社",
           "properties": {
-            "UID": "6880ba02777eb412da26b57fb3460d0c@crew-calendar",
+            "UID": "58e4b4ecc5d947d51dad6cdddbd46662@crew-calendar",
             "SUMMARY": "✈️ 9C7131 宁波栎社→大连周水子",
             "DTSTART": "20260929T210000",
             "DTEND": "20260929T231500",
-            "DESCRIPTION": "09月29日 周二\\n类型：航班\\n航班：9C7131\\n航线：宁波栎社 → 大连周水子\\n地点：宁波栎社\\n签到：19:15｜宁波栎社\\n任务：21:00 - 23:15\\n机型：A320｜注册号：B1839\\n\\n人员名单：\\n• 刘涛(T2\\,R)\\n• 邓华志(R)\\n• 段洋硕\\n• 贾淑靖(B)\\n\\n版本：2026-09-26 23:04",
-            "X-CONTENT-SIGNATURE": "875af5bfad62f8d78b610c9d6e24f6a0",
+            "DESCRIPTION": "09月29日 周二\\n类型：航班\\n航班：9C7131\\n航线：宁波栎社 → 大连周水子\\n地点：宁波栎社\\n签到：19:15｜宁波栎社\\n任务：21:00 - 23:15\\n机型：A320｜注册号：B8647\\n\\n人员名单：\\n• 刘涛(T2\\,R)\\n• 邓华志(R)\\n• 段洋硕\\n• 贾淑靖(B)\\n\\n版本：2026-09-27 23:49",
+            "X-CONTENT-SIGNATURE": "6660a39719181bba223a33c7cca3619e",
             "LOCATION": "宁波栎社"
           },
           "source_file": "flight.ics",
@@ -166,7 +166,7 @@
           "departure": "宁波栎社",
           "arrival": "大连周水子",
           "aircraft_type": "A320",
-          "registration": "B1839",
+          "registration": "B8647",
           "checkin": "19:15｜宁波栎社",
           "people": [
             "刘涛(T2,R)",
@@ -188,8 +188,8 @@
           "icao": "ZYTL",
           "source_used": "OUTSIDE_VALID_WINDOW",
           "taf_validity_utc": [
-            "2026-09-27T12:00:00+00:00",
-            "2026-09-28T12:00:00+00:00"
+            "2026-09-27T18:00:00+00:00",
+            "2026-09-28T18:00:00+00:00"
           ],
           "relevant_times": [
             "2026-09-29T18:00:00+08:00",
@@ -203,8 +203,8 @@
           "icao": "ZSNB",
           "source_used": "OUTSIDE_VALID_WINDOW",
           "taf_validity_utc": [
-            "2026-09-27T12:00:00+00:00",
-            "2026-09-28T12:00:00+00:00"
+            "2026-09-27T18:00:00+00:00",
+            "2026-09-28T18:00:00+00:00"
           ],
           "relevant_times": [
             "2026-09-29T20:05:00+08:00",
@@ -4638,8 +4638,8 @@
       "icao": "ZYTL",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-09-27T12:00:00+00:00",
-        "2026-09-28T12:00:00+00:00"
+        "2026-09-27T18:00:00+00:00",
+        "2026-09-28T18:00:00+00:00"
       ],
       "relevant_times": [
         "2026-09-29T18:00:00+08:00",
@@ -4653,8 +4653,8 @@
       "icao": "ZSNB",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-09-27T12:00:00+00:00",
-        "2026-09-28T12:00:00+00:00"
+        "2026-09-27T18:00:00+00:00",
+        "2026-09-28T18:00:00+00:00"
       ],
       "relevant_times": [
         "2026-09-29T20:05:00+08:00",
@@ -4665,11 +4665,7 @@
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [
-    "深圳宝安: 2026-09-25 -> 2026-09-27",
-    "济南遥墙: 2026-09-25 -> 2026-09-27",
-    "大连周水子: 2026-09-25 -> 2026-09-27"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
   "airport_information_version": 20260907,
   "airport_information_type": "PDF",
