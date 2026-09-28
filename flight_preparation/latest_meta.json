@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-09-29",
-  "generated_at_beijing": "2026-09-28T03:52:38.795179+08:00",
+  "generated_at_beijing": "2026-09-28T14:44:13.360999+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C7132",
@@ -188,8 +188,8 @@
           "icao": "ZYTL",
           "source_used": "OUTSIDE_VALID_WINDOW",
           "taf_validity_utc": [
-            "2026-09-27T18:00:00+00:00",
-            "2026-09-28T18:00:00+00:00"
+            "2026-09-28T06:00:00+00:00",
+            "2026-09-29T06:00:00+00:00"
           ],
           "relevant_times": [
             "2026-09-29T18:00:00+08:00",
@@ -202,10 +202,7 @@
         "宁波栎社": {
           "icao": "ZSNB",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [
-            "2026-09-27T18:00:00+00:00",
-            "2026-09-28T18:00:00+00:00"
-          ],
+          "taf_validity_utc": [],
           "relevant_times": [
             "2026-09-29T20:05:00+08:00",
             "2026-09-29T21:00:00+08:00"
@@ -4638,8 +4635,8 @@
       "icao": "ZYTL",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-09-27T18:00:00+00:00",
-        "2026-09-28T18:00:00+00:00"
+        "2026-09-28T06:00:00+00:00",
+        "2026-09-29T06:00:00+00:00"
       ],
       "relevant_times": [
         "2026-09-29T18:00:00+08:00",
@@ -4652,10 +4649,7 @@
     "宁波栎社": {
       "icao": "ZSNB",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [
-        "2026-09-27T18:00:00+00:00",
-        "2026-09-28T18:00:00+00:00"
-      ],
+      "taf_validity_utc": [],
       "relevant_times": [
         "2026-09-29T20:05:00+08:00",
         "2026-09-29T21:00:00+08:00"
