@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-09-30",
-  "generated_at_beijing": "2026-09-29T06:16:35.903526+08:00",
+  "generated_at_beijing": "2026-09-29T14:49:44.527266+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C6813",
@@ -187,7 +187,10 @@
         "大连周水子": {
           "icao": "ZYTL",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "taf_validity_utc": [
+            "2026-09-29T06:00:00+00:00",
+            "2026-09-30T06:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-09-30T19:15:00+08:00",
             "2026-10-01T01:15:00+08:00"
@@ -199,7 +202,10 @@
         "西安咸阳": {
           "icao": "ZLXY",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "taf_validity_utc": [
+            "2026-09-29T06:00:00+00:00",
+            "2026-09-30T06:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-09-30T21:55:00+08:00",
             "2026-09-30T23:00:00+08:00"
@@ -4974,7 +4980,10 @@
     "大连周水子": {
       "icao": "ZYTL",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-09-29T06:00:00+00:00",
+        "2026-09-30T06:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-09-30T19:15:00+08:00",
         "2026-10-01T01:15:00+08:00"
@@ -4986,7 +4995,10 @@
     "西安咸阳": {
       "icao": "ZLXY",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-09-29T06:00:00+00:00",
+        "2026-09-30T06:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-09-30T21:55:00+08:00",
         "2026-09-30T23:00:00+08:00"
