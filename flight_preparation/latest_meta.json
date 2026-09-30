@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-10-01",
-  "generated_at_beijing": "2026-09-30T05:02:01.396372+08:00",
+  "generated_at_beijing": "2026-09-30T14:38:22.059963+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "flight_numbers": [
     "9C6731",
@@ -221,7 +221,10 @@
         "大连周水子": {
           "icao": "ZYTL",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "taf_validity_utc": [
+            "2026-09-30T06:00:00+00:00",
+            "2026-10-01T06:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-10-01T16:15:00+08:00",
             "2026-10-01T21:15:00+08:00",
@@ -229,14 +232,14 @@
           ],
           "taf_decoded_by_time": [],
           "decoded": [],
-          "fetch_error": "TAF获取失败: ReadTimeout: HTTPSConnectionPool(host='aviationweather.gov', port=443): Read timed out. (read timeout=20)"
+          "fetch_error": ""
         },
         "呼和浩特白塔": {
           "icao": "ZBHH",
           "source_used": "OUTSIDE_VALID_WINDOW",
           "taf_validity_utc": [
-            "2026-09-29T18:00:00+00:00",
-            "2026-09-30T18:00:00+00:00"
+            "2026-09-30T06:00:00+00:00",
+            "2026-10-01T06:00:00+00:00"
           ],
           "relevant_times": [
             "2026-10-01T18:20:00+08:00",
@@ -4409,7 +4412,10 @@
         "大连周水子": {
           "icao": "ZYTL",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "taf_validity_utc": [
+            "2026-09-30T06:00:00+00:00",
+            "2026-10-01T06:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-10-01T16:15:00+08:00",
             "2026-10-01T21:15:00+08:00",
@@ -4417,12 +4423,15 @@
           ],
           "taf_decoded_by_time": [],
           "decoded": [],
-          "fetch_error": "TAF获取失败: ReadTimeout: HTTPSConnectionPool(host='aviationweather.gov', port=443): Read timed out. (read timeout=20)"
+          "fetch_error": ""
         },
         "上海浦东": {
           "icao": "ZSPD",
           "source_used": "OUTSIDE_VALID_WINDOW",
-          "taf_validity_utc": [],
+          "taf_validity_utc": [
+            "2026-09-30T06:00:00+00:00",
+            "2026-10-01T12:00:00+00:00"
+          ],
           "relevant_times": [
             "2026-10-02T00:25:00+08:00"
           ],
@@ -7776,7 +7785,6 @@
     }
   ],
   "warnings": [
-    "大连周水子天气获取提示：TAF获取失败: ReadTimeout: HTTPSConnectionPool(host='aviationweather.gov', port=443): Read timed out. (read timeout=20)",
     "大连周水子匹配最新机场特点章节：大连/周水子机场运行特点（ZYTL）",
     "呼和浩特白塔匹配最新机场特点章节：呼和浩特/白塔机场运行特点（ZBHH）",
     "上海浦东匹配最新机场特点章节：上海/浦东机场运行特点（ZSPD）"
@@ -7785,7 +7793,10 @@
     "大连周水子": {
       "icao": "ZYTL",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-09-30T06:00:00+00:00",
+        "2026-10-01T06:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-10-01T16:15:00+08:00",
         "2026-10-01T21:15:00+08:00",
@@ -7793,14 +7804,14 @@
       ],
       "taf_decoded_by_time": [],
       "decoded": [],
-      "fetch_error": "TAF获取失败: ReadTimeout: HTTPSConnectionPool(host='aviationweather.gov', port=443): Read timed out. (read timeout=20)"
+      "fetch_error": ""
     },
     "呼和浩特白塔": {
       "icao": "ZBHH",
       "source_used": "OUTSIDE_VALID_WINDOW",
       "taf_validity_utc": [
-        "2026-09-29T18:00:00+00:00",
-        "2026-09-30T18:00:00+00:00"
+        "2026-09-30T06:00:00+00:00",
+        "2026-10-01T06:00:00+00:00"
       ],
       "relevant_times": [
         "2026-10-01T18:20:00+08:00",
@@ -7813,7 +7824,10 @@
     "上海浦东": {
       "icao": "ZSPD",
       "source_used": "OUTSIDE_VALID_WINDOW",
-      "taf_validity_utc": [],
+      "taf_validity_utc": [
+        "2026-09-30T06:00:00+00:00",
+        "2026-10-01T12:00:00+00:00"
+      ],
       "relevant_times": [
         "2026-10-02T00:25:00+08:00"
       ],
@@ -7822,10 +7836,7 @@
       "fetch_error": ""
     }
   },
-  "airport_experience_changes": [
-    "大连周水子: 2026-09-27 -> 2026-09-29",
-    "宁波栎社: 2026-09-17 -> 2026-09-29"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260907-Manual.pdf",
   "airport_information_version": 20260907,
   "airport_information_type": "PDF",
