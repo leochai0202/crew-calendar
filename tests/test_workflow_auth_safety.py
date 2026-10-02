@@ -4,6 +4,7 @@ from pathlib import Path
 ROOT = Path(__file__).parents[1]
 WORKFLOWS = ROOT / ".github" / "workflows"
 SCHEDULE = ROOT / ".github" / "workflows" / "schedule.yml"
+FLIGHT_PREP = ROOT / ".github" / "workflows" / "flight-prep-free-v5-20260616.yml"
 CODE_TESTS = ROOT / ".github" / "workflows" / "auth-session-check.yml"
 RUNNER_SETUP = ROOT / "scripts" / "setup_self_hosted_runner.ps1"
 MAINTENANCE_AGENT = ROOT / "crew_agents" / "maintenance_agent.py"
@@ -23,15 +24,31 @@ def test_actions_has_only_four_named_workflows() -> None:
         assert "workflow_run:" not in workflow
 
 
-def test_schedule_keeps_three_times_and_uses_expected_secrets() -> None:
+def test_schedule_uses_three_calendar_updates_and_two_prep_guards() -> None:
     workflow = SCHEDULE.read_text(encoding="utf-8")
 
     for cron in (
+        "cron: '0 1 * * *'",
+        "cron: '0 7 * * *'",
+        "cron: '0 13 * * *'",
+        "cron: '30 1 * * *'",
+        "cron: '0 14 * * *'",
+    ):
+        assert cron in workflow
+    for retired in (
         "cron: '30 9 * * *'",
         "cron: '30 10 * * *'",
         "cron: '30 11 * * *'",
     ):
-        assert cron in workflow
+        assert retired not in workflow
+    assert '"0 1 * * *"' in workflow
+    assert '"0 7 * * *"' in workflow
+    assert '"0 13 * * *"' in workflow
+    assert '$scheduledCron -eq "30 1 * * *"' in workflow
+    assert '$scheduledCron -eq "0 14 * * *"' in workflow
+    assert '$runScraper = "false"' in workflow
+    assert "if: ${{ steps.schedule_mode.outputs.run_scraper == 'true' }}" in workflow
+    assert "actions: write" in workflow
     assert (
         "CREW_STORAGE_STATE_B64: "
         "${{ secrets.CREW_STORAGE_STATE_B64 }}" in workflow
@@ -86,6 +103,30 @@ def test_schedule_keeps_three_times_and_uses_expected_secrets() -> None:
     assert "python crew_calendar_main.py" not in workflow
 
 
+def test_flight_prep_is_dispatch_only_and_run_name_uses_target_date() -> None:
+    workflow = FLIGHT_PREP.read_text(encoding="utf-8")
+
+    assert "run-name: ${{ inputs.target_date }} 航前准备" in workflow
+    assert "workflow_dispatch:" in workflow
+    assert "required: true" in workflow
+    assert "schedule:" not in workflow
+    for old_cron in ("17 10 * * *", "37 16 * * *", "7 1 * * *"):
+        assert old_cron not in workflow
+
+
+def test_schedule_dispatches_flight_prep_with_explicit_date() -> None:
+    workflow = SCHEDULE.read_text(encoding="utf-8")
+
+    assert "scripts/check_flight_prep_schedule.py" in workflow
+    assert '--days-ahead "${{ steps.schedule_mode.outputs.days_ahead }}"' in workflow
+    assert "--dispatch" in workflow
+    assert "GITHUB_TOKEN: ${{ github.token }}" in workflow
+    assert "GITHUB_REPOSITORY: ${{ github.repository }}" in workflow
+    assert "Publish invalidated flight preparation state" in workflow
+    assert "steps.flight_prep_check.outputs.state_changed == 'true'" in workflow
+    assert "FLIGHT_PREP_STATE_API" in workflow
+
+
 def test_schedule_maps_auth_status_and_gates_clean_and_commit() -> None:
     workflow = SCHEDULE.read_text(encoding="utf-8")
 
@@ -128,10 +169,8 @@ def test_auth_notification_is_non_blocking_and_persists_only_safe_state() -> Non
     assert "id: auth_notification" in workflow
     assert "python crew_auth_notification.py" in workflow
     assert workflow.count("continue-on-error: true") == 2
-    assert (
-        "always() && steps.auth_notification.outcome == 'success'"
-        in workflow
-    )
+    assert "steps.schedule_mode.outputs.run_scraper == 'true'" in workflow
+    assert "steps.auth_notification.outcome == 'success'" in workflow
     state_step = workflow.split(
         "- name: Publish authentication notification state through GitHub API", 1
     )[1]

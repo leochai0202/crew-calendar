@@ -215,6 +215,57 @@ def test_unapproved_or_outside_candidate_is_rejected(tmp_path: Path) -> None:
         )
 
 
+@pytest.mark.parametrize(
+    "name",
+    [
+        "flight_preparation/2026-10-03_meta.json",
+        "flight_preparation/latest_meta.json",
+    ],
+)
+def test_flight_preparation_state_paths_are_publishable(
+    tmp_path: Path,
+    name: str,
+) -> None:
+    client = FakeGitHubClient({})
+
+    result = _publish(tmp_path, client, {name: b'{"status":"NO_TASK"}\n'})
+
+    assert result.status == "PUBLISHED"
+    tree_payload = next(
+        payload
+        for method, path, payload in client.calls
+        if method == "POST" and path.endswith("/git/trees")
+    )
+    assert [item["path"] for item in tree_payload["tree"]] == [name]
+
+
+@pytest.mark.parametrize(
+    "name",
+    [
+        "flight_preparation/not-a-date_meta.json",
+        "flight_preparation/2026-10-03_航前准备.txt",
+        "flight_preparation/nested/2026-10-03_meta.json",
+    ],
+)
+def test_other_flight_preparation_paths_remain_blocked(
+    tmp_path: Path,
+    name: str,
+) -> None:
+    path = tmp_path / name
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("blocked", encoding="utf-8")
+
+    with pytest.raises(publisher.GitHubApiError, match="not publishable"):
+        publisher.publish_files(
+            FakeGitHubClient({}),
+            repository="owner/repo",
+            branch="main",
+            message="blocked",
+            root=tmp_path,
+            candidate_files=[path],
+        )
+
+
 def test_cli_error_output_never_includes_token(
     monkeypatch: pytest.MonkeyPatch,
     capsys: pytest.CaptureFixture[str],

@@ -27,6 +27,7 @@ from crew_agents.common import (
     load_json,
     now_beijing,
 )
+from crew_agents.flight_prep_fingerprint import task_fingerprint_from_events
 from crew_agents.ics_utils import (
     AmbiguousFlightSelectionError,
     CalendarEvent,
@@ -8974,6 +8975,9 @@ def main() -> int:
     if success_marker.exists():
         success_marker.unlink()
 
+    current_task_fingerprint = ""
+    current_matched_flights: list[dict[str, object]] = []
+
     try:
         settings = load_json(repo / "config" / "prep_settings.json", {}) or {}
         profile = load_json(repo / "config" / "pilot_profile.json", {}) or {}
@@ -8987,13 +8991,23 @@ def main() -> int:
         ]
         selectors_supplied = any((args.flight_number, args.departure, args.arrival))
         if not date_flights and not selectors_supplied:
+            current_task_fingerprint, _ = task_fingerprint_from_events(
+                date_flights,
+                target,
+            )
             status = {
                 "status": "NO_TASK",
                 "target_date": target.isoformat(),
+                "task_fingerprint": current_task_fingerprint,
+                "matched_flights": [],
                 "message": "目标日期未发现航班任务，未覆盖已有准备稿。",
                 "version": VERSION,
             }
             write_status(repo, status)
+            atomic_write_json(
+                output_dir / f"{target.isoformat()}_meta.json",
+                status,
+            )
             append_github_summary(f"## 免费航前准备\n\n**NO_TASK**：{target.isoformat()} 未发现航班任务。")
             return 0
 
@@ -9006,20 +9020,36 @@ def main() -> int:
                 arrival=args.arrival,
             )
         except (AmbiguousFlightSelectionError, FlightSelectionError) as exc:
+            current_task_fingerprint, _ = task_fingerprint_from_events(
+                date_flights,
+                target,
+            )
+            current_matched_flights = [event.to_dict() for event in date_flights]
             status = {
                 "status": "NEEDS_SELECTION",
                 "target_date": target.isoformat(),
+                "task_fingerprint": current_task_fingerprint,
+                "matched_flights": current_matched_flights,
                 "message": str(exc),
                 "version": VERSION,
                 "note": "存在多组互不连续任务，需要人工指定；正式准备稿未覆盖。",
             }
             write_status(repo, status)
             atomic_write_json(output_dir / "latest_meta.json", status)
+            atomic_write_json(
+                output_dir / f"{target.isoformat()}_meta.json",
+                status,
+            )
             append_github_summary(
                 f"## 免费航前准备\n\n**FAILED_SAFE**：{exc}\n\n正式准备稿未覆盖。"
             )
             return 2
 
+        current_task_fingerprint, _ = task_fingerprint_from_events(
+            flights,
+            target,
+        )
+        current_matched_flights = [event.to_dict() for event in flights]
         prep_flight_groups = split_flight_prep_groups_by_flight_number(flights)
         duty = DutyContext(tuple(flights))
         changes: list[str] = []
@@ -9037,20 +9067,8 @@ def main() -> int:
         icao_map = {airport: resolve_icao(airport, mapping) for airport in airports}
 
         weather_meta: dict[str, dict] = {}
-        weather_sentence = "。".join(
-            f"{airport_with_suffix(airport)}航班时段天气以航前最新TAF/METAR及放行资料为准"
-            for airport in airports
-        ) + "。"
+        weather_sentence = "天气及动态资料以航前最新资料为准。"
         warnings: list[str] = []
-        if settings.get("include_weather_section", True):
-            weather_sentence, weather_warnings, weather_meta = weather_risk_sentence(
-                airports,
-                icao_map,
-                int(settings.get("weather_timeout_seconds", 20)),
-                target=target,
-                flights=flights,
-            )
-            warnings.extend(weather_warnings)
 
         configured_max = int(
             (settings.get("typical_incidents_per_airport") or {}).get(
@@ -9336,11 +9354,17 @@ def main() -> int:
             status = {
                 "status": "FAILED_SAFE",
                 "target_date": target.isoformat(),
+                "task_fingerprint": current_task_fingerprint,
+                "matched_flights": current_matched_flights,
                 "errors": errors,
                 "version": VERSION,
                 "note": "正式准备稿未覆盖。",
             }
             write_status(repo, status)
+            atomic_write_json(
+                output_dir / f"{target.isoformat()}_meta.json",
+                status,
+            )
             append_github_summary("## 免费航前准备\n\n**FAILED_SAFE**：\n" + "\n".join(f"- {e}" for e in errors))
             return 2
 
@@ -9430,38 +9454,53 @@ def main() -> int:
             for group in rendered_groups
         )
 
+        generated_at_beijing = now_beijing().isoformat()
+        success_metadata = {
+            "status": "SUCCESS",
+            "target_date": target.isoformat(),
+            "generated_at_beijing": generated_at_beijing,
+            "generator": VERSION,
+            "task_fingerprint": current_task_fingerprint,
+            "flight_numbers": [event.flight_number for event in flights],
+            "airports": airports,
+            "group_output": dated_group_name,
+            "english_output": dated_english_name,
+            "english_generated": english_required,
+            "foreign_crew_detected": bool(english_names),
+            "foreign_crew_names": english_names,
+            "english_confirmation_required": english_confirmation_required,
+            "english_trigger_names": english_names,
+            "matched_event_uids": [event.uid for event in flights],
+            "matched_flights": [event.to_dict() for event in flights],
+            "matched_people": duty.people,
+            "prep_groups": rendered_groups,
+            "warnings": unique(warnings),
+            "weather": weather_meta,
+            "airport_experience_changes": changes,
+            "airport_information_file": manual_source,
+            "airport_information_version": manual_ver,
+            "airport_information_type": manual_type,
+            "airport_fact_ids": top_airport_fact_ids,
+            "airport_fact_sources": top_airport_fact_sources,
+            "excluded_source_clauses": all_exclusions,
+            "source_guard_outcomes": all_source_guard_outcomes,
+            "core_paragraph_fact_ids": top_core_paragraph_ids,
+            "core_paragraphs": top_core_paragraphs,
+        }
         atomic_write_json(
             output_dir / "latest_meta.json",
+            success_metadata,
+        )
+        atomic_write_json(
+            output_dir / f"{target.isoformat()}_meta.json",
             {
                 "status": "SUCCESS",
                 "target_date": target.isoformat(),
-                "generated_at_beijing": now_beijing().isoformat(),
-                "generator": VERSION,
-                "flight_numbers": [event.flight_number for event in flights],
-                "airports": airports,
+                "generated_at_beijing": generated_at_beijing,
+                "task_fingerprint": current_task_fingerprint,
+                "matched_flights": current_matched_flights,
                 "group_output": dated_group_name,
                 "english_output": dated_english_name,
-                "english_generated": english_required,
-                "foreign_crew_detected": bool(english_names),
-                "foreign_crew_names": english_names,
-                "english_confirmation_required": english_confirmation_required,
-                "english_trigger_names": english_names,
-                "matched_event_uids": [event.uid for event in flights],
-                "matched_flights": [event.to_dict() for event in flights],
-                "matched_people": duty.people,
-                "prep_groups": rendered_groups,
-                "warnings": unique(warnings),
-                "weather": weather_meta,
-                "airport_experience_changes": changes,
-                "airport_information_file": manual_source,
-                "airport_information_version": manual_ver,
-                "airport_information_type": manual_type,
-                "airport_fact_ids": top_airport_fact_ids,
-                "airport_fact_sources": top_airport_fact_sources,
-                "excluded_source_clauses": all_exclusions,
-                "source_guard_outcomes": all_source_guard_outcomes,
-                "core_paragraph_fact_ids": top_core_paragraph_ids,
-                "core_paragraphs": top_core_paragraphs,
             },
         )
         atomic_write_text(success_marker, "SUCCESS\n")
@@ -9503,6 +9542,8 @@ def main() -> int:
         status = {
             "status": "FAILED_SAFE",
             "target_date": target.isoformat(),
+            "task_fingerprint": current_task_fingerprint,
+            "matched_flights": current_matched_flights,
             "error_type": type(exc).__name__,
             "message": str(exc),
             "traceback": traceback.format_exc(limit=12),
@@ -9510,6 +9551,10 @@ def main() -> int:
             "note": "正式准备稿未覆盖。",
         }
         write_status(repo, status)
+        atomic_write_json(
+            output_dir / f"{target.isoformat()}_meta.json",
+            status,
+        )
         append_github_summary(
             f"## 免费航前准备\n\n**FAILED_SAFE**：{type(exc).__name__}: {exc}\n\n原准备稿未覆盖。"
         )

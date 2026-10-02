@@ -1,11 +1,12 @@
 name: 生成航前准备
+run-name: ${{ inputs.target_date }} 航前准备
 
 on:
   workflow_dispatch:
     inputs:
       target_date:
-        description: '目标日期 YYYY-MM-DD；留空则按 days_ahead'
-        required: false
+        description: '目标日期 YYYY-MM-DD'
+        required: true
         type: string
       days_ahead:
         description: '手动运行时生成几天后的任务'
@@ -15,15 +16,6 @@ on:
         options:
           - '1'
           - '2'
-  schedule:
-    # GitHub cron 使用 UTC，对应北京时间：
-    # D-2 18:17 = 10:17 UTC
-    # D-1 00:37 = 前一日 16:37 UTC
-    # D-1 09:07 = 01:07 UTC
-    - cron: '17 10 * * *'
-    - cron: '37 16 * * *'
-    - cron: '7 1 * * *'
-
 concurrency:
   group: flight-preparation-free-v5
   cancel-in-progress: true
@@ -57,16 +49,8 @@ jobs:
         shell: bash
         run: |
           DAYS="1"
-          TARGET=""
-
-          if [[ "${{ github.event_name }}" == "schedule" && "${{ github.event.schedule }}" == "17 10 * * *" ]]; then
-            DAYS="2"
-          fi
-
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            DAYS="${{ inputs.days_ahead }}"
-            TARGET="${{ inputs.target_date }}"
-          fi
+          TARGET="${{ inputs.target_date }}"
+          DAYS="${{ inputs.days_ahead }}"
 
           echo "days=$DAYS" >> "$GITHUB_OUTPUT"
           echo "target=$TARGET" >> "$GITHUB_OUTPUT"
