@@ -154,7 +154,7 @@ def evaluate_preparation(
             return CheckResult(
                 status="INVALIDATED_NO_TASK",
                 target_date=target.isoformat(),
-                should_dispatch=False,
+                should_dispatch=True,
                 reason="previous_preparation_invalidated_after_task_removal",
                 task_fingerprint=fingerprint,
                 task_count=0,

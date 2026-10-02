@@ -1,14 +1,17 @@
 from __future__ import annotations
 
 import json
+from argparse import Namespace
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import pytest
 
+from crew_agents import flight_prep_agent as agent
 from crew_agents.flight_prep_fingerprint import task_fingerprint_from_events
 from crew_agents.ics_utils import CalendarEvent, parse_ics
+from scripts import check_flight_prep_schedule as checker
 from scripts.check_flight_prep_schedule import (
     dispatch_flight_preparation,
     evaluate_preparation,
@@ -200,7 +203,7 @@ def test_removed_flights_invalidate_previous_success(tmp_path: Path) -> None:
     result = evaluate_preparation(repo, TARGET)
 
     assert result.status == "INVALIDATED_NO_TASK"
-    assert result.should_dispatch is False
+    assert result.should_dispatch is True
     assert result.state_changed is True
     assert set(result.state_files) == {
         "flight_preparation/2026-10-03_meta.json",
@@ -219,7 +222,74 @@ def test_removed_flights_invalidate_previous_success(tmp_path: Path) -> None:
 
     repeated = evaluate_preparation(repo, TARGET)
     assert repeated.status == "NO_TASK"
+    assert repeated.should_dispatch is False
     assert repeated.state_changed is False
+
+
+def test_removed_flights_dispatch_visible_no_task_run_once(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    repo = _repo_with_event(tmp_path)
+    _write_success_state(repo)
+    _write_ics(repo / "flight.ics", [])
+    dispatches: list[date] = []
+
+    monkeypatch.setattr(
+        checker,
+        "parse_args",
+        lambda: Namespace(
+            repo=str(repo),
+            days_ahead=1,
+            target_date=TARGET.isoformat(),
+            github_output="",
+            dispatch=True,
+        ),
+    )
+    monkeypatch.setattr(
+        checker,
+        "dispatch_flight_preparation",
+        lambda _repository, _token, target, _days_ahead: dispatches.append(target),
+    )
+
+    assert checker.main() == 0
+    assert checker.main() == 0
+    assert dispatches == [TARGET]
+
+
+def test_no_task_workflow_keeps_existing_text_without_success_marker(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    repo = tmp_path / "agent-repo"
+    output_dir = repo / "flight_preparation"
+    output_dir.mkdir(parents=True)
+    _write_ics(repo / "flight.ics", [])
+    existing_output = output_dir / f"{TARGET.isoformat()}_航前准备.txt"
+    existing_output.write_text("previous valid preparation\n", encoding="utf-8")
+    monkeypatch.delenv("GITHUB_STEP_SUMMARY", raising=False)
+    monkeypatch.setattr(
+        agent,
+        "parse_args",
+        lambda: Namespace(
+            repo=str(repo),
+            target_date=TARGET.isoformat(),
+            days_ahead=1,
+            flight_number="",
+            departure="",
+            arrival="",
+            generate_english="auto",
+        ),
+    )
+
+    assert agent.main() == 0
+
+    metadata = json.loads(
+        (output_dir / f"{TARGET.isoformat()}_meta.json").read_text(encoding="utf-8")
+    )
+    assert metadata["status"] == "NO_TASK"
+    assert existing_output.read_text(encoding="utf-8") == "previous valid preparation\n"
+    assert not (output_dir / ".success").exists()
 
 
 def test_flight_restoration_after_invalidation_dispatches(tmp_path: Path) -> None:
