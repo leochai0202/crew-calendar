@@ -23,8 +23,12 @@ API_BASE = "https://api.github.com"
 API_VERSION = "2022-11-28"
 ALLOWED_EXACT_PATHS = {
     "airport_aliases.json",
+    "flight_preparation/latest_meta.json",
     "state/auth_notification_state.json",
 }
+FLIGHT_PREP_DATED_META_RE = re.compile(
+    r"flight_preparation/\d{4}-\d{2}-\d{2}_meta\.json"
+)
 AIRPORT_MANUAL_DIRECTORY = PurePosixPath("knowledge/pdf")
 AIRPORT_MANUAL_FILENAME_MARKERS = (
     "机场特点汇总",
@@ -231,6 +235,7 @@ def _normalize_candidate(root: Path, candidate: str | Path) -> tuple[str, Path]:
     if not (
         ("/" not in repo_path and repo_path.lower().endswith(".ics"))
         or repo_path in ALLOWED_EXACT_PATHS
+        or FLIGHT_PREP_DATED_META_RE.fullmatch(repo_path)
     ):
         raise GitHubApiError(f"Candidate path is not publishable: {repo_path}")
     return repo_path, resolved

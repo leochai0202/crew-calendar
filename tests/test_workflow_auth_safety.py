@@ -122,6 +122,9 @@ def test_schedule_dispatches_flight_prep_with_explicit_date() -> None:
     assert "--dispatch" in workflow
     assert "GITHUB_TOKEN: ${{ github.token }}" in workflow
     assert "GITHUB_REPOSITORY: ${{ github.repository }}" in workflow
+    assert "Publish invalidated flight preparation state" in workflow
+    assert "steps.flight_prep_check.outputs.state_changed == 'true'" in workflow
+    assert "FLIGHT_PREP_STATE_API" in workflow
 
 
 def test_schedule_maps_auth_status_and_gates_clean_and_commit() -> None:

@@ -7,7 +7,7 @@ import re
 import sys
 import urllib.error
 import urllib.request
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Callable
@@ -16,6 +16,7 @@ from zoneinfo import ZoneInfo
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from crew_agents.common import atomic_write_json
 from crew_agents.flight_prep_fingerprint import (
     task_fingerprint_from_events,
     task_fingerprint_from_metadata,
@@ -36,6 +37,8 @@ class CheckResult:
     task_fingerprint: str
     task_count: int
     state_source: str = ""
+    state_changed: bool = False
+    state_files: tuple[str, ...] = ()
 
 
 def target_date_for_days_ahead(
@@ -73,6 +76,57 @@ def _preparation_state(repo: Path, target: date) -> tuple[dict, str]:
     return {}, ""
 
 
+def _invalidated_metadata(
+    existing: dict,
+    target: date,
+    current_fingerprint: str,
+) -> dict:
+    invalidated = dict(existing)
+    previous_matched_flights = invalidated.get("matched_flights")
+    previous_fingerprint = str(invalidated.get("task_fingerprint", "")).strip()
+    invalidated.update(
+        {
+            "status": "INVALIDATED_NO_TASK",
+            "target_date": target.isoformat(),
+            "task_fingerprint": current_fingerprint,
+            "matched_flights": [],
+            "invalidated_at_beijing": datetime.now(BEIJING).isoformat(),
+            "invalidation_reason": "target_date_has_no_complete_flight_task",
+        }
+    )
+    if previous_fingerprint:
+        invalidated["previous_task_fingerprint"] = previous_fingerprint
+    if isinstance(previous_matched_flights, list) and previous_matched_flights:
+        invalidated["previous_matched_flights"] = previous_matched_flights
+    return invalidated
+
+
+def _invalidate_no_task_preparation(
+    repo: Path,
+    target: date,
+    state: dict,
+    current_fingerprint: str,
+) -> tuple[str, ...]:
+    output_dir = repo / "flight_preparation"
+    dated_path = output_dir / f"{target.isoformat()}_meta.json"
+    dated_existing = _load_json(dated_path) or state
+    atomic_write_json(
+        dated_path,
+        _invalidated_metadata(dated_existing, target, current_fingerprint),
+    )
+    changed = [dated_path.relative_to(repo).as_posix()]
+
+    latest_path = output_dir / "latest_meta.json"
+    latest = _load_json(latest_path)
+    if latest.get("target_date") == target.isoformat():
+        atomic_write_json(
+            latest_path,
+            _invalidated_metadata(latest, target, current_fingerprint),
+        )
+        changed.append(latest_path.relative_to(repo).as_posix())
+    return tuple(changed)
+
+
 def evaluate_preparation(
     repo: Path,
     target: date,
@@ -82,6 +136,32 @@ def evaluate_preparation(
         target,
     )
     if not records:
+        state, source = _preparation_state(repo, target)
+        output = repo / "flight_preparation" / f"{target.isoformat()}_航前准备.txt"
+        already_invalid = state.get("status") in {
+            "NO_TASK",
+            "INVALIDATED_NO_TASK",
+        }
+        if not already_invalid and (
+            state.get("status") == "SUCCESS" or output.exists()
+        ):
+            state_files = _invalidate_no_task_preparation(
+                repo,
+                target,
+                state,
+                fingerprint,
+            )
+            return CheckResult(
+                status="INVALIDATED_NO_TASK",
+                target_date=target.isoformat(),
+                should_dispatch=False,
+                reason="previous_preparation_invalidated_after_task_removal",
+                task_fingerprint=fingerprint,
+                task_count=0,
+                state_source=source,
+                state_changed=True,
+                state_files=state_files,
+            )
         return CheckResult(
             status="NO_TASK",
             target_date=target.isoformat(),
@@ -209,6 +289,8 @@ def _write_github_output(path: str, result: CheckResult) -> None:
         "should_dispatch": str(result.should_dispatch).lower(),
         "reason": result.reason,
         "task_fingerprint": result.task_fingerprint,
+        "state_changed": str(result.state_changed).lower(),
+        "state_files": ";".join(result.state_files),
     }
     with Path(path).open("a", encoding="utf-8") as handle:
         for key, value in values.items():

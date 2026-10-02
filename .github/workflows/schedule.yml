@@ -294,6 +294,34 @@ jobs:
             --dispatch
           exit $LASTEXITCODE
 
+      - name: Publish invalidated flight preparation state
+        if: ${{ steps.flight_prep_check.outputs.state_changed == 'true' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          $ErrorActionPreference = "Stop"
+          $PSNativeCommandUseErrorActionPreference = $false
+          $stateFiles = @(
+            "${{ steps.flight_prep_check.outputs.state_files }}".Split(";") |
+              Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+          )
+          if ($stateFiles.Count -eq 0) {
+            throw "Flight preparation state change did not provide files"
+          }
+
+          $publisherArgs = @(
+            "github_api_publish.py",
+            "--repository", $env:GITHUB_REPOSITORY,
+            "--branch", "main",
+            "--message", "Invalidate flight preparation with no current task",
+            "--root", $env:GITHUB_WORKSPACE,
+            "--status-prefix", "FLIGHT_PREP_STATE_API",
+            "--files"
+          ) + $stateFiles
+          python @publisherArgs
+          exit $LASTEXITCODE
+
       - name: Send authentication status notification
         id: auth_notification
         if: ${{ always() && steps.schedule_mode.outputs.run_scraper == 'true' }}

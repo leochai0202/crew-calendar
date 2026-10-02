@@ -91,6 +91,10 @@ def _write_success_state(repo: Path) -> str:
         json.dumps(state, ensure_ascii=False),
         encoding="utf-8",
     )
+    (repo / "flight_preparation" / "latest_meta.json").write_text(
+        json.dumps(state, ensure_ascii=False),
+        encoding="utf-8",
+    )
     (repo / "flight_preparation" / f"{TARGET.isoformat()}_航前准备.txt").write_text(
         "source-grounded preparation\n",
         encoding="utf-8",
@@ -185,6 +189,51 @@ def test_no_valid_task_does_not_dispatch(tmp_path: Path) -> None:
 
     assert result.status == "NO_TASK"
     assert result.should_dispatch is False
+    assert result.state_changed is False
+
+
+def test_removed_flights_invalidate_previous_success(tmp_path: Path) -> None:
+    repo = _repo_with_event(tmp_path)
+    _write_success_state(repo)
+    _write_ics(repo / "flight.ics", [])
+
+    result = evaluate_preparation(repo, TARGET)
+
+    assert result.status == "INVALIDATED_NO_TASK"
+    assert result.should_dispatch is False
+    assert result.state_changed is True
+    assert set(result.state_files) == {
+        "flight_preparation/2026-10-03_meta.json",
+        "flight_preparation/latest_meta.json",
+    }
+    for name in ("2026-10-03_meta.json", "latest_meta.json"):
+        metadata = json.loads(
+            (repo / "flight_preparation" / name).read_text(encoding="utf-8")
+        )
+        assert metadata["status"] == "INVALIDATED_NO_TASK"
+        assert metadata["matched_flights"] == []
+        assert metadata["previous_matched_flights"]
+    assert (
+        repo / "flight_preparation" / "2026-10-03_航前准备.txt"
+    ).exists()
+
+    repeated = evaluate_preparation(repo, TARGET)
+    assert repeated.status == "NO_TASK"
+    assert repeated.state_changed is False
+
+
+def test_flight_restoration_after_invalidation_dispatches(tmp_path: Path) -> None:
+    repo = _repo_with_event(tmp_path)
+    _write_success_state(repo)
+    _write_ics(repo / "flight.ics", [])
+    assert evaluate_preparation(repo, TARGET).status == "INVALIDATED_NO_TASK"
+
+    _write_ics(repo / "flight.ics", [_event()])
+    restored = evaluate_preparation(repo, TARGET)
+
+    assert restored.status == "DISPATCH"
+    assert restored.should_dispatch is True
+    assert restored.reason == "previous_status_not_success"
 
 
 def test_legacy_latest_meta_fingerprint_is_compatible(tmp_path: Path) -> None:
