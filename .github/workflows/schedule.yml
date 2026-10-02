@@ -4,12 +4,13 @@ on:
   workflow_dispatch:
   schedule:
     # GitHub Actions 使用 UTC
-    # 北京时间 17:30 = UTC 09:30
-    # 北京时间 18:30 = UTC 10:30
-    # 北京时间 19:30 = UTC 11:30
-    - cron: '30 9 * * *'
-    - cron: '30 10 * * *'
-    - cron: '30 11 * * *'
+    # 日历更新：北京时间 09:00 / 15:00 / 21:00
+    - cron: '0 1 * * *'
+    - cron: '0 7 * * *'
+    - cron: '0 13 * * *'
+    # 仅检查航前准备：北京时间 09:30（D+1）/ 22:00（D+2）
+    - cron: '30 1 * * *'
+    - cron: '0 14 * * *'
 
 concurrency:
   group: crew-calendar
@@ -17,6 +18,7 @@ concurrency:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   build:
@@ -155,8 +157,45 @@ jobs:
           python --version
           python -c "import playwright, PIL, pytesseract, ics, requests"
 
+      - name: Determine schedule mode
+        id: schedule_mode
+        run: |
+          $ErrorActionPreference = "Stop"
+          $eventName = "${{ github.event_name }}"
+          $scheduledCron = "${{ github.event.schedule }}"
+          $calendarCrons = @(
+            "0 1 * * *",
+            "0 7 * * *",
+            "0 13 * * *"
+          )
+
+          if ($eventName -eq "workflow_dispatch" -or $scheduledCron -in $calendarCrons) {
+            $mode = "CALENDAR_UPDATE"
+            $runScraper = "true"
+            $daysAhead = "1"
+          }
+          elseif ($scheduledCron -eq "30 1 * * *") {
+            $mode = "D1_PREP_GUARD"
+            $runScraper = "false"
+            $daysAhead = "1"
+          }
+          elseif ($scheduledCron -eq "0 14 * * *") {
+            $mode = "D2_PREP_INITIAL"
+            $runScraper = "false"
+            $daysAhead = "2"
+          }
+          else {
+            throw "Unsupported schedule trigger"
+          }
+
+          Write-Host "SCHEDULE_MODE=$mode"
+          "mode=$mode" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "run_scraper=$runScraper" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "days_ahead=$daysAhead" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
       - name: Run scraper
         id: scraper
+        if: ${{ steps.schedule_mode.outputs.run_scraper == 'true' }}
         env:
           CREW_STORAGE_STATE_B64: ${{ secrets.CREW_STORAGE_STATE_B64 }}
           CREW_USERNAME: ${{ secrets.CREW_USERNAME }}
@@ -235,9 +274,29 @@ jobs:
           python @publisherArgs
           exit $LASTEXITCODE
 
+      - name: Check and dispatch flight preparation
+        id: flight_prep_check
+        if: >-
+          ${{ always() &&
+              ((steps.schedule_mode.outputs.run_scraper == 'false') ||
+               (steps.schedule_mode.outputs.run_scraper == 'true' &&
+                steps.scraper.outcome == 'success' &&
+                steps.scraper.outputs.auth_status == 'AUTHENTICATED' &&
+                steps.ics_publish.outcome == 'success')) }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python scripts/check_flight_prep_schedule.py `
+            --repo $env:GITHUB_WORKSPACE `
+            --days-ahead "${{ steps.schedule_mode.outputs.days_ahead }}" `
+            --github-output $env:GITHUB_OUTPUT `
+            --dispatch
+          exit $LASTEXITCODE
+
       - name: Send authentication status notification
         id: auth_notification
-        if: ${{ always() }}
+        if: ${{ always() && steps.schedule_mode.outputs.run_scraper == 'true' }}
         continue-on-error: true
         env:
           AUTH_STATUS: ${{ steps.scraper.outputs.auth_status }}
@@ -256,7 +315,10 @@ jobs:
           exit $LASTEXITCODE
 
       - name: Publish authentication notification state through GitHub API
-        if: ${{ always() && steps.auth_notification.outcome == 'success' }}
+        if: >-
+          ${{ always() &&
+              steps.schedule_mode.outputs.run_scraper == 'true' &&
+              steps.auth_notification.outcome == 'success' }}
         continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ github.token }}

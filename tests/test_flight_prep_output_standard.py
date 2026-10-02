@@ -328,10 +328,19 @@ def test_real_august_twenty_six_generates_with_local_guard_fallbacks(
 ) -> None:
     repo = tmp_path / "august-26"
     _copy_runtime_repo(repo)
+    settings_path = repo / "config" / "prep_settings.json"
+    settings = json.loads(settings_path.read_text(encoding="utf-8"))
+    settings["include_weather_section"] = True
+    settings_path.write_text(
+        json.dumps(settings, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
     monkeypatch.setattr(
         agent,
         "fetch_airport_weather",
-        lambda *args, **kwargs: SimpleNamespace(icao="", metar="", taf="", error=""),
+        lambda *args, **kwargs: (_ for _ in ()).throw(
+            AssertionError("production flight prep must not fetch weather")
+        ),
     )
     monkeypatch.setattr(
         sys,
@@ -347,9 +356,17 @@ def test_real_august_twenty_six_generates_with_local_guard_fallbacks(
     meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
     content = (output / "latest.txt").read_text(encoding="utf-8")
     assert meta["status"] == "SUCCESS"
+    assert meta["weather"] == {}
+    assert meta["task_fingerprint"]
     assert meta["flight_numbers"] == ["9C8885", "9C8970"]
     assert (output / "2026-08-26_航前准备.txt").exists()
+    dated_meta = json.loads(
+        (output / "2026-08-26_meta.json").read_text(encoding="utf-8")
+    )
+    assert dated_meta["status"] == "SUCCESS"
+    assert dated_meta["task_fingerprint"] == meta["task_fingerprint"]
     assert "个人对本次航班中识别的风险：" in content
+    assert "天气及动态资料以航前最新资料为准。" in content
     assert "近期注意点" not in content
     assert all(airport in content for airport in ("上海虹桥机场：", "贵阳龙洞堡机场：", "扬州泰州机场："))
     for group in meta["prep_groups"]:
