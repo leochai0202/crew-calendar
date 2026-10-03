@@ -27,9 +27,11 @@ BEIJING = ZoneInfo("Asia/Shanghai")
 OWNER = "crew-calendar-flighty-v1"
 REQUIRED_ENV = (
     "FLIGHTY_GOOGLE_CALENDAR_ID",
-    "GOOGLE_CALENDAR_CLIENT_ID",
-    "GOOGLE_CALENDAR_CLIENT_SECRET",
-    "GOOGLE_CALENDAR_REFRESH_TOKEN",
+    "FLIGHTY_GOOGLE_SERVICE_ACCOUNT_JSON",
+)
+GOOGLE_SCOPES = (
+    "https://www.googleapis.com/auth/calendar.events",
+    "https://www.googleapis.com/auth/calendar.calendars.readonly",
 )
 FLIGHT_RE = re.compile(r"9C\d{3,4}[A-Z]?")
 EXCLUDED = re.compile(r"置位|摆渡|训练|考勤|待命|其他任务|调机|模拟机|positioning|ferry|training|standby", re.I)
@@ -264,15 +266,29 @@ class GoogleCalendar:
         return result
 
     def authenticate(self) -> None:
-        result = self.request("POST", "https://oauth2.googleapis.com/token", data={
-            "client_id": self.config["GOOGLE_CALENDAR_CLIENT_ID"],
-            "client_secret": self.config["GOOGLE_CALENDAR_CLIENT_SECRET"],
-            "refresh_token": self.config["GOOGLE_CALENDAR_REFRESH_TOKEN"],
-            "grant_type": "refresh_token",
-        })
-        self.token = result.get("access_token", "")
+        # config contains the complete JSON read from the process environment.
+        # No credential file is written, and parser/library errors are redacted.
+        try:
+            info = json.loads(self.config["FLIGHTY_GOOGLE_SERVICE_ACCOUNT_JSON"])
+            if not isinstance(info, dict) or info.get("type") != "service_account":
+                raise ValueError("Expected service account JSON object")
+        except (ValueError, TypeError, KeyError):
+            raise SyncError("Invalid service account JSON") from None
+        try:
+            # Lazy imports keep unconfigured runs safe even before the runner
+            # has installed the new dependency from requirements.txt.
+            from google.oauth2 import service_account
+            from google.auth.transport.requests import Request
+
+            credentials = service_account.Credentials.from_service_account_info(
+                info, scopes=GOOGLE_SCOPES,
+            )
+            credentials.refresh(Request())
+            self.token = credentials.token
+        except Exception:
+            raise SyncError("Service account credentials could not be refreshed") from None
         if not isinstance(self.token, str) or not self.token:
-            raise SyncError("OAuth refresh did not return an access token")
+            raise SyncError("Service account refresh did not return an access token")
 
     def api(self, method: str, suffix: str = "", **kwargs) -> dict:
         return self.request(method, self.base + suffix, headers={"Authorization": f"Bearer {self.token}"}, **kwargs)

@@ -431,12 +431,10 @@ jobs:
         timeout-minutes: 5
         env:
           FLIGHTY_GOOGLE_CALENDAR_ID: ${{ secrets.FLIGHTY_GOOGLE_CALENDAR_ID }}
-          GOOGLE_CALENDAR_CLIENT_ID: ${{ secrets.GOOGLE_CALENDAR_CLIENT_ID }}
-          GOOGLE_CALENDAR_CLIENT_SECRET: ${{ secrets.GOOGLE_CALENDAR_CLIENT_SECRET }}
-          GOOGLE_CALENDAR_REFRESH_TOKEN: ${{ secrets.GOOGLE_CALENDAR_REFRESH_TOKEN }}
-          PYTHONIOENCODING: utf-8
+          FLIGHTY_GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.FLIGHTY_GOOGLE_SERVICE_ACCOUNT_JSON }}
         run: |
           $PSNativeCommandUseErrorActionPreference = $false
+          $env:PYTHONIOENCODING = "utf-8"
           python -B sync_flighty_google_calendar.py
           $syncExitCode = $LASTEXITCODE
           if ($syncExitCode -ne 0) {

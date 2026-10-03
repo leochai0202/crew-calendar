@@ -1,28 +1,27 @@
 # Flighty Google Calendar 镜像
 
-`sync_flighty_google_calendar.py` 只读取根目录已生成、清洗后的 `flight.ics`，不访问机组网站，不调用登录/OTP/Playwright，不写入 ICS、认证状态、GitHub 发布状态或航前准备文件。依赖沿用现有 `requests`、`tzdata` 和标准库，无需修改 requirements。
+`sync_flighty_google_calendar.py` 只读取根目录已生成、清洗后的 `flight.ics`，不访问机组网站，不调用登录/OTP/Playwright，不写入 ICS、认证状态、GitHub 发布状态或航前准备文件。认证使用 `google-auth` 的 Service Account credentials，日历读写沿用现有 REST API；其他依赖仍为 `requests`、`tzdata` 和标准库。
 
 ## 首次设置
 
 1. 在自己的 Google Calendar 网页创建**二级日历** `Flighty航班`，时区设为 `Asia/Shanghai`（北京时间）。
 2. 打开该日历「设置和共享 → 集成日历」，复制实际 **Calendar ID**（以 `@group.calendar.google.com` 结尾）。不要使用名称、`primary`、公开网址或秘密 iCal URL。程序通过 ID 访问并核对名称和时区，不自动创建/重命名日历。
-3. 在 Google Cloud 启用 Google Calendar API，设置 OAuth consent screen 和 OAuth client。由拥有该日历的账户完成一次 offline 授权，取得 refresh token。所需 scopes：
-   - `https://www.googleapis.com/auth/calendar.events.owned`
+3. 在 Google Cloud 启用 Google Calendar API，创建服务账号并生成 JSON 密钥。此部署的服务账号为 `crew-calendar-flighty@crew-calendar-flighty.iam.gserviceaccount.com`。
+4. 在 `Flighty航班` 的共享设置中添加该服务账号邮箱，权限选择「做出更改并查看所有活动详情」。日历仍归个人用户所有，只授权服务账号访问，无需模拟个人用户或设置全域委派。程序使用的 scopes 为：
+   - `https://www.googleapis.com/auth/calendar.events`
    - `https://www.googleapis.com/auth/calendar.calendars.readonly`
-4. 在 GitHub 仓库 Settings → Secrets and variables → Actions → Repository secrets 配置以下四项。
+5. 在 GitHub 仓库 Settings → Secrets and variables → Actions → Repository secrets 配置以下两项。
 
 | Secret | 内容 |
 | --- | --- |
 | `FLIGHTY_GOOGLE_CALENDAR_ID` | 二级日历的实际 ID |
-| `GOOGLE_CALENDAR_CLIENT_ID` | 自己的 OAuth client ID |
-| `GOOGLE_CALENDAR_CLIENT_SECRET` | 对应的 OAuth client secret |
-| `GOOGLE_CALENDAR_REFRESH_TOKEN` | 该账户授权此 client 后取得的 refresh token |
+| `FLIGHTY_GOOGLE_SERVICE_ACCOUNT_JSON` | 下载的完整 Service Account JSON 原文，包含 `private_key`、`client_email` 等字段；不是路径或 Base64 |
 
-可通过 [Google OAuth Playground](https://developers.google.com/oauthplayground/) 的 “Use your own OAuth credentials” 授权：按工具要求在 OAuth client 中登记 redirect URI，选择上述 scopes，启用 offline access，使用自己的 client 凭据及其对应 refresh token。不要把凭据放进代码、issue、PR 或日志，不要用服务账号 JSON 代替用户 OAuth。
+共享日历不是服务账号拥有的日历，因此事件 scope 必须为 `calendar.events`，不能改为仅限拥有者的 scope。JSON 从环境变量读入内存，经 `json.loads` 解析，交给 `service_account.Credentials.from_service_account_info`，再使用 `google.auth.transport.requests.Request` 刷新 access token。原 REST 客户端随后使用 `Authorization: Bearer ...`。参见 [google-auth Service Account 文档](https://google-auth.readthedocs.io/en/latest/reference/google.oauth2.service_account.html)。
 
-外部 OAuth 应用处于 Testing 状态时，涉及 Calendar scopes 的 refresh token 通常在 7 天后到期。长期运行前按 Google 控制台要求配置发布状态；token 到期或撤销不影响 ICS。参见 [Google OAuth 文档](https://developers.google.com/identity/protocols/oauth2)。
+不要把 JSON、私钥或 token 放进仓库、issue、PR 或日志。解析失败、密钥无效和刷新失败只记录不含敏感内容的错误，退出非零；不会写凭据临时文件或修改 ICS。此实现不读取原有的个人 OAuth Secrets。
 
-本地运行可在进程环境中提供同名变量。生产 workflow 使用上述 GitHub Secrets，不读取仓库内凭据文件；无需 Base64 JSON 或新的 runner 安装步骤。
+本地运行可在进程环境中提供同名变量。生产 workflow 只注入上述两个 Secrets，不读取仓库内凭据文件。`requirements.txt` 已增加 `google-auth`；self-hosted runner 使用的 Python 环境需安装该依赖（`python -m pip install google-auth`），或按现有方式安装 requirements。依赖只在实际认证时导入，未配置时仍安全跳过。
 
 ## 预览和启用
 
@@ -30,7 +29,7 @@
 python -B sync_flighty_google_calendar.py --dry-run
 ```
 
-- 凭据完整：刷新 token、核验日历、读取所有已管理事件，输出 create/update/delete/skip 计划，不调用事件写接口。
+- 凭据完整：使用服务账号刷新 access token、核验日历、读取所有已管理事件，输出 create/update/delete/skip 计划，不调用事件写接口。
 - 凭据缺失：输出 `FLIGHTY_DRY_RUN=OFFLINE_EMPTY_TARGET`，离线预览候选数。创建数假设目标为空，update/delete 为 0，不表示已检查真实 Google 状态。
 - 不带 `--dry-run` 且缺少任意配置：输出 `FLIGHTY_SYNC=SKIPPED_NOT_CONFIGURED`，exit 0，不读取或修改源文件。
 
@@ -68,4 +67,4 @@ python -B sync_flighty_google_calendar.py --dry-run
 
 ## 停用
 
-移除 `FLIGHTY_GOOGLE_CALENDAR_ID` Secret，后续 workflow 将安全跳过。需要撤销 OAuth 时，在 Google 账户中撤销应用授权。停用不自动删除现有镜像；彻底清除可在 Google Calendar 删除专用 `Flighty航班` 二级日历。
+移除 `FLIGHTY_GOOGLE_CALENDAR_ID` 或 `FLIGHTY_GOOGLE_SERVICE_ACCOUNT_JSON` Secret，后续 workflow 将安全跳过。需要撤销访问时，取消日历对服务账号的共享，并在 Google Cloud 删除对应的服务账号密钥。停用不自动删除现有镜像；彻底清除可在 Google Calendar 删除专用 `Flighty航班` 二级日历。

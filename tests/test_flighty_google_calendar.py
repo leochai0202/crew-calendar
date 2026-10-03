@@ -11,6 +11,12 @@ import requests
 import sync_flighty_google_calendar as sync
 
 ROOT = Path(__file__).resolve().parents[1]
+SERVICE_ACCOUNT_INFO = {
+    "type": "service_account",
+    "client_email": "test@test-project.iam.gserviceaccount.com",
+    "private_key": "never-print-private-key",
+    "token_uri": "https://oauth2.googleapis.com/token",
+}
 
 
 def event(*, number="9C6731", origin="大连周水子", destination="呼和浩特白塔",
@@ -293,9 +299,32 @@ def test_folded_description_and_alarm_are_parsed(tmp_path, airports):
 
 
 def configured_env(monkeypatch):
-    for key in sync.REQUIRED_ENV:
-        monkeypatch.setenv(key, "never-print-secret")
     monkeypatch.setenv("FLIGHTY_GOOGLE_CALENDAR_ID", "test@group.calendar.google.com")
+    monkeypatch.setenv("FLIGHTY_GOOGLE_SERVICE_ACCOUNT_JSON", json.dumps(SERVICE_ACCOUNT_INFO))
+
+
+@pytest.fixture
+def service_account_auth(monkeypatch):
+    from google.oauth2 import service_account
+
+    observed = {"refresh_requests": []}
+
+    class Credentials:
+        token = None
+
+        def refresh(self, request):
+            observed["refresh_requests"].append(request)
+            if "error" in observed:
+                raise observed["error"]
+            self.token = observed.get("token", "private-token")
+
+    def from_info(info, *, scopes):
+        observed["info"] = info
+        observed["scopes"] = scopes
+        return Credentials()
+
+    monkeypatch.setattr(service_account.Credentials, "from_service_account_info", from_info)
+    return observed
 
 
 @pytest.mark.parametrize("missing", sync.REQUIRED_ENV)
@@ -338,14 +367,17 @@ class Session:
 
 
 def api_client(replies):
-    config = {key: "never-print-secret" for key in sync.REQUIRED_ENV}
-    config["FLIGHTY_GOOGLE_CALENDAR_ID"] = "test@group.calendar.google.com"
+    config = {
+        "FLIGHTY_GOOGLE_CALENDAR_ID": "test@group.calendar.google.com",
+        "FLIGHTY_GOOGLE_SERVICE_ACCOUNT_JSON": json.dumps(SERVICE_ACCOUNT_INFO),
+    }
     return sync.GoogleCalendar(config, Session(replies))
 
 
-def test_oauth_pagination_insert_and_delete_use_google_ids(tmp_path, airports):
+def test_service_account_pagination_insert_and_delete_use_google_ids(tmp_path, airports, service_account_auth, capsys):
+    from google.auth.transport.requests import Request
+
     client = api_client([
-        (200, {"access_token": "private-token"}),
         (200, {"id": "test@group.calendar.google.com", "summary": "Flighty航班", "timeZone": "Asia/Shanghai"}),
         (200, {"items": [{"id": "first"}], "nextPageToken": "next"}),
         (200, {"items": [{"id": "second"}]}),
@@ -358,13 +390,24 @@ def test_oauth_pagination_insert_and_delete_use_google_ids(tmp_path, airports):
     assert client.create(body)["id"] == "serverid"
     client.delete("serverid")
     calls = client.session.calls
-    assert calls[0][2]["data"]["grant_type"] == "refresh_token"
-    assert calls[2][2]["params"]["privateExtendedProperty"] == f"flighty_owner={sync.OWNER}"
-    assert "pageToken" not in calls[2][2]["params"]
-    assert calls[3][2]["params"]["pageToken"] == "next"
-    assert "id" not in calls[4][2]["json"]
-    assert calls[5][1].endswith("/events/serverid")
+    assert service_account_auth["info"] == SERVICE_ACCOUNT_INFO
+    assert set(service_account_auth["scopes"]) == {
+        "https://www.googleapis.com/auth/calendar.events",
+        "https://www.googleapis.com/auth/calendar.calendars.readonly",
+    }
+    refresh_request, = service_account_auth["refresh_requests"]
+    assert isinstance(refresh_request, Request)
+    assert refresh_request.session is not client.session
+    assert all(c[2]["headers"]["Authorization"] == "Bearer private-token" for c in calls)
+    assert calls[1][2]["params"]["privateExtendedProperty"] == f"flighty_owner={sync.OWNER}"
+    assert "pageToken" not in calls[1][2]["params"]
+    assert calls[2][2]["params"]["pageToken"] == "next"
+    assert "id" not in calls[3][2]["json"]
+    assert calls[4][1].endswith("/events/serverid")
     assert all(c[2]["allow_redirects"] is False for c in calls)
+    output = capsys.readouterr()
+    assert "private-token" not in output.out + output.err
+    assert "never-print-private-key" not in output.out + output.err
 
 
 @pytest.mark.parametrize("metadata", [
@@ -387,7 +430,7 @@ def test_primary_calendar_rejected():
 
 
 @pytest.mark.parametrize("failure", [(403, {"error": "never-print-secret"}), requests.ConnectionError("never-print-secret")])
-def test_google_failure_never_modifies_ics_or_leaks_secrets(monkeypatch, capsys, failure, isolated_root):
+def test_google_failure_never_modifies_ics_or_leaks_secrets(monkeypatch, capsys, failure, isolated_root, service_account_auth):
     configured_env(monkeypatch)
     client = api_client([failure])
     monkeypatch.setattr(sync, "GoogleCalendar", lambda _: client)
@@ -433,17 +476,72 @@ def test_failed_insert_does_not_delete_last_good_mirror(tmp_path, airports):
     assert len(client.events) == 1 and not any(c[0] == "delete" for c in client.calls)
 
 
-def test_online_dry_run_reads_remote_but_does_not_write(monkeypatch, capsys, isolated_root):
+def test_online_dry_run_reads_remote_but_does_not_write(monkeypatch, capsys, isolated_root, service_account_auth):
     configured_env(monkeypatch)
     client = api_client([
-        (200, {"access_token": "private-token"}),
         (200, {"id": "test@group.calendar.google.com", "summary": "Flighty航班", "timeZone": "Asia/Shanghai"}),
         (200, {"items": []}),
     ])
     monkeypatch.setattr(sync, "GoogleCalendar", lambda _: client)
     assert sync.main(["--dry-run"]) == 0
     assert "FLIGHTY_SYNC=DRY_RUN" in capsys.readouterr().out
-    assert [c[0] for c in client.session.calls] == ["POST", "GET", "GET"]
+    assert [c[0] for c in client.session.calls] == ["GET", "GET"]
+
+
+@pytest.mark.parametrize("raw_json", [
+    '{"private_key":"never-print-private-key", BROKEN}',
+    '[]',
+    '{"type":"authorized_user","refresh_token":"never-print-secret"}',
+    '{"type":"service_account","private_key":"never-print-private-key"}',
+])
+def test_invalid_service_account_json_fails_without_leaking_or_writing(raw_json, monkeypatch, capsys, isolated_root):
+    configured_env(monkeypatch)
+    monkeypatch.setenv("FLIGHTY_GOOGLE_SERVICE_ACCOUNT_JSON", raw_json)
+    before = {p: p.read_bytes() for p in isolated_root.glob("*.ics")}
+    assert sync.main([]) == 1
+    output = capsys.readouterr()
+    assert "FLIGHTY_SYNC=ERROR" in output.out
+    for sensitive in (raw_json, "never-print-private-key", "never-print-secret"):
+        assert sensitive not in output.out + output.err
+    assert all(p.read_bytes() == data for p, data in before.items())
+
+
+def test_refresh_failure_redacts_private_key_token_and_secret(monkeypatch, capsys, isolated_root, service_account_auth):
+    from google.auth.exceptions import RefreshError
+
+    configured_env(monkeypatch)
+    service_account_auth["error"] = RefreshError(
+        "never-print-private-key private-token never-print-secret " + json.dumps(SERVICE_ACCOUNT_INFO)
+    )
+    client = api_client([])
+    monkeypatch.setattr(sync, "GoogleCalendar", lambda _: client)
+    before = {p: p.read_bytes() for p in isolated_root.glob("*.ics")}
+    assert sync.main([]) == 1
+    output = capsys.readouterr()
+    assert "Service account credentials could not be refreshed" in output.out
+    for sensitive in ("never-print-private-key", "private-token", "never-print-secret", json.dumps(SERVICE_ACCOUNT_INFO)):
+        assert sensitive not in output.out + output.err
+    assert not client.session.calls
+    assert all(p.read_bytes() == data for p, data in before.items())
+
+
+def test_refresh_without_token_fails_safely(service_account_auth):
+    service_account_auth["token"] = None
+    client = api_client([])
+    with pytest.raises(sync.SyncError, match="did not return an access token"):
+        client.authenticate()
+    assert not client.session.calls
+
+
+def test_legacy_oauth_secrets_do_not_enable_sync(tmp_path, monkeypatch, capsys):
+    assert sync.REQUIRED_ENV == ("FLIGHTY_GOOGLE_CALENDAR_ID", "FLIGHTY_GOOGLE_SERVICE_ACCOUNT_JSON")
+    configured_env(monkeypatch)
+    monkeypatch.delenv("FLIGHTY_GOOGLE_SERVICE_ACCOUNT_JSON")
+    for old_secret in ("GOOGLE_CALENDAR_CLIENT_ID", "GOOGLE_CALENDAR_CLIENT_SECRET", "GOOGLE_CALENDAR_REFRESH_TOKEN"):
+        monkeypatch.setenv(old_secret, "never-print-secret")
+    monkeypatch.setattr(sync, "ROOT", tmp_path)
+    assert sync.main([]) == 0
+    assert capsys.readouterr().out.strip() == "FLIGHTY_SYNC=SKIPPED_NOT_CONFIGURED"
 
 
 def test_workflow_is_nonblocking_and_requires_completed_ics_pipeline():
@@ -464,6 +562,10 @@ def test_workflow_is_nonblocking_and_requires_completed_ics_pipeline():
     assert "python -B sync_flighty_google_calendar.py" in step
     for key in sync.REQUIRED_ENV:
         assert f"${{{{ secrets.{key} }}}}" in step
+    env_block = step.split("env:", 1)[1].split("run:", 1)[0]
+    assert len([line for line in env_block.splitlines() if line.strip()]) == 2
+    for old_secret in ("GOOGLE_CALENDAR_CLIENT_ID", "GOOGLE_CALENDAR_CLIENT_SECRET", "GOOGLE_CALENDAR_REFRESH_TOKEN"):
+        assert old_secret not in step
     assert "github_api_publish.py" not in step
     assert "crew_calendar_email_entry.py" not in step
     assert "CREW_STORAGE_STATE" not in step
