@@ -1,0 +1,549 @@
+{
+  "source": "https://ourairports.com/data/",
+  "download_url": "https://davidmegginson.github.io/ourairports-data/airports.csv",
+  "source_sha256": "ff5143921ef72d767402c299a5d868f79166c5c589267aca13dce957c41bd2a2",
+  "checked_on": "2026-10-03",
+  "scope": "Exact ICAO matches from existing BASE_AIRPORT_CN_TO_ICAO only. No Chinese names or inferred ICAO replacements. Public-domain OurAirports data.",
+  "airports": {
+    "RCKH": {
+      "iata": "KHH",
+      "city": "Kaohsiung (Xiaogang)"
+    },
+    "RCSS": {
+      "iata": "TSA",
+      "city": "Taipei (Songshan)"
+    },
+    "RCTP": {
+      "iata": "TPE",
+      "city": "Taoyuan"
+    },
+    "RJAA": {
+      "iata": "NRT",
+      "city": "Narita"
+    },
+    "RJBB": {
+      "iata": "KIX",
+      "city": "Osaka"
+    },
+    "RJCC": {
+      "iata": "CTS",
+      "city": "Sapporo"
+    },
+    "RJFF": {
+      "iata": "FUK",
+      "city": "Fukuoka"
+    },
+    "RJGG": {
+      "iata": "NGO",
+      "city": "Tokoname"
+    },
+    "RJTT": {
+      "iata": "HND",
+      "city": "Tokyo"
+    },
+    "RKPC": {
+      "iata": "CJU",
+      "city": "Jeju City"
+    },
+    "RKPK": {
+      "iata": "PUS",
+      "city": "Busan"
+    },
+    "RKSI": {
+      "iata": "ICN",
+      "city": "Seoul"
+    },
+    "RKSS": {
+      "iata": "GMP",
+      "city": "Seoul"
+    },
+    "ROAH": {
+      "iata": "OKA",
+      "city": "Naha"
+    },
+    "RPLL": {
+      "iata": "MNL",
+      "city": "Manila (Pasay)"
+    },
+    "RPVM": {
+      "iata": "CEB",
+      "city": "Cebu City/Lapu-Lapu City"
+    },
+    "VDPP": {
+      "iata": "PNH",
+      "city": "Phnom Penh (Pou Senchey)"
+    },
+    "VDTI": {
+      "iata": "KTI",
+      "city": "Phnom Penh (Boeng Khyang)"
+    },
+    "VHHH": {
+      "iata": "HKG",
+      "city": "Hong Kong"
+    },
+    "VMMC": {
+      "iata": "MFM",
+      "city": "Nossa Senhora do Carmo"
+    },
+    "VTBD": {
+      "iata": "DMK",
+      "city": "Bangkok"
+    },
+    "VTBS": {
+      "iata": "BKK",
+      "city": "Bangkok"
+    },
+    "VTCC": {
+      "iata": "CNX",
+      "city": "Chiang Mai"
+    },
+    "VTSP": {
+      "iata": "HKT",
+      "city": "Phuket"
+    },
+    "VVDN": {
+      "iata": "DAD",
+      "city": "Da Nang"
+    },
+    "VVNB": {
+      "iata": "HAN",
+      "city": "Hanoi (Soc Son)"
+    },
+    "VVTS": {
+      "iata": "SGN",
+      "city": "Ho Chi Minh City"
+    },
+    "WADD": {
+      "iata": "DPS",
+      "city": "Kuta, Badung"
+    },
+    "WIII": {
+      "iata": "CGK",
+      "city": "Jakarta"
+    },
+    "WMKK": {
+      "iata": "KUL",
+      "city": "Sepang"
+    },
+    "WMKP": {
+      "iata": "PEN",
+      "city": "Penang"
+    },
+    "WSSS": {
+      "iata": "SIN",
+      "city": "Singapore"
+    },
+    "ZBAA": {
+      "iata": "PEK",
+      "city": "Beijing"
+    },
+    "ZBAD": {
+      "iata": "PKX",
+      "city": "Beijing"
+    },
+    "ZBCF": {
+      "iata": "CIF",
+      "city": "Chifeng"
+    },
+    "ZBCZ": {
+      "iata": "CIH",
+      "city": "Changzhi"
+    },
+    "ZBDS": {
+      "iata": "DSN",
+      "city": "Ordos"
+    },
+    "ZBDT": {
+      "iata": "DAT",
+      "city": "Datong"
+    },
+    "ZBHH": {
+      "iata": "HET",
+      "city": "Hohhot"
+    },
+    "ZBLA": {
+      "iata": "HLD",
+      "city": "Hailar"
+    },
+    "ZBMZ": {
+      "iata": "NZH",
+      "city": "Manzhouli"
+    },
+    "ZBOW": {
+      "iata": "BAV",
+      "city": "Baotou"
+    },
+    "ZBSJ": {
+      "iata": "SJW",
+      "city": "Shijiazhuang"
+    },
+    "ZBTJ": {
+      "iata": "TSN",
+      "city": "Tianjin"
+    },
+    "ZBTL": {
+      "iata": "TGO",
+      "city": "Tongliao"
+    },
+    "ZBXH": {
+      "iata": "XIL",
+      "city": "Xilinhot"
+    },
+    "ZBYC": {
+      "iata": "YCU",
+      "city": "Yuncheng (Yanhu)"
+    },
+    "ZBYN": {
+      "iata": "TYN",
+      "city": "Taiyuan"
+    },
+    "ZGBH": {
+      "iata": "BHY",
+      "city": "Beihai"
+    },
+    "ZGCD": {
+      "iata": "CGD",
+      "city": "Changde (Dingcheng)"
+    },
+    "ZGDY": {
+      "iata": "DYG",
+      "city": "Zhangjiajie (Yongding)"
+    },
+    "ZGGG": {
+      "iata": "CAN",
+      "city": "Guangzhou (Huadu)"
+    },
+    "ZGHA": {
+      "iata": "CSX",
+      "city": "Changsha (Changsha)"
+    },
+    "ZGHY": {
+      "iata": "HNY",
+      "city": "Hengyang"
+    },
+    "ZGKL": {
+      "iata": "KWL",
+      "city": "Guilin (Lingui)"
+    },
+    "ZGNN": {
+      "iata": "NNG",
+      "city": "Nanning (Jiangnan)"
+    },
+    "ZGOW": {
+      "iata": "SWA",
+      "city": "Jieyang (Rongcheng)"
+    },
+    "ZGSD": {
+      "iata": "ZUH",
+      "city": "Zhuhai (Jinwan)"
+    },
+    "ZGSZ": {
+      "iata": "SZX",
+      "city": "Shenzhen"
+    },
+    "ZGZJ": {
+      "iata": "ZHA",
+      "city": "Zhanjiang"
+    },
+    "ZHCC": {
+      "iata": "CGO",
+      "city": "Zhengzhou"
+    },
+    "ZHHH": {
+      "iata": "WUH",
+      "city": "Wuhan (Huangpi)"
+    },
+    "ZHLY": {
+      "iata": "LYA",
+      "city": "Luoyang (Laocheng)"
+    },
+    "ZHNY": {
+      "iata": "NNY",
+      "city": "Nanyang (Wancheng)"
+    },
+    "ZHXF": {
+      "iata": "XFN",
+      "city": "Xiangyang (Xiangzhou)"
+    },
+    "ZHYC": {
+      "iata": "YIH",
+      "city": "Yichang (Xiaoting)"
+    },
+    "ZJHK": {
+      "iata": "HAK",
+      "city": "Haikou (Meilan)"
+    },
+    "ZJSY": {
+      "iata": "SYX",
+      "city": "Sanya (Tianya)"
+    },
+    "ZLDH": {
+      "iata": "DNH",
+      "city": "Dunhuang"
+    },
+    "ZLGM": {
+      "iata": "GOQ",
+      "city": "Golmud"
+    },
+    "ZLIC": {
+      "iata": "INC",
+      "city": "Yinchuan"
+    },
+    "ZLJQ": {
+      "iata": "JGN",
+      "city": "Jiayuguan"
+    },
+    "ZLLL": {
+      "iata": "LHW",
+      "city": "Lanzhou (Yongdeng)"
+    },
+    "ZLQY": {
+      "iata": "IQN",
+      "city": "Qingyang (Xifeng)"
+    },
+    "ZLXN": {
+      "iata": "XNN",
+      "city": "Haidong (Huzhu Tu Autonomous County)"
+    },
+    "ZLXY": {
+      "iata": "XIY",
+      "city": "Xi'an"
+    },
+    "ZLYA": {
+      "iata": "ENY",
+      "city": "Yan'an (Baota)"
+    },
+    "ZLYL": {
+      "iata": "UYN",
+      "city": "Yulin"
+    },
+    "ZMCK": {
+      "iata": "UBN",
+      "city": "Ulaanbaatar (Sergelen)"
+    },
+    "ZPDL": {
+      "iata": "DLU",
+      "city": "Dali (Xiaguan)"
+    },
+    "ZPDQ": {
+      "iata": "DIG",
+      "city": "Diqing (Shangri-La)"
+    },
+    "ZPJH": {
+      "iata": "JHG",
+      "city": "Jinghong (Gasa)"
+    },
+    "ZPLJ": {
+      "iata": "LJG",
+      "city": "Lijiang"
+    },
+    "ZPPP": {
+      "iata": "KMG",
+      "city": "Kunming"
+    },
+    "ZSAM": {
+      "iata": "XMN",
+      "city": "Xiamen"
+    },
+    "ZSCG": {
+      "iata": "CZX",
+      "city": "Changzhou"
+    },
+    "ZSCN": {
+      "iata": "KHN",
+      "city": "Nanchang"
+    },
+    "ZSDY": {
+      "iata": "DOY",
+      "city": "Dongying (Kenli)"
+    },
+    "ZSFZ": {
+      "iata": "FOC",
+      "city": "Fuzhou (Changle)"
+    },
+    "ZSHC": {
+      "iata": "HGH",
+      "city": "Hangzhou"
+    },
+    "ZSJG": {
+      "iata": "JNG",
+      "city": "Jining"
+    },
+    "ZSJN": {
+      "iata": "TNA",
+      "city": "Jinan (Licheng)"
+    },
+    "ZSLG": {
+      "iata": "LYG",
+      "city": "Lianyungang"
+    },
+    "ZSLQ": {
+      "iata": "HYN",
+      "city": "Taizhou (Luqiao)"
+    },
+    "ZSLY": {
+      "iata": "LYI",
+      "city": "Linyi (Hedong)"
+    },
+    "ZSNB": {
+      "iata": "NGB",
+      "city": "Ningbo"
+    },
+    "ZSNJ": {
+      "iata": "NKG",
+      "city": "Nanjing"
+    },
+    "ZSNT": {
+      "iata": "NTG",
+      "city": "Nantong (Tongzhou)"
+    },
+    "ZSOF": {
+      "iata": "HFE",
+      "city": "Hefei"
+    },
+    "ZSPD": {
+      "iata": "PVG",
+      "city": "Shanghai (Pudong)"
+    },
+    "ZSQD": {
+      "iata": "TAO",
+      "city": "Qingdao (Jiaozhou)"
+    },
+    "ZSQZ": {
+      "iata": "JJN",
+      "city": "Quanzhou"
+    },
+    "ZSRZ": {
+      "iata": "RIZ",
+      "city": "Rizhao (Donggang)"
+    },
+    "ZSSH": {
+      "iata": "HIA",
+      "city": "Huai'an"
+    },
+    "ZSSS": {
+      "iata": "SHA",
+      "city": "Shanghai (Minhang)"
+    },
+    "ZSWF": {
+      "iata": "WEF",
+      "city": "Weifang (Kuiwen)"
+    },
+    "ZSWH": {
+      "iata": "WEH",
+      "city": "Weihai"
+    },
+    "ZSWX": {
+      "iata": "WUX",
+      "city": "Wuxi"
+    },
+    "ZSWZ": {
+      "iata": "WNZ",
+      "city": "Wenzhou (Longwan)"
+    },
+    "ZSXZ": {
+      "iata": "XUZ",
+      "city": "Xuzhou"
+    },
+    "ZSYN": {
+      "iata": "YNZ",
+      "city": "Yancheng (Tinghu)"
+    },
+    "ZSYT": {
+      "iata": "YNT",
+      "city": "Yantai"
+    },
+    "ZSYW": {
+      "iata": "YIW",
+      "city": "Yiwu/Jinhua"
+    },
+    "ZSZS": {
+      "iata": "HSN",
+      "city": "Zhoushan"
+    },
+    "ZUCK": {
+      "iata": "CKG",
+      "city": "Chongqing"
+    },
+    "ZUGY": {
+      "iata": "KWE",
+      "city": "Guiyang (Nanming)"
+    },
+    "ZUJZ": {
+      "iata": "JZH",
+      "city": "Ngawa (Songpan)"
+    },
+    "ZULS": {
+      "iata": "LXA",
+      "city": "Shannan (Gonggar)"
+    },
+    "ZULZ": {
+      "iata": "LZO",
+      "city": "Luzhou (Yunlong)"
+    },
+    "ZUMY": {
+      "iata": "MIG",
+      "city": "Mianyang (Fucheng)"
+    },
+    "ZUNC": {
+      "iata": "NAO",
+      "city": "Nanchong (Gaoping)"
+    },
+    "ZUTF": {
+      "iata": "TFU",
+      "city": "Chengdu (Jianyang)"
+    },
+    "ZUUU": {
+      "iata": "CTU",
+      "city": "Chengdu (Shuangliu)"
+    },
+    "ZUXC": {
+      "iata": "XIC",
+      "city": "Liangshan (Xichang)"
+    },
+    "ZUYB": {
+      "iata": "YBP",
+      "city": "Yibin (Cuiping)"
+    },
+    "ZWWW": {
+      "iata": "URC",
+      "city": "Ürümqi"
+    },
+    "ZYCC": {
+      "iata": "CGQ",
+      "city": "Changchun"
+    },
+    "ZYDD": {
+      "iata": "DDG",
+      "city": "Dandong (Zhenxing)"
+    },
+    "ZYDQ": {
+      "iata": "DQA",
+      "city": "Daqing"
+    },
+    "ZYHB": {
+      "iata": "HRB",
+      "city": "Harbin"
+    },
+    "ZYJM": {
+      "iata": "JMU",
+      "city": "Jiamusi"
+    },
+    "ZYMD": {
+      "iata": "MDG",
+      "city": "Mudanjiang"
+    },
+    "ZYTL": {
+      "iata": "DLC",
+      "city": "Dalian (Ganjingzi)"
+    },
+    "ZYTX": {
+      "iata": "SHE",
+      "city": "Shenyang"
+    },
+    "ZYYJ": {
+      "iata": "YNJ",
+      "city": "Yanji"
+    }
+  }
+}

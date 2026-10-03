@@ -237,6 +237,7 @@ jobs:
           exit $exitCode
 
       - name: Clean ICS people lists
+        id: ics_clean
         if: ${{ steps.scraper.outcome == 'success' && steps.scraper.outputs.auth_status == 'AUTHENTICATED' }}
         run: |
           python clean_ics_people.py
@@ -415,3 +416,30 @@ jobs:
             --status-prefix AUTH_STATE_API `
             --files $stateFile
           exit $LASTEXITCODE
+
+      - name: Sync Flighty Google Calendar
+        id: flighty_sync
+        if: >-
+          ${{ !cancelled() &&
+              steps.scraper.outcome == 'success' &&
+              steps.scraper.outputs.auth_status == 'AUTHENTICATED' &&
+              steps.ics_clean.outcome == 'success' &&
+              steps.ics_publish.outcome == 'success' &&
+              (steps.ics_publish.outputs.publish_status == 'PUBLISHED' ||
+               steps.ics_publish.outputs.publish_status == 'NO_CHANGES') }}
+        continue-on-error: true
+        timeout-minutes: 5
+        env:
+          FLIGHTY_GOOGLE_CALENDAR_ID: ${{ secrets.FLIGHTY_GOOGLE_CALENDAR_ID }}
+          GOOGLE_CALENDAR_CLIENT_ID: ${{ secrets.GOOGLE_CALENDAR_CLIENT_ID }}
+          GOOGLE_CALENDAR_CLIENT_SECRET: ${{ secrets.GOOGLE_CALENDAR_CLIENT_SECRET }}
+          GOOGLE_CALENDAR_REFRESH_TOKEN: ${{ secrets.GOOGLE_CALENDAR_REFRESH_TOKEN }}
+          PYTHONIOENCODING: utf-8
+        run: |
+          $PSNativeCommandUseErrorActionPreference = $false
+          python -B sync_flighty_google_calendar.py
+          $syncExitCode = $LASTEXITCODE
+          if ($syncExitCode -ne 0) {
+            Write-Host "::warning title=Flighty sync::FLIGHTY_SYNC=ERROR; published ICS remains unchanged"
+          }
+          exit $syncExitCode
