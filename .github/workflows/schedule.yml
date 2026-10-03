@@ -4,13 +4,14 @@ on:
   workflow_dispatch:
   schedule:
     # GitHub Actions 使用 UTC
-    # 日历更新：北京时间 09:00 / 15:00 / 21:00
-    - cron: '0 1 * * *'
-    - cron: '0 7 * * *'
-    - cron: '0 13 * * *'
-    # 仅检查航前准备：北京时间 09:30（D+1）/ 22:00（D+2）
-    - cron: '30 1 * * *'
-    - cron: '0 14 * * *'
+    # 日历更新：北京时间 09:07 / 15:17 / 21:27
+    - cron: '7 1 * * *'
+    - cron: '17 7 * * *'
+    - cron: '27 13 * * *'
+    # 仅检查航前准备：北京时间 06:37 / 18:37（D+2）、09:43（D+1）
+    - cron: '37 22 * * *'
+    - cron: '37 10 * * *'
+    - cron: '43 1 * * *'
 
 concurrency:
   group: crew-calendar
@@ -163,10 +164,11 @@ jobs:
           $ErrorActionPreference = "Stop"
           $eventName = "${{ github.event_name }}"
           $scheduledCron = "${{ github.event.schedule }}"
+          $actualStartUtc = [DateTimeOffset]::UtcNow.ToString("o")
           $calendarCrons = @(
-            "0 1 * * *",
-            "0 7 * * *",
-            "0 13 * * *"
+            "7 1 * * *",
+            "17 7 * * *",
+            "27 13 * * *"
           )
 
           if ($eventName -eq "workflow_dispatch" -or $scheduledCron -in $calendarCrons) {
@@ -174,12 +176,12 @@ jobs:
             $runScraper = "true"
             $daysAhead = "1"
           }
-          elseif ($scheduledCron -eq "30 1 * * *") {
+          elseif ($scheduledCron -eq "43 1 * * *") {
             $mode = "D1_PREP_GUARD"
             $runScraper = "false"
             $daysAhead = "1"
           }
-          elseif ($scheduledCron -eq "0 14 * * *") {
+          elseif ($scheduledCron -in @("37 22 * * *", "37 10 * * *")) {
             $mode = "D2_PREP_INITIAL"
             $runScraper = "false"
             $daysAhead = "2"
@@ -192,6 +194,7 @@ jobs:
           "mode=$mode" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
           "run_scraper=$runScraper" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
           "days_ahead=$daysAhead" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "actual_start_utc=$actualStartUtc" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
 
       - name: Run scraper
         id: scraper
@@ -274,15 +277,9 @@ jobs:
           python @publisherArgs
           exit $LASTEXITCODE
 
-      - name: Check and dispatch flight preparation
+      - name: Check standalone flight preparation slot
         id: flight_prep_check
-        if: >-
-          ${{ always() &&
-              ((steps.schedule_mode.outputs.run_scraper == 'false') ||
-               (steps.schedule_mode.outputs.run_scraper == 'true' &&
-                steps.scraper.outcome == 'success' &&
-                steps.scraper.outputs.auth_status == 'AUTHENTICATED' &&
-                steps.ics_publish.outcome == 'success')) }}
+        if: ${{ steps.schedule_mode.outputs.run_scraper == 'false' }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
@@ -290,12 +287,60 @@ jobs:
           python scripts/check_flight_prep_schedule.py `
             --repo $env:GITHUB_WORKSPACE `
             --days-ahead "${{ steps.schedule_mode.outputs.days_ahead }}" `
+            --scheduled-cron "${{ github.event.schedule }}" `
+            --actual-start-utc "${{ steps.schedule_mode.outputs.actual_start_utc }}" `
+            --github-output $env:GITHUB_OUTPUT `
+            --dispatch
+          exit $LASTEXITCODE
+
+      - name: Check existing D+1 flight preparation after calendar update
+        id: calendar_d1_prep_check
+        if: >-
+          ${{ steps.schedule_mode.outputs.run_scraper == 'true' &&
+              steps.scraper.outcome == 'success' &&
+              steps.scraper.outputs.auth_status == 'AUTHENTICATED' &&
+              steps.ics_publish.outcome == 'success' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python scripts/check_flight_prep_schedule.py `
+            --repo $env:GITHUB_WORKSPACE `
+            --days-ahead "1" `
+            --scheduled-cron "${{ github.event.schedule }}" `
+            --actual-start-utc "${{ steps.schedule_mode.outputs.actual_start_utc }}" `
+            --existing-only `
+            --github-output $env:GITHUB_OUTPUT `
+            --dispatch
+          exit $LASTEXITCODE
+
+      - name: Check existing D+2 flight preparation after calendar update
+        id: calendar_d2_prep_check
+        if: >-
+          ${{ steps.schedule_mode.outputs.run_scraper == 'true' &&
+              steps.scraper.outcome == 'success' &&
+              steps.scraper.outputs.auth_status == 'AUTHENTICATED' &&
+              steps.ics_publish.outcome == 'success' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python scripts/check_flight_prep_schedule.py `
+            --repo $env:GITHUB_WORKSPACE `
+            --days-ahead "2" `
+            --scheduled-cron "${{ github.event.schedule }}" `
+            --actual-start-utc "${{ steps.schedule_mode.outputs.actual_start_utc }}" `
+            --existing-only `
             --github-output $env:GITHUB_OUTPUT `
             --dispatch
           exit $LASTEXITCODE
 
       - name: Publish invalidated flight preparation state
-        if: ${{ steps.flight_prep_check.outputs.state_changed == 'true' }}
+        if: >-
+          ${{ always() &&
+              (steps.flight_prep_check.outputs.state_changed == 'true' ||
+               steps.calendar_d1_prep_check.outputs.state_changed == 'true' ||
+               steps.calendar_d2_prep_check.outputs.state_changed == 'true') }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
@@ -303,9 +348,12 @@ jobs:
           $ErrorActionPreference = "Stop"
           $PSNativeCommandUseErrorActionPreference = $false
           $stateFiles = @(
-            "${{ steps.flight_prep_check.outputs.state_files }}".Split(";") |
-              Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
-          )
+            "${{ steps.flight_prep_check.outputs.state_files }}",
+            "${{ steps.calendar_d1_prep_check.outputs.state_files }}",
+            "${{ steps.calendar_d2_prep_check.outputs.state_files }}"
+          ) | ForEach-Object { $_.Split(";") } |
+            Where-Object { -not [string]::IsNullOrWhiteSpace($_) } |
+            Sort-Object -Unique
           if ($stateFiles.Count -eq 0) {
             throw "Flight preparation state change did not provide files"
           }

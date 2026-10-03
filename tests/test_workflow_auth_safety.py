@@ -24,30 +24,39 @@ def test_actions_has_only_four_named_workflows() -> None:
         assert "workflow_run:" not in workflow
 
 
-def test_schedule_uses_three_calendar_updates_and_two_prep_guards() -> None:
+def test_schedule_uses_three_calendar_updates_and_three_prep_checks() -> None:
     workflow = SCHEDULE.read_text(encoding="utf-8")
 
     for cron in (
+        "cron: '7 1 * * *'",
+        "cron: '17 7 * * *'",
+        "cron: '27 13 * * *'",
+        "cron: '37 22 * * *'",
+        "cron: '37 10 * * *'",
+        "cron: '43 1 * * *'",
+    ):
+        assert cron in workflow
+    for retired in (
         "cron: '0 1 * * *'",
         "cron: '0 7 * * *'",
         "cron: '0 13 * * *'",
         "cron: '30 1 * * *'",
         "cron: '0 14 * * *'",
-    ):
-        assert cron in workflow
-    for retired in (
         "cron: '30 9 * * *'",
         "cron: '30 10 * * *'",
         "cron: '30 11 * * *'",
     ):
         assert retired not in workflow
-    assert '"0 1 * * *"' in workflow
-    assert '"0 7 * * *"' in workflow
-    assert '"0 13 * * *"' in workflow
-    assert '$scheduledCron -eq "30 1 * * *"' in workflow
-    assert '$scheduledCron -eq "0 14 * * *"' in workflow
+    assert '"7 1 * * *"' in workflow
+    assert '"17 7 * * *"' in workflow
+    assert '"27 13 * * *"' in workflow
+    assert '$scheduledCron -eq "43 1 * * *"' in workflow
+    assert '$scheduledCron -in @("37 22 * * *", "37 10 * * *")' in workflow
     assert '$runScraper = "false"' in workflow
-    assert "if: ${{ steps.schedule_mode.outputs.run_scraper == 'true' }}" in workflow
+    assert "if: ${{ steps.schedule_mode.outputs.run_scraper == 'false' }}" in workflow
+    assert workflow.count("--existing-only") == 2
+    assert 'id: calendar_d1_prep_check' in workflow
+    assert 'id: calendar_d2_prep_check' in workflow
     assert "actions: write" in workflow
     assert (
         "CREW_STORAGE_STATE_B64: "
@@ -119,11 +128,15 @@ def test_schedule_dispatches_flight_prep_with_explicit_date() -> None:
 
     assert "scripts/check_flight_prep_schedule.py" in workflow
     assert '--days-ahead "${{ steps.schedule_mode.outputs.days_ahead }}"' in workflow
+    assert '--scheduled-cron "${{ github.event.schedule }}"' in workflow
+    assert '--actual-start-utc "${{ steps.schedule_mode.outputs.actual_start_utc }}"' in workflow
     assert "--dispatch" in workflow
     assert "GITHUB_TOKEN: ${{ github.token }}" in workflow
     assert "GITHUB_REPOSITORY: ${{ github.repository }}" in workflow
     assert "Publish invalidated flight preparation state" in workflow
     assert "steps.flight_prep_check.outputs.state_changed == 'true'" in workflow
+    assert "steps.calendar_d1_prep_check.outputs.state_changed == 'true'" in workflow
+    assert "steps.calendar_d2_prep_check.outputs.state_changed == 'true'" in workflow
     assert "FLIGHT_PREP_STATE_API" in workflow
 
 

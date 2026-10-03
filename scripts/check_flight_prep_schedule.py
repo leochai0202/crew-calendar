@@ -8,7 +8,7 @@ import sys
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Callable
 from zoneinfo import ZoneInfo
@@ -41,6 +41,17 @@ class CheckResult:
     state_files: tuple[str, ...] = ()
 
 
+@dataclass(frozen=True)
+class ScheduleTiming:
+    scheduled_cron: str
+    slot_utc: datetime
+    slot_beijing: datetime
+    actual_start_utc: datetime
+    actual_start_beijing: datetime
+    delay_minutes: int
+    target_date: date
+
+
 def target_date_for_days_ahead(
     days_ahead: int,
     *,
@@ -52,6 +63,51 @@ def target_date_for_days_ahead(
     if current.tzinfo is None:
         current = current.replace(tzinfo=BEIJING)
     return current.astimezone(BEIJING).date() + timedelta(days=days_ahead)
+
+
+def scheduled_target_timing(
+    days_ahead: int,
+    scheduled_cron: str,
+    *,
+    actual_start_utc: datetime | None = None,
+) -> ScheduleTiming:
+    if days_ahead not in (1, 2):
+        raise ValueError("days_ahead must be 1 or 2")
+    match = re.fullmatch(
+        r"\s*(\d{1,2})\s+(\d{1,2})\s+\*\s+\*\s+\*\s*",
+        scheduled_cron,
+    )
+    if not match:
+        raise ValueError("scheduled_cron must be a daily five-field cron")
+    minute, hour = (int(value) for value in match.groups())
+    if not 0 <= minute <= 59 or not 0 <= hour <= 23:
+        raise ValueError("scheduled_cron hour or minute is out of range")
+
+    actual = actual_start_utc or datetime.now(timezone.utc)
+    if actual.tzinfo is None:
+        actual = actual.replace(tzinfo=timezone.utc)
+    actual = actual.astimezone(timezone.utc)
+    slot = actual.replace(hour=hour, minute=minute, second=0, microsecond=0)
+    if slot > actual:
+        slot -= timedelta(days=1)
+    slot_beijing = slot.astimezone(BEIJING)
+    return ScheduleTiming(
+        scheduled_cron=scheduled_cron.strip(),
+        slot_utc=slot,
+        slot_beijing=slot_beijing,
+        actual_start_utc=actual,
+        actual_start_beijing=actual.astimezone(BEIJING),
+        delay_minutes=int((actual - slot).total_seconds() // 60),
+        target_date=slot_beijing.date() + timedelta(days=days_ahead),
+    )
+
+
+def parse_utc_datetime(value: str) -> datetime:
+    normalized = value.strip().replace("Z", "+00:00")
+    parsed = datetime.fromisoformat(normalized)
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc)
 
 
 def _load_json(path: Path) -> dict:
@@ -130,6 +186,8 @@ def _invalidate_no_task_preparation(
 def evaluate_preparation(
     repo: Path,
     target: date,
+    *,
+    existing_only: bool = False,
 ) -> CheckResult:
     fingerprint, records = task_fingerprint_from_events(
         parse_ics(repo / "flight.ics"),
@@ -172,6 +230,16 @@ def evaluate_preparation(
         )
 
     state, source = _preparation_state(repo, target)
+    output = repo / "flight_preparation" / f"{target.isoformat()}_航前准备.txt"
+    if existing_only and not state and not output.exists():
+        return CheckResult(
+            status="NO_ACTION",
+            target_date=target.isoformat(),
+            should_dispatch=False,
+            reason="existing_preparation_missing",
+            task_fingerprint=fingerprint,
+            task_count=len(records),
+        )
     if not state:
         return CheckResult(
             status="DISPATCH",
@@ -209,7 +277,6 @@ def evaluate_preparation(
             state_source=source,
         )
 
-    output = repo / "flight_preparation" / f"{target.isoformat()}_航前准备.txt"
     if not output.exists():
         return CheckResult(
             status="DISPATCH",
@@ -302,6 +369,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--repo", default=".")
     parser.add_argument("--days-ahead", type=int, choices=(1, 2), required=True)
     parser.add_argument("--target-date", default="")
+    parser.add_argument("--scheduled-cron", default="")
+    parser.add_argument("--actual-start-utc", default="")
+    parser.add_argument("--existing-only", action="store_true")
     parser.add_argument("--github-output", default="")
     parser.add_argument("--dispatch", action="store_true")
     return parser.parse_args()
@@ -310,12 +380,43 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     repo = Path(args.repo).resolve()
-    target = (
-        date.fromisoformat(args.target_date)
-        if args.target_date
-        else target_date_for_days_ahead(args.days_ahead)
+    actual_start = (
+        parse_utc_datetime(args.actual_start_utc)
+        if args.actual_start_utc
+        else datetime.now(timezone.utc)
     )
-    result = evaluate_preparation(repo, target)
+    timing: ScheduleTiming | None = None
+    if args.target_date:
+        target = date.fromisoformat(args.target_date)
+    elif args.scheduled_cron:
+        timing = scheduled_target_timing(
+            args.days_ahead,
+            args.scheduled_cron,
+            actual_start_utc=actual_start,
+        )
+        target = timing.target_date
+    else:
+        target = target_date_for_days_ahead(
+            args.days_ahead,
+            now=actual_start,
+        )
+    print(f"SCHEDULE_CRON={args.scheduled_cron or 'MANUAL'}")
+    print(f"ACTUAL_START_UTC={actual_start.isoformat()}")
+    print(f"ACTUAL_START_BEIJING={actual_start.astimezone(BEIJING).isoformat()}")
+    if timing is not None:
+        print(f"SCHEDULE_SLOT_UTC={timing.slot_utc.isoformat()}")
+        print(f"SCHEDULE_SLOT_BEIJING={timing.slot_beijing.isoformat()}")
+        print(f"SCHEDULE_DELAY_MINUTES={timing.delay_minutes}")
+    else:
+        print("SCHEDULE_SLOT_UTC=MANUAL")
+        print("SCHEDULE_SLOT_BEIJING=MANUAL")
+        print("SCHEDULE_DELAY_MINUTES=MANUAL")
+    print(f"TARGET_DATE={target.isoformat()}")
+    result = evaluate_preparation(
+        repo,
+        target,
+        existing_only=args.existing_only,
+    )
     print(f"FLIGHT_PREP_CHECK={result.status}")
     print(f"FLIGHT_PREP_TARGET_DATE={result.target_date}")
     print(f"FLIGHT_PREP_CHECK_REASON={result.reason}")

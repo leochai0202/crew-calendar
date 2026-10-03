@@ -565,6 +565,170 @@ def _source_fact(
     )
 
 
+def test_generic_concept_english_uses_concept_guard_not_source_token_equality() -> None:
+    records = [
+        {
+            "fact_id": "generic_procedure_change",
+            "airport": "测试机场",
+            "source_file": agent.AIRPORT_MANUAL_FILE,
+            "source": "PDF",
+            "source_page": "1",
+            "source_heading": "测试机场运行特点",
+            "source_section": "运行特点",
+            "category": "core",
+            "text_zh": (
+                "跑道变化时，ATC可能调整ZSPD程序，PDC放行包含2100M、"
+                "1000FT和0.5%的限制。"
+            ),
+        }
+    ]
+
+    facts = agent.source_record_facts("测试机场", records, category="core")
+
+    assert len(facts) == 1
+    assert facts[0].english_source == "concept_fallback"
+    assert facts[0].english_concepts == ("procedure_change",)
+    assert agent.critical_fact_tokens(facts[0].zh) != agent.critical_fact_tokens(
+        facts[0].en
+    )
+    assert agent.validate_bilingual_facts(facts) == []
+    metadata = agent.fact_source_metadata(facts[0])
+    assert metadata["english_source"] == "concept_fallback"
+    assert metadata["english_concepts"] == ["procedure_change"]
+
+
+def test_generic_concept_english_rejects_the_wrong_concept_template() -> None:
+    fact = agent.BilingualFact(
+        "wrong_concept",
+        "跑道变化后应重新检查程序。",
+        agent.CONCEPT_ENGLISH["ground"][1],
+        airport="测试机场",
+        source_file=agent.AIRPORT_MANUAL_FILE,
+        source="PDF",
+        source_page="1",
+        source_heading="测试机场运行特点",
+        source_section="运行特点",
+        category="core",
+        source_clauses=("跑道变化后应重新检查程序。",),
+        english_source="concept_fallback",
+        english_concepts=("procedure_change",),
+    )
+
+    errors = agent.validate_bilingual_facts([fact])
+
+    assert len(errors) == 1
+    assert "中英文概念模板不一致" in errors[0]
+
+
+def test_chinese_only_fact_without_a_safe_concept_is_not_a_false_mismatch() -> None:
+    records = [
+        {
+            "fact_id": "chinese_only_limit",
+            "airport": "测试机场",
+            "source_file": agent.AIRPORT_MANUAL_FILE,
+            "source": "PDF",
+            "source_page": "1",
+            "source_heading": "测试机场运行特点",
+            "source_section": "运行特点",
+            "category": "core",
+            "text_zh": "保持1000FT。",
+        }
+    ]
+
+    facts = agent.source_record_facts("测试机场", records, category="core")
+
+    assert len(facts) == 1
+    assert facts[0].english_source == "unavailable"
+    assert facts[0].en == ""
+    assert agent.validate_bilingual_facts(facts) == []
+
+
+def test_source_backed_bilingual_numeric_mismatch_is_still_blocked() -> None:
+    fact = agent.BilingualFact(
+        "source_numeric_mismatch",
+        "程序要求保持1000FT。",
+        "The procedure requires maintaining 1500 ft.",
+        airport="测试机场",
+        source_file=agent.AIRPORT_MANUAL_FILE,
+        source="PDF",
+        source_page="1",
+        source_heading="测试机场运行特点",
+        source_section="运行特点",
+        category="core",
+    )
+
+    errors = agent.validate_bilingual_facts([fact])
+
+    assert len(errors) == 1
+    assert "1000FT" in errors[0]
+    assert "1500FT" in errors[0]
+
+
+@pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含机场手册PDF")
+@pytest.mark.parametrize(
+    ("target", "expected_numbers"),
+    [
+        (date(2026, 10, 4), ["9C8935", "9C8545"]),
+        (date(2026, 10, 5), ["9C7385", "9C7386"]),
+    ],
+)
+def test_real_october_foreign_duties_pass_bilingual_fact_guard(
+    target: date,
+    expected_numbers: list[str],
+) -> None:
+    all_events = parse_ics(REPO_ROOT / "flight.ics")
+    flights = agent.select_continuous_flight_group(all_events, target)
+    assert [event.flight_number for event in flights] == expected_numbers
+    assert any(
+        "MIGUEL YANEZ VILAS" in name
+        for event in flights
+        for name in foreign_crew_names(event)
+    )
+
+    duty = agent.DutyContext(tuple(flights))
+    airports = list(duty.route)
+    mapping = agent.extract_airport_mapping(REPO_ROOT / "crew_calendar_main.py")
+    icao_map = {airport: agent.resolve_icao(airport, mapping) for airport in airports}
+    risks, threats, source_records, _, _, _, _ = agent.airport_risks(
+        REPO_ROOT,
+        airports,
+        icao_map,
+        max_items=100,
+    )
+    settings = json.loads(
+        (REPO_ROOT / "config" / "prep_settings.json").read_text(encoding="utf-8")
+    )
+
+    errors: list[str] = []
+    concept_fallbacks: list[agent.BilingualFact] = []
+    for group in agent.split_flight_prep_groups_by_flight_number(flights):
+        group_duty = agent.DutyContext(tuple(group))
+        typical, core, _ = agent.briefing_fact_sets(
+            group_duty,
+            target,
+            risks,
+            threats,
+            max_items=100,
+            source_records=source_records,
+            required_core_topics=settings.get("required_core_topics") or {},
+            exclusion_log=[],
+        )
+        all_facts = [
+            fact
+            for airport in group_duty.route
+            for fact in [*typical[airport], *core[airport]]
+        ]
+        errors.extend(agent.validate_bilingual_facts(all_facts))
+        concept_fallbacks.extend(
+            fact
+            for fact in all_facts
+            if fact.english_source == "concept_fallback"
+        )
+
+    assert concept_fallbacks
+    assert errors == []
+
+
 def test_airport_specific_procedures_cannot_cross_airport_boundaries() -> None:
     singapore = _source_fact(
         "wsss_only",

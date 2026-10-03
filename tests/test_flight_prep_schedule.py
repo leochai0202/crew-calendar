@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 from argparse import Namespace
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -15,6 +15,7 @@ from scripts import check_flight_prep_schedule as checker
 from scripts.check_flight_prep_schedule import (
     dispatch_flight_preparation,
     evaluate_preparation,
+    scheduled_target_timing,
     target_date_for_days_ahead,
 )
 
@@ -111,6 +112,29 @@ def test_d2_and_d1_target_dates_use_beijing_calendar_days() -> None:
     assert target_date_for_days_ahead(1, now=now) == date(2026, 10, 2)
 
 
+def test_delayed_calendar_slot_uses_planned_beijing_date_across_midnight() -> None:
+    actual = datetime(2026, 10, 2, 18, 15, tzinfo=timezone.utc)
+
+    d1 = scheduled_target_timing(1, "27 13 * * *", actual_start_utc=actual)
+    d2 = scheduled_target_timing(2, "27 13 * * *", actual_start_utc=actual)
+
+    assert d1.slot_beijing == datetime(2026, 10, 2, 21, 27, tzinfo=BEIJING)
+    assert d1.actual_start_beijing == datetime(2026, 10, 3, 2, 15, tzinfo=BEIJING)
+    assert d1.target_date == date(2026, 10, 3)
+    assert d2.target_date == date(2026, 10, 4)
+    assert d1.delay_minutes == 288
+
+
+def test_delayed_0637_d2_slot_keeps_its_planned_beijing_date() -> None:
+    actual = datetime(2026, 10, 3, 4, 0, tzinfo=timezone.utc)
+
+    timing = scheduled_target_timing(2, "37 22 * * *", actual_start_utc=actual)
+
+    assert timing.slot_utc == datetime(2026, 10, 2, 22, 37, tzinfo=timezone.utc)
+    assert timing.slot_beijing == datetime(2026, 10, 3, 6, 37, tzinfo=BEIJING)
+    assert timing.target_date == date(2026, 10, 5)
+
+
 def test_existing_success_with_same_fingerprint_is_no_action(tmp_path: Path) -> None:
     repo = _repo_with_event(tmp_path)
     fingerprint = _write_success_state(repo)
@@ -128,6 +152,31 @@ def test_missing_preparation_dispatches(tmp_path: Path) -> None:
     assert result.status == "DISPATCH"
     assert result.should_dispatch is True
     assert result.reason == "preparation_state_missing"
+
+
+def test_calendar_existing_only_does_not_create_first_preparation(tmp_path: Path) -> None:
+    result = evaluate_preparation(
+        _repo_with_event(tmp_path),
+        TARGET,
+        existing_only=True,
+    )
+
+    assert result.status == "NO_ACTION"
+    assert result.should_dispatch is False
+    assert result.reason == "existing_preparation_missing"
+
+
+def test_calendar_existing_only_dispatches_changed_existing_preparation(
+    tmp_path: Path,
+) -> None:
+    repo = _repo_with_event(tmp_path)
+    _write_success_state(repo)
+    _write_ics(repo / "flight.ics", [_event(flight_number="9C5678")])
+
+    result = evaluate_preparation(repo, TARGET, existing_only=True)
+
+    assert result.status == "DISPATCH"
+    assert result.reason == "task_fingerprint_changed"
 
 
 def test_failed_preparation_dispatches(tmp_path: Path) -> None:
@@ -195,6 +244,21 @@ def test_no_valid_task_does_not_dispatch(tmp_path: Path) -> None:
     assert result.state_changed is False
 
 
+def test_later_d2_check_dispatches_when_task_appears_after_no_task(
+    tmp_path: Path,
+) -> None:
+    repo = tmp_path / "repo"
+    (repo / "flight_preparation").mkdir(parents=True)
+    _write_ics(repo / "flight.ics", [])
+    assert evaluate_preparation(repo, TARGET).status == "NO_TASK"
+
+    _write_ics(repo / "flight.ics", [_event()])
+    later = evaluate_preparation(repo, TARGET)
+
+    assert later.status == "DISPATCH"
+    assert later.reason == "preparation_state_missing"
+
+
 def test_removed_flights_invalidate_previous_success(tmp_path: Path) -> None:
     repo = _repo_with_event(tmp_path)
     _write_success_state(repo)
@@ -242,6 +306,9 @@ def test_removed_flights_dispatch_visible_no_task_run_once(
             repo=str(repo),
             days_ahead=1,
             target_date=TARGET.isoformat(),
+            scheduled_cron="",
+            actual_start_utc="",
+            existing_only=False,
             github_output="",
             dispatch=True,
         ),

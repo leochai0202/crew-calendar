@@ -25,6 +25,7 @@ REAL_PDF_CANDIDATES = sorted(
     )
 )
 REAL_PDF = REAL_PDF_CANDIDATES[-1] if REAL_PDF_CANDIDATES else Path("missing.pdf")
+REAL_PDF_VERSION = agent.manual_version(REAL_PDF) if REAL_PDF.exists() else 0
 
 
 def _event() -> CalendarEvent:
@@ -581,7 +582,7 @@ def test_real_september_ten_uses_latest_manual_quality_engine(
     meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
     assert meta["status"] == "SUCCESS"
     assert meta["flight_numbers"] == ["9C8891"]
-    assert meta["airport_information_version"] == 20260907
+    assert meta["airport_information_version"] == REAL_PDF_VERSION
     assert content.count("核心威胁：") == 1
     assert "本阶段经历时间86小时，起落18个，近90天起落8个" in content
 
@@ -638,7 +639,7 @@ def test_real_september_ten_uses_latest_manual_quality_engine(
         assert all(
             (
                 fact["source_authority"] == "latest_airport_manual"
-                and fact["source_version"] == "20260907"
+                and fact["source_version"] == str(REAL_PDF_VERSION)
             ) or (
                 fact["topic"] == "traffic_tcas"
                 and fact["source_authority"] == "user_confirmed"
