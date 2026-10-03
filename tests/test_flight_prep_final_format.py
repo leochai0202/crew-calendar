@@ -569,6 +569,43 @@ def test_source_reference_is_removed_but_operational_fact_is_preserved() -> None
     assert agent.validate_source_semantic_preservation(fact) == []
 
 
+def test_generic_source_reference_is_removed_without_losing_operation() -> None:
+    record = _quality_record(
+        "测试机场",
+        "generic-reference",
+        "13号跑道入口内移150米（参考第三章复杂机场运行要求）。",
+    )
+
+    fact = agent.source_record_facts(
+        "测试机场", [record], category="core"
+    )[0]
+
+    assert fact.zh == "13号跑道入口内移150米。"
+    assert "参考" not in fact.zh
+    assert any("参考第三章" in clause for clause in fact.excluded_source_clauses)
+
+
+def test_structure_heading_and_truncated_reference_are_excluded() -> None:
+    exclusions: list[dict[str, object]] = []
+    records = [
+        _quality_record("测试机场", "heading", "注意事项。"),
+        _quality_record("测试机场", "truncated-reference", "（参考第三章-。"),
+    ]
+
+    facts = agent.source_record_facts(
+        "测试机场",
+        records,
+        category="core",
+        exclusion_log=exclusions,
+    )
+
+    assert facts == []
+    assert {entry["fact_id"] for entry in exclusions} == {
+        "heading",
+        "truncated-reference",
+    }
+
+
 def _quality_record(
     airport: str,
     fact_id: str,
@@ -776,6 +813,63 @@ def test_explicit_route_scope_requires_current_route_match() -> None:
         date(2026, 8, 8),
         [],
     ) is None
+
+
+def test_core_route_prefix_is_an_applicability_scope() -> None:
+    airport = "测试机场"
+    record = _quality_record(
+        airport,
+        "route-prefix",
+        "测试机场-另一测试机场：进近时注意剖面管理。",
+    )
+    fact = agent.source_record_facts(airport, [record], category="core")[0]
+    assert fact.route_scope == (("测试机场", "另一测试机场"),)
+
+    matching = agent.filter_fact_for_duty(
+        fact,
+        _quality_duty(),
+        date(2026, 8, 8),
+        [],
+    )
+    assert matching is not None
+    assert matching.zh.startswith("该航线：")
+
+    mismatch_event = _event(
+        "route-mismatch",
+        "9C6499",
+        airport,
+        "第三测试机场",
+        datetime(2026, 8, 8, 10, 0, tzinfo=BEIJING),
+        datetime(2026, 8, 8, 12, 0, tzinfo=BEIJING),
+    )
+    exclusions: list[dict[str, object]] = []
+    assert agent.filter_fact_for_duty(
+        fact,
+        mismatch_event,
+        date(2026, 8, 8),
+        exclusions,
+    ) is None
+    assert exclusions[0]["reason"] == "与当前航班/航线不匹配"
+
+
+def test_typical_historical_route_prefix_is_not_current_route_scope() -> None:
+    airport = "测试机场"
+    record = _quality_record(
+        airport,
+        "historical-route",
+        "甲机场-乙机场：某航班曾发生不稳定进近事件。",
+        phase="incident",
+        category="typical",
+    )
+    fact = agent.source_record_facts(airport, [record], category="typical")[0]
+
+    assert fact.route_scope == ()
+    assert agent.filter_fact_for_duty(
+        fact,
+        _quality_duty(),
+        date(2026, 8, 8),
+        [],
+    ) is not None
 
 
 @pytest.mark.parametrize(

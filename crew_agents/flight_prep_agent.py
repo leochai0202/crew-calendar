@@ -2068,6 +2068,10 @@ MANUAL_STAGE_HEADING_RE = re.compile(
 MANUAL_TABLE_HEADING_RE = re.compile(
     r"^(?:威胁类别|典型威胁|缓解措施|现场/签派频率|责任中队)\s*[:：]?\s*$"
 )
+MANUAL_STRUCTURE_LABEL_ONLY_RE = re.compile(
+    r"^(?:注意事项|运行注意事项|特别注意事项|说明|备注|参考资料|相关资料)"
+    r"\s*[:：。．.]?\s*$"
+)
 GENERIC_EMPTY_HEADING_RE = re.compile(
     r"^[^，。；;！？!?：:\n]{1,32}\s*[:：]\s*[。．.；;，,、：:\s]*$"
 )
@@ -2126,6 +2130,7 @@ def is_manual_structure_only(value: str) -> bool:
     return bool(
         AIRPORT_ATTRIBUTE_FIELD_RE.match(text)
         or GENERIC_EMPTY_HEADING_RE.fullmatch(text)
+        or MANUAL_STRUCTURE_LABEL_ONLY_RE.fullmatch(text)
         or MANUAL_STAGE_HEADING_RE.fullmatch(text)
         or MANUAL_TABLE_HEADING_RE.fullmatch(text)
         or MANUAL_PLACEHOLDER_RE.fullmatch(text)
@@ -2901,9 +2906,18 @@ def manual_source_quality_issue(value: str) -> str:
     if SOURCE_METADATA_FIELD_RE.search(raw) and not strip_source_metadata(raw):
         return "PDF版本、修订日期或页码元数据不进入正式正文"
     cleaned = strip_manual_ordinal_prefix(strip_source_metadata(raw))
+    cleaned, _ = strip_source_reference_clauses(cleaned)
+    cleaned = normalize_text(cleaned)
+    if not cleaned:
+        return "清洗后无实质运行内容"
     if AIRPORT_ATTRIBUTE_FIELD_RE.match(cleaned):
         return "机场基础属性字段不进入正式正文"
-    if MANUAL_STAGE_HEADING_RE.fullmatch(cleaned) or MANUAL_TABLE_HEADING_RE.fullmatch(cleaned):
+    structural_text = strip_terminal_punct(cleaned)
+    if (
+        MANUAL_STAGE_HEADING_RE.fullmatch(structural_text)
+        or MANUAL_TABLE_HEADING_RE.fullmatch(structural_text)
+        or MANUAL_STRUCTURE_LABEL_ONLY_RE.fullmatch(structural_text)
+    ):
         return "PDF阶段或表格标题不进入正式正文"
     if MANUAL_PLACEHOLDER_RE.fullmatch(cleaned):
         return "资料占位文本不进入正式正文"
@@ -2920,6 +2934,10 @@ def manual_source_quality_issue(value: str) -> str:
         re.IGNORECASE,
     ):
         return "来源包含无法可靠恢复的数字或标点错位"
+    if cleaned.count("（") != cleaned.count("）") or cleaned.count("(") != cleaned.count(")"):
+        return "PDF断句或残片未形成完整运行事实"
+    if re.search(r"(?:参考|参见|详见)(?:资料|章节|手册|图|表)?\s*$", cleaned):
+        return "PDF断句或残片未形成完整运行事实"
     if not _source_clause_has_substance(cleaned):
         return "PDF断句或残片未形成完整运行事实"
     return ""
@@ -3817,9 +3835,29 @@ def group_personal_intro(profile: dict, records: list[dict]) -> str:
     return "，".join(p for p in parts if p) + "。"
 
 
+@lru_cache(maxsize=1)
+def default_airport_icao_names() -> dict[str, str]:
+    """Load the repository's existing airport mapping for a safe English fallback."""
+    try:
+        mapping = extract_airport_mapping(
+            Path(__file__).resolve().parents[1] / "crew_calendar_main.py"
+        )
+    except Exception:
+        return {}
+    result: dict[str, str] = {}
+    for name, icao in mapping.items():
+        canonical = canonical_airport_name(name)
+        if canonical and re.fullmatch(r"[A-Z]{4}", str(icao).upper()):
+            result.setdefault(canonical, str(icao).upper())
+    return result
+
+
 def english_airport_name(airport: str) -> str:
     canonical = canonical_airport_name(airport)
-    return AIRPORT_ENGLISH_NAMES.get(canonical, short_airport_name(airport))
+    return AIRPORT_ENGLISH_NAMES.get(
+        canonical,
+        default_airport_icao_names().get(canonical, short_airport_name(airport)),
+    )
 
 
 def format_profile_date_en(value: str) -> str:
@@ -4868,11 +4906,16 @@ def project_source_fact_for_applicability(
 
 
 SOURCE_REFERENCE_PAREN_RE = re.compile(
-    r"[（(][^）)]*(?:参考|详见)\s*(?:EFB|航图|机场特点(?:汇总)?)[^）)]*[）)]",
+    r"[（(]\s*(?:请)?(?:参考|参见|详见|见)\s*[^）)\n]*"
+    r"(?:[）)]|(?=[；;。]|$))",
     re.IGNORECASE,
 )
 SOURCE_REFERENCE_CLAUSE_RE = re.compile(
-    r"(?:请)?(?:参考|详见)\s*(?:EFB|航图|机场特点(?:汇总)?)[^；。]*",
+    r"(?:请)?(?:参考|参见|详见)\s*[^，,；;。\n）)]{1,120}",
+    re.IGNORECASE,
+)
+SOURCE_SEE_CLAUSE_RE = re.compile(
+    r"(?P<prefix>^|[，,；;])\s*见\s*[^，,；;。\n）)]{1,120}",
     re.IGNORECASE,
 )
 
@@ -4893,7 +4936,16 @@ def strip_source_reference_clauses(text: str) -> tuple[str, tuple[str, ...]]:
 
     cleaned = SOURCE_REFERENCE_PAREN_RE.sub(drop, normalize_text(text))
     cleaned = SOURCE_REFERENCE_CLAUSE_RE.sub(drop, cleaned)
+
+    def drop_see(match: re.Match[str]) -> str:
+        clause = match.group(0).lstrip("，,；; ").strip()
+        if clause:
+            excluded.append(clause)
+        return match.group("prefix") if match.group("prefix") not in "；;" else ""
+
+    cleaned = SOURCE_SEE_CLAUSE_RE.sub(drop_see, cleaned)
     cleaned = re.sub(r"\s+", " ", cleaned)
+    cleaned = re.sub(r"[（(]\s*[）)]", "", cleaned)
     cleaned = re.sub(r"[，,；;]+(?=。|$)", "", cleaned).strip(" ；;，,")
     return (
         cleaned.rstrip("。") + "。" if cleaned.strip("。") else "",
@@ -5020,8 +5072,12 @@ ROUTE_SCOPE_RE = re.compile(
     r"(?P<arrival>[\u4e00-\u9fffA-Za-z0-9]{2,20})"
 )
 ROUTE_SUFFIX_SCOPE_RE = re.compile(
-    r"(?:^|(?<=航线))(?P<departure>[\u4e00-\u9fff]{2,12})\s*(?:→|至|-)\s*"
+    r"(?:^|(?<=航线))(?P<departure>[\u4e00-\u9fff]{2,12})\s*(?:→|至|[-—–])\s*"
     r"(?P<arrival>[\u4e00-\u9fff]{2,12})(?:\s*航线|(?=[，,]))"
+)
+ROUTE_PREFIX_SCOPE_RE = re.compile(
+    r"^\s*(?P<departure>[\u4e00-\u9fff]{2,12})\s*(?:→|至|[-—–])\s*"
+    r"(?P<arrival>[\u4e00-\u9fff]{2,12})\s*[:：]"
 )
 
 
@@ -5074,7 +5130,42 @@ def record_route_scope(
                 canonical_airport_name(match.group("arrival")),
             )
         )
+    for match in ROUTE_PREFIX_SCOPE_RE.finditer(text):
+        routes.append(
+            (
+                canonical_airport_name(match.group("departure")),
+                canonical_airport_name(match.group("arrival")),
+            )
+        )
     return tuple(dict.fromkeys(routes))
+
+
+def route_scope_endpoint_matches(scope_airport: str, duty_airport: str) -> bool:
+    """Match a source city/airport label without inventing a route endpoint."""
+    scope_key = compact_key(canonical_airport_name(scope_airport)).removesuffix("机场")
+    duty_key = compact_key(canonical_airport_name(duty_airport)).removesuffix("机场")
+    return bool(
+        scope_key
+        and duty_key
+        and (
+            scope_key == duty_key
+            or (min(len(scope_key), len(duty_key)) >= 2 and (
+                scope_key.startswith(duty_key) or duty_key.startswith(scope_key)
+            ))
+        )
+    )
+
+
+def route_scope_matches_duty(
+    route_scope: tuple[tuple[str, str], ...],
+    duty_routes: set[tuple[str, str]],
+) -> bool:
+    return any(
+        route_scope_endpoint_matches(scope_departure, duty_departure)
+        and route_scope_endpoint_matches(scope_arrival, duty_arrival)
+        for scope_departure, scope_arrival in route_scope
+        for duty_departure, duty_arrival in duty_routes
+    )
 
 
 def classify_fact_topic(fact: BilingualFact) -> str:
@@ -5206,7 +5297,7 @@ def filter_fact_for_duty(
         if exclusion_log is not None:
             exclusion_log.append(exclusion_log_entry(fact, fact.source_text_zh or fact.zh, reason))
         return None
-    if fact.route_scope and duty_routes.isdisjoint(set(fact.route_scope)):
+    if fact.route_scope and not route_scope_matches_duty(fact.route_scope, duty_routes):
         reason = "与当前航班/航线不匹配"
         if exclusion_log is not None:
             exclusion_log.append(exclusion_log_entry(fact, fact.source_text_zh or fact.zh, reason))
@@ -5219,6 +5310,7 @@ def filter_fact_for_duty(
         # its meaning without echoing the itinerary itself into the briefing.
         display_text = ROUTE_SUFFIX_SCOPE_RE.sub("该航线", display_text)
         display_text = ROUTE_SCOPE_RE.sub("该航线", display_text)
+        display_text = ROUTE_PREFIX_SCOPE_RE.sub("该航线：", display_text)
 
     condition_matches, condition_reason = condition_matches_duty(fact, event)
     if not condition_matches:
@@ -5257,6 +5349,14 @@ def filter_fact_for_duty(
         exclusion_reasons=tuple([*fact.exclusion_reasons, *reasons]),
         source_fact_ids=fact.source_fact_ids or (fact.fact_id,),
     )
+
+
+def concept_fallback_missing_source_tokens(
+    source_text: str,
+    fallback_english: str,
+) -> set[str]:
+    """Return source-specific literals not represented by a controlled template."""
+    return source_literal_tokens(source_text) - source_literal_tokens(fallback_english)
 
 
 def source_record_facts(
@@ -5347,7 +5447,22 @@ def source_record_facts(
                     *("资料交叉引用不进入运行正文" for _ in reference_clauses),
                 ]
             )
-        if not text_zh:
+        post_clean_quality_issue = manual_source_quality_issue(text_zh)
+        if post_clean_quality_issue:
+            if exclusion_log is not None:
+                exclusion_log.append(
+                    {
+                        "airport": canonical,
+                        "fact_id": str(record.get("fact_id") or ""),
+                        "source_file": str(record.get("source_file") or ""),
+                        "source_page": str(record.get("source_page") or "N/A"),
+                        "source_heading": str(record.get("source_heading") or canonical),
+                        "source_section": str(record.get("source_section") or "未标明章节"),
+                        "clause": source_original_text,
+                        "reason": post_clean_quality_issue,
+                        "discarded_reason": post_clean_quality_issue,
+                    }
+                )
             continue
         text_en = str(record.get("text_en", "")).strip()
         english_source = "source_backed"
@@ -5363,9 +5478,13 @@ def source_record_facts(
                 concept_name = str(concept["name"])
                 english = CONCEPT_ENGLISH.get(concept_name)
                 if english:
-                    text_en = english[0 if category == "typical" else 1]
-                    english_source = "concept_fallback"
-                    english_concepts = (concept_name,)
+                    fallback_text = english[0 if category == "typical" else 1]
+                    if not concept_fallback_missing_source_tokens(
+                        text_zh, fallback_text
+                    ):
+                        text_en = fallback_text
+                        english_source = "concept_fallback"
+                        english_concepts = (concept_name,)
                 phase = {
                     "ground": "ground",
                     "terrain": "terrain",
@@ -6131,7 +6250,11 @@ def merge_fact_paragraph(
         facts, key=lambda fact: SOURCE_PRIORITY.get(fact.source, 9)
     )
     source = authority_fact.source
-    english_parts = [fact.text_en.strip().rstrip(".") for fact in facts if fact.text_en.strip()]
+    english_parts = unique(
+        fact.text_en.strip().rstrip(".")
+        for fact in facts
+        if fact.text_en.strip()
+    )
     excluded_pairs = [
         (clause, fact.exclusion_reasons[index])
         for fact in facts
@@ -7721,6 +7844,7 @@ def _checkin_time(event: CalendarEvent) -> str:
 
 def clean_output_fact(value: str) -> str:
     text = strip_source_metadata(value)
+    text, _ = strip_source_reference_clauses(text)
     text = strip_manual_ordinal_prefix(text)
     text = strip_terminal_punct(text)
     text = re.sub(r"^[.。；;，,\s]+", "", text)
@@ -7734,7 +7858,7 @@ def clean_output_fact(value: str) -> str:
     text = re.sub(r"/\s+", "/", text)
     text = re.sub(r"(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])", "", text)
     text = _polish_source_chinese(text)
-    return "" if is_manual_structure_only(text) else text
+    return "" if manual_source_quality_issue(text) else text
 
 
 def weather_sentence_for_airports(
@@ -8478,12 +8602,25 @@ def validate_bilingual_facts(facts: list[BilingualFact]) -> list[str]:
                 .rstrip(".")
                 not in fact.text_en
             ] if not unknown else []
-            if not concepts or unknown or missing_from_source or missing_from_english:
+            missing_source_tokens = sorted(
+                concept_fallback_missing_source_tokens(
+                    fact.text_zh,
+                    fact.text_en,
+                )
+            )
+            if (
+                not concepts
+                or unknown
+                or missing_from_source
+                or missing_from_english
+                or missing_source_tokens
+            ):
                 errors.append(
                     "中英文概念模板不一致："
                     f"{fact.key}：配置{list(concepts)}，"
                     f"来源检测{sorted(detected)}，"
-                    f"未知{unknown}，英文缺失{missing_from_english}"
+                    f"未知{unknown}，英文缺失{missing_from_english}，"
+                    f"具体来源内容缺失{missing_source_tokens}"
                 )
             continue
         zh_tokens = critical_fact_tokens(fact.zh)
@@ -8579,6 +8716,25 @@ def render_chinese_briefing(
     return "\n\n".join(section.strip() for section in sections if section.strip()).strip() + "\n"
 
 
+def deduplicate_english_facts(facts: list[BilingualFact]) -> list[BilingualFact]:
+    """Collapse only identical controlled fallback paragraphs for one airport."""
+    selected: list[BilingualFact] = []
+    seen_fallbacks: set[tuple[tuple[str, ...], str]] = set()
+    for fact in facts:
+        if fact.english_source != "concept_fallback" or not fact.text_en.strip():
+            selected.append(fact)
+            continue
+        key = (
+            tuple(sorted(fact.english_concepts)),
+            re.sub(r"[^a-z0-9]+", "", fact.text_en.lower()),
+        )
+        if key in seen_fallbacks:
+            continue
+        seen_fallbacks.add(key)
+        selected.append(fact)
+    return selected
+
+
 def render_english_briefing(
     event: CalendarEvent | DutyContext,
     target: date,
@@ -8596,11 +8752,11 @@ def render_english_briefing(
 
     airports = unique([airport for airport in event.route if airport])
     for airport in airports:
-        items = [
+        items = deduplicate_english_facts([
             fact
             for fact in typical_facts.get(airport, [])
             if fact.category != "typical_no_data" and fact.en.strip()
-        ]
+        ])
         if not items:
             continue
         paragraphs = "\n\n".join(
@@ -8614,7 +8770,7 @@ def render_english_briefing(
     for airport in airports:
         paragraphs = "\n\n".join(
             fact.en.strip().rstrip(".") + "."
-            for fact in core_facts[airport]
+            for fact in deduplicate_english_facts(core_facts[airport])
             if fact.en.strip()
         )
         core_lines.append(f"{english_airport_name(airport)} Airport:\n{paragraphs}")

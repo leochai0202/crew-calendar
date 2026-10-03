@@ -565,7 +565,7 @@ def _source_fact(
     )
 
 
-def test_generic_concept_english_uses_concept_guard_not_source_token_equality() -> None:
+def test_source_specific_fact_does_not_use_incomplete_generic_english() -> None:
     records = [
         {
             "fact_id": "generic_procedure_change",
@@ -586,15 +586,36 @@ def test_generic_concept_english_uses_concept_guard_not_source_token_equality() 
     facts = agent.source_record_facts("测试机场", records, category="core")
 
     assert len(facts) == 1
-    assert facts[0].english_source == "concept_fallback"
-    assert facts[0].english_concepts == ("procedure_change",)
-    assert agent.critical_fact_tokens(facts[0].zh) != agent.critical_fact_tokens(
-        facts[0].en
-    )
+    assert facts[0].english_source == "unavailable"
+    assert facts[0].english_concepts == ()
+    assert facts[0].en == ""
     assert agent.validate_bilingual_facts(facts) == []
     metadata = agent.fact_source_metadata(facts[0])
-    assert metadata["english_source"] == "concept_fallback"
-    assert metadata["english_concepts"] == ["procedure_change"]
+    assert metadata["english_source"] == "unavailable"
+    assert metadata["english_concepts"] == []
+
+
+def test_general_windshear_fact_can_use_controlled_concept_english() -> None:
+    records = [
+        {
+            "fact_id": "general-windshear",
+            "airport": "测试机场",
+            "source_file": agent.AIRPORT_MANUAL_FILE,
+            "source": "PDF",
+            "source_page": "1",
+            "source_heading": "测试机场运行特点",
+            "source_section": "运行特点",
+            "category": "core",
+            "text_zh": "本场存在风切变风险。",
+        }
+    ]
+
+    facts = agent.source_record_facts("测试机场", records, category="core")
+
+    assert facts[0].english_source == "concept_fallback"
+    assert facts[0].english_concepts == ("wind",)
+    assert facts[0].en == agent.CONCEPT_ENGLISH["wind"][1]
+    assert agent.validate_bilingual_facts(facts) == []
 
 
 def test_generic_concept_english_rejects_the_wrong_concept_template() -> None:
@@ -664,6 +685,56 @@ def test_source_backed_bilingual_numeric_mismatch_is_still_blocked() -> None:
     assert "1500FT" in errors[0]
 
 
+def test_concept_fallback_must_cover_source_specific_tokens() -> None:
+    fact = agent.BilingualFact(
+        "incomplete-fallback",
+        "06号跑道RNP进近时保持2100米至FIX01。",
+        agent.CONCEPT_ENGLISH["approach_energy"][1],
+        airport="测试机场",
+        source_file=agent.AIRPORT_MANUAL_FILE,
+        source="PDF",
+        source_page="1",
+        source_heading="测试机场运行特点",
+        source_section="运行特点",
+        category="core",
+        source_clauses=("06号跑道RNP进近时保持2100米至FIX01。",),
+        english_source="concept_fallback",
+        english_concepts=("approach_energy",),
+    )
+
+    errors = agent.validate_bilingual_facts([fact])
+
+    assert len(errors) == 1
+    assert "具体来源内容缺失" in errors[0]
+
+
+def test_identical_generic_english_paragraphs_are_deduplicated() -> None:
+    text = agent.CONCEPT_ENGLISH["wind"][1]
+    facts = [
+        agent.BilingualFact(
+            fact_id,
+            "本场存在风切变风险。",
+            text,
+            airport="测试机场",
+            english_source="concept_fallback",
+            english_concepts=("wind",),
+            semantic_key=fact_id,
+        )
+        for fact_id in ("wind-one", "wind-two")
+    ]
+
+    assert [fact.fact_id for fact in agent.deduplicate_english_facts(facts)] == [
+        "wind-one"
+    ]
+
+
+def test_mapped_airport_english_fallback_never_returns_chinese_name() -> None:
+    for airport in ("长春龙嘉", "宁波栎社"):
+        english = agent.english_airport_name(airport)
+        assert not re.search(r"[\u4e00-\u9fff]", english)
+        assert re.fullmatch(r"[A-Z]{4}", english)
+
+
 @pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含机场手册PDF")
 @pytest.mark.parametrize(
     ("target", "expected_numbers"),
@@ -727,6 +798,122 @@ def test_real_october_foreign_duties_pass_bilingual_fact_guard(
 
     assert concept_fallbacks
     assert errors == []
+
+
+def test_real_october_four_output_has_clean_sources_routes_and_english() -> None:
+    target = date(2026, 10, 4)
+    all_events = parse_ics(REPO_ROOT / "flight.ics")
+    flights = agent.select_continuous_flight_group(all_events, target)
+    assert [event.flight_number for event in flights] == ["9C8935", "9C8545"]
+    profile = json.loads(
+        (REPO_ROOT / "config" / "pilot_profile.json").read_text(encoding="utf-8")
+    )
+    experience = json.loads(
+        (REPO_ROOT / "config" / "airport_experience.json").read_text(encoding="utf-8")
+    )
+    rendered_zh: list[str] = []
+    rendered_en: list[str] = []
+
+    for group in agent.split_flight_prep_groups_by_flight_number(flights):
+        duty = agent.DutyContext(tuple(group))
+        airports = list(duty.route)
+        risks = {airport: [] for airport in airports}
+        threats = {airport: [] for airport in airports}
+        source_records = {
+            airport: [
+                {
+                    "fact_id": f"{airport}-wind-one",
+                    "airport": airport,
+                    "source_file": agent.AIRPORT_MANUAL_FILE,
+                    "source": "PDF",
+                    "source_page": "1",
+                    "source_heading": f"{airport}运行特点",
+                    "source_section": "运行特点",
+                    "category": "core",
+                    "text_zh": "本场存在风切变风险。",
+                },
+                {
+                    "fact_id": f"{airport}-wind-two",
+                    "airport": airport,
+                    "source_file": agent.AIRPORT_MANUAL_FILE,
+                    "source": "PDF",
+                    "source_page": "1",
+                    "source_heading": f"{airport}运行特点",
+                    "source_section": "运行特点",
+                    "category": "core",
+                    "text_zh": "注意风切变。",
+                },
+                {
+                    "fact_id": f"{airport}-reference",
+                    "airport": airport,
+                    "source_file": agent.AIRPORT_MANUAL_FILE,
+                    "source": "PDF",
+                    "source_page": "1",
+                    "source_heading": f"{airport}运行特点",
+                    "source_section": "运行特点",
+                    "category": "core",
+                    "text_zh": "滑行时注意标志识别（参考三-机场运行资料）。",
+                },
+                {
+                    "fact_id": f"{airport}-heading",
+                    "airport": airport,
+                    "source_file": agent.AIRPORT_MANUAL_FILE,
+                    "source": "PDF",
+                    "source_page": "1",
+                    "source_heading": f"{airport}运行特点",
+                    "source_section": "运行特点",
+                    "category": "core",
+                    "text_zh": "注意事项",
+                },
+                {
+                    "fact_id": f"{airport}-wrong-route",
+                    "airport": airport,
+                    "source_file": agent.AIRPORT_MANUAL_FILE,
+                    "source": "PDF",
+                    "source_page": "1",
+                    "source_heading": f"{airport}运行特点",
+                    "source_section": "运行特点",
+                    "category": "core",
+                    "text_zh": "石家庄-宁波：本场存在风切变风险。",
+                },
+            ]
+            for airport in airports
+        }
+        typical, core, facts = agent.briefing_fact_sets(
+            duty,
+            target,
+            risks,
+            threats,
+            max_items=100,
+            source_records=source_records,
+            required_core_topics={},
+            exclusion_log=[],
+        )
+        assert agent.validate_bilingual_facts(facts) == []
+        records = agent.experience_records(experience, airports, target)
+        rendered_zh.append(
+            agent.render_chinese_briefing(
+                duty, target, profile, records, typical, core
+            )
+        )
+        group_english = agent.render_english_briefing(
+            duty, target, profile, records, typical, core
+        )
+        for airport in airports:
+            generic_paragraphs = [
+                fact.en
+                for fact in agent.deduplicate_english_facts(core[airport])
+                if fact.english_source == "concept_fallback"
+            ]
+            assert len(generic_paragraphs) == len(set(generic_paragraphs))
+        rendered_en.append(group_english)
+
+    chinese = "\n".join(rendered_zh)
+    english = "\n".join(rendered_en)
+    for fragment in ("注意事项", "参考三-", "石家庄-宁波"):
+        assert fragment not in chinese
+    for airport in ("上海浦东", "长春龙嘉", "宁波栎社"):
+        assert airport not in english
 
 
 def test_airport_specific_procedures_cannot_cross_airport_boundaries() -> None:
