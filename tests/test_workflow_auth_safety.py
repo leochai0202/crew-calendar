@@ -181,7 +181,7 @@ def test_auth_notification_is_non_blocking_and_persists_only_safe_state() -> Non
 
     assert "id: auth_notification" in workflow
     assert "python crew_auth_notification.py" in workflow
-    assert workflow.count("continue-on-error: true") == 2
+    assert workflow.count("continue-on-error: true") == 3
     assert "steps.schedule_mode.outputs.run_scraper == 'true'" in workflow
     assert "steps.auth_notification.outcome == 'success'" in workflow
     state_step = workflow.split(
