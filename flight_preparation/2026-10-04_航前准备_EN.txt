@@ -1,11 +1,11 @@
-I am Duan Yangshuo, a First Officer in Flight Squadron 15. My current technical level is A2, and my promotion date is January 13. In this qualification stage, I have 86 hours and 18 takeoffs and landings. I have completed 8 landings in the last 90 days. I have operated at both Shanghai Pudong and 长春 within the past three months. My most recent landing as PF was at Shanghai Pudong Airport on July 28.
+I am Duan Yangshuo, a First Officer in Flight Squadron 15. My current technical level is A2, and my promotion date is January 13. In this qualification stage, I have 86 hours and 18 takeoffs and landings. I have completed 8 landings in the last 90 days. I have operated at both Shanghai Pudong and ZYCC within the past three months. My most recent landing as PF was at Shanghai Pudong Airport on July 28.
 
 Latest PF/PM feedback: as PF, the instructor noted that below 30 ft I should use slightly more aft-stick input and, after landing, decelerate below 30 kt before entering the rapid-exit taxiway; as PM, the captain noted that I should improve SOP proficiency and make standard callouts more audible.
 
 Shanghai Pudong Airport typical unsafe events:
 Bird activity around the airport can create a low-altitude bird-strike risk during departure, approach, and landing.
 
-长春 Airport typical unsafe events:
+ZYCC Airport typical unsafe events:
 Strong wind, turbulence, or windshear can cause speed fluctuation, high descent rate, and an unstable landing condition.
 
 Core threats:
@@ -15,45 +15,25 @@ Before pushback and taxi, we must confirm the clearance, route, holding position
 
 When within the final 2000ft approaching the target altitude with nearby aircraft, appropriately control the vertical rate and continuously monitor conflict trends; in the event of an RA, strictly follow current procedures.
 
-长春 Airport:
-Before intercept, we must verify position, intercept angle, altitude, and distance and monitor LOC/GS, FMA, descent rate, and speed; apply the procedure for false or unstable capture and go around if necessary.
-
-Before intercept, we must verify position, intercept angle, altitude, and distance and monitor LOC/GS, FMA, descent rate, and speed; apply the procedure for false or unstable capture and go around if necessary.
-
+ZYCC Airport:
 We must verify mean wind, gust, and crosswind components and monitor speed trend, descent rate, and attitude; apply the prescribed procedure and go around for a windshear warning or an unstable low-altitude condition.
-
-Before pushback and taxi, we must confirm the clearance, route, holding position, and runway entry and continuously cross-check charts, signs, lights, and outside visual cues; stop and confirm with ATC whenever position or clearance is uncertain.
-
-Before pushback and taxi, we must confirm the clearance, route, holding position, and runway entry and continuously cross-check charts, signs, lights, and outside visual cues; stop and confirm with ATC whenever position or clearance is uncertain.
 
 ====================
 
-I am Duan Yangshuo, a First Officer in Flight Squadron 15. My current technical level is A2, and my promotion date is January 13. In this qualification stage, I have 86 hours and 18 takeoffs and landings. I have completed 8 landings in the last 90 days. I have operated at both 长春 and 宁波栎社 within the past three months. My most recent landing as PF was at Shanghai Pudong Airport on July 28.
+I am Duan Yangshuo, a First Officer in Flight Squadron 15. My current technical level is A2, and my promotion date is January 13. In this qualification stage, I have 86 hours and 18 takeoffs and landings. I have completed 8 landings in the last 90 days. I have operated at both ZYCC and ZSNB within the past three months. My most recent landing as PF was at Shanghai Pudong Airport on July 28.
 
 Latest PF/PM feedback: as PF, the instructor noted that below 30 ft I should use slightly more aft-stick input and, after landing, decelerate below 30 kt before entering the rapid-exit taxiway; as PM, the captain noted that I should improve SOP proficiency and make standard callouts more audible.
 
-长春 Airport typical unsafe events:
+ZYCC Airport typical unsafe events:
 Strong wind, turbulence, or windshear can cause speed fluctuation, high descent rate, and an unstable landing condition.
 
-宁波栎社 Airport typical unsafe events:
-Strong wind, turbulence, or windshear can cause speed fluctuation, high descent rate, and an unstable landing condition.
-
+ZSNB Airport typical unsafe events:
 Strong wind, turbulence, or windshear can cause speed fluctuation, high descent rate, and an unstable landing condition.
 
 Core threats:
 
-长春 Airport:
-Before pushback and taxi, we must confirm the clearance, route, holding position, and runway entry and continuously cross-check charts, signs, lights, and outside visual cues; stop and confirm with ATC whenever position or clearance is uncertain.
-
-Before pushback and taxi, we must confirm the clearance, route, holding position, and runway entry and continuously cross-check charts, signs, lights, and outside visual cues; stop and confirm with ATC whenever position or clearance is uncertain.
-
+ZYCC Airport:
 We must verify mean wind, gust, and crosswind components and monitor speed trend, descent rate, and attitude; apply the prescribed procedure and go around for a windshear warning or an unstable low-altitude condition.
 
-宁波栎社 Airport:
-We must remain on the published track, altitude, and climb gradient and monitor terrain, MSA, and navigation accuracy; before accepting a direct clearance, radar vector, or low-altitude deviation, confirm terrain clearance.
-
+ZSNB Airport:
 During military or training activity, we must hear and fully read back each clearance and cross-check the MCDU, pressure reference, missed-approach altitude, and onward track; confirm any inconsistency with ATC.
-
-During approach and landing, we must use instruments, PAPI, runway markings, and lighting together rather than a single visual impression; go around for a long touchdown, abnormal descent rate, or uncertain runway identification.
-
-Before pushback and taxi, we must confirm the clearance, route, holding position, and runway entry and continuously cross-check charts, signs, lights, and outside visual cues; stop and confirm with ATC whenever position or clearance is uncertain.

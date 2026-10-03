@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-10-04",
-  "generated_at_beijing": "2026-10-03T12:09:50.195666+08:00",
+  "generated_at_beijing": "2026-10-03T14:27:11.974389+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "task_fingerprint": "27334b39e19e4988843dea9abc57e2197f9eb7df81b5d67fbdfd24cde63b0e0f",
   "flight_numbers": [
@@ -170,8 +170,7 @@
             "上海浦东_core_record_5",
             "上海浦东_core_record_6",
             "user_confirmed:f7577d379bd6317d8c4c2d68",
-            "上海浦东_core_record_19",
-            "上海浦东_core_record_4"
+            "上海浦东_core_record_19"
           ]
         },
         "长春龙嘉": {
@@ -666,73 +665,6 @@
             "paragraph_dropped": false,
             "airport_specific": true,
             "category": "core"
-          },
-          {
-            "fact_id": "上海浦东_core_record_4",
-            "paragraph_id": "上海浦东_core_record_4",
-            "airport": "上海浦东",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-            "source": "PDF",
-            "source_authority": "latest_airport_manual",
-            "source_version": "20260924",
-            "source_page": "448-451",
-            "source_heading": "上海/浦东机场运行特点（ZSPD/PVG）",
-            "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点／地面",
-            "source_note": "",
-            "confirmed_date": "",
-            "source_text_zh": "地面：请机组注意 E，T1 滑行道关闭未在航行通告上说明，机组请参考施工区域 图（2C-1-SUP）。",
-            "source_original_text": "地面：请机组注意 E，T1 滑行道关闭未在航行通告上说明，机组请参考施工区域 图（2C-1-SUP）。",
-            "source_original_texts": [
-              "地面：请机组注意 E，T1 滑行道关闭未在航行通告上说明，机组请参考施工区域 图（2C-1-SUP）。"
-            ],
-            "source_record_ids": [
-              "上海浦东:core:9eca505f5677c686"
-            ],
-            "source_clauses": [
-              "请机组注意 E，T1 滑行道关闭未在航行通告上说明，机组请参考施工区域 图（2C-1-SUP）。"
-            ],
-            "operational_phase": "ground",
-            "role_scope": [],
-            "operational_condition": [
-              "T1 滑行道关闭未在航行通告上说明"
-            ],
-            "applicability": [
-              "滑行"
-            ],
-            "risk": [],
-            "mitigation": [
-              "请机组注意 E",
-              "机组请参考施工区域图（2C-1-SUP）"
-            ],
-            "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "请机组注意E，T1滑行道关闭未在航行通告上说明，机组请参考施工区域图（2C-1-SUP）。",
-            "text_en": "",
-            "english_source": "unavailable",
-            "english_concepts": [],
-            "rendered_text": "请机组注意E，T1滑行道关闭未在航行通告上说明，机组请参考施工区域图（2C-1-SUP）。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "construction",
-            "role": "departure",
-            "source_fact_ids": [
-              "上海浦东_core_record_4"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 230,
-            "text_before_polish": "请机组注意E，T1滑行道关闭未在航行通告上说明，机组请参考施工区域图（2C-1-SUP）。",
-            "text_after_polish": "请机组注意E，T1滑行道关闭未在航行通告上说明，机组请参考施工区域图（2C-1-SUP）。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "guard_failed": false,
-            "guard_reason": "",
-            "fallback_used": "",
-            "paragraph_dropped": false,
-            "airport_specific": true,
-            "category": "core"
           }
         ],
         "长春龙嘉": [
@@ -853,11 +785,9 @@
               }
             ],
             "text_zh": "06号跑道进近时，因其他用户活动，有时要求保持2100m 至DME15海里，请机组提前做好高截获预案，提前减速、放形态。",
-            "text_en": "Before intercept, we must verify position, intercept angle, altitude, and distance and monitor LOC/GS, FMA, descent rate, and speed; apply the procedure for false or unstable capture and go around if necessary.",
-            "english_source": "concept_fallback",
-            "english_concepts": [
-              "ils"
-            ],
+            "text_en": "",
+            "english_source": "unavailable",
+            "english_concepts": [],
             "rendered_text": "06号跑道进近时，因其他用户活动，有时要求保持2100m 至DME15海里，请机组提前做好高截获预案，提前减速、放形态。",
             "season_scope": [],
             "flight_scope": [],
@@ -929,11 +859,9 @@
             ],
             "excluded_source_clauses": [],
             "text_zh": "空域受限制时，06号跑道使用LEMOT-4A进场，管制指挥下高度偏晚，可能造成高截获，机组注意。",
-            "text_en": "Before intercept, we must verify position, intercept angle, altitude, and distance and monitor LOC/GS, FMA, descent rate, and speed; apply the procedure for false or unstable capture and go around if necessary.",
-            "english_source": "concept_fallback",
-            "english_concepts": [
-              "ils"
-            ],
+            "text_en": "",
+            "english_source": "unavailable",
+            "english_concepts": [],
             "rendered_text": "空域受限制时，06号跑道使用LEMOT-4A进场，管制指挥下高度偏晚，可能造成高截获，机组注意。",
             "season_scope": [],
             "flight_scope": [],
@@ -1584,11 +1512,9 @@
               }
             ],
             "text_zh": "慢车除冰:滑到24号跑道头附近除冰位，引导车脱离后，需要自己观察 stop 线停下。",
-            "text_en": "Before pushback and taxi, we must confirm the clearance, route, holding position, and runway entry and continuously cross-check charts, signs, lights, and outside visual cues; stop and confirm with ATC whenever position or clearance is uncertain.",
-            "english_source": "concept_fallback",
-            "english_concepts": [
-              "ground"
-            ],
+            "text_en": "",
+            "english_source": "unavailable",
+            "english_concepts": [],
             "rendered_text": "慢车除冰:滑到24号跑道头附近除冰位，引导车脱离后，需要自己观察 stop 线停下。",
             "season_scope": [],
             "flight_scope": [],
@@ -1656,11 +1582,9 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "离港时管制员可能指挥在L-H4，A前等待，A滑行道前无等待线，须注意留足距离，避免滑错产生冲突。",
-            "text_en": "Before pushback and taxi, we must confirm the clearance, route, holding position, and runway entry and continuously cross-check charts, signs, lights, and outside visual cues; stop and confirm with ATC whenever position or clearance is uncertain.",
-            "english_source": "concept_fallback",
-            "english_concepts": [
-              "ground"
-            ],
+            "text_en": "",
+            "english_source": "unavailable",
+            "english_concepts": [],
             "rendered_text": "离港时管制员可能指挥在L-H4，A前等待，A滑行道前无等待线，须注意留足距离，避免滑错产生冲突。",
             "season_scope": [],
             "flight_scope": [],
@@ -1885,6 +1809,34 @@
         {
           "airport": "上海浦东",
           "fact_id": "",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+          "source": "PDF",
+          "source_authority": "latest_airport_manual",
+          "source_version": "20260924",
+          "source_page": "448-451",
+          "source_heading": "上海/浦东机场运行特点（ZSPD/PVG）",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "clause": "地面：请机组注意 E，T1 滑行道关闭未在航行通告上说明，机组请参考施工区域 图（2C-1-SUP）。",
+          "reason": "PDF断句或残片未形成完整运行事实",
+          "discarded_reason": "PDF断句或残片未形成完整运行事实"
+        },
+        {
+          "airport": "上海浦东",
+          "fact_id": "",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+          "source": "PDF",
+          "source_authority": "latest_airport_manual",
+          "source_version": "20260924",
+          "source_page": "448-451",
+          "source_heading": "上海/浦东机场运行特点（ZSPD/PVG）",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "clause": "进场：34R 进近，PD083 和 PD084 中间偏右有较高障碍物，下降或保持 600m 从上 方飞过可能触发 GPWS 警戒，机组参考 EFB 中“关于浦东 34R 跑道进近触发 GPWS 警戒的提示”操作通告执行。",
+          "reason": "PDF断句或残片未形成完整运行事实",
+          "discarded_reason": "PDF断句或残片未形成完整运行事实"
+        },
+        {
+          "airport": "上海浦东",
+          "fact_id": "",
           "source_file": "config/airport_supplements.json",
           "source": "supplement",
           "source_authority": "unversioned_supplement",
@@ -1952,17 +1904,6 @@
           "source_heading": "上海/浦东机场运行特点（ZSPD/PVG）",
           "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点／进场",
           "clause": "进场：浦东 17R/35L 跑道，ATC 可能指挥短切五边或较晚发布盲降许可，机组做好 预判并提前做好能量管理，积极沟通，按需接受 ATC 雷达引导的指令。当 需要实施\"从上方截获下滑道\"程序时，严格遵循 SOP 要求，如无法满足稳 定进近标准，果断复飞或中止进近。",
-          "reason": "与当前机场departure角色不匹配",
-          "discarded_reason": "与当前机场departure角色不匹配"
-        },
-        {
-          "airport": "上海浦东",
-          "fact_id": "上海浦东_core_record_13",
-          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-          "source_page": "448-451",
-          "source_heading": "上海/浦东机场运行特点（ZSPD/PVG）",
-          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点／进场",
-          "clause": "进场：34R 进近，PD083 和 PD084 中间偏右有较高障碍物，下降或保持 600m 从上 方飞过可能触发 GPWS 警戒，机组参考 EFB 中“关于浦东 34R 跑道进近触发 GPWS 警戒的提示”操作通告执行。",
           "reason": "与当前机场departure角色不匹配",
           "discarded_reason": "与当前机场departure角色不匹配"
         },
@@ -2089,7 +2030,7 @@
           "source_page": "N/A",
           "source_heading": "长春龙嘉机场运行特点 ZYCC/CGQ",
           "source_section": "长春龙嘉机场运行特点 ZYCC/CGQ／核心威胁与运行特点／运行特点",
-          "clause": "风沙天能见度较低，目视参考差，存在风切变风险",
+          "clause": "风沙天能见度较低，目视，存在风切变风险",
           "reason": "目标月份为10月，不在资料明确季节适用月份3,4,5月内",
           "discarded_reason": "目标月份为10月，不在资料明确季节适用月份3,4,5月内"
         },
@@ -2210,9 +2151,6 @@
           ],
           [
             "上海浦东_core_record_19"
-          ],
-          [
-            "上海浦东_core_record_4"
           ]
         ],
         "长春龙嘉": [
@@ -2466,48 +2404,6 @@
             "briefing_priority": 330,
             "text_before_polish": "浦东机场驱鸟炮声音较响，机组不要产生惊吓效应。",
             "text_after_polish": "浦东机场驱鸟炮声音较响，机组不要产生惊吓效应。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "guard_failed": false,
-            "guard_reason": "",
-            "fallback_used": "",
-            "paragraph_dropped": false
-          },
-          {
-            "paragraph_index": 6,
-            "paragraph_id": "上海浦东_core_record_4",
-            "topic": "construction",
-            "role": "departure",
-            "text": "请机组注意E，T1滑行道关闭未在航行通告上说明，机组请参考施工区域图（2C-1-SUP）。",
-            "source_fact_ids": [
-              "上海浦东_core_record_4"
-            ],
-            "source_record_ids": [
-              "上海浦东:core:9eca505f5677c686"
-            ],
-            "source_clauses": [
-              "请机组注意 E，T1 滑行道关闭未在航行通告上说明，机组请参考施工区域 图（2C-1-SUP）。"
-            ],
-            "source_original_texts": [
-              "地面：请机组注意 E，T1 滑行道关闭未在航行通告上说明，机组请参考施工区域 图（2C-1-SUP）。"
-            ],
-            "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
-            ],
-            "source_authority": "latest_airport_manual",
-            "source": "PDF",
-            "role_scope": [],
-            "source_note": "",
-            "confirmed_date": "",
-            "source_version": "20260924",
-            "source_sections": [
-              "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点／地面"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "briefing_priority": 230,
-            "text_before_polish": "请机组注意E，T1滑行道关闭未在航行通告上说明，机组请参考施工区域图（2C-1-SUP）。",
-            "text_after_polish": "请机组注意E，T1滑行道关闭未在航行通告上说明，机组请参考施工区域图（2C-1-SUP）。",
             "polish_applied": false,
             "polish_fallback_reason": "",
             "guard_failed": false,
@@ -3047,7 +2943,7 @@
           }
         ]
       },
-      "content_sha256": "001ae03646b4dcb7a8f9451d2b6f1612e899e5af1c387cf6cf479bdf1dca4a33"
+      "content_sha256": "7bebd7cd27a85bc1ecf055a634769e417d772ae356c2bf227f0c21540a6c1bb7"
     },
     {
       "group_index": 2,
@@ -3132,18 +3028,18 @@
             "宁波栎社_typical_record_5"
           ],
           "core": [
-            "paragraph:宁波栎社_core_record_37+宁波栎社_core_record_38+宁波栎社_core_record_36",
-            "宁波栎社_core_record_39",
-            "宁波栎社_core_record_43",
-            "宁波栎社_core_record_51",
-            "宁波栎社_core_record_13",
-            "宁波栎社_core_record_35",
-            "paragraph:宁波栎社_core_record_10+宁波栎社_core_record_6",
+            "paragraph:宁波栎社_core_record_35+宁波栎社_core_record_36+宁波栎社_core_record_34",
+            "宁波栎社_core_record_37",
+            "宁波栎社_core_record_38",
+            "宁波栎社_core_record_49",
             "宁波栎社_core_record_12",
-            "宁波栎社_core_record_18",
+            "宁波栎社_core_record_42",
+            "宁波栎社_core_record_47",
+            "paragraph:宁波栎社_core_record_9",
+            "宁波栎社_core_record_11",
+            "宁波栎社_core_record_17",
             "宁波栎社_core_record_15",
-            "宁波栎社_core_record_16",
-            "宁波栎社_core_record_14"
+            "宁波栎社_core_record_13"
           ]
         }
       },
@@ -3259,11 +3155,9 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "离港时管制员可能指挥在L-H4，A前等待，A滑行道前无等待线，须注意留足距离，避免滑错产生冲突。",
-            "text_en": "Before pushback and taxi, we must confirm the clearance, route, holding position, and runway entry and continuously cross-check charts, signs, lights, and outside visual cues; stop and confirm with ATC whenever position or clearance is uncertain.",
-            "english_source": "concept_fallback",
-            "english_concepts": [
-              "ground"
-            ],
+            "text_en": "",
+            "english_source": "unavailable",
+            "english_concepts": [],
             "rendered_text": "离港时管制员可能指挥在L-H4，A前等待，A滑行道前无等待线，须注意留足距离，避免滑错产生冲突。",
             "season_scope": [],
             "flight_scope": [],
@@ -3610,11 +3504,9 @@
               }
             ],
             "text_zh": "慢车除冰:滑到24号跑道头附近除冰位，引导车脱离后，需要自己观察 stop 线停下。",
-            "text_en": "Before pushback and taxi, we must confirm the clearance, route, holding position, and runway entry and continuously cross-check charts, signs, lights, and outside visual cues; stop and confirm with ATC whenever position or clearance is uncertain.",
-            "english_source": "concept_fallback",
-            "english_concepts": [
-              "ground"
-            ],
+            "text_en": "",
+            "english_source": "unavailable",
+            "english_concepts": [],
             "rendered_text": "慢车除冰:滑到24号跑道头附近除冰位，引导车脱离后，需要自己观察 stop 线停下。",
             "season_scope": [],
             "flight_scope": [],
@@ -4109,8 +4001,8 @@
             "category": "typical"
           },
           {
-            "fact_id": "paragraph:宁波栎社_core_record_37+宁波栎社_core_record_38+宁波栎社_core_record_36",
-            "paragraph_id": "paragraph:宁波栎社_core_record_37+宁波栎社_core_record_38+宁波栎社_core_record_36",
+            "fact_id": "paragraph:宁波栎社_core_record_35+宁波栎社_core_record_36+宁波栎社_core_record_34",
+            "paragraph_id": "paragraph:宁波栎社_core_record_35+宁波栎社_core_record_36+宁波栎社_core_record_34",
             "airport": "宁波栎社",
             "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
             "source": "PDF",
@@ -4185,11 +4077,9 @@
               }
             ],
             "text_zh": "本场西面及西南面有山13号五边有低矮孤立山包天气不好时从西面进场飞机注意扇区最低安全高度及航路安全高度限制。栎社NDB和宁波VOR故障时，31号EOSID不可用，注意13号VOR/DME进近五边航迹和跑道有4度夹角。13号VOR下降梯度5.7％，换算成FPA3.26。",
-            "text_en": "We must remain on the published track, altitude, and climb gradient and monitor terrain, MSA, and navigation accuracy; before accepting a direct clearance, radar vector, or low-altitude deviation, confirm terrain clearance.",
-            "english_source": "concept_fallback",
-            "english_concepts": [
-              "terrain"
-            ],
+            "text_en": "",
+            "english_source": "unavailable",
+            "english_concepts": [],
             "rendered_text": "本场西面及西南面有山13号五边有低矮孤立山包天气不好时从西面进场飞机注意扇区最低安全高度及航路安全高度限制。栎社NDB和宁波VOR故障时，31号EOSID不可用，注意13号VOR/DME进近五边航迹和跑道有4度夹角。13号VOR下降梯度5.7％，换算成FPA3.26。",
             "season_scope": [],
             "flight_scope": [],
@@ -4197,9 +4087,9 @@
             "topic": "navigation",
             "role": "arrival",
             "source_fact_ids": [
-              "宁波栎社_core_record_37",
-              "宁波栎社_core_record_38",
-              "宁波栎社_core_record_36"
+              "宁波栎社_core_record_35",
+              "宁波栎社_core_record_36",
+              "宁波栎社_core_record_34"
             ],
             "condition_scope": {},
             "condition_contexts": [],
@@ -4217,8 +4107,8 @@
             "category": "core"
           },
           {
-            "fact_id": "宁波栎社_core_record_39",
-            "paragraph_id": "宁波栎社_core_record_39",
+            "fact_id": "宁波栎社_core_record_37",
+            "paragraph_id": "宁波栎社_core_record_37",
             "airport": "宁波栎社",
             "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
             "source": "PDF",
@@ -4270,7 +4160,7 @@
             "topic": "airspace_atc",
             "role": "arrival",
             "source_fact_ids": [
-              "宁波栎社_core_record_39"
+              "宁波栎社_core_record_37"
             ],
             "condition_scope": {},
             "condition_contexts": [],
@@ -4288,8 +4178,8 @@
             "category": "core"
           },
           {
-            "fact_id": "宁波栎社_core_record_43",
-            "paragraph_id": "宁波栎社_core_record_43",
+            "fact_id": "宁波栎社_core_record_38",
+            "paragraph_id": "宁波栎社_core_record_38",
             "airport": "宁波栎社",
             "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
             "source": "PDF",
@@ -4300,66 +4190,70 @@
             "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
             "source_note": "",
             "confirmed_date": "",
-            "source_text_zh": "进场：石家庄-宁波：上海进近指挥时不允许下高度，适当 提前联系宁波进近125.45才可以下降高度，易造成剖面较高。",
-            "source_original_text": "进场：石家庄-宁波：上海进近指挥时不允许下高度，适当 提前联系宁波进近125.45才可以下降高度，易造成剖面较高。",
+            "source_text_zh": "进场：宁波管制区内军航活动空域复杂。未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。",
+            "source_original_text": "进场：宁波管制区内军航活动空域复杂。未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。",
             "source_original_texts": [
-              "进场：石家庄-宁波：上海进近指挥时不允许下高度，适当 提前联系宁波进近125.45才可以下降高度，易造成剖面较高。"
+              "进场：宁波管制区内军航活动空域复杂。未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。"
             ],
             "source_record_ids": [
-              "宁波栎社:core:a88426b1bc3e6376"
+              "宁波栎社:core:098b4a7d6a854d63"
             ],
             "source_clauses": [
-              "石家庄-宁波：上海进近指挥时不允许下高度，适当 提前联系宁波进近125.45才可以下降高度，易造成剖面较高。"
+              "未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。"
             ],
             "operational_phase": "arrival",
             "role_scope": [
               "arrival"
             ],
             "operational_condition": [
-              "石家庄-宁波：上海进近指挥时不允许下高度"
+              "宁波机场与上海终端区的QNH 水平边界重合",
+              "高度表拨正严格听从ATC 指挥"
             ],
             "applicability": [
-              "进近"
+              "进场"
             ],
-            "risk": [
-              "易造成剖面较高"
+            "risk": [],
+            "mitigation": [
+              "未得到管制许可前请勿选择byATC 的进场方式"
             ],
-            "mitigation": [],
-            "restriction": [
-              "适当提前联系宁波进近125.45才可以下降高度"
+            "restriction": [],
+            "excluded_source_clauses": [
+              {
+                "clause": "宁波管制区内军航活动空域复杂。",
+                "reason": "同一来源记录中的其他完整运行子句"
+              }
             ],
-            "excluded_source_clauses": [],
-            "text_zh": "石家庄-宁波：上海进近指挥时不允许下高度，适当提前联系宁波进近125.45才可以下降高度，易造成剖面较高。",
+            "text_zh": "未得到管制许可前请勿选择byATC的进场方式；宁波机场与上海终端区的QNH水平边界重合，高度表拨正严格听从ATC指挥。",
             "text_en": "",
             "english_source": "unavailable",
             "english_concepts": [],
-            "rendered_text": "石家庄-宁波：上海进近指挥时不允许下高度，适当提前联系宁波进近125.45才可以下降高度，易造成剖面较高。",
+            "rendered_text": "未得到管制许可前请勿选择byATC的进场方式；宁波机场与上海终端区的QNH水平边界重合，高度表拨正严格听从ATC指挥。",
             "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
             "topic": "arrival_energy",
             "role": "arrival",
             "source_fact_ids": [
-              "宁波栎社_core_record_43"
+              "宁波栎社_core_record_38"
             ],
             "condition_scope": {},
             "condition_contexts": [],
             "condition_group": "",
-            "briefing_priority": 470,
-            "text_before_polish": "石家庄-宁波：上海进近指挥时不允许下高度，适当提前联系宁波进近125.45才可以下降高度，易造成剖面较高。",
-            "text_after_polish": "石家庄-宁波：上海进近指挥时不允许下高度，适当提前联系宁波进近125.45才可以下降高度，易造成剖面较高。",
+            "briefing_priority": 385,
+            "text_before_polish": "未得到管制许可前请勿选择byATC的进场方式；宁波机场与上海终端区的QNH水平边界重合，高度表拨正严格听从ATC指挥。",
+            "text_after_polish": "未得到管制许可前请勿选择byATC的进场方式；宁波机场与上海终端区的QNH水平边界重合，高度表拨正严格听从ATC指挥。",
             "polish_applied": false,
-            "polish_fallback_reason": "",
-            "guard_failed": false,
-            "guard_reason": "",
-            "fallback_used": "",
+            "polish_fallback_reason": "语言编辑新增运行词：宁波栎社_core_record_38新增BY ATC",
+            "guard_failed": true,
+            "guard_reason": "语言编辑新增运行词：宁波栎社_core_record_38新增BY ATC",
+            "fallback_used": "text_before_polish",
             "paragraph_dropped": false,
             "airport_specific": true,
             "category": "core"
           },
           {
-            "fact_id": "宁波栎社_core_record_51",
-            "paragraph_id": "宁波栎社_core_record_51",
+            "fact_id": "宁波栎社_core_record_49",
+            "paragraph_id": "宁波栎社_core_record_49",
             "airport": "宁波栎社",
             "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
             "source": "PDF",
@@ -4421,7 +4315,7 @@
             "topic": "approach_intercept",
             "role": "arrival",
             "source_fact_ids": [
-              "宁波栎社_core_record_51"
+              "宁波栎社_core_record_49"
             ],
             "condition_scope": {
               "runway": "31"
@@ -4443,8 +4337,8 @@
             "category": "core"
           },
           {
-            "fact_id": "宁波栎社_core_record_13",
-            "paragraph_id": "宁波栎社_core_record_13",
+            "fact_id": "宁波栎社_core_record_12",
+            "paragraph_id": "宁波栎社_core_record_12",
             "airport": "宁波栎社",
             "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
             "source": "PDF",
@@ -4495,7 +4389,7 @@
             "topic": "rnp_procedure",
             "role": "arrival",
             "source_fact_ids": [
-              "宁波栎社_core_record_13"
+              "宁波栎社_core_record_12"
             ],
             "condition_scope": {},
             "condition_contexts": [],
@@ -4513,8 +4407,8 @@
             "category": "core"
           },
           {
-            "fact_id": "宁波栎社_core_record_35",
-            "paragraph_id": "宁波栎社_core_record_35",
+            "fact_id": "宁波栎社_core_record_42",
+            "paragraph_id": "宁波栎社_core_record_42",
             "airport": "宁波栎社",
             "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
             "source": "PDF",
@@ -4525,48 +4419,64 @@
             "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
             "source_note": "",
             "confirmed_date": "",
-            "source_text_zh": "进场：注意事项。",
-            "source_original_text": "进场：注意事项。",
+            "source_text_zh": "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
+            "source_original_text": "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
             "source_original_texts": [
-              "进场：注意事项。"
+              "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。"
             ],
             "source_record_ids": [
-              "宁波栎社:core:f34d9ff8d7c7fa5a"
+              "宁波栎社:core:7ea88de98c1bb20f"
             ],
             "source_clauses": [
-              "注意事项。"
+              "从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。"
             ],
             "operational_phase": "arrival",
             "role_scope": [
               "arrival"
             ],
-            "operational_condition": [],
-            "applicability": [],
-            "risk": [],
-            "mitigation": [
-              "注意事项"
+            "operational_condition": [
+              "从北方进场的航班",
+              "如长春-宁波",
+              "移交宁波进近之前"
             ],
+            "applicability": [
+              "进场",
+              "进近"
+            ],
+            "risk": [
+              "上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路"
+            ],
+            "mitigation": [],
             "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "注意事项。",
+            "excluded_source_clauses": [
+              {
+                "clause": "ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。",
+                "reason": "同一来源记录中的其他完整运行子句"
+              },
+              {
+                "clause": "有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
+                "reason": "同一来源记录中的其他完整运行子句"
+              }
+            ],
+            "text_zh": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
             "text_en": "",
             "english_source": "unavailable",
             "english_concepts": [],
-            "rendered_text": "注意事项。",
+            "rendered_text": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
             "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
             "topic": "approach",
             "role": "arrival",
             "source_fact_ids": [
-              "宁波栎社_core_record_35"
+              "宁波栎社_core_record_42"
             ],
             "condition_scope": {},
             "condition_contexts": [],
             "condition_group": "",
-            "briefing_priority": 365,
-            "text_before_polish": "注意事项。",
-            "text_after_polish": "注意事项。",
+            "briefing_priority": 355,
+            "text_before_polish": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
+            "text_after_polish": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
             "polish_applied": false,
             "polish_fallback_reason": "",
             "guard_failed": false,
@@ -4577,8 +4487,72 @@
             "category": "core"
           },
           {
-            "fact_id": "paragraph:宁波栎社_core_record_10+宁波栎社_core_record_6",
-            "paragraph_id": "paragraph:宁波栎社_core_record_10+宁波栎社_core_record_6",
+            "fact_id": "宁波栎社_core_record_47",
+            "paragraph_id": "宁波栎社_core_record_47",
+            "airport": "宁波栎社",
+            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+            "source": "PDF",
+            "source_authority": "latest_airport_manual",
+            "source_version": "20260924",
+            "source_page": "N/A",
+            "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+            "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
+            "source_note": "",
+            "confirmed_date": "",
+            "source_text_zh": "进场：速度160 节。",
+            "source_original_text": "进场：速度160 节。",
+            "source_original_texts": [
+              "进场：速度160 节。"
+            ],
+            "source_record_ids": [
+              "宁波栎社:core:11ae458bf7d14f20"
+            ],
+            "source_clauses": [
+              "速度160 节。"
+            ],
+            "operational_phase": "arrival",
+            "role_scope": [
+              "arrival"
+            ],
+            "operational_condition": [
+              "速度160 节"
+            ],
+            "applicability": [],
+            "risk": [],
+            "mitigation": [],
+            "restriction": [],
+            "excluded_source_clauses": [],
+            "text_zh": "速度160节。",
+            "text_en": "",
+            "english_source": "unavailable",
+            "english_concepts": [],
+            "rendered_text": "速度160节。",
+            "season_scope": [],
+            "flight_scope": [],
+            "route_scope": [],
+            "topic": "approach",
+            "role": "arrival",
+            "source_fact_ids": [
+              "宁波栎社_core_record_47"
+            ],
+            "condition_scope": {},
+            "condition_contexts": [],
+            "condition_group": "",
+            "briefing_priority": 355,
+            "text_before_polish": "速度160节。",
+            "text_after_polish": "速度160节。",
+            "polish_applied": false,
+            "polish_fallback_reason": "",
+            "guard_failed": false,
+            "guard_reason": "",
+            "fallback_used": "",
+            "paragraph_dropped": false,
+            "airport_specific": true,
+            "category": "core"
+          },
+          {
+            "fact_id": "paragraph:宁波栎社_core_record_9",
+            "paragraph_id": "paragraph:宁波栎社_core_record_9",
             "airport": "宁波栎社",
             "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
             "source": "PDF",
@@ -4589,19 +4563,16 @@
             "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点",
             "source_note": "",
             "confirmed_date": "",
-            "source_text_zh": "地形:地形复杂，13号盲降下降梯度陡，GP3.2。 机场分类：一类复杂机场（程序类）（参考三-（6） /EFB-机场特点汇总-公司复杂机场分类及操纵权限规则）。",
-            "source_original_text": "地形:地形复杂，13号盲降下降梯度陡，GP3.2。 机场分类：一类复杂机场（程序类）（参考三-（6） /EFB-机场特点汇总-公司复杂机场分类及操纵权限规则）。",
+            "source_text_zh": "地形:地形复杂，13号盲降下降梯度陡，GP3.2。",
+            "source_original_text": "地形:地形复杂，13号盲降下降梯度陡，GP3.2。",
             "source_original_texts": [
-              "地形:地形复杂，13号盲降下降梯度陡，GP3.2。",
-              "机场分类：一类复杂机场（程序类）（参考三-（6） /EFB-机场特点汇总-公司复杂机场分类及操纵权限规则）。"
+              "地形:地形复杂，13号盲降下降梯度陡，GP3.2。"
             ],
             "source_record_ids": [
-              "宁波栎社:core:f7b82f48a4cff8ef",
-              "宁波栎社:core:ae6a99c2da4dc0cf"
+              "宁波栎社:core:f7b82f48a4cff8ef"
             ],
             "source_clauses": [
-              "地形:地形复杂，13号盲降下降梯度陡，GP3.2。",
-              "机场分类：一类复杂机场（程序类）（参考三-。"
+              "地形:地形复杂，13号盲降下降梯度陡，GP3.2。"
             ],
             "operational_phase": "approach",
             "role_scope": [
@@ -4610,8 +4581,7 @@
             "operational_condition": [
               "地形:地形复杂",
               "13号盲降下降梯度陡",
-              "GP3.2",
-              "机场分类：一类复杂机场（程序类）（参考三-"
+              "GP3.2"
             ],
             "applicability": [
               "13号"
@@ -4619,32 +4589,26 @@
             "risk": [],
             "mitigation": [],
             "restriction": [],
-            "excluded_source_clauses": [
-              {
-                "clause": "/EFB-机场特点汇总-公司复杂机场分类及操纵权限规则）。",
-                "reason": "同一来源记录中的其他完整运行子句"
-              }
-            ],
-            "text_zh": "该机场属于一类复杂机场（程序类）（参考三-。地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
+            "excluded_source_clauses": [],
+            "text_zh": "地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
             "text_en": "",
             "english_source": "unavailable",
             "english_concepts": [],
-            "rendered_text": "该机场属于一类复杂机场（程序类）（参考三-。地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
+            "rendered_text": "地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
             "season_scope": [],
             "flight_scope": [],
             "route_scope": [],
             "topic": "terrain",
             "role": "arrival",
             "source_fact_ids": [
-              "宁波栎社_core_record_10",
-              "宁波栎社_core_record_6"
+              "宁波栎社_core_record_9"
             ],
             "condition_scope": {},
             "condition_contexts": [],
             "condition_group": "",
             "briefing_priority": 375,
-            "text_before_polish": "该机场属于一类复杂机场（程序类）（参考三-。地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
-            "text_after_polish": "该机场属于一类复杂机场（程序类）（参考三-。地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
+            "text_before_polish": "地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
+            "text_after_polish": "地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
             "polish_applied": false,
             "polish_fallback_reason": "",
             "guard_failed": false,
@@ -4655,8 +4619,8 @@
             "category": "core"
           },
           {
-            "fact_id": "宁波栎社_core_record_12",
-            "paragraph_id": "宁波栎社_core_record_12",
+            "fact_id": "宁波栎社_core_record_11",
+            "paragraph_id": "宁波栎社_core_record_11",
             "airport": "宁波栎社",
             "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
             "source": "PDF",
@@ -4693,11 +4657,9 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "13号跑道入口内移150m，注意视线影响。",
-            "text_en": "During approach and landing, we must use instruments, PAPI, runway markings, and lighting together rather than a single visual impression; go around for a long touchdown, abnormal descent rate, or uncertain runway identification.",
-            "english_source": "concept_fallback",
-            "english_concepts": [
-              "visual_illusion"
-            ],
+            "text_en": "",
+            "english_source": "unavailable",
+            "english_concepts": [],
             "rendered_text": "13号跑道入口内移150m，注意视线影响。",
             "season_scope": [],
             "flight_scope": [],
@@ -4705,7 +4667,7 @@
             "topic": "landing",
             "role": "arrival",
             "source_fact_ids": [
-              "宁波栎社_core_record_12"
+              "宁波栎社_core_record_11"
             ],
             "condition_scope": {},
             "condition_contexts": [],
@@ -4723,8 +4685,8 @@
             "category": "core"
           },
           {
-            "fact_id": "宁波栎社_core_record_18",
-            "paragraph_id": "宁波栎社_core_record_18",
+            "fact_id": "宁波栎社_core_record_17",
+            "paragraph_id": "宁波栎社_core_record_17",
             "airport": "宁波栎社",
             "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
             "source": "PDF",
@@ -4773,7 +4735,7 @@
             "topic": "ground_signage",
             "role": "arrival",
             "source_fact_ids": [
-              "宁波栎社_core_record_18"
+              "宁波栎社_core_record_17"
             ],
             "condition_scope": {},
             "condition_contexts": [],
@@ -4793,70 +4755,6 @@
           {
             "fact_id": "宁波栎社_core_record_15",
             "paragraph_id": "宁波栎社_core_record_15",
-            "airport": "宁波栎社",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-            "source": "PDF",
-            "source_authority": "latest_airport_manual",
-            "source_version": "20260924",
-            "source_page": "N/A",
-            "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-            "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／地面",
-            "source_note": "",
-            "confirmed_date": "",
-            "source_text_zh": "地面：进位初次联系时需主动报告航空器注册号。",
-            "source_original_text": "地面：进位初次联系时需主动报告航空器注册号。",
-            "source_original_texts": [
-              "地面：进位初次联系时需主动报告航空器注册号。"
-            ],
-            "source_record_ids": [
-              "宁波栎社:core:d79c612454b66859"
-            ],
-            "source_clauses": [
-              "进位初次联系时需主动报告航空器注册号。"
-            ],
-            "operational_phase": "ground",
-            "role_scope": [
-              "arrival"
-            ],
-            "operational_condition": [],
-            "applicability": [],
-            "risk": [],
-            "mitigation": [
-              "进位初次联系时需主动报告航空器注册号"
-            ],
-            "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "进位初次联系时需主动报告航空器注册号。",
-            "text_en": "",
-            "english_source": "unavailable",
-            "english_concepts": [],
-            "rendered_text": "进位初次联系时需主动报告航空器注册号。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "ground_stand",
-            "role": "arrival",
-            "source_fact_ids": [
-              "宁波栎社_core_record_15"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 290,
-            "text_before_polish": "进位初次联系时需主动报告航空器注册号。",
-            "text_after_polish": "进位初次联系时需主动报告航空器注册号。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "guard_failed": false,
-            "guard_reason": "",
-            "fallback_used": "",
-            "paragraph_dropped": false,
-            "airport_specific": true,
-            "category": "core"
-          },
-          {
-            "fact_id": "宁波栎社_core_record_16",
-            "paragraph_id": "宁波栎社_core_record_16",
             "airport": "宁波栎社",
             "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
             "source": "PDF",
@@ -4901,7 +4799,7 @@
             "topic": "landing_ground",
             "role": "arrival",
             "source_fact_ids": [
-              "宁波栎社_core_record_16"
+              "宁波栎社_core_record_15"
             ],
             "condition_scope": {},
             "condition_contexts": [],
@@ -4919,8 +4817,8 @@
             "category": "core"
           },
           {
-            "fact_id": "宁波栎社_core_record_14",
-            "paragraph_id": "宁波栎社_core_record_14",
+            "fact_id": "宁波栎社_core_record_13",
+            "paragraph_id": "宁波栎社_core_record_13",
             "airport": "宁波栎社",
             "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
             "source": "PDF",
@@ -4964,11 +4862,9 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "B9灯牌在跑道一侧，13号落地后通常指挥在B10前等，后续通常B9左转跟引导车，注意B9紧邻B10(B10灯牌在机坪一侧)，容易错过。",
-            "text_en": "Before pushback and taxi, we must confirm the clearance, route, holding position, and runway entry and continuously cross-check charts, signs, lights, and outside visual cues; stop and confirm with ATC whenever position or clearance is uncertain.",
-            "english_source": "concept_fallback",
-            "english_concepts": [
-              "ground"
-            ],
+            "text_en": "",
+            "english_source": "unavailable",
+            "english_concepts": [],
             "rendered_text": "B9灯牌在跑道一侧，13号落地后通常指挥在B10前等，后续通常B9左转跟引导车，注意B9紧邻B10(B10灯牌在机坪一侧)，容易错过。",
             "season_scope": [],
             "flight_scope": [],
@@ -4976,7 +4872,7 @@
             "topic": "ground_waiting",
             "role": "arrival",
             "source_fact_ids": [
-              "宁波栎社_core_record_14"
+              "宁波栎社_core_record_13"
             ],
             "condition_scope": {},
             "condition_contexts": [],
@@ -5184,56 +5080,68 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "paragraph:宁波栎社_core_record_37+宁波栎社_core_record_38+宁波栎社_core_record_36",
+          "fact_id": "paragraph:宁波栎社_core_record_35+宁波栎社_core_record_36+宁波栎社_core_record_34",
           "clause": "本场西面及西南面有山13 号五边有低矮孤立山包天 气不好时从西面进场飞机注意扇区最低安全高度及航路安全高 度限制。",
           "reason": "同一来源记录中的其他完整运行子句"
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "paragraph:宁波栎社_core_record_37+宁波栎社_core_record_38+宁波栎社_core_record_36",
+          "fact_id": "paragraph:宁波栎社_core_record_35+宁波栎社_core_record_36+宁波栎社_core_record_34",
           "clause": "13号 VOR 下降梯度5.7％，换算成 FPA3.26。",
           "reason": "同一来源记录中的其他完整运行子句"
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "paragraph:宁波栎社_core_record_37+宁波栎社_core_record_38+宁波栎社_core_record_36",
+          "fact_id": "paragraph:宁波栎社_core_record_35+宁波栎社_core_record_36+宁波栎社_core_record_34",
           "clause": "本场西面及西南面有山13 号五边有低矮孤立山包天 气不好时从西面进场飞机注意扇区最低安全高度及航路安全高 度限制。",
           "reason": "同一来源记录中的其他完整运行子句"
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "paragraph:宁波栎社_core_record_37+宁波栎社_core_record_38+宁波栎社_core_record_36",
+          "fact_id": "paragraph:宁波栎社_core_record_35+宁波栎社_core_record_36+宁波栎社_core_record_34",
           "clause": "栎社NDB 和宁波VOR 故障时，31号EOSID 不可用，注 意13号VOR/DME 进近五边航迹和跑道有4 度夹角。",
           "reason": "同一来源记录中的其他完整运行子句"
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "paragraph:宁波栎社_core_record_37+宁波栎社_core_record_38+宁波栎社_core_record_36",
+          "fact_id": "paragraph:宁波栎社_core_record_35+宁波栎社_core_record_36+宁波栎社_core_record_34",
           "clause": "栎社NDB 和宁波VOR 故障时，31号EOSID 不可用，注 意13号VOR/DME 进近五边航迹和跑道有4 度夹角。",
           "reason": "同一来源记录中的其他完整运行子句"
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "paragraph:宁波栎社_core_record_37+宁波栎社_core_record_38+宁波栎社_core_record_36",
+          "fact_id": "paragraph:宁波栎社_core_record_35+宁波栎社_core_record_36+宁波栎社_core_record_34",
           "clause": "13号 VOR 下降梯度5.7％，换算成 FPA3.26。",
           "reason": "同一来源记录中的其他完整运行子句"
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_39",
+          "fact_id": "宁波栎社_core_record_37",
           "clause": "未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。",
           "reason": "同一来源记录中的其他完整运行子句"
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_51",
+          "fact_id": "宁波栎社_core_record_38",
+          "clause": "宁波管制区内军航活动空域复杂。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "宁波栎社",
+          "fact_id": "宁波栎社_core_record_49",
           "clause": "宁波机场31号，气象条件允许时，管制会指挥短五 边目视进近，注意复诵正确。",
           "reason": "同一来源记录中的其他完整运行子句"
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "paragraph:宁波栎社_core_record_10+宁波栎社_core_record_6",
-          "clause": "/EFB-机场特点汇总-公司复杂机场分类及操纵权限规则）。",
+          "fact_id": "宁波栎社_core_record_42",
+          "clause": "ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。",
+          "reason": "同一来源记录中的其他完整运行子句"
+        },
+        {
+          "airport": "宁波栎社",
+          "fact_id": "宁波栎社_core_record_42",
+          "clause": "有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
           "reason": "同一来源记录中的其他完整运行子句"
         },
         {
@@ -5335,7 +5243,7 @@
           "source_page": "N/A",
           "source_heading": "长春龙嘉机场运行特点 ZYCC/CGQ",
           "source_section": "长春龙嘉机场运行特点 ZYCC/CGQ／核心威胁与运行特点／运行特点",
-          "clause": "风沙天能见度较低，目视参考差，存在风切变风险",
+          "clause": "风沙天能见度较低，目视，存在风切变风险",
           "reason": "目标月份为10月，不在资料明确季节适用月份3,4,5月内",
           "discarded_reason": "目标月份为10月，不在资料明确季节适用月份3,4,5月内"
         },
@@ -5481,13 +5389,27 @@
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
           "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点",
+          "clause": "机场分类：一类复杂机场（程序类）（参考三-（6） /EFB-机场特点汇总-公司复杂机场分类及操纵权限规则）。",
+          "reason": "PDF断句或残片未形成完整运行事实",
+          "discarded_reason": "PDF断句或残片未形成完整运行事实"
+        },
+        {
+          "airport": "宁波栎社",
+          "fact_id": "",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+          "source": "PDF",
+          "source_authority": "latest_airport_manual",
+          "source_version": "20260924",
+          "source_page": "N/A",
+          "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点",
           "clause": "航路：沈阳-宁波大连区域CHI-DBL-MAKNO，青岛区域URBAD-LATUX。",
           "reason": "来源包含无法可靠恢复的明显OCR错位",
           "discarded_reason": "来源包含无法可靠恢复的明显OCR错位"
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_25",
+          "fact_id": "宁波栎社_core_record_24",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5498,7 +5420,7 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_27",
+          "fact_id": "宁波栎社_core_record_26",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5509,7 +5431,7 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_28",
+          "fact_id": "宁波栎社_core_record_27",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5520,7 +5442,18 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_32",
+          "fact_id": "宁波栎社_core_record_29",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／航路",
+          "clause": "航路：宁波—阜阳段：NOBEM之后飞 MAGLI，MAGLI 不在计划航 路上。",
+          "reason": "与当前航班/航线不匹配",
+          "discarded_reason": "与当前航班/航线不匹配"
+        },
+        {
+          "airport": "宁波栎社",
+          "fact_id": "宁波栎社_core_record_31",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5531,7 +5464,7 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_34",
+          "fact_id": "宁波栎社_core_record_33",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5542,7 +5475,18 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_17",
+          "fact_id": "宁波栎社_core_record_41",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
+          "clause": "进场：石家庄-宁波：上海进近指挥时不允许下高度，适当 提前联系宁波进近125.45才可以下降高度，易造成剖面较高。",
+          "reason": "与当前航班/航线不匹配",
+          "discarded_reason": "与当前航班/航线不匹配"
+        },
+        {
+          "airport": "宁波栎社",
+          "fact_id": "宁波栎社_core_record_16",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5553,7 +5497,7 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_22",
+          "fact_id": "宁波栎社_core_record_21",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5564,7 +5508,7 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_23",
+          "fact_id": "宁波栎社_core_record_22",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5575,7 +5519,7 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_24",
+          "fact_id": "宁波栎社_core_record_23",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5586,7 +5530,7 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_8",
+          "fact_id": "宁波栎社_core_record_7",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5597,18 +5541,7 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_40",
-          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-          "source_page": "N/A",
-          "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
-          "clause": "未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。",
-          "reason": "运行价值排序后未选入本次航前核心主题",
-          "discarded_reason": "运行价值排序后未选入本次航前核心主题"
-        },
-        {
-          "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_41",
+          "fact_id": "宁波栎社_core_record_39",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5619,7 +5552,7 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_42",
+          "fact_id": "宁波栎社_core_record_40",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5630,18 +5563,7 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_44",
-          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-          "source_page": "N/A",
-          "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
-          "clause": "从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
-          "reason": "运行价值排序后未选入本次航前核心主题",
-          "discarded_reason": "运行价值排序后未选入本次航前核心主题"
-        },
-        {
-          "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_45",
+          "fact_id": "宁波栎社_core_record_43",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5652,7 +5574,7 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_46",
+          "fact_id": "宁波栎社_core_record_44",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5663,7 +5585,7 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_48",
+          "fact_id": "宁波栎社_core_record_46",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5674,18 +5596,7 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_49",
-          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-          "source_page": "N/A",
-          "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
-          "clause": "速度160 节。",
-          "reason": "运行价值排序后未选入本次航前核心主题",
-          "discarded_reason": "运行价值排序后未选入本次航前核心主题"
-        },
-        {
-          "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_50",
+          "fact_id": "宁波栎社_core_record_48",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5696,7 +5607,7 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_33",
+          "fact_id": "宁波栎社_core_record_32",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5707,7 +5618,7 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_47",
+          "fact_id": "宁波栎社_core_record_45",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5718,7 +5629,18 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_19",
+          "fact_id": "宁波栎社_core_record_14",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／地面",
+          "clause": "进位初次联系时需主动报告航空器注册号。",
+          "reason": "运行价值排序后未选入本次航前核心主题",
+          "discarded_reason": "运行价值排序后未选入本次航前核心主题"
+        },
+        {
+          "airport": "宁波栎社",
+          "fact_id": "宁波栎社_core_record_18",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5729,7 +5651,7 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_20",
+          "fact_id": "宁波栎社_core_record_19",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5740,7 +5662,7 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_21",
+          "fact_id": "宁波栎社_core_record_20",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5751,7 +5673,7 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_29",
+          "fact_id": "宁波栎社_core_record_28",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5767,24 +5689,13 @@
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
           "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／航路",
-          "clause": "宁波—阜阳段：NOBEM之后飞 MAGLI，MAGLI 不在计划航 路上。",
-          "reason": "运行价值排序后未选入本次航前核心主题",
-          "discarded_reason": "运行价值排序后未选入本次航前核心主题"
-        },
-        {
-          "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_31",
-          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-          "source_page": "N/A",
-          "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／航路",
           "clause": "宁波——十堰，军事活动会改航绕飞XSH 后军事活动会 指挥飞W80 航路，在距离UPGUR20 海里处武汉（133.75）指挥 飞航迹355，后续再直飞 JO，注意油量。",
           "reason": "运行价值排序后未选入本次航前核心主题",
           "discarded_reason": "运行价值排序后未选入本次航前核心主题"
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_9",
+          "fact_id": "宁波栎社_core_record_8",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5795,7 +5706,7 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_11",
+          "fact_id": "宁波栎社_core_record_10",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -5803,20 +5714,25 @@
           "clause": "导航设施：VOR程序下降梯度陡，航迹偏置。",
           "reason": "运行价值排序后未选入本次航前核心主题",
           "discarded_reason": "运行价值排序后未选入本次航前核心主题"
-        },
-        {
-          "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_7",
-          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-          "source_page": "N/A",
-          "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点",
-          "clause": "/EFB-机场特点汇总-公司复杂机场分类及操纵权限规则）。",
-          "reason": "运行价值排序后未选入本次航前核心主题",
-          "discarded_reason": "运行价值排序后未选入本次航前核心主题"
         }
       ],
-      "source_guard_outcomes": [],
+      "source_guard_outcomes": [
+        {
+          "airport": "宁波栎社",
+          "fact_id": "宁波栎社_core_record_38",
+          "guard_failed": true,
+          "guard_reason": "语言编辑新增运行词：宁波栎社_core_record_38新增BY ATC",
+          "source_fact_ids": [
+            "宁波栎社_core_record_38"
+          ],
+          "source_original_text": "进场：宁波管制区内军航活动空域复杂。未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。",
+          "source_original_texts": [
+            "进场：宁波管制区内军航活动空域复杂。未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。"
+          ],
+          "fallback_used": "text_before_polish",
+          "paragraph_dropped": false
+        }
+      ],
       "core_paragraph_fact_ids": {
         "长春龙嘉": [
           [
@@ -5845,43 +5761,42 @@
         ],
         "宁波栎社": [
           [
-            "宁波栎社_core_record_37",
-            "宁波栎社_core_record_38",
-            "宁波栎社_core_record_36"
+            "宁波栎社_core_record_35",
+            "宁波栎社_core_record_36",
+            "宁波栎社_core_record_34"
           ],
           [
-            "宁波栎社_core_record_39"
+            "宁波栎社_core_record_37"
           ],
           [
-            "宁波栎社_core_record_43"
+            "宁波栎社_core_record_38"
           ],
           [
-            "宁波栎社_core_record_51"
-          ],
-          [
-            "宁波栎社_core_record_13"
-          ],
-          [
-            "宁波栎社_core_record_35"
-          ],
-          [
-            "宁波栎社_core_record_10",
-            "宁波栎社_core_record_6"
+            "宁波栎社_core_record_49"
           ],
           [
             "宁波栎社_core_record_12"
           ],
           [
-            "宁波栎社_core_record_18"
+            "宁波栎社_core_record_42"
+          ],
+          [
+            "宁波栎社_core_record_47"
+          ],
+          [
+            "宁波栎社_core_record_9"
+          ],
+          [
+            "宁波栎社_core_record_11"
+          ],
+          [
+            "宁波栎社_core_record_17"
           ],
           [
             "宁波栎社_core_record_15"
           ],
           [
-            "宁波栎社_core_record_16"
-          ],
-          [
-            "宁波栎社_core_record_14"
+            "宁波栎社_core_record_13"
           ]
         ]
       },
@@ -6167,14 +6082,14 @@
         "宁波栎社": [
           {
             "paragraph_index": 1,
-            "paragraph_id": "paragraph:宁波栎社_core_record_37+宁波栎社_core_record_38+宁波栎社_core_record_36",
+            "paragraph_id": "paragraph:宁波栎社_core_record_35+宁波栎社_core_record_36+宁波栎社_core_record_34",
             "topic": "navigation",
             "role": "arrival",
             "text": "本场西面及西南面有山13号五边有低矮孤立山包天气不好时从西面进场飞机注意扇区最低安全高度及航路安全高度限制。栎社NDB和宁波VOR故障时，31号EOSID不可用，注意13号VOR/DME进近五边航迹和跑道有4度夹角。13号VOR下降梯度5.7％，换算成FPA3.26。",
             "source_fact_ids": [
-              "宁波栎社_core_record_37",
-              "宁波栎社_core_record_38",
-              "宁波栎社_core_record_36"
+              "宁波栎社_core_record_35",
+              "宁波栎社_core_record_36",
+              "宁波栎社_core_record_34"
             ],
             "source_record_ids": [
               "宁波栎社:core:798b33e896b53c74"
@@ -6215,12 +6130,12 @@
           },
           {
             "paragraph_index": 2,
-            "paragraph_id": "宁波栎社_core_record_39",
+            "paragraph_id": "宁波栎社_core_record_37",
             "topic": "airspace_atc",
             "role": "arrival",
             "text": "宁波管制区内军航活动空域复杂。",
             "source_fact_ids": [
-              "宁波栎社_core_record_39"
+              "宁波栎社_core_record_37"
             ],
             "source_record_ids": [
               "宁波栎社:core:098b4a7d6a854d63"
@@ -6259,21 +6174,21 @@
           },
           {
             "paragraph_index": 3,
-            "paragraph_id": "宁波栎社_core_record_43",
+            "paragraph_id": "宁波栎社_core_record_38",
             "topic": "arrival_energy",
             "role": "arrival",
-            "text": "石家庄-宁波：上海进近指挥时不允许下高度，适当提前联系宁波进近125.45才可以下降高度，易造成剖面较高。",
+            "text": "未得到管制许可前请勿选择byATC的进场方式；宁波机场与上海终端区的QNH水平边界重合，高度表拨正严格听从ATC指挥。",
             "source_fact_ids": [
-              "宁波栎社_core_record_43"
+              "宁波栎社_core_record_38"
             ],
             "source_record_ids": [
-              "宁波栎社:core:a88426b1bc3e6376"
+              "宁波栎社:core:098b4a7d6a854d63"
             ],
             "source_clauses": [
-              "石家庄-宁波：上海进近指挥时不允许下高度，适当 提前联系宁波进近125.45才可以下降高度，易造成剖面较高。"
+              "未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。"
             ],
             "source_original_texts": [
-              "进场：石家庄-宁波：上海进近指挥时不允许下高度，适当 提前联系宁波进近125.45才可以下降高度，易造成剖面较高。"
+              "进场：宁波管制区内军航活动空域复杂。未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。"
             ],
             "source_files": [
               "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
@@ -6291,24 +6206,24 @@
             ],
             "condition_scope": {},
             "condition_contexts": [],
-            "briefing_priority": 470,
-            "text_before_polish": "石家庄-宁波：上海进近指挥时不允许下高度，适当提前联系宁波进近125.45才可以下降高度，易造成剖面较高。",
-            "text_after_polish": "石家庄-宁波：上海进近指挥时不允许下高度，适当提前联系宁波进近125.45才可以下降高度，易造成剖面较高。",
+            "briefing_priority": 385,
+            "text_before_polish": "未得到管制许可前请勿选择byATC的进场方式；宁波机场与上海终端区的QNH水平边界重合，高度表拨正严格听从ATC指挥。",
+            "text_after_polish": "未得到管制许可前请勿选择byATC的进场方式；宁波机场与上海终端区的QNH水平边界重合，高度表拨正严格听从ATC指挥。",
             "polish_applied": false,
-            "polish_fallback_reason": "",
-            "guard_failed": false,
-            "guard_reason": "",
-            "fallback_used": "",
+            "polish_fallback_reason": "语言编辑新增运行词：宁波栎社_core_record_38新增BY ATC",
+            "guard_failed": true,
+            "guard_reason": "语言编辑新增运行词：宁波栎社_core_record_38新增BY ATC",
+            "fallback_used": "text_before_polish",
             "paragraph_dropped": false
           },
           {
             "paragraph_index": 4,
-            "paragraph_id": "宁波栎社_core_record_51",
+            "paragraph_id": "宁波栎社_core_record_49",
             "topic": "approach_intercept",
             "role": "arrival",
             "text": "指挥指令为直飞A点，注意进近准备时相应的定位点输入，且短五边目视进近时能量管理需要注意，如果后续无法目视跑道需管制雷达引导，因为31号附近地形原因，雷达引导会使剖面逐渐紧张，注意减速和能量管理，避免飞机能量过大。",
             "source_fact_ids": [
-              "宁波栎社_core_record_51"
+              "宁波栎社_core_record_49"
             ],
             "source_record_ids": [
               "宁波栎社:core:8b0844110fa1fb1b"
@@ -6351,12 +6266,12 @@
           },
           {
             "paragraph_index": 5,
-            "paragraph_id": "宁波栎社_core_record_13",
+            "paragraph_id": "宁波栎社_core_record_12",
             "topic": "rnp_procedure",
             "role": "arrival",
             "text": "13号盲降不工作时，使用RNP13进近，且航图程序只有LNAV。",
             "source_fact_ids": [
-              "宁波栎社_core_record_13"
+              "宁波栎社_core_record_12"
             ],
             "source_record_ids": [
               "宁波栎社:core:fc1febf790828902"
@@ -6395,21 +6310,21 @@
           },
           {
             "paragraph_index": 6,
-            "paragraph_id": "宁波栎社_core_record_35",
+            "paragraph_id": "宁波栎社_core_record_42",
             "topic": "approach",
             "role": "arrival",
-            "text": "注意事项。",
+            "text": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
             "source_fact_ids": [
-              "宁波栎社_core_record_35"
+              "宁波栎社_core_record_42"
             ],
             "source_record_ids": [
-              "宁波栎社:core:f34d9ff8d7c7fa5a"
+              "宁波栎社:core:7ea88de98c1bb20f"
             ],
             "source_clauses": [
-              "注意事项。"
+              "从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。"
             ],
             "source_original_texts": [
-              "进场：注意事项。"
+              "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。"
             ],
             "source_files": [
               "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
@@ -6427,9 +6342,9 @@
             ],
             "condition_scope": {},
             "condition_contexts": [],
-            "briefing_priority": 365,
-            "text_before_polish": "注意事项。",
-            "text_after_polish": "注意事项。",
+            "briefing_priority": 355,
+            "text_before_polish": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
+            "text_after_polish": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
             "polish_applied": false,
             "polish_fallback_reason": "",
             "guard_failed": false,
@@ -6439,25 +6354,65 @@
           },
           {
             "paragraph_index": 7,
-            "paragraph_id": "paragraph:宁波栎社_core_record_10+宁波栎社_core_record_6",
-            "topic": "terrain",
+            "paragraph_id": "宁波栎社_core_record_47",
+            "topic": "approach",
             "role": "arrival",
-            "text": "该机场属于一类复杂机场（程序类）（参考三-。地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
+            "text": "速度160节。",
             "source_fact_ids": [
-              "宁波栎社_core_record_10",
-              "宁波栎社_core_record_6"
+              "宁波栎社_core_record_47"
             ],
             "source_record_ids": [
-              "宁波栎社:core:f7b82f48a4cff8ef",
-              "宁波栎社:core:ae6a99c2da4dc0cf"
+              "宁波栎社:core:11ae458bf7d14f20"
             ],
             "source_clauses": [
-              "地形:地形复杂，13号盲降下降梯度陡，GP3.2。",
-              "机场分类：一类复杂机场（程序类）（参考三-。"
+              "速度160 节。"
             ],
             "source_original_texts": [
-              "地形:地形复杂，13号盲降下降梯度陡，GP3.2。",
-              "机场分类：一类复杂机场（程序类）（参考三-（6） /EFB-机场特点汇总-公司复杂机场分类及操纵权限规则）。"
+              "进场：速度160 节。"
+            ],
+            "source_files": [
+              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
+            ],
+            "source_authority": "latest_airport_manual",
+            "source": "PDF",
+            "role_scope": [
+              "arrival"
+            ],
+            "source_note": "",
+            "confirmed_date": "",
+            "source_version": "20260924",
+            "source_sections": [
+              "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场"
+            ],
+            "condition_scope": {},
+            "condition_contexts": [],
+            "briefing_priority": 355,
+            "text_before_polish": "速度160节。",
+            "text_after_polish": "速度160节。",
+            "polish_applied": false,
+            "polish_fallback_reason": "",
+            "guard_failed": false,
+            "guard_reason": "",
+            "fallback_used": "",
+            "paragraph_dropped": false
+          },
+          {
+            "paragraph_index": 8,
+            "paragraph_id": "paragraph:宁波栎社_core_record_9",
+            "topic": "terrain",
+            "role": "arrival",
+            "text": "地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
+            "source_fact_ids": [
+              "宁波栎社_core_record_9"
+            ],
+            "source_record_ids": [
+              "宁波栎社:core:f7b82f48a4cff8ef"
+            ],
+            "source_clauses": [
+              "地形:地形复杂，13号盲降下降梯度陡，GP3.2。"
+            ],
+            "source_original_texts": [
+              "地形:地形复杂，13号盲降下降梯度陡，GP3.2。"
             ],
             "source_files": [
               "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
@@ -6476,8 +6431,8 @@
             "condition_scope": {},
             "condition_contexts": [],
             "briefing_priority": 375,
-            "text_before_polish": "该机场属于一类复杂机场（程序类）（参考三-。地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
-            "text_after_polish": "该机场属于一类复杂机场（程序类）（参考三-。地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
+            "text_before_polish": "地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
+            "text_after_polish": "地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
             "polish_applied": false,
             "polish_fallback_reason": "",
             "guard_failed": false,
@@ -6486,13 +6441,13 @@
             "paragraph_dropped": false
           },
           {
-            "paragraph_index": 8,
-            "paragraph_id": "宁波栎社_core_record_12",
+            "paragraph_index": 9,
+            "paragraph_id": "宁波栎社_core_record_11",
             "topic": "landing",
             "role": "arrival",
             "text": "13号跑道入口内移150m，注意视线影响。",
             "source_fact_ids": [
-              "宁波栎社_core_record_12"
+              "宁波栎社_core_record_11"
             ],
             "source_record_ids": [
               "宁波栎社:core:6726cc4b77b233df"
@@ -6528,13 +6483,13 @@
             "paragraph_dropped": false
           },
           {
-            "paragraph_index": 9,
-            "paragraph_id": "宁波栎社_core_record_18",
+            "paragraph_index": 10,
+            "paragraph_id": "宁波栎社_core_record_17",
             "topic": "ground_signage",
             "role": "arrival",
             "text": "L1与B8道口地面标识模糊，易与B8西侧的L1滑行道弄混淆，请机组注意。",
             "source_fact_ids": [
-              "宁波栎社_core_record_18"
+              "宁波栎社_core_record_17"
             ],
             "source_record_ids": [
               "宁波栎社:core:2d7e15355e668958"
@@ -6570,57 +6525,13 @@
             "paragraph_dropped": false
           },
           {
-            "paragraph_index": 10,
-            "paragraph_id": "宁波栎社_core_record_15",
-            "topic": "ground_stand",
-            "role": "arrival",
-            "text": "进位初次联系时需主动报告航空器注册号。",
-            "source_fact_ids": [
-              "宁波栎社_core_record_15"
-            ],
-            "source_record_ids": [
-              "宁波栎社:core:d79c612454b66859"
-            ],
-            "source_clauses": [
-              "进位初次联系时需主动报告航空器注册号。"
-            ],
-            "source_original_texts": [
-              "地面：进位初次联系时需主动报告航空器注册号。"
-            ],
-            "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
-            ],
-            "source_authority": "latest_airport_manual",
-            "source": "PDF",
-            "role_scope": [
-              "arrival"
-            ],
-            "source_note": "",
-            "confirmed_date": "",
-            "source_version": "20260924",
-            "source_sections": [
-              "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／地面"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "briefing_priority": 290,
-            "text_before_polish": "进位初次联系时需主动报告航空器注册号。",
-            "text_after_polish": "进位初次联系时需主动报告航空器注册号。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "guard_failed": false,
-            "guard_reason": "",
-            "fallback_used": "",
-            "paragraph_dropped": false
-          },
-          {
             "paragraph_index": 11,
-            "paragraph_id": "宁波栎社_core_record_16",
+            "paragraph_id": "宁波栎社_core_record_15",
             "topic": "landing_ground",
             "role": "arrival",
             "text": "宁波机场要求除必要的检查以外，其他人员严禁在机腹下穿行。",
             "source_fact_ids": [
-              "宁波栎社_core_record_16"
+              "宁波栎社_core_record_15"
             ],
             "source_record_ids": [
               "宁波栎社:core:91be82dcbee2f2ce"
@@ -6657,12 +6568,12 @@
           },
           {
             "paragraph_index": 12,
-            "paragraph_id": "宁波栎社_core_record_14",
+            "paragraph_id": "宁波栎社_core_record_13",
             "topic": "ground_waiting",
             "role": "arrival",
             "text": "B9灯牌在跑道一侧，13号落地后通常指挥在B10前等，后续通常B9左转跟引导车，注意B9紧邻B10(B10灯牌在机坪一侧)，容易错过。",
             "source_fact_ids": [
-              "宁波栎社_core_record_14"
+              "宁波栎社_core_record_13"
             ],
             "source_record_ids": [
               "宁波栎社:core:22372cb1700ba0c3"
@@ -6701,7 +6612,7 @@
           }
         ]
       },
-      "content_sha256": "dfb87b9c0d43078627681ee71536e41d307f703fe8507772a590028cd3b41f96"
+      "content_sha256": "c834d7f73ce93a143ec1c0fa83bffc2fac6c262e4f78b6848bf3f819d7070454"
     }
   ],
   "warnings": [
@@ -6710,13 +6621,7 @@
     "宁波栎社匹配最新机场特点章节：宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)（ZSNB）"
   ],
   "weather": {},
-  "airport_experience_changes": [
-    "大连周水子: 2026-09-29 -> 2026-09-30",
-    "西安咸阳: 2026-05-26 -> 2026-09-30",
-    "大连周水子: 2026-09-30 -> 2026-10-01",
-    "呼和浩特白塔: 2026-06-06 -> 2026-10-01",
-    "上海浦东: 2026-09-24 -> 2026-10-01"
-  ],
+  "airport_experience_changes": [],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
   "airport_information_version": 20260924,
   "airport_information_type": "PDF",
@@ -6731,8 +6636,7 @@
         "上海浦东_core_record_5",
         "上海浦东_core_record_6",
         "user_confirmed:f7577d379bd6317d8c4c2d68",
-        "上海浦东_core_record_19",
-        "上海浦东_core_record_4"
+        "上海浦东_core_record_19"
       ]
     },
     "长春龙嘉": {
@@ -6765,18 +6669,18 @@
         "宁波栎社_typical_record_5"
       ],
       "core": [
-        "paragraph:宁波栎社_core_record_37+宁波栎社_core_record_38+宁波栎社_core_record_36",
-        "宁波栎社_core_record_39",
-        "宁波栎社_core_record_43",
-        "宁波栎社_core_record_51",
-        "宁波栎社_core_record_13",
-        "宁波栎社_core_record_35",
-        "paragraph:宁波栎社_core_record_10+宁波栎社_core_record_6",
+        "paragraph:宁波栎社_core_record_35+宁波栎社_core_record_36+宁波栎社_core_record_34",
+        "宁波栎社_core_record_37",
+        "宁波栎社_core_record_38",
+        "宁波栎社_core_record_49",
         "宁波栎社_core_record_12",
-        "宁波栎社_core_record_18",
+        "宁波栎社_core_record_42",
+        "宁波栎社_core_record_47",
+        "paragraph:宁波栎社_core_record_9",
+        "宁波栎社_core_record_11",
+        "宁波栎社_core_record_17",
         "宁波栎社_core_record_15",
-        "宁波栎社_core_record_16",
-        "宁波栎社_core_record_14"
+        "宁波栎社_core_record_13"
       ]
     }
   },
@@ -7252,73 +7156,6 @@
         "paragraph_dropped": false,
         "airport_specific": true,
         "category": "core"
-      },
-      {
-        "fact_id": "上海浦东_core_record_4",
-        "paragraph_id": "上海浦东_core_record_4",
-        "airport": "上海浦东",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-        "source": "PDF",
-        "source_authority": "latest_airport_manual",
-        "source_version": "20260924",
-        "source_page": "448-451",
-        "source_heading": "上海/浦东机场运行特点（ZSPD/PVG）",
-        "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点／地面",
-        "source_note": "",
-        "confirmed_date": "",
-        "source_text_zh": "地面：请机组注意 E，T1 滑行道关闭未在航行通告上说明，机组请参考施工区域 图（2C-1-SUP）。",
-        "source_original_text": "地面：请机组注意 E，T1 滑行道关闭未在航行通告上说明，机组请参考施工区域 图（2C-1-SUP）。",
-        "source_original_texts": [
-          "地面：请机组注意 E，T1 滑行道关闭未在航行通告上说明，机组请参考施工区域 图（2C-1-SUP）。"
-        ],
-        "source_record_ids": [
-          "上海浦东:core:9eca505f5677c686"
-        ],
-        "source_clauses": [
-          "请机组注意 E，T1 滑行道关闭未在航行通告上说明，机组请参考施工区域 图（2C-1-SUP）。"
-        ],
-        "operational_phase": "ground",
-        "role_scope": [],
-        "operational_condition": [
-          "T1 滑行道关闭未在航行通告上说明"
-        ],
-        "applicability": [
-          "滑行"
-        ],
-        "risk": [],
-        "mitigation": [
-          "请机组注意 E",
-          "机组请参考施工区域图（2C-1-SUP）"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "请机组注意E，T1滑行道关闭未在航行通告上说明，机组请参考施工区域图（2C-1-SUP）。",
-        "text_en": "",
-        "english_source": "unavailable",
-        "english_concepts": [],
-        "rendered_text": "请机组注意E，T1滑行道关闭未在航行通告上说明，机组请参考施工区域图（2C-1-SUP）。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "construction",
-        "role": "departure",
-        "source_fact_ids": [
-          "上海浦东_core_record_4"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 230,
-        "text_before_polish": "请机组注意E，T1滑行道关闭未在航行通告上说明，机组请参考施工区域图（2C-1-SUP）。",
-        "text_after_polish": "请机组注意E，T1滑行道关闭未在航行通告上说明，机组请参考施工区域图（2C-1-SUP）。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "guard_failed": false,
-        "guard_reason": "",
-        "fallback_used": "",
-        "paragraph_dropped": false,
-        "airport_specific": true,
-        "category": "core"
       }
     ],
     "长春龙嘉": [
@@ -7439,11 +7276,9 @@
           }
         ],
         "text_zh": "06号跑道进近时，因其他用户活动，有时要求保持2100m 至DME15海里，请机组提前做好高截获预案，提前减速、放形态。",
-        "text_en": "Before intercept, we must verify position, intercept angle, altitude, and distance and monitor LOC/GS, FMA, descent rate, and speed; apply the procedure for false or unstable capture and go around if necessary.",
-        "english_source": "concept_fallback",
-        "english_concepts": [
-          "ils"
-        ],
+        "text_en": "",
+        "english_source": "unavailable",
+        "english_concepts": [],
         "rendered_text": "06号跑道进近时，因其他用户活动，有时要求保持2100m 至DME15海里，请机组提前做好高截获预案，提前减速、放形态。",
         "season_scope": [],
         "flight_scope": [],
@@ -7515,11 +7350,9 @@
         ],
         "excluded_source_clauses": [],
         "text_zh": "空域受限制时，06号跑道使用LEMOT-4A进场，管制指挥下高度偏晚，可能造成高截获，机组注意。",
-        "text_en": "Before intercept, we must verify position, intercept angle, altitude, and distance and monitor LOC/GS, FMA, descent rate, and speed; apply the procedure for false or unstable capture and go around if necessary.",
-        "english_source": "concept_fallback",
-        "english_concepts": [
-          "ils"
-        ],
+        "text_en": "",
+        "english_source": "unavailable",
+        "english_concepts": [],
         "rendered_text": "空域受限制时，06号跑道使用LEMOT-4A进场，管制指挥下高度偏晚，可能造成高截获，机组注意。",
         "season_scope": [],
         "flight_scope": [],
@@ -8170,11 +8003,9 @@
           }
         ],
         "text_zh": "慢车除冰:滑到24号跑道头附近除冰位，引导车脱离后，需要自己观察 stop 线停下。",
-        "text_en": "Before pushback and taxi, we must confirm the clearance, route, holding position, and runway entry and continuously cross-check charts, signs, lights, and outside visual cues; stop and confirm with ATC whenever position or clearance is uncertain.",
-        "english_source": "concept_fallback",
-        "english_concepts": [
-          "ground"
-        ],
+        "text_en": "",
+        "english_source": "unavailable",
+        "english_concepts": [],
         "rendered_text": "慢车除冰:滑到24号跑道头附近除冰位，引导车脱离后，需要自己观察 stop 线停下。",
         "season_scope": [],
         "flight_scope": [],
@@ -8242,11 +8073,9 @@
         "restriction": [],
         "excluded_source_clauses": [],
         "text_zh": "离港时管制员可能指挥在L-H4，A前等待，A滑行道前无等待线，须注意留足距离，避免滑错产生冲突。",
-        "text_en": "Before pushback and taxi, we must confirm the clearance, route, holding position, and runway entry and continuously cross-check charts, signs, lights, and outside visual cues; stop and confirm with ATC whenever position or clearance is uncertain.",
-        "english_source": "concept_fallback",
-        "english_concepts": [
-          "ground"
-        ],
+        "text_en": "",
+        "english_source": "unavailable",
+        "english_concepts": [],
         "rendered_text": "离港时管制员可能指挥在L-H4，A前等待，A滑行道前无等待线，须注意留足距离，避免滑错产生冲突。",
         "season_scope": [],
         "flight_scope": [],
@@ -8864,8 +8693,8 @@
         "category": "typical"
       },
       {
-        "fact_id": "paragraph:宁波栎社_core_record_37+宁波栎社_core_record_38+宁波栎社_core_record_36",
-        "paragraph_id": "paragraph:宁波栎社_core_record_37+宁波栎社_core_record_38+宁波栎社_core_record_36",
+        "fact_id": "paragraph:宁波栎社_core_record_35+宁波栎社_core_record_36+宁波栎社_core_record_34",
+        "paragraph_id": "paragraph:宁波栎社_core_record_35+宁波栎社_core_record_36+宁波栎社_core_record_34",
         "airport": "宁波栎社",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
         "source": "PDF",
@@ -8940,11 +8769,9 @@
           }
         ],
         "text_zh": "本场西面及西南面有山13号五边有低矮孤立山包天气不好时从西面进场飞机注意扇区最低安全高度及航路安全高度限制。栎社NDB和宁波VOR故障时，31号EOSID不可用，注意13号VOR/DME进近五边航迹和跑道有4度夹角。13号VOR下降梯度5.7％，换算成FPA3.26。",
-        "text_en": "We must remain on the published track, altitude, and climb gradient and monitor terrain, MSA, and navigation accuracy; before accepting a direct clearance, radar vector, or low-altitude deviation, confirm terrain clearance.",
-        "english_source": "concept_fallback",
-        "english_concepts": [
-          "terrain"
-        ],
+        "text_en": "",
+        "english_source": "unavailable",
+        "english_concepts": [],
         "rendered_text": "本场西面及西南面有山13号五边有低矮孤立山包天气不好时从西面进场飞机注意扇区最低安全高度及航路安全高度限制。栎社NDB和宁波VOR故障时，31号EOSID不可用，注意13号VOR/DME进近五边航迹和跑道有4度夹角。13号VOR下降梯度5.7％，换算成FPA3.26。",
         "season_scope": [],
         "flight_scope": [],
@@ -8952,9 +8779,9 @@
         "topic": "navigation",
         "role": "arrival",
         "source_fact_ids": [
-          "宁波栎社_core_record_37",
-          "宁波栎社_core_record_38",
-          "宁波栎社_core_record_36"
+          "宁波栎社_core_record_35",
+          "宁波栎社_core_record_36",
+          "宁波栎社_core_record_34"
         ],
         "condition_scope": {},
         "condition_contexts": [],
@@ -8972,8 +8799,8 @@
         "category": "core"
       },
       {
-        "fact_id": "宁波栎社_core_record_39",
-        "paragraph_id": "宁波栎社_core_record_39",
+        "fact_id": "宁波栎社_core_record_37",
+        "paragraph_id": "宁波栎社_core_record_37",
         "airport": "宁波栎社",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
         "source": "PDF",
@@ -9025,7 +8852,7 @@
         "topic": "airspace_atc",
         "role": "arrival",
         "source_fact_ids": [
-          "宁波栎社_core_record_39"
+          "宁波栎社_core_record_37"
         ],
         "condition_scope": {},
         "condition_contexts": [],
@@ -9043,8 +8870,8 @@
         "category": "core"
       },
       {
-        "fact_id": "宁波栎社_core_record_43",
-        "paragraph_id": "宁波栎社_core_record_43",
+        "fact_id": "宁波栎社_core_record_38",
+        "paragraph_id": "宁波栎社_core_record_38",
         "airport": "宁波栎社",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
         "source": "PDF",
@@ -9055,66 +8882,70 @@
         "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
         "source_note": "",
         "confirmed_date": "",
-        "source_text_zh": "进场：石家庄-宁波：上海进近指挥时不允许下高度，适当 提前联系宁波进近125.45才可以下降高度，易造成剖面较高。",
-        "source_original_text": "进场：石家庄-宁波：上海进近指挥时不允许下高度，适当 提前联系宁波进近125.45才可以下降高度，易造成剖面较高。",
+        "source_text_zh": "进场：宁波管制区内军航活动空域复杂。未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。",
+        "source_original_text": "进场：宁波管制区内军航活动空域复杂。未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。",
         "source_original_texts": [
-          "进场：石家庄-宁波：上海进近指挥时不允许下高度，适当 提前联系宁波进近125.45才可以下降高度，易造成剖面较高。"
+          "进场：宁波管制区内军航活动空域复杂。未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。"
         ],
         "source_record_ids": [
-          "宁波栎社:core:a88426b1bc3e6376"
+          "宁波栎社:core:098b4a7d6a854d63"
         ],
         "source_clauses": [
-          "石家庄-宁波：上海进近指挥时不允许下高度，适当 提前联系宁波进近125.45才可以下降高度，易造成剖面较高。"
+          "未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。"
         ],
         "operational_phase": "arrival",
         "role_scope": [
           "arrival"
         ],
         "operational_condition": [
-          "石家庄-宁波：上海进近指挥时不允许下高度"
+          "宁波机场与上海终端区的QNH 水平边界重合",
+          "高度表拨正严格听从ATC 指挥"
         ],
         "applicability": [
-          "进近"
+          "进场"
         ],
-        "risk": [
-          "易造成剖面较高"
+        "risk": [],
+        "mitigation": [
+          "未得到管制许可前请勿选择byATC 的进场方式"
         ],
-        "mitigation": [],
-        "restriction": [
-          "适当提前联系宁波进近125.45才可以下降高度"
+        "restriction": [],
+        "excluded_source_clauses": [
+          {
+            "clause": "宁波管制区内军航活动空域复杂。",
+            "reason": "同一来源记录中的其他完整运行子句"
+          }
         ],
-        "excluded_source_clauses": [],
-        "text_zh": "石家庄-宁波：上海进近指挥时不允许下高度，适当提前联系宁波进近125.45才可以下降高度，易造成剖面较高。",
+        "text_zh": "未得到管制许可前请勿选择byATC的进场方式；宁波机场与上海终端区的QNH水平边界重合，高度表拨正严格听从ATC指挥。",
         "text_en": "",
         "english_source": "unavailable",
         "english_concepts": [],
-        "rendered_text": "石家庄-宁波：上海进近指挥时不允许下高度，适当提前联系宁波进近125.45才可以下降高度，易造成剖面较高。",
+        "rendered_text": "未得到管制许可前请勿选择byATC的进场方式；宁波机场与上海终端区的QNH水平边界重合，高度表拨正严格听从ATC指挥。",
         "season_scope": [],
         "flight_scope": [],
         "route_scope": [],
         "topic": "arrival_energy",
         "role": "arrival",
         "source_fact_ids": [
-          "宁波栎社_core_record_43"
+          "宁波栎社_core_record_38"
         ],
         "condition_scope": {},
         "condition_contexts": [],
         "condition_group": "",
-        "briefing_priority": 470,
-        "text_before_polish": "石家庄-宁波：上海进近指挥时不允许下高度，适当提前联系宁波进近125.45才可以下降高度，易造成剖面较高。",
-        "text_after_polish": "石家庄-宁波：上海进近指挥时不允许下高度，适当提前联系宁波进近125.45才可以下降高度，易造成剖面较高。",
+        "briefing_priority": 385,
+        "text_before_polish": "未得到管制许可前请勿选择byATC的进场方式；宁波机场与上海终端区的QNH水平边界重合，高度表拨正严格听从ATC指挥。",
+        "text_after_polish": "未得到管制许可前请勿选择byATC的进场方式；宁波机场与上海终端区的QNH水平边界重合，高度表拨正严格听从ATC指挥。",
         "polish_applied": false,
-        "polish_fallback_reason": "",
-        "guard_failed": false,
-        "guard_reason": "",
-        "fallback_used": "",
+        "polish_fallback_reason": "语言编辑新增运行词：宁波栎社_core_record_38新增BY ATC",
+        "guard_failed": true,
+        "guard_reason": "语言编辑新增运行词：宁波栎社_core_record_38新增BY ATC",
+        "fallback_used": "text_before_polish",
         "paragraph_dropped": false,
         "airport_specific": true,
         "category": "core"
       },
       {
-        "fact_id": "宁波栎社_core_record_51",
-        "paragraph_id": "宁波栎社_core_record_51",
+        "fact_id": "宁波栎社_core_record_49",
+        "paragraph_id": "宁波栎社_core_record_49",
         "airport": "宁波栎社",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
         "source": "PDF",
@@ -9176,7 +9007,7 @@
         "topic": "approach_intercept",
         "role": "arrival",
         "source_fact_ids": [
-          "宁波栎社_core_record_51"
+          "宁波栎社_core_record_49"
         ],
         "condition_scope": {
           "runway": "31"
@@ -9198,8 +9029,8 @@
         "category": "core"
       },
       {
-        "fact_id": "宁波栎社_core_record_13",
-        "paragraph_id": "宁波栎社_core_record_13",
+        "fact_id": "宁波栎社_core_record_12",
+        "paragraph_id": "宁波栎社_core_record_12",
         "airport": "宁波栎社",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
         "source": "PDF",
@@ -9250,7 +9081,7 @@
         "topic": "rnp_procedure",
         "role": "arrival",
         "source_fact_ids": [
-          "宁波栎社_core_record_13"
+          "宁波栎社_core_record_12"
         ],
         "condition_scope": {},
         "condition_contexts": [],
@@ -9268,8 +9099,8 @@
         "category": "core"
       },
       {
-        "fact_id": "宁波栎社_core_record_35",
-        "paragraph_id": "宁波栎社_core_record_35",
+        "fact_id": "宁波栎社_core_record_42",
+        "paragraph_id": "宁波栎社_core_record_42",
         "airport": "宁波栎社",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
         "source": "PDF",
@@ -9280,48 +9111,64 @@
         "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
         "source_note": "",
         "confirmed_date": "",
-        "source_text_zh": "进场：注意事项。",
-        "source_original_text": "进场：注意事项。",
+        "source_text_zh": "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
+        "source_original_text": "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
         "source_original_texts": [
-          "进场：注意事项。"
+          "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。"
         ],
         "source_record_ids": [
-          "宁波栎社:core:f34d9ff8d7c7fa5a"
+          "宁波栎社:core:7ea88de98c1bb20f"
         ],
         "source_clauses": [
-          "注意事项。"
+          "从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。"
         ],
         "operational_phase": "arrival",
         "role_scope": [
           "arrival"
         ],
-        "operational_condition": [],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [
-          "注意事项"
+        "operational_condition": [
+          "从北方进场的航班",
+          "如长春-宁波",
+          "移交宁波进近之前"
         ],
+        "applicability": [
+          "进场",
+          "进近"
+        ],
+        "risk": [
+          "上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路"
+        ],
+        "mitigation": [],
         "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "注意事项。",
+        "excluded_source_clauses": [
+          {
+            "clause": "ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。",
+            "reason": "同一来源记录中的其他完整运行子句"
+          },
+          {
+            "clause": "有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
+            "reason": "同一来源记录中的其他完整运行子句"
+          }
+        ],
+        "text_zh": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
         "text_en": "",
         "english_source": "unavailable",
         "english_concepts": [],
-        "rendered_text": "注意事项。",
+        "rendered_text": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
         "season_scope": [],
         "flight_scope": [],
         "route_scope": [],
         "topic": "approach",
         "role": "arrival",
         "source_fact_ids": [
-          "宁波栎社_core_record_35"
+          "宁波栎社_core_record_42"
         ],
         "condition_scope": {},
         "condition_contexts": [],
         "condition_group": "",
-        "briefing_priority": 365,
-        "text_before_polish": "注意事项。",
-        "text_after_polish": "注意事项。",
+        "briefing_priority": 355,
+        "text_before_polish": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
+        "text_after_polish": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
         "polish_applied": false,
         "polish_fallback_reason": "",
         "guard_failed": false,
@@ -9332,8 +9179,72 @@
         "category": "core"
       },
       {
-        "fact_id": "paragraph:宁波栎社_core_record_10+宁波栎社_core_record_6",
-        "paragraph_id": "paragraph:宁波栎社_core_record_10+宁波栎社_core_record_6",
+        "fact_id": "宁波栎社_core_record_47",
+        "paragraph_id": "宁波栎社_core_record_47",
+        "airport": "宁波栎社",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+        "source": "PDF",
+        "source_authority": "latest_airport_manual",
+        "source_version": "20260924",
+        "source_page": "N/A",
+        "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+        "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
+        "source_note": "",
+        "confirmed_date": "",
+        "source_text_zh": "进场：速度160 节。",
+        "source_original_text": "进场：速度160 节。",
+        "source_original_texts": [
+          "进场：速度160 节。"
+        ],
+        "source_record_ids": [
+          "宁波栎社:core:11ae458bf7d14f20"
+        ],
+        "source_clauses": [
+          "速度160 节。"
+        ],
+        "operational_phase": "arrival",
+        "role_scope": [
+          "arrival"
+        ],
+        "operational_condition": [
+          "速度160 节"
+        ],
+        "applicability": [],
+        "risk": [],
+        "mitigation": [],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "速度160节。",
+        "text_en": "",
+        "english_source": "unavailable",
+        "english_concepts": [],
+        "rendered_text": "速度160节。",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "approach",
+        "role": "arrival",
+        "source_fact_ids": [
+          "宁波栎社_core_record_47"
+        ],
+        "condition_scope": {},
+        "condition_contexts": [],
+        "condition_group": "",
+        "briefing_priority": 355,
+        "text_before_polish": "速度160节。",
+        "text_after_polish": "速度160节。",
+        "polish_applied": false,
+        "polish_fallback_reason": "",
+        "guard_failed": false,
+        "guard_reason": "",
+        "fallback_used": "",
+        "paragraph_dropped": false,
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "paragraph:宁波栎社_core_record_9",
+        "paragraph_id": "paragraph:宁波栎社_core_record_9",
         "airport": "宁波栎社",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
         "source": "PDF",
@@ -9344,19 +9255,16 @@
         "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点",
         "source_note": "",
         "confirmed_date": "",
-        "source_text_zh": "地形:地形复杂，13号盲降下降梯度陡，GP3.2。 机场分类：一类复杂机场（程序类）（参考三-（6） /EFB-机场特点汇总-公司复杂机场分类及操纵权限规则）。",
-        "source_original_text": "地形:地形复杂，13号盲降下降梯度陡，GP3.2。 机场分类：一类复杂机场（程序类）（参考三-（6） /EFB-机场特点汇总-公司复杂机场分类及操纵权限规则）。",
+        "source_text_zh": "地形:地形复杂，13号盲降下降梯度陡，GP3.2。",
+        "source_original_text": "地形:地形复杂，13号盲降下降梯度陡，GP3.2。",
         "source_original_texts": [
-          "地形:地形复杂，13号盲降下降梯度陡，GP3.2。",
-          "机场分类：一类复杂机场（程序类）（参考三-（6） /EFB-机场特点汇总-公司复杂机场分类及操纵权限规则）。"
+          "地形:地形复杂，13号盲降下降梯度陡，GP3.2。"
         ],
         "source_record_ids": [
-          "宁波栎社:core:f7b82f48a4cff8ef",
-          "宁波栎社:core:ae6a99c2da4dc0cf"
+          "宁波栎社:core:f7b82f48a4cff8ef"
         ],
         "source_clauses": [
-          "地形:地形复杂，13号盲降下降梯度陡，GP3.2。",
-          "机场分类：一类复杂机场（程序类）（参考三-。"
+          "地形:地形复杂，13号盲降下降梯度陡，GP3.2。"
         ],
         "operational_phase": "approach",
         "role_scope": [
@@ -9365,8 +9273,7 @@
         "operational_condition": [
           "地形:地形复杂",
           "13号盲降下降梯度陡",
-          "GP3.2",
-          "机场分类：一类复杂机场（程序类）（参考三-"
+          "GP3.2"
         ],
         "applicability": [
           "13号"
@@ -9374,32 +9281,26 @@
         "risk": [],
         "mitigation": [],
         "restriction": [],
-        "excluded_source_clauses": [
-          {
-            "clause": "/EFB-机场特点汇总-公司复杂机场分类及操纵权限规则）。",
-            "reason": "同一来源记录中的其他完整运行子句"
-          }
-        ],
-        "text_zh": "该机场属于一类复杂机场（程序类）（参考三-。地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
+        "excluded_source_clauses": [],
+        "text_zh": "地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
         "text_en": "",
         "english_source": "unavailable",
         "english_concepts": [],
-        "rendered_text": "该机场属于一类复杂机场（程序类）（参考三-。地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
+        "rendered_text": "地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
         "season_scope": [],
         "flight_scope": [],
         "route_scope": [],
         "topic": "terrain",
         "role": "arrival",
         "source_fact_ids": [
-          "宁波栎社_core_record_10",
-          "宁波栎社_core_record_6"
+          "宁波栎社_core_record_9"
         ],
         "condition_scope": {},
         "condition_contexts": [],
         "condition_group": "",
         "briefing_priority": 375,
-        "text_before_polish": "该机场属于一类复杂机场（程序类）（参考三-。地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
-        "text_after_polish": "该机场属于一类复杂机场（程序类）（参考三-。地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
+        "text_before_polish": "地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
+        "text_after_polish": "地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
         "polish_applied": false,
         "polish_fallback_reason": "",
         "guard_failed": false,
@@ -9410,8 +9311,8 @@
         "category": "core"
       },
       {
-        "fact_id": "宁波栎社_core_record_12",
-        "paragraph_id": "宁波栎社_core_record_12",
+        "fact_id": "宁波栎社_core_record_11",
+        "paragraph_id": "宁波栎社_core_record_11",
         "airport": "宁波栎社",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
         "source": "PDF",
@@ -9448,11 +9349,9 @@
         "restriction": [],
         "excluded_source_clauses": [],
         "text_zh": "13号跑道入口内移150m，注意视线影响。",
-        "text_en": "During approach and landing, we must use instruments, PAPI, runway markings, and lighting together rather than a single visual impression; go around for a long touchdown, abnormal descent rate, or uncertain runway identification.",
-        "english_source": "concept_fallback",
-        "english_concepts": [
-          "visual_illusion"
-        ],
+        "text_en": "",
+        "english_source": "unavailable",
+        "english_concepts": [],
         "rendered_text": "13号跑道入口内移150m，注意视线影响。",
         "season_scope": [],
         "flight_scope": [],
@@ -9460,7 +9359,7 @@
         "topic": "landing",
         "role": "arrival",
         "source_fact_ids": [
-          "宁波栎社_core_record_12"
+          "宁波栎社_core_record_11"
         ],
         "condition_scope": {},
         "condition_contexts": [],
@@ -9478,8 +9377,8 @@
         "category": "core"
       },
       {
-        "fact_id": "宁波栎社_core_record_18",
-        "paragraph_id": "宁波栎社_core_record_18",
+        "fact_id": "宁波栎社_core_record_17",
+        "paragraph_id": "宁波栎社_core_record_17",
         "airport": "宁波栎社",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
         "source": "PDF",
@@ -9528,7 +9427,7 @@
         "topic": "ground_signage",
         "role": "arrival",
         "source_fact_ids": [
-          "宁波栎社_core_record_18"
+          "宁波栎社_core_record_17"
         ],
         "condition_scope": {},
         "condition_contexts": [],
@@ -9548,70 +9447,6 @@
       {
         "fact_id": "宁波栎社_core_record_15",
         "paragraph_id": "宁波栎社_core_record_15",
-        "airport": "宁波栎社",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-        "source": "PDF",
-        "source_authority": "latest_airport_manual",
-        "source_version": "20260924",
-        "source_page": "N/A",
-        "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-        "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／地面",
-        "source_note": "",
-        "confirmed_date": "",
-        "source_text_zh": "地面：进位初次联系时需主动报告航空器注册号。",
-        "source_original_text": "地面：进位初次联系时需主动报告航空器注册号。",
-        "source_original_texts": [
-          "地面：进位初次联系时需主动报告航空器注册号。"
-        ],
-        "source_record_ids": [
-          "宁波栎社:core:d79c612454b66859"
-        ],
-        "source_clauses": [
-          "进位初次联系时需主动报告航空器注册号。"
-        ],
-        "operational_phase": "ground",
-        "role_scope": [
-          "arrival"
-        ],
-        "operational_condition": [],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [
-          "进位初次联系时需主动报告航空器注册号"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "进位初次联系时需主动报告航空器注册号。",
-        "text_en": "",
-        "english_source": "unavailable",
-        "english_concepts": [],
-        "rendered_text": "进位初次联系时需主动报告航空器注册号。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "ground_stand",
-        "role": "arrival",
-        "source_fact_ids": [
-          "宁波栎社_core_record_15"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 290,
-        "text_before_polish": "进位初次联系时需主动报告航空器注册号。",
-        "text_after_polish": "进位初次联系时需主动报告航空器注册号。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "guard_failed": false,
-        "guard_reason": "",
-        "fallback_used": "",
-        "paragraph_dropped": false,
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "宁波栎社_core_record_16",
-        "paragraph_id": "宁波栎社_core_record_16",
         "airport": "宁波栎社",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
         "source": "PDF",
@@ -9656,7 +9491,7 @@
         "topic": "landing_ground",
         "role": "arrival",
         "source_fact_ids": [
-          "宁波栎社_core_record_16"
+          "宁波栎社_core_record_15"
         ],
         "condition_scope": {},
         "condition_contexts": [],
@@ -9674,8 +9509,8 @@
         "category": "core"
       },
       {
-        "fact_id": "宁波栎社_core_record_14",
-        "paragraph_id": "宁波栎社_core_record_14",
+        "fact_id": "宁波栎社_core_record_13",
+        "paragraph_id": "宁波栎社_core_record_13",
         "airport": "宁波栎社",
         "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
         "source": "PDF",
@@ -9719,11 +9554,9 @@
         "restriction": [],
         "excluded_source_clauses": [],
         "text_zh": "B9灯牌在跑道一侧，13号落地后通常指挥在B10前等，后续通常B9左转跟引导车，注意B9紧邻B10(B10灯牌在机坪一侧)，容易错过。",
-        "text_en": "Before pushback and taxi, we must confirm the clearance, route, holding position, and runway entry and continuously cross-check charts, signs, lights, and outside visual cues; stop and confirm with ATC whenever position or clearance is uncertain.",
-        "english_source": "concept_fallback",
-        "english_concepts": [
-          "ground"
-        ],
+        "text_en": "",
+        "english_source": "unavailable",
+        "english_concepts": [],
         "rendered_text": "B9灯牌在跑道一侧，13号落地后通常指挥在B10前等，后续通常B9左转跟引导车，注意B9紧邻B10(B10灯牌在机坪一侧)，容易错过。",
         "season_scope": [],
         "flight_scope": [],
@@ -9731,7 +9564,7 @@
         "topic": "ground_waiting",
         "role": "arrival",
         "source_fact_ids": [
-          "宁波栎社_core_record_14"
+          "宁波栎社_core_record_13"
         ],
         "condition_scope": {},
         "condition_contexts": [],
@@ -9948,6 +9781,34 @@
     {
       "airport": "上海浦东",
       "fact_id": "",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+      "source": "PDF",
+      "source_authority": "latest_airport_manual",
+      "source_version": "20260924",
+      "source_page": "448-451",
+      "source_heading": "上海/浦东机场运行特点（ZSPD/PVG）",
+      "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+      "clause": "地面：请机组注意 E，T1 滑行道关闭未在航行通告上说明，机组请参考施工区域 图（2C-1-SUP）。",
+      "reason": "PDF断句或残片未形成完整运行事实",
+      "discarded_reason": "PDF断句或残片未形成完整运行事实"
+    },
+    {
+      "airport": "上海浦东",
+      "fact_id": "",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+      "source": "PDF",
+      "source_authority": "latest_airport_manual",
+      "source_version": "20260924",
+      "source_page": "448-451",
+      "source_heading": "上海/浦东机场运行特点（ZSPD/PVG）",
+      "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+      "clause": "进场：34R 进近，PD083 和 PD084 中间偏右有较高障碍物，下降或保持 600m 从上 方飞过可能触发 GPWS 警戒，机组参考 EFB 中“关于浦东 34R 跑道进近触发 GPWS 警戒的提示”操作通告执行。",
+      "reason": "PDF断句或残片未形成完整运行事实",
+      "discarded_reason": "PDF断句或残片未形成完整运行事实"
+    },
+    {
+      "airport": "上海浦东",
+      "fact_id": "",
       "source_file": "config/airport_supplements.json",
       "source": "supplement",
       "source_authority": "unversioned_supplement",
@@ -10015,17 +9876,6 @@
       "source_heading": "上海/浦东机场运行特点（ZSPD/PVG）",
       "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点／进场",
       "clause": "进场：浦东 17R/35L 跑道，ATC 可能指挥短切五边或较晚发布盲降许可，机组做好 预判并提前做好能量管理，积极沟通，按需接受 ATC 雷达引导的指令。当 需要实施\"从上方截获下滑道\"程序时，严格遵循 SOP 要求，如无法满足稳 定进近标准，果断复飞或中止进近。",
-      "reason": "与当前机场departure角色不匹配",
-      "discarded_reason": "与当前机场departure角色不匹配"
-    },
-    {
-      "airport": "上海浦东",
-      "fact_id": "上海浦东_core_record_13",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-      "source_page": "448-451",
-      "source_heading": "上海/浦东机场运行特点（ZSPD/PVG）",
-      "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点／进场",
-      "clause": "进场：34R 进近，PD083 和 PD084 中间偏右有较高障碍物，下降或保持 600m 从上 方飞过可能触发 GPWS 警戒，机组参考 EFB 中“关于浦东 34R 跑道进近触发 GPWS 警戒的提示”操作通告执行。",
       "reason": "与当前机场departure角色不匹配",
       "discarded_reason": "与当前机场departure角色不匹配"
     },
@@ -10152,7 +10002,7 @@
       "source_page": "N/A",
       "source_heading": "长春龙嘉机场运行特点 ZYCC/CGQ",
       "source_section": "长春龙嘉机场运行特点 ZYCC/CGQ／核心威胁与运行特点／运行特点",
-      "clause": "风沙天能见度较低，目视参考差，存在风切变风险",
+      "clause": "风沙天能见度较低，目视，存在风切变风险",
       "reason": "目标月份为10月，不在资料明确季节适用月份3,4,5月内",
       "discarded_reason": "目标月份为10月，不在资料明确季节适用月份3,4,5月内"
     },
@@ -10443,56 +10293,68 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "paragraph:宁波栎社_core_record_37+宁波栎社_core_record_38+宁波栎社_core_record_36",
+      "fact_id": "paragraph:宁波栎社_core_record_35+宁波栎社_core_record_36+宁波栎社_core_record_34",
       "clause": "本场西面及西南面有山13 号五边有低矮孤立山包天 气不好时从西面进场飞机注意扇区最低安全高度及航路安全高 度限制。",
       "reason": "同一来源记录中的其他完整运行子句"
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "paragraph:宁波栎社_core_record_37+宁波栎社_core_record_38+宁波栎社_core_record_36",
+      "fact_id": "paragraph:宁波栎社_core_record_35+宁波栎社_core_record_36+宁波栎社_core_record_34",
       "clause": "13号 VOR 下降梯度5.7％，换算成 FPA3.26。",
       "reason": "同一来源记录中的其他完整运行子句"
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "paragraph:宁波栎社_core_record_37+宁波栎社_core_record_38+宁波栎社_core_record_36",
+      "fact_id": "paragraph:宁波栎社_core_record_35+宁波栎社_core_record_36+宁波栎社_core_record_34",
       "clause": "本场西面及西南面有山13 号五边有低矮孤立山包天 气不好时从西面进场飞机注意扇区最低安全高度及航路安全高 度限制。",
       "reason": "同一来源记录中的其他完整运行子句"
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "paragraph:宁波栎社_core_record_37+宁波栎社_core_record_38+宁波栎社_core_record_36",
+      "fact_id": "paragraph:宁波栎社_core_record_35+宁波栎社_core_record_36+宁波栎社_core_record_34",
       "clause": "栎社NDB 和宁波VOR 故障时，31号EOSID 不可用，注 意13号VOR/DME 进近五边航迹和跑道有4 度夹角。",
       "reason": "同一来源记录中的其他完整运行子句"
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "paragraph:宁波栎社_core_record_37+宁波栎社_core_record_38+宁波栎社_core_record_36",
+      "fact_id": "paragraph:宁波栎社_core_record_35+宁波栎社_core_record_36+宁波栎社_core_record_34",
       "clause": "栎社NDB 和宁波VOR 故障时，31号EOSID 不可用，注 意13号VOR/DME 进近五边航迹和跑道有4 度夹角。",
       "reason": "同一来源记录中的其他完整运行子句"
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "paragraph:宁波栎社_core_record_37+宁波栎社_core_record_38+宁波栎社_core_record_36",
+      "fact_id": "paragraph:宁波栎社_core_record_35+宁波栎社_core_record_36+宁波栎社_core_record_34",
       "clause": "13号 VOR 下降梯度5.7％，换算成 FPA3.26。",
       "reason": "同一来源记录中的其他完整运行子句"
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_39",
+      "fact_id": "宁波栎社_core_record_37",
       "clause": "未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。",
       "reason": "同一来源记录中的其他完整运行子句"
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_51",
+      "fact_id": "宁波栎社_core_record_38",
+      "clause": "宁波管制区内军航活动空域复杂。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "宁波栎社",
+      "fact_id": "宁波栎社_core_record_49",
       "clause": "宁波机场31号，气象条件允许时，管制会指挥短五 边目视进近，注意复诵正确。",
       "reason": "同一来源记录中的其他完整运行子句"
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "paragraph:宁波栎社_core_record_10+宁波栎社_core_record_6",
-      "clause": "/EFB-机场特点汇总-公司复杂机场分类及操纵权限规则）。",
+      "fact_id": "宁波栎社_core_record_42",
+      "clause": "ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。",
+      "reason": "同一来源记录中的其他完整运行子句"
+    },
+    {
+      "airport": "宁波栎社",
+      "fact_id": "宁波栎社_core_record_42",
+      "clause": "有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
       "reason": "同一来源记录中的其他完整运行子句"
     },
     {
@@ -10594,7 +10456,7 @@
       "source_page": "N/A",
       "source_heading": "长春龙嘉机场运行特点 ZYCC/CGQ",
       "source_section": "长春龙嘉机场运行特点 ZYCC/CGQ／核心威胁与运行特点／运行特点",
-      "clause": "风沙天能见度较低，目视参考差，存在风切变风险",
+      "clause": "风沙天能见度较低，目视，存在风切变风险",
       "reason": "目标月份为10月，不在资料明确季节适用月份3,4,5月内",
       "discarded_reason": "目标月份为10月，不在资料明确季节适用月份3,4,5月内"
     },
@@ -10740,13 +10602,27 @@
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
       "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点",
+      "clause": "机场分类：一类复杂机场（程序类）（参考三-（6） /EFB-机场特点汇总-公司复杂机场分类及操纵权限规则）。",
+      "reason": "PDF断句或残片未形成完整运行事实",
+      "discarded_reason": "PDF断句或残片未形成完整运行事实"
+    },
+    {
+      "airport": "宁波栎社",
+      "fact_id": "",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+      "source": "PDF",
+      "source_authority": "latest_airport_manual",
+      "source_version": "20260924",
+      "source_page": "N/A",
+      "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点",
       "clause": "航路：沈阳-宁波大连区域CHI-DBL-MAKNO，青岛区域URBAD-LATUX。",
       "reason": "来源包含无法可靠恢复的明显OCR错位",
       "discarded_reason": "来源包含无法可靠恢复的明显OCR错位"
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_25",
+      "fact_id": "宁波栎社_core_record_24",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -10757,7 +10633,7 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_27",
+      "fact_id": "宁波栎社_core_record_26",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -10768,7 +10644,7 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_28",
+      "fact_id": "宁波栎社_core_record_27",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -10779,7 +10655,18 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_32",
+      "fact_id": "宁波栎社_core_record_29",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／航路",
+      "clause": "航路：宁波—阜阳段：NOBEM之后飞 MAGLI，MAGLI 不在计划航 路上。",
+      "reason": "与当前航班/航线不匹配",
+      "discarded_reason": "与当前航班/航线不匹配"
+    },
+    {
+      "airport": "宁波栎社",
+      "fact_id": "宁波栎社_core_record_31",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -10790,7 +10677,7 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_34",
+      "fact_id": "宁波栎社_core_record_33",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -10801,7 +10688,18 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_17",
+      "fact_id": "宁波栎社_core_record_41",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
+      "clause": "进场：石家庄-宁波：上海进近指挥时不允许下高度，适当 提前联系宁波进近125.45才可以下降高度，易造成剖面较高。",
+      "reason": "与当前航班/航线不匹配",
+      "discarded_reason": "与当前航班/航线不匹配"
+    },
+    {
+      "airport": "宁波栎社",
+      "fact_id": "宁波栎社_core_record_16",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -10812,7 +10710,7 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_22",
+      "fact_id": "宁波栎社_core_record_21",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -10823,7 +10721,7 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_23",
+      "fact_id": "宁波栎社_core_record_22",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -10834,7 +10732,7 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_24",
+      "fact_id": "宁波栎社_core_record_23",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -10845,7 +10743,7 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_8",
+      "fact_id": "宁波栎社_core_record_7",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -10856,18 +10754,7 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_40",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-      "source_page": "N/A",
-      "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
-      "clause": "未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。",
-      "reason": "运行价值排序后未选入本次航前核心主题",
-      "discarded_reason": "运行价值排序后未选入本次航前核心主题"
-    },
-    {
-      "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_41",
+      "fact_id": "宁波栎社_core_record_39",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -10878,7 +10765,7 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_42",
+      "fact_id": "宁波栎社_core_record_40",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -10889,18 +10776,7 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_44",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-      "source_page": "N/A",
-      "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
-      "clause": "从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
-      "reason": "运行价值排序后未选入本次航前核心主题",
-      "discarded_reason": "运行价值排序后未选入本次航前核心主题"
-    },
-    {
-      "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_45",
+      "fact_id": "宁波栎社_core_record_43",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -10911,7 +10787,7 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_46",
+      "fact_id": "宁波栎社_core_record_44",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -10922,7 +10798,7 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_48",
+      "fact_id": "宁波栎社_core_record_46",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -10933,18 +10809,7 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_49",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-      "source_page": "N/A",
-      "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
-      "clause": "速度160 节。",
-      "reason": "运行价值排序后未选入本次航前核心主题",
-      "discarded_reason": "运行价值排序后未选入本次航前核心主题"
-    },
-    {
-      "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_50",
+      "fact_id": "宁波栎社_core_record_48",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -10955,7 +10820,7 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_33",
+      "fact_id": "宁波栎社_core_record_32",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -10966,7 +10831,7 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_47",
+      "fact_id": "宁波栎社_core_record_45",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -10977,7 +10842,18 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_19",
+      "fact_id": "宁波栎社_core_record_14",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／地面",
+      "clause": "进位初次联系时需主动报告航空器注册号。",
+      "reason": "运行价值排序后未选入本次航前核心主题",
+      "discarded_reason": "运行价值排序后未选入本次航前核心主题"
+    },
+    {
+      "airport": "宁波栎社",
+      "fact_id": "宁波栎社_core_record_18",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -10988,7 +10864,7 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_20",
+      "fact_id": "宁波栎社_core_record_19",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -10999,7 +10875,7 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_21",
+      "fact_id": "宁波栎社_core_record_20",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -11010,7 +10886,7 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_29",
+      "fact_id": "宁波栎社_core_record_28",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -11026,24 +10902,13 @@
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
       "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／航路",
-      "clause": "宁波—阜阳段：NOBEM之后飞 MAGLI，MAGLI 不在计划航 路上。",
-      "reason": "运行价值排序后未选入本次航前核心主题",
-      "discarded_reason": "运行价值排序后未选入本次航前核心主题"
-    },
-    {
-      "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_31",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-      "source_page": "N/A",
-      "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／航路",
       "clause": "宁波——十堰，军事活动会改航绕飞XSH 后军事活动会 指挥飞W80 航路，在距离UPGUR20 海里处武汉（133.75）指挥 飞航迹355，后续再直飞 JO，注意油量。",
       "reason": "运行价值排序后未选入本次航前核心主题",
       "discarded_reason": "运行价值排序后未选入本次航前核心主题"
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_9",
+      "fact_id": "宁波栎社_core_record_8",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -11054,7 +10919,7 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_11",
+      "fact_id": "宁波栎社_core_record_10",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -11062,20 +10927,25 @@
       "clause": "导航设施：VOR程序下降梯度陡，航迹偏置。",
       "reason": "运行价值排序后未选入本次航前核心主题",
       "discarded_reason": "运行价值排序后未选入本次航前核心主题"
-    },
-    {
-      "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_7",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-      "source_page": "N/A",
-      "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点",
-      "clause": "/EFB-机场特点汇总-公司复杂机场分类及操纵权限规则）。",
-      "reason": "运行价值排序后未选入本次航前核心主题",
-      "discarded_reason": "运行价值排序后未选入本次航前核心主题"
     }
   ],
-  "source_guard_outcomes": [],
+  "source_guard_outcomes": [
+    {
+      "airport": "宁波栎社",
+      "fact_id": "宁波栎社_core_record_38",
+      "guard_failed": true,
+      "guard_reason": "语言编辑新增运行词：宁波栎社_core_record_38新增BY ATC",
+      "source_fact_ids": [
+        "宁波栎社_core_record_38"
+      ],
+      "source_original_text": "进场：宁波管制区内军航活动空域复杂。未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。",
+      "source_original_texts": [
+        "进场：宁波管制区内军航活动空域复杂。未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。"
+      ],
+      "fallback_used": "text_before_polish",
+      "paragraph_dropped": false
+    }
+  ],
   "core_paragraph_fact_ids": {
     "上海浦东": [
       [
@@ -11092,9 +10962,6 @@
       ],
       [
         "上海浦东_core_record_19"
-      ],
-      [
-        "上海浦东_core_record_4"
       ]
     ],
     "长春龙嘉": [
@@ -11148,43 +11015,42 @@
     ],
     "宁波栎社": [
       [
-        "宁波栎社_core_record_37",
-        "宁波栎社_core_record_38",
-        "宁波栎社_core_record_36"
+        "宁波栎社_core_record_35",
+        "宁波栎社_core_record_36",
+        "宁波栎社_core_record_34"
       ],
       [
-        "宁波栎社_core_record_39"
+        "宁波栎社_core_record_37"
       ],
       [
-        "宁波栎社_core_record_43"
+        "宁波栎社_core_record_38"
       ],
       [
-        "宁波栎社_core_record_51"
-      ],
-      [
-        "宁波栎社_core_record_13"
-      ],
-      [
-        "宁波栎社_core_record_35"
-      ],
-      [
-        "宁波栎社_core_record_10",
-        "宁波栎社_core_record_6"
+        "宁波栎社_core_record_49"
       ],
       [
         "宁波栎社_core_record_12"
       ],
       [
-        "宁波栎社_core_record_18"
+        "宁波栎社_core_record_42"
+      ],
+      [
+        "宁波栎社_core_record_47"
+      ],
+      [
+        "宁波栎社_core_record_9"
+      ],
+      [
+        "宁波栎社_core_record_11"
+      ],
+      [
+        "宁波栎社_core_record_17"
       ],
       [
         "宁波栎社_core_record_15"
       ],
       [
-        "宁波栎社_core_record_16"
-      ],
-      [
-        "宁波栎社_core_record_14"
+        "宁波栎社_core_record_13"
       ]
     ]
   },
@@ -11400,48 +11266,6 @@
         "briefing_priority": 330,
         "text_before_polish": "浦东机场驱鸟炮声音较响，机组不要产生惊吓效应。",
         "text_after_polish": "浦东机场驱鸟炮声音较响，机组不要产生惊吓效应。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "guard_failed": false,
-        "guard_reason": "",
-        "fallback_used": "",
-        "paragraph_dropped": false
-      },
-      {
-        "paragraph_index": 6,
-        "paragraph_id": "上海浦东_core_record_4",
-        "topic": "construction",
-        "role": "departure",
-        "text": "请机组注意E，T1滑行道关闭未在航行通告上说明，机组请参考施工区域图（2C-1-SUP）。",
-        "source_fact_ids": [
-          "上海浦东_core_record_4"
-        ],
-        "source_record_ids": [
-          "上海浦东:core:9eca505f5677c686"
-        ],
-        "source_clauses": [
-          "请机组注意 E，T1 滑行道关闭未在航行通告上说明，机组请参考施工区域 图（2C-1-SUP）。"
-        ],
-        "source_original_texts": [
-          "地面：请机组注意 E，T1 滑行道关闭未在航行通告上说明，机组请参考施工区域 图（2C-1-SUP）。"
-        ],
-        "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
-        ],
-        "source_authority": "latest_airport_manual",
-        "source": "PDF",
-        "role_scope": [],
-        "source_note": "",
-        "confirmed_date": "",
-        "source_version": "20260924",
-        "source_sections": [
-          "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点／地面"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "briefing_priority": 230,
-        "text_before_polish": "请机组注意E，T1滑行道关闭未在航行通告上说明，机组请参考施工区域图（2C-1-SUP）。",
-        "text_after_polish": "请机组注意E，T1滑行道关闭未在航行通告上说明，机组请参考施工区域图（2C-1-SUP）。",
         "polish_applied": false,
         "polish_fallback_reason": "",
         "guard_failed": false,
@@ -12087,14 +11911,14 @@
     "宁波栎社": [
       {
         "paragraph_index": 1,
-        "paragraph_id": "paragraph:宁波栎社_core_record_37+宁波栎社_core_record_38+宁波栎社_core_record_36",
+        "paragraph_id": "paragraph:宁波栎社_core_record_35+宁波栎社_core_record_36+宁波栎社_core_record_34",
         "topic": "navigation",
         "role": "arrival",
         "text": "本场西面及西南面有山13号五边有低矮孤立山包天气不好时从西面进场飞机注意扇区最低安全高度及航路安全高度限制。栎社NDB和宁波VOR故障时，31号EOSID不可用，注意13号VOR/DME进近五边航迹和跑道有4度夹角。13号VOR下降梯度5.7％，换算成FPA3.26。",
         "source_fact_ids": [
-          "宁波栎社_core_record_37",
-          "宁波栎社_core_record_38",
-          "宁波栎社_core_record_36"
+          "宁波栎社_core_record_35",
+          "宁波栎社_core_record_36",
+          "宁波栎社_core_record_34"
         ],
         "source_record_ids": [
           "宁波栎社:core:798b33e896b53c74"
@@ -12135,12 +11959,12 @@
       },
       {
         "paragraph_index": 2,
-        "paragraph_id": "宁波栎社_core_record_39",
+        "paragraph_id": "宁波栎社_core_record_37",
         "topic": "airspace_atc",
         "role": "arrival",
         "text": "宁波管制区内军航活动空域复杂。",
         "source_fact_ids": [
-          "宁波栎社_core_record_39"
+          "宁波栎社_core_record_37"
         ],
         "source_record_ids": [
           "宁波栎社:core:098b4a7d6a854d63"
@@ -12179,21 +12003,21 @@
       },
       {
         "paragraph_index": 3,
-        "paragraph_id": "宁波栎社_core_record_43",
+        "paragraph_id": "宁波栎社_core_record_38",
         "topic": "arrival_energy",
         "role": "arrival",
-        "text": "石家庄-宁波：上海进近指挥时不允许下高度，适当提前联系宁波进近125.45才可以下降高度，易造成剖面较高。",
+        "text": "未得到管制许可前请勿选择byATC的进场方式；宁波机场与上海终端区的QNH水平边界重合，高度表拨正严格听从ATC指挥。",
         "source_fact_ids": [
-          "宁波栎社_core_record_43"
+          "宁波栎社_core_record_38"
         ],
         "source_record_ids": [
-          "宁波栎社:core:a88426b1bc3e6376"
+          "宁波栎社:core:098b4a7d6a854d63"
         ],
         "source_clauses": [
-          "石家庄-宁波：上海进近指挥时不允许下高度，适当 提前联系宁波进近125.45才可以下降高度，易造成剖面较高。"
+          "未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。"
         ],
         "source_original_texts": [
-          "进场：石家庄-宁波：上海进近指挥时不允许下高度，适当 提前联系宁波进近125.45才可以下降高度，易造成剖面较高。"
+          "进场：宁波管制区内军航活动空域复杂。未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。"
         ],
         "source_files": [
           "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
@@ -12211,24 +12035,24 @@
         ],
         "condition_scope": {},
         "condition_contexts": [],
-        "briefing_priority": 470,
-        "text_before_polish": "石家庄-宁波：上海进近指挥时不允许下高度，适当提前联系宁波进近125.45才可以下降高度，易造成剖面较高。",
-        "text_after_polish": "石家庄-宁波：上海进近指挥时不允许下高度，适当提前联系宁波进近125.45才可以下降高度，易造成剖面较高。",
+        "briefing_priority": 385,
+        "text_before_polish": "未得到管制许可前请勿选择byATC的进场方式；宁波机场与上海终端区的QNH水平边界重合，高度表拨正严格听从ATC指挥。",
+        "text_after_polish": "未得到管制许可前请勿选择byATC的进场方式；宁波机场与上海终端区的QNH水平边界重合，高度表拨正严格听从ATC指挥。",
         "polish_applied": false,
-        "polish_fallback_reason": "",
-        "guard_failed": false,
-        "guard_reason": "",
-        "fallback_used": "",
+        "polish_fallback_reason": "语言编辑新增运行词：宁波栎社_core_record_38新增BY ATC",
+        "guard_failed": true,
+        "guard_reason": "语言编辑新增运行词：宁波栎社_core_record_38新增BY ATC",
+        "fallback_used": "text_before_polish",
         "paragraph_dropped": false
       },
       {
         "paragraph_index": 4,
-        "paragraph_id": "宁波栎社_core_record_51",
+        "paragraph_id": "宁波栎社_core_record_49",
         "topic": "approach_intercept",
         "role": "arrival",
         "text": "指挥指令为直飞A点，注意进近准备时相应的定位点输入，且短五边目视进近时能量管理需要注意，如果后续无法目视跑道需管制雷达引导，因为31号附近地形原因，雷达引导会使剖面逐渐紧张，注意减速和能量管理，避免飞机能量过大。",
         "source_fact_ids": [
-          "宁波栎社_core_record_51"
+          "宁波栎社_core_record_49"
         ],
         "source_record_ids": [
           "宁波栎社:core:8b0844110fa1fb1b"
@@ -12271,12 +12095,12 @@
       },
       {
         "paragraph_index": 5,
-        "paragraph_id": "宁波栎社_core_record_13",
+        "paragraph_id": "宁波栎社_core_record_12",
         "topic": "rnp_procedure",
         "role": "arrival",
         "text": "13号盲降不工作时，使用RNP13进近，且航图程序只有LNAV。",
         "source_fact_ids": [
-          "宁波栎社_core_record_13"
+          "宁波栎社_core_record_12"
         ],
         "source_record_ids": [
           "宁波栎社:core:fc1febf790828902"
@@ -12315,21 +12139,21 @@
       },
       {
         "paragraph_index": 6,
-        "paragraph_id": "宁波栎社_core_record_35",
+        "paragraph_id": "宁波栎社_core_record_42",
         "topic": "approach",
         "role": "arrival",
-        "text": "注意事项。",
+        "text": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
         "source_fact_ids": [
-          "宁波栎社_core_record_35"
+          "宁波栎社_core_record_42"
         ],
         "source_record_ids": [
-          "宁波栎社:core:f34d9ff8d7c7fa5a"
+          "宁波栎社:core:7ea88de98c1bb20f"
         ],
         "source_clauses": [
-          "注意事项。"
+          "从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。"
         ],
         "source_original_texts": [
-          "进场：注意事项。"
+          "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。"
         ],
         "source_files": [
           "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
@@ -12347,9 +12171,9 @@
         ],
         "condition_scope": {},
         "condition_contexts": [],
-        "briefing_priority": 365,
-        "text_before_polish": "注意事项。",
-        "text_after_polish": "注意事项。",
+        "briefing_priority": 355,
+        "text_before_polish": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
+        "text_after_polish": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
         "polish_applied": false,
         "polish_fallback_reason": "",
         "guard_failed": false,
@@ -12359,25 +12183,65 @@
       },
       {
         "paragraph_index": 7,
-        "paragraph_id": "paragraph:宁波栎社_core_record_10+宁波栎社_core_record_6",
-        "topic": "terrain",
+        "paragraph_id": "宁波栎社_core_record_47",
+        "topic": "approach",
         "role": "arrival",
-        "text": "该机场属于一类复杂机场（程序类）（参考三-。地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
+        "text": "速度160节。",
         "source_fact_ids": [
-          "宁波栎社_core_record_10",
-          "宁波栎社_core_record_6"
+          "宁波栎社_core_record_47"
         ],
         "source_record_ids": [
-          "宁波栎社:core:f7b82f48a4cff8ef",
-          "宁波栎社:core:ae6a99c2da4dc0cf"
+          "宁波栎社:core:11ae458bf7d14f20"
         ],
         "source_clauses": [
-          "地形:地形复杂，13号盲降下降梯度陡，GP3.2。",
-          "机场分类：一类复杂机场（程序类）（参考三-。"
+          "速度160 节。"
         ],
         "source_original_texts": [
-          "地形:地形复杂，13号盲降下降梯度陡，GP3.2。",
-          "机场分类：一类复杂机场（程序类）（参考三-（6） /EFB-机场特点汇总-公司复杂机场分类及操纵权限规则）。"
+          "进场：速度160 节。"
+        ],
+        "source_files": [
+          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
+        ],
+        "source_authority": "latest_airport_manual",
+        "source": "PDF",
+        "role_scope": [
+          "arrival"
+        ],
+        "source_note": "",
+        "confirmed_date": "",
+        "source_version": "20260924",
+        "source_sections": [
+          "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场"
+        ],
+        "condition_scope": {},
+        "condition_contexts": [],
+        "briefing_priority": 355,
+        "text_before_polish": "速度160节。",
+        "text_after_polish": "速度160节。",
+        "polish_applied": false,
+        "polish_fallback_reason": "",
+        "guard_failed": false,
+        "guard_reason": "",
+        "fallback_used": "",
+        "paragraph_dropped": false
+      },
+      {
+        "paragraph_index": 8,
+        "paragraph_id": "paragraph:宁波栎社_core_record_9",
+        "topic": "terrain",
+        "role": "arrival",
+        "text": "地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
+        "source_fact_ids": [
+          "宁波栎社_core_record_9"
+        ],
+        "source_record_ids": [
+          "宁波栎社:core:f7b82f48a4cff8ef"
+        ],
+        "source_clauses": [
+          "地形:地形复杂，13号盲降下降梯度陡，GP3.2。"
+        ],
+        "source_original_texts": [
+          "地形:地形复杂，13号盲降下降梯度陡，GP3.2。"
         ],
         "source_files": [
           "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
@@ -12396,8 +12260,8 @@
         "condition_scope": {},
         "condition_contexts": [],
         "briefing_priority": 375,
-        "text_before_polish": "该机场属于一类复杂机场（程序类）（参考三-。地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
-        "text_after_polish": "该机场属于一类复杂机场（程序类）（参考三-。地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
+        "text_before_polish": "地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
+        "text_after_polish": "地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
         "polish_applied": false,
         "polish_fallback_reason": "",
         "guard_failed": false,
@@ -12406,13 +12270,13 @@
         "paragraph_dropped": false
       },
       {
-        "paragraph_index": 8,
-        "paragraph_id": "宁波栎社_core_record_12",
+        "paragraph_index": 9,
+        "paragraph_id": "宁波栎社_core_record_11",
         "topic": "landing",
         "role": "arrival",
         "text": "13号跑道入口内移150m，注意视线影响。",
         "source_fact_ids": [
-          "宁波栎社_core_record_12"
+          "宁波栎社_core_record_11"
         ],
         "source_record_ids": [
           "宁波栎社:core:6726cc4b77b233df"
@@ -12448,13 +12312,13 @@
         "paragraph_dropped": false
       },
       {
-        "paragraph_index": 9,
-        "paragraph_id": "宁波栎社_core_record_18",
+        "paragraph_index": 10,
+        "paragraph_id": "宁波栎社_core_record_17",
         "topic": "ground_signage",
         "role": "arrival",
         "text": "L1与B8道口地面标识模糊，易与B8西侧的L1滑行道弄混淆，请机组注意。",
         "source_fact_ids": [
-          "宁波栎社_core_record_18"
+          "宁波栎社_core_record_17"
         ],
         "source_record_ids": [
           "宁波栎社:core:2d7e15355e668958"
@@ -12490,57 +12354,13 @@
         "paragraph_dropped": false
       },
       {
-        "paragraph_index": 10,
-        "paragraph_id": "宁波栎社_core_record_15",
-        "topic": "ground_stand",
-        "role": "arrival",
-        "text": "进位初次联系时需主动报告航空器注册号。",
-        "source_fact_ids": [
-          "宁波栎社_core_record_15"
-        ],
-        "source_record_ids": [
-          "宁波栎社:core:d79c612454b66859"
-        ],
-        "source_clauses": [
-          "进位初次联系时需主动报告航空器注册号。"
-        ],
-        "source_original_texts": [
-          "地面：进位初次联系时需主动报告航空器注册号。"
-        ],
-        "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
-        ],
-        "source_authority": "latest_airport_manual",
-        "source": "PDF",
-        "role_scope": [
-          "arrival"
-        ],
-        "source_note": "",
-        "confirmed_date": "",
-        "source_version": "20260924",
-        "source_sections": [
-          "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／地面"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "briefing_priority": 290,
-        "text_before_polish": "进位初次联系时需主动报告航空器注册号。",
-        "text_after_polish": "进位初次联系时需主动报告航空器注册号。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "guard_failed": false,
-        "guard_reason": "",
-        "fallback_used": "",
-        "paragraph_dropped": false
-      },
-      {
         "paragraph_index": 11,
-        "paragraph_id": "宁波栎社_core_record_16",
+        "paragraph_id": "宁波栎社_core_record_15",
         "topic": "landing_ground",
         "role": "arrival",
         "text": "宁波机场要求除必要的检查以外，其他人员严禁在机腹下穿行。",
         "source_fact_ids": [
-          "宁波栎社_core_record_16"
+          "宁波栎社_core_record_15"
         ],
         "source_record_ids": [
           "宁波栎社:core:91be82dcbee2f2ce"
@@ -12577,12 +12397,12 @@
       },
       {
         "paragraph_index": 12,
-        "paragraph_id": "宁波栎社_core_record_14",
+        "paragraph_id": "宁波栎社_core_record_13",
         "topic": "ground_waiting",
         "role": "arrival",
         "text": "B9灯牌在跑道一侧，13号落地后通常指挥在B10前等，后续通常B9左转跟引导车，注意B9紧邻B10(B10灯牌在机坪一侧)，容易错过。",
         "source_fact_ids": [
-          "宁波栎社_core_record_14"
+          "宁波栎社_core_record_13"
         ],
         "source_record_ids": [
           "宁波栎社:core:22372cb1700ba0c3"
