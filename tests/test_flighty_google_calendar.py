@@ -519,6 +519,7 @@ def test_refresh_failure_redacts_private_key_token_and_secret(monkeypatch, capsy
     assert sync.main([]) == 1
     output = capsys.readouterr()
     assert "Service account credentials could not be refreshed" in output.out
+    assert "stage=refresh_token, error_type=RefreshError" in output.out
     for sensitive in ("never-print-private-key", "private-token", "never-print-secret", json.dumps(SERVICE_ACCOUNT_INFO)):
         assert sensitive not in output.out + output.err
     assert not client.session.calls
@@ -531,6 +532,24 @@ def test_refresh_without_token_fails_safely(service_account_auth):
     with pytest.raises(sync.SyncError, match="did not return an access token"):
         client.authenticate()
     assert not client.session.calls
+
+
+def test_missing_google_auth_dependency_is_diagnosed_without_secrets(monkeypatch, capsys, isolated_root):
+    import builtins
+
+    configured_env(monkeypatch)
+    original_import = builtins.__import__
+
+    def missing_dependency(name, *args, **kwargs):
+        if name == "google.oauth2":
+            raise ModuleNotFoundError("never-print-private-key")
+        return original_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", missing_dependency)
+    assert sync.main([]) == 1
+    output = capsys.readouterr()
+    assert "stage=load_dependency, error_type=ModuleNotFoundError" in output.out
+    assert "never-print-private-key" not in output.out + output.err
 
 
 def test_legacy_oauth_secrets_do_not_enable_sync(tmp_path, monkeypatch, capsys):
@@ -560,6 +579,10 @@ def test_workflow_is_nonblocking_and_requires_completed_ics_pipeline():
     assert "continue-on-error: true" in step
     assert "timeout-minutes: 5" in step
     assert "python -B sync_flighty_google_calendar.py" in step
+    assert "python -m pip install --disable-pip-version-check --target $flightyDependencies google-auth" in step
+    assert 'Join-Path $env:RUNNER_TEMP "flighty-google-auth"' in step
+    assert "IsNullOrWhiteSpace($env:FLIGHTY_GOOGLE_CALENDAR_ID)" in step
+    assert "IsNullOrWhiteSpace($env:FLIGHTY_GOOGLE_SERVICE_ACCOUNT_JSON)" in step
     for key in sync.REQUIRED_ENV:
         assert f"${{{{ secrets.{key} }}}}" in step
     env_block = step.split("env:", 1)[1].split("run:", 1)[0]

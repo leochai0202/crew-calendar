@@ -274,19 +274,25 @@ class GoogleCalendar:
                 raise ValueError("Expected service account JSON object")
         except (ValueError, TypeError, KeyError):
             raise SyncError("Invalid service account JSON") from None
+        phase = "load_dependency"
         try:
             # Lazy imports keep unconfigured runs safe even before the runner
             # has installed the new dependency from requirements.txt.
             from google.oauth2 import service_account
             from google.auth.transport.requests import Request
 
+            phase = "load_credentials"
             credentials = service_account.Credentials.from_service_account_info(
                 info, scopes=GOOGLE_SCOPES,
             )
+            phase = "refresh_token"
             credentials.refresh(Request())
             self.token = credentials.token
-        except Exception:
-            raise SyncError("Service account credentials could not be refreshed") from None
+        except Exception as exc:
+            raise SyncError(
+                "Service account credentials could not be refreshed "
+                f"(stage={phase}, error_type={type(exc).__name__})"
+            ) from None
         if not isinstance(self.token, str) or not self.token:
             raise SyncError("Service account refresh did not return an access token")
 

@@ -435,6 +435,20 @@ jobs:
         run: |
           $PSNativeCommandUseErrorActionPreference = $false
           $env:PYTHONIOENCODING = "utf-8"
+          if (-not [string]::IsNullOrWhiteSpace($env:FLIGHTY_GOOGLE_CALENDAR_ID) -and
+              -not [string]::IsNullOrWhiteSpace($env:FLIGHTY_GOOGLE_SERVICE_ACCOUNT_JSON)) {
+            python -c "from google.oauth2 import service_account; from google.auth.transport.requests import Request"
+            if ($LASTEXITCODE -ne 0) {
+              Write-Host "FLIGHTY_GOOGLE_AUTH_DEPENDENCY=INSTALLING"
+              $flightyDependencies = Join-Path $env:RUNNER_TEMP "flighty-google-auth"
+              python -m pip install --disable-pip-version-check --target $flightyDependencies google-auth
+              if ($LASTEXITCODE -ne 0) {
+                Write-Host "::warning title=Flighty sync::FLIGHTY_SYNC=ERROR; google-auth dependency installation failed"
+                exit $LASTEXITCODE
+              }
+              $env:PYTHONPATH = "$flightyDependencies$([IO.Path]::PathSeparator)$env:PYTHONPATH"
+            }
+          }
           python -B sync_flighty_google_calendar.py
           $syncExitCode = $LASTEXITCODE
           if ($syncExitCode -ne 0) {
