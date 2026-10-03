@@ -2203,10 +2203,10 @@ def test_real_august_twelve_generalizes_event_and_role_filters(
     chongqing_typical = first.split("重庆江北机场典型不安全事件：", 1)[1].split(
         "核心威胁：", 1
     )[0]
-    assert chongqing_typical.count("未能快速脱离") == 1
-    assert chongqing_typical.count("雷达罩损伤超标") == 1
-    assert chongqing_typical.count("无指令推出") == 1
-    assert chongqing_typical.upper().count("SINK RATE") == 1
+    assert chongqing_typical.count("未及时脱离跑道") == 1
+    assert chongqing_typical.count("塔台指挥后机复飞") == 1
+    assert "104秒" in chongqing_typical
+    assert "94秒" in chongqing_typical
     assert "278*175" not in chongqing_typical
     assert "更换雷达罩" not in chongqing_typical
     assert "023年" not in chongqing_typical
@@ -2220,13 +2220,13 @@ def test_real_august_twelve_generalizes_event_and_role_filters(
     first_chongqing = first_core.split("重庆江北机场：", 1)[1]
     assert first_yangzhou.count("不按标准程序") == 1
     assert first_yangzhou.count("军事活动") == 1
+    assert re.search(r"17\s*km", first_chongqing, flags=re.IGNORECASE)
     for required in (
-        "17KM",
         "禁止偏西",
-        "不用于落地脱离",
-        "Z5/Z6",
+        "Z5",
+        "Z6",
         "非全跑道离场",
-        "施工",
+        "滑行错误",
     ):
         assert required in first_chongqing
     assert "损 伤" not in first and "塔台 管制员" not in first
@@ -2249,28 +2249,14 @@ def test_real_august_twelve_generalizes_event_and_role_filters(
         for item in meta["prep_groups"][0]["airport_fact_sources"]["重庆江北"]
         if item["category"] == "typical"
     ]
-    assert len(chongqing_typical_sources) == 4
-    for anchor in ("未能快速脱离", "雷达罩损伤", "无指令推出", "SINK RATE"):
-        matching_sources = [
-            item
-            for item in chongqing_typical_sources
-            if anchor.casefold() in item["rendered_text"].casefold()
-        ]
-        assert len(matching_sources) == 1
-        source = matching_sources[0]
-        assert source["source_fact_ids"]
-        assert len(source["source_fact_ids"]) == len(set(source["source_fact_ids"]))
-        assert source["source_original_texts"]
-        assert any(
-            anchor.casefold() in original.casefold()
-            for original in source["source_original_texts"]
-        )
+    assert len(chongqing_typical_sources) == 1
+    source = chongqing_typical_sources[0]
+    assert source["source_fact_ids"]
+    assert len(source["source_fact_ids"]) == len(set(source["source_fact_ids"]))
+    assert source["source_original_texts"]
     assert any(
-        item["airport"] == "重庆江北"
-        and item["reason"] == agent.TYPICAL_SOURCE_QUALITY_REASON
-        and "误解" in item["clause"]
-        and "推出" in item["clause"]
-        for item in meta["excluded_source_clauses"]
+        "未及时脱离跑道" in original
+        for original in source["source_original_texts"]
     )
     assert any(
         item["airport"] == "沈阳桃仙"

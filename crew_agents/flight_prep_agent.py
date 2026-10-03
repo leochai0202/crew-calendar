@@ -184,6 +184,8 @@ class BilingualFact:
     guard_reason: str = ""
     fallback_used: str = ""
     paragraph_dropped: bool = False
+    english_source: str = "source_backed"
+    english_concepts: tuple[str, ...] = ()
 
     # Compatibility aliases keep the rendering code and older tests readable while
     # the structured names above make provenance explicit.
@@ -5237,10 +5239,13 @@ def filter_fact_for_duty(
                 exclusion_log.append(exclusion_log_entry(fact, clause, reason))
         return None
     rendered_semantics = source_semantics(filtered)
+    english_removed = bool(clauses and filtered != fact.zh)
     return replace(
         fact,
         text_zh=filtered,
-        text_en="" if clauses and filtered != fact.zh else fact.text_en,
+        text_en="" if english_removed else fact.text_en,
+        english_source="unavailable" if english_removed else fact.english_source,
+        english_concepts=() if english_removed else fact.english_concepts,
         season_scope=scope,
         topic=classify_fact_topic(replace(fact, text_zh=filtered)),
         operational_condition=rendered_semantics.operational_condition,
@@ -5265,8 +5270,8 @@ def source_record_facts(
 
     Records carrying bilingual text are used verbatim. For legacy Chinese-only
     records, a controlled concept wording is allowed only when the source text
-    explicitly triggers that concept; otherwise the record is omitted rather than
-    filled with a generic airport template.
+    explicitly triggers that concept. Records without a safe concept remain
+    Chinese-only rather than being assigned an unrelated English template.
     """
     canonical = canonical_airport_name(airport)
     prohibited_runways = landing_prohibited_runways(canonical, records)
@@ -5345,6 +5350,8 @@ def source_record_facts(
         if not text_zh:
             continue
         text_en = str(record.get("text_en", "")).strip()
+        english_source = "source_backed"
+        english_concepts: tuple[str, ...] = ()
         original_semantics = source_semantics(source_clause)
         rendered_semantics = source_semantics(text_zh)
         concept_name = str(record.get("semantic_key", "")).strip()
@@ -5357,6 +5364,8 @@ def source_record_facts(
                 english = CONCEPT_ENGLISH.get(concept_name)
                 if english:
                     text_en = english[0 if category == "typical" else 1]
+                    english_source = "concept_fallback"
+                    english_concepts = (concept_name,)
                 phase = {
                     "ground": "ground",
                     "terrain": "terrain",
@@ -5366,6 +5375,9 @@ def source_record_facts(
                     "tcas": "approach",
                     "bird": "approach",
                 }.get(concept_name, phase)
+        if not text_en:
+            english_source = "unavailable"
+            english_concepts = ()
         semantic_key = str(record.get("semantic_key") or record.get("fact_id") or "")
         if not semantic_key:
             normalized_fact = re.sub(r"[^A-Za-z0-9\u4e00-\u9fff]+", "", text_zh).upper()
@@ -5457,6 +5469,8 @@ def source_record_facts(
             condition_scope=tuple(record.get("condition_scope") or ()),
             condition_contexts=tuple(record.get("condition_contexts") or ()),
             condition_group=str(record.get("condition_group") or ""),
+            english_source=english_source,
+            english_concepts=english_concepts,
         )
         current = facts_by_semantic.get(semantic_key)
         if current is None:
@@ -6125,6 +6139,18 @@ def merge_fact_paragraph(
         if index < len(fact.exclusion_reasons)
     ]
     first = facts[0]
+    rendered_english_facts = [fact for fact in facts if fact.text_en.strip()]
+    all_rendered_concept_fallback = bool(rendered_english_facts) and all(
+        fact.english_source == "concept_fallback"
+        for fact in rendered_english_facts
+    )
+    merged_english_source = (
+        "unavailable"
+        if not rendered_english_facts
+        else "concept_fallback"
+        if all_rendered_concept_fallback
+        else "source_backed"
+    )
     return BilingualFact(
         fact_id="paragraph:" + "+".join(source_fact_ids),
         text_zh=text_zh.rstrip("。") + "。",
@@ -6197,6 +6223,18 @@ def merge_fact_paragraph(
             else ""
         ),
         briefing_priority=max(fact.briefing_priority for fact in facts),
+        english_source=merged_english_source,
+        english_concepts=(
+            tuple(
+                unique(
+                    concept
+                    for fact in facts
+                    for concept in fact.english_concepts
+                )
+            )
+            if all_rendered_concept_fallback
+            else ()
+        ),
     )
 
 
@@ -8408,6 +8446,46 @@ def apply_source_guard_fallbacks(
 def validate_bilingual_facts(facts: list[BilingualFact]) -> list[str]:
     errors: list[str] = []
     for fact in facts:
+        if fact.english_source == "unavailable":
+            if fact.text_en.strip():
+                errors.append(
+                    f"英文来源标记与正文不一致：{fact.key}：unavailable却包含英文正文"
+                )
+            continue
+        if fact.english_source == "concept_fallback":
+            concepts = tuple(unique(fact.english_concepts))
+            source_text = " ".join(
+                fact.source_clauses
+                or fact.source_original_texts
+                or (fact.text_zh,)
+            )
+            detected = {
+                str(concept["name"])
+                for concept in detected_group_concepts(source_text)
+            }
+            unknown = [
+                concept for concept in concepts if concept not in CONCEPT_ENGLISH
+            ]
+            missing_from_source = [
+                concept for concept in concepts if concept not in detected
+            ]
+            fallback_index = 0 if fact.category == "typical" else 1
+            missing_from_english = [
+                concept
+                for concept in concepts
+                if CONCEPT_ENGLISH[concept][fallback_index]
+                .strip()
+                .rstrip(".")
+                not in fact.text_en
+            ] if not unknown else []
+            if not concepts or unknown or missing_from_source or missing_from_english:
+                errors.append(
+                    "中英文概念模板不一致："
+                    f"{fact.key}：配置{list(concepts)}，"
+                    f"来源检测{sorted(detected)}，"
+                    f"未知{unknown}，英文缺失{missing_from_english}"
+                )
+            continue
         zh_tokens = critical_fact_tokens(fact.zh)
         en_tokens = critical_fact_tokens(fact.en)
         if zh_tokens != en_tokens:
@@ -8870,6 +8948,8 @@ def fact_source_metadata(fact: BilingualFact) -> dict[str, object]:
         ],
         "text_zh": fact.text_zh,
         "text_en": fact.text_en,
+        "english_source": fact.english_source,
+        "english_concepts": list(fact.english_concepts),
         "rendered_text": fact.text_zh,
         "season_scope": list(fact.season_scope),
         "flight_scope": list(fact.flight_scope),
