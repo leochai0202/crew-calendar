@@ -2692,12 +2692,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:4904a46c82a57a507eb3a3652450a3b5@crew-calendar
+UID:bd319908f182f99047bbe86b496cdf70@crew-calendar
 SUMMARY:✈️ 9C8935 上海浦东→长春龙嘉
 DTSTART;TZID=Asia/Shanghai:20261004T151000
 DTEND;TZID=Asia/Shanghai:20261004T175500
-DESCRIPTION:10月04日 周日\n类型：航班\n航班：9C8935\n航线：上海浦东 → 长春龙嘉\n地点：上海浦东\n签到：13:20｜上海浦东\n任务：15:10 - 17:55\n机型：A320｜注册号：B32E3\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 方慧(B)\n\n版本：2026-10-03 02:17
-X-CONTENT-SIGNATURE:4362310035dae954c597ddefeb1366c0
+DESCRIPTION:10月04日 周日\n类型：航班\n航班：9C8935\n航线：上海浦东 → 长春龙嘉\n地点：上海浦东\n签到：13:20｜上海浦东\n任务：15:10 - 17:55\n机型：A320｜注册号：B8435\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 方慧(B)\n\n版本：2026-10-03 20:35
+X-CONTENT-SIGNATURE:c9445a86053ceb683668a6e4cc1ab608
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -2706,12 +2706,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:0452361be026d58540f152b2aeb25cb3@crew-calendar
+UID:667bf3206c9d90d51a2886a9acbe4947@crew-calendar
 SUMMARY:✈️ 9C8545 长春龙嘉→宁波栎社
 DTSTART;TZID=Asia/Shanghai:20261004T190000
 DTEND;TZID=Asia/Shanghai:20261004T220000
-DESCRIPTION:10月04日 周日\n类型：航班\n航班：9C8545\n航线：长春龙嘉 → 宁波栎社\n地点：长春龙嘉\n签到：17:20｜长春龙嘉\n任务：19:00 - 22:00\n机型：A320｜注册号：B32E3\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 方慧(B)\n\n版本：2026-10-03 02:17
-X-CONTENT-SIGNATURE:6cf6cf2ef2c1b01ee714a9aee8c2e0d2
+DESCRIPTION:10月04日 周日\n类型：航班\n航班：9C8545\n航线：长春龙嘉 → 宁波栎社\n地点：长春龙嘉\n签到：17:20｜长春龙嘉\n任务：19:00 - 22:00\n机型：A320｜注册号：B8435\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 方慧(B)\n\n版本：2026-10-03 20:35
+X-CONTENT-SIGNATURE:28077a3a4b2dbe40864faf9c5878a3eb
 LOCATION:长春龙嘉
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -2724,7 +2724,7 @@ UID:95acc9ca7b126223756b419eae38db11@crew-calendar
 SUMMARY:✈️ 9C7385 宁波栎社→三亚凤凰
 DTSTART;TZID=Asia/Shanghai:20261005T170500
 DTEND;TZID=Asia/Shanghai:20261005T200500
-DESCRIPTION:10月05日 周一\n类型：航班\n航班：9C7385\n航线：宁波栎社 → 三亚凤凰\n地点：宁波栎社\n签到：15:20｜宁波栎社\n任务：17:05 - 20:05\n机型：A320｜注册号：B8346\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 张孝圣(B)\n\n版本：2026-10-03 02:17
+DESCRIPTION:10月05日 周一\n类型：航班\n航班：9C7385\n航线：宁波栎社 → 三亚凤凰\n地点：宁波栎社\n签到：15:20｜宁波栎社\n任务：17:05 - 20:05\n机型：A320｜注册号：B8346\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 张孝圣(B)\n\n版本：2026-10-03 20:35
 X-CONTENT-SIGNATURE:4f2d1d4d8029dffc3e283192c766dc9e
 LOCATION:宁波栎社
 BEGIN:VALARM
@@ -2738,7 +2738,7 @@ UID:2992fd230d681b98c51519efdc4ec55f@crew-calendar
 SUMMARY:✈️ 9C7386 三亚凤凰→宁波栎社
 DTSTART;TZID=Asia/Shanghai:20261005T210500
 DTEND;TZID=Asia/Shanghai:20261005T235500
-DESCRIPTION:10月05日 周一\n类型：航班\n航班：9C7386\n航线：三亚凤凰 → 宁波栎社\n地点：三亚凤凰\n签到：19:30｜三亚凤凰\n任务：21:05 - 23:55\n机型：A320｜注册号：B8346\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 张孝圣(B)\n\n版本：2026-10-03 02:17
+DESCRIPTION:10月05日 周一\n类型：航班\n航班：9C7386\n航线：三亚凤凰 → 宁波栎社\n地点：三亚凤凰\n签到：19:30｜三亚凤凰\n任务：21:05 - 23:55\n机型：A320｜注册号：B8346\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 张孝圣(B)\n\n版本：2026-10-03 20:35
 X-CONTENT-SIGNATURE:aed8fc8f648267d81fd1a5853ddbf2a2
 LOCATION:三亚凤凰
 BEGIN:VALARM
@@ -2748,12 +2748,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:8272708e032253a809896136e41e2d1d@crew-calendar
+UID:82ea6ae1eb55afe8cae0293e58ccee80@crew-calendar
 SUMMARY:✈️ 9C8546 宁波栎社→长春龙嘉
 DTSTART;TZID=Asia/Shanghai:20261006T162000
 DTEND;TZID=Asia/Shanghai:20261006T191500
-DESCRIPTION:10月06日 周二\n类型：航班\n航班：9C8546\n航线：宁波栎社 → 长春龙嘉\n地点：宁波栎社\n签到：14:35｜宁波栎社\n任务：16:20 - 19:15\n机型：A320｜注册号：B8371\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 周皓光(B)\n\n版本：2026-10-03 02:17
-X-CONTENT-SIGNATURE:36291d14ea7acc9da45d019c7da20f1d
+DESCRIPTION:10月06日 周二\n类型：航班\n航班：9C8546\n航线：宁波栎社 → 长春龙嘉\n地点：宁波栎社\n签到：14:35｜宁波栎社\n任务：16:20 - 19:15\n机型：A320｜注册号：B6902\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 周皓光(B)\n\n版本：2026-10-03 20:35
+X-CONTENT-SIGNATURE:9d267cf6e36f56eabfe0101964289529
 LOCATION:宁波栎社
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -2762,12 +2762,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:001bda787aae6f7107377397b57a032a@crew-calendar
+UID:b25611cf01229ffef44d2a6b49d04dad@crew-calendar
 SUMMARY:✈️ 9C8936 长春龙嘉→上海浦东
 DTSTART;TZID=Asia/Shanghai:20261006T201500
 DTEND;TZID=Asia/Shanghai:20261006T225500
-DESCRIPTION:10月06日 周二\n类型：航班\n航班：9C8936\n航线：长春龙嘉 → 上海浦东\n地点：长春龙嘉\n签到：18:40｜长春龙嘉\n任务：20:15 - 22:55\n机型：A320｜注册号：B8371\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 周皓光(B)\n\n版本：2026-10-03 02:17
-X-CONTENT-SIGNATURE:87f699700dcf3d55ec57f6e3f019c2fe
+DESCRIPTION:10月06日 周二\n类型：航班\n航班：9C8936\n航线：长春龙嘉 → 上海浦东\n地点：长春龙嘉\n签到：18:40｜长春龙嘉\n任务：20:15 - 22:55\n机型：A320｜注册号：B6902\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 周皓光(B)\n\n版本：2026-10-03 20:35
+X-CONTENT-SIGNATURE:31eaf28acb0d626b069b67f2e8429556
 LOCATION:长春龙嘉
 BEGIN:VALARM
 TRIGGER:-PT90M
