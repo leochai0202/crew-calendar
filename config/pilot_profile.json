@@ -4,8 +4,8 @@
   "role": "副驾驶",
   "technical_level": "A2",
   "promotion_date": "1月13日",
-  "stage_hours": 86,
-  "stage_landings": 18,
+  "stage_hours": 93,
+  "stage_landings": 21,
   "landings_90_days": 8,
   "landings_30_days": 8,
   "simulation_included": true,
@@ -14,7 +14,7 @@
   "duty_day": null,
   "last_operated_landing": {
     "airport": "上海浦东机场",
-    "date": "2026-07-28"
+    "date": "2026-10-01"
   },
   "recent_feedback": {
     "PF": "30尺以下带杆量欠一点；着陆后快速脱离道口前及时减速至30节以下。",
