@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import pytest
@@ -40,6 +41,21 @@ def write_ics(tmp_path, *events):
     path = tmp_path / "flight.ics"
     path.write_text("BEGIN:VCALENDAR\nVERSION:2.0\n" + "".join(events) + "END:VCALENDAR\n", encoding="utf-8")
     return path
+
+
+HISTORICAL_NOW = datetime(2026, 10, 4, tzinfo=sync.BEIJING)
+FUTURE_NOW = datetime(2026, 10, 1, tzinfo=sync.BEIJING)
+
+
+@pytest.fixture(autouse=True)
+def fixed_clock(monkeypatch):
+    # Historical regressions must not change behavior with the machine's date.
+    monkeypatch.setattr(sync, "current_time", lambda: HISTORICAL_NOW)
+
+
+@pytest.fixture
+def future_clock(monkeypatch):
+    monkeypatch.setattr(sync, "current_time", lambda: FUTURE_NOW)
 
 
 @pytest.fixture
@@ -593,3 +609,231 @@ def test_workflow_is_nonblocking_and_requires_completed_ics_pipeline():
     assert "crew_calendar_email_entry.py" not in step
     assert "CREW_STORAGE_STATE" not in step
     assert workflow.index("calendar_d2_prep_check") < workflow.index("id: flighty_sync")
+
+
+@pytest.mark.parametrize("origin,destination,expected_dep,expected_arr,category", [
+    ("上海浦东", "长春龙嘉", "PVG", "CGQ", "iata"),
+    ("扬州泰州", "上海浦东", "ZSYZ", "PVG", "icao"),
+    ("ZSYZ", "上海浦东", "ZSYZ", "PVG", "icao"),
+    ("新机场名称", "上海浦东", "新机场名称", "PVG", "raw"),
+    ("大阪", "未知机场(+1)", "大阪", "未知机场(+1)", "raw"),
+])
+def test_future_airport_priority_never_drops_source(tmp_path, airports, future_clock,
+        origin, destination, expected_dep, expected_arr, category):
+    source = write_ics(tmp_path, event(origin=origin, destination=destination))
+    before = source.read_bytes()
+    snapshot = sync.read_snapshot(source, airports)
+    flight, = snapshot.flights.values()
+    assert flight.body["summary"] == f"Spring Airlines 9C6731 {expected_dep} → {expected_arr}"
+    assert flight.body["location"] == expected_dep
+    assert f"Departure Airport: {expected_dep}\nArrival Airport: {expected_arr}" in flight.body["description"]
+    assert flight.body["reminders"] == {"useDefault": False, "overrides": []}
+    assert snapshot.future_airports == {category: 1}
+    assert len(snapshot.future_sources) == 1 and snapshot.skipped == 0
+    assert len(sync.private(flight.body)["flighty_source_key"]) == 64
+    client = Calendar()
+    reconcile(client, snapshot)
+    sync.check_future(snapshot, list(client.events.values()))
+    assert source.read_bytes() == before
+
+
+def test_future_ambiguous_icao_uses_original_name(tmp_path, airports, future_clock):
+    airports.names["大连周水子"].add("ZSPD")
+    snapshot = sync.read_snapshot(write_ics(tmp_path, event()), airports)
+    flight, = snapshot.flights.values()
+    assert flight.body["location"] == "大连周水子"
+    assert snapshot.future_airports == {"raw": 1}
+
+
+def test_future_boundary_includes_exact_departure_not_past(tmp_path, airports):
+    path = write_ics(tmp_path, event(destination="未知机场"))
+    departure = datetime(2026, 10, 1, 16, 15, tzinfo=sync.BEIJING)
+    future = sync.read_snapshot(path, airports, now=departure)
+    past = sync.read_snapshot(path, airports, now=departure + timedelta(microseconds=1))
+    assert len(future.future_sources) == len(future.flights) == 1
+    assert not past.future_sources and not past.flights and past.skipped == 1
+
+
+@pytest.mark.parametrize("changed", [
+    {"start": "20261001T164500"},
+    {"end": "20261001T185000"},
+    {"start": "20261001T164500", "end": "20261001T185000"},
+])
+def test_future_conflicts_retain_every_distinct_source_and_are_idempotent(tmp_path, airports, future_clock, capsys, changed):
+    source = write_ics(tmp_path, event(), event(**changed), event())
+    snapshot = sync.read_snapshot(source, airports)
+    assert len(snapshot.future_sources) == len(snapshot.flights) == 2
+    assert snapshot.skipped == 1  # Only the byte-equivalent source copy.
+    assert "FLIGHTY_FUTURE_SOURCE_CONFLICT" in capsys.readouterr().out
+    client = Calendar()
+    reconcile(client, snapshot)
+    before = copy.deepcopy(client.events)
+    plan = reconcile(client, sync.read_snapshot(source, airports))
+    assert not plan.create and not plan.update and not plan.delete
+    assert client.events == before
+    sync.check_future(snapshot, list(client.events.values()))
+    assert "FLIGHTY_FUTURE_CHECK source=2 google=2 missing=0" in capsys.readouterr().out
+
+
+def test_future_conflict_appears_and_resolves_without_replacing_survivor(tmp_path, airports, future_clock):
+    client = Calendar()
+    one = sync.read_snapshot(write_ics(tmp_path, event()), airports)
+    reconcile(client, one)
+    first_id, = client.events
+    both = sync.read_snapshot(write_ics(tmp_path, event(), event(end="20261001T185000")), airports)
+    reconcile(client, both)
+    assert first_id in client.events and len(client.events) == 2
+    survivor_id = next(k for k, v in client.events.items() if v["end"]["dateTime"].endswith("18:50:00+08:00"))
+    remaining = sync.read_snapshot(write_ics(tmp_path, event(end="20261001T185000")), airports)
+    reconcile(client, remaining)
+    assert list(client.events) == [survivor_id]
+
+
+def test_legacy_future_event_upgrades_in_place_then_noop(tmp_path, airports, future_clock):
+    path = write_ics(tmp_path, event())
+    legacy = sync.read_snapshot(path, airports, now=HISTORICAL_NOW)
+    client = Calendar()
+    reconcile(client, legacy)
+    event_id, = client.events
+    future = sync.read_snapshot(path, airports)
+    plan = reconcile(client, future)
+    assert len(plan.update) == 1 and not plan.create and not plan.delete
+    assert list(client.events) == [event_id]
+    assert sync.private(client.events[event_id])["flighty_source_key"] in future.future_sources
+    plan = reconcile(client, future)
+    assert not plan.create and not plan.update and not plan.delete
+
+
+def test_future_source_identity_survives_mapping_upgrade_and_time_change(tmp_path, airports, future_clock):
+    path = write_ics(tmp_path, event(origin="新机场名称"))
+    snapshot = sync.read_snapshot(path, airports)
+    old_source, = snapshot.future_sources
+    client = Calendar()
+    reconcile(client, snapshot)
+    old_id, = client.events
+    airports.names["新机场名称"] = {"ZSPD"}
+    upgraded = sync.read_snapshot(path, airports)
+    assert set(upgraded.future_sources) == {old_source}
+    assert next(iter(upgraded.flights)) != next(iter(snapshot.flights))
+    plan = reconcile(client, upgraded)
+    assert len(plan.update) == 1 and not plan.create and not plan.delete
+    assert list(client.events) == [old_id]
+    changed = sync.read_snapshot(write_ics(tmp_path, event(origin="新机场名称", start="20261001T164500")), airports)
+    assert old_source not in changed.future_sources
+    plan = reconcile(client, changed)
+    assert len(plan.update) == 1 and not plan.create and not plan.delete
+    assert list(client.events) == [old_id]
+
+
+def test_historical_protection_cannot_hide_or_keep_duplicate_future_event(tmp_path, airports, future_clock):
+    # A past unresolved flight shares the future flight's service day.
+    snapshot = sync.read_snapshot(write_ics(tmp_path,
+        event(start="20261001T060000", end="20261001T080000", destination="未知机场"),
+        event()), airports, now=datetime(2026, 10, 1, 12, tzinfo=sync.BEIJING))
+    assert "2026-10-01|9C6731" in snapshot.protected_services
+    assert len(snapshot.future_sources) == 1
+    client = Calendar()
+    reconcile(client, snapshot)
+    mirror = next(iter(client.events.values()))
+    client.events["duplicate"] = copy.deepcopy(mirror) | {"id": "duplicate"}
+    plan = reconcile(client, snapshot)
+    assert len(plan.delete) == 1 and len(client.events) == 1
+    sync.check_future(snapshot, list(client.events.values()))
+
+
+def test_mixed_historical_future_time_conflict_keeps_future(tmp_path, airports, capsys):
+    source = write_ics(tmp_path, event(start="20261001T060000", end="20261001T080000"), event())
+    snapshot = sync.read_snapshot(source, airports, now=datetime(2026, 10, 1, 12, tzinfo=sync.BEIJING))
+    assert len(snapshot.flights) == 2 and len(snapshot.future_sources) == 1
+    assert "FLIGHTY_FUTURE_SOURCE_CONFLICT" in capsys.readouterr().out
+    client = Calendar()
+    reconcile(client, snapshot)
+    sync.check_future(snapshot, list(client.events.values()))
+
+
+def test_future_invalid_source_route_fails_explicitly(tmp_path, airports, future_clock):
+    damaged = event().replace("航线：大连周水子 → 呼和浩特白塔", "航线：无法确定航线")
+    with pytest.raises(sync.SyncError, match="FLIGHTY_FUTURE_SOURCE_INVALID"):
+        sync.read_snapshot(write_ics(tmp_path, damaged), airports)
+
+
+@pytest.mark.parametrize("remote_damage", ["missing", "cancelled", "unowned", "no_source_key", "duplicate"])
+def test_future_check_rejects_missing_or_duplicate_identity(tmp_path, airports, future_clock, capsys, remote_damage):
+    snapshot = sync.read_snapshot(write_ics(tmp_path, event()), airports)
+    client = Calendar()
+    reconcile(client, snapshot)
+    remote = list(copy.deepcopy(client.events).values())
+    if remote_damage == "missing":
+        remote = []
+    elif remote_damage == "cancelled":
+        remote[0]["status"] = "cancelled"
+    elif remote_damage == "unowned":
+        sync.private(remote[0])["flighty_owner"] = "someone-else"
+    elif remote_damage == "no_source_key":
+        del sync.private(remote[0])["flighty_source_key"]
+    else:
+        remote.append(copy.deepcopy(remote[0]) | {"id": "duplicate"})
+    with pytest.raises(sync.SyncError):
+        sync.check_future(snapshot, remote)
+    output = capsys.readouterr().out
+    if remote_damage == "duplicate":
+        assert "FLIGHTY_FUTURE_DUPLICATES count=1" in output
+    else:
+        assert "FLIGHTY_FUTURE_CHECK source=1 google=0 missing=1" in output
+        assert "FLIGHTY_FUTURE_GAP missing=1" in output
+        assert "MISSING=2026-10-01|9C6731|大连周水子→呼和浩特白塔" in output
+
+
+@pytest.mark.parametrize("drop_one", [False, True])
+def test_future_main_relists_after_writes_and_fails_on_gap(monkeypatch, capsys, isolated_root, future_clock, drop_one):
+    configured_env(monkeypatch)
+    write_ics(isolated_root, event(), event(number="9C6732"))
+    before = {p: p.read_bytes() for p in isolated_root.glob("*.ics")}
+    client = Calendar()
+    client.authenticate = lambda: None
+    client.validate_calendar = lambda: None
+    listings = []
+
+    def list_owned():
+        events = list(copy.deepcopy(client.events).values())
+        listings.append(len(events))
+        return events[:-1] if drop_one else events
+
+    client.list_owned = list_owned
+    client.token = "private-token"
+    monkeypatch.setattr(sync, "GoogleCalendar", lambda _: client)
+    assert sync.main([]) == int(drop_one)
+    output = capsys.readouterr().out
+    assert listings == [0, 2]  # The second listing observes committed writes.
+    assert f"FLIGHTY_FUTURE_CHECK source=2 google={1 if drop_one else 2} missing={int(drop_one)}" in output
+    assert ("FLIGHTY_SYNC=SUCCESS" in output) is not drop_one
+    for secret in ("never-print-private-key", "private-token", json.dumps(SERVICE_ACCOUNT_INFO)):
+        assert secret not in output
+    assert all(p.read_bytes() == b for p, b in before.items())
+    if not drop_one:
+        calls = list(client.calls)
+        assert sync.main([]) == 0
+        assert client.calls == calls  # A fresh main invocation is idempotent.
+
+
+def test_future_post_write_api_failure_is_redacted_and_preserves_ics(monkeypatch, capsys, isolated_root, future_clock):
+    configured_env(monkeypatch)
+    client = Calendar()
+    client.authenticate = lambda: None
+    client.validate_calendar = lambda: None
+    before = (isolated_root / "flight.ics").read_bytes()
+
+    def list_owned():
+        if client.events:
+            raise requests.ConnectionError("never-print-private-key private-token")
+        return []
+
+    client.list_owned = list_owned
+    monkeypatch.setattr(sync, "GoogleCalendar", lambda _: client)
+    assert sync.main([]) == 1
+    output = capsys.readouterr().out
+    assert "FLIGHTY_SYNC=ERROR ConnectionError" in output
+    assert "FLIGHTY_SYNC=SUCCESS" not in output
+    assert "never-print-private-key" not in output and "private-token" not in output
+    assert (isolated_root / "flight.ics").read_bytes() == before
+    assert len(client.events) == 1  # No rollback or source rewrite on failure.
