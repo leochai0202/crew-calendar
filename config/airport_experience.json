@@ -1,12 +1,12 @@
 {
   "rolling_days": 90,
-  "as_of": "2026-09-30",
+  "as_of": "2026-10-03",
   "airports": {
     "西安咸阳": {
-      "last_operated": "2026-05-26",
+      "last_operated": "2026-09-30",
       "source": "completed_schedule_event",
-      "flight_number": "9C8832",
-      "within_90_days": false
+      "flight_number": "9C6813",
+      "within_90_days": true
     },
     "上海虹桥": {
       "last_operated": "2026-09-12",
@@ -21,9 +21,9 @@
       "within_90_days": true
     },
     "上海浦东": {
-      "last_operated": "2026-09-24",
+      "last_operated": "2026-10-01",
       "source": "completed_schedule_event",
-      "flight_number": "9C8527",
+      "flight_number": "9C8982",
       "within_90_days": true
     },
     "札幌新千岁": {
@@ -138,7 +138,7 @@
       "last_operated": "2026-07-03",
       "source": "completed_schedule_event",
       "flight_number": "9C6788",
-      "within_90_days": true
+      "within_90_days": false
     },
     "威海大水泊": {
       "last_operated": "2026-08-18",
@@ -147,9 +147,9 @@
       "within_90_days": true
     },
     "大连周水子": {
-      "last_operated": "2026-09-29",
+      "last_operated": "2026-10-01",
       "source": "completed_schedule_event",
-      "flight_number": "9C7132",
+      "flight_number": "9C6731",
       "within_90_days": true
     },
     "济南遥墙": {
@@ -177,10 +177,10 @@
       "within_90_days": false
     },
     "呼和浩特白塔": {
-      "last_operated": "2026-06-06",
+      "last_operated": "2026-10-01",
       "source": "completed_schedule_event",
       "flight_number": "9C6731",
-      "within_90_days": false
+      "within_90_days": true
     },
     "长春龙嘉": {
       "last_operated": "2026-07-18",
