@@ -89,7 +89,7 @@ def _fact(
     )
 
 
-def test_chinese_output_uses_fixed_five_part_order_and_numbered_events() -> None:
+def test_chinese_output_uses_fixed_four_part_order_and_numbered_events() -> None:
     event = _event()
     airports = list(event.route)
     typical = {
@@ -113,7 +113,6 @@ def test_chinese_output_uses_fixed_five_part_order_and_numbered_events() -> None
 
     headings = [
         "上一次飞行中机长/教员对我优缺点的评价（作为PF/PM各取最近一次）：",
-        "个人对本次航班中识别的风险：",
         "上海虹桥机场典型不安全事件：",
         "贵阳龙洞堡机场典型不安全事件：",
         "核心威胁：",
@@ -125,6 +124,8 @@ def test_chinese_output_uses_fixed_five_part_order_and_numbered_events() -> None
     assert "上海虹桥机场典型不安全事件：\n1. 上海虹桥真实事件。" in content
     assert "贵阳龙洞堡机场典型不安全事件：\n1. 贵阳龙洞堡真实事件。" in content
     assert content.count("核心威胁：") == 1
+    assert "个人对本次航班中识别的风险：" not in content
+    assert "上海虹桥机场航班时段天气以航前最新TAF/METAR及放行资料为准。" not in content
     assert "近期注意点" not in content
     assert not any(
         heading in content for heading in ("指挥特点：", "道面特点：", "气象特点：")
@@ -366,19 +367,15 @@ def test_real_august_twenty_six_generates_with_local_guard_fallbacks(
     )
     assert dated_meta["status"] == "SUCCESS"
     assert dated_meta["task_fingerprint"] == meta["task_fingerprint"]
-    assert "个人对本次航班中识别的风险：" in content
-    assert "天气及动态资料以航前最新资料为准。" in content
+    assert "个人对本次航班中识别的风险：" not in content
+    assert "天气及动态资料以航前最新资料为准。" not in content
     assert "近期注意点" not in content
     assert all(airport in content for airport in ("上海虹桥机场：", "贵阳龙洞堡机场：", "扬州泰州机场："))
     for group in meta["prep_groups"]:
         group_content = (output / group["output"]).read_text(encoding="utf-8")
         assert group_content.count("核心威胁：") == 1
-        assert "个人对本次航班中识别的风险：" in group_content
-        risk_section = group_content.split(
-            "个人对本次航班中识别的风险：", 1
-        )[1].split("\n\n", 1)[0]
-        for other_airport in set(meta["airports"]) - set(group["airports"]):
-            assert agent.airport_with_suffix(other_airport) not in risk_section
+        assert "个人对本次航班中识别的风险：" not in group_content
+        assert "天气及动态资料以航前最新资料为准。" not in group_content
         assert not re.search(r"(?m)^\s*\d+[.、]", group_content.split("核心威胁：", 1)[1])
         for airport in group["airports"]:
             title = f"{agent.airport_with_suffix(airport)}典型不安全事件："
@@ -542,7 +539,7 @@ def test_existing_august_regressions_still_generate(
         )
     )
     assert meta["status"] == "SUCCESS"
-    assert "个人对本次航班中识别的风险：" in (
+    assert "个人对本次航班中识别的风险：" not in (
         repo / "flight_preparation" / "latest.txt"
     ).read_text(encoding="utf-8")
 
@@ -584,7 +581,7 @@ def test_real_september_ten_uses_latest_manual_quality_engine(
     assert meta["flight_numbers"] == ["9C8891"]
     assert meta["airport_information_version"] == REAL_PDF_VERSION
     assert content.count("核心威胁：") == 1
-    assert "本阶段经历时间86小时，起落18个，近90天起落8个" in content
+    assert "本阶段经历时间93小时，起落21个，近90天起落8个" in content
 
     bangkok = content.split("曼谷素旺那普机场：", 1)[1]
     for marker in (

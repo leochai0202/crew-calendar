@@ -8682,10 +8682,7 @@ def render_chinese_briefing(
     if feedback:
         sections.append(feedback)
 
-    risk_text = duty_risk_text(event, records, core_facts, weather_sentence)
-    sections.append("个人对本次航班中识别的风险：\n" + risk_text)
-
-    del target
+    del target, weather_sentence
 
     airports = unique([airport for airport in event.route if airport])
     for airport in airports:
@@ -8897,20 +8894,18 @@ def validate_content(
     )
     if feedback_heading not in content:
         errors.append("正文缺少PF/PM评价栏目")
-    if language == "zh" and risk_heading not in content:
-        errors.append("正文缺少个人风险识别栏目")
-    if language != "zh" and risk_heading in content:
-        errors.append("英文正文不应新增个人风险识别栏目")
+    if risk_heading in content:
+        errors.append(
+            "中文正文不应显示个人风险识别栏目"
+            if language == "zh"
+            else "英文正文不应新增个人风险识别栏目"
+        )
     if core_heading not in content:
         errors.append("正文缺少核心威胁标题")
     if language == "zh" and all(
-        heading in content for heading in (feedback_heading, risk_heading, core_heading)
+        heading in content for heading in (feedback_heading, core_heading)
     ):
-        if not (
-            content.index(feedback_heading)
-            < content.index(risk_heading)
-            < content.index(core_heading)
-        ):
+        if content.index(feedback_heading) >= content.index(core_heading):
             errors.append("正式正文栏目顺序不符合固定标准")
 
     forbidden_metadata = [
@@ -8959,6 +8954,12 @@ def validate_content(
         if typical_title in content and core_heading in content:
             if content.index(typical_title) > content.index(core_heading):
                 errors.append(f"{typical_title}必须位于核心威胁之前")
+            if (
+                language == "zh"
+                and feedback_heading in content
+                and content.index(typical_title) < content.index(feedback_heading)
+            ):
+                errors.append(f"{typical_title}必须位于PF/PM评价之后")
         if core_title not in content:
             errors.append(f"正文漏掉{core_title}")
 

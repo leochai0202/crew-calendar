@@ -415,7 +415,6 @@ def test_structurally_complete_briefing_has_no_length_floor() -> None:
         "我是来自飞行十五中队的副驾驶段洋硕。\n\n"
         "上一次飞行中机长/教员对我优缺点的评价（作为PF/PM各取最近一次）：\n"
         "上一次作为PF教员评价：评价；作为PM机长评价：评价。\n\n"
-        "个人对本次航班中识别的风险：\n天气及动态资料以航前资料为准。\n\n"
         "上海浦东机场典型不安全事件：\n1. 事件。\n\n"
         "恩施许家坪机场典型不安全事件：\n1. 事件。\n\n"
         "核心威胁：\n\n"
@@ -431,6 +430,34 @@ def test_structurally_complete_briefing_has_no_length_floor() -> None:
         ["上海浦东", "恩施许家坪"],
         language="zh",
     ) == []
+
+
+def test_chinese_briefing_rejects_removed_personal_risk_section() -> None:
+    event = _event(
+        "one",
+        "9C1001",
+        "上海浦东",
+        "恩施许家坪",
+        datetime(2026, 8, 4, 7, 0, tzinfo=BEIJING),
+        datetime(2026, 8, 4, 9, 0, tzinfo=BEIJING),
+    )
+    content = (
+        "我是来自飞行十五中队的副驾驶段洋硕。\n\n"
+        "上一次飞行中机长/教员对我优缺点的评价（作为PF/PM各取最近一次）：\n"
+        "上一次作为PF教员评价：评价；作为PM机长评价：评价。\n\n"
+        "个人对本次航班中识别的风险：\n天气及动态资料以航前最新资料为准。\n\n"
+        "核心威胁：\n\n"
+        "上海浦东机场：\n来源事实。\n\n"
+        "恩施许家坪机场：\n来源事实。\n"
+    )
+
+    assert "中文正文不应显示个人风险识别栏目" in agent.validate_content(
+        content,
+        event,
+        {"name": "段洋硕"},
+        ["上海浦东", "恩施许家坪"],
+        language="zh",
+    )
 
 
 def test_source_semantics_preserve_controls_without_airport_special_cases() -> None:
@@ -1789,16 +1816,17 @@ def test_real_august_four_final_confirmed_format(
     meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
     assert content.startswith("我是来自飞行十五中队的副驾驶段洋硕")
     intro = content.split("\n\n", 1)[0]
-    assert "本阶段经历时间86小时" in intro
-    assert "起落18个" in intro
+    assert "本阶段经历时间93小时" in intro
+    assert "起落21个" in intro
     assert "近90天起落8个" in intro
-    assert "7月28日上海浦东机场" in intro
+    assert "10月1日上海浦东机场" in intro
     assert "A320" not in intro
     assert "近一个月起落" not in intro
     assert "（含模拟机）" not in intro
     assert "近期机场经历" not in content
     assert "近期注意点" not in content
-    assert "个人对本次航班中识别的风险：" in content
+    assert "个人对本次航班中识别的风险：" not in content
+    assert "天气及动态资料以航前最新资料为准。" not in content
     assert "•" not in content
     assert "None" not in content and "null" not in content
     assert (
@@ -2006,13 +2034,14 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
     assert "曾发生低空风切变事件" in first
     for content in (first, second):
         intro = content.split("\n\n", 1)[0]
-        assert "本阶段经历时间86小时" in intro
-        assert "起落18个" in intro
+        assert "本阶段经历时间93小时" in intro
+        assert "起落21个" in intro
         assert "近90天起落8个" in intro
-        assert "上一次实际操纵落地为7月28日上海浦东机场" in intro
+        assert "上一次实际操纵落地为10月1日上海浦东机场" in intro
         assert "近一个月起落" not in intro
         assert "（含模拟机）" not in intro
-        assert "个人对本次航班中识别的风险：" in content
+        assert "个人对本次航班中识别的风险：" not in content
+        assert "天气及动态资料以航前最新资料为准。" not in content
         assert "核心威胁：" in content
         assert not re.search(
             r"(?m)^\s*(?:\d+[.、]|[•●▪])\s*\S",
