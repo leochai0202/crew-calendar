@@ -1,6 +1,6 @@
 # Flighty Google Calendar 镜像
 
-`sync_flighty_google_calendar.py` 只读取根目录已生成、清洗后的 `flight.ics`，不访问机组网站，不调用登录/OTP/Playwright，不写入 ICS、认证状态、GitHub 发布状态或航前准备文件。认证使用 `google-auth` 的 Service Account credentials，日历读写沿用现有 REST API；其他依赖仍为 `requests`、`tzdata` 和标准库。
+`sync_flighty_google_calendar.py` 只读取根目录已生成、清洗后的日历文件：未来航空航段以 `crew_schedule.ics` 为唯一权威来源，历史普通航班沿用 `flight.ics`，不访问机组网站，不调用登录/OTP/Playwright，不写入 ICS、认证状态、GitHub 发布状态或航前准备文件。认证使用 `google-auth` 的 Service Account credentials，日历读写沿用现有 REST API；其他依赖仍为 `requests`、`tzdata` 和标准库。
 
 ## 首次设置
 
@@ -45,11 +45,11 @@ python -B sync_flighty_google_calendar.py --dry-run
 - Google 自行分配 event ID。`extendedProperties.private` 保存 `flighty_owner`、`flighty_key`、`flighty_service`（日期和航班号）、`flighty_route`，未来事件另存 `flighty_source_key`，与 ID 同属一条持久化事件。每次运行分页读取，重建 `event_id ↔ stable key` 索引，不依赖本地文件、Actions cache 或 Git 提交。
 - 相同 key 的时间变化更新原 ID。同日期同航班号只有一个新旧候选时，航线变化也更新原 ID 和 key。多段航班分别建事件，不按返回顺序猜匹配。
 - 航班号改变先创建正确镜像，再删除旧镜像。跨午夜改时刻时，若同航班号同航线的新旧候选唯一且相差不超过 24 小时，也更新原 ID。更大日期移动或多候选情况按新增/移除处理，不猜测配对。
-- 从有效源文件消失、`STATUS:CANCELLED` 或改为非航班：删除本模块拥有的旧镜像。合法空 VCALENDAR 会清除全部本模块镜像。
+- 未来航段从 `crew_schedule.ics` 消失或标为 `STATUS:CANCELLED`：删除本模块拥有的对应未来镜像；仅类型变化不删除。合法空未来源只清除未来镜像，已经过去的镜像保留。
 - 只处理带本模块 owner 标记的事件，不删除手工事件；已管理镜像的手工字段改动会在下次同步恢复。
 - 完成所有新增/更新后才删除过期镜像。API 失败立即停止后续写入，不盲目重试 POST。插入响应丢失时，下一次仍可用 Google 上原子保存的 key 找回事件；重复镜像在成功同步时合并。
 - 缺失、截断、非法时间/时区的源文件直接报错，不执行远端删除。历史航班机场不明确或同 key 有冲突时刻时 warning/skip，保留该服务已有历史镜像，等待数据明确后修复；未来航班按下述 Future Strict 规则处理，不受历史保护逻辑阻挡。
-- 同步范围为当前文件全部有效航班，包括其保留的历史事件，没有额外时间窗口。
+- 过去的普通航班继续按 `flight.ics` 的既有规则维护，不从统一日程批量补入历史置位。已镜像但不在历史候选中的过去事件保留；由统一日程导入的置位在起飞后也保留，不会因从未进入 `flight.ics` 而被删除，后续同号重复航段不能挪用它的 ID。
 
 工作流沿用现有 `crew-calendar` concurrency group 串行执行。手工同步应等待 workflow 结束，避免并发写入。
 
@@ -67,7 +67,15 @@ python -B sync_flighty_google_calendar.py --dry-run
 
 ## Future Strict（默认启用）
 
-每次读取源文件时固定一次北京时间 `as_of`，`DTSTART >= as_of` 为当前/未来航班；已起飞的航班使用原有历史规则。同步结束仍用同一个边界做核对，避免运行过程中跨过起飞时刻而漏验。只处理有效真实航班，置位、摆渡、训练、考勤、待命及已取消记录仍排除。历史规则和历史事件格式不追溯升级。
+每次读取源文件时固定一次北京时间 `as_of`，`DTSTART >= as_of` 为当前/未来航段。未来只使用 `crew_schedule.ics`；`flight.ics` 只贡献已过去的普通航班，绝不读取或自行合并 `positioning.ics`。两个源文件都必须完整，统一日程缺失或损坏时明确失败，不回退到分类日历后误报未来完整。
+
+未来候选只要求 DESCRIPTION 中有唯一可靠的 `航班：<flight number>`、唯一可解析的 `航线：<origin> → <destination>`，且 DTSTART/DTEND 有效。不要求 `类型：航班`，也不以标题里的“置位 / positioning”等字样过滤；类型为置位、其他、训练、摆渡或类型缺失，只要满足上述条件都导入。DESCRIPTION 是身份来源，不要求标题重复航班号。已明确取消的记录仍不导入。
+
+只有路线而无可靠航班号的火车/车辆摆渡不会被伪造成航空航段：输出 `FLIGHTY_ROUTE_NO_FLIGHT_NUMBER`，不加入 future source/missing；也不从标题推测航班号。缺失、空值、多个或无法解析的航班号都不可靠。有可靠航班号但没有航线时输出 `FLIGHTY_FLIGHT_NO_ROUTE`；航线字段存在但内容歧义、候选时间无效等情况明确失败。
+
+航班号接受唯一的航空公司代码（两位 IATA 字母/数字或三字 ICAO）加 1–4 位非全零航班数字及可选字母后缀，保留完整值。9C 继续写 `Spring Airlines`；其他航空公司只使用源航班号中的明确代码作为 Airline，不猜公司全名或把其他航班标成春秋。
+
+同步结束仍用同一个边界核对，避免运行过程中跨过起飞时刻而漏验。历史事件不因新类型规则批量补入置位；历史事件格式不追溯升级。
 
 未来每个真实航段必须生成事件。出发与到达分别使用可靠 IATA；没有 IATA 时使用现有数据库中唯一的 ICAO；仍不明确时直接使用 `flight.ics` 的原始机场名，不模糊匹配、不猜代码、不额外创建机场数据库。ICAO/原名回退输出 `FLIGHTY_FUTURE_AIRPORT_FALLBACK` warning，不算丢弃。没有可解析的源航线、非法时刻或航班号则明确失败，不把无法计数的源记录静默排除后报告成功。
 
@@ -87,7 +95,7 @@ Route: Shanghai (Pudong) → Changchun
 Crew
 ```
 
-`flighty_source_key` 为 JSON 数组 `[完整航班号, 北京时间 DTSTART, 北京时间 DTEND, 原始出发机场, 原始到达机场]` 的 SHA-256（UTF-8、无额外分隔空格）。包含 DTEND，因此同一起飞时刻但落地时刻不同也各自可追踪；不包含 IATA/ICAO 结果，因此机场映射改善不会改变源身份。完全相同的源记录去重为同一航段，不按 UID 或文件顺序分配身份。
+任务类型和标题均不进入身份。航班与置位互相变更，只要完整航班号、时刻和原始航线不变，source key、事件内容和 Google ID 都不变。`flighty_source_key` 为 JSON 数组 `[完整航班号, 北京时间 DTSTART, 北京时间 DTEND, 原始出发机场, 原始到达机场]` 的 SHA-256（UTF-8、无额外分隔空格）。包含 DTEND，因此同一起飞时刻但落地时刻不同也各自可追踪；不包含 IATA/ICAO 结果，因此机场映射改善不会改变源身份。完全相同的源记录去重为同一航段，不按 UID 或文件顺序分配身份。
 
 同一业务 key 的未来源记录若时刻冲突，输出 `FLIGHTY_FUTURE_SOURCE_CONFLICT`，每条不同源身份都建立事件，不选择“正确”的一条。冲突组的 `flighty_key` 进一步结合源 key 区分。先匹配 `flighty_source_key`，再匹配原业务 key 和现有唯一候选规则，旧版未来事件可原位更新；映射完善、冲突出现/解除时尽量保留已明确对应的 Google ID。未来事件不会因同服务历史记录的保护状态而遗留重复镜像。
 
@@ -95,13 +103,14 @@ Crew
 
 ```text
 FLIGHTY_FUTURE_SOURCE count=6 as_of=2026-10-04T00:00:00+08:00
+FLIGHTY_FUTURE_SEGMENTS source=6 positioning=1 route_without_flight_number=1
 FLIGHTY_FUTURE_FALLBACK iata=6 icao=0 raw=0
 FLIGHTY_FUTURE_CHECK source=6 google=6 missing=0
 FLIGHTY_FUTURE_DUPLICATES count=0
 FLIGHTY_SYNC=SUCCESS
 ```
 
-数字只是示例，按最新源文件和运行时刻计算。机场计数以**未来航段**为单位、三类互斥：两端均为 IATA 记 iata；至少一端 ICAO 且没有原名记 icao；任一端为原名记 raw。`--dry-run` 输出源数量、机场回退数量和同步计划，绝不输出代表写入成功的 Future Check；离线预览不能代替实机验收。
+数字只是示例，按最新统一日程和运行时刻计算。`source` 包含置位等所有合格未来航空航段；`positioning` 只作为置位计数，不参与筛选或身份；`route_without_flight_number` 是未来有路线但无可靠航班号的记录数，不计入 source 或 missing。机场计数以**未来航段**为单位、三类互斥：两端均为 IATA 记 iata；至少一端 ICAO 且没有原名记 icao；任一端为原名记 raw。`--dry-run` 输出源数量、机场回退数量和同步计划，绝不输出代表写入成功的 Future Check；离线预览不能代替实机验收。
 
 实际 `apply_plan` 成功后，再次分页 `list_owned()`，逐条以 `flighty_source_key` 核对同 owner、未取消且有 Google ID 的事件。`google` 为匹配这些未来身份的远端事件总数。缺失时输出 `FLIGHTY_FUTURE_GAP missing=N` 及每条 `MISSING=日期|航班号|原始出发→原始到达|DTSTART|DTEND`，返回非零；重复身份也返回非零。只有完整性检查通过后才输出 `FLIGHTY_SYNC=SUCCESS`。Google 列表读取失败同样不报告成功，不打印响应正文、credential 或 token。
 

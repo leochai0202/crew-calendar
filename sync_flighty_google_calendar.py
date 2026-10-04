@@ -1,4 +1,4 @@
-"""One-way, read-only flight.ics -> dedicated Google Calendar mirror.
+"""Read-only crew_schedule.ics future segments + legacy flight.ics history mirror.
 
 Google-assigned event IDs and stable keys are persisted together in each
 event's private extended properties. No state or credentials enter Git history.
@@ -34,6 +34,7 @@ GOOGLE_SCOPES = (
     "https://www.googleapis.com/auth/calendar.calendars.readonly",
 )
 FLIGHT_RE = re.compile(r"9C\d{3,4}[A-Z]?")
+FUTURE_FLIGHT_RE = re.compile(r"(?P<airline>[A-Z]{3}|[A-Z][A-Z0-9]|[0-9][A-Z])(?P<number>\d{1,4})[A-Z]?")
 EXCLUDED = re.compile(r"置位|摆渡|训练|考勤|待命|其他任务|调机|模拟机|positioning|ferry|training|standby", re.I)
 
 
@@ -191,39 +192,80 @@ class Snapshot:
     as_of: datetime = field(default_factory=current_time)
     future_sources: dict[str, str] = field(default_factory=dict)
     future_airports: Counter = field(default_factory=Counter)
+    future_positioning_sources: set[str] = field(default_factory=set)
+    routes_without_flight_number: int = 0
+    preserve_unmatched_history: bool = False
 
 
-def read_snapshot(path: Path, airports: Airports, *, now: datetime | None = None) -> Snapshot:
-    snapshot = Snapshot(as_of=now if now is not None else current_time())
+def read_snapshot(path: Path, airports: Airports, *, now: datetime | None = None,
+                  historical_path: Path | None = None) -> Snapshot:
+    snapshot = Snapshot(as_of=now if now is not None else current_time(),
+                        preserve_unmatched_history=historical_path is not None)
     if snapshot.as_of.utcoffset() is None:
         raise SyncError("Future boundary must have an explicit timezone")
     conflicting_keys: set[str] = set()
     future_groups: dict[str, list[Flight]] = defaultdict(list)
-    for props in read_events(path):
+    # Separate time ranges: only the unified schedule authorizes future events.
+    # Validate both complete inputs before planning any remote mutation.
+    sources = [(historical_path, "past"), (path, "future")] if historical_path is not None else [(path, "all")]
+    events = [(scope, props) for source, scope in sources for props in read_events(source)]
+    for scope, props in events:
         def value(key: str) -> str:
             return unescape_ics_text(props.get(key, (key, ""))[1])
 
         summary, description = value("SUMMARY"), value("DESCRIPTION")
         types = re.findall(r"^类型[:：]\s*(.+?)\s*$", description, re.M)
-        if types != ["航班"] or EXCLUDED.search(summary) or value("STATUS").upper() == "CANCELLED":
+        numbers = re.findall(r"^航班[:：]([^\r\n]*)$", description, re.M)
+        numbers = [number.strip() for number in numbers]
+        routes = re.findall(r"^航线[:：]([^\r\n]*)$", description, re.M)
+        routes = [route.strip() for route in routes]
+        if value("STATUS").upper() == "CANCELLED":
             snapshot.skipped += 1
             continue
-        numbers = re.findall(r"^航班[:：]\s*(\S+)\s*$", description, re.M)
-        if len(numbers) != 1 or not FLIGHT_RE.fullmatch(numbers[0]):
-            raise SyncError("Flight has an invalid or ambiguous flight number")
-        number = numbers[0]
-        if re.findall(r"\b9C\d{3,4}[A-Z]?\b", summary) != [number]:
-            raise SyncError("Flight number disagrees between summary and description")
+        historical_candidate = types == ["航班"] and not EXCLUDED.search(summary)
+        if (scope == "past" and not historical_candidate) or (not numbers and not routes and not historical_candidate):
+            snapshot.skipped += 1
+            continue
         try:
             start = parse_time(*props["DTSTART"])
+        except (KeyError, ValueError):
+            raise SyncError("Invalid flight start/end; refusing reconciliation") from None
+        future = start >= snapshot.as_of
+        if (scope == "past" and future) or (scope == "future" and not future):
+            continue
+        airline = "Spring Airlines"
+        if future:
+            match = FUTURE_FLIGHT_RE.fullmatch(numbers[0]) if len(numbers) == 1 else None
+            if not match or int(match.group("number")) == 0:
+                if routes:
+                    snapshot.routes_without_flight_number += 1
+                    warning(f"FLIGHTY_ROUTE_NO_FLIGHT_NUMBER {start.isoformat()}|{' / '.join(routes)}")
+                snapshot.skipped += 1
+                continue
+            number = numbers[0]
+            if not routes:
+                warning(f"FLIGHTY_FLIGHT_NO_ROUTE {start.date().isoformat()}|{number}")
+                snapshot.skipped += 1
+                continue
+            # DESCRIPTION is authoritative; summary/type are not predicates.
+            # For other carriers retain the explicit code, never invent a name.
+            airline = "Spring Airlines" if match.group("airline") == "9C" else match.group("airline")
+        else:
+            if not historical_candidate:
+                snapshot.skipped += 1
+                continue
+            if len(numbers) != 1 or not FLIGHT_RE.fullmatch(numbers[0]):
+                raise SyncError("Flight has an invalid or ambiguous flight number")
+            number = numbers[0]
+            if re.findall(r"\b9C\d{3,4}[A-Z]?\b", summary) != [number]:
+                raise SyncError("Flight number disagrees between summary and description")
+        try:
             end = parse_time(*props["DTEND"])
         except (KeyError, ValueError):
             raise SyncError("Invalid flight start/end; refusing reconciliation") from None
         if end <= start:
             raise SyncError("Flight end must be after start; source is not repaired")
-        future = start >= snapshot.as_of
         service = f"{start.date().isoformat()}|{number}"
-        routes = re.findall(r"^航线[:：]\s*(.+?)\s*$", description, re.M)
         try:
             if len(routes) != 1 or len(routes[0].split("→")) != 2:
                 raise ValueError("Invalid route")
@@ -250,9 +292,9 @@ def read_snapshot(path: Path, airports: Airports, *, now: datetime | None = None
         key = hashlib.sha256(f"{service}|{dep}|{arr}".encode()).hexdigest()
         airport_lines = f"\nDeparture Airport: {dep}\nArrival Airport: {arr}" if future else ""
         body = {
-            "summary": f"Spring Airlines {number} {dep} → {arr}",
+            "summary": f"{airline} {number} {dep} → {arr}",
             "location": dep,
-            "description": f"Airline: Spring Airlines\nFlight: {number}\nFrom: {dep}\nTo: {arr}{airport_lines}\nRoute: {dep_city} → {arr_city}\nCrew",
+            "description": f"Airline: {airline}\nFlight: {number}\nFrom: {dep}\nTo: {arr}{airport_lines}\nRoute: {dep_city} → {arr_city}\nCrew",
             "start": {"dateTime": start.isoformat(), "timeZone": "Asia/Shanghai"},
             "end": {"dateTime": end.isoformat(), "timeZone": "Asia/Shanghai"},
             "reminders": {"useDefault": False, "overrides": []},
@@ -265,6 +307,8 @@ def read_snapshot(path: Path, airports: Airports, *, now: datetime | None = None
             identity = [number, start.isoformat(), end.isoformat(), origin, destination]
             source_key = hashlib.sha256(json.dumps(identity, ensure_ascii=False, separators=(",", ":")).encode()).hexdigest()
             body["extendedProperties"]["private"]["flighty_source_key"] = source_key
+            if any(kind.strip().lower() in {"置位", "positioning"} for kind in types):
+                snapshot.future_positioning_sources.add(source_key)  # Metrics only.
             if source_key in snapshot.future_sources:
                 snapshot.skipped += 1  # Identical source copies are one flight.
                 continue
@@ -466,6 +510,13 @@ def make_plan(snapshot: Snapshot, remote_events: list[dict]) -> Plan:
         if event.get("recurrence") or event.get("recurringEventId"):
             raise SyncError("Managed event was made recurring; manual review required")
         owned[event["id"]] = event
+    def can_match(event: dict, flight: Flight) -> bool:
+        # Once a unified-only segment becomes history, a later repetition must
+        # not reuse its ID and move that preserved historical mirror forward.
+        return not (snapshot.preserve_unmatched_history
+                    and future_event(flight.body, snapshot.as_of)
+                    and not future_event(event, snapshot.as_of))
+
     plan = Plan(skipped=snapshot.skipped)
     unmatched = []
     remaining = list(snapshot.flights.values())
@@ -476,7 +527,8 @@ def make_plan(snapshot: Snapshot, remote_events: list[dict]) -> Plan:
         for flight in sorted(remaining, key=lambda f: f.key):
             identity = private(flight.body).get(identity_field)
             matches = sorted((e for e in owned.values()
-                              if identity and private(e).get(identity_field) == identity), key=lambda e: e["id"])
+                              if identity and private(e).get(identity_field) == identity
+                              and can_match(e, flight)), key=lambda e: e["id"])
             if matches:
                 event = matches[0]
                 del owned[event["id"]]
@@ -491,7 +543,7 @@ def make_plan(snapshot: Snapshot, remote_events: list[dict]) -> Plan:
     desired_services = Counter(f.service for f in snapshot.flights.values())
     desired_routes = Counter(route_identity(f.body) for f in snapshot.flights.values())
     for flight in unmatched:
-        candidates = [e for e in owned.values() if private(e)["flighty_service"] == flight.service]
+        candidates = [e for e in owned.values() if private(e)["flighty_service"] == flight.service and can_match(e, flight)]
         # A unique date+flight-number permits a route correction in place.
         # Multi-leg ambiguity must never be resolved by list order.
         if desired_services[flight.service] == 1 and len(candidates) == 1:
@@ -504,7 +556,7 @@ def make_plan(snapshot: Snapshot, remote_events: list[dict]) -> Plan:
                      if route_identity(e) == identity
                      and private(e)["flighty_key"] not in snapshot.flights
                      and private(e)["flighty_service"] not in snapshot.protected_services
-                     and nearby_departure(e, flight.body)]
+                     and nearby_departure(e, flight.body) and can_match(e, flight)]
             # An isolated flight delayed across midnight can change the date
             # component of its key. Never pair ambiguous daily repetitions.
             if desired_routes[identity] == 1 and len(moved) == 1:
@@ -514,10 +566,12 @@ def make_plan(snapshot: Snapshot, remote_events: list[dict]) -> Plan:
             else:
                 plan.create.append(flight)
     for event in owned.values():
-        if (private(event)["flighty_service"] in snapshot.protected_services
-                and not future_event(event, snapshot.as_of)):
+        if (snapshot.preserve_unmatched_history or private(event)["flighty_service"] in snapshot.protected_services) and not future_event(event, snapshot.as_of):
+            # A segment imported from the unified schedule may age out without
+            # ever appearing in flight.ics. Preserve its already mirrored past.
             plan.skipped += 1
-            warning("Preserving an existing mirror for a skipped, unresolved route")
+            if not snapshot.preserve_unmatched_history:
+                warning("Preserving an existing mirror for a skipped, unresolved route")
         else:
             plan.delete.append(event)
     return plan
@@ -569,8 +623,10 @@ def main(argv: list[str] | None = None) -> int:
         print("FLIGHTY_SYNC=SKIPPED_NOT_CONFIGURED")
         return 0
     try:
-        snapshot = read_snapshot(ROOT / "flight.ics", Airports.load(ROOT))
+        snapshot = read_snapshot(ROOT / "crew_schedule.ics", Airports.load(ROOT),
+                                 historical_path=ROOT / "flight.ics")
         print(f"FLIGHTY_FUTURE_SOURCE count={len(snapshot.future_sources)} as_of={snapshot.as_of.isoformat()}")
+        print(f"FLIGHTY_FUTURE_SEGMENTS source={len(snapshot.future_sources)} positioning={len(snapshot.future_positioning_sources)} route_without_flight_number={snapshot.routes_without_flight_number}")
         print(f"FLIGHTY_FUTURE_FALLBACK iata={snapshot.future_airports['iata']} icao={snapshot.future_airports['icao']} raw={snapshot.future_airports['raw']}")
         client = None
         remote = []
