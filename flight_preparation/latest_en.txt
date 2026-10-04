@@ -2,16 +2,70 @@ I am Duan Yangshuo, a First Officer in Flight Squadron 15. My current technical 
 
 Latest PF/PM feedback: as PF, the instructor noted that below 30 ft I should use slightly more aft-stick input and, after landing, decelerate below 30 kt before entering the rapid-exit taxiway; as PM, the captain noted that I should improve SOP proficiency and make standard callouts more audible.
 
-ZSNB Airport typical unsafe events:
-Strong wind, turbulence, or windshear can cause speed fluctuation, high descent rate, and an unstable landing condition.
+Ningbo/Lieshe Airport typical unsafe events:
+Low-altitude turbulence can easily cause significant slope effects in the lower air layers.
 
-ZJSY Airport typical unsafe events:
-Complex taxi routes, work areas, or holding positions can create wrong-turn and runway-incursion risks.
+Due to internal movement and turbulence at the entrance, excessive pre-grounding descent rate may occur.
+
+Radar isnot turned off when landing.
+
+Deviation from the instructed altitude.
+
+The landing load is large.
+
+Sanya/Fenghuang Airport typical unsafe events:
+A failed landing attempt occurred at 1000 feet (AAL).
+
+History of route deviation incidents.
+
+A deviation from the commanded altitude has occurred.
 
 Core threats:
 
-ZSNB Airport:
-During military or training activity, we must hear and fully read back each clearance and cross-check the MCDU, pressure reference, missed-approach altitude, and onward track; confirm any inconsistency with ATC.
+Ningbo/Lieshe Airport:
+The 13th mountain is located west and southwest of this field, with a low, isolated hillon itsfive sides. During adverse weather conditions, aircraft entering from the west must adhere to the sector's minimum safe altitude and route safety restrictions. When the Leshan NDB and Ningbo VOR are out of service, the 31st EOSID becomes unavailable. Note that the 13th VOR/DME approach five sides form a 4-degree angle with the runway. The 13th VOR has a descent gradient of 5.7%, equivalent to a FPA of 3.26.
 
-ZJSY Airport:
-We must verify mean wind, gust, and crosswind components and monitor speed trend, descent rate, and attitude; apply the prescribed procedure and go around for a windshear warning or an unstable low-altitude condition.
+The airspace for military aviation activities within Ningbo's control zone is highly complex. Do not select ATC-based approach procedures without prior air trafficcontrol clearance.
+
+The QNH horizontal boundary between Ningbo Airport and Shanghai Terminal Area overlaps, and altimeter corrections must strictlyfollow ATC instructions.
+
+If ATC clears the aircraft direct to Point A, ensure the corresponding waypoint is correctly entered during approach preparation. Particular attention should be paid to energy management during a short-final visual approach. If visual reference to the runway cannot subsequently be maintained, radar vectors will be required. Due to terrain near Runway 31, radar vectoring may progressively compress the descent profile; therefore, manage speed and aircraft energy early to avoid an excessive-energy condition.
+
+When the 13th blind landing is not operational, use RNP13 approach with only LNAV in the chart program.
+
+For northern inbound flights such as Changchun-Ningbo, Shanghai may direct the aircraft to join the V72 (ELAGO-ISPUR- OVNEV) route after ELAGO before transferring to Ningbo approach.
+
+For tailwinds, crews should set Mode 2 with a speed of 160 knots.
+
+Move the entrance of Runway 13 inward by 150 meters, with due consideration for visual impact.
+
+The ground markings at the L1 and B8 turnouts are unclear and may be mistaken for the L1 taxiway west of B8. Crew members are advised to exercise caution.
+
+No need to repeat PDC.
+
+Special complex procedures: PBN single-engine departure procedures for Runways 31 and 13, and the traditional single-engine departure procedure for Runway 31.
+
+Terrain: The terrain is complex, with steep descent gradients for the 13th blind landing, GP3.2.
+
+Sanya/Fenghuang Airport:
+Approach to Runway 08 (VOR08).
+
+The Hongqiao-Sanya route differsfrom the Pudong-Sanya route as it bypasses Hong Kong's controlled area to prevent route errors.
+
+ZSPD-ZJSY: The flight route passes through the Hong Kong area via M503, switching to HK RADAR 121.3 before DOTMI. After DOTMI, itflies directly to ALLEY, then switches to HK121.7 for direct flight to SIKOU, and finally switches to Sanya 133.35 before SIKOU.
+
+When there are many aircraft approaching Runway 1.26, the command may delay the altitude control, and the crew should promptly reduce speed to control the aircraft's energy.
+
+The approach path may be ata higher altitude, so monitor the altitude-to-range ratio. During the procedure turn, airtraffic control will direct a 900- meter downward slope, whereas the procedure specifies a 700- meter downward slope. You may request to execute the procedure down slope with the control's approval.
+
+Sanya has two emergency landing procedures (Y and Z), both requiring prior radio confirmation. While Z procedure is typically used, air traffic control rarely specifies which one to follow. Crews should remain vigilant to avoid misapplication.
+
+Other Threats: Five-sided Chaos.
+
+Pavement characteristics: The taxiing route is complex. There is no center line light between the A3 and A4 taxiways and the runway. The crew should observe the runway surface carefully when leaving the runway, especially at night when it is raining, to prevent deviation from the runway.
+
+The commonly used PORAP-1N model (model 08) typically requires a 7200M PORAP during release procedures, and its performance generally meets the requirements.
+
+When troops are active, they may depart traditionally, and note the speed limit of PORAP.
+
+The aircraft ishanded over to the Sanya District Air Traffic Control Center for command, which sets the RVSM (Real-Time Vertical Management System) altitudeand instructs theaircraft to reach the designated position before NUMKU.
