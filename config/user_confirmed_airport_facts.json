@@ -20,6 +20,16 @@
       "source": "USER_CONFIRMED",
       "source_note": "用户明确确认上海浦东、上海虹桥两场航前准备长期保留此TCAS运行控制内容，不作为历史事件来源。",
       "confirmed_date": "2026-09-13"
+    },
+    {
+      "airport": "宁波栎社",
+      "topic": "approach_energy",
+      "text_zh": "指挥指令为直飞A点，注意进近准备时相应的定位点输入，且短五边目视进近时能量管理需要注意，如果后续无法目视跑道需管制雷达引导，因为31号附近地形原因，雷达引导会使剖面逐渐紧张，注意减速和能量管理，避免飞机能量过大。",
+      "text_en": "If ATC clears the aircraft direct to Point A, ensure the corresponding waypoint is correctly entered during approach preparation. Particular attention should be paid to energy management during a short-final visual approach. If visual reference to the runway cannot subsequently be maintained, radar vectors will be required. Due to terrain near Runway 31, radar vectoring may progressively compress the descent profile; therefore, manage speed and aircraft energy early to avoid an excessive-energy condition.",
+      "role_scope": ["arrival"],
+      "source": "USER_CONFIRMED",
+      "source_note": "用户明确确认用于补充最新版机场手册中文事实缺失的英文对应内容，仅用于保持中英文航前事实一致。",
+      "confirmed_date": "2026-10-04"
     }
   ]
 }

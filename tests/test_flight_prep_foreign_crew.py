@@ -736,17 +736,9 @@ def test_mapped_airport_english_fallback_never_returns_chinese_name() -> None:
 
 
 @pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含机场手册PDF")
-@pytest.mark.parametrize(
-    ("target", "expected_numbers"),
-    [
-        (date(2026, 10, 4), ["9C8935", "9C8545"]),
-        (date(2026, 10, 5), ["9C7385", "9C7386"]),
-    ],
-)
-def test_real_october_foreign_duties_pass_bilingual_fact_guard(
-    target: date,
-    expected_numbers: list[str],
-) -> None:
+def test_real_october_five_uses_source_backed_english_for_every_selected_fact() -> None:
+    target = date(2026, 10, 5)
+    expected_numbers = ["9C7385", "9C7386"]
     all_events = parse_ics(REPO_ROOT / "flight.ics")
     flights = agent.select_continuous_flight_group(all_events, target)
     assert [event.flight_number for event in flights] == expected_numbers
@@ -771,7 +763,7 @@ def test_real_october_foreign_duties_pass_bilingual_fact_guard(
     )
 
     errors: list[str] = []
-    concept_fallbacks: list[agent.BilingualFact] = []
+    selected_facts: list[agent.BilingualFact] = []
     for group in agent.split_flight_prep_groups_by_flight_number(flights):
         group_duty = agent.DutyContext(tuple(group))
         typical, core, _ = agent.briefing_fact_sets(
@@ -790,13 +782,20 @@ def test_real_october_foreign_duties_pass_bilingual_fact_guard(
             for fact in [*typical[airport], *core[airport]]
         ]
         errors.extend(agent.validate_bilingual_facts(all_facts))
-        concept_fallbacks.extend(
-            fact
-            for fact in all_facts
-            if fact.english_source == "concept_fallback"
-        )
+        selected_facts.extend(all_facts)
 
-    assert concept_fallbacks
+    assert len(selected_facts) == 31
+    assert all(fact.english_source == "source_backed" for fact in selected_facts)
+    assert not any(fact.english_source == "concept_fallback" for fact in selected_facts)
+    ningbo_confirmed = [
+        fact
+        for fact in selected_facts
+        if fact.airport == "宁波栎社"
+        and "直飞A点" in fact.text_zh
+    ]
+    assert len(ningbo_confirmed) == 1
+    assert ningbo_confirmed[0].english_source_authority == "user_confirmed"
+    assert ningbo_confirmed[0].english_confirmed_date == "2026-10-04"
     assert errors == []
 
 
