@@ -192,6 +192,8 @@ class BilingualFact:
     english_source_authority: str = ""
     english_source_note: str = ""
     english_confirmed_date: str = ""
+    source_sequence: int = -1
+    parent_record_id: str = ""
 
     # Compatibility aliases keep the rendering code and older tests readable while
     # the structured names above make provenance explicit.
@@ -229,6 +231,8 @@ class ManualFactClause:
     condition_scope: tuple[tuple[str, str], ...] = ()
     condition_contexts: tuple[str, ...] = ()
     condition_group: str = ""
+    source_sequence: int = -1
+    parent_record_id: str = ""
 
 
 @dataclass(frozen=True)
@@ -395,15 +399,6 @@ AIRPORT_SOURCE_LOCATIONS: dict[str, dict[str, str]] = {
     },
 }
 
-
-AIRPORT_ENGLISH_NAMES = {
-    "新加坡樟宜": "Singapore Changi",
-    "上海浦东": "Shanghai Pudong",
-    "上海虹桥": "Shanghai Hongqiao",
-    "西宁曹家堡": "Xining Caojiabao",
-    "南昌昌北": "Nanchang Changbei",
-    "丽江三义": "Lijiang Sanyi",
-}
 
 PILOT_ENGLISH_NAMES = {
     "段洋硕": "Duan Yangshuo",
@@ -2224,6 +2219,10 @@ def manual_pairing_tokens(value: str) -> set[str]:
         upper,
     ):
         tokens.add("ATC")
+    if "指令高度" in text or "指挥" in text:
+        tokens.add("ATC")
+    if "盲降" in text or re.search(r"\bILS\b", upper):
+        tokens.add("ILS")
     for token in re.findall(
         r"(?<![A-Za-z0-9])(?:[A-Z]{2,8}(?:/[A-Z]{2,8})?\d*(?:\.\d+)?|"
         r"[A-Z]\d{2,4})(?![A-Za-z0-9])",
@@ -3382,6 +3381,30 @@ def _source_clause_has_substance(value: str) -> bool:
     return len(text) >= 4 and not SOURCE_INCOMPLETE_END_RE.search(text)
 
 
+DETACHED_OPERATIONAL_FRAGMENT_RE = re.compile(
+    r"^(?:(?:速度|高度|下降率|升降率|梯度|坡度|限制)?\s*"
+    r"(?:保持|控制在|限制为|不超过|不高于|不低于|高于|低于|大于|小于|至|到|"
+    r"≤|≥|<|>)?\s*)"
+    r"\d+(?:\.\d+)?\s*(?:节|KT|KTS|FT|英尺|米|M|公里|KM|海里|NM|%|度)"
+    r"(?:以上|以下|以内|左右)?[。.]?$",
+    re.IGNORECASE,
+)
+
+
+def is_detached_operational_fragment(value: str) -> bool:
+    """Identify a numeric limit that has no independently stated subject."""
+    cleaned = strip_manual_ordinal_prefix(strip_source_metadata(value)).strip()
+    return bool(
+        DETACHED_OPERATIONAL_FRAGMENT_RE.fullmatch(cleaned)
+        or re.fullmatch(r"[A-Z][A-Z0-9/.-]{1,15}[。.]?", cleaned, re.IGNORECASE)
+        or re.fullmatch(
+            r"(?:常用)?(?:程序|进近方式)\s*[:：]\s*[A-Z][A-Z0-9/.-]{1,15}[。.]?",
+            cleaned,
+            re.IGNORECASE,
+        )
+    )
+
+
 def manual_source_quality_issue(value: str) -> str:
     """Return an objective source-quality reason, never an editorial opinion."""
     raw = normalize_text(value)
@@ -3396,6 +3419,8 @@ def manual_source_quality_issue(value: str) -> str:
     cleaned = normalize_text(cleaned)
     if not cleaned:
         return "清洗后无实质运行内容"
+    if is_detached_operational_fragment(cleaned):
+        return "detached_operational_fragment"
     if AIRPORT_ATTRIBUTE_FIELD_RE.match(cleaned):
         return "机场基础属性字段不进入正式正文"
     structural_text = strip_terminal_punct(cleaned)
@@ -3489,7 +3514,12 @@ def split_mixed_role_semicolons(value: str, heading: str) -> str:
     return output
 
 
-def split_source_record_clauses(value: str) -> list[ManualFactClause]:
+def split_source_record_clauses(
+    value: str,
+    *,
+    parent_record_id: str = "",
+    source_sequence: int = -1,
+) -> list[ManualFactClause]:
     """Split only complete source sentences while preserving full provenance.
 
     A clause inherits a preceding explicit role only when it is a complete control
@@ -3511,8 +3541,22 @@ def split_source_record_clauses(value: str) -> list[ManualFactClause]:
     raw_clauses: list[tuple[str, int]] = []
     broken_clauses: list[str] = []
     for piece_index, piece in enumerate(numbered_pieces):
+        is_subitem = bool(re.match(r"^[（(]\d+[）)]", piece))
         piece = re.sub(r"^[（(]\d+[）)]\s*", "", piece).strip()
         if not piece:
+            continue
+        if is_subitem and is_detached_operational_fragment(piece):
+            if raw_clauses:
+                parent_text, parent_piece_index = raw_clauses[-1]
+                raw_clauses[-1] = (
+                    strip_terminal_punct(parent_text)
+                    + "；"
+                    + strip_terminal_punct(piece)
+                    + "。",
+                    parent_piece_index,
+                )
+            else:
+                broken_clauses.append(piece)
             continue
         sentence_matches = list(SOURCE_SENTENCE_RE.finditer(piece))
         complete = [match.group(0).strip() for match in sentence_matches]
@@ -3660,6 +3704,12 @@ def split_source_record_clauses(value: str) -> list[ManualFactClause]:
                 condition_scope=condition_scope,
                 condition_contexts=condition_contexts,
                 condition_group=condition_group,
+                source_sequence=(
+                    source_sequence * 1000 + index
+                    if source_sequence >= 0
+                    else index
+                ),
+                parent_record_id=parent_record_id,
             )
         )
     return output
@@ -3747,6 +3797,119 @@ def operation_subsection_importance(text: str) -> int:
 
 
 USER_CONFIRMED_AIRPORT_FACTS_FILE = "config/user_confirmed_airport_facts.json"
+AIRPORT_ENGLISH_NAMES_FILE = "config/airport_english_names.json"
+FLIGHT_PREP_ENGLISH_OVERRIDES_FILE = "config/flight_prep_english_overrides.json"
+
+
+def source_text_hash(value: str) -> str:
+    return hashlib.sha256(normalize_text(value).encode("utf-8")).hexdigest()
+
+
+def load_airport_name_registry(repo: Path) -> dict[str, dict[str, object]]:
+    """Load canonical airport identities without embedding airports in code."""
+    config = load_json(repo / AIRPORT_ENGLISH_NAMES_FILE, None)
+    if config is None:
+        return {}
+    if not isinstance(config, dict) or config.get("schema_version") != 1:
+        raise ValueError("机场英文名称配置结构无效")
+    entries = config.get("airports")
+    if not isinstance(entries, list):
+        raise ValueError("机场英文名称配置列表无效")
+    registry: dict[str, dict[str, object]] = {}
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise ValueError("机场英文名称配置条目无效")
+        icao = str(entry.get("icao") or "").strip().upper()
+        canonical_zh = canonical_airport_name(str(entry.get("canonical_zh") or ""))
+        english_name = str(entry.get("english_name") or "").strip()
+        aliases = entry.get("aliases_zh") or []
+        if (
+            not re.fullmatch(r"[A-Z]{4}", icao)
+            or not canonical_zh
+            or not english_name
+            or not isinstance(aliases, list)
+        ):
+            raise ValueError("机场英文名称配置缺少稳定身份")
+        normalized = {
+            "icao": icao,
+            "canonical_zh": canonical_zh,
+            "english_name": english_name,
+        }
+        for alias in unique([canonical_zh, icao, *(str(item) for item in aliases)]):
+            key = compact_key(alias).upper()
+            if key:
+                registry[key] = normalized
+    return registry
+
+
+def load_flight_prep_english_overrides(
+    repo: Path,
+) -> list[dict[str, object]]:
+    """Load reviewed English text bound to one immutable source identity."""
+    config = load_json(repo / FLIGHT_PREP_ENGLISH_OVERRIDES_FILE, None)
+    if config is None:
+        return []
+    if not isinstance(config, dict) or config.get("schema_version") != 1:
+        raise ValueError("航前英文覆盖配置结构无效")
+    entries = config.get("overrides")
+    if not isinstance(entries, list):
+        raise ValueError("航前英文覆盖配置列表无效")
+    validated: list[dict[str, object]] = []
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise ValueError("航前英文覆盖条目无效")
+        required = (
+            "manual_version",
+            "icao",
+            "source_record_id",
+            "source_text_hash",
+            "text_en",
+            "approved_by",
+            "confirmed_date",
+            "source_note",
+        )
+        if any(not str(entry.get(key) or "").strip() for key in required):
+            raise ValueError("航前英文覆盖缺少稳定来源或审核信息")
+        if entry.get("approved_by") != "USER_CONFIRMED":
+            raise ValueError("航前英文覆盖必须经过用户确认")
+        if not re.fullmatch(r"[A-Z]{4}", str(entry["icao"]).upper()):
+            raise ValueError("航前英文覆盖ICAO无效")
+        if not re.fullmatch(r"[0-9a-f]{64}", str(entry["source_text_hash"])):
+            raise ValueError("航前英文覆盖来源哈希无效")
+        date.fromisoformat(str(entry["confirmed_date"]))
+        validated.append(dict(entry))
+    return validated
+
+
+def approved_english_override(
+    *,
+    manual_version: str,
+    icao: str,
+    source_record_id: str,
+    source_text: str,
+    overrides: list[dict[str, object]],
+) -> dict[str, object] | None:
+    """Resolve at most one reviewed override for the exact manual fact."""
+    identity = (
+        str(manual_version),
+        str(icao).upper(),
+        str(source_record_id),
+        source_text_hash(source_text),
+    )
+    matches = [
+        entry
+        for entry in overrides
+        if (
+            str(entry.get("manual_version")),
+            str(entry.get("icao") or "").upper(),
+            str(entry.get("source_record_id")),
+            str(entry.get("source_text_hash")),
+        )
+        == identity
+    ]
+    if len(matches) > 1:
+        raise ValueError("航前英文覆盖存在重复稳定身份")
+    return matches[0] if matches else None
 
 
 def load_user_confirmed_airport_records(
@@ -3872,6 +4035,7 @@ def airport_risks(
 ]:
     supplements = load_json(repo / "config" / "airport_supplements.json", {}) or {}
     user_confirmed = load_user_confirmed_airport_records(repo)
+    english_overrides = load_flight_prep_english_overrides(repo)
     manual_data, manual_source, manual_ver, manual_type, source_warnings = manual_airport_data(
         repo / "knowledge", airports, icao_map, max_items=max_items
     )
@@ -3968,10 +4132,16 @@ def airport_risks(
                             phase="incident",
                             role_scope=(),
                             source_original_text=source_original,
+                            source_sequence=item_index * 1000,
+                            parent_record_id=source_record_id,
                         )
                     ]
                     if category == "typical"
-                    else split_source_record_clauses(cleaned_item)
+                    else split_source_record_clauses(
+                        cleaned_item,
+                        parent_record_id=source_record_id,
+                        source_sequence=item_index,
+                    )
                 )
                 if not split_items:
                     records.append(
@@ -4033,6 +4203,15 @@ def airport_risks(
                         consumed_confirmed_ids.add(
                             str(confirmed_counterpart.get("fact_id") or "")
                         )
+                    reviewed_override = approved_english_override(
+                        manual_version=source_version,
+                        icao=icao_map.get(airport, ""),
+                        source_record_id=source_record_id,
+                        source_text=text_zh,
+                        overrides=english_overrides,
+                    )
+                    if reviewed_override is not None:
+                        text_en = str(reviewed_override["text_en"]).strip()
                     clause_quality_issue = manual_source_quality_issue(text_zh)
                     if clause_quality_issue:
                         records.append(
@@ -4087,6 +4266,15 @@ def airport_risks(
                             + (f"／{item_heading}" if item_heading else ""),
                             "operational_phase": phase,
                             "role_scope": clause.role_scope,
+                            "route_scope": record_route_scope(
+                                {
+                                    "category": category,
+                                    "operational_phase": clause.phase,
+                                    "source_section": source_section
+                                    + (f"／{clause.heading}" if clause.heading else ""),
+                                },
+                                cleaned_item,
+                            ),
                             "operation_subsection": operation_subsection,
                             "importance": (
                                 operation_subsection_importance(text_zh)
@@ -4098,8 +4286,9 @@ def airport_risks(
                             "text_zh": text_zh,
                             "text_en": text_en,
                             "english_source": (
-                                "source_backed"
-                                if text_en
+                                "approved_override"
+                                if reviewed_override is not None
+                                else "source_backed" if text_en
                                 else "manual_coverage_gap"
                                 if manual_english_available
                                 else "unavailable"
@@ -4108,22 +4297,41 @@ def airport_risks(
                             "english_source_authority": (
                                 SOURCE_AUTHORITY["USER_CONFIRMED"]
                                 if confirmed_counterpart is not None
+                                or reviewed_override is not None
                                 else SOURCE_AUTHORITY.get(source, "unknown")
                             ),
                             "english_source_note": (
-                                str(confirmed_counterpart.get("source_note") or "")
+                                str(
+                                    (
+                                        reviewed_override
+                                        if reviewed_override is not None
+                                        else confirmed_counterpart
+                                    ).get("source_note")
+                                    or ""
+                                )
                                 if confirmed_counterpart is not None
+                                or reviewed_override is not None
                                 else ""
                             ),
                             "english_confirmed_date": (
-                                str(confirmed_counterpart.get("confirmed_date") or "")
+                                str(
+                                    (
+                                        reviewed_override
+                                        if reviewed_override is not None
+                                        else confirmed_counterpart
+                                    ).get("confirmed_date")
+                                    or ""
+                                )
                                 if confirmed_counterpart is not None
+                                or reviewed_override is not None
                                 else ""
                             ),
                             "english_airport_name": english_airport_name,
                             "english_source_page": english_source_page,
                             "source_original_text": clause.source_original_text,
                             "source_record_id": source_record_id,
+                            "source_sequence": clause.source_sequence,
+                            "parent_record_id": clause.parent_record_id,
                             "excluded_source_clauses": clause.excluded_sibling_clauses,
                             "exclusion_reasons": clause.excluded_sibling_reasons,
                             "condition_scope": clause.condition_scope,
@@ -4460,18 +4668,66 @@ def default_airport_icao_names() -> dict[str, str]:
     return result
 
 
+@lru_cache(maxsize=1)
+def default_airport_name_registry() -> dict[str, dict[str, object]]:
+    try:
+        return load_airport_name_registry(Path(__file__).resolve().parents[1])
+    except Exception:
+        return {}
+
+
+def airport_registry_entry(
+    airport: str,
+    registry: dict[str, dict[str, object]] | None = None,
+) -> dict[str, object] | None:
+    entries = registry if registry is not None else default_airport_name_registry()
+    for key in (
+        compact_key(airport).upper(),
+        compact_key(canonical_airport_name(airport)).upper(),
+    ):
+        if key and key in entries:
+            return entries[key]
+    icao = default_airport_icao_names().get(canonical_airport_name(airport), "")
+    return entries.get(icao) if icao else None
+
+
+def canonical_route_airport(
+    airport: str,
+    registry: dict[str, dict[str, object]] | None = None,
+) -> str:
+    entry = airport_registry_entry(airport, registry)
+    if entry:
+        return str(entry["canonical_zh"])
+    return canonical_airport_name(airport)
+
+
+def route_airport_identity(
+    airport: str,
+    registry: dict[str, dict[str, object]] | None = None,
+) -> str:
+    entry = airport_registry_entry(airport, registry)
+    if entry:
+        return str(entry["icao"])
+    canonical = canonical_route_airport(airport, registry)
+    icao = default_airport_icao_names().get(canonical, "")
+    return icao or compact_key(canonical).upper()
+
+
 def english_airport_name(airport: str) -> str:
     canonical = canonical_airport_name(airport)
-    return AIRPORT_ENGLISH_NAMES.get(
-        canonical,
-        default_airport_icao_names().get(canonical, short_airport_name(airport)),
-    )
+    entry = airport_registry_entry(canonical)
+    if entry:
+        return str(entry["english_name"])
+    return default_airport_icao_names().get(canonical, short_airport_name(airport))
 
 
 def english_airport_name_for_facts(
     airport: str,
     facts: list[BilingualFact],
 ) -> str:
+    approved = airport_registry_entry(airport)
+    if approved:
+        return str(approved["english_name"])
     return next(
         (fact.airport_name_en for fact in facts if fact.airport_name_en.strip()),
         english_airport_name(airport),
@@ -5683,20 +5939,84 @@ FLIGHT_SCOPE_RE = re.compile(
     r"(?<![A-Z0-9])(?:[A-Z]\d|\d[A-Z])\d{3,4}[A-Z]?(?![A-Z0-9])",
     re.IGNORECASE,
 )
+ROUTE_ENDPOINT_PATTERN = r"(?:[A-Z]{4}|[\u4e00-\u9fff]{2,16}?)"
+ROUTE_SEPARATOR_PATTERN = r"(?:→|至|到|往|[-—–])"
 ROUTE_SCOPE_RE = re.compile(
-    r"(?:航线|航段)\s*[:：]?\s*"
-    r"(?P<departure>[\u4e00-\u9fffA-Za-z0-9]{2,20})\s*"
-    r"(?:→|至|-)\s*"
-    r"(?P<arrival>[\u4e00-\u9fffA-Za-z0-9]{2,20})"
+    rf"(?:航线|航段|航路)\s*[:：]?\s*"
+    rf"(?P<departure>{ROUTE_ENDPOINT_PATTERN})\s*{ROUTE_SEPARATOR_PATTERN}\s*"
+    rf"(?P<arrival>{ROUTE_ENDPOINT_PATTERN})(?=\s*(?:[，,。；;:：]|$))",
+    re.IGNORECASE,
 )
 ROUTE_SUFFIX_SCOPE_RE = re.compile(
-    r"(?:^|(?<=航线))(?P<departure>[\u4e00-\u9fff]{2,12})\s*(?:→|至|[-—–])\s*"
-    r"(?P<arrival>[\u4e00-\u9fff]{2,12})(?:\s*航线|(?=[，,]))"
+    rf"(?P<departure>{ROUTE_ENDPOINT_PATTERN})\s*{ROUTE_SEPARATOR_PATTERN}\s*"
+    rf"(?P<arrival>{ROUTE_ENDPOINT_PATTERN})\s*(?:的)?(?:航线|航段|航路|航班|飞机|段)",
+    re.IGNORECASE,
 )
 ROUTE_PREFIX_SCOPE_RE = re.compile(
-    r"^\s*(?P<departure>[\u4e00-\u9fff]{2,12})\s*(?:→|至|[-—–])\s*"
-    r"(?P<arrival>[\u4e00-\u9fff]{2,12})\s*[:：]"
+    rf"^\s*(?P<departure>{ROUTE_ENDPOINT_PATTERN})\s*{ROUTE_SEPARATOR_PATTERN}\s*"
+    rf"(?P<arrival>{ROUTE_ENDPOINT_PATTERN})\s*[:：]",
+    re.IGNORECASE,
 )
+ROUTE_EXAMPLE_SCOPE_RE = re.compile(
+    rf"(?:航班|进场|离场)[^。；]{{0,20}}(?:如|例如)\s*"
+    rf"(?P<departure>{ROUTE_ENDPOINT_PATTERN})\s*{ROUTE_SEPARATOR_PATTERN}\s*"
+    rf"(?P<arrival>{ROUTE_ENDPOINT_PATTERN})(?=[，,。；;])",
+    re.IGNORECASE,
+)
+ROUTE_NAVIGATION_PREFIX_RE = re.compile(
+    rf"^\s*(?P<departure>{ROUTE_ENDPOINT_PATTERN})\s*{ROUTE_SEPARATOR_PATTERN}\s*"
+    rf"(?P<arrival>{ROUTE_ENDPOINT_PATTERN})(?:段)?(?=[，,：:])",
+    re.IGNORECASE,
+)
+JOINED_ROUTE_SCOPE_RE = re.compile(
+    r"(?:航线|航段|航路)\s*[:：]\s*(?P<route>[\u4e00-\u9fff]{4,32})段(?=[，,。；;:：])"
+)
+
+
+def known_route_airport_aliases(
+    registry: dict[str, dict[str, object]] | None = None,
+) -> dict[str, str]:
+    """Build unambiguous route aliases from existing airport identity data."""
+    aliases: dict[str, str] = {}
+    ambiguous: set[str] = set()
+    canonical_names = set(default_airport_icao_names())
+    entries = registry if registry is not None else default_airport_name_registry()
+    canonical_names.update(str(entry["canonical_zh"]) for entry in entries.values())
+    for canonical in canonical_names:
+        candidates = {
+            compact_key(canonical),
+            compact_key(short_airport_name(canonical)),
+        }
+        if len(canonical) >= 4:
+            candidates.add(canonical[:2])
+        for alias in candidates:
+            if len(alias) < 2:
+                continue
+            current = aliases.get(alias)
+            if current and current != canonical:
+                ambiguous.add(alias)
+                continue
+            aliases[alias] = canonical
+    return {
+        alias: canonical
+        for alias, canonical in aliases.items()
+        if alias not in ambiguous
+    }
+
+
+def split_joined_route_airports(
+    value: str,
+    registry: dict[str, dict[str, object]] | None = None,
+) -> tuple[str, str] | None:
+    """Resolve an explicit concatenated route label such as `甲地乙地段`."""
+    compact = compact_key(value)
+    aliases = known_route_airport_aliases(registry)
+    matches = {
+        (aliases[compact[:index]], aliases[compact[index:]])
+        for index in range(2, len(compact) - 1)
+        if compact[:index] in aliases and compact[index:] in aliases
+    }
+    return next(iter(matches)) if len(matches) == 1 else None
 
 
 def record_flight_scope(record: dict[str, object], text: str) -> tuple[str, ...]:
@@ -5711,67 +6031,86 @@ def record_flight_scope(record: dict[str, object], text: str) -> tuple[str, ...]
 def record_route_scope(
     record: dict[str, object],
     text: str,
+    registry: dict[str, dict[str, object]] | None = None,
 ) -> tuple[tuple[str, str], ...]:
     routes: list[tuple[str, str]] = []
     configured = record.get("route_scope") or record.get("routes") or ()
-    if isinstance(configured, (str, tuple)) and not (
-        isinstance(configured, tuple) and len(configured) == 2
+    if isinstance(configured, str):
+        configured = [configured]
+    elif (
+        isinstance(configured, (list, tuple))
+        and len(configured) == 2
+        and all(not isinstance(value, (list, tuple)) for value in configured)
     ):
         configured = [configured]
-    if isinstance(configured, tuple) and len(configured) == 2:
-        configured = [configured]
+    elif isinstance(configured, (list, tuple)):
+        configured = list(configured)
+    else:
+        configured = []
     for value in configured:
         if isinstance(value, (list, tuple)) and len(value) == 2:
             departure, arrival = value
         else:
-            match = re.search(r"(.+?)\s*(?:→|至|-)\s*(.+)", str(value))
+            match = re.search(
+                rf"(.+?)\s*{ROUTE_SEPARATOR_PATTERN}\s*(.+)", str(value)
+            )
             if not match:
                 continue
             departure, arrival = match.groups()
         routes.append(
             (
-                canonical_airport_name(str(departure)),
-                canonical_airport_name(str(arrival)),
+                canonical_route_airport(str(departure), registry),
+                canonical_route_airport(str(arrival), registry),
             )
         )
-    for match in ROUTE_SCOPE_RE.finditer(text):
-        routes.append(
-            (
-                canonical_airport_name(match.group("departure")),
-                canonical_airport_name(match.group("arrival")),
+    # Historical incidents may mention a flight's route as narrative evidence.
+    # That narrative is not an applicability restriction unless a structured
+    # route_scope was configured explicitly.
+    if str(record.get("category") or "").lower() not in {"typical", "history"}:
+        for pattern in (
+            ROUTE_SCOPE_RE,
+            ROUTE_SUFFIX_SCOPE_RE,
+            ROUTE_PREFIX_SCOPE_RE,
+            ROUTE_EXAMPLE_SCOPE_RE,
+        ):
+            for match in pattern.finditer(text):
+                routes.append(
+                    (
+                        canonical_route_airport(match.group("departure"), registry),
+                        canonical_route_airport(match.group("arrival"), registry),
+                    )
+                )
+        for match in JOINED_ROUTE_SCOPE_RE.finditer(text):
+            joined_route = split_joined_route_airports(
+                match.group("route"), registry
             )
+            if joined_route is not None:
+                routes.append(joined_route)
+        if (
+            str(record.get("operational_phase") or "") == "navigation"
+            or "／航路" in str(record.get("source_section") or "")
+        ):
+            for match in ROUTE_NAVIGATION_PREFIX_RE.finditer(text):
+                routes.append(
+                    (
+                        canonical_route_airport(match.group("departure"), registry),
+                        canonical_route_airport(match.group("arrival"), registry),
+                    )
+                )
+    return tuple(
+        dict.fromkeys(
+            route
+            for route in routes
+            if route[0] and route[1] and route[0] != route[1]
         )
-    for match in ROUTE_SUFFIX_SCOPE_RE.finditer(text):
-        routes.append(
-            (
-                canonical_airport_name(match.group("departure")),
-                canonical_airport_name(match.group("arrival")),
-            )
-        )
-    for match in ROUTE_PREFIX_SCOPE_RE.finditer(text):
-        routes.append(
-            (
-                canonical_airport_name(match.group("departure")),
-                canonical_airport_name(match.group("arrival")),
-            )
-        )
-    return tuple(dict.fromkeys(routes))
+    )
 
 
 def route_scope_endpoint_matches(scope_airport: str, duty_airport: str) -> bool:
-    """Match a source city/airport label without inventing a route endpoint."""
-    scope_key = compact_key(canonical_airport_name(scope_airport)).removesuffix("机场")
-    duty_key = compact_key(canonical_airport_name(duty_airport)).removesuffix("机场")
-    return bool(
-        scope_key
-        and duty_key
-        and (
-            scope_key == duty_key
-            or (min(len(scope_key), len(duty_key)) >= 2 and (
-                scope_key.startswith(duty_key) or duty_key.startswith(scope_key)
-            ))
-        )
-    )
+    """Match exact canonical/ICAO identity; direction is checked by the caller."""
+    scope_key = route_airport_identity(scope_airport)
+    duty_key = route_airport_identity(duty_airport)
+    return bool(scope_key and duty_key and scope_key == duty_key)
 
 
 def route_scope_matches_duty(
@@ -6227,7 +6566,14 @@ def source_record_facts(
             english_confirmed_date=str(
                 record.get("english_confirmed_date") or ""
             ),
+            source_sequence=int(record.get("source_sequence", -1)),
+            parent_record_id=str(
+                record.get("parent_record_id")
+                or record.get("source_record_id")
+                or fact_id
+            ),
         )
+        candidate_fact = professionalize_source_english(candidate_fact)
         current = facts_by_semantic.get(semantic_key)
         if current is None:
             facts_by_semantic[semantic_key] = candidate_fact
@@ -6904,6 +7250,10 @@ def merge_fact_paragraph(
         fact.english_source == "concept_fallback"
         for fact in rendered_english_facts
     )
+    all_rendered_approved_override = bool(rendered_english_facts) and all(
+        fact.english_source == "approved_override"
+        for fact in rendered_english_facts
+    )
     merged_english_source = (
         "manual_coverage_gap"
         if any(fact.english_source == "manual_coverage_gap" for fact in facts)
@@ -6911,6 +7261,8 @@ def merge_fact_paragraph(
         if not rendered_english_facts
         else "concept_fallback"
         if all_rendered_concept_fallback
+        else "approved_override"
+        if all_rendered_approved_override
         else "source_backed"
     )
     return BilingualFact(
@@ -7273,7 +7625,7 @@ BRIEFING_PRIORITY_BASE = {
         "traffic_tcas": 365,
         "navigation": 350,
         "bird": 320,
-        "clearance": 300,
+        "clearance": 325,
         "ground_pushback": 300,
         "ground_waiting": 275,
         "ground_crossing": 285,
@@ -7418,6 +7770,14 @@ def source_grounded_briefing_priority(fact: BilingualFact, role: str) -> int:
         score -= 90
     if any(token in text for token in ("酒店", "加油", "上客", "廊桥密码", "拼音字母作为签名", "春秋机务")):
         score -= 220
+    if re.fullmatch(
+        r"(?:无需|无须|不需要)[^。；;]{0,16}(?:复诵|报告|申请)[^。；;]{0,10}[。.]?",
+        text,
+    ):
+        # A context-free exemption is valid source material, but a standalone
+        # one should not occupy the last slot ahead of a concrete operating
+        # hazard or procedure.  A contextual instruction remains eligible.
+        score -= 110
     if any(
         token in text
         for token in (
@@ -7466,10 +7826,9 @@ def briefing_coverage_families(fact: BilingualFact) -> set[str]:
     text = normalize_text(fact.text_zh).upper()
     families: set[str] = set()
     marker_groups = {
-        "airspace_atc": ("ATC", "管制", "空域", "雷达引导", "LID"),
+        "airspace_atc": ("ATC", "管制", "区调", "指挥", "空域", "雷达引导", "LID"),
         "ground": ("滑行", "穿越", "等待点", "等待线", "机位", "标志", "状态灯", "推出", "推开"),
         "ground_waiting": ("等待点", "等待线", "前等"),
-        "ground_width": ("较窄", "翼展", "间隔"),
         "runway_crossing": ("穿越", "进跑道"),
         "ground_signage": ("标志", "标识", "指示牌"),
         "runway_lights": ("状态灯", "等待灯光", "跑道进入灯", "起飞等待灯"),
@@ -7491,13 +7850,21 @@ def briefing_coverage_families(fact: BilingualFact) -> set[str]:
         "bird": ("鸟击", "鸟群", "鸟类活动", "驱鸟"),
         "runway_restriction": ("跑道", "高度", "速度限制", "未经许可", "不得", "禁止"),
         "runway_exit": ("脱离跑道", "快速脱离", "脱离道"),
-        "terrain_weather": ("地形", "丘陵", "CFIT", "风切变", "雷暴", "错觉"),
+        "terrain_weather": ("地形", "丘陵", "CFIT", "风切变", "乱流", "雷暴", "错觉"),
         "construction": ("施工", "未开放区域"),
         "night": ("夜间", "夜航", "照明灯光", "灯光"),
     }
     for family, markers in marker_groups.items():
         if any(marker.upper() in text for marker in markers):
             families.add(family)
+    # Airborne traffic spacing is not a taxiway-width hazard.  A narrow
+    # taxiway must retain its own coverage slot even when an approach fact
+    # elsewhere mentions aircraft spacing.
+    if (
+        any(marker in text for marker in ("滑行", "通道", "等待点", "机位"))
+        and any(marker in text for marker in ("较窄", "翼展", "间隔"))
+    ):
+        families.add("ground_width")
     return families or {fact.topic or "special"}
 
 
@@ -8217,6 +8584,7 @@ def organize_source_grounded_briefing_paragraphs(
     selected: list[BilingualFact] = []
     selected_topics: set[str] = set()
     selected_families: set[str] = set()
+    coverage_priority_floor = 330 if len(ranked) > max_paragraphs else 230
     for topic in required_topics:
         paragraph = next(
             (candidate for candidate in ranked if candidate.topic == topic),
@@ -8235,7 +8603,10 @@ def organize_source_grounded_briefing_paragraphs(
     for paragraph in ranked:
         if len(selected) >= max_paragraphs:
             break
-        if paragraph in selected or paragraph.briefing_priority < 230:
+        if (
+            paragraph in selected
+            or paragraph.briefing_priority < coverage_priority_floor
+        ):
             continue
         families = briefing_coverage_families(paragraph)
         if paragraph.topic in selected_topics and families <= selected_families:
@@ -8243,12 +8614,24 @@ def organize_source_grounded_briefing_paragraphs(
         selected.append(paragraph)
         selected_topics.add(paragraph.topic)
         selected_families.update(families)
-    for paragraph in ranked:
-        if len(selected) >= max_paragraphs:
-            break
-        if paragraph in selected or paragraph.briefing_priority < 330:
-            continue
-        selected.append(paragraph)
+    # When all source-backed candidates already fit within the configured
+    # paragraph budget, do not discard an otherwise publishable fact merely
+    # because another fact shares its broad topic/family labels.  The family
+    # gate is a budget allocation rule, not a semantic deduplication rule.
+    # (Actual duplicate facts were removed above.)
+    if len(ranked) <= max_paragraphs:
+        for paragraph in ranked:
+            if (
+                paragraph in selected
+                or paragraph.briefing_priority < coverage_priority_floor
+            ):
+                continue
+            selected.append(paragraph)
+            selected_topics.add(paragraph.topic)
+            selected_families.update(briefing_coverage_families(paragraph))
+    # Do not refill a saturated briefing with a second paragraph that adds no
+    # new source-backed operating family. Applicability exclusions therefore
+    # cannot pull unrelated lower-ranked material into the published set.
     # Sparse source material may legitimately contain only two useful topics.
     # Retain the second real topic without using low-value material to pad a
     # well-populated airport briefing.
@@ -9250,6 +9633,183 @@ def apply_source_guard_fallbacks(
     return resolved
 
 
+OCR_ENGLISH_BOUNDARY_REPAIRS = {
+    r"\bisnot\b": "is not",
+    r"\bhillon\b": "hill on",
+    r"\bitsfive\b": "its five",
+    r"\bairtraffic\b": "air traffic",
+    r"\btrafficcontrol\b": "traffic control",
+    r"\bstrictlyfollow\b": "strictly follow",
+    r"\bdiffersfrom\b": "differs from",
+    r"\bitflies\b": "it flies",
+    r"\bishanded\b": "is handed",
+    r"\baltitudeand\b": "altitude and",
+    r"\btheaircraft\b": "the aircraft",
+    r"\bata\b": "at a",
+}
+
+
+def normalize_source_english_spacing(value: str) -> str:
+    text = re.sub(r"\s+", " ", value).strip()
+    for pattern, replacement in OCR_ENGLISH_BOUNDARY_REPAIRS.items():
+        text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
+    text = re.sub(r"(\d)\s*-\s*(meter|metre|foot|feet)\b", r"\1-\2", text, flags=re.I)
+    text = re.sub(r"\s+([,.;:!?%)])", r"\1", text)
+    text = re.sub(r"([(])\s+", r"\1", text)
+    return text
+
+
+def normalize_aviation_terminology(text_zh: str, text_en: str) -> str:
+    """Repair terminology only when the Chinese source proves the concept."""
+    text = normalize_source_english_spacing(text_en)
+    if "盲降" in text_zh:
+        text = re.sub(r"\bblind landing\b", "ILS approach", text, flags=re.I)
+        text = re.sub(
+            r"\bemergency landing procedures?\b",
+            lambda match: "ILS procedures" if match.group(0).lower().endswith("s") else "ILS procedure",
+            text,
+            flags=re.I,
+        )
+        text = re.sub(
+            r"\b(\d{1,2})(?:ST|ND|RD|TH)\s+ILS APPROACH\b",
+            lambda match: f"Runway {int(match.group(1)):02d} ILS approach",
+            text,
+            flags=re.I,
+        )
+    if "五边" in text_zh:
+        text = re.sub(r"\bfive[- ]sided chaos\b", "turbulence on final approach", text, flags=re.I)
+        text = re.sub(r"\bfive sides?\b", "final approach", text, flags=re.I)
+    if re.search(r"低空[^。；]{0,12}坡度|坡度大", text_zh):
+        text = re.sub(
+            r"significant slope effects?(?: in the lower air layers)?",
+            "large bank angles at low altitude",
+            text,
+            flags=re.I,
+        )
+    if "未建立着陆形态" in text_zh or "未建立落地形态" in text_zh:
+        text = re.sub(
+            r"a failed landing attempt occurred at ([^.]+)",
+            r"Landing configuration was not established at \1",
+            text,
+            flags=re.I,
+        )
+    if "滑错路线" in text_zh:
+        text = re.sub(
+            r"history of route deviation incidents?",
+            "A wrong-taxi-route event has occurred",
+            text,
+            flags=re.I,
+        )
+    if re.search(r"偏离[^。；]{0,8}指令高度|偏离指令高度", text_zh):
+        text = re.sub(
+            r"(?:the )?(?:instructed|commanded) altitude",
+            "the ATC-cleared altitude",
+            text,
+            flags=re.I,
+        )
+    if "着陆载荷大" in text_zh:
+        text = re.sub(
+            r"the landing load is large",
+            "A high landing load event has occurred",
+            text,
+            flags=re.I,
+        )
+    if "入口内移" in text_zh:
+        text = re.sub(
+            r"Move the entrance of Runway\s+(\d{1,2}[LRC]?)\s+inward by\s+([0-9.]+)\s+(?:meters?|metres?)",
+            r"The threshold of Runway \1 is displaced by \2 meters",
+            text,
+            flags=re.I,
+        )
+    if "复诵" in text_zh and "PDC" in text_zh.upper():
+        text = re.sub(
+            r"No need to repeat PDC",
+            "PDC readback is not required",
+            text,
+            flags=re.I,
+        )
+    text = re.sub(r"\bRunway\s+1\.(\d{2}[LRC]?)\b", r"Runway \1", text, flags=re.I)
+    if "RVSM" in text_zh.upper():
+        text = re.sub(r"\bRVSM\s*\([^)]*\)", "RVSM", text, flags=re.I)
+    if re.search(r"部队活动|军航|军方|军事", text_zh):
+        text = re.sub(
+            r"\bwhen troops are active\b",
+            "when military activity is present",
+            text,
+            flags=re.I,
+        )
+    return text
+
+
+SEMANTIC_CONCEPT_PATTERNS: tuple[tuple[str, re.Pattern[str], re.Pattern[str]], ...] = (
+    ("runway", re.compile(r"跑道|(?<!\d)\d{1,2}[LRC]?号(?:盲降|进近|VOR|ILS|五边)"), re.compile(r"\b(?:RUNWAY|RWY)\b", re.I)),
+    ("ILS", re.compile(r"盲降|\bILS\b", re.I), re.compile(r"\bILS\b", re.I)),
+    ("RNP", re.compile(r"\bRNP\d*\b", re.I), re.compile(r"\bRNP\d*\b", re.I)),
+    ("VOR/DME", re.compile(r"VOR/DME", re.I), re.compile(r"VOR/DME", re.I)),
+    ("VOR", re.compile(r"\bVOR\d*\b", re.I), re.compile(r"\bVOR\d*\b", re.I)),
+    ("LNAV", re.compile(r"\bLNAV\b", re.I), re.compile(r"\bLNAV\b", re.I)),
+    ("final_approach", re.compile(r"五边"), re.compile(r"\b(?:FINAL APPROACH|ON FINAL|SHORT-?FINAL(?: VISUAL)? APPROACH)\b", re.I)),
+    ("visual_approach", re.compile(r"目视进近"), re.compile(r"\bVISUAL APPROACH\b", re.I)),
+    ("turbulence", re.compile(r"乱流"), re.compile(r"\bTURBULENCE\b", re.I)),
+    ("windshear", re.compile(r"风切变"), re.compile(r"\bWINDSHEAR\b", re.I)),
+    ("bank_angle", re.compile(r"低空[^。；]{0,12}坡度|坡度大"), re.compile(r"\bBANK ANGLES?\b", re.I)),
+    ("descent_gradient", re.compile(r"下降梯度"), re.compile(r"\b(?:DESCENT GRADIENT|FPA|FLIGHT-PATH ANGLE)\b", re.I)),
+    ("descent_rate", re.compile(r"下降率"), re.compile(r"\bDESCENT RATE\b", re.I)),
+    ("landing_configuration", re.compile(r"(?:着陆|落地)形态"), re.compile(r"\bLANDING CONFIGURATION\b", re.I)),
+    ("displaced_threshold", re.compile(r"入口内移"), re.compile(r"\b(?:DISPLACED THRESHOLD|THRESHOLD[^.]{0,30}DISPLACED)\b", re.I)),
+    ("taxi_route", re.compile(r"滑错路线|滑行路线"), re.compile(r"\b(?:TAXI ROUTE|TAXI-ROUTE|TAXIING ROUTE|TAXIWAY)\b", re.I)),
+    ("altitude_deviation", re.compile(r"偏离[^。；]{0,8}(?:指令)?高度"), re.compile(r"\b(?:ALTITUDE DEVIATION|DEVIATION FROM THE ATC-CLEARED ALTITUDE)\b", re.I)),
+    ("landing_load", re.compile(r"着陆载荷"), re.compile(r"\bHIGH LANDING LOAD\b", re.I)),
+    ("terrain", re.compile(r"地形|山"), re.compile(r"\b(?:TERRAIN|HILL|MOUNTAIN)\b", re.I)),
+    ("military_activity", re.compile(r"军航|军方|军事|部队活动"), re.compile(r"\bMILITARY\b", re.I)),
+    ("PDC", re.compile(r"\bPDC\b", re.I), re.compile(r"\bPDC\b", re.I)),
+    ("readback", re.compile(r"复诵"), re.compile(r"\bREAD\s*BACK|\bREADBACK\b", re.I)),
+    ("ATC", re.compile(r"管制|\bATC\b", re.I), re.compile(r"\b(?:ATC|AIR TRAFFIC CONTROL|CONTROLLER)\b", re.I)),
+    ("radar_vectors", re.compile(r"雷达引导"), re.compile(r"\bRADAR VECTORS?\b", re.I)),
+    ("engine_out_departure", re.compile(r"单发(?:离场|离港|程序)"), re.compile(r"\b(?:ENGINE-OUT|SINGLE-ENGINE) DEPARTURE\b", re.I)),
+    ("QNH", re.compile(r"\bQNH\b", re.I), re.compile(r"\bQNH\b", re.I)),
+    ("RVSM", re.compile(r"\bRVSM\b", re.I), re.compile(r"\bRVSM\b", re.I)),
+    ("altitude_to_distance", re.compile(r"高距比"), re.compile(r"\b(?:ALTITUDE-TO-DISTANCE|HEIGHT-TO-DISTANCE)\b", re.I)),
+)
+
+
+def bilingual_semantic_mismatches(text_zh: str, text_en: str) -> list[str]:
+    return [
+        name
+        for name, chinese_pattern, english_pattern in SEMANTIC_CONCEPT_PATTERNS
+        if chinese_pattern.search(text_zh) and not english_pattern.search(text_en)
+    ]
+
+
+def professionalize_source_english(fact: BilingualFact) -> BilingualFact:
+    """Normalize sourced English without creating a new operational fact."""
+    if fact.english_source not in {"source_backed", "approved_override"}:
+        return fact
+    return replace(
+        fact,
+        text_en=normalize_aviation_terminology(fact.text_zh, fact.text_en),
+    )
+
+
+def validate_selected_fact_id_parity(facts: list[BilingualFact]) -> list[str]:
+    selected_zh_fact_ids = [
+        fact.fact_id
+        for fact in facts
+        if fact.category != "typical_no_data" and clean_output_fact(fact.text_zh)
+    ]
+    selected_en_fact_ids = [
+        fact.fact_id
+        for fact in facts
+        if fact.category != "typical_no_data" and fact.text_en.strip()
+    ]
+    if selected_zh_fact_ids == selected_en_fact_ids:
+        return []
+    return [
+        "中英文选定事实身份不一致："
+        f"中文{selected_zh_fact_ids}，英文{selected_en_fact_ids}"
+    ]
+
+
 def validate_bilingual_facts(facts: list[BilingualFact]) -> list[str]:
     errors: list[str] = []
     for fact in facts:
@@ -9326,6 +9886,12 @@ def validate_bilingual_facts(facts: list[BilingualFact]) -> list[str]:
             errors.append(
                 f"中英文关键事实不一致：{fact.key}：中文{sorted(zh_tokens)}，英文{sorted(en_tokens)}"
             )
+        semantic_mismatches = bilingual_semantic_mismatches(fact.zh, fact.en)
+        if semantic_mismatches:
+            errors.append(
+                f"中英文关键概念不一致：{fact.key}：英文缺少{semantic_mismatches}"
+            )
+    errors.extend(validate_selected_fact_id_parity(facts))
     return errors
 
 
@@ -9446,11 +10012,11 @@ def render_english_briefing(
 
     airports = unique([airport for airport in event.route if airport])
     for airport in airports:
-        items = deduplicate_english_facts([
+        items = [
             fact
             for fact in typical_facts.get(airport, [])
             if fact.category != "typical_no_data" and fact.en.strip()
-        ])
+        ]
         if not items:
             continue
         paragraphs = "\n\n".join(
@@ -9468,7 +10034,7 @@ def render_english_briefing(
     for airport in airports:
         paragraphs = "\n\n".join(
             fact.en.strip().rstrip(".") + "."
-            for fact in deduplicate_english_facts(core_facts[airport])
+            for fact in core_facts[airport]
             if fact.en.strip()
         )
         airport_name = english_airport_name_for_facts(
@@ -9806,6 +10372,8 @@ def fact_source_metadata(fact: BilingualFact) -> dict[str, object]:
         "source_record_ids": list(
             fact.source_record_ids or (fact.fact_id,)
         ),
+        "source_sequence": fact.source_sequence,
+        "parent_record_id": fact.parent_record_id,
         "source_clauses": list(fact.source_clauses or (fact.text_zh,)),
         "operational_phase": fact.operational_phase,
         "role_scope": list(fact.role_scope),

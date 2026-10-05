@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "airports": [
+    {
+      "icao": "WSSS",
+      "canonical_zh": "新加坡樟宜",
+      "aliases_zh": ["新加坡", "樟宜"],
+      "english_name": "Singapore Changi"
+    },
+    {
+      "icao": "ZSPD",
+      "canonical_zh": "上海浦东",
+      "aliases_zh": ["浦东", "上海浦东机场"],
+      "english_name": "Shanghai Pudong International"
+    },
+    {
+      "icao": "ZSSS",
+      "canonical_zh": "上海虹桥",
+      "aliases_zh": ["虹桥", "上海虹桥机场"],
+      "english_name": "Shanghai Hongqiao International"
+    },
+    {
+      "icao": "ZLXN",
+      "canonical_zh": "西宁曹家堡",
+      "aliases_zh": ["西宁", "曹家堡"],
+      "english_name": "Xining Caojiabao International"
+    },
+    {
+      "icao": "ZSCN",
+      "canonical_zh": "南昌昌北",
+      "aliases_zh": ["南昌", "昌北"],
+      "english_name": "Nanchang Changbei International"
+    },
+    {
+      "icao": "ZPLJ",
+      "canonical_zh": "丽江三义",
+      "aliases_zh": ["丽江", "三义"],
+      "english_name": "Lijiang Sanyi International"
+    },
+    {
+      "icao": "ZYCC",
+      "canonical_zh": "长春龙嘉",
+      "aliases_zh": ["长春", "龙嘉"],
+      "english_name": "Changchun Longjia International"
+    },
+    {
+      "icao": "ZSNB",
+      "canonical_zh": "宁波栎社",
+      "aliases_zh": ["宁波", "栎社"],
+      "english_name": "Ningbo Lishe International"
+    },
+    {
+      "icao": "ZJSY",
+      "canonical_zh": "三亚凤凰",
+      "aliases_zh": ["三亚", "凤凰"],
+      "english_name": "Sanya Phoenix International"
+    }
+  ]
+}
