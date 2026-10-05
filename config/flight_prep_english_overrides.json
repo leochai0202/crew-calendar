@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "overrides": [
+    {
+      "manual_version": "20260924",
+      "icao": "ZSNB",
+      "airport": "宁波栎社",
+      "source_record_id": "宁波栎社:typical:8ccab19e30c784f4",
+      "source_text_hash": "8ccab19e30c784f4da96c02520b7e139e0cb95b24faa68fed4a5de881dfbfdfe",
+      "text_en": "Low-level turbulence may result in large bank angles at low altitude.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZSNB",
+      "airport": "宁波栎社",
+      "source_record_id": "宁波栎社:typical:47cfb5048db388f2",
+      "source_text_hash": "47cfb5048db388f2b3551f2aad1f4b7ca53c4c7a164a505d29c23ff05b724d96",
+      "text_en": "A displaced threshold and turbulence have previously contributed to an excessive descent rate before touchdown.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZSNB",
+      "airport": "宁波栎社",
+      "source_record_id": "宁波栎社:typical:15bc3cb796b79aaa",
+      "source_text_hash": "15bc3cb796b79aaacbe1b6b4678a2f9d2be5e0123dc4dc19630c9bfc34252f98",
+      "text_en": "An event has occurred in which the weather radar was not switched off after landing.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZSNB",
+      "airport": "宁波栎社",
+      "source_record_id": "宁波栎社:typical:e6ae67f074acf3fb",
+      "source_text_hash": "e6ae67f074acf3fb302577b4319f817d99f16fffd623d4941946b6645a178294",
+      "text_en": "An altitude deviation from the ATC-cleared altitude has occurred.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZSNB",
+      "airport": "宁波栎社",
+      "source_record_id": "宁波栎社:typical:f4273740157390bb",
+      "source_text_hash": "f4273740157390bb6ab71bed6792a0e6a80b7d37fc09f18c2caefb7fcc8c879b",
+      "text_en": "A high landing load event has occurred.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZSNB",
+      "airport": "宁波栎社",
+      "source_record_id": "宁波栎社:core:798b33e896b53c74",
+      "source_text_hash": "56225f2fae031e78a942b4b9d5f669baff76b46286539f89933328d1ed6068d6",
+      "text_en": "Terrain lies west and southwest of the airport, including a low isolated hill near the Runway 13 final approach. In adverse weather, aircraft arriving from the west must observe the sector minimum safe altitude and airway minimum safe altitude restrictions.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZSNB",
+      "airport": "宁波栎社",
+      "source_record_id": "宁波栎社:core:798b33e896b53c74",
+      "source_text_hash": "b6d58f9eb7267ba415bae93ed150161ad6cff62be5372aef6b91a68719206ef3",
+      "text_en": "If the Lishe NDB and Ningbo VOR are unavailable, the Runway 31 EOSID is unavailable. On the Runway 13 VOR/DME approach, the final approach track is offset by 4 degrees from the runway centreline.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZSNB",
+      "airport": "宁波栎社",
+      "source_record_id": "宁波栎社:core:798b33e896b53c74",
+      "source_text_hash": "ea7ed87dcb518e5154c35fc7d3c736666edad03431d0c8457d2a7e29dbe839aa",
+      "text_en": "The Runway 13 VOR approach has a 5.7% descent gradient, equivalent to FPA3.26.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZSNB",
+      "airport": "宁波栎社",
+      "source_record_id": "宁波栎社:core:098b4a7d6a854d63",
+      "source_text_hash": "df10a59a616ee759af3e8e354c91f664dfd1d9a0de2650b57a3847aa833cca97",
+      "text_en": "Military activity makes the airspace within the Ningbo ATC control area complex.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZSNB",
+      "airport": "宁波栎社",
+      "source_record_id": "宁波栎社:core:098b4a7d6a854d63",
+      "source_text_hash": "86a790c2fbf00f67c761c4193b9e77d9640a32e9b9135c152fa30ea200446023",
+      "text_en": "Do not select a by-ATC arrival before receiving ATC clearance. The QNH boundary between Ningbo Airport and the Shanghai terminal area overlaps; set the altimeter strictly in accordance with ATC instructions.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZSNB",
+      "airport": "宁波栎社",
+      "source_record_id": "宁波栎社:core:fc1febf790828902",
+      "source_text_hash": "fc1febf790828902081ceee126404c3af32e474908afa37b4f7d222a5b50fc1a",
+      "text_en": "When the Runway 13 ILS approach is unavailable, use the RNP13 approach; the published procedure supports LNAV only.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZSNB",
+      "airport": "宁波栎社",
+      "source_record_id": "宁波栎社:core:6726cc4b77b233df",
+      "source_text_hash": "6726cc4b77b233dfd788df134bdb599d6ff53aeaaf6a2ab635bdc2eb4a1a9fff",
+      "text_en": "The Runway 13 threshold is displaced by 150m; be alert to the resulting visual effect.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZSNB",
+      "airport": "宁波栎社",
+      "source_record_id": "宁波栎社:core:22372cb1700ba0c3",
+      "source_text_hash": "6c499d63385d47f4e11d0e29e8142c01df278a743f29f2d3bbdf7c2e7942a83f",
+      "text_en": "The B9 sign is on the runway side. After landing on Runway 13, ATC normally instructs aircraft to hold before B10 and then turn left at B9 to follow the follow-me vehicle. B9 is close to B10, whose sign is on the apron side, so B9 can easily be missed.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZSNB",
+      "airport": "宁波栎社",
+      "source_record_id": "宁波栎社:core:f7b82f48a4cff8ef",
+      "source_text_hash": "f7b82f48a4cff8ef698b419791d624bcd94f4a46a0ed83dc52197badcf823d76",
+      "text_en": "Terrain is complex, and the Runway 13 ILS approach has a steep descent gradient of GP3.2.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZJSY",
+      "airport": "三亚凤凰",
+      "source_record_id": "三亚凤凰:typical:7e689c6db3c41187",
+      "source_text_hash": "7e689c6db3c41187e2fb56ef8fe1cc707671a901bb712a75a03c35435d119405",
+      "text_en": "An event has occurred in which landing configuration was not established by 1000ft AAL.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZJSY",
+      "airport": "三亚凤凰",
+      "source_record_id": "三亚凤凰:typical:65a1734b6045a183",
+      "source_text_hash": "65a1734b6045a183ba6648b99465b8508db838788b5dad9cb4a3ca8ac44ffd16",
+      "text_en": "A wrong-taxi-route event has occurred.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZJSY",
+      "airport": "三亚凤凰",
+      "source_record_id": "三亚凤凰:typical:30cbced04c8308eb",
+      "source_text_hash": "30cbced04c8308eb595756188ed755b22a4c431e02462980c2070eb661fe6bad",
+      "text_en": "An altitude deviation from the ATC-cleared altitude has occurred.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZJSY",
+      "airport": "三亚凤凰",
+      "source_record_id": "三亚凤凰:core:b57af1b49c4d38ea",
+      "source_text_hash": "26f58457e11b590c77aef4ade921b2c31cb1f52eaeeaa181be9e8360fec8b27f",
+      "text_en": "On the VOR08 approach to Runway 08, the arrival profile may be high; monitor the altitude-to-distance relationship.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZJSY",
+      "airport": "三亚凤凰",
+      "source_record_id": "三亚凤凰:core:0208388aa37e3987",
+      "source_text_hash": "1a252aa95c5e486b01b2de4a079e7c03b136254da7eee04abb6475a4d42cb9fb",
+      "text_en": "When traffic inbound to Runway 26 is heavy, ATC may issue descent clearance late; reduce speed promptly and manage aircraft energy.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZJSY",
+      "airport": "三亚凤凰",
+      "source_record_id": "三亚凤凰:core:b57af1b49c4d38ea",
+      "source_text_hash": "388d893e2b93b8984182466b5568349b3e25fec190ccbf43047607d92cc2c357",
+      "text_en": "During the procedure turn, ATC may clear descent to establish on the glide path at 900m, whereas the published procedure establishes it at 700m. Coordinate with ATC to descend in accordance with the published procedure and establish on the glide path.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZJSY",
+      "airport": "三亚凤凰",
+      "source_record_id": "三亚凤凰:core:bccf258450a9d4ee",
+      "source_text_hash": "59abb96d42d975d697e758ddb417eb8285851d39bbf00b8114c41942b75f5193",
+      "text_en": "Sanya has ILS Y and ILS Z procedures. Confirm the active procedure from the broadcast in advance. ILS Z is normally used, but ATC may not specify Y or Z; verify the cleared procedure and avoid selecting the wrong one.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZJSY",
+      "airport": "三亚凤凰",
+      "source_record_id": "三亚凤凰:core:5e0cadf3e0cb8190",
+      "source_text_hash": "7f00047eb1748b9ca497f650c412d82f96c9413236f4e4e302a25b6f482f97df",
+      "text_en": "Turbulence may be encountered on final approach.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZJSY",
+      "airport": "三亚凤凰",
+      "source_record_id": "三亚凤凰:core:cdb42ab968db8f0c",
+      "source_text_hash": "cdb42ab968db8f0c9b48dee0f4b26d393c921bd0cf80166b0e24e08bd09503df",
+      "text_en": "Taxi routes are complex. There are no taxiway centreline lights between Taxiways A3/A4, Taxiway A and the runway. When vacating the runway, monitor the pavement carefully, especially in rain at night, to avoid leaving the paved surface.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZJSY",
+      "airport": "三亚凤凰",
+      "source_record_id": "三亚凤凰:core:e3c9c04c25c1b19f",
+      "source_text_hash": "8313538566085455d8c7f350015f13c7a2ebce9dcd6da3a4432b07920335237c",
+      "text_en": "The PORAP-1N departure is commonly used from Runway 08. Clearance normally requires crossing PORAP at 7200m; performance can generally meet this requirement.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZJSY",
+      "airport": "三亚凤凰",
+      "source_record_id": "三亚凤凰:core:469256e72eb96843",
+      "source_text_hash": "dc8d02b8ff1cdef5ea56c81a3f005eeeb06b69fd2de1f9b706c1302ac3c29334",
+      "text_en": "When military activity is present, a conventional departure may be assigned; observe the speed restriction at PORAP.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    },
+    {
+      "manual_version": "20260924",
+      "icao": "ZJSY",
+      "airport": "三亚凤凰",
+      "source_record_id": "三亚凤凰:core:ad33e3d2ec2acaed",
+      "source_text_hash": "4ddd797a1a33958de8a95e7dce6a1711ab49620195d686ce5f5b30906e6b8f0a",
+      "text_en": "After departure, Sanya Area Control ATC may clear the aircraft to an RVSM level and require that level to be reached before NUMKU.",
+      "approved_by": "USER_CONFIRMED",
+      "confirmed_date": "2026-10-05",
+      "source_note": "User-confirmed professional English bound to this exact latest-manual source fact."
+    }
+  ]
+}

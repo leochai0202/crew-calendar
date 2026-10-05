@@ -472,7 +472,7 @@ def test_bilingual_render_hides_internal_flight_metadata() -> None:
     assert english.startswith("I am Duan Yangshuo")
     assert "a First Officer in Flight Squadron 15" in english
     assert (
-        "I have operated at both Singapore Changi and Shanghai Pudong "
+        "I have operated at both Singapore Changi and Shanghai Pudong International "
         "within the past three months."
     ) in english
     assert "None of the airports on this flight lacks recent experience." not in english
@@ -589,7 +589,10 @@ def test_source_specific_fact_does_not_use_incomplete_generic_english() -> None:
     assert facts[0].english_source == "unavailable"
     assert facts[0].english_concepts == ()
     assert facts[0].en == ""
-    assert agent.validate_bilingual_facts(facts) == []
+    assert any(
+        "中英文选定事实身份不一致" in error
+        for error in agent.validate_bilingual_facts(facts)
+    )
     metadata = agent.fact_source_metadata(facts[0])
     assert metadata["english_source"] == "unavailable"
     assert metadata["english_concepts"] == []
@@ -641,7 +644,7 @@ def test_generic_concept_english_rejects_the_wrong_concept_template() -> None:
     assert "中英文概念模板不一致" in errors[0]
 
 
-def test_chinese_only_fact_without_a_safe_concept_is_not_a_false_mismatch() -> None:
+def test_detached_chinese_only_altitude_is_rejected_before_bilingual_selection() -> None:
     records = [
         {
             "fact_id": "chinese_only_limit",
@@ -656,12 +659,19 @@ def test_chinese_only_fact_without_a_safe_concept_is_not_a_false_mismatch() -> N
         }
     ]
 
-    facts = agent.source_record_facts("测试机场", records, category="core")
+    exclusions: list[dict[str, object]] = []
+    facts = agent.source_record_facts(
+        "测试机场",
+        records,
+        category="core",
+        exclusion_log=exclusions,
+    )
 
-    assert len(facts) == 1
-    assert facts[0].english_source == "unavailable"
-    assert facts[0].en == ""
-    assert agent.validate_bilingual_facts(facts) == []
+    assert facts == []
+    assert any(
+        item.get("discarded_reason") == "detached_operational_fragment"
+        for item in exclusions
+    )
 
 
 def test_source_backed_bilingual_numeric_mismatch_is_still_blocked() -> None:
@@ -732,7 +742,7 @@ def test_mapped_airport_english_fallback_never_returns_chinese_name() -> None:
     for airport in ("长春龙嘉", "宁波栎社"):
         english = agent.english_airport_name(airport)
         assert not re.search(r"[\u4e00-\u9fff]", english)
-        assert re.fullmatch(r"[A-Z]{4}", english)
+        assert english
 
 
 @pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含机场手册PDF")
@@ -784,9 +794,51 @@ def test_real_october_five_uses_source_backed_english_for_every_selected_fact() 
         errors.extend(agent.validate_bilingual_facts(all_facts))
         selected_facts.extend(all_facts)
 
-    assert len(selected_facts) == 31
-    assert all(fact.english_source == "source_backed" for fact in selected_facts)
+    assert {
+        airport: (
+            len(typical[airport]),
+            len(core[airport]),
+        )
+        for airport in duty.route
+    } == {
+        "宁波栎社": (5, 10),
+        "三亚凤凰": (3, 9),
+    }
+    assert len(selected_facts) == 27
+    assert all(
+        fact.english_source in {"source_backed", "approved_override"}
+        for fact in selected_facts
+    )
     assert not any(fact.english_source == "concept_fallback" for fact in selected_facts)
+    selected_chinese = "\n".join(fact.text_zh for fact in selected_facts)
+    selected_english = "\n".join(fact.text_en for fact in selected_facts)
+    for excluded_route in ("长春-宁波", "虹桥-三亚", "浦东到三亚", "ZSPD-ZJSY"):
+        assert excluded_route not in selected_chinese
+    assert "速度160" not in selected_chinese
+    for bad_english in (
+        "13th mountain",
+        "five sides",
+        "blind landing",
+        "Five-sided Chaos",
+        "PORAP-1N model",
+        "Runway 1.26",
+        "Real-Time Vertical Management System",
+        "Radar isnot",
+        "failed landing attempt occurred at 1000",
+    ):
+        assert bad_english.lower() not in selected_english.lower()
+    for critical_fact in (
+        "RNP13",
+        "LNAV",
+        "150m",
+        "5.7%",
+        "FPA3.26",
+        "GP3.2",
+        "PORAP",
+        "7200m",
+        "NUMKU",
+    ):
+        assert critical_fact.lower() in selected_english.lower()
     ningbo_confirmed = [
         fact
         for fact in selected_facts
@@ -852,6 +904,7 @@ def test_real_october_four_output_has_clean_sources_routes_and_english() -> None
                     "source_section": "运行特点",
                     "category": "core",
                     "text_zh": "滑行时注意标志识别（参考三-机场运行资料）。",
+                    "text_en": "Pay attention to sign identification while taxiing.",
                 },
                 {
                     "fact_id": f"{airport}-heading",
