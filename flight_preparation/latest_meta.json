@@ -1,7 +1,7 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-10-05",
-  "generated_at_beijing": "2026-10-05T00:21:23.880474+08:00",
+  "generated_at_beijing": "2026-10-05T21:47:57.487124+08:00",
   "generator": "flight-prep-free-v15-final-group-format",
   "task_fingerprint": "371ae90da5b0c33f3d282b14c4707f125bb75c1f1d90b80b71f1f9a89ed44374",
   "flight_numbers": [
@@ -24,24 +24,24 @@
     "MIGUEL YANEZ VILAS(R)"
   ],
   "matched_event_uids": [
-    "26838a1aea053dde84f23601bb90f440@crew-calendar",
-    "5494b9aad98e7b20ecf4926e5796499c@crew-calendar"
+    "95acc9ca7b126223756b419eae38db11@crew-calendar",
+    "2992fd230d681b98c51519efdc4ec55f@crew-calendar"
   ],
   "matched_flights": [
     {
-      "uid": "26838a1aea053dde84f23601bb90f440@crew-calendar",
+      "uid": "95acc9ca7b126223756b419eae38db11@crew-calendar",
       "summary": "✈️ 9C7385 宁波栎社→三亚凤凰",
       "start": "2026-10-05T17:05:00+08:00",
       "end": "2026-10-05T20:05:00+08:00",
-      "description": "10月05日 周一\n类型：航班\n航班：9C7385\n航线：宁波栎社 → 三亚凤凰\n地点：宁波栎社\n签到：15:20｜宁波栎社\n任务：17:05 - 20:05\n机型：A320｜注册号：B306Z\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 张孝圣(B)\n\n版本：2026-10-04 21:12",
+      "description": "10月05日 周一\n类型：航班\n航班：9C7385\n航线：宁波栎社 → 三亚凤凰\n地点：宁波栎社\n签到：15:20｜宁波栎社\n任务：17:05 - 20:05\n机型：A320｜注册号：B8346\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 张孝圣(B)\n\n版本：2026-10-05 14:53",
       "location": "宁波栎社",
       "properties": {
-        "UID": "26838a1aea053dde84f23601bb90f440@crew-calendar",
+        "UID": "95acc9ca7b126223756b419eae38db11@crew-calendar",
         "SUMMARY": "✈️ 9C7385 宁波栎社→三亚凤凰",
         "DTSTART": "20261005T170500",
         "DTEND": "20261005T200500",
-        "DESCRIPTION": "10月05日 周一\\n类型：航班\\n航班：9C7385\\n航线：宁波栎社 → 三亚凤凰\\n地点：宁波栎社\\n签到：15:20｜宁波栎社\\n任务：17:05 - 20:05\\n机型：A320｜注册号：B306Z\\n\\n人员名单：\\n• MIGUEL YANEZ VILAS(R)\\n• 陈吉鑫(R)\\n• 段洋硕\\n• 张孝圣(B)\\n\\n版本：2026-10-04 21:12",
-        "X-CONTENT-SIGNATURE": "e0622557c883afc9dee5fe4d38d61561",
+        "DESCRIPTION": "10月05日 周一\\n类型：航班\\n航班：9C7385\\n航线：宁波栎社 → 三亚凤凰\\n地点：宁波栎社\\n签到：15:20｜宁波栎社\\n任务：17:05 - 20:05\\n机型：A320｜注册号：B8346\\n\\n人员名单：\\n• MIGUEL YANEZ VILAS(R)\\n• 陈吉鑫(R)\\n• 段洋硕\\n• 张孝圣(B)\\n\\n版本：2026-10-05 14:53",
+        "X-CONTENT-SIGNATURE": "4f2d1d4d8029dffc3e283192c766dc9e",
         "LOCATION": "宁波栎社"
       },
       "source_file": "flight.ics",
@@ -49,7 +49,7 @@
       "departure": "宁波栎社",
       "arrival": "三亚凤凰",
       "aircraft_type": "A320",
-      "registration": "B306Z",
+      "registration": "B8346",
       "checkin": "15:20｜宁波栎社",
       "people": [
         "MIGUEL YANEZ VILAS(R)",
@@ -60,19 +60,19 @@
       "cross_day": false
     },
     {
-      "uid": "5494b9aad98e7b20ecf4926e5796499c@crew-calendar",
+      "uid": "2992fd230d681b98c51519efdc4ec55f@crew-calendar",
       "summary": "✈️ 9C7386 三亚凤凰→宁波栎社",
       "start": "2026-10-05T21:05:00+08:00",
       "end": "2026-10-05T23:55:00+08:00",
-      "description": "10月05日 周一\n类型：航班\n航班：9C7386\n航线：三亚凤凰 → 宁波栎社\n地点：三亚凤凰\n签到：19:30｜三亚凤凰\n任务：21:05 - 23:55\n机型：A320｜注册号：B306Z\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 张孝圣(B)\n\n版本：2026-10-04 21:12",
+      "description": "10月05日 周一\n类型：航班\n航班：9C7386\n航线：三亚凤凰 → 宁波栎社\n地点：三亚凤凰\n签到：19:30｜三亚凤凰\n任务：21:05 - 23:55\n机型：A320｜注册号：B8346\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 张孝圣(B)\n\n版本：2026-10-05 14:53",
       "location": "三亚凤凰",
       "properties": {
-        "UID": "5494b9aad98e7b20ecf4926e5796499c@crew-calendar",
+        "UID": "2992fd230d681b98c51519efdc4ec55f@crew-calendar",
         "SUMMARY": "✈️ 9C7386 三亚凤凰→宁波栎社",
         "DTSTART": "20261005T210500",
         "DTEND": "20261005T235500",
-        "DESCRIPTION": "10月05日 周一\\n类型：航班\\n航班：9C7386\\n航线：三亚凤凰 → 宁波栎社\\n地点：三亚凤凰\\n签到：19:30｜三亚凤凰\\n任务：21:05 - 23:55\\n机型：A320｜注册号：B306Z\\n\\n人员名单：\\n• MIGUEL YANEZ VILAS(R)\\n• 陈吉鑫(R)\\n• 段洋硕\\n• 张孝圣(B)\\n\\n版本：2026-10-04 21:12",
-        "X-CONTENT-SIGNATURE": "9595469cc1b5a50d529edf18b3943228",
+        "DESCRIPTION": "10月05日 周一\\n类型：航班\\n航班：9C7386\\n航线：三亚凤凰 → 宁波栎社\\n地点：三亚凤凰\\n签到：19:30｜三亚凤凰\\n任务：21:05 - 23:55\\n机型：A320｜注册号：B8346\\n\\n人员名单：\\n• MIGUEL YANEZ VILAS(R)\\n• 陈吉鑫(R)\\n• 段洋硕\\n• 张孝圣(B)\\n\\n版本：2026-10-05 14:53",
+        "X-CONTENT-SIGNATURE": "aed8fc8f648267d81fd1a5853ddbf2a2",
         "LOCATION": "三亚凤凰"
       },
       "source_file": "flight.ics",
@@ -80,7 +80,7 @@
       "departure": "三亚凤凰",
       "arrival": "宁波栎社",
       "aircraft_type": "A320",
-      "registration": "B306Z",
+      "registration": "B8346",
       "checkin": "19:30｜三亚凤凰",
       "people": [
         "MIGUEL YANEZ VILAS(R)",
@@ -117,24 +117,24 @@
       ],
       "english_confirmation_required": false,
       "matched_event_uids": [
-        "26838a1aea053dde84f23601bb90f440@crew-calendar",
-        "5494b9aad98e7b20ecf4926e5796499c@crew-calendar"
+        "95acc9ca7b126223756b419eae38db11@crew-calendar",
+        "2992fd230d681b98c51519efdc4ec55f@crew-calendar"
       ],
       "matched_flights": [
         {
-          "uid": "26838a1aea053dde84f23601bb90f440@crew-calendar",
+          "uid": "95acc9ca7b126223756b419eae38db11@crew-calendar",
           "summary": "✈️ 9C7385 宁波栎社→三亚凤凰",
           "start": "2026-10-05T17:05:00+08:00",
           "end": "2026-10-05T20:05:00+08:00",
-          "description": "10月05日 周一\n类型：航班\n航班：9C7385\n航线：宁波栎社 → 三亚凤凰\n地点：宁波栎社\n签到：15:20｜宁波栎社\n任务：17:05 - 20:05\n机型：A320｜注册号：B306Z\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 张孝圣(B)\n\n版本：2026-10-04 21:12",
+          "description": "10月05日 周一\n类型：航班\n航班：9C7385\n航线：宁波栎社 → 三亚凤凰\n地点：宁波栎社\n签到：15:20｜宁波栎社\n任务：17:05 - 20:05\n机型：A320｜注册号：B8346\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 张孝圣(B)\n\n版本：2026-10-05 14:53",
           "location": "宁波栎社",
           "properties": {
-            "UID": "26838a1aea053dde84f23601bb90f440@crew-calendar",
+            "UID": "95acc9ca7b126223756b419eae38db11@crew-calendar",
             "SUMMARY": "✈️ 9C7385 宁波栎社→三亚凤凰",
             "DTSTART": "20261005T170500",
             "DTEND": "20261005T200500",
-            "DESCRIPTION": "10月05日 周一\\n类型：航班\\n航班：9C7385\\n航线：宁波栎社 → 三亚凤凰\\n地点：宁波栎社\\n签到：15:20｜宁波栎社\\n任务：17:05 - 20:05\\n机型：A320｜注册号：B306Z\\n\\n人员名单：\\n• MIGUEL YANEZ VILAS(R)\\n• 陈吉鑫(R)\\n• 段洋硕\\n• 张孝圣(B)\\n\\n版本：2026-10-04 21:12",
-            "X-CONTENT-SIGNATURE": "e0622557c883afc9dee5fe4d38d61561",
+            "DESCRIPTION": "10月05日 周一\\n类型：航班\\n航班：9C7385\\n航线：宁波栎社 → 三亚凤凰\\n地点：宁波栎社\\n签到：15:20｜宁波栎社\\n任务：17:05 - 20:05\\n机型：A320｜注册号：B8346\\n\\n人员名单：\\n• MIGUEL YANEZ VILAS(R)\\n• 陈吉鑫(R)\\n• 段洋硕\\n• 张孝圣(B)\\n\\n版本：2026-10-05 14:53",
+            "X-CONTENT-SIGNATURE": "4f2d1d4d8029dffc3e283192c766dc9e",
             "LOCATION": "宁波栎社"
           },
           "source_file": "flight.ics",
@@ -142,7 +142,7 @@
           "departure": "宁波栎社",
           "arrival": "三亚凤凰",
           "aircraft_type": "A320",
-          "registration": "B306Z",
+          "registration": "B8346",
           "checkin": "15:20｜宁波栎社",
           "people": [
             "MIGUEL YANEZ VILAS(R)",
@@ -153,19 +153,19 @@
           "cross_day": false
         },
         {
-          "uid": "5494b9aad98e7b20ecf4926e5796499c@crew-calendar",
+          "uid": "2992fd230d681b98c51519efdc4ec55f@crew-calendar",
           "summary": "✈️ 9C7386 三亚凤凰→宁波栎社",
           "start": "2026-10-05T21:05:00+08:00",
           "end": "2026-10-05T23:55:00+08:00",
-          "description": "10月05日 周一\n类型：航班\n航班：9C7386\n航线：三亚凤凰 → 宁波栎社\n地点：三亚凤凰\n签到：19:30｜三亚凤凰\n任务：21:05 - 23:55\n机型：A320｜注册号：B306Z\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 张孝圣(B)\n\n版本：2026-10-04 21:12",
+          "description": "10月05日 周一\n类型：航班\n航班：9C7386\n航线：三亚凤凰 → 宁波栎社\n地点：三亚凤凰\n签到：19:30｜三亚凤凰\n任务：21:05 - 23:55\n机型：A320｜注册号：B8346\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 张孝圣(B)\n\n版本：2026-10-05 14:53",
           "location": "三亚凤凰",
           "properties": {
-            "UID": "5494b9aad98e7b20ecf4926e5796499c@crew-calendar",
+            "UID": "2992fd230d681b98c51519efdc4ec55f@crew-calendar",
             "SUMMARY": "✈️ 9C7386 三亚凤凰→宁波栎社",
             "DTSTART": "20261005T210500",
             "DTEND": "20261005T235500",
-            "DESCRIPTION": "10月05日 周一\\n类型：航班\\n航班：9C7386\\n航线：三亚凤凰 → 宁波栎社\\n地点：三亚凤凰\\n签到：19:30｜三亚凤凰\\n任务：21:05 - 23:55\\n机型：A320｜注册号：B306Z\\n\\n人员名单：\\n• MIGUEL YANEZ VILAS(R)\\n• 陈吉鑫(R)\\n• 段洋硕\\n• 张孝圣(B)\\n\\n版本：2026-10-04 21:12",
-            "X-CONTENT-SIGNATURE": "9595469cc1b5a50d529edf18b3943228",
+            "DESCRIPTION": "10月05日 周一\\n类型：航班\\n航班：9C7386\\n航线：三亚凤凰 → 宁波栎社\\n地点：三亚凤凰\\n签到：19:30｜三亚凤凰\\n任务：21:05 - 23:55\\n机型：A320｜注册号：B8346\\n\\n人员名单：\\n• MIGUEL YANEZ VILAS(R)\\n• 陈吉鑫(R)\\n• 段洋硕\\n• 张孝圣(B)\\n\\n版本：2026-10-05 14:53",
+            "X-CONTENT-SIGNATURE": "aed8fc8f648267d81fd1a5853ddbf2a2",
             "LOCATION": "三亚凤凰"
           },
           "source_file": "flight.ics",
@@ -173,7 +173,7 @@
           "departure": "三亚凤凰",
           "arrival": "宁波栎社",
           "aircraft_type": "A320",
-          "registration": "B306Z",
+          "registration": "B8346",
           "checkin": "19:30｜三亚凤凰",
           "people": [
             "MIGUEL YANEZ VILAS(R)",
@@ -206,11 +206,9 @@
             "宁波栎社_core_record_38",
             "宁波栎社_core_record_49",
             "宁波栎社_core_record_12",
-            "宁波栎社_core_record_42",
-            "宁波栎社_core_record_47",
             "宁波栎社_core_record_11",
+            "宁波栎社_core_record_13",
             "宁波栎社_core_record_17",
-            "宁波栎社_core_record_16",
             "宁波栎社_core_record_7",
             "paragraph:宁波栎社_core_record_9"
           ]
@@ -223,8 +221,6 @@
           ],
           "core": [
             "三亚凤凰_core_record_15",
-            "三亚凤凰_core_record_9",
-            "三亚凤凰_core_record_12",
             "三亚凤凰_core_record_13",
             "三亚凤凰_core_record_16",
             "三亚凤凰_core_record_14",
@@ -259,6 +255,8 @@
             "source_record_ids": [
               "宁波栎社:typical:8ccab19e30c784f4"
             ],
+            "source_sequence": 0,
+            "parent_record_id": "宁波栎社:typical:8ccab19e30c784f4",
             "source_clauses": [
               "低空因乱流影响，易导致低空坡度大。"
             ],
@@ -275,14 +273,14 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "低空因乱流影响，易导致低空坡度大。",
-            "text_en": "Low-altitude turbulence can easily cause significant slope effects in the lower air layers.",
-            "english_source": "source_backed",
+            "text_en": "Low-level turbulence may result in large bank angles at low altitude.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Ningbo/Lieshe",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "低空因乱流影响，易导致低空坡度大。",
             "season_scope": [],
             "flight_scope": [],
@@ -328,6 +326,8 @@
             "source_record_ids": [
               "宁波栎社:typical:47cfb5048db388f2"
             ],
+            "source_sequence": 1000,
+            "parent_record_id": "宁波栎社:typical:47cfb5048db388f2",
             "source_clauses": [
               "因入口内移动和乱流影响，易导致接地前下降率过大。"
             ],
@@ -344,14 +344,14 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "曾发生因入口内移动和乱流影响，易导致接地前下降率过大。",
-            "text_en": "Due to internal movement and turbulence at the entrance, excessive pre-grounding descent rate may occur.",
-            "english_source": "source_backed",
+            "text_en": "A displaced threshold and turbulence have previously contributed to an excessive descent rate before touchdown.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Ningbo/Lieshe",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "曾发生因入口内移动和乱流影响，易导致接地前下降率过大。",
             "season_scope": [],
             "flight_scope": [],
@@ -397,6 +397,8 @@
             "source_record_ids": [
               "宁波栎社:typical:15bc3cb796b79aaa"
             ],
+            "source_sequence": 2000,
+            "parent_record_id": "宁波栎社:typical:15bc3cb796b79aaa",
             "source_clauses": [
               "落地未关雷达。"
             ],
@@ -413,14 +415,14 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "落地未关雷达。",
-            "text_en": "Radar isnot turned off when landing.",
-            "english_source": "source_backed",
+            "text_en": "An event has occurred in which the weather radar was not switched off after landing.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Ningbo/Lieshe",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "落地未关雷达。",
             "season_scope": [],
             "flight_scope": [],
@@ -466,6 +468,8 @@
             "source_record_ids": [
               "宁波栎社:typical:e6ae67f074acf3fb"
             ],
+            "source_sequence": 3000,
+            "parent_record_id": "宁波栎社:typical:e6ae67f074acf3fb",
             "source_clauses": [
               "偏离指令高度。"
             ],
@@ -480,14 +484,14 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "偏离指令高度。",
-            "text_en": "Deviation from the instructed altitude.",
-            "english_source": "source_backed",
+            "text_en": "An altitude deviation from the ATC-cleared altitude has occurred.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Ningbo/Lieshe",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "偏离指令高度。",
             "season_scope": [],
             "flight_scope": [],
@@ -533,6 +537,8 @@
             "source_record_ids": [
               "宁波栎社:typical:f4273740157390bb"
             ],
+            "source_sequence": 4000,
+            "parent_record_id": "宁波栎社:typical:f4273740157390bb",
             "source_clauses": [
               "着陆载荷大。"
             ],
@@ -549,14 +555,14 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "着陆载荷大。",
-            "text_en": "The landing load is large.",
-            "english_source": "source_backed",
+            "text_en": "A high landing load event has occurred.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Ningbo/Lieshe",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "着陆载荷大。",
             "season_scope": [],
             "flight_scope": [],
@@ -602,6 +608,8 @@
             "source_record_ids": [
               "宁波栎社:core:798b33e896b53c74"
             ],
+            "source_sequence": -1,
+            "parent_record_id": "",
             "source_clauses": [
               "本场西面及西南面有山13 号五边有低矮孤立山包天 气不好时从西面进场飞机注意扇区最低安全高度及航路安全高 度限制。",
               "栎社NDB 和宁波VOR 故障时，31号EOSID 不可用，注 意13号VOR/DME 进近五边航迹和跑道有4 度夹角。",
@@ -658,14 +666,14 @@
               }
             ],
             "text_zh": "本场西面及西南面有山13号五边有低矮孤立山包天气不好时从西面进场飞机注意扇区最低安全高度及航路安全高度限制。栎社NDB和宁波VOR故障时，31号EOSID不可用，注意13号VOR/DME进近五边航迹和跑道有4度夹角。13号VOR下降梯度5.7％，换算成FPA3.26。",
-            "text_en": "The 13th mountain is located west and southwest of this field, with a low, isolated hillon itsfive sides. During adverse weather conditions, aircraft entering from the west must adhere to the sector's minimum safe altitude and route safety restrictions. When the Leshan NDB and Ningbo VOR are out of service, the 31st EOSID becomes unavailable. Note that the 13th VOR/DME approach five sides form a 4-degree angle with the runway. The 13th VOR has a descent gradient of 5.7%, equivalent to a FPA of 3.26.",
-            "english_source": "source_backed",
+            "text_en": "Terrain lies west and southwest of the airport, including a low isolated hill near the Runway 13 final approach. In adverse weather, aircraft arriving from the west must observe the sector minimum safe altitude and airway minimum safe altitude restrictions. If the Lishe NDB and Ningbo VOR are unavailable, the Runway 31 EOSID is unavailable. On the Runway 13 VOR/DME approach, the final approach track is offset by 4 degrees from the runway centreline. The Runway 13 VOR approach has a 5.7% descent gradient, equivalent to FPA3.26.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Ningbo/Lieshe",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "本场西面及西南面有山13号五边有低矮孤立山包天气不好时从西面进场飞机注意扇区最低安全高度及航路安全高度限制。栎社NDB和宁波VOR故障时，31号EOSID不可用，注意13号VOR/DME进近五边航迹和跑道有4度夹角。13号VOR下降梯度5.7％，换算成FPA3.26。",
             "season_scope": [],
             "flight_scope": [],
@@ -713,6 +721,8 @@
             "source_record_ids": [
               "宁波栎社:core:098b4a7d6a854d63"
             ],
+            "source_sequence": 28000,
+            "parent_record_id": "宁波栎社:core:098b4a7d6a854d63",
             "source_clauses": [
               "宁波管制区内军航活动空域复杂。"
             ],
@@ -734,14 +744,14 @@
               }
             ],
             "text_zh": "宁波管制区内军航活动空域复杂。",
-            "text_en": "The airspace for military aviation activities within Ningbo's control zone is highly complex. Do not select ATC-based approach procedures without prior air trafficcontrol clearance.",
-            "english_source": "source_backed",
+            "text_en": "Military activity makes the airspace within the Ningbo ATC control area complex.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Ningbo/Lieshe",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "宁波管制区内军航活动空域复杂。",
             "season_scope": [],
             "flight_scope": [],
@@ -787,6 +797,8 @@
             "source_record_ids": [
               "宁波栎社:core:098b4a7d6a854d63"
             ],
+            "source_sequence": 28001,
+            "parent_record_id": "宁波栎社:core:098b4a7d6a854d63",
             "source_clauses": [
               "未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。"
             ],
@@ -813,14 +825,14 @@
               }
             ],
             "text_zh": "未得到管制许可前请勿选择byATC的进场方式；宁波机场与上海终端区的QNH水平边界重合，高度表拨正严格听从ATC指挥。",
-            "text_en": "The QNH horizontal boundary between Ningbo Airport and Shanghai Terminal Area overlaps, and altimeter corrections must strictlyfollow ATC instructions.",
-            "english_source": "source_backed",
+            "text_en": "Do not select a by-ATC arrival before receiving ATC clearance. The QNH boundary between Ningbo Airport and the Shanghai terminal area overlaps; set the altimeter strictly in accordance with ATC instructions.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Ningbo/Lieshe",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "未得到管制许可前请勿选择byATC的进场方式；宁波机场与上海终端区的QNH水平边界重合，高度表拨正严格听从ATC指挥。",
             "season_scope": [],
             "flight_scope": [],
@@ -866,6 +878,8 @@
             "source_record_ids": [
               "宁波栎社:core:8b0844110fa1fb1b"
             ],
+            "source_sequence": 36001,
+            "parent_record_id": "宁波栎社:core:8b0844110fa1fb1b",
             "source_clauses": [
               "指挥指令为直飞A 点，注意进近 准备时相应的定位点输入，且短五边目视进近时能量管理需要 注意，如果后续无法目视跑道需管制雷达引导，因为31号附近 地形原因，雷达引导会使剖面逐渐紧张，注意减速和能量管 理，避免飞机能量过大。"
             ],
@@ -956,6 +970,8 @@
             "source_record_ids": [
               "宁波栎社:core:fc1febf790828902"
             ],
+            "source_sequence": 6000,
+            "parent_record_id": "宁波栎社:core:fc1febf790828902",
             "source_clauses": [
               "13号盲降不工作时，使用 RNP13进近，且航图程序 只有LNAV。"
             ],
@@ -978,14 +994,14 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "13号盲降不工作时，使用RNP13进近，且航图程序只有LNAV。",
-            "text_en": "When the 13th blind landing is not operational, use RNP13 approach with only LNAV in the chart program.",
-            "english_source": "source_backed",
+            "text_en": "When the Runway 13 ILS approach is unavailable, use the RNP13 approach; the published procedure supports LNAV only.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Ningbo/Lieshe",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "13号盲降不工作时，使用RNP13进近，且航图程序只有LNAV。",
             "season_scope": [],
             "flight_scope": [],
@@ -1001,160 +1017,6 @@
             "briefing_priority": 375,
             "text_before_polish": "13号盲降不工作时，使用RNP13进近，且航图程序只有LNAV。",
             "text_after_polish": "13号盲降不工作时，使用RNP13进近，且航图程序只有LNAV。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "guard_failed": false,
-            "guard_reason": "",
-            "fallback_used": "",
-            "paragraph_dropped": false,
-            "airport_specific": true,
-            "category": "core"
-          },
-          {
-            "fact_id": "宁波栎社_core_record_42",
-            "paragraph_id": "宁波栎社_core_record_42",
-            "airport": "宁波栎社",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-            "source": "PDF",
-            "source_authority": "latest_airport_manual",
-            "source_version": "20260924",
-            "source_page": "N/A",
-            "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-            "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
-            "source_note": "",
-            "confirmed_date": "",
-            "source_text_zh": "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
-            "source_original_text": "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
-            "source_original_texts": [
-              "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。"
-            ],
-            "source_record_ids": [
-              "宁波栎社:core:7ea88de98c1bb20f"
-            ],
-            "source_clauses": [
-              "从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。"
-            ],
-            "operational_phase": "arrival",
-            "role_scope": [
-              "arrival"
-            ],
-            "operational_condition": [
-              "从北方进场的航班",
-              "如长春-宁波",
-              "移交宁波进近之前"
-            ],
-            "applicability": [
-              "进场",
-              "进近"
-            ],
-            "risk": [
-              "上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路"
-            ],
-            "mitigation": [],
-            "restriction": [],
-            "excluded_source_clauses": [
-              {
-                "clause": "ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。",
-                "reason": "同一来源记录中的其他完整运行子句"
-              },
-              {
-                "clause": "有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
-                "reason": "同一来源记录中的其他完整运行子句"
-              }
-            ],
-            "text_zh": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
-            "text_en": "For northern inbound flights such as Changchun-Ningbo, Shanghai may direct the aircraft to join the V72 (ELAGO-ISPUR- OVNEV) route after ELAGO before transferring to Ningbo approach.",
-            "english_source": "source_backed",
-            "english_concepts": [],
-            "english_airport_name": "Ningbo/Lieshe",
-            "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
-            "rendered_text": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "approach",
-            "role": "transit",
-            "source_fact_ids": [
-              "宁波栎社_core_record_42"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 355,
-            "text_before_polish": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
-            "text_after_polish": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "guard_failed": false,
-            "guard_reason": "",
-            "fallback_used": "",
-            "paragraph_dropped": false,
-            "airport_specific": true,
-            "category": "core"
-          },
-          {
-            "fact_id": "宁波栎社_core_record_47",
-            "paragraph_id": "宁波栎社_core_record_47",
-            "airport": "宁波栎社",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-            "source": "PDF",
-            "source_authority": "latest_airport_manual",
-            "source_version": "20260924",
-            "source_page": "N/A",
-            "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-            "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
-            "source_note": "",
-            "confirmed_date": "",
-            "source_text_zh": "进场：速度160 节。",
-            "source_original_text": "进场：速度160 节。",
-            "source_original_texts": [
-              "进场：速度160 节。"
-            ],
-            "source_record_ids": [
-              "宁波栎社:core:11ae458bf7d14f20"
-            ],
-            "source_clauses": [
-              "速度160 节。"
-            ],
-            "operational_phase": "arrival",
-            "role_scope": [
-              "arrival"
-            ],
-            "operational_condition": [
-              "速度160 节"
-            ],
-            "applicability": [],
-            "risk": [],
-            "mitigation": [],
-            "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "速度160节。",
-            "text_en": "For tailwinds, crews should set Mode 2 with a speed of 160 knots.",
-            "english_source": "source_backed",
-            "english_concepts": [],
-            "english_airport_name": "Ningbo/Lieshe",
-            "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
-            "rendered_text": "速度160节。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "approach",
-            "role": "transit",
-            "source_fact_ids": [
-              "宁波栎社_core_record_47"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 355,
-            "text_before_polish": "速度160节。",
-            "text_after_polish": "速度160节。",
             "polish_applied": false,
             "polish_fallback_reason": "",
             "guard_failed": false,
@@ -1185,6 +1047,8 @@
             "source_record_ids": [
               "宁波栎社:core:6726cc4b77b233df"
             ],
+            "source_sequence": 5000,
+            "parent_record_id": "宁波栎社:core:6726cc4b77b233df",
             "source_clauses": [
               "13号跑道入口内移 150m，注意视线影响。"
             ],
@@ -1203,14 +1067,14 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "13号跑道入口内移150m，注意视线影响。",
-            "text_en": "Move the entrance of Runway 13 inward by 150 meters, with due consideration for visual impact.",
-            "english_source": "source_backed",
+            "text_en": "The Runway 13 threshold is displaced by 150m; be alert to the resulting visual effect.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Ningbo/Lieshe",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "13号跑道入口内移150m，注意视线影响。",
             "season_scope": [],
             "flight_scope": [],
@@ -1226,6 +1090,86 @@
             "briefing_priority": 410,
             "text_before_polish": "13号跑道入口内移150m，注意视线影响。",
             "text_after_polish": "13号跑道入口内移150m，注意视线影响。",
+            "polish_applied": false,
+            "polish_fallback_reason": "",
+            "guard_failed": false,
+            "guard_reason": "",
+            "fallback_used": "",
+            "paragraph_dropped": false,
+            "airport_specific": true,
+            "category": "core"
+          },
+          {
+            "fact_id": "宁波栎社_core_record_13",
+            "paragraph_id": "宁波栎社_core_record_13",
+            "airport": "宁波栎社",
+            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+            "source": "PDF",
+            "source_authority": "latest_airport_manual",
+            "source_version": "20260924",
+            "source_page": "N/A",
+            "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+            "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／地面",
+            "source_note": "",
+            "confirmed_date": "",
+            "source_text_zh": "地面：B9灯牌在跑道一侧,13 号落地后通常指挥在B10 前 等，后续通常B9左转跟引导车，注意B9 紧邻B10(B10 灯牌在 机坪一侧)，容易错过。",
+            "source_original_text": "地面：B9灯牌在跑道一侧,13 号落地后通常指挥在B10 前 等，后续通常B9左转跟引导车，注意B9 紧邻B10(B10 灯牌在 机坪一侧)，容易错过。",
+            "source_original_texts": [
+              "地面：B9灯牌在跑道一侧,13 号落地后通常指挥在B10 前 等，后续通常B9左转跟引导车，注意B9 紧邻B10(B10 灯牌在 机坪一侧)，容易错过。"
+            ],
+            "source_record_ids": [
+              "宁波栎社:core:22372cb1700ba0c3"
+            ],
+            "source_sequence": 7000,
+            "parent_record_id": "宁波栎社:core:22372cb1700ba0c3",
+            "source_clauses": [
+              "B9灯牌在跑道一侧,13 号落地后通常指挥在B10 前 等，后续通常B9左转跟引导车，注意B9 紧邻B10(B10 灯牌在 机坪一侧)，容易错过。"
+            ],
+            "operational_phase": "ground",
+            "role_scope": [
+              "arrival"
+            ],
+            "operational_condition": [
+              "B9灯牌在跑道一侧",
+              "13 号落地后通常指挥在B10 前等",
+              "后续通常B9左转跟引导车"
+            ],
+            "applicability": [
+              "跑道",
+              "落地"
+            ],
+            "risk": [
+              "容易错过"
+            ],
+            "mitigation": [
+              "注意B9 紧邻B10(B10 灯牌在机坪一侧)"
+            ],
+            "restriction": [],
+            "excluded_source_clauses": [],
+            "text_zh": "B9灯牌在跑道一侧，13号落地后通常指挥在B10前等，后续通常B9左转跟引导车，注意B9紧邻B10(B10灯牌在机坪一侧)，容易错过。",
+            "text_en": "The B9 sign is on the runway side. After landing on Runway 13, ATC normally instructs aircraft to hold before B10 and then turn left at B9 to follow the follow-me vehicle. B9 is close to B10, whose sign is on the apron side, so B9 can easily be missed.",
+            "english_source": "approved_override",
+            "english_concepts": [],
+            "english_airport_name": "Ningbo/Lieshe",
+            "manual_english_counterpart": true,
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
+            "rendered_text": "B9灯牌在跑道一侧，13号落地后通常指挥在B10前等，后续通常B9左转跟引导车，注意B9紧邻B10(B10灯牌在机坪一侧)，容易错过。",
+            "season_scope": [],
+            "flight_scope": [],
+            "route_scope": [],
+            "topic": "ground_waiting",
+            "role": "transit",
+            "source_fact_ids": [
+              "宁波栎社_core_record_13"
+            ],
+            "condition_scope": {},
+            "condition_contexts": [],
+            "condition_group": "",
+            "briefing_priority": 330,
+            "text_before_polish": "B9灯牌在跑道一侧，13号落地后通常指挥在B10前等，后续通常B9左转跟引导车，注意B9紧邻B10(B10灯牌在机坪一侧)，容易错过。",
+            "text_after_polish": "B9灯牌在跑道一侧，13号落地后通常指挥在B10前等，后续通常B9左转跟引导车，注意B9紧邻B10(B10灯牌在机坪一侧)，容易错过。",
             "polish_applied": false,
             "polish_fallback_reason": "",
             "guard_failed": false,
@@ -1256,6 +1200,8 @@
             "source_record_ids": [
               "宁波栎社:core:2d7e15355e668958"
             ],
+            "source_sequence": 11000,
+            "parent_record_id": "宁波栎社:core:2d7e15355e668958",
             "source_clauses": [
               "L1与 B8道口地面标识模糊，易与B8西侧的 L1滑行 道弄混淆，请机组注意。"
             ],
@@ -1309,75 +1255,6 @@
             "category": "core"
           },
           {
-            "fact_id": "宁波栎社_core_record_16",
-            "paragraph_id": "宁波栎社_core_record_16",
-            "airport": "宁波栎社",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-            "source": "PDF",
-            "source_authority": "latest_airport_manual",
-            "source_version": "20260924",
-            "source_page": "N/A",
-            "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-            "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／地面",
-            "source_note": "",
-            "confirmed_date": "",
-            "source_text_zh": "地面：无需复诵PDC。",
-            "source_original_text": "地面：无需复诵PDC。",
-            "source_original_texts": [
-              "地面：无需复诵PDC。"
-            ],
-            "source_record_ids": [
-              "宁波栎社:core:3b70f78211a4b031"
-            ],
-            "source_clauses": [
-              "无需复诵PDC。"
-            ],
-            "operational_phase": "ground",
-            "role_scope": [
-              "departure"
-            ],
-            "operational_condition": [],
-            "applicability": [],
-            "risk": [],
-            "mitigation": [
-              "无需复诵PDC"
-            ],
-            "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "无需复诵PDC。",
-            "text_en": "No need to repeat PDC.",
-            "english_source": "source_backed",
-            "english_concepts": [],
-            "english_airport_name": "Ningbo/Lieshe",
-            "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
-            "rendered_text": "无需复诵PDC。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "clearance",
-            "role": "transit",
-            "source_fact_ids": [
-              "宁波栎社_core_record_16"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 335,
-            "text_before_polish": "无需复诵PDC。",
-            "text_after_polish": "无需复诵PDC。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "guard_failed": false,
-            "guard_reason": "",
-            "fallback_used": "",
-            "paragraph_dropped": false,
-            "airport_specific": true,
-            "category": "core"
-          },
-          {
             "fact_id": "宁波栎社_core_record_7",
             "paragraph_id": "宁波栎社_core_record_7",
             "airport": "宁波栎社",
@@ -1398,6 +1275,8 @@
             "source_record_ids": [
               "宁波栎社:core:7fb41c1623fd5193"
             ],
+            "source_sequence": 1000,
+            "parent_record_id": "宁波栎社:core:7fb41c1623fd5193",
             "source_clauses": [
               "特殊复杂程序：31号和13号跑道的 PBN单发离场程 序，31号传统单发离场程序。"
             ],
@@ -1472,6 +1351,8 @@
             "source_record_ids": [
               "宁波栎社:core:f7b82f48a4cff8ef"
             ],
+            "source_sequence": -1,
+            "parent_record_id": "",
             "source_clauses": [
               "地形:地形复杂，13号盲降下降梯度陡，GP3.2。"
             ],
@@ -1492,14 +1373,14 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
-            "text_en": "Terrain: The terrain is complex, with steep descent gradients for the 13th blind landing, GP3.2.",
-            "english_source": "source_backed",
+            "text_en": "Terrain is complex, and the Runway 13 ILS approach has a steep descent gradient of GP3.2.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Ningbo/Lieshe",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
             "season_scope": [],
             "flight_scope": [],
@@ -1547,6 +1428,8 @@
             "source_record_ids": [
               "三亚凤凰:typical:7e689c6db3c41187"
             ],
+            "source_sequence": 0,
+            "parent_record_id": "三亚凤凰:typical:7e689c6db3c41187",
             "source_clauses": [
               "曾发生1000ft（AAL）未建立着陆形态。"
             ],
@@ -1563,14 +1446,14 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "曾发生1000ft（AAL）未建立着陆形态。",
-            "text_en": "A failed landing attempt occurred at 1000 feet (AAL).",
-            "english_source": "source_backed",
+            "text_en": "An event has occurred in which landing configuration was not established by 1000ft AAL.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Sanya/Fenghuang",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "曾发生1000ft（AAL）未建立着陆形态。",
             "season_scope": [],
             "flight_scope": [],
@@ -1616,6 +1499,8 @@
             "source_record_ids": [
               "三亚凤凰:typical:65a1734b6045a183"
             ],
+            "source_sequence": 1000,
+            "parent_record_id": "三亚凤凰:typical:65a1734b6045a183",
             "source_clauses": [
               "曾发生滑错路线事件。"
             ],
@@ -1630,14 +1515,14 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "曾发生滑错路线事件。",
-            "text_en": "History of route deviation incidents",
-            "english_source": "source_backed",
+            "text_en": "A wrong-taxi-route event has occurred.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Sanya/Fenghuang",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "曾发生滑错路线事件。",
             "season_scope": [],
             "flight_scope": [],
@@ -1683,6 +1568,8 @@
             "source_record_ids": [
               "三亚凤凰:typical:30cbced04c8308eb"
             ],
+            "source_sequence": 2000,
+            "parent_record_id": "三亚凤凰:typical:30cbced04c8308eb",
             "source_clauses": [
               "曾发生偏离指令高度事件。"
             ],
@@ -1697,14 +1584,14 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "曾发生偏离指令高度事件。",
-            "text_en": "A deviation from the commanded altitude has occurred.",
-            "english_source": "source_backed",
+            "text_en": "An altitude deviation from the ATC-cleared altitude has occurred.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Sanya/Fenghuang",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "曾发生偏离指令高度事件。",
             "season_scope": [],
             "flight_scope": [],
@@ -1750,6 +1637,8 @@
             "source_record_ids": [
               "三亚凤凰:core:b57af1b49c4d38ea"
             ],
+            "source_sequence": 11000,
+            "parent_record_id": "三亚凤凰:core:b57af1b49c4d38ea",
             "source_clauses": [
               "VOR08号跑道进近，进场航路可能偏高，注意高距比。"
             ],
@@ -1779,14 +1668,14 @@
               }
             ],
             "text_zh": "VOR08号跑道进近，进场航路可能偏高，注意高距比。",
-            "text_en": "Approach to Runway 08 (VOR08).",
-            "english_source": "source_backed",
+            "text_en": "On the VOR08 approach to Runway 08, the arrival profile may be high; monitor the altitude-to-distance relationship.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Sanya/Fenghuang",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "VOR08号跑道进近，进场航路可能偏高，注意高距比。",
             "season_scope": [],
             "flight_scope": [],
@@ -1812,148 +1701,6 @@
             "category": "core"
           },
           {
-            "fact_id": "三亚凤凰_core_record_9",
-            "paragraph_id": "三亚凤凰_core_record_9",
-            "airport": "三亚凤凰",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-            "source": "PDF",
-            "source_authority": "latest_airport_manual",
-            "source_version": "20260924",
-            "source_page": "N/A",
-            "source_heading": "三亚/凤凰机场运行特点",
-            "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点／航路",
-            "source_note": "",
-            "confirmed_date": "",
-            "source_text_zh": "航路：虹桥-三亚航路与浦东到三亚的航路不一致，不经过 香港管制区，防止航路出错。",
-            "source_original_text": "航路：虹桥-三亚航路与浦东到三亚的航路不一致，不经过 香港管制区，防止航路出错。",
-            "source_original_texts": [
-              "航路：虹桥-三亚航路与浦东到三亚的航路不一致，不经过 香港管制区，防止航路出错。"
-            ],
-            "source_record_ids": [
-              "三亚凤凰:core:d42943a893966948"
-            ],
-            "source_clauses": [
-              "虹桥-三亚航路与浦东到三亚的航路不一致，不经过 香港管制区，防止航路出错。"
-            ],
-            "operational_phase": "navigation",
-            "role_scope": [],
-            "operational_condition": [
-              "虹桥-三亚航路与浦东到三亚的航路不一致",
-              "不经过香港管制区"
-            ],
-            "applicability": [],
-            "risk": [],
-            "mitigation": [
-              "防止航路出错"
-            ],
-            "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "虹桥-三亚航路与浦东到三亚的航路不一致，不经过香港管制区，防止航路出错。",
-            "text_en": "The Hongqiao-Sanya route differsfrom the Pudong-Sanya route as it bypasses Hong Kong's controlled area to prevent route errors.",
-            "english_source": "source_backed",
-            "english_concepts": [],
-            "english_airport_name": "Sanya/Fenghuang",
-            "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
-            "rendered_text": "虹桥-三亚航路与浦东到三亚的航路不一致，不经过香港管制区，防止航路出错。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "navigation",
-            "role": "transit",
-            "source_fact_ids": [
-              "三亚凤凰_core_record_9"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 375,
-            "text_before_polish": "虹桥-三亚航路与浦东到三亚的航路不一致，不经过香港管制区，防止航路出错。",
-            "text_after_polish": "虹桥-三亚航路与浦东到三亚的航路不一致，不经过香港管制区，防止航路出错。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "guard_failed": false,
-            "guard_reason": "",
-            "fallback_used": "",
-            "paragraph_dropped": false,
-            "airport_specific": true,
-            "category": "core"
-          },
-          {
-            "fact_id": "三亚凤凰_core_record_12",
-            "paragraph_id": "三亚凤凰_core_record_12",
-            "airport": "三亚凤凰",
-            "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-            "source": "PDF",
-            "source_authority": "latest_airport_manual",
-            "source_version": "20260924",
-            "source_page": "N/A",
-            "source_heading": "三亚/凤凰机场运行特点",
-            "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点／航路",
-            "source_note": "",
-            "confirmed_date": "",
-            "source_text_zh": "航路：ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
-            "source_original_text": "航路：ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
-            "source_original_texts": [
-              "航路：ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。"
-            ],
-            "source_record_ids": [
-              "三亚凤凰:core:de0532842dd7727d"
-            ],
-            "source_clauses": [
-              "ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。"
-            ],
-            "operational_phase": "navigation",
-            "role_scope": [],
-            "operational_condition": [
-              "ZSPD-ZJSY：航路经M503过香港区域",
-              "DOTMI前换频HK RADAR121.3",
-              "指挥DOTMI之后直飞ALLEY",
-              "后续换频HK121.7",
-              "指挥直飞SIKOU",
-              "SIKOU前换频三亚133.35"
-            ],
-            "applicability": [],
-            "risk": [],
-            "mitigation": [],
-            "restriction": [],
-            "excluded_source_clauses": [],
-            "text_zh": "ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
-            "text_en": "ZSPD-ZJSY: The flight route passes through the Hong Kong area via M503, switching to HK RADAR 121.3 before DOTMI. After DOTMI, itflies directly to ALLEY, then switches to HK121.7 for direct flight to SIKOU, and finally switches to Sanya 133.35 before SIKOU.",
-            "english_source": "source_backed",
-            "english_concepts": [],
-            "english_airport_name": "Sanya/Fenghuang",
-            "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
-            "rendered_text": "ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
-            "season_scope": [],
-            "flight_scope": [],
-            "route_scope": [],
-            "topic": "navigation",
-            "role": "transit",
-            "source_fact_ids": [
-              "三亚凤凰_core_record_12"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "condition_group": "",
-            "briefing_priority": 365,
-            "text_before_polish": "ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
-            "text_after_polish": "ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
-            "polish_applied": false,
-            "polish_fallback_reason": "语言编辑丢失航路点：三亚凤凰_core_record_12缺少RADAR121",
-            "guard_failed": true,
-            "guard_reason": "语言编辑丢失航路点：三亚凤凰_core_record_12缺少RADAR121",
-            "fallback_used": "text_before_polish",
-            "paragraph_dropped": false,
-            "airport_specific": true,
-            "category": "core"
-          },
-          {
             "fact_id": "三亚凤凰_core_record_13",
             "paragraph_id": "三亚凤凰_core_record_13",
             "airport": "三亚凤凰",
@@ -1974,6 +1721,8 @@
             "source_record_ids": [
               "三亚凤凰:core:0208388aa37e3987"
             ],
+            "source_sequence": 9000,
+            "parent_record_id": "三亚凤凰:core:0208388aa37e3987",
             "source_clauses": [
               "26号跑道进近飞机较多时，指挥下高度偏晚，机组注 意及时减速控制飞机能量。"
             ],
@@ -1996,14 +1745,14 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "26号跑道进近飞机较多时，指挥下高度偏晚，机组注意及时减速控制飞机能量。",
-            "text_en": "When there are many aircraft approaching Runway 1.26, the command may delay the altitude control, and the crew should promptly reduce speed to control the aircraft's energy.",
-            "english_source": "source_backed",
+            "text_en": "When traffic inbound to Runway 26 is heavy, ATC may issue descent clearance late; reduce speed promptly and manage aircraft energy.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Sanya/Fenghuang",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "26号跑道进近飞机较多时，指挥下高度偏晚，机组注意及时减速控制飞机能量。",
             "season_scope": [],
             "flight_scope": [],
@@ -2049,6 +1798,8 @@
             "source_record_ids": [
               "三亚凤凰:core:b57af1b49c4d38ea"
             ],
+            "source_sequence": 11001,
+            "parent_record_id": "三亚凤凰:core:b57af1b49c4d38ea",
             "source_clauses": [
               "程序转弯时管制会指挥下900建立下滑，而程序是700m建立下 滑，可以和管制申请按程序下高度建立下滑。"
             ],
@@ -2073,14 +1824,14 @@
               }
             ],
             "text_zh": "程序转弯时管制会指挥下900建立下滑，而程序是700m建立下滑，可以和管制申请按程序下高度建立下滑。",
-            "text_en": "The approach path may be ata higher altitude, so monitor the altitude-to-range ratio. During the procedure turn, airtraffic control will direct a 900- meter downward slope, whereas the procedure specifies a 700- meter downward slope. You may request to execute the procedure down slope with the control's approval.",
-            "english_source": "source_backed",
+            "text_en": "During the procedure turn, ATC may clear descent to establish on the glide path at 900m, whereas the published procedure establishes it at 700m. Coordinate with ATC to descend in accordance with the published procedure and establish on the glide path.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Sanya/Fenghuang",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "程序转弯时管制会指挥下900建立下滑，而程序是700m建立下滑，可以和管制申请按程序下高度建立下滑。",
             "season_scope": [],
             "flight_scope": [],
@@ -2126,6 +1877,8 @@
             "source_record_ids": [
               "三亚凤凰:core:bccf258450a9d4ee"
             ],
+            "source_sequence": 10000,
+            "parent_record_id": "三亚凤凰:core:bccf258450a9d4ee",
             "source_clauses": [
               "三亚分别有盲降Y和Z两种程序，需提前收听通波确认，通常为Z程序，但是管制通常不会指明使用哪一种，请机组 注意，避免飞错。"
             ],
@@ -2148,14 +1901,14 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "三亚分别有盲降Y和Z两种程序，需提前收听通波确认，通常为Z程序，但是管制通常不会指明使用哪一种，请机组注意，避免飞错。",
-            "text_en": "Sanya has two emergency landing procedures (Y and Z), both requiring prior radio confirmation. While Z procedure is typically used, air traffic control rarely specifies which one to follow. Crews should remain vigilant to avoid misapplication.",
-            "english_source": "source_backed",
+            "text_en": "Sanya has ILS Y and ILS Z procedures. Confirm the active procedure from the broadcast in advance. ILS Z is normally used, but ATC may not specify Y or Z; verify the cleared procedure and avoid selecting the wrong one.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Sanya/Fenghuang",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "三亚分别有盲降Y和Z两种程序，需提前收听通波确认，通常为Z程序，但是管制通常不会指明使用哪一种，请机组注意，避免飞错。",
             "season_scope": [],
             "flight_scope": [],
@@ -2201,6 +1954,8 @@
             "source_record_ids": [
               "三亚凤凰:core:5e0cadf3e0cb8190"
             ],
+            "source_sequence": 1000,
+            "parent_record_id": "三亚凤凰:core:5e0cadf3e0cb8190",
             "source_clauses": [
               "五边乱流。"
             ],
@@ -2217,14 +1972,14 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "五边乱流。",
-            "text_en": "Other Threats: Five-sided Chaos",
-            "english_source": "source_backed",
+            "text_en": "Turbulence may be encountered on final approach.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Sanya/Fenghuang",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "五边乱流。",
             "season_scope": [],
             "flight_scope": [],
@@ -2270,6 +2025,8 @@
             "source_record_ids": [
               "三亚凤凰:core:cdb42ab968db8f0c"
             ],
+            "source_sequence": 0,
+            "parent_record_id": "三亚凤凰:core:cdb42ab968db8f0c",
             "source_clauses": [
               "滑行路线较复杂，A3、A4滑行道在A滑与跑道中间无中线 灯，机组脱离跑道时注意观察道面，尤其夜间下雨，防止偏 出道面。"
             ],
@@ -2294,14 +2051,14 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "滑行路线较复杂，A3、A4滑行道在A滑与跑道中间无中线灯，机组脱离跑道时注意观察道面，尤其夜间下雨，防止偏出道面。",
-            "text_en": "Pavement characteristics: The taxiing route is complex. There is no center line light between the A3 and A4 taxiways and the runway. The crew should observe the runway surface carefully when leaving the runway, especially at night when it is raining, to prevent deviation from the runway.",
-            "english_source": "source_backed",
+            "text_en": "Taxi routes are complex. There are no taxiway centreline lights between Taxiways A3/A4, Taxiway A and the runway. When vacating the runway, monitor the pavement carefully, especially in rain at night, to avoid leaving the paved surface.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Sanya/Fenghuang",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "滑行路线较复杂，A3、A4滑行道在A滑与跑道中间无中线灯，机组脱离跑道时注意观察道面，尤其夜间下雨，防止偏出道面。",
             "season_scope": [],
             "flight_scope": [],
@@ -2351,6 +2108,8 @@
             "source_record_ids": [
               "三亚凤凰:core:e3c9c04c25c1b19f"
             ],
+            "source_sequence": 2000,
+            "parent_record_id": "三亚凤凰:core:e3c9c04c25c1b19f",
             "source_clauses": [
               "08号常用PORAP-1N，通常放行中会要求7200M过 PORAP，性能一般可以满足。"
             ],
@@ -2371,14 +2130,14 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "08号常用PORAP-1N，通常放行中会要求7200M过PORAP，性能一般可以满足。",
-            "text_en": "The commonly used PORAP-1N model (model 08) typically requires a 7200M PORAP during release procedures, and its performance generally meets the requirements.",
-            "english_source": "source_backed",
+            "text_en": "The PORAP-1N departure is commonly used from Runway 08. Clearance normally requires crossing PORAP at 7200m; performance can generally meet this requirement.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Sanya/Fenghuang",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "08号常用PORAP-1N，通常放行中会要求7200M过PORAP，性能一般可以满足。",
             "season_scope": [],
             "flight_scope": [],
@@ -2424,6 +2183,8 @@
             "source_record_ids": [
               "三亚凤凰:core:469256e72eb96843"
             ],
+            "source_sequence": 3000,
+            "parent_record_id": "三亚凤凰:core:469256e72eb96843",
             "source_clauses": [
               "当部队活动时，可能会传统离场，且注意PORAP的速度 限制。"
             ],
@@ -2446,14 +2207,14 @@
             ],
             "excluded_source_clauses": [],
             "text_zh": "当部队活动时，可能会传统离场，且注意PORAP的速度限制。",
-            "text_en": "When troops are active, they may depart traditionally, and note the speed limit of PORAP.",
-            "english_source": "source_backed",
+            "text_en": "When military activity is present, a conventional departure may be assigned; observe the speed restriction at PORAP.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Sanya/Fenghuang",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "当部队活动时，可能会传统离场，且注意PORAP的速度限制。",
             "season_scope": [],
             "flight_scope": [],
@@ -2499,6 +2260,8 @@
             "source_record_ids": [
               "三亚凤凰:core:ad33e3d2ec2acaed"
             ],
+            "source_sequence": 4000,
+            "parent_record_id": "三亚凤凰:core:ad33e3d2ec2acaed",
             "source_clauses": [
               "离港交给三亚区调会指挥上RVSM高度，并且指令NUMKU 之前到达。"
             ],
@@ -2516,14 +2279,14 @@
             "restriction": [],
             "excluded_source_clauses": [],
             "text_zh": "离港交给三亚区调会指挥上RVSM高度，并且指令NUMKU之前到达。",
-            "text_en": "The aircraft ishanded over to the Sanya District Air Traffic Control Center for command, which sets the RVSM (Real-Time Vertical Management System) altitudeand instructs theaircraft to reach the designated position before NUMKU.",
-            "english_source": "source_backed",
+            "text_en": "After departure, Sanya Area Control ATC may clear the aircraft to an RVSM level and require that level to be reached before NUMKU.",
+            "english_source": "approved_override",
             "english_concepts": [],
             "english_airport_name": "Sanya/Fenghuang",
             "manual_english_counterpart": true,
-            "english_source_authority": "latest_airport_manual",
-            "english_source_note": "",
-            "english_confirmed_date": "",
+            "english_source_authority": "user_confirmed",
+            "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+            "english_confirmed_date": "2026-10-05",
             "rendered_text": "离港交给三亚区调会指挥上RVSM高度，并且指令NUMKU之前到达。",
             "season_scope": [],
             "flight_scope": [],
@@ -2606,18 +2369,6 @@
           "reason": "同一来源记录中的其他完整运行子句"
         },
         {
-          "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_42",
-          "clause": "ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
-          "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_42",
-          "clause": "有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
-          "reason": "同一来源记录中的其他完整运行子句"
-        },
-        {
           "airport": "三亚凤凰",
           "fact_id": "三亚凤凰_core_record_15",
           "clause": "程序转弯时管制会指挥下900建立下滑，而程序是700m建立下 滑，可以和管制申请按程序下高度建立下滑。",
@@ -2659,6 +2410,34 @@
         },
         {
           "airport": "宁波栎社",
+          "fact_id": "",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+          "source": "PDF",
+          "source_authority": "latest_airport_manual",
+          "source_version": "20260924",
+          "source_page": "N/A",
+          "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点",
+          "clause": "进场：常用程序：RNAV。",
+          "reason": "detached_operational_fragment",
+          "discarded_reason": "detached_operational_fragment"
+        },
+        {
+          "airport": "宁波栎社",
+          "fact_id": "",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+          "source": "PDF",
+          "source_authority": "latest_airport_manual",
+          "source_version": "20260924",
+          "source_page": "N/A",
+          "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点",
+          "clause": "进场：速度160 节。",
+          "reason": "detached_operational_fragment",
+          "discarded_reason": "detached_operational_fragment"
+        },
+        {
+          "airport": "宁波栎社",
           "fact_id": "宁波栎社_core_record_26",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
@@ -2676,6 +2455,17 @@
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
           "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／航路",
           "clause": "航路：宁波至包头航路，提示机组注意控制好PIKAS 的转弯半 径,不要偏南，南侧有限制区。",
+          "reason": "与当前航班/航线不匹配",
+          "discarded_reason": "与当前航班/航线不匹配"
+        },
+        {
+          "airport": "宁波栎社",
+          "fact_id": "宁波栎社_core_record_28",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／航路",
+          "clause": "航路：宁波南阳段，周口后可能指挥直飞P340加入P278 的进 港，3600米过P340,与计划航路相比提前约20分钟，请机组早 做准备。",
           "reason": "与当前航班/航线不匹配",
           "discarded_reason": "与当前航班/航线不匹配"
         },
@@ -2725,14 +2515,36 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_13",
+          "fact_id": "宁波栎社_core_record_42",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／地面",
-          "clause": "B9灯牌在跑道一侧,13 号落地后通常指挥在B10 前 等，后续通常B9左转跟引导车，注意B9 紧邻B10(B10 灯牌在 机坪一侧)，容易错过。",
-          "reason": "运行价值排序后未选入本次航前核心主题",
-          "discarded_reason": "运行价值排序后未选入本次航前核心主题"
+          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
+          "clause": "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
+          "reason": "与当前航班/航线不匹配",
+          "discarded_reason": "与当前航班/航线不匹配"
+        },
+        {
+          "airport": "宁波栎社",
+          "fact_id": "宁波栎社_core_record_43",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
+          "clause": "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
+          "reason": "与当前航班/航线不匹配",
+          "discarded_reason": "与当前航班/航线不匹配"
+        },
+        {
+          "airport": "宁波栎社",
+          "fact_id": "宁波栎社_core_record_44",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
+          "clause": "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
+          "reason": "与当前航班/航线不匹配",
+          "discarded_reason": "与当前航班/航线不匹配"
         },
         {
           "airport": "宁波栎社",
@@ -2753,6 +2565,17 @@
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
           "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／地面",
           "clause": "宁波机场要求除必要的检查以外，其他人员严禁在机 腹下穿行。",
+          "reason": "运行价值排序后未选入本次航前核心主题",
+          "discarded_reason": "运行价值排序后未选入本次航前核心主题"
+        },
+        {
+          "airport": "宁波栎社",
+          "fact_id": "宁波栎社_core_record_16",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／地面",
+          "clause": "无需复诵PDC。",
           "reason": "运行价值排序后未选入本次航前核心主题",
           "discarded_reason": "运行价值排序后未选入本次航前核心主题"
         },
@@ -2857,28 +2680,6 @@
         },
         {
           "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_43",
-          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-          "source_page": "N/A",
-          "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
-          "clause": "ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。",
-          "reason": "运行价值排序后未选入本次航前核心主题",
-          "discarded_reason": "运行价值排序后未选入本次航前核心主题"
-        },
-        {
-          "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_44",
-          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-          "source_page": "N/A",
-          "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
-          "clause": "有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
-          "reason": "运行价值排序后未选入本次航前核心主题",
-          "discarded_reason": "运行价值排序后未选入本次航前核心主题"
-        },
-        {
-          "airport": "宁波栎社",
           "fact_id": "宁波栎社_core_record_45",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
@@ -2907,28 +2708,6 @@
           "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
           "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
           "clause": "宁波机场31号，气象条件允许时，管制会指挥短五 边目视进近，注意复诵正确。",
-          "reason": "运行价值排序后未选入本次航前核心主题",
-          "discarded_reason": "运行价值排序后未选入本次航前核心主题"
-        },
-        {
-          "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_32",
-          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-          "source_page": "N/A",
-          "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
-          "clause": "常用程序：RNAV。",
-          "reason": "运行价值排序后未选入本次航前核心主题",
-          "discarded_reason": "运行价值排序后未选入本次航前核心主题"
-        },
-        {
-          "airport": "宁波栎社",
-          "fact_id": "宁波栎社_core_record_28",
-          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-          "source_page": "N/A",
-          "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-          "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／航路",
-          "clause": "宁波南阳段，周口后可能指挥直飞P340加入P278 的进 港，3600米过P340,与计划航路相比提前约20分钟，请机组早 做准备。",
           "reason": "运行价值排序后未选入本次航前核心主题",
           "discarded_reason": "运行价值排序后未选入本次航前核心主题"
         },
@@ -2981,12 +2760,34 @@
         },
         {
           "airport": "三亚凤凰",
+          "fact_id": "三亚凤凰_core_record_9",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "三亚/凤凰机场运行特点",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点／航路",
+          "clause": "航路：虹桥-三亚航路与浦东到三亚的航路不一致，不经过 香港管制区，防止航路出错。",
+          "reason": "与当前航班/航线不匹配",
+          "discarded_reason": "与当前航班/航线不匹配"
+        },
+        {
+          "airport": "三亚凤凰",
           "fact_id": "三亚凤凰_core_record_10",
           "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
           "source_page": "N/A",
           "source_heading": "三亚/凤凰机场运行特点",
           "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点／航路",
           "clause": "航路：浦东-三亚，交广州区域BEGMO后可能指挥飞DST LJG LJG后 加入A470到DOTMI，DOTMI附近可能开始联系香港120.3 要求保持航向后直飞ALLEY。",
+          "reason": "与当前航班/航线不匹配",
+          "discarded_reason": "与当前航班/航线不匹配"
+        },
+        {
+          "airport": "三亚凤凰",
+          "fact_id": "三亚凤凰_core_record_12",
+          "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+          "source_page": "N/A",
+          "source_heading": "三亚/凤凰机场运行特点",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点／航路",
+          "clause": "航路：ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
           "reason": "与当前航班/航线不匹配",
           "discarded_reason": "与当前航班/航线不匹配"
         }
@@ -3003,21 +2804,6 @@
           "source_original_text": "进场：宁波管制区内军航活动空域复杂。未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。",
           "source_original_texts": [
             "进场：宁波管制区内军航活动空域复杂。未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。"
-          ],
-          "fallback_used": "text_before_polish",
-          "paragraph_dropped": false
-        },
-        {
-          "airport": "三亚凤凰",
-          "fact_id": "三亚凤凰_core_record_12",
-          "guard_failed": true,
-          "guard_reason": "语言编辑丢失航路点：三亚凤凰_core_record_12缺少RADAR121",
-          "source_fact_ids": [
-            "三亚凤凰_core_record_12"
-          ],
-          "source_original_text": "航路：ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
-          "source_original_texts": [
-            "航路：ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。"
           ],
           "fallback_used": "text_before_polish",
           "paragraph_dropped": false
@@ -3043,19 +2829,13 @@
             "宁波栎社_core_record_12"
           ],
           [
-            "宁波栎社_core_record_42"
-          ],
-          [
-            "宁波栎社_core_record_47"
-          ],
-          [
             "宁波栎社_core_record_11"
           ],
           [
-            "宁波栎社_core_record_17"
+            "宁波栎社_core_record_13"
           ],
           [
-            "宁波栎社_core_record_16"
+            "宁波栎社_core_record_17"
           ],
           [
             "宁波栎社_core_record_7"
@@ -3067,12 +2847,6 @@
         "三亚凤凰": [
           [
             "三亚凤凰_core_record_15"
-          ],
-          [
-            "三亚凤凰_core_record_9"
-          ],
-          [
-            "三亚凤凰_core_record_12"
           ],
           [
             "三亚凤凰_core_record_13"
@@ -3332,94 +3106,6 @@
           },
           {
             "paragraph_index": 6,
-            "paragraph_id": "宁波栎社_core_record_42",
-            "topic": "approach",
-            "role": "transit",
-            "text": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
-            "source_fact_ids": [
-              "宁波栎社_core_record_42"
-            ],
-            "source_record_ids": [
-              "宁波栎社:core:7ea88de98c1bb20f"
-            ],
-            "source_clauses": [
-              "从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。"
-            ],
-            "source_original_texts": [
-              "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。"
-            ],
-            "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
-            ],
-            "source_authority": "latest_airport_manual",
-            "source": "PDF",
-            "role_scope": [
-              "arrival"
-            ],
-            "source_note": "",
-            "confirmed_date": "",
-            "source_version": "20260924",
-            "source_sections": [
-              "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "briefing_priority": 355,
-            "text_before_polish": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
-            "text_after_polish": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "guard_failed": false,
-            "guard_reason": "",
-            "fallback_used": "",
-            "paragraph_dropped": false
-          },
-          {
-            "paragraph_index": 7,
-            "paragraph_id": "宁波栎社_core_record_47",
-            "topic": "approach",
-            "role": "transit",
-            "text": "速度160节。",
-            "source_fact_ids": [
-              "宁波栎社_core_record_47"
-            ],
-            "source_record_ids": [
-              "宁波栎社:core:11ae458bf7d14f20"
-            ],
-            "source_clauses": [
-              "速度160 节。"
-            ],
-            "source_original_texts": [
-              "进场：速度160 节。"
-            ],
-            "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
-            ],
-            "source_authority": "latest_airport_manual",
-            "source": "PDF",
-            "role_scope": [
-              "arrival"
-            ],
-            "source_note": "",
-            "confirmed_date": "",
-            "source_version": "20260924",
-            "source_sections": [
-              "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "briefing_priority": 355,
-            "text_before_polish": "速度160节。",
-            "text_after_polish": "速度160节。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "guard_failed": false,
-            "guard_reason": "",
-            "fallback_used": "",
-            "paragraph_dropped": false
-          },
-          {
-            "paragraph_index": 8,
             "paragraph_id": "宁波栎社_core_record_11",
             "topic": "landing",
             "role": "transit",
@@ -3461,7 +3147,51 @@
             "paragraph_dropped": false
           },
           {
-            "paragraph_index": 9,
+            "paragraph_index": 7,
+            "paragraph_id": "宁波栎社_core_record_13",
+            "topic": "ground_waiting",
+            "role": "transit",
+            "text": "B9灯牌在跑道一侧，13号落地后通常指挥在B10前等，后续通常B9左转跟引导车，注意B9紧邻B10(B10灯牌在机坪一侧)，容易错过。",
+            "source_fact_ids": [
+              "宁波栎社_core_record_13"
+            ],
+            "source_record_ids": [
+              "宁波栎社:core:22372cb1700ba0c3"
+            ],
+            "source_clauses": [
+              "B9灯牌在跑道一侧,13 号落地后通常指挥在B10 前 等，后续通常B9左转跟引导车，注意B9 紧邻B10(B10 灯牌在 机坪一侧)，容易错过。"
+            ],
+            "source_original_texts": [
+              "地面：B9灯牌在跑道一侧,13 号落地后通常指挥在B10 前 等，后续通常B9左转跟引导车，注意B9 紧邻B10(B10 灯牌在 机坪一侧)，容易错过。"
+            ],
+            "source_files": [
+              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
+            ],
+            "source_authority": "latest_airport_manual",
+            "source": "PDF",
+            "role_scope": [
+              "arrival"
+            ],
+            "source_note": "",
+            "confirmed_date": "",
+            "source_version": "20260924",
+            "source_sections": [
+              "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／地面"
+            ],
+            "condition_scope": {},
+            "condition_contexts": [],
+            "briefing_priority": 330,
+            "text_before_polish": "B9灯牌在跑道一侧，13号落地后通常指挥在B10前等，后续通常B9左转跟引导车，注意B9紧邻B10(B10灯牌在机坪一侧)，容易错过。",
+            "text_after_polish": "B9灯牌在跑道一侧，13号落地后通常指挥在B10前等，后续通常B9左转跟引导车，注意B9紧邻B10(B10灯牌在机坪一侧)，容易错过。",
+            "polish_applied": false,
+            "polish_fallback_reason": "",
+            "guard_failed": false,
+            "guard_reason": "",
+            "fallback_used": "",
+            "paragraph_dropped": false
+          },
+          {
+            "paragraph_index": 8,
             "paragraph_id": "宁波栎社_core_record_17",
             "topic": "ground_signage",
             "role": "transit",
@@ -3503,51 +3233,7 @@
             "paragraph_dropped": false
           },
           {
-            "paragraph_index": 10,
-            "paragraph_id": "宁波栎社_core_record_16",
-            "topic": "clearance",
-            "role": "transit",
-            "text": "无需复诵PDC。",
-            "source_fact_ids": [
-              "宁波栎社_core_record_16"
-            ],
-            "source_record_ids": [
-              "宁波栎社:core:3b70f78211a4b031"
-            ],
-            "source_clauses": [
-              "无需复诵PDC。"
-            ],
-            "source_original_texts": [
-              "地面：无需复诵PDC。"
-            ],
-            "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
-            ],
-            "source_authority": "latest_airport_manual",
-            "source": "PDF",
-            "role_scope": [
-              "departure"
-            ],
-            "source_note": "",
-            "confirmed_date": "",
-            "source_version": "20260924",
-            "source_sections": [
-              "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／地面"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "briefing_priority": 335,
-            "text_before_polish": "无需复诵PDC。",
-            "text_after_polish": "无需复诵PDC。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "guard_failed": false,
-            "guard_reason": "",
-            "fallback_used": "",
-            "paragraph_dropped": false
-          },
-          {
-            "paragraph_index": 11,
+            "paragraph_index": 9,
             "paragraph_id": "宁波栎社_core_record_7",
             "topic": "departure",
             "role": "transit",
@@ -3591,7 +3277,7 @@
             "paragraph_dropped": false
           },
           {
-            "paragraph_index": 12,
+            "paragraph_index": 10,
             "paragraph_id": "paragraph:宁波栎社_core_record_9",
             "topic": "terrain",
             "role": "transit",
@@ -3682,90 +3368,6 @@
           },
           {
             "paragraph_index": 2,
-            "paragraph_id": "三亚凤凰_core_record_9",
-            "topic": "navigation",
-            "role": "transit",
-            "text": "虹桥-三亚航路与浦东到三亚的航路不一致，不经过香港管制区，防止航路出错。",
-            "source_fact_ids": [
-              "三亚凤凰_core_record_9"
-            ],
-            "source_record_ids": [
-              "三亚凤凰:core:d42943a893966948"
-            ],
-            "source_clauses": [
-              "虹桥-三亚航路与浦东到三亚的航路不一致，不经过 香港管制区，防止航路出错。"
-            ],
-            "source_original_texts": [
-              "航路：虹桥-三亚航路与浦东到三亚的航路不一致，不经过 香港管制区，防止航路出错。"
-            ],
-            "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
-            ],
-            "source_authority": "latest_airport_manual",
-            "source": "PDF",
-            "role_scope": [],
-            "source_note": "",
-            "confirmed_date": "",
-            "source_version": "20260924",
-            "source_sections": [
-              "三亚/凤凰机场运行特点／核心威胁与运行特点／航路"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "briefing_priority": 375,
-            "text_before_polish": "虹桥-三亚航路与浦东到三亚的航路不一致，不经过香港管制区，防止航路出错。",
-            "text_after_polish": "虹桥-三亚航路与浦东到三亚的航路不一致，不经过香港管制区，防止航路出错。",
-            "polish_applied": false,
-            "polish_fallback_reason": "",
-            "guard_failed": false,
-            "guard_reason": "",
-            "fallback_used": "",
-            "paragraph_dropped": false
-          },
-          {
-            "paragraph_index": 3,
-            "paragraph_id": "三亚凤凰_core_record_12",
-            "topic": "navigation",
-            "role": "transit",
-            "text": "ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
-            "source_fact_ids": [
-              "三亚凤凰_core_record_12"
-            ],
-            "source_record_ids": [
-              "三亚凤凰:core:de0532842dd7727d"
-            ],
-            "source_clauses": [
-              "ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。"
-            ],
-            "source_original_texts": [
-              "航路：ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。"
-            ],
-            "source_files": [
-              "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
-            ],
-            "source_authority": "latest_airport_manual",
-            "source": "PDF",
-            "role_scope": [],
-            "source_note": "",
-            "confirmed_date": "",
-            "source_version": "20260924",
-            "source_sections": [
-              "三亚/凤凰机场运行特点／核心威胁与运行特点／航路"
-            ],
-            "condition_scope": {},
-            "condition_contexts": [],
-            "briefing_priority": 365,
-            "text_before_polish": "ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
-            "text_after_polish": "ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
-            "polish_applied": false,
-            "polish_fallback_reason": "语言编辑丢失航路点：三亚凤凰_core_record_12缺少RADAR121",
-            "guard_failed": true,
-            "guard_reason": "语言编辑丢失航路点：三亚凤凰_core_record_12缺少RADAR121",
-            "fallback_used": "text_before_polish",
-            "paragraph_dropped": false
-          },
-          {
-            "paragraph_index": 4,
             "paragraph_id": "三亚凤凰_core_record_13",
             "topic": "arrival_energy",
             "role": "transit",
@@ -3809,7 +3411,7 @@
             "paragraph_dropped": false
           },
           {
-            "paragraph_index": 5,
+            "paragraph_index": 3,
             "paragraph_id": "三亚凤凰_core_record_16",
             "topic": "arrival_energy",
             "role": "transit",
@@ -3853,7 +3455,7 @@
             "paragraph_dropped": false
           },
           {
-            "paragraph_index": 6,
+            "paragraph_index": 4,
             "paragraph_id": "三亚凤凰_core_record_14",
             "topic": "approach_intercept",
             "role": "transit",
@@ -3897,7 +3499,7 @@
             "paragraph_dropped": false
           },
           {
-            "paragraph_index": 7,
+            "paragraph_index": 5,
             "paragraph_id": "三亚凤凰_core_record_5",
             "topic": "approach_intercept",
             "role": "transit",
@@ -3941,7 +3543,7 @@
             "paragraph_dropped": false
           },
           {
-            "paragraph_index": 8,
+            "paragraph_index": 6,
             "paragraph_id": "三亚凤凰_core_record_4",
             "topic": "runway_exit",
             "role": "transit",
@@ -3989,7 +3591,7 @@
             "paragraph_dropped": false
           },
           {
-            "paragraph_index": 9,
+            "paragraph_index": 7,
             "paragraph_id": "三亚凤凰_core_record_6",
             "topic": "clearance",
             "role": "transit",
@@ -4033,7 +3635,7 @@
             "paragraph_dropped": false
           },
           {
-            "paragraph_index": 10,
+            "paragraph_index": 8,
             "paragraph_id": "三亚凤凰_core_record_7",
             "topic": "departure",
             "role": "transit",
@@ -4077,7 +3679,7 @@
             "paragraph_dropped": false
           },
           {
-            "paragraph_index": 11,
+            "paragraph_index": 9,
             "paragraph_id": "三亚凤凰_core_record_8",
             "topic": "departure",
             "role": "transit",
@@ -4122,7 +3724,7 @@
           }
         ]
       },
-      "content_sha256": "d67f3d1157f7cc8634a0824e1362220c36733dbd8b18026a22bad34e79ff2c05"
+      "content_sha256": "79898762a5e1fa632d3cd20e8ebed8eefbbc9cbeca66c7971167d963bb4f54fc"
     }
   ],
   "warnings": [
@@ -4131,9 +3733,8 @@
   ],
   "weather": {},
   "airport_experience_changes": [
-    "上海浦东: 2026-10-01 -> 2026-10-04",
-    "长春龙嘉: 2026-07-18 -> 2026-10-04",
-    "宁波栎社: 2026-09-29 -> 2026-10-04"
+    "宁波栎社: 2026-10-04 -> 2026-10-05",
+    "三亚凤凰: 2026-07-17 -> 2026-10-05"
   ],
   "airport_information_file": "/home/runner/work/crew-calendar/crew-calendar/knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
   "airport_information_version": 20260924,
@@ -4153,11 +3754,9 @@
         "宁波栎社_core_record_38",
         "宁波栎社_core_record_49",
         "宁波栎社_core_record_12",
-        "宁波栎社_core_record_42",
-        "宁波栎社_core_record_47",
         "宁波栎社_core_record_11",
+        "宁波栎社_core_record_13",
         "宁波栎社_core_record_17",
-        "宁波栎社_core_record_16",
         "宁波栎社_core_record_7",
         "paragraph:宁波栎社_core_record_9"
       ]
@@ -4170,8 +3769,6 @@
       ],
       "core": [
         "三亚凤凰_core_record_15",
-        "三亚凤凰_core_record_9",
-        "三亚凤凰_core_record_12",
         "三亚凤凰_core_record_13",
         "三亚凤凰_core_record_16",
         "三亚凤凰_core_record_14",
@@ -4206,6 +3803,8 @@
         "source_record_ids": [
           "宁波栎社:typical:8ccab19e30c784f4"
         ],
+        "source_sequence": 0,
+        "parent_record_id": "宁波栎社:typical:8ccab19e30c784f4",
         "source_clauses": [
           "低空因乱流影响，易导致低空坡度大。"
         ],
@@ -4222,14 +3821,14 @@
         "restriction": [],
         "excluded_source_clauses": [],
         "text_zh": "低空因乱流影响，易导致低空坡度大。",
-        "text_en": "Low-altitude turbulence can easily cause significant slope effects in the lower air layers.",
-        "english_source": "source_backed",
+        "text_en": "Low-level turbulence may result in large bank angles at low altitude.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Ningbo/Lieshe",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "低空因乱流影响，易导致低空坡度大。",
         "season_scope": [],
         "flight_scope": [],
@@ -4275,6 +3874,8 @@
         "source_record_ids": [
           "宁波栎社:typical:47cfb5048db388f2"
         ],
+        "source_sequence": 1000,
+        "parent_record_id": "宁波栎社:typical:47cfb5048db388f2",
         "source_clauses": [
           "因入口内移动和乱流影响，易导致接地前下降率过大。"
         ],
@@ -4291,14 +3892,14 @@
         "restriction": [],
         "excluded_source_clauses": [],
         "text_zh": "曾发生因入口内移动和乱流影响，易导致接地前下降率过大。",
-        "text_en": "Due to internal movement and turbulence at the entrance, excessive pre-grounding descent rate may occur.",
-        "english_source": "source_backed",
+        "text_en": "A displaced threshold and turbulence have previously contributed to an excessive descent rate before touchdown.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Ningbo/Lieshe",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "曾发生因入口内移动和乱流影响，易导致接地前下降率过大。",
         "season_scope": [],
         "flight_scope": [],
@@ -4344,6 +3945,8 @@
         "source_record_ids": [
           "宁波栎社:typical:15bc3cb796b79aaa"
         ],
+        "source_sequence": 2000,
+        "parent_record_id": "宁波栎社:typical:15bc3cb796b79aaa",
         "source_clauses": [
           "落地未关雷达。"
         ],
@@ -4360,14 +3963,14 @@
         "restriction": [],
         "excluded_source_clauses": [],
         "text_zh": "落地未关雷达。",
-        "text_en": "Radar isnot turned off when landing.",
-        "english_source": "source_backed",
+        "text_en": "An event has occurred in which the weather radar was not switched off after landing.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Ningbo/Lieshe",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "落地未关雷达。",
         "season_scope": [],
         "flight_scope": [],
@@ -4413,6 +4016,8 @@
         "source_record_ids": [
           "宁波栎社:typical:e6ae67f074acf3fb"
         ],
+        "source_sequence": 3000,
+        "parent_record_id": "宁波栎社:typical:e6ae67f074acf3fb",
         "source_clauses": [
           "偏离指令高度。"
         ],
@@ -4427,14 +4032,14 @@
         "restriction": [],
         "excluded_source_clauses": [],
         "text_zh": "偏离指令高度。",
-        "text_en": "Deviation from the instructed altitude.",
-        "english_source": "source_backed",
+        "text_en": "An altitude deviation from the ATC-cleared altitude has occurred.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Ningbo/Lieshe",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "偏离指令高度。",
         "season_scope": [],
         "flight_scope": [],
@@ -4480,6 +4085,8 @@
         "source_record_ids": [
           "宁波栎社:typical:f4273740157390bb"
         ],
+        "source_sequence": 4000,
+        "parent_record_id": "宁波栎社:typical:f4273740157390bb",
         "source_clauses": [
           "着陆载荷大。"
         ],
@@ -4496,14 +4103,14 @@
         "restriction": [],
         "excluded_source_clauses": [],
         "text_zh": "着陆载荷大。",
-        "text_en": "The landing load is large.",
-        "english_source": "source_backed",
+        "text_en": "A high landing load event has occurred.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Ningbo/Lieshe",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "着陆载荷大。",
         "season_scope": [],
         "flight_scope": [],
@@ -4549,6 +4156,8 @@
         "source_record_ids": [
           "宁波栎社:core:798b33e896b53c74"
         ],
+        "source_sequence": -1,
+        "parent_record_id": "",
         "source_clauses": [
           "本场西面及西南面有山13 号五边有低矮孤立山包天 气不好时从西面进场飞机注意扇区最低安全高度及航路安全高 度限制。",
           "栎社NDB 和宁波VOR 故障时，31号EOSID 不可用，注 意13号VOR/DME 进近五边航迹和跑道有4 度夹角。",
@@ -4605,14 +4214,14 @@
           }
         ],
         "text_zh": "本场西面及西南面有山13号五边有低矮孤立山包天气不好时从西面进场飞机注意扇区最低安全高度及航路安全高度限制。栎社NDB和宁波VOR故障时，31号EOSID不可用，注意13号VOR/DME进近五边航迹和跑道有4度夹角。13号VOR下降梯度5.7％，换算成FPA3.26。",
-        "text_en": "The 13th mountain is located west and southwest of this field, with a low, isolated hillon itsfive sides. During adverse weather conditions, aircraft entering from the west must adhere to the sector's minimum safe altitude and route safety restrictions. When the Leshan NDB and Ningbo VOR are out of service, the 31st EOSID becomes unavailable. Note that the 13th VOR/DME approach five sides form a 4-degree angle with the runway. The 13th VOR has a descent gradient of 5.7%, equivalent to a FPA of 3.26.",
-        "english_source": "source_backed",
+        "text_en": "Terrain lies west and southwest of the airport, including a low isolated hill near the Runway 13 final approach. In adverse weather, aircraft arriving from the west must observe the sector minimum safe altitude and airway minimum safe altitude restrictions. If the Lishe NDB and Ningbo VOR are unavailable, the Runway 31 EOSID is unavailable. On the Runway 13 VOR/DME approach, the final approach track is offset by 4 degrees from the runway centreline. The Runway 13 VOR approach has a 5.7% descent gradient, equivalent to FPA3.26.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Ningbo/Lieshe",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "本场西面及西南面有山13号五边有低矮孤立山包天气不好时从西面进场飞机注意扇区最低安全高度及航路安全高度限制。栎社NDB和宁波VOR故障时，31号EOSID不可用，注意13号VOR/DME进近五边航迹和跑道有4度夹角。13号VOR下降梯度5.7％，换算成FPA3.26。",
         "season_scope": [],
         "flight_scope": [],
@@ -4660,6 +4269,8 @@
         "source_record_ids": [
           "宁波栎社:core:098b4a7d6a854d63"
         ],
+        "source_sequence": 28000,
+        "parent_record_id": "宁波栎社:core:098b4a7d6a854d63",
         "source_clauses": [
           "宁波管制区内军航活动空域复杂。"
         ],
@@ -4681,14 +4292,14 @@
           }
         ],
         "text_zh": "宁波管制区内军航活动空域复杂。",
-        "text_en": "The airspace for military aviation activities within Ningbo's control zone is highly complex. Do not select ATC-based approach procedures without prior air trafficcontrol clearance.",
-        "english_source": "source_backed",
+        "text_en": "Military activity makes the airspace within the Ningbo ATC control area complex.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Ningbo/Lieshe",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "宁波管制区内军航活动空域复杂。",
         "season_scope": [],
         "flight_scope": [],
@@ -4734,6 +4345,8 @@
         "source_record_ids": [
           "宁波栎社:core:098b4a7d6a854d63"
         ],
+        "source_sequence": 28001,
+        "parent_record_id": "宁波栎社:core:098b4a7d6a854d63",
         "source_clauses": [
           "未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。"
         ],
@@ -4760,14 +4373,14 @@
           }
         ],
         "text_zh": "未得到管制许可前请勿选择byATC的进场方式；宁波机场与上海终端区的QNH水平边界重合，高度表拨正严格听从ATC指挥。",
-        "text_en": "The QNH horizontal boundary between Ningbo Airport and Shanghai Terminal Area overlaps, and altimeter corrections must strictlyfollow ATC instructions.",
-        "english_source": "source_backed",
+        "text_en": "Do not select a by-ATC arrival before receiving ATC clearance. The QNH boundary between Ningbo Airport and the Shanghai terminal area overlaps; set the altimeter strictly in accordance with ATC instructions.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Ningbo/Lieshe",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "未得到管制许可前请勿选择byATC的进场方式；宁波机场与上海终端区的QNH水平边界重合，高度表拨正严格听从ATC指挥。",
         "season_scope": [],
         "flight_scope": [],
@@ -4813,6 +4426,8 @@
         "source_record_ids": [
           "宁波栎社:core:8b0844110fa1fb1b"
         ],
+        "source_sequence": 36001,
+        "parent_record_id": "宁波栎社:core:8b0844110fa1fb1b",
         "source_clauses": [
           "指挥指令为直飞A 点，注意进近 准备时相应的定位点输入，且短五边目视进近时能量管理需要 注意，如果后续无法目视跑道需管制雷达引导，因为31号附近 地形原因，雷达引导会使剖面逐渐紧张，注意减速和能量管 理，避免飞机能量过大。"
         ],
@@ -4903,6 +4518,8 @@
         "source_record_ids": [
           "宁波栎社:core:fc1febf790828902"
         ],
+        "source_sequence": 6000,
+        "parent_record_id": "宁波栎社:core:fc1febf790828902",
         "source_clauses": [
           "13号盲降不工作时，使用 RNP13进近，且航图程序 只有LNAV。"
         ],
@@ -4925,14 +4542,14 @@
         "restriction": [],
         "excluded_source_clauses": [],
         "text_zh": "13号盲降不工作时，使用RNP13进近，且航图程序只有LNAV。",
-        "text_en": "When the 13th blind landing is not operational, use RNP13 approach with only LNAV in the chart program.",
-        "english_source": "source_backed",
+        "text_en": "When the Runway 13 ILS approach is unavailable, use the RNP13 approach; the published procedure supports LNAV only.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Ningbo/Lieshe",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "13号盲降不工作时，使用RNP13进近，且航图程序只有LNAV。",
         "season_scope": [],
         "flight_scope": [],
@@ -4948,160 +4565,6 @@
         "briefing_priority": 375,
         "text_before_polish": "13号盲降不工作时，使用RNP13进近，且航图程序只有LNAV。",
         "text_after_polish": "13号盲降不工作时，使用RNP13进近，且航图程序只有LNAV。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "guard_failed": false,
-        "guard_reason": "",
-        "fallback_used": "",
-        "paragraph_dropped": false,
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "宁波栎社_core_record_42",
-        "paragraph_id": "宁波栎社_core_record_42",
-        "airport": "宁波栎社",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-        "source": "PDF",
-        "source_authority": "latest_airport_manual",
-        "source_version": "20260924",
-        "source_page": "N/A",
-        "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-        "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
-        "source_note": "",
-        "confirmed_date": "",
-        "source_text_zh": "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
-        "source_original_text": "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
-        "source_original_texts": [
-          "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。"
-        ],
-        "source_record_ids": [
-          "宁波栎社:core:7ea88de98c1bb20f"
-        ],
-        "source_clauses": [
-          "从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。"
-        ],
-        "operational_phase": "arrival",
-        "role_scope": [
-          "arrival"
-        ],
-        "operational_condition": [
-          "从北方进场的航班",
-          "如长春-宁波",
-          "移交宁波进近之前"
-        ],
-        "applicability": [
-          "进场",
-          "进近"
-        ],
-        "risk": [
-          "上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路"
-        ],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [
-          {
-            "clause": "ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。",
-            "reason": "同一来源记录中的其他完整运行子句"
-          },
-          {
-            "clause": "有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
-            "reason": "同一来源记录中的其他完整运行子句"
-          }
-        ],
-        "text_zh": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
-        "text_en": "For northern inbound flights such as Changchun-Ningbo, Shanghai may direct the aircraft to join the V72 (ELAGO-ISPUR- OVNEV) route after ELAGO before transferring to Ningbo approach.",
-        "english_source": "source_backed",
-        "english_concepts": [],
-        "english_airport_name": "Ningbo/Lieshe",
-        "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
-        "rendered_text": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "approach",
-        "role": "transit",
-        "source_fact_ids": [
-          "宁波栎社_core_record_42"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 355,
-        "text_before_polish": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
-        "text_after_polish": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "guard_failed": false,
-        "guard_reason": "",
-        "fallback_used": "",
-        "paragraph_dropped": false,
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "宁波栎社_core_record_47",
-        "paragraph_id": "宁波栎社_core_record_47",
-        "airport": "宁波栎社",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-        "source": "PDF",
-        "source_authority": "latest_airport_manual",
-        "source_version": "20260924",
-        "source_page": "N/A",
-        "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-        "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
-        "source_note": "",
-        "confirmed_date": "",
-        "source_text_zh": "进场：速度160 节。",
-        "source_original_text": "进场：速度160 节。",
-        "source_original_texts": [
-          "进场：速度160 节。"
-        ],
-        "source_record_ids": [
-          "宁波栎社:core:11ae458bf7d14f20"
-        ],
-        "source_clauses": [
-          "速度160 节。"
-        ],
-        "operational_phase": "arrival",
-        "role_scope": [
-          "arrival"
-        ],
-        "operational_condition": [
-          "速度160 节"
-        ],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "速度160节。",
-        "text_en": "For tailwinds, crews should set Mode 2 with a speed of 160 knots.",
-        "english_source": "source_backed",
-        "english_concepts": [],
-        "english_airport_name": "Ningbo/Lieshe",
-        "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
-        "rendered_text": "速度160节。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "approach",
-        "role": "transit",
-        "source_fact_ids": [
-          "宁波栎社_core_record_47"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 355,
-        "text_before_polish": "速度160节。",
-        "text_after_polish": "速度160节。",
         "polish_applied": false,
         "polish_fallback_reason": "",
         "guard_failed": false,
@@ -5132,6 +4595,8 @@
         "source_record_ids": [
           "宁波栎社:core:6726cc4b77b233df"
         ],
+        "source_sequence": 5000,
+        "parent_record_id": "宁波栎社:core:6726cc4b77b233df",
         "source_clauses": [
           "13号跑道入口内移 150m，注意视线影响。"
         ],
@@ -5150,14 +4615,14 @@
         "restriction": [],
         "excluded_source_clauses": [],
         "text_zh": "13号跑道入口内移150m，注意视线影响。",
-        "text_en": "Move the entrance of Runway 13 inward by 150 meters, with due consideration for visual impact.",
-        "english_source": "source_backed",
+        "text_en": "The Runway 13 threshold is displaced by 150m; be alert to the resulting visual effect.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Ningbo/Lieshe",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "13号跑道入口内移150m，注意视线影响。",
         "season_scope": [],
         "flight_scope": [],
@@ -5173,6 +4638,86 @@
         "briefing_priority": 410,
         "text_before_polish": "13号跑道入口内移150m，注意视线影响。",
         "text_after_polish": "13号跑道入口内移150m，注意视线影响。",
+        "polish_applied": false,
+        "polish_fallback_reason": "",
+        "guard_failed": false,
+        "guard_reason": "",
+        "fallback_used": "",
+        "paragraph_dropped": false,
+        "airport_specific": true,
+        "category": "core"
+      },
+      {
+        "fact_id": "宁波栎社_core_record_13",
+        "paragraph_id": "宁波栎社_core_record_13",
+        "airport": "宁波栎社",
+        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+        "source": "PDF",
+        "source_authority": "latest_airport_manual",
+        "source_version": "20260924",
+        "source_page": "N/A",
+        "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+        "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／地面",
+        "source_note": "",
+        "confirmed_date": "",
+        "source_text_zh": "地面：B9灯牌在跑道一侧,13 号落地后通常指挥在B10 前 等，后续通常B9左转跟引导车，注意B9 紧邻B10(B10 灯牌在 机坪一侧)，容易错过。",
+        "source_original_text": "地面：B9灯牌在跑道一侧,13 号落地后通常指挥在B10 前 等，后续通常B9左转跟引导车，注意B9 紧邻B10(B10 灯牌在 机坪一侧)，容易错过。",
+        "source_original_texts": [
+          "地面：B9灯牌在跑道一侧,13 号落地后通常指挥在B10 前 等，后续通常B9左转跟引导车，注意B9 紧邻B10(B10 灯牌在 机坪一侧)，容易错过。"
+        ],
+        "source_record_ids": [
+          "宁波栎社:core:22372cb1700ba0c3"
+        ],
+        "source_sequence": 7000,
+        "parent_record_id": "宁波栎社:core:22372cb1700ba0c3",
+        "source_clauses": [
+          "B9灯牌在跑道一侧,13 号落地后通常指挥在B10 前 等，后续通常B9左转跟引导车，注意B9 紧邻B10(B10 灯牌在 机坪一侧)，容易错过。"
+        ],
+        "operational_phase": "ground",
+        "role_scope": [
+          "arrival"
+        ],
+        "operational_condition": [
+          "B9灯牌在跑道一侧",
+          "13 号落地后通常指挥在B10 前等",
+          "后续通常B9左转跟引导车"
+        ],
+        "applicability": [
+          "跑道",
+          "落地"
+        ],
+        "risk": [
+          "容易错过"
+        ],
+        "mitigation": [
+          "注意B9 紧邻B10(B10 灯牌在机坪一侧)"
+        ],
+        "restriction": [],
+        "excluded_source_clauses": [],
+        "text_zh": "B9灯牌在跑道一侧，13号落地后通常指挥在B10前等，后续通常B9左转跟引导车，注意B9紧邻B10(B10灯牌在机坪一侧)，容易错过。",
+        "text_en": "The B9 sign is on the runway side. After landing on Runway 13, ATC normally instructs aircraft to hold before B10 and then turn left at B9 to follow the follow-me vehicle. B9 is close to B10, whose sign is on the apron side, so B9 can easily be missed.",
+        "english_source": "approved_override",
+        "english_concepts": [],
+        "english_airport_name": "Ningbo/Lieshe",
+        "manual_english_counterpart": true,
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
+        "rendered_text": "B9灯牌在跑道一侧，13号落地后通常指挥在B10前等，后续通常B9左转跟引导车，注意B9紧邻B10(B10灯牌在机坪一侧)，容易错过。",
+        "season_scope": [],
+        "flight_scope": [],
+        "route_scope": [],
+        "topic": "ground_waiting",
+        "role": "transit",
+        "source_fact_ids": [
+          "宁波栎社_core_record_13"
+        ],
+        "condition_scope": {},
+        "condition_contexts": [],
+        "condition_group": "",
+        "briefing_priority": 330,
+        "text_before_polish": "B9灯牌在跑道一侧，13号落地后通常指挥在B10前等，后续通常B9左转跟引导车，注意B9紧邻B10(B10灯牌在机坪一侧)，容易错过。",
+        "text_after_polish": "B9灯牌在跑道一侧，13号落地后通常指挥在B10前等，后续通常B9左转跟引导车，注意B9紧邻B10(B10灯牌在机坪一侧)，容易错过。",
         "polish_applied": false,
         "polish_fallback_reason": "",
         "guard_failed": false,
@@ -5203,6 +4748,8 @@
         "source_record_ids": [
           "宁波栎社:core:2d7e15355e668958"
         ],
+        "source_sequence": 11000,
+        "parent_record_id": "宁波栎社:core:2d7e15355e668958",
         "source_clauses": [
           "L1与 B8道口地面标识模糊，易与B8西侧的 L1滑行 道弄混淆，请机组注意。"
         ],
@@ -5256,75 +4803,6 @@
         "category": "core"
       },
       {
-        "fact_id": "宁波栎社_core_record_16",
-        "paragraph_id": "宁波栎社_core_record_16",
-        "airport": "宁波栎社",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-        "source": "PDF",
-        "source_authority": "latest_airport_manual",
-        "source_version": "20260924",
-        "source_page": "N/A",
-        "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-        "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／地面",
-        "source_note": "",
-        "confirmed_date": "",
-        "source_text_zh": "地面：无需复诵PDC。",
-        "source_original_text": "地面：无需复诵PDC。",
-        "source_original_texts": [
-          "地面：无需复诵PDC。"
-        ],
-        "source_record_ids": [
-          "宁波栎社:core:3b70f78211a4b031"
-        ],
-        "source_clauses": [
-          "无需复诵PDC。"
-        ],
-        "operational_phase": "ground",
-        "role_scope": [
-          "departure"
-        ],
-        "operational_condition": [],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [
-          "无需复诵PDC"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "无需复诵PDC。",
-        "text_en": "No need to repeat PDC.",
-        "english_source": "source_backed",
-        "english_concepts": [],
-        "english_airport_name": "Ningbo/Lieshe",
-        "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
-        "rendered_text": "无需复诵PDC。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "clearance",
-        "role": "transit",
-        "source_fact_ids": [
-          "宁波栎社_core_record_16"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 335,
-        "text_before_polish": "无需复诵PDC。",
-        "text_after_polish": "无需复诵PDC。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "guard_failed": false,
-        "guard_reason": "",
-        "fallback_used": "",
-        "paragraph_dropped": false,
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
         "fact_id": "宁波栎社_core_record_7",
         "paragraph_id": "宁波栎社_core_record_7",
         "airport": "宁波栎社",
@@ -5345,6 +4823,8 @@
         "source_record_ids": [
           "宁波栎社:core:7fb41c1623fd5193"
         ],
+        "source_sequence": 1000,
+        "parent_record_id": "宁波栎社:core:7fb41c1623fd5193",
         "source_clauses": [
           "特殊复杂程序：31号和13号跑道的 PBN单发离场程 序，31号传统单发离场程序。"
         ],
@@ -5419,6 +4899,8 @@
         "source_record_ids": [
           "宁波栎社:core:f7b82f48a4cff8ef"
         ],
+        "source_sequence": -1,
+        "parent_record_id": "",
         "source_clauses": [
           "地形:地形复杂，13号盲降下降梯度陡，GP3.2。"
         ],
@@ -5439,14 +4921,14 @@
         "restriction": [],
         "excluded_source_clauses": [],
         "text_zh": "地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
-        "text_en": "Terrain: The terrain is complex, with steep descent gradients for the 13th blind landing, GP3.2.",
-        "english_source": "source_backed",
+        "text_en": "Terrain is complex, and the Runway 13 ILS approach has a steep descent gradient of GP3.2.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Ningbo/Lieshe",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "地形方面，地形复杂，13号盲降下降梯度陡，GP3.2。",
         "season_scope": [],
         "flight_scope": [],
@@ -5494,6 +4976,8 @@
         "source_record_ids": [
           "三亚凤凰:typical:7e689c6db3c41187"
         ],
+        "source_sequence": 0,
+        "parent_record_id": "三亚凤凰:typical:7e689c6db3c41187",
         "source_clauses": [
           "曾发生1000ft（AAL）未建立着陆形态。"
         ],
@@ -5510,14 +4994,14 @@
         "restriction": [],
         "excluded_source_clauses": [],
         "text_zh": "曾发生1000ft（AAL）未建立着陆形态。",
-        "text_en": "A failed landing attempt occurred at 1000 feet (AAL).",
-        "english_source": "source_backed",
+        "text_en": "An event has occurred in which landing configuration was not established by 1000ft AAL.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Sanya/Fenghuang",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "曾发生1000ft（AAL）未建立着陆形态。",
         "season_scope": [],
         "flight_scope": [],
@@ -5563,6 +5047,8 @@
         "source_record_ids": [
           "三亚凤凰:typical:65a1734b6045a183"
         ],
+        "source_sequence": 1000,
+        "parent_record_id": "三亚凤凰:typical:65a1734b6045a183",
         "source_clauses": [
           "曾发生滑错路线事件。"
         ],
@@ -5577,14 +5063,14 @@
         "restriction": [],
         "excluded_source_clauses": [],
         "text_zh": "曾发生滑错路线事件。",
-        "text_en": "History of route deviation incidents",
-        "english_source": "source_backed",
+        "text_en": "A wrong-taxi-route event has occurred.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Sanya/Fenghuang",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "曾发生滑错路线事件。",
         "season_scope": [],
         "flight_scope": [],
@@ -5630,6 +5116,8 @@
         "source_record_ids": [
           "三亚凤凰:typical:30cbced04c8308eb"
         ],
+        "source_sequence": 2000,
+        "parent_record_id": "三亚凤凰:typical:30cbced04c8308eb",
         "source_clauses": [
           "曾发生偏离指令高度事件。"
         ],
@@ -5644,14 +5132,14 @@
         "restriction": [],
         "excluded_source_clauses": [],
         "text_zh": "曾发生偏离指令高度事件。",
-        "text_en": "A deviation from the commanded altitude has occurred.",
-        "english_source": "source_backed",
+        "text_en": "An altitude deviation from the ATC-cleared altitude has occurred.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Sanya/Fenghuang",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "曾发生偏离指令高度事件。",
         "season_scope": [],
         "flight_scope": [],
@@ -5697,6 +5185,8 @@
         "source_record_ids": [
           "三亚凤凰:core:b57af1b49c4d38ea"
         ],
+        "source_sequence": 11000,
+        "parent_record_id": "三亚凤凰:core:b57af1b49c4d38ea",
         "source_clauses": [
           "VOR08号跑道进近，进场航路可能偏高，注意高距比。"
         ],
@@ -5726,14 +5216,14 @@
           }
         ],
         "text_zh": "VOR08号跑道进近，进场航路可能偏高，注意高距比。",
-        "text_en": "Approach to Runway 08 (VOR08).",
-        "english_source": "source_backed",
+        "text_en": "On the VOR08 approach to Runway 08, the arrival profile may be high; monitor the altitude-to-distance relationship.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Sanya/Fenghuang",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "VOR08号跑道进近，进场航路可能偏高，注意高距比。",
         "season_scope": [],
         "flight_scope": [],
@@ -5759,148 +5249,6 @@
         "category": "core"
       },
       {
-        "fact_id": "三亚凤凰_core_record_9",
-        "paragraph_id": "三亚凤凰_core_record_9",
-        "airport": "三亚凤凰",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-        "source": "PDF",
-        "source_authority": "latest_airport_manual",
-        "source_version": "20260924",
-        "source_page": "N/A",
-        "source_heading": "三亚/凤凰机场运行特点",
-        "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点／航路",
-        "source_note": "",
-        "confirmed_date": "",
-        "source_text_zh": "航路：虹桥-三亚航路与浦东到三亚的航路不一致，不经过 香港管制区，防止航路出错。",
-        "source_original_text": "航路：虹桥-三亚航路与浦东到三亚的航路不一致，不经过 香港管制区，防止航路出错。",
-        "source_original_texts": [
-          "航路：虹桥-三亚航路与浦东到三亚的航路不一致，不经过 香港管制区，防止航路出错。"
-        ],
-        "source_record_ids": [
-          "三亚凤凰:core:d42943a893966948"
-        ],
-        "source_clauses": [
-          "虹桥-三亚航路与浦东到三亚的航路不一致，不经过 香港管制区，防止航路出错。"
-        ],
-        "operational_phase": "navigation",
-        "role_scope": [],
-        "operational_condition": [
-          "虹桥-三亚航路与浦东到三亚的航路不一致",
-          "不经过香港管制区"
-        ],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [
-          "防止航路出错"
-        ],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "虹桥-三亚航路与浦东到三亚的航路不一致，不经过香港管制区，防止航路出错。",
-        "text_en": "The Hongqiao-Sanya route differsfrom the Pudong-Sanya route as it bypasses Hong Kong's controlled area to prevent route errors.",
-        "english_source": "source_backed",
-        "english_concepts": [],
-        "english_airport_name": "Sanya/Fenghuang",
-        "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
-        "rendered_text": "虹桥-三亚航路与浦东到三亚的航路不一致，不经过香港管制区，防止航路出错。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "navigation",
-        "role": "transit",
-        "source_fact_ids": [
-          "三亚凤凰_core_record_9"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 375,
-        "text_before_polish": "虹桥-三亚航路与浦东到三亚的航路不一致，不经过香港管制区，防止航路出错。",
-        "text_after_polish": "虹桥-三亚航路与浦东到三亚的航路不一致，不经过香港管制区，防止航路出错。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "guard_failed": false,
-        "guard_reason": "",
-        "fallback_used": "",
-        "paragraph_dropped": false,
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
-        "fact_id": "三亚凤凰_core_record_12",
-        "paragraph_id": "三亚凤凰_core_record_12",
-        "airport": "三亚凤凰",
-        "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-        "source": "PDF",
-        "source_authority": "latest_airport_manual",
-        "source_version": "20260924",
-        "source_page": "N/A",
-        "source_heading": "三亚/凤凰机场运行特点",
-        "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点／航路",
-        "source_note": "",
-        "confirmed_date": "",
-        "source_text_zh": "航路：ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
-        "source_original_text": "航路：ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
-        "source_original_texts": [
-          "航路：ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。"
-        ],
-        "source_record_ids": [
-          "三亚凤凰:core:de0532842dd7727d"
-        ],
-        "source_clauses": [
-          "ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。"
-        ],
-        "operational_phase": "navigation",
-        "role_scope": [],
-        "operational_condition": [
-          "ZSPD-ZJSY：航路经M503过香港区域",
-          "DOTMI前换频HK RADAR121.3",
-          "指挥DOTMI之后直飞ALLEY",
-          "后续换频HK121.7",
-          "指挥直飞SIKOU",
-          "SIKOU前换频三亚133.35"
-        ],
-        "applicability": [],
-        "risk": [],
-        "mitigation": [],
-        "restriction": [],
-        "excluded_source_clauses": [],
-        "text_zh": "ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
-        "text_en": "ZSPD-ZJSY: The flight route passes through the Hong Kong area via M503, switching to HK RADAR 121.3 before DOTMI. After DOTMI, itflies directly to ALLEY, then switches to HK121.7 for direct flight to SIKOU, and finally switches to Sanya 133.35 before SIKOU.",
-        "english_source": "source_backed",
-        "english_concepts": [],
-        "english_airport_name": "Sanya/Fenghuang",
-        "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
-        "rendered_text": "ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
-        "season_scope": [],
-        "flight_scope": [],
-        "route_scope": [],
-        "topic": "navigation",
-        "role": "transit",
-        "source_fact_ids": [
-          "三亚凤凰_core_record_12"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "condition_group": "",
-        "briefing_priority": 365,
-        "text_before_polish": "ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
-        "text_after_polish": "ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
-        "polish_applied": false,
-        "polish_fallback_reason": "语言编辑丢失航路点：三亚凤凰_core_record_12缺少RADAR121",
-        "guard_failed": true,
-        "guard_reason": "语言编辑丢失航路点：三亚凤凰_core_record_12缺少RADAR121",
-        "fallback_used": "text_before_polish",
-        "paragraph_dropped": false,
-        "airport_specific": true,
-        "category": "core"
-      },
-      {
         "fact_id": "三亚凤凰_core_record_13",
         "paragraph_id": "三亚凤凰_core_record_13",
         "airport": "三亚凤凰",
@@ -5921,6 +5269,8 @@
         "source_record_ids": [
           "三亚凤凰:core:0208388aa37e3987"
         ],
+        "source_sequence": 9000,
+        "parent_record_id": "三亚凤凰:core:0208388aa37e3987",
         "source_clauses": [
           "26号跑道进近飞机较多时，指挥下高度偏晚，机组注 意及时减速控制飞机能量。"
         ],
@@ -5943,14 +5293,14 @@
         "restriction": [],
         "excluded_source_clauses": [],
         "text_zh": "26号跑道进近飞机较多时，指挥下高度偏晚，机组注意及时减速控制飞机能量。",
-        "text_en": "When there are many aircraft approaching Runway 1.26, the command may delay the altitude control, and the crew should promptly reduce speed to control the aircraft's energy.",
-        "english_source": "source_backed",
+        "text_en": "When traffic inbound to Runway 26 is heavy, ATC may issue descent clearance late; reduce speed promptly and manage aircraft energy.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Sanya/Fenghuang",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "26号跑道进近飞机较多时，指挥下高度偏晚，机组注意及时减速控制飞机能量。",
         "season_scope": [],
         "flight_scope": [],
@@ -5996,6 +5346,8 @@
         "source_record_ids": [
           "三亚凤凰:core:b57af1b49c4d38ea"
         ],
+        "source_sequence": 11001,
+        "parent_record_id": "三亚凤凰:core:b57af1b49c4d38ea",
         "source_clauses": [
           "程序转弯时管制会指挥下900建立下滑，而程序是700m建立下 滑，可以和管制申请按程序下高度建立下滑。"
         ],
@@ -6020,14 +5372,14 @@
           }
         ],
         "text_zh": "程序转弯时管制会指挥下900建立下滑，而程序是700m建立下滑，可以和管制申请按程序下高度建立下滑。",
-        "text_en": "The approach path may be ata higher altitude, so monitor the altitude-to-range ratio. During the procedure turn, airtraffic control will direct a 900- meter downward slope, whereas the procedure specifies a 700- meter downward slope. You may request to execute the procedure down slope with the control's approval.",
-        "english_source": "source_backed",
+        "text_en": "During the procedure turn, ATC may clear descent to establish on the glide path at 900m, whereas the published procedure establishes it at 700m. Coordinate with ATC to descend in accordance with the published procedure and establish on the glide path.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Sanya/Fenghuang",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "程序转弯时管制会指挥下900建立下滑，而程序是700m建立下滑，可以和管制申请按程序下高度建立下滑。",
         "season_scope": [],
         "flight_scope": [],
@@ -6073,6 +5425,8 @@
         "source_record_ids": [
           "三亚凤凰:core:bccf258450a9d4ee"
         ],
+        "source_sequence": 10000,
+        "parent_record_id": "三亚凤凰:core:bccf258450a9d4ee",
         "source_clauses": [
           "三亚分别有盲降Y和Z两种程序，需提前收听通波确认，通常为Z程序，但是管制通常不会指明使用哪一种，请机组 注意，避免飞错。"
         ],
@@ -6095,14 +5449,14 @@
         "restriction": [],
         "excluded_source_clauses": [],
         "text_zh": "三亚分别有盲降Y和Z两种程序，需提前收听通波确认，通常为Z程序，但是管制通常不会指明使用哪一种，请机组注意，避免飞错。",
-        "text_en": "Sanya has two emergency landing procedures (Y and Z), both requiring prior radio confirmation. While Z procedure is typically used, air traffic control rarely specifies which one to follow. Crews should remain vigilant to avoid misapplication.",
-        "english_source": "source_backed",
+        "text_en": "Sanya has ILS Y and ILS Z procedures. Confirm the active procedure from the broadcast in advance. ILS Z is normally used, but ATC may not specify Y or Z; verify the cleared procedure and avoid selecting the wrong one.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Sanya/Fenghuang",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "三亚分别有盲降Y和Z两种程序，需提前收听通波确认，通常为Z程序，但是管制通常不会指明使用哪一种，请机组注意，避免飞错。",
         "season_scope": [],
         "flight_scope": [],
@@ -6148,6 +5502,8 @@
         "source_record_ids": [
           "三亚凤凰:core:5e0cadf3e0cb8190"
         ],
+        "source_sequence": 1000,
+        "parent_record_id": "三亚凤凰:core:5e0cadf3e0cb8190",
         "source_clauses": [
           "五边乱流。"
         ],
@@ -6164,14 +5520,14 @@
         "restriction": [],
         "excluded_source_clauses": [],
         "text_zh": "五边乱流。",
-        "text_en": "Other Threats: Five-sided Chaos",
-        "english_source": "source_backed",
+        "text_en": "Turbulence may be encountered on final approach.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Sanya/Fenghuang",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "五边乱流。",
         "season_scope": [],
         "flight_scope": [],
@@ -6217,6 +5573,8 @@
         "source_record_ids": [
           "三亚凤凰:core:cdb42ab968db8f0c"
         ],
+        "source_sequence": 0,
+        "parent_record_id": "三亚凤凰:core:cdb42ab968db8f0c",
         "source_clauses": [
           "滑行路线较复杂，A3、A4滑行道在A滑与跑道中间无中线 灯，机组脱离跑道时注意观察道面，尤其夜间下雨，防止偏 出道面。"
         ],
@@ -6241,14 +5599,14 @@
         "restriction": [],
         "excluded_source_clauses": [],
         "text_zh": "滑行路线较复杂，A3、A4滑行道在A滑与跑道中间无中线灯，机组脱离跑道时注意观察道面，尤其夜间下雨，防止偏出道面。",
-        "text_en": "Pavement characteristics: The taxiing route is complex. There is no center line light between the A3 and A4 taxiways and the runway. The crew should observe the runway surface carefully when leaving the runway, especially at night when it is raining, to prevent deviation from the runway.",
-        "english_source": "source_backed",
+        "text_en": "Taxi routes are complex. There are no taxiway centreline lights between Taxiways A3/A4, Taxiway A and the runway. When vacating the runway, monitor the pavement carefully, especially in rain at night, to avoid leaving the paved surface.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Sanya/Fenghuang",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "滑行路线较复杂，A3、A4滑行道在A滑与跑道中间无中线灯，机组脱离跑道时注意观察道面，尤其夜间下雨，防止偏出道面。",
         "season_scope": [],
         "flight_scope": [],
@@ -6298,6 +5656,8 @@
         "source_record_ids": [
           "三亚凤凰:core:e3c9c04c25c1b19f"
         ],
+        "source_sequence": 2000,
+        "parent_record_id": "三亚凤凰:core:e3c9c04c25c1b19f",
         "source_clauses": [
           "08号常用PORAP-1N，通常放行中会要求7200M过 PORAP，性能一般可以满足。"
         ],
@@ -6318,14 +5678,14 @@
         "restriction": [],
         "excluded_source_clauses": [],
         "text_zh": "08号常用PORAP-1N，通常放行中会要求7200M过PORAP，性能一般可以满足。",
-        "text_en": "The commonly used PORAP-1N model (model 08) typically requires a 7200M PORAP during release procedures, and its performance generally meets the requirements.",
-        "english_source": "source_backed",
+        "text_en": "The PORAP-1N departure is commonly used from Runway 08. Clearance normally requires crossing PORAP at 7200m; performance can generally meet this requirement.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Sanya/Fenghuang",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "08号常用PORAP-1N，通常放行中会要求7200M过PORAP，性能一般可以满足。",
         "season_scope": [],
         "flight_scope": [],
@@ -6371,6 +5731,8 @@
         "source_record_ids": [
           "三亚凤凰:core:469256e72eb96843"
         ],
+        "source_sequence": 3000,
+        "parent_record_id": "三亚凤凰:core:469256e72eb96843",
         "source_clauses": [
           "当部队活动时，可能会传统离场，且注意PORAP的速度 限制。"
         ],
@@ -6393,14 +5755,14 @@
         ],
         "excluded_source_clauses": [],
         "text_zh": "当部队活动时，可能会传统离场，且注意PORAP的速度限制。",
-        "text_en": "When troops are active, they may depart traditionally, and note the speed limit of PORAP.",
-        "english_source": "source_backed",
+        "text_en": "When military activity is present, a conventional departure may be assigned; observe the speed restriction at PORAP.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Sanya/Fenghuang",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "当部队活动时，可能会传统离场，且注意PORAP的速度限制。",
         "season_scope": [],
         "flight_scope": [],
@@ -6446,6 +5808,8 @@
         "source_record_ids": [
           "三亚凤凰:core:ad33e3d2ec2acaed"
         ],
+        "source_sequence": 4000,
+        "parent_record_id": "三亚凤凰:core:ad33e3d2ec2acaed",
         "source_clauses": [
           "离港交给三亚区调会指挥上RVSM高度，并且指令NUMKU 之前到达。"
         ],
@@ -6463,14 +5827,14 @@
         "restriction": [],
         "excluded_source_clauses": [],
         "text_zh": "离港交给三亚区调会指挥上RVSM高度，并且指令NUMKU之前到达。",
-        "text_en": "The aircraft ishanded over to the Sanya District Air Traffic Control Center for command, which sets the RVSM (Real-Time Vertical Management System) altitudeand instructs theaircraft to reach the designated position before NUMKU.",
-        "english_source": "source_backed",
+        "text_en": "After departure, Sanya Area Control ATC may clear the aircraft to an RVSM level and require that level to be reached before NUMKU.",
+        "english_source": "approved_override",
         "english_concepts": [],
         "english_airport_name": "Sanya/Fenghuang",
         "manual_english_counterpart": true,
-        "english_source_authority": "latest_airport_manual",
-        "english_source_note": "",
-        "english_confirmed_date": "",
+        "english_source_authority": "user_confirmed",
+        "english_source_note": "User-confirmed professional English bound to this exact latest-manual source fact.",
+        "english_confirmed_date": "2026-10-05",
         "rendered_text": "离港交给三亚区调会指挥上RVSM高度，并且指令NUMKU之前到达。",
         "season_scope": [],
         "flight_scope": [],
@@ -6553,18 +5917,6 @@
       "reason": "同一来源记录中的其他完整运行子句"
     },
     {
-      "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_42",
-      "clause": "ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
-      "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_42",
-      "clause": "有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
-      "reason": "同一来源记录中的其他完整运行子句"
-    },
-    {
       "airport": "三亚凤凰",
       "fact_id": "三亚凤凰_core_record_15",
       "clause": "程序转弯时管制会指挥下900建立下滑，而程序是700m建立下 滑，可以和管制申请按程序下高度建立下滑。",
@@ -6606,6 +5958,34 @@
     },
     {
       "airport": "宁波栎社",
+      "fact_id": "",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+      "source": "PDF",
+      "source_authority": "latest_airport_manual",
+      "source_version": "20260924",
+      "source_page": "N/A",
+      "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点",
+      "clause": "进场：常用程序：RNAV。",
+      "reason": "detached_operational_fragment",
+      "discarded_reason": "detached_operational_fragment"
+    },
+    {
+      "airport": "宁波栎社",
+      "fact_id": "",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+      "source": "PDF",
+      "source_authority": "latest_airport_manual",
+      "source_version": "20260924",
+      "source_page": "N/A",
+      "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点",
+      "clause": "进场：速度160 节。",
+      "reason": "detached_operational_fragment",
+      "discarded_reason": "detached_operational_fragment"
+    },
+    {
+      "airport": "宁波栎社",
       "fact_id": "宁波栎社_core_record_26",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
@@ -6623,6 +6003,17 @@
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
       "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／航路",
       "clause": "航路：宁波至包头航路，提示机组注意控制好PIKAS 的转弯半 径,不要偏南，南侧有限制区。",
+      "reason": "与当前航班/航线不匹配",
+      "discarded_reason": "与当前航班/航线不匹配"
+    },
+    {
+      "airport": "宁波栎社",
+      "fact_id": "宁波栎社_core_record_28",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／航路",
+      "clause": "航路：宁波南阳段，周口后可能指挥直飞P340加入P278 的进 港，3600米过P340,与计划航路相比提前约20分钟，请机组早 做准备。",
       "reason": "与当前航班/航线不匹配",
       "discarded_reason": "与当前航班/航线不匹配"
     },
@@ -6672,14 +6063,36 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_13",
+      "fact_id": "宁波栎社_core_record_42",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／地面",
-      "clause": "B9灯牌在跑道一侧,13 号落地后通常指挥在B10 前 等，后续通常B9左转跟引导车，注意B9 紧邻B10(B10 灯牌在 机坪一侧)，容易错过。",
-      "reason": "运行价值排序后未选入本次航前核心主题",
-      "discarded_reason": "运行价值排序后未选入本次航前核心主题"
+      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
+      "clause": "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
+      "reason": "与当前航班/航线不匹配",
+      "discarded_reason": "与当前航班/航线不匹配"
+    },
+    {
+      "airport": "宁波栎社",
+      "fact_id": "宁波栎社_core_record_43",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
+      "clause": "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
+      "reason": "与当前航班/航线不匹配",
+      "discarded_reason": "与当前航班/航线不匹配"
+    },
+    {
+      "airport": "宁波栎社",
+      "fact_id": "宁波栎社_core_record_44",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
+      "clause": "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
+      "reason": "与当前航班/航线不匹配",
+      "discarded_reason": "与当前航班/航线不匹配"
     },
     {
       "airport": "宁波栎社",
@@ -6700,6 +6113,17 @@
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
       "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／地面",
       "clause": "宁波机场要求除必要的检查以外，其他人员严禁在机 腹下穿行。",
+      "reason": "运行价值排序后未选入本次航前核心主题",
+      "discarded_reason": "运行价值排序后未选入本次航前核心主题"
+    },
+    {
+      "airport": "宁波栎社",
+      "fact_id": "宁波栎社_core_record_16",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／地面",
+      "clause": "无需复诵PDC。",
       "reason": "运行价值排序后未选入本次航前核心主题",
       "discarded_reason": "运行价值排序后未选入本次航前核心主题"
     },
@@ -6804,28 +6228,6 @@
     },
     {
       "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_43",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-      "source_page": "N/A",
-      "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
-      "clause": "ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。",
-      "reason": "运行价值排序后未选入本次航前核心主题",
-      "discarded_reason": "运行价值排序后未选入本次航前核心主题"
-    },
-    {
-      "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_44",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-      "source_page": "N/A",
-      "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
-      "clause": "有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。",
-      "reason": "运行价值排序后未选入本次航前核心主题",
-      "discarded_reason": "运行价值排序后未选入本次航前核心主题"
-    },
-    {
-      "airport": "宁波栎社",
       "fact_id": "宁波栎社_core_record_45",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
@@ -6854,28 +6256,6 @@
       "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
       "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
       "clause": "宁波机场31号，气象条件允许时，管制会指挥短五 边目视进近，注意复诵正确。",
-      "reason": "运行价值排序后未选入本次航前核心主题",
-      "discarded_reason": "运行价值排序后未选入本次航前核心主题"
-    },
-    {
-      "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_32",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-      "source_page": "N/A",
-      "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场",
-      "clause": "常用程序：RNAV。",
-      "reason": "运行价值排序后未选入本次航前核心主题",
-      "discarded_reason": "运行价值排序后未选入本次航前核心主题"
-    },
-    {
-      "airport": "宁波栎社",
-      "fact_id": "宁波栎社_core_record_28",
-      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
-      "source_page": "N/A",
-      "source_heading": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
-      "source_section": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／航路",
-      "clause": "宁波南阳段，周口后可能指挥直飞P340加入P278 的进 港，3600米过P340,与计划航路相比提前约20分钟，请机组早 做准备。",
       "reason": "运行价值排序后未选入本次航前核心主题",
       "discarded_reason": "运行价值排序后未选入本次航前核心主题"
     },
@@ -6928,12 +6308,34 @@
     },
     {
       "airport": "三亚凤凰",
+      "fact_id": "三亚凤凰_core_record_9",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "三亚/凤凰机场运行特点",
+      "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点／航路",
+      "clause": "航路：虹桥-三亚航路与浦东到三亚的航路不一致，不经过 香港管制区，防止航路出错。",
+      "reason": "与当前航班/航线不匹配",
+      "discarded_reason": "与当前航班/航线不匹配"
+    },
+    {
+      "airport": "三亚凤凰",
       "fact_id": "三亚凤凰_core_record_10",
       "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
       "source_page": "N/A",
       "source_heading": "三亚/凤凰机场运行特点",
       "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点／航路",
       "clause": "航路：浦东-三亚，交广州区域BEGMO后可能指挥飞DST LJG LJG后 加入A470到DOTMI，DOTMI附近可能开始联系香港120.3 要求保持航向后直飞ALLEY。",
+      "reason": "与当前航班/航线不匹配",
+      "discarded_reason": "与当前航班/航线不匹配"
+    },
+    {
+      "airport": "三亚凤凰",
+      "fact_id": "三亚凤凰_core_record_12",
+      "source_file": "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf",
+      "source_page": "N/A",
+      "source_heading": "三亚/凤凰机场运行特点",
+      "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点／航路",
+      "clause": "航路：ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
       "reason": "与当前航班/航线不匹配",
       "discarded_reason": "与当前航班/航线不匹配"
     }
@@ -6950,21 +6352,6 @@
       "source_original_text": "进场：宁波管制区内军航活动空域复杂。未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。",
       "source_original_texts": [
         "进场：宁波管制区内军航活动空域复杂。未得到管制许可前 请勿选择byATC 的进场方式；宁波机场与上海终端区的QNH 水 平边界重合，高度表拨正严格听从ATC 指挥。"
-      ],
-      "fallback_used": "text_before_polish",
-      "paragraph_dropped": false
-    },
-    {
-      "airport": "三亚凤凰",
-      "fact_id": "三亚凤凰_core_record_12",
-      "guard_failed": true,
-      "guard_reason": "语言编辑丢失航路点：三亚凤凰_core_record_12缺少RADAR121",
-      "source_fact_ids": [
-        "三亚凤凰_core_record_12"
-      ],
-      "source_original_text": "航路：ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
-      "source_original_texts": [
-        "航路：ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。"
       ],
       "fallback_used": "text_before_polish",
       "paragraph_dropped": false
@@ -6990,19 +6377,13 @@
         "宁波栎社_core_record_12"
       ],
       [
-        "宁波栎社_core_record_42"
-      ],
-      [
-        "宁波栎社_core_record_47"
-      ],
-      [
         "宁波栎社_core_record_11"
       ],
       [
-        "宁波栎社_core_record_17"
+        "宁波栎社_core_record_13"
       ],
       [
-        "宁波栎社_core_record_16"
+        "宁波栎社_core_record_17"
       ],
       [
         "宁波栎社_core_record_7"
@@ -7014,12 +6395,6 @@
     "三亚凤凰": [
       [
         "三亚凤凰_core_record_15"
-      ],
-      [
-        "三亚凤凰_core_record_9"
-      ],
-      [
-        "三亚凤凰_core_record_12"
       ],
       [
         "三亚凤凰_core_record_13"
@@ -7279,94 +6654,6 @@
       },
       {
         "paragraph_index": 6,
-        "paragraph_id": "宁波栎社_core_record_42",
-        "topic": "approach",
-        "role": "transit",
-        "text": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
-        "source_fact_ids": [
-          "宁波栎社_core_record_42"
-        ],
-        "source_record_ids": [
-          "宁波栎社:core:7ea88de98c1bb20f"
-        ],
-        "source_clauses": [
-          "从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。"
-        ],
-        "source_original_texts": [
-          "进场：从北方进场的航班，如长春-宁波，移交宁波进近之 前，上海可能会指挥ELAGO 后加入V72（ELAGO-ISPUR-OVNEV） 航路。ELAGO高度 6300交宁波进近，听进近指挥加入相应进场 程序，有可能指挥直飞导致剖面高，请机组注意高距比和减速 时机。有时上海会指挥JTN 之后飞IDNIK 然后AND 或JTN 之后 航向175，下 4200M，切DADAT 下2400M，之后飞AND 联系宁波 进近。"
-        ],
-        "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
-        ],
-        "source_authority": "latest_airport_manual",
-        "source": "PDF",
-        "role_scope": [
-          "arrival"
-        ],
-        "source_note": "",
-        "confirmed_date": "",
-        "source_version": "20260924",
-        "source_sections": [
-          "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "briefing_priority": 355,
-        "text_before_polish": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
-        "text_after_polish": "从北方进场的航班，如长春-宁波，移交宁波进近之前，上海可能会指挥ELAGO后加入V72（ELAGO-ISPUR-OVNEV） 航路。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "guard_failed": false,
-        "guard_reason": "",
-        "fallback_used": "",
-        "paragraph_dropped": false
-      },
-      {
-        "paragraph_index": 7,
-        "paragraph_id": "宁波栎社_core_record_47",
-        "topic": "approach",
-        "role": "transit",
-        "text": "速度160节。",
-        "source_fact_ids": [
-          "宁波栎社_core_record_47"
-        ],
-        "source_record_ids": [
-          "宁波栎社:core:11ae458bf7d14f20"
-        ],
-        "source_clauses": [
-          "速度160 节。"
-        ],
-        "source_original_texts": [
-          "进场：速度160 节。"
-        ],
-        "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
-        ],
-        "source_authority": "latest_airport_manual",
-        "source": "PDF",
-        "role_scope": [
-          "arrival"
-        ],
-        "source_note": "",
-        "confirmed_date": "",
-        "source_version": "20260924",
-        "source_sections": [
-          "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／进场"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "briefing_priority": 355,
-        "text_before_polish": "速度160节。",
-        "text_after_polish": "速度160节。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "guard_failed": false,
-        "guard_reason": "",
-        "fallback_used": "",
-        "paragraph_dropped": false
-      },
-      {
-        "paragraph_index": 8,
         "paragraph_id": "宁波栎社_core_record_11",
         "topic": "landing",
         "role": "transit",
@@ -7408,7 +6695,51 @@
         "paragraph_dropped": false
       },
       {
-        "paragraph_index": 9,
+        "paragraph_index": 7,
+        "paragraph_id": "宁波栎社_core_record_13",
+        "topic": "ground_waiting",
+        "role": "transit",
+        "text": "B9灯牌在跑道一侧，13号落地后通常指挥在B10前等，后续通常B9左转跟引导车，注意B9紧邻B10(B10灯牌在机坪一侧)，容易错过。",
+        "source_fact_ids": [
+          "宁波栎社_core_record_13"
+        ],
+        "source_record_ids": [
+          "宁波栎社:core:22372cb1700ba0c3"
+        ],
+        "source_clauses": [
+          "B9灯牌在跑道一侧,13 号落地后通常指挥在B10 前 等，后续通常B9左转跟引导车，注意B9 紧邻B10(B10 灯牌在 机坪一侧)，容易错过。"
+        ],
+        "source_original_texts": [
+          "地面：B9灯牌在跑道一侧,13 号落地后通常指挥在B10 前 等，后续通常B9左转跟引导车，注意B9 紧邻B10(B10 灯牌在 机坪一侧)，容易错过。"
+        ],
+        "source_files": [
+          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
+        ],
+        "source_authority": "latest_airport_manual",
+        "source": "PDF",
+        "role_scope": [
+          "arrival"
+        ],
+        "source_note": "",
+        "confirmed_date": "",
+        "source_version": "20260924",
+        "source_sections": [
+          "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／地面"
+        ],
+        "condition_scope": {},
+        "condition_contexts": [],
+        "briefing_priority": 330,
+        "text_before_polish": "B9灯牌在跑道一侧，13号落地后通常指挥在B10前等，后续通常B9左转跟引导车，注意B9紧邻B10(B10灯牌在机坪一侧)，容易错过。",
+        "text_after_polish": "B9灯牌在跑道一侧，13号落地后通常指挥在B10前等，后续通常B9左转跟引导车，注意B9紧邻B10(B10灯牌在机坪一侧)，容易错过。",
+        "polish_applied": false,
+        "polish_fallback_reason": "",
+        "guard_failed": false,
+        "guard_reason": "",
+        "fallback_used": "",
+        "paragraph_dropped": false
+      },
+      {
+        "paragraph_index": 8,
         "paragraph_id": "宁波栎社_core_record_17",
         "topic": "ground_signage",
         "role": "transit",
@@ -7450,51 +6781,7 @@
         "paragraph_dropped": false
       },
       {
-        "paragraph_index": 10,
-        "paragraph_id": "宁波栎社_core_record_16",
-        "topic": "clearance",
-        "role": "transit",
-        "text": "无需复诵PDC。",
-        "source_fact_ids": [
-          "宁波栎社_core_record_16"
-        ],
-        "source_record_ids": [
-          "宁波栎社:core:3b70f78211a4b031"
-        ],
-        "source_clauses": [
-          "无需复诵PDC。"
-        ],
-        "source_original_texts": [
-          "地面：无需复诵PDC。"
-        ],
-        "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
-        ],
-        "source_authority": "latest_airport_manual",
-        "source": "PDF",
-        "role_scope": [
-          "departure"
-        ],
-        "source_note": "",
-        "confirmed_date": "",
-        "source_version": "20260924",
-        "source_sections": [
-          "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)／核心威胁与运行特点／地面"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "briefing_priority": 335,
-        "text_before_polish": "无需复诵PDC。",
-        "text_after_polish": "无需复诵PDC。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "guard_failed": false,
-        "guard_reason": "",
-        "fallback_used": "",
-        "paragraph_dropped": false
-      },
-      {
-        "paragraph_index": 11,
+        "paragraph_index": 9,
         "paragraph_id": "宁波栎社_core_record_7",
         "topic": "departure",
         "role": "transit",
@@ -7538,7 +6825,7 @@
         "paragraph_dropped": false
       },
       {
-        "paragraph_index": 12,
+        "paragraph_index": 10,
         "paragraph_id": "paragraph:宁波栎社_core_record_9",
         "topic": "terrain",
         "role": "transit",
@@ -7629,90 +6916,6 @@
       },
       {
         "paragraph_index": 2,
-        "paragraph_id": "三亚凤凰_core_record_9",
-        "topic": "navigation",
-        "role": "transit",
-        "text": "虹桥-三亚航路与浦东到三亚的航路不一致，不经过香港管制区，防止航路出错。",
-        "source_fact_ids": [
-          "三亚凤凰_core_record_9"
-        ],
-        "source_record_ids": [
-          "三亚凤凰:core:d42943a893966948"
-        ],
-        "source_clauses": [
-          "虹桥-三亚航路与浦东到三亚的航路不一致，不经过 香港管制区，防止航路出错。"
-        ],
-        "source_original_texts": [
-          "航路：虹桥-三亚航路与浦东到三亚的航路不一致，不经过 香港管制区，防止航路出错。"
-        ],
-        "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
-        ],
-        "source_authority": "latest_airport_manual",
-        "source": "PDF",
-        "role_scope": [],
-        "source_note": "",
-        "confirmed_date": "",
-        "source_version": "20260924",
-        "source_sections": [
-          "三亚/凤凰机场运行特点／核心威胁与运行特点／航路"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "briefing_priority": 375,
-        "text_before_polish": "虹桥-三亚航路与浦东到三亚的航路不一致，不经过香港管制区，防止航路出错。",
-        "text_after_polish": "虹桥-三亚航路与浦东到三亚的航路不一致，不经过香港管制区，防止航路出错。",
-        "polish_applied": false,
-        "polish_fallback_reason": "",
-        "guard_failed": false,
-        "guard_reason": "",
-        "fallback_used": "",
-        "paragraph_dropped": false
-      },
-      {
-        "paragraph_index": 3,
-        "paragraph_id": "三亚凤凰_core_record_12",
-        "topic": "navigation",
-        "role": "transit",
-        "text": "ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
-        "source_fact_ids": [
-          "三亚凤凰_core_record_12"
-        ],
-        "source_record_ids": [
-          "三亚凤凰:core:de0532842dd7727d"
-        ],
-        "source_clauses": [
-          "ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。"
-        ],
-        "source_original_texts": [
-          "航路：ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。"
-        ],
-        "source_files": [
-          "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20260924-Manual.pdf"
-        ],
-        "source_authority": "latest_airport_manual",
-        "source": "PDF",
-        "role_scope": [],
-        "source_note": "",
-        "confirmed_date": "",
-        "source_version": "20260924",
-        "source_sections": [
-          "三亚/凤凰机场运行特点／核心威胁与运行特点／航路"
-        ],
-        "condition_scope": {},
-        "condition_contexts": [],
-        "briefing_priority": 365,
-        "text_before_polish": "ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
-        "text_after_polish": "ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
-        "polish_applied": false,
-        "polish_fallback_reason": "语言编辑丢失航路点：三亚凤凰_core_record_12缺少RADAR121",
-        "guard_failed": true,
-        "guard_reason": "语言编辑丢失航路点：三亚凤凰_core_record_12缺少RADAR121",
-        "fallback_used": "text_before_polish",
-        "paragraph_dropped": false
-      },
-      {
-        "paragraph_index": 4,
         "paragraph_id": "三亚凤凰_core_record_13",
         "topic": "arrival_energy",
         "role": "transit",
@@ -7756,7 +6959,7 @@
         "paragraph_dropped": false
       },
       {
-        "paragraph_index": 5,
+        "paragraph_index": 3,
         "paragraph_id": "三亚凤凰_core_record_16",
         "topic": "arrival_energy",
         "role": "transit",
@@ -7800,7 +7003,7 @@
         "paragraph_dropped": false
       },
       {
-        "paragraph_index": 6,
+        "paragraph_index": 4,
         "paragraph_id": "三亚凤凰_core_record_14",
         "topic": "approach_intercept",
         "role": "transit",
@@ -7844,7 +7047,7 @@
         "paragraph_dropped": false
       },
       {
-        "paragraph_index": 7,
+        "paragraph_index": 5,
         "paragraph_id": "三亚凤凰_core_record_5",
         "topic": "approach_intercept",
         "role": "transit",
@@ -7888,7 +7091,7 @@
         "paragraph_dropped": false
       },
       {
-        "paragraph_index": 8,
+        "paragraph_index": 6,
         "paragraph_id": "三亚凤凰_core_record_4",
         "topic": "runway_exit",
         "role": "transit",
@@ -7936,7 +7139,7 @@
         "paragraph_dropped": false
       },
       {
-        "paragraph_index": 9,
+        "paragraph_index": 7,
         "paragraph_id": "三亚凤凰_core_record_6",
         "topic": "clearance",
         "role": "transit",
@@ -7980,7 +7183,7 @@
         "paragraph_dropped": false
       },
       {
-        "paragraph_index": 10,
+        "paragraph_index": 8,
         "paragraph_id": "三亚凤凰_core_record_7",
         "topic": "departure",
         "role": "transit",
@@ -8024,7 +7227,7 @@
         "paragraph_dropped": false
       },
       {
-        "paragraph_index": 11,
+        "paragraph_index": 9,
         "paragraph_id": "三亚凤凰_core_record_8",
         "topic": "departure",
         "role": "transit",

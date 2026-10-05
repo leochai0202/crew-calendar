@@ -1,71 +1,63 @@
-I am Duan Yangshuo, a First Officer in Flight Squadron 15. My current technical level is A2, and my promotion date is January 13. In this qualification stage, I have 93 hours and 21 takeoffs and landings. I have completed 8 landings in the last 90 days. I have operated at both ZSNB and ZJSY within the past three months. My most recent landing as PF was at Shanghai Pudong Airport on October 1.
+I am Duan Yangshuo, a First Officer in Flight Squadron 15. My current technical level is A2, and my promotion date is January 13. In this qualification stage, I have 93 hours and 21 takeoffs and landings. I have completed 8 landings in the last 90 days. I have operated at both Ningbo Lishe International and Sanya Phoenix International within the past three months. My most recent landing as PF was at Shanghai Pudong International Airport on October 1.
 
 Latest PF/PM feedback: as PF, the instructor noted that below 30 ft I should use slightly more aft-stick input and, after landing, decelerate below 30 kt before entering the rapid-exit taxiway; as PM, the captain noted that I should improve SOP proficiency and make standard callouts more audible.
 
-Ningbo/Lieshe Airport typical unsafe events:
-Low-altitude turbulence can easily cause significant slope effects in the lower air layers.
+Ningbo Lishe International Airport typical unsafe events:
+Low-level turbulence may result in large bank angles at low altitude.
 
-Due to internal movement and turbulence at the entrance, excessive pre-grounding descent rate may occur.
+A displaced threshold and turbulence have previously contributed to an excessive descent rate before touchdown.
 
-Radar isnot turned off when landing.
+An event has occurred in which the weather radar was not switched off after landing.
 
-Deviation from the instructed altitude.
+An altitude deviation from the ATC-cleared altitude has occurred.
 
-The landing load is large.
+A high landing load event has occurred.
 
-Sanya/Fenghuang Airport typical unsafe events:
-A failed landing attempt occurred at 1000 feet (AAL).
+Sanya Phoenix International Airport typical unsafe events:
+An event has occurred in which landing configuration was not established by 1000ft AAL.
 
-History of route deviation incidents.
+A wrong-taxi-route event has occurred.
 
-A deviation from the commanded altitude has occurred.
+An altitude deviation from the ATC-cleared altitude has occurred.
 
 Core threats:
 
-Ningbo/Lieshe Airport:
-The 13th mountain is located west and southwest of this field, with a low, isolated hillon itsfive sides. During adverse weather conditions, aircraft entering from the west must adhere to the sector's minimum safe altitude and route safety restrictions. When the Leshan NDB and Ningbo VOR are out of service, the 31st EOSID becomes unavailable. Note that the 13th VOR/DME approach five sides form a 4-degree angle with the runway. The 13th VOR has a descent gradient of 5.7%, equivalent to a FPA of 3.26.
+Ningbo Lishe International Airport:
+Terrain lies west and southwest of the airport, including a low isolated hill near the Runway 13 final approach. In adverse weather, aircraft arriving from the west must observe the sector minimum safe altitude and airway minimum safe altitude restrictions. If the Lishe NDB and Ningbo VOR are unavailable, the Runway 31 EOSID is unavailable. On the Runway 13 VOR/DME approach, the final approach track is offset by 4 degrees from the runway centreline. The Runway 13 VOR approach has a 5.7% descent gradient, equivalent to FPA3.26.
 
-The airspace for military aviation activities within Ningbo's control zone is highly complex. Do not select ATC-based approach procedures without prior air trafficcontrol clearance.
+Military activity makes the airspace within the Ningbo ATC control area complex.
 
-The QNH horizontal boundary between Ningbo Airport and Shanghai Terminal Area overlaps, and altimeter corrections must strictlyfollow ATC instructions.
+Do not select a by-ATC arrival before receiving ATC clearance. The QNH boundary between Ningbo Airport and the Shanghai terminal area overlaps; set the altimeter strictly in accordance with ATC instructions.
 
 If ATC clears the aircraft direct to Point A, ensure the corresponding waypoint is correctly entered during approach preparation. Particular attention should be paid to energy management during a short-final visual approach. If visual reference to the runway cannot subsequently be maintained, radar vectors will be required. Due to terrain near Runway 31, radar vectoring may progressively compress the descent profile; therefore, manage speed and aircraft energy early to avoid an excessive-energy condition.
 
-When the 13th blind landing is not operational, use RNP13 approach with only LNAV in the chart program.
+When the Runway 13 ILS approach is unavailable, use the RNP13 approach; the published procedure supports LNAV only.
 
-For northern inbound flights such as Changchun-Ningbo, Shanghai may direct the aircraft to join the V72 (ELAGO-ISPUR- OVNEV) route after ELAGO before transferring to Ningbo approach.
+The Runway 13 threshold is displaced by 150m; be alert to the resulting visual effect.
 
-For tailwinds, crews should set Mode 2 with a speed of 160 knots.
-
-Move the entrance of Runway 13 inward by 150 meters, with due consideration for visual impact.
+The B9 sign is on the runway side. After landing on Runway 13, ATC normally instructs aircraft to hold before B10 and then turn left at B9 to follow the follow-me vehicle. B9 is close to B10, whose sign is on the apron side, so B9 can easily be missed.
 
 The ground markings at the L1 and B8 turnouts are unclear and may be mistaken for the L1 taxiway west of B8. Crew members are advised to exercise caution.
 
-No need to repeat PDC.
-
 Special complex procedures: PBN single-engine departure procedures for Runways 31 and 13, and the traditional single-engine departure procedure for Runway 31.
 
-Terrain: The terrain is complex, with steep descent gradients for the 13th blind landing, GP3.2.
+Terrain is complex, and the Runway 13 ILS approach has a steep descent gradient of GP3.2.
 
-Sanya/Fenghuang Airport:
-Approach to Runway 08 (VOR08).
+Sanya Phoenix International Airport:
+On the VOR08 approach to Runway 08, the arrival profile may be high; monitor the altitude-to-distance relationship.
 
-The Hongqiao-Sanya route differsfrom the Pudong-Sanya route as it bypasses Hong Kong's controlled area to prevent route errors.
+When traffic inbound to Runway 26 is heavy, ATC may issue descent clearance late; reduce speed promptly and manage aircraft energy.
 
-ZSPD-ZJSY: The flight route passes through the Hong Kong area via M503, switching to HK RADAR 121.3 before DOTMI. After DOTMI, itflies directly to ALLEY, then switches to HK121.7 for direct flight to SIKOU, and finally switches to Sanya 133.35 before SIKOU.
+During the procedure turn, ATC may clear descent to establish on the glide path at 900m, whereas the published procedure establishes it at 700m. Coordinate with ATC to descend in accordance with the published procedure and establish on the glide path.
 
-When there are many aircraft approaching Runway 1.26, the command may delay the altitude control, and the crew should promptly reduce speed to control the aircraft's energy.
+Sanya has ILS Y and ILS Z procedures. Confirm the active procedure from the broadcast in advance. ILS Z is normally used, but ATC may not specify Y or Z; verify the cleared procedure and avoid selecting the wrong one.
 
-The approach path may be ata higher altitude, so monitor the altitude-to-range ratio. During the procedure turn, airtraffic control will direct a 900- meter downward slope, whereas the procedure specifies a 700- meter downward slope. You may request to execute the procedure down slope with the control's approval.
+Turbulence may be encountered on final approach.
 
-Sanya has two emergency landing procedures (Y and Z), both requiring prior radio confirmation. While Z procedure is typically used, air traffic control rarely specifies which one to follow. Crews should remain vigilant to avoid misapplication.
+Taxi routes are complex. There are no taxiway centreline lights between Taxiways A3/A4, Taxiway A and the runway. When vacating the runway, monitor the pavement carefully, especially in rain at night, to avoid leaving the paved surface.
 
-Other Threats: Five-sided Chaos.
+The PORAP-1N departure is commonly used from Runway 08. Clearance normally requires crossing PORAP at 7200m; performance can generally meet this requirement.
 
-Pavement characteristics: The taxiing route is complex. There is no center line light between the A3 and A4 taxiways and the runway. The crew should observe the runway surface carefully when leaving the runway, especially at night when it is raining, to prevent deviation from the runway.
+When military activity is present, a conventional departure may be assigned; observe the speed restriction at PORAP.
 
-The commonly used PORAP-1N model (model 08) typically requires a 7200M PORAP during release procedures, and its performance generally meets the requirements.
-
-When troops are active, they may depart traditionally, and note the speed limit of PORAP.
-
-The aircraft ishanded over to the Sanya District Air Traffic Control Center for command, which sets the RVSM (Real-Time Vertical Management System) altitudeand instructs theaircraft to reach the designated position before NUMKU.
+After departure, Sanya Area Control ATC may clear the aircraft to an RVSM level and require that level to be reached before NUMKU.
