@@ -37,8 +37,8 @@ def event(*, number="9C6731", origin="大连周水子", destination="呼和浩�
     )
 
 
-def write_ics(tmp_path, *events):
-    path = tmp_path / "flight.ics"
+def write_ics(tmp_path, *events, filename="flight.ics"):
+    path = tmp_path / filename
     path.write_text("BEGIN:VCALENDAR\nVERSION:2.0\n" + "".join(events) + "END:VCALENDAR\n", encoding="utf-8")
     return path
 
@@ -71,6 +71,7 @@ def isolated_root(tmp_path, monkeypatch):
     for name in ("crew_calendar_main.py", "airport_aliases.json", "config/airport_iata.json"):
         (tmp_path / name).write_bytes((ROOT / name).read_bytes())
     write_ics(tmp_path, event())
+    write_ics(tmp_path, event(), filename="crew_schedule.ics")
     (tmp_path / "positioning.ics").write_bytes((tmp_path / "flight.ics").read_bytes())
     monkeypatch.setattr(sync, "ROOT", tmp_path)
     return tmp_path
@@ -787,7 +788,7 @@ def test_future_check_rejects_missing_or_duplicate_identity(tmp_path, airports, 
 @pytest.mark.parametrize("drop_one", [False, True])
 def test_future_main_relists_after_writes_and_fails_on_gap(monkeypatch, capsys, isolated_root, future_clock, drop_one):
     configured_env(monkeypatch)
-    write_ics(isolated_root, event(), event(number="9C6732"))
+    write_ics(isolated_root, event(), event(number="9C6732"), filename="crew_schedule.ics")
     before = {p: p.read_bytes() for p in isolated_root.glob("*.ics")}
     client = Calendar()
     client.authenticate = lambda: None
@@ -837,3 +838,188 @@ def test_future_post_write_api_failure_is_redacted_and_preserves_ics(monkeypatch
     assert "never-print-private-key" not in output and "private-token" not in output
     assert (isolated_root / "flight.ics").read_bytes() == before
     assert len(client.events) == 1  # No rollback or source rewrite on failure.
+
+
+@pytest.mark.parametrize("kind", ["航班", "置位", "其他", "训练", "摆渡", "positioning", None])
+def test_future_route_segment_is_independent_of_type_and_summary(tmp_path, airports, future_clock, kind):
+    text = event(number="9C8571", origin="上海浦东", destination="济州", kind=kind or "")
+    if kind is None:
+        text = text.replace("类型：\\n", "")
+    text = text.replace("SUMMARY:✈️ 9C8571 上海浦东→济州", "SUMMARY:置位 positioning（仅显示任务名）")
+    source = write_ics(tmp_path, text, filename="crew_schedule.ics")
+    snapshot = sync.read_snapshot(source, airports)
+    flight, = snapshot.flights.values()
+    assert flight.body["summary"] == "Spring Airlines 9C8571 PVG → CJU"
+    assert flight.body["location"] == "PVG"
+    assert "Airline: Spring Airlines\nFlight: 9C8571" in flight.body["description"]
+    assert "Departure Airport: PVG\nArrival Airport: CJU" in flight.body["description"]
+    assert len(snapshot.future_sources) == 1
+    assert len(snapshot.future_positioning_sources) == int(kind in ("置位", "positioning"))
+    client = Calendar()
+    reconcile(client, snapshot)
+    sync.check_future(snapshot, list(client.events.values()))
+
+
+@pytest.mark.parametrize("number_field", [None, "", "待定", "9C6731/9C6732", "9C0000", "9C6731\\n航班：9C6732"])
+def test_future_route_without_unique_flight_number_is_logged_not_faked(tmp_path, airports, future_clock, capsys, number_field):
+    text = event(kind="摆渡", origin="宁波栎社", destination="上海虹桥")
+    text = text.replace("航班：9C6731\\n", "" if number_field is None else f"航班：{number_field}\\n")
+    snapshot = sync.read_snapshot(write_ics(tmp_path, text, filename="crew_schedule.ics"), airports)
+    assert not snapshot.flights and not snapshot.future_sources
+    assert snapshot.routes_without_flight_number == 1
+    client = Calendar()
+    reconcile(client, snapshot)
+    sync.check_future(snapshot, [])
+    output = capsys.readouterr().out
+    assert "FLIGHTY_ROUTE_NO_FLIGHT_NUMBER" in output
+    assert "FLIGHTY_FUTURE_CHECK source=0 google=0 missing=0" in output
+    assert not client.calls
+
+
+def test_future_other_carrier_is_not_filtered_or_mislabeled(tmp_path, airports, future_clock):
+    snapshot = sync.read_snapshot(write_ics(tmp_path, event(kind="置位", number="MU1234")), airports)
+    flight, = snapshot.flights.values()
+    assert flight.body["summary"] == "MU MU1234 DLC → HET"
+    assert "Airline: MU\nFlight: MU1234" in flight.body["description"]
+    assert "Spring Airlines" not in flight.body["summary"]
+
+
+def test_future_without_route_is_not_a_segment(tmp_path, airports, future_clock, capsys):
+    text = event(kind="其他").replace("\\n航线：大连周水子 → 呼和浩特白塔", "")
+    snapshot = sync.read_snapshot(write_ics(tmp_path, text), airports)
+    assert not snapshot.future_sources and not snapshot.flights
+    assert "FLIGHTY_FLIGHT_NO_ROUTE" in capsys.readouterr().out
+
+
+def test_type_change_preserves_source_key_and_google_id(tmp_path, airports, future_clock):
+    client = Calendar()
+    first_source = None
+    first_id = None
+    for kind in ("航班", "置位", "其他", "航班"):
+        source = write_ics(tmp_path, event(kind=kind), filename="crew_schedule.ics")
+        snapshot = sync.read_snapshot(source, airports)
+        source_key, = snapshot.future_sources
+        plan = reconcile(client, snapshot)
+        event_id, = client.events
+        if first_source is None:
+            first_source, first_id = source_key, event_id
+        else:
+            assert (source_key, event_id) == (first_source, first_id)
+            assert not plan.create and not plan.update and not plan.delete
+    assert client.calls == [("create", first_id)]
+
+
+def test_authoritative_schedule_excludes_future_legacy_and_historical_positioning(tmp_path, airports, future_clock):
+    past = event(start="20260930T161500", end="20260930T182000")
+    old_future_only = event(number="9C6733")
+    history = write_ics(tmp_path, past, old_future_only)
+    past_positioning = event(number="9C6734", kind="置位", start="20260930T191500", end="20260930T212000")
+    future_positioning = event(number="9C8571", kind="置位", origin="上海浦东", destination="济州")
+    source = write_ics(tmp_path, past, past_positioning, event(), future_positioning, filename="crew_schedule.ics")
+    # A malformed split file must never be read or merged into the authority.
+    (tmp_path / "positioning.ics").write_text("DO NOT READ", encoding="utf-8")
+    before = {p: p.read_bytes() for p in tmp_path.glob("*.ics")}
+    snapshot = sync.read_snapshot(source, airports, historical_path=history)
+    assert len(snapshot.flights) == 3  # One historical + two authoritative future.
+    assert len(snapshot.future_sources) == 2 and len(snapshot.future_positioning_sources) == 1
+    assert all("9C6733" not in f.service and "9C6734" not in f.service for f in snapshot.flights.values())
+    client = Calendar()
+    reconcile(client, snapshot)
+    first = copy.deepcopy(client.events)
+    plan = reconcile(client, sync.read_snapshot(source, airports, historical_path=history))
+    assert not plan.create and not plan.update and not plan.delete
+    assert client.events == first
+    sync.check_future(snapshot, list(client.events.values()))
+    assert all(p.read_bytes() == data for p, data in before.items())
+
+
+def test_positioning_ages_into_history_without_deletion_or_historical_backfill(tmp_path, airports, future_clock):
+    history = write_ics(tmp_path)
+    source = write_ics(tmp_path, event(kind="置位"), filename="crew_schedule.ics")
+    client = Calendar()
+    reconcile(client, sync.read_snapshot(source, airports, historical_path=history))
+    before = copy.deepcopy(client.events)
+    # It has departed, and no such segment was ever in flight.ics.
+    write_ics(tmp_path, event(kind="置位"), event(number="9C6732", kind="置位"), filename="crew_schedule.ics")
+    snapshot = sync.read_snapshot(source, airports, now=HISTORICAL_NOW, historical_path=history)
+    plan = reconcile(client, snapshot)
+    assert not plan.create and not plan.update and not plan.delete
+    assert client.events == before
+    assert not snapshot.future_sources
+
+
+def test_positioning_cancellation_and_removal_still_delete_future_only(tmp_path, airports, future_clock):
+    history = write_ics(tmp_path)
+    source = write_ics(tmp_path, event(kind="置位"), filename="crew_schedule.ics")
+    client = Calendar()
+    reconcile(client, sync.read_snapshot(source, airports, historical_path=history))
+    write_ics(tmp_path, event(kind="置位", status="CANCELLED"), filename="crew_schedule.ics")
+    plan = reconcile(client, sync.read_snapshot(source, airports, historical_path=history))
+    assert len(plan.delete) == 1 and not client.events
+
+
+def test_missing_positioning_is_included_in_future_gap(tmp_path, airports, future_clock, capsys):
+    snapshot = sync.read_snapshot(write_ics(tmp_path, event(), event(number="9C8571", kind="置位")), airports)
+    client = Calendar()
+    reconcile(client, snapshot)
+    remote = [e for e in client.events.values() if "9C8571" not in e["summary"]]
+    with pytest.raises(sync.SyncError, match="completeness"):
+        sync.check_future(snapshot, remote)
+    output = capsys.readouterr().out
+    assert len(snapshot.future_positioning_sources) == 1
+    assert "FLIGHTY_FUTURE_CHECK source=2 google=1 missing=1" in output
+    assert "FLIGHTY_FUTURE_GAP missing=1" in output
+    assert "MISSING=2026-10-01|9C8571" in output
+
+
+@pytest.mark.parametrize("source_damage", ["missing", "truncated"])
+def test_missing_unified_source_never_falls_back_to_split_calendars(monkeypatch, capsys, isolated_root, future_clock, source_damage):
+    configured_env(monkeypatch)
+    source = isolated_root / "crew_schedule.ics"
+    if source_damage == "missing":
+        source.unlink()
+    else:
+        source.write_text("BEGIN:VCALENDAR\n", encoding="utf-8")
+    before = {p: p.read_bytes() for p in isolated_root.glob("*.ics")}
+    calls = []
+    monkeypatch.setattr(sync, "GoogleCalendar", lambda _: calls.append("created"))
+    assert sync.main([]) == 1
+    assert not calls
+    assert "FLIGHTY_SYNC=ERROR" in capsys.readouterr().out
+    assert all(p.read_bytes() == data for p, data in before.items())
+
+
+def test_main_positioning_gap_returns_nonzero_and_never_writes_ics(monkeypatch, capsys, isolated_root, future_clock):
+    configured_env(monkeypatch)
+    write_ics(isolated_root, event(), event(number="9C8571", kind="置位"), filename="crew_schedule.ics")
+    before = {p: p.read_bytes() for p in isolated_root.glob("*.ics")}
+    client = Calendar()
+    client.authenticate = lambda: None
+    client.validate_calendar = lambda: None
+    client.list_owned = lambda: [e for e in client.events.values() if "9C8571" not in e["summary"]]
+    monkeypatch.setattr(sync, "GoogleCalendar", lambda _: client)
+    assert sync.main([]) == 1
+    output = capsys.readouterr().out
+    assert "FLIGHTY_FUTURE_SEGMENTS source=2 positioning=1 route_without_flight_number=0" in output
+    assert "FLIGHTY_FUTURE_CHECK source=2 google=1 missing=1" in output
+    assert "FLIGHTY_SYNC=SUCCESS" not in output
+    assert all(p.read_bytes() == data for p, data in before.items())
+
+
+@pytest.mark.parametrize("later_start,later_end", [
+    ("20261001T191500", "20261001T212000"),
+    ("20261002T161500", "20261002T182000"),
+])
+def test_new_future_positioning_does_not_repurpose_preserved_historical_id(tmp_path, airports, future_clock, later_start, later_end):
+    history = write_ics(tmp_path)
+    source = write_ics(tmp_path, event(kind="置位"), filename="crew_schedule.ics")
+    client = Calendar()
+    reconcile(client, sync.read_snapshot(source, airports, historical_path=history))
+    old_id, = client.events
+    old_event = copy.deepcopy(client.events[old_id])
+    write_ics(tmp_path, event(kind="置位"), event(kind="置位", start=later_start, end=later_end), filename="crew_schedule.ics")
+    snapshot = sync.read_snapshot(source, airports, now=datetime(2026, 10, 1, 19, tzinfo=sync.BEIJING), historical_path=history)
+    plan = reconcile(client, snapshot)
+    assert len(plan.create) == 1 and not plan.update and not plan.delete
+    assert len(client.events) == 2 and client.events[old_id] == old_event
+    sync.check_future(snapshot, list(client.events.values()))
