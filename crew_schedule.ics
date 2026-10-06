@@ -3159,12 +3159,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:ae26f4dcec5577be0d23d9681ae42b35@crew-calendar
+UID:d15fb167b52acca2c14844dd575956b6@crew-calendar
 SUMMARY:✈️ 9C8546 宁波栎社→长春龙嘉
-DTSTART;TZID=Asia/Shanghai:20261006T162000
-DTEND;TZID=Asia/Shanghai:20261006T191500
-DESCRIPTION:10月06日 周二\n类型：航班\n航班：9C8546\n航线：宁波栎社 → 长春龙嘉\n地点：宁波栎社\n签到：14:35｜宁波栎社\n任务：16:20 - 19:15\n机型：A320｜注册号：B6863\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 周皓光(B)\n\n版本：2026-10-06 05:10
-X-CONTENT-SIGNATURE:a6086ecf27b4bc342bc4fc7809653b21
+DTSTART;TZID=Asia/Shanghai:20261006T175000
+DTEND;TZID=Asia/Shanghai:20261006T204500
+DESCRIPTION:10月06日 周二\n类型：航班\n航班：9C8546\n航线：宁波栎社 → 长春龙嘉\n地点：宁波栎社\n签到：16:05｜宁波栎社\n任务：17:50 - 20:45\n机型：A320｜注册号：B6863\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 周皓光(B)\n\n版本：2026-10-06 15:30
+X-CONTENT-SIGNATURE:5e640b5f90cab1ada48d2f06d684f376
 LOCATION:宁波栎社
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -3173,12 +3173,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:db5b9c64220117ddeab09fd82e9dc7b0@crew-calendar
-SUMMARY:✈️ 9C8936 长春龙嘉→上海浦东
-DTSTART;TZID=Asia/Shanghai:20261006T201500
-DTEND;TZID=Asia/Shanghai:20261006T225500
-DESCRIPTION:10月06日 周二\n类型：航班\n航班：9C8936\n航线：长春龙嘉 → 上海浦东\n地点：长春龙嘉\n签到：18:40｜长春龙嘉\n任务：20:15 - 22:55\n机型：A320｜注册号：B6863\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 周皓光(B)\n\n版本：2026-10-06 05:10
-X-CONTENT-SIGNATURE:b30a87951dbbc6cdef2765dd09c29508
+UID:3956dbd3f68b38cfbcebbaf2dc2a63a7@crew-calendar
+SUMMARY:✈️ 9C8936 长春龙嘉→上海浦东(+1)
+DTSTART;TZID=Asia/Shanghai:20261006T213500
+DTEND;TZID=Asia/Shanghai:20261007T001500
+DESCRIPTION:10月06日 周二\n类型：航班\n航班：9C8936\n航线：长春龙嘉 → 上海浦东(+1)\n地点：长春龙嘉\n签到：20:00｜长春龙嘉\n任务：21:35 - 00:15\n机型：A320｜注册号：B6863\n\n人员名单：\n• MIGUEL YANEZ VILAS(R)\n• 陈吉鑫(R)\n• 段洋硕\n• 周皓光(B)\n\n版本：2026-10-06 15:30
+X-CONTENT-SIGNATURE:ec81a327be7dfe3240e23f19ff256e6a
 LOCATION:长春龙嘉
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -3191,7 +3191,7 @@ UID:7e1f1600ae49fc91b143b497e3587d60@crew-calendar
 SUMMARY:✈️ 9C8569 上海浦东→济州
 DTSTART;TZID=Asia/Shanghai:20261009T074500
 DTEND;TZID=Asia/Shanghai:20261009T090500
-DESCRIPTION:10月09日 周五\n类型：航班\n航班：9C8569\n航线：上海浦东 → 济州\n地点：上海浦东\n签到：05:40｜上海浦东\n任务：07:45 - 09:05\n机型：A320｜注册号：B1839\n\n人员名单：\n• 丁家威(R)\n• 杨策(R)\n• 詹文举\n• 宣宪琪(P\,B)\n• 李鑫A\n• 段洋硕\n\n版本：2026-10-06 05:10
+DESCRIPTION:10月09日 周五\n类型：航班\n航班：9C8569\n航线：上海浦东 → 济州\n地点：上海浦东\n签到：05:40｜上海浦东\n任务：07:45 - 09:05\n机型：A320｜注册号：B1839\n\n人员名单：\n• 丁家威(R)\n• 杨策(R)\n• 詹文举\n• 宣宪琪(P\,B)\n• 李鑫A\n• 段洋硕\n\n版本：2026-10-06 15:30
 X-CONTENT-SIGNATURE:9bc4fdd92b6fa89a6e6da8d9fc20c07a
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -3205,7 +3205,7 @@ UID:6ab03346fbfb66c5a7d9249d6bff7c54@crew-calendar
 SUMMARY:✈️ 9C8624 济州→杭州萧山
 DTSTART;TZID=Asia/Shanghai:20261010T070000
 DTEND;TZID=Asia/Shanghai:20261010T090000
-DESCRIPTION:10月10日 周六\n类型：航班\n航班：9C8624\n航线：济州 → 杭州萧山\n地点：济州\n签到：05:05｜济州\n任务：07:00 - 09:00\n机型：A320｜注册号：B8700\n\n人员名单：\n• 魏乐天(R)\n• 席沛东(R)\n• 段洋硕\n• 于少坤(P\,B)\n\n版本：2026-10-06 05:10
+DESCRIPTION:10月10日 周六\n类型：航班\n航班：9C8624\n航线：济州 → 杭州萧山\n地点：济州\n签到：05:05｜济州\n任务：07:00 - 09:00\n机型：A320｜注册号：B8700\n\n人员名单：\n• 魏乐天(R)\n• 席沛东(R)\n• 段洋硕\n• 于少坤(P\,B)\n\n版本：2026-10-06 15:30
 X-CONTENT-SIGNATURE:88061b882f2c310e9bc953b60e9e2e5d
 LOCATION:济州
 BEGIN:VALARM
@@ -3219,7 +3219,7 @@ UID:51cf78d006bb28bb0fdd96b6f0e1bb70@crew-calendar
 SUMMARY:✈️ 9C6360 杭州萧山→揭阳潮汕
 DTSTART;TZID=Asia/Shanghai:20261010T103500
 DTEND;TZID=Asia/Shanghai:20261010T125000
-DESCRIPTION:10月10日 周六\n类型：航班\n航班：9C6360\n航线：杭州萧山 → 揭阳潮汕\n地点：杭州萧山\n签到：09:00｜杭州萧山\n任务：10:35 - 12:50\n机型：A320｜注册号：B8700\n\n人员名单：\n• 魏乐天(R)\n• 席沛东(R)\n• 段洋硕\n• 于少坤(P\,B)\n\n版本：2026-10-06 05:10
+DESCRIPTION:10月10日 周六\n类型：航班\n航班：9C6360\n航线：杭州萧山 → 揭阳潮汕\n地点：杭州萧山\n签到：09:00｜杭州萧山\n任务：10:35 - 12:50\n机型：A320｜注册号：B8700\n\n人员名单：\n• 魏乐天(R)\n• 席沛东(R)\n• 段洋硕\n• 于少坤(P\,B)\n\n版本：2026-10-06 15:30
 X-CONTENT-SIGNATURE:69bbabdd65ac10f2f5d21ff35ae0c0c1
 LOCATION:杭州萧山
 BEGIN:VALARM
