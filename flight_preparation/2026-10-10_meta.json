@@ -1,23 +1,23 @@
 {
   "status": "SUCCESS",
   "target_date": "2026-10-10",
-  "generated_at_beijing": "2026-10-08T10:15:35.314272+08:00",
-  "task_fingerprint": "7606c16f8f390663aa133bf9dac95ef2bc528bf2962f0dbf74814e4a474926e2",
+  "generated_at_beijing": "2026-10-09T15:23:56.271099+08:00",
+  "task_fingerprint": "217ae1a0f377aee0f4b2098ab6e096a8fb6baa3b7e5ec04bd06814857225dd4d",
   "matched_flights": [
     {
-      "uid": "6ab03346fbfb66c5a7d9249d6bff7c54@crew-calendar",
+      "uid": "dc0ac20ce2e07f0e594420b0a6c1b82f@crew-calendar",
       "summary": "✈️ 9C8624 济州→杭州萧山",
       "start": "2026-10-10T07:00:00+08:00",
       "end": "2026-10-10T09:00:00+08:00",
-      "description": "10月10日 周六\n类型：航班\n航班：9C8624\n航线：济州 → 杭州萧山\n地点：济州\n签到：05:05｜济州\n任务：07:00 - 09:00\n机型：A320｜注册号：B8700\n\n人员名单：\n• 魏乐天(R)\n• 席沛东(R)\n• 段洋硕\n• 于少坤(P,B)\n\n版本：2026-10-07 22:31",
+      "description": "10月10日 周六\n类型：航班\n航班：9C8624\n航线：济州 → 杭州萧山\n地点：济州\n签到：05:05｜济州\n任务：07:00 - 09:00\n机型：A320｜注册号：B6821\n\n人员名单：\n• 魏乐天(R)\n• 马千里(R)\n• 段洋硕\n• 于少坤(P,B)\n\n版本：2026-10-09 15:22",
       "location": "济州",
       "properties": {
-        "UID": "6ab03346fbfb66c5a7d9249d6bff7c54@crew-calendar",
+        "UID": "dc0ac20ce2e07f0e594420b0a6c1b82f@crew-calendar",
         "SUMMARY": "✈️ 9C8624 济州→杭州萧山",
         "DTSTART": "20261010T070000",
         "DTEND": "20261010T090000",
-        "DESCRIPTION": "10月10日 周六\\n类型：航班\\n航班：9C8624\\n航线：济州 → 杭州萧山\\n地点：济州\\n签到：05:05｜济州\\n任务：07:00 - 09:00\\n机型：A320｜注册号：B8700\\n\\n人员名单：\\n• 魏乐天(R)\\n• 席沛东(R)\\n• 段洋硕\\n• 于少坤(P\\,B)\\n\\n版本：2026-10-07 22:31",
-        "X-CONTENT-SIGNATURE": "88061b882f2c310e9bc953b60e9e2e5d",
+        "DESCRIPTION": "10月10日 周六\\n类型：航班\\n航班：9C8624\\n航线：济州 → 杭州萧山\\n地点：济州\\n签到：05:05｜济州\\n任务：07:00 - 09:00\\n机型：A320｜注册号：B6821\\n\\n人员名单：\\n• 魏乐天(R)\\n• 马千里(R)\\n• 段洋硕\\n• 于少坤(P\\,B)\\n\\n版本：2026-10-09 15:22",
+        "X-CONTENT-SIGNATURE": "59cb54497477056bfebdc16a77ccd9cd",
         "LOCATION": "济州"
       },
       "source_file": "flight.ics",
@@ -25,30 +25,30 @@
       "departure": "济州",
       "arrival": "杭州萧山",
       "aircraft_type": "A320",
-      "registration": "B8700",
+      "registration": "B6821",
       "checkin": "05:05｜济州",
       "people": [
         "魏乐天(R)",
-        "席沛东(R)",
+        "马千里(R)",
         "段洋硕",
         "于少坤(P,B)"
       ],
       "cross_day": false
     },
     {
-      "uid": "51cf78d006bb28bb0fdd96b6f0e1bb70@crew-calendar",
+      "uid": "15b17bf6c4a7fe7113948acd1a6fe78b@crew-calendar",
       "summary": "✈️ 9C6360 杭州萧山→揭阳潮汕",
       "start": "2026-10-10T10:35:00+08:00",
       "end": "2026-10-10T12:50:00+08:00",
-      "description": "10月10日 周六\n类型：航班\n航班：9C6360\n航线：杭州萧山 → 揭阳潮汕\n地点：杭州萧山\n签到：09:00｜杭州萧山\n任务：10:35 - 12:50\n机型：A320｜注册号：B8700\n\n人员名单：\n• 魏乐天(R)\n• 席沛东(R)\n• 段洋硕\n• 于少坤(P,B)\n\n版本：2026-10-07 22:31",
+      "description": "10月10日 周六\n类型：航班\n航班：9C6360\n航线：杭州萧山 → 揭阳潮汕\n地点：杭州萧山\n签到：09:00｜杭州萧山\n任务：10:35 - 12:50\n机型：A320｜注册号：B6821\n\n人员名单：\n• 魏乐天(R)\n• 马千里(R)\n• 段洋硕\n• 于少坤(P,B)\n\n版本：2026-10-09 15:22",
       "location": "杭州萧山",
       "properties": {
-        "UID": "51cf78d006bb28bb0fdd96b6f0e1bb70@crew-calendar",
+        "UID": "15b17bf6c4a7fe7113948acd1a6fe78b@crew-calendar",
         "SUMMARY": "✈️ 9C6360 杭州萧山→揭阳潮汕",
         "DTSTART": "20261010T103500",
         "DTEND": "20261010T125000",
-        "DESCRIPTION": "10月10日 周六\\n类型：航班\\n航班：9C6360\\n航线：杭州萧山 → 揭阳潮汕\\n地点：杭州萧山\\n签到：09:00｜杭州萧山\\n任务：10:35 - 12:50\\n机型：A320｜注册号：B8700\\n\\n人员名单：\\n• 魏乐天(R)\\n• 席沛东(R)\\n• 段洋硕\\n• 于少坤(P\\,B)\\n\\n版本：2026-10-07 22:31",
-        "X-CONTENT-SIGNATURE": "69bbabdd65ac10f2f5d21ff35ae0c0c1",
+        "DESCRIPTION": "10月10日 周六\\n类型：航班\\n航班：9C6360\\n航线：杭州萧山 → 揭阳潮汕\\n地点：杭州萧山\\n签到：09:00｜杭州萧山\\n任务：10:35 - 12:50\\n机型：A320｜注册号：B6821\\n\\n人员名单：\\n• 魏乐天(R)\\n• 马千里(R)\\n• 段洋硕\\n• 于少坤(P\\,B)\\n\\n版本：2026-10-09 15:22",
+        "X-CONTENT-SIGNATURE": "b0fdde6f8c844208dd729f354061dc0c",
         "LOCATION": "杭州萧山"
       },
       "source_file": "flight.ics",
@@ -56,11 +56,11 @@
       "departure": "杭州萧山",
       "arrival": "揭阳潮汕",
       "aircraft_type": "A320",
-      "registration": "B8700",
+      "registration": "B6821",
       "checkin": "09:00｜杭州萧山",
       "people": [
         "魏乐天(R)",
-        "席沛东(R)",
+        "马千里(R)",
         "段洋硕",
         "于少坤(P,B)"
       ],
