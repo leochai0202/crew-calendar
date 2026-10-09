@@ -1,0 +1,103 @@
+{
+  "status": "SUCCESS",
+  "target_date": "2026-10-11",
+  "generated_at_beijing": "2026-10-09T10:36:31.231043+08:00",
+  "task_fingerprint": "607d6f562a2997901f5e5194ad38e41c74a442c6a012083266e8069c77fee163",
+  "matched_flights": [
+    {
+      "uid": "a9c5c580595b7eeefefd625ab5a13e40@crew-calendar",
+      "summary": "✈️ 9C7609 揭阳潮汕→武汉天河",
+      "start": "2026-10-11T06:50:00+08:00",
+      "end": "2026-10-11T08:55:00+08:00",
+      "description": "10月11日 周日\n类型：航班\n航班：9C7609\n航线：揭阳潮汕 → 武汉天河\n地点：揭阳潮汕\n签到：05:00｜揭阳潮汕\n任务：06:50 - 08:55\n机型：A320｜注册号：B8700\n\n人员名单：\n• 刘仕丹(T2,R)\n• 段洋硕\n• 肖诚祥(R)\n• 周琼(B)\n\n版本：2026-10-09 03:20",
+      "location": "揭阳潮汕",
+      "properties": {
+        "UID": "a9c5c580595b7eeefefd625ab5a13e40@crew-calendar",
+        "SUMMARY": "✈️ 9C7609 揭阳潮汕→武汉天河",
+        "DTSTART": "20261011T065000",
+        "DTEND": "20261011T085500",
+        "DESCRIPTION": "10月11日 周日\\n类型：航班\\n航班：9C7609\\n航线：揭阳潮汕 → 武汉天河\\n地点：揭阳潮汕\\n签到：05:00｜揭阳潮汕\\n任务：06:50 - 08:55\\n机型：A320｜注册号：B8700\\n\\n人员名单：\\n• 刘仕丹(T2\\,R)\\n• 段洋硕\\n• 肖诚祥(R)\\n• 周琼(B)\\n\\n版本：2026-10-09 03:20",
+        "X-CONTENT-SIGNATURE": "1b3e82dd0bcb8c05700b35d17fa3f095",
+        "LOCATION": "揭阳潮汕"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C7609",
+      "departure": "揭阳潮汕",
+      "arrival": "武汉天河",
+      "aircraft_type": "A320",
+      "registration": "B8700",
+      "checkin": "05:00｜揭阳潮汕",
+      "people": [
+        "刘仕丹(T2,R)",
+        "段洋硕",
+        "肖诚祥(R)",
+        "周琼(B)"
+      ],
+      "cross_day": false
+    },
+    {
+      "uid": "8d659c69d954a1b88c3787b8d55f6841@crew-calendar",
+      "summary": "✈️ 9C7610 武汉天河→揭阳潮汕",
+      "start": "2026-10-11T09:55:00+08:00",
+      "end": "2026-10-11T11:45:00+08:00",
+      "description": "10月11日 周日\n类型：航班\n航班：9C7610\n航线：武汉天河 → 揭阳潮汕\n地点：武汉天河\n签到：08:20｜武汉天河\n任务：09:55 - 11:45\n机型：A320｜注册号：B8700\n\n人员名单：\n• 刘仕丹(T2,R)\n• 段洋硕\n• 肖诚祥(R)\n• 周琼(B)\n\n版本：2026-10-09 03:20",
+      "location": "武汉天河",
+      "properties": {
+        "UID": "8d659c69d954a1b88c3787b8d55f6841@crew-calendar",
+        "SUMMARY": "✈️ 9C7610 武汉天河→揭阳潮汕",
+        "DTSTART": "20261011T095500",
+        "DTEND": "20261011T114500",
+        "DESCRIPTION": "10月11日 周日\\n类型：航班\\n航班：9C7610\\n航线：武汉天河 → 揭阳潮汕\\n地点：武汉天河\\n签到：08:20｜武汉天河\\n任务：09:55 - 11:45\\n机型：A320｜注册号：B8700\\n\\n人员名单：\\n• 刘仕丹(T2\\,R)\\n• 段洋硕\\n• 肖诚祥(R)\\n• 周琼(B)\\n\\n版本：2026-10-09 03:20",
+        "X-CONTENT-SIGNATURE": "1b8ad362c7eea096fe553d44f8448291",
+        "LOCATION": "武汉天河"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C7610",
+      "departure": "武汉天河",
+      "arrival": "揭阳潮汕",
+      "aircraft_type": "A320",
+      "registration": "B8700",
+      "checkin": "08:20｜武汉天河",
+      "people": [
+        "刘仕丹(T2,R)",
+        "段洋硕",
+        "肖诚祥(R)",
+        "周琼(B)"
+      ],
+      "cross_day": false
+    },
+    {
+      "uid": "e22180b2bfaf22d0a38a5ae3283c20ae@crew-calendar",
+      "summary": "✈️ 9C6460 揭阳潮汕→西安咸阳(+1)",
+      "start": "2026-10-11T22:40:00+08:00",
+      "end": "2026-10-12T01:50:00+08:00",
+      "description": "10月11日 周日\n类型：航班\n航班：9C6460\n航线：揭阳潮汕 → 西安咸阳(+1)\n地点：揭阳潮汕\n签到：20:50｜揭阳潮汕\n任务：22:40 - 01:50\n机型：A320｜注册号：B6863\n\n人员名单：\n• 王煜超(R)\n• 杨超(R)\n• 段洋硕\n• 王兵(B)\n\n版本：2026-10-09 03:20",
+      "location": "揭阳潮汕",
+      "properties": {
+        "UID": "e22180b2bfaf22d0a38a5ae3283c20ae@crew-calendar",
+        "SUMMARY": "✈️ 9C6460 揭阳潮汕→西安咸阳(+1)",
+        "DTSTART": "20261011T224000",
+        "DTEND": "20261012T015000",
+        "DESCRIPTION": "10月11日 周日\\n类型：航班\\n航班：9C6460\\n航线：揭阳潮汕 → 西安咸阳(+1)\\n地点：揭阳潮汕\\n签到：20:50｜揭阳潮汕\\n任务：22:40 - 01:50\\n机型：A320｜注册号：B6863\\n\\n人员名单：\\n• 王煜超(R)\\n• 杨超(R)\\n• 段洋硕\\n• 王兵(B)\\n\\n版本：2026-10-09 03:20",
+        "X-CONTENT-SIGNATURE": "c37e040ca1691405d68a6f9b91ca6367",
+        "LOCATION": "揭阳潮汕"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C6460",
+      "departure": "揭阳潮汕",
+      "arrival": "西安咸阳",
+      "aircraft_type": "A320",
+      "registration": "B6863",
+      "checkin": "20:50｜揭阳潮汕",
+      "people": [
+        "王煜超(R)",
+        "杨超(R)",
+        "段洋硕",
+        "王兵(B)"
+      ],
+      "cross_day": true
+    }
+  ],
+  "group_output": "2026-10-11_航前准备.txt",
+  "english_output": ""
+}
