@@ -3205,7 +3205,7 @@ UID:dc0ac20ce2e07f0e594420b0a6c1b82f@crew-calendar
 SUMMARY:✈️ 9C8624 济州→杭州萧山
 DTSTART;TZID=Asia/Shanghai:20261010T070000
 DTEND;TZID=Asia/Shanghai:20261010T090000
-DESCRIPTION:10月10日 周六\n类型：航班\n航班：9C8624\n航线：济州 → 杭州萧山\n地点：济州\n签到：05:05｜济州\n任务：07:00 - 09:00\n机型：A320｜注册号：B6821\n\n人员名单：\n• 魏乐天(R)\n• 马千里(R)\n• 段洋硕\n• 于少坤(P\,B)\n\n版本：2026-10-10 02:57
+DESCRIPTION:10月10日 周六\n类型：航班\n航班：9C8624\n航线：济州 → 杭州萧山\n地点：济州\n签到：05:05｜济州\n任务：07:00 - 09:00\n机型：A320｜注册号：B6821\n\n人员名单：\n• 魏乐天(R)\n• 马千里(R)\n• 段洋硕\n• 于少坤(P\,B)\n\n版本：2026-10-10 14:58
 X-CONTENT-SIGNATURE:59cb54497477056bfebdc16a77ccd9cd
 LOCATION:济州
 BEGIN:VALARM
@@ -3219,7 +3219,7 @@ UID:15b17bf6c4a7fe7113948acd1a6fe78b@crew-calendar
 SUMMARY:✈️ 9C6360 杭州萧山→揭阳潮汕
 DTSTART;TZID=Asia/Shanghai:20261010T103500
 DTEND;TZID=Asia/Shanghai:20261010T125000
-DESCRIPTION:10月10日 周六\n类型：航班\n航班：9C6360\n航线：杭州萧山 → 揭阳潮汕\n地点：杭州萧山\n签到：09:00｜杭州萧山\n任务：10:35 - 12:50\n机型：A320｜注册号：B6821\n\n人员名单：\n• 魏乐天(R)\n• 马千里(R)\n• 段洋硕\n• 于少坤(P\,B)\n\n版本：2026-10-10 02:57
+DESCRIPTION:10月10日 周六\n类型：航班\n航班：9C6360\n航线：杭州萧山 → 揭阳潮汕\n地点：杭州萧山\n签到：09:00｜杭州萧山\n任务：10:35 - 12:50\n机型：A320｜注册号：B6821\n\n人员名单：\n• 魏乐天(R)\n• 马千里(R)\n• 段洋硕\n• 于少坤(P\,B)\n\n版本：2026-10-10 14:58
 X-CONTENT-SIGNATURE:b0fdde6f8c844208dd729f354061dc0c
 LOCATION:杭州萧山
 BEGIN:VALARM
@@ -3233,7 +3233,7 @@ UID:a9c5c580595b7eeefefd625ab5a13e40@crew-calendar
 SUMMARY:✈️ 9C7609 揭阳潮汕→武汉天河
 DTSTART;TZID=Asia/Shanghai:20261011T065000
 DTEND;TZID=Asia/Shanghai:20261011T085500
-DESCRIPTION:10月11日 周日\n类型：航班\n航班：9C7609\n航线：揭阳潮汕 → 武汉天河\n地点：揭阳潮汕\n签到：05:00｜揭阳潮汕\n任务：06:50 - 08:55\n机型：A320｜注册号：B8700\n\n人员名单：\n• 刘仕丹(T2\,R)\n• 段洋硕\n• 肖诚祥(R)\n• 周琼(B)\n\n版本：2026-10-10 02:57
+DESCRIPTION:10月11日 周日\n类型：航班\n航班：9C7609\n航线：揭阳潮汕 → 武汉天河\n地点：揭阳潮汕\n签到：05:00｜揭阳潮汕\n任务：06:50 - 08:55\n机型：A320｜注册号：B8700\n\n人员名单：\n• 刘仕丹(T2\,R)\n• 段洋硕\n• 肖诚祥(R)\n• 周琼(B)\n\n版本：2026-10-10 14:58
 X-CONTENT-SIGNATURE:1b3e82dd0bcb8c05700b35d17fa3f095
 LOCATION:揭阳潮汕
 BEGIN:VALARM
@@ -3247,7 +3247,7 @@ UID:8d659c69d954a1b88c3787b8d55f6841@crew-calendar
 SUMMARY:✈️ 9C7610 武汉天河→揭阳潮汕
 DTSTART;TZID=Asia/Shanghai:20261011T095500
 DTEND;TZID=Asia/Shanghai:20261011T114500
-DESCRIPTION:10月11日 周日\n类型：航班\n航班：9C7610\n航线：武汉天河 → 揭阳潮汕\n地点：武汉天河\n签到：08:20｜武汉天河\n任务：09:55 - 11:45\n机型：A320｜注册号：B8700\n\n人员名单：\n• 刘仕丹(T2\,R)\n• 段洋硕\n• 肖诚祥(R)\n• 周琼(B)\n\n版本：2026-10-10 02:57
+DESCRIPTION:10月11日 周日\n类型：航班\n航班：9C7610\n航线：武汉天河 → 揭阳潮汕\n地点：武汉天河\n签到：08:20｜武汉天河\n任务：09:55 - 11:45\n机型：A320｜注册号：B8700\n\n人员名单：\n• 刘仕丹(T2\,R)\n• 段洋硕\n• 肖诚祥(R)\n• 周琼(B)\n\n版本：2026-10-10 14:58
 X-CONTENT-SIGNATURE:1b8ad362c7eea096fe553d44f8448291
 LOCATION:武汉天河
 BEGIN:VALARM
@@ -3261,7 +3261,7 @@ UID:e22180b2bfaf22d0a38a5ae3283c20ae@crew-calendar
 SUMMARY:✈️ 9C6460 揭阳潮汕→西安咸阳(+1)
 DTSTART;TZID=Asia/Shanghai:20261011T224000
 DTEND;TZID=Asia/Shanghai:20261012T015000
-DESCRIPTION:10月11日 周日\n类型：航班\n航班：9C6460\n航线：揭阳潮汕 → 西安咸阳(+1)\n地点：揭阳潮汕\n签到：20:50｜揭阳潮汕\n任务：22:40 - 01:50\n机型：A320｜注册号：B6863\n\n人员名单：\n• 王煜超(R)\n• 杨超(R)\n• 段洋硕\n• 王兵(B)\n\n版本：2026-10-10 02:57
+DESCRIPTION:10月11日 周日\n类型：航班\n航班：9C6460\n航线：揭阳潮汕 → 西安咸阳(+1)\n地点：揭阳潮汕\n签到：20:50｜揭阳潮汕\n任务：22:40 - 01:50\n机型：A320｜注册号：B6863\n\n人员名单：\n• 王煜超(R)\n• 杨超(R)\n• 段洋硕\n• 王兵(B)\n\n版本：2026-10-10 14:58
 X-CONTENT-SIGNATURE:c37e040ca1691405d68a6f9b91ca6367
 LOCATION:揭阳潮汕
 BEGIN:VALARM
@@ -3275,7 +3275,7 @@ UID:d7eef2fae2d45d73a802a369d567fd81@crew-calendar
 SUMMARY:✈️ 9C8948 西安咸阳→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20261012T173000
 DTEND;TZID=Asia/Shanghai:20261012T195500
-DESCRIPTION:10月12日 周一\n类型：航班\n航班：9C8948\n航线：西安咸阳 → 上海虹桥\n地点：西安咸阳\n签到：15:35｜西安咸阳\n任务：17:30 - 19:55\n机型：A321｜注册号：B324Y\n\n人员名单：\n• 管仰东\n• 刘聪\n• 孙超凡\n• 朱金亮(P\,B)\n• 王煜超\n• 严万刚\n• 段洋硕\n• 桂泽龙\n\n版本：2026-10-10 02:57
+DESCRIPTION:10月12日 周一\n类型：航班\n航班：9C8948\n航线：西安咸阳 → 上海虹桥\n地点：西安咸阳\n签到：15:35｜西安咸阳\n任务：17:30 - 19:55\n机型：A321｜注册号：B324Y\n\n人员名单：\n• 管仰东\n• 刘聪\n• 孙超凡\n• 朱金亮(P\,B)\n• 王煜超\n• 严万刚\n• 段洋硕\n• 桂泽龙\n\n版本：2026-10-10 14:58
 X-CONTENT-SIGNATURE:b06265557a2b52a7d2f4f2aad91c7e4a
 LOCATION:西安咸阳
 BEGIN:VALARM
