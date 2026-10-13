@@ -1,17 +1,17 @@
 {
   "rolling_days": 90,
-  "as_of": "2026-10-10",
+  "as_of": "2026-10-13",
   "airports": {
     "西安咸阳": {
-      "last_operated": "2026-09-30",
+      "last_operated": "2026-10-12",
       "source": "completed_schedule_event",
-      "flight_number": "9C6813",
+      "flight_number": "9C8948",
       "within_90_days": true
     },
     "上海虹桥": {
-      "last_operated": "2026-09-12",
+      "last_operated": "2026-10-12",
       "source": "completed_schedule_event",
-      "flight_number": "9C6833",
+      "flight_number": "9C8948",
       "within_90_days": true
     },
     "重庆江北": {
@@ -51,9 +51,9 @@
       "within_90_days": false
     },
     "揭阳潮汕": {
-      "last_operated": "2026-10-10",
+      "last_operated": "2026-10-11",
       "source": "completed_schedule_event",
-      "flight_number": "9C6360",
+      "flight_number": "9C7609",
       "within_90_days": true
     },
     "广州白云": {
@@ -120,7 +120,7 @@
       "last_operated": "2026-07-14",
       "source": "completed_schedule_event",
       "flight_number": "9C6899",
-      "within_90_days": true
+      "within_90_days": false
     },
     "成都双流": {
       "last_operated": "2026-05-22",
@@ -300,6 +300,12 @@
       "last_operated": "2026-09-16",
       "source": "completed_schedule_event",
       "flight_number": "9C8683",
+      "within_90_days": true
+    },
+    "武汉天河": {
+      "last_operated": "2026-10-11",
+      "source": "completed_schedule_event",
+      "flight_number": "9C7609",
       "within_90_days": true
     }
   },
