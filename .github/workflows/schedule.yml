@@ -245,6 +245,23 @@ jobs:
             exit $LASTEXITCODE
           }
 
+      - name: Generate Flighty subscription ICS
+        id: flighty_subscription
+        if: >-
+          ${{ steps.scraper.outcome == 'success' &&
+              steps.scraper.outputs.auth_status == 'AUTHENTICATED' &&
+              steps.ics_clean.outcome == 'success' }}
+        continue-on-error: true
+        run: |
+          $PSNativeCommandUseErrorActionPreference = $false
+          $env:PYTHONIOENCODING = "utf-8"
+          python -B generate_flighty_subscription_ics.py
+          $subscriptionExitCode = $LASTEXITCODE
+          if ($subscriptionExitCode -ne 0) {
+            Write-Host "::warning title=Flighty subscription::Generation failed; last-good feed and main calendar publication preserved"
+          }
+          exit $subscriptionExitCode
+
       - name: Publish ICS files through GitHub API
         id: ics_publish
         if: ${{ steps.scraper.outcome == 'success' && steps.scraper.outputs.auth_status == 'AUTHENTICATED' }}

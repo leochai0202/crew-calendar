@@ -3,7 +3,7 @@
   "download_url": "https://davidmegginson.github.io/ourairports-data/airports.csv",
   "source_sha256": "ff5143921ef72d767402c299a5d868f79166c5c589267aca13dce957c41bd2a2",
   "checked_on": "2026-10-03",
-  "scope": "Exact ICAO matches from existing BASE_AIRPORT_CN_TO_ICAO only. No Chinese names or inferred ICAO replacements. Public-domain OurAirports data.",
+  "scope": "Exact ICAO matches from existing BASE_AIRPORT_CN_TO_ICAO only. No Chinese names or inferred ICAO replacements. Public-domain OurAirports data. Verified existing airport aliases may supplement this baseline with per-entry source and checked_on metadata.",
   "airports": {
     "RCKH": {
       "iata": "KHH",
@@ -508,6 +508,12 @@
     "ZWWW": {
       "iata": "URC",
       "city": "Ürümqi"
+    },
+    "ZWYN": {
+      "iata": "YIN",
+      "city": "Yining",
+      "source": "https://ourairports.com/airports/ZWYN/",
+      "checked_on": "2026-10-14"
     },
     "ZYCC": {
       "iata": "CGQ",
