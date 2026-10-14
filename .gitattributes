@@ -1,0 +1,2 @@
+# Preserve RFC 5545 CRLF and meaningful spaces at folded content boundaries.
+/flighty.ics -text whitespace=cr-at-eol,-blank-at-eol

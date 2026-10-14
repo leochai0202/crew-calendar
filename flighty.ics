@@ -1,0 +1,77 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Crew Calendar//Flighty Subscription//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Flighty Flights
+X-WR-TIMEZONE:Asia/Shanghai
+BEGIN:VTIMEZONE
+TZID:Asia/Shanghai
+BEGIN:STANDARD
+DTSTART:20000101T000000
+TZOFFSETFROM:+0800
+TZOFFSETTO:+0800
+TZNAME:CST
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:92e274a6f6c769c9bbbe28d302081ef2f67a1a476ac19a0469ea81d7804c91f0@crew-c
+ alendar-flighty
+DTSTAMP:20261014T085005Z
+SUMMARY:Spring Airlines 9C7681 SHA → SWA
+DTSTART;TZID=Asia/Shanghai:20261015T102000
+DTEND;TZID=Asia/Shanghai:20261015T123000
+LOCATION:SHA
+DESCRIPTION:Airline: Spring Airlines\nFlight: 9C7681\nFrom: SHA\nTo: SWA\nD
+ eparture Airport: SHA\nArrival Airport: SWA\nRoute: Shanghai (Minhang) →
+  Jieyang (Rongcheng)\nCrew
+END:VEVENT
+BEGIN:VEVENT
+UID:1bf736d8fe55fed250195857472d9f593f9e6db8bf94b8eba69f543234f3fa93@crew-c
+ alendar-flighty
+DTSTAMP:20261014T085005Z
+SUMMARY:Spring Airlines 9C7651X SWA → HFE
+DTSTART;TZID=Asia/Shanghai:20261016T070000
+DTEND;TZID=Asia/Shanghai:20261016T090500
+LOCATION:SWA
+DESCRIPTION:Airline: Spring Airlines\nFlight: 9C7651X\nFrom: SWA\nTo: HFE\n
+ Departure Airport: SWA\nArrival Airport: HFE\nRoute: Jieyang (Rongcheng) 
+ → Hefei\nCrew
+END:VEVENT
+BEGIN:VEVENT
+UID:a68a290fc34209e969f4ebb0cf4bdcae201bc63b9cb5367b7906a43de99f7de1@crew-c
+ alendar-flighty
+DTSTAMP:20261014T085005Z
+SUMMARY:Spring Airlines 9C7651Y HFE → YIN
+DTSTART;TZID=Asia/Shanghai:20261016T095500
+DTEND;TZID=Asia/Shanghai:20261016T152000
+LOCATION:HFE
+DESCRIPTION:Airline: Spring Airlines\nFlight: 9C7651Y\nFrom: HFE\nTo: YIN\n
+ Departure Airport: HFE\nArrival Airport: YIN\nRoute: Hefei → Yining\nCre
+ w
+END:VEVENT
+BEGIN:VEVENT
+UID:35ca74592b11f926a23ed4d355adcc86ee7f71cba9357c62246c1abff9c1281d@crew-c
+ alendar-flighty
+DTSTAMP:20261014T085005Z
+SUMMARY:Spring Airlines 9C7652X YIN → HFE
+DTSTART;TZID=Asia/Shanghai:20261017T161000
+DTEND;TZID=Asia/Shanghai:20261017T210000
+LOCATION:YIN
+DESCRIPTION:Airline: Spring Airlines\nFlight: 9C7652X\nFrom: YIN\nTo: HFE\n
+ Departure Airport: YIN\nArrival Airport: HFE\nRoute: Yining → Hefei\nCre
+ w
+END:VEVENT
+BEGIN:VEVENT
+UID:4bfc5d9cc34399d2a98bc1c66416f0f9b31f3b3202e3f57f7103a62208f67fd2@crew-c
+ alendar-flighty
+DTSTAMP:20261014T085005Z
+SUMMARY:Spring Airlines 9C7652Y HFE → SWA
+DTSTART;TZID=Asia/Shanghai:20261017T215000
+DTEND;TZID=Asia/Shanghai:20261017T235000
+LOCATION:HFE
+DESCRIPTION:Airline: Spring Airlines\nFlight: 9C7652Y\nFrom: HFE\nTo: SWA\n
+ Departure Airport: HFE\nArrival Airport: SWA\nRoute: Hefei → Jieyang (Ro
+ ngcheng)\nCrew
+END:VEVENT
+END:VCALENDAR
