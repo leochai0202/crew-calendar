@@ -3289,7 +3289,7 @@ UID:2f8ed5159bef6b36f1f36bb2064e69c4@crew-calendar
 SUMMARY:✈️ 9C7681 上海虹桥→揭阳潮汕
 DTSTART;TZID=Asia/Shanghai:20261015T102000
 DTEND;TZID=Asia/Shanghai:20261015T123000
-DESCRIPTION:10月15日 周四\n类型：航班\n航班：9C7681\n航线：上海虹桥 → 揭阳潮汕\n地点：上海虹桥\n签到：08:35｜上海虹桥\n任务：10:20 - 12:30\n机型：A321｜注册号：B32EF\n\n人员名单：\n• 李鼎(R)\n• 王浩羽(R)\n• 贺佳丽(B)\n• 胡乐建\n• 高健\n• 段洋硕\n• 王宙徐\n• 洪平\n\n版本：2026-10-14 14:04
+DESCRIPTION:10月15日 周四\n类型：航班\n航班：9C7681\n航线：上海虹桥 → 揭阳潮汕\n地点：上海虹桥\n签到：08:35｜上海虹桥\n任务：10:20 - 12:30\n机型：A321｜注册号：B32EF\n\n人员名单：\n• 李鼎(R)\n• 王浩羽(R)\n• 贺佳丽(B)\n• 胡乐建\n• 高健\n• 段洋硕\n• 王宙徐\n• 洪平\n\n版本：2026-10-14 20:53
 X-CONTENT-SIGNATURE:067024c86fbdf2b58269597c1926d847
 LOCATION:上海虹桥
 BEGIN:VALARM
@@ -3303,7 +3303,7 @@ UID:c3f838c7c9b14b13c7852b78d32bd047@crew-calendar
 SUMMARY:✈️ 9C7651X 揭阳潮汕→合肥新桥
 DTSTART;TZID=Asia/Shanghai:20261016T070000
 DTEND;TZID=Asia/Shanghai:20261016T090500
-DESCRIPTION:10月16日 周五\n类型：航班\n航班：9C7651X\n航线：揭阳潮汕 → 合肥新桥\n地点：揭阳潮汕\n签到：05:10｜揭阳潮汕\n任务：07:00 - 09:05\n机型：A320｜注册号：B32G3\n\n人员名单：\n• 刘仕丹(T2\,R)\n• 王宙(R)\n• 段洋硕\n• 房文富(B)\n\n版本：2026-10-14 14:04
+DESCRIPTION:10月16日 周五\n类型：航班\n航班：9C7651X\n航线：揭阳潮汕 → 合肥新桥\n地点：揭阳潮汕\n签到：05:10｜揭阳潮汕\n任务：07:00 - 09:05\n机型：A320｜注册号：B32G3\n\n人员名单：\n• 刘仕丹(T2\,R)\n• 王宙(R)\n• 段洋硕\n• 房文富(B)\n\n版本：2026-10-14 20:53
 X-CONTENT-SIGNATURE:8d0d196491363e11e9a0aa6354f50cd2
 LOCATION:揭阳潮汕
 BEGIN:VALARM
@@ -3313,12 +3313,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:3b5aa72a3e5e93d74f0f3e99b1a207dc@crew-calendar
+UID:71513257fd996555ed7c8122ca98767c@crew-calendar
 SUMMARY:✈️ 9C7651Y 合肥新桥→伊犁伊宁
 DTSTART;TZID=Asia/Shanghai:20261016T095500
 DTEND;TZID=Asia/Shanghai:20261016T152000
-DESCRIPTION:10月16日 周五\n类型：航班\n航班：9C7651Y\n航线：合肥新桥 → 伊犁伊宁\n地点：合肥新桥\n签到：08:20｜合肥新桥\n任务：09:55 - 15:20\n机型：A320｜注册号：B32G3\n\n人员名单：\n• 刘仕丹(T2\,R)\n• 王宙(R)\n• 段洋硕\n• 房文富(B)\n\n版本：2026-10-14 14:04
-X-CONTENT-SIGNATURE:91784de7e1f1672b8fc7ee0b45c4aaab
+DESCRIPTION:10月16日 周五\n类型：航班\n航班：9C7651Y\n航线：合肥新桥 → 伊犁伊宁\n地点：合肥新桥\n签到：08:20｜合肥新桥\n任务：09:55 - 15:20\n机型：A320｜注册号：B32G3\n\n人员名单：\n• 刘仕丹(T2\,R)\n• 王宙(R)\n• 段洋硕\n• 房文富(B)\n\n版本：2026-10-14 20:53
+X-CONTENT-SIGNATURE:ae99191645c2d3e3d127fbce62346d17
 LOCATION:合肥新桥
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -3327,12 +3327,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:171d85d181f5da0fa123a2c48c5f1c57@crew-calendar
+UID:ceb525985e0c63beaa0398067aa12778@crew-calendar
 SUMMARY:✈️ 9C7652X 伊犁伊宁→合肥新桥
 DTSTART;TZID=Asia/Shanghai:20261017T161000
 DTEND;TZID=Asia/Shanghai:20261017T210000
-DESCRIPTION:10月17日 周六\n类型：航班\n航班：9C7652X\n航线：伊犁伊宁 → 合肥新桥\n地点：伊犁伊宁\n签到：14:40｜伊犁伊宁\n任务：16:10 - 21:00\n机型：A320｜注册号：B32G3\n\n人员名单：\n• 刘仕丹(T2\,R)\n• 王宙(R)\n• 段洋硕\n• 房文富(B)\n\n版本：2026-10-14 14:04
-X-CONTENT-SIGNATURE:11f1b14761fb99116ee7881450d185af
+DESCRIPTION:10月17日 周六\n类型：航班\n航班：9C7652X\n航线：伊犁伊宁 → 合肥新桥\n地点：伊犁伊宁\n签到：14:40｜伊犁伊宁\n任务：16:10 - 21:00\n机型：A320｜注册号：B32G3\n\n人员名单：\n• 刘仕丹(T2\,R)\n• 王宙(R)\n• 段洋硕\n• 房文富(B)\n\n版本：2026-10-14 20:53
+X-CONTENT-SIGNATURE:160546580b14701d151cf0c81978bba1
 LOCATION:伊犁伊宁
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -3345,7 +3345,7 @@ UID:8a6ab53d68c027015db7ec6184252750@crew-calendar
 SUMMARY:✈️ 9C7652Y 合肥新桥→揭阳潮汕
 DTSTART;TZID=Asia/Shanghai:20261017T215000
 DTEND;TZID=Asia/Shanghai:20261017T235000
-DESCRIPTION:10月17日 周六\n类型：航班\n航班：9C7652Y\n航线：合肥新桥 → 揭阳潮汕\n地点：合肥新桥\n签到：20:15｜合肥新桥\n任务：21:50 - 23:50\n机型：A320｜注册号：B32G3\n\n人员名单：\n• 刘仕丹(T2\,R)\n• 王宙(R)\n• 段洋硕\n• 房文富(B)\n\n版本：2026-10-14 14:04
+DESCRIPTION:10月17日 周六\n类型：航班\n航班：9C7652Y\n航线：合肥新桥 → 揭阳潮汕\n地点：合肥新桥\n签到：20:15｜合肥新桥\n任务：21:50 - 23:50\n机型：A320｜注册号：B32G3\n\n人员名单：\n• 刘仕丹(T2\,R)\n• 王宙(R)\n• 段洋硕\n• 房文富(B)\n\n版本：2026-10-14 20:53
 X-CONTENT-SIGNATURE:441b8bca0e15dfdbee35bbbc4fff8408
 LOCATION:合肥新桥
 BEGIN:VALARM
