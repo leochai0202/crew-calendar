@@ -1,0 +1,72 @@
+{
+  "status": "SUCCESS",
+  "target_date": "2026-10-17",
+  "generated_at_beijing": "2026-10-15T08:49:01.023581+08:00",
+  "task_fingerprint": "382d7ddc4bb6ddc6a84d6183695dbbd121b200a4d34dad1a6670b022748ff524",
+  "matched_flights": [
+    {
+      "uid": "ceb525985e0c63beaa0398067aa12778@crew-calendar",
+      "summary": "✈️ 9C7652X 伊犁伊宁→合肥新桥",
+      "start": "2026-10-17T16:10:00+08:00",
+      "end": "2026-10-17T21:00:00+08:00",
+      "description": "10月17日 周六\n类型：航班\n航班：9C7652X\n航线：伊犁伊宁 → 合肥新桥\n地点：伊犁伊宁\n签到：14:40｜伊犁伊宁\n任务：16:10 - 21:00\n机型：A320｜注册号：B32G3\n\n人员名单：\n• 刘仕丹(T2,R)\n• 王宙(R)\n• 段洋硕\n• 房文富(B)\n\n版本：2026-10-15 02:05",
+      "location": "伊犁伊宁",
+      "properties": {
+        "UID": "ceb525985e0c63beaa0398067aa12778@crew-calendar",
+        "SUMMARY": "✈️ 9C7652X 伊犁伊宁→合肥新桥",
+        "DTSTART": "20261017T161000",
+        "DTEND": "20261017T210000",
+        "DESCRIPTION": "10月17日 周六\\n类型：航班\\n航班：9C7652X\\n航线：伊犁伊宁 → 合肥新桥\\n地点：伊犁伊宁\\n签到：14:40｜伊犁伊宁\\n任务：16:10 - 21:00\\n机型：A320｜注册号：B32G3\\n\\n人员名单：\\n• 刘仕丹(T2\\,R)\\n• 王宙(R)\\n• 段洋硕\\n• 房文富(B)\\n\\n版本：2026-10-15 02:05",
+        "X-CONTENT-SIGNATURE": "160546580b14701d151cf0c81978bba1",
+        "LOCATION": "伊犁伊宁"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C7652X",
+      "departure": "伊犁伊宁",
+      "arrival": "合肥新桥",
+      "aircraft_type": "A320",
+      "registration": "B32G3",
+      "checkin": "14:40｜伊犁伊宁",
+      "people": [
+        "刘仕丹(T2,R)",
+        "王宙(R)",
+        "段洋硕",
+        "房文富(B)"
+      ],
+      "cross_day": false
+    },
+    {
+      "uid": "8a6ab53d68c027015db7ec6184252750@crew-calendar",
+      "summary": "✈️ 9C7652Y 合肥新桥→揭阳潮汕",
+      "start": "2026-10-17T21:50:00+08:00",
+      "end": "2026-10-17T23:50:00+08:00",
+      "description": "10月17日 周六\n类型：航班\n航班：9C7652Y\n航线：合肥新桥 → 揭阳潮汕\n地点：合肥新桥\n签到：20:15｜合肥新桥\n任务：21:50 - 23:50\n机型：A320｜注册号：B32G3\n\n人员名单：\n• 刘仕丹(T2,R)\n• 王宙(R)\n• 段洋硕\n• 房文富(B)\n\n版本：2026-10-15 02:05",
+      "location": "合肥新桥",
+      "properties": {
+        "UID": "8a6ab53d68c027015db7ec6184252750@crew-calendar",
+        "SUMMARY": "✈️ 9C7652Y 合肥新桥→揭阳潮汕",
+        "DTSTART": "20261017T215000",
+        "DTEND": "20261017T235000",
+        "DESCRIPTION": "10月17日 周六\\n类型：航班\\n航班：9C7652Y\\n航线：合肥新桥 → 揭阳潮汕\\n地点：合肥新桥\\n签到：20:15｜合肥新桥\\n任务：21:50 - 23:50\\n机型：A320｜注册号：B32G3\\n\\n人员名单：\\n• 刘仕丹(T2\\,R)\\n• 王宙(R)\\n• 段洋硕\\n• 房文富(B)\\n\\n版本：2026-10-15 02:05",
+        "X-CONTENT-SIGNATURE": "441b8bca0e15dfdbee35bbbc4fff8408",
+        "LOCATION": "合肥新桥"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C7652Y",
+      "departure": "合肥新桥",
+      "arrival": "揭阳潮汕",
+      "aircraft_type": "A320",
+      "registration": "B32G3",
+      "checkin": "20:15｜合肥新桥",
+      "people": [
+        "刘仕丹(T2,R)",
+        "王宙(R)",
+        "段洋硕",
+        "房文富(B)"
+      ],
+      "cross_day": false
+    }
+  ],
+  "group_output": "2026-10-17_航前准备.txt",
+  "english_output": ""
+}
