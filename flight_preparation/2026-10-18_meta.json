@@ -1,0 +1,43 @@
+{
+  "status": "SUCCESS",
+  "target_date": "2026-10-18",
+  "generated_at_beijing": "2026-10-16T08:42:07.558519+08:00",
+  "task_fingerprint": "b86a4783446a99c0031869de1588db170c10477dabe7ef64423e926889edca75",
+  "matched_flights": [
+    {
+      "uid": "6434216c578264184cc361dfcc16ff85@crew-calendar",
+      "summary": "✈️ 9C7682 揭阳潮汕→上海虹桥",
+      "start": "2026-10-18T20:00:00+08:00",
+      "end": "2026-10-18T22:00:00+08:00",
+      "description": "10月18日 周日\n类型：航班\n航班：9C7682\n航线：揭阳潮汕 → 上海虹桥\n地点：揭阳潮汕\n签到：18:10｜揭阳潮汕\n任务：20:00 - 22:00\n机型：A320｜注册号：B32SZ\n\n人员名单：\n• 李振(T2,R)\n• 柏迎春(R)\n• 王维(B)\n• 王宙\n• 段洋硕\n• 李魏昊\n\n版本：2026-10-16 01:54",
+      "location": "揭阳潮汕",
+      "properties": {
+        "UID": "6434216c578264184cc361dfcc16ff85@crew-calendar",
+        "SUMMARY": "✈️ 9C7682 揭阳潮汕→上海虹桥",
+        "DTSTART": "20261018T200000",
+        "DTEND": "20261018T220000",
+        "DESCRIPTION": "10月18日 周日\\n类型：航班\\n航班：9C7682\\n航线：揭阳潮汕 → 上海虹桥\\n地点：揭阳潮汕\\n签到：18:10｜揭阳潮汕\\n任务：20:00 - 22:00\\n机型：A320｜注册号：B32SZ\\n\\n人员名单：\\n• 李振(T2\\,R)\\n• 柏迎春(R)\\n• 王维(B)\\n• 王宙\\n• 段洋硕\\n• 李魏昊\\n\\n版本：2026-10-16 01:54",
+        "X-CONTENT-SIGNATURE": "cd10798557938592f04aaa17a5dc05d3",
+        "LOCATION": "揭阳潮汕"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C7682",
+      "departure": "揭阳潮汕",
+      "arrival": "上海虹桥",
+      "aircraft_type": "A320",
+      "registration": "B32SZ",
+      "checkin": "18:10｜揭阳潮汕",
+      "people": [
+        "李振(T2,R)",
+        "柏迎春(R)",
+        "王维(B)",
+        "王宙",
+        "段洋硕",
+        "李魏昊"
+      ],
+      "cross_day": false
+    }
+  ],
+  "group_output": "2026-10-18_航前准备.txt",
+  "english_output": ""
+}
