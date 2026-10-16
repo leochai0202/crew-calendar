@@ -51,9 +51,9 @@
       "within_90_days": false
     },
     "揭阳潮汕": {
-      "last_operated": "2026-10-15",
+      "last_operated": "2026-10-16",
       "source": "completed_schedule_event",
-      "flight_number": "9C7681",
+      "flight_number": "9C7651X",
       "within_90_days": true
     },
     "广州白云": {
@@ -306,6 +306,18 @@
       "last_operated": "2026-10-11",
       "source": "completed_schedule_event",
       "flight_number": "9C7609",
+      "within_90_days": true
+    },
+    "合肥新桥": {
+      "last_operated": "2026-10-16",
+      "source": "completed_schedule_event",
+      "flight_number": "9C7651X",
+      "within_90_days": true
+    },
+    "伊犁伊宁": {
+      "last_operated": "2026-10-16",
+      "source": "completed_schedule_event",
+      "flight_number": "9C7651Y",
       "within_90_days": true
     }
   },
