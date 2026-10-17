@@ -2920,7 +2920,7 @@ UID:ceb525985e0c63beaa0398067aa12778@crew-calendar
 SUMMARY:✈️ 9C7652X 伊犁伊宁→合肥新桥
 DTSTART;TZID=Asia/Shanghai:20261017T161000
 DTEND;TZID=Asia/Shanghai:20261017T210000
-DESCRIPTION:10月17日 周六\n类型：航班\n航班：9C7652X\n航线：伊犁伊宁 → 合肥新桥\n地点：伊犁伊宁\n签到：14:40｜伊犁伊宁\n任务：16:10 - 21:00\n机型：A320｜注册号：B32G3\n\n人员名单：\n• 刘仕丹(T2\,R)\n• 王宙(R)\n• 段洋硕\n• 房文富(B)\n\n版本：2026-10-17 01:33
+DESCRIPTION:10月17日 周六\n类型：航班\n航班：9C7652X\n航线：伊犁伊宁 → 合肥新桥\n地点：伊犁伊宁\n签到：14:40｜伊犁伊宁\n任务：16:10 - 21:00\n机型：A320｜注册号：B32G3\n\n人员名单：\n• 刘仕丹(T2\,R)\n• 王宙(R)\n• 段洋硕\n• 房文富(B)\n\n版本：2026-10-17 13:31
 X-CONTENT-SIGNATURE:160546580b14701d151cf0c81978bba1
 LOCATION:伊犁伊宁
 BEGIN:VALARM
@@ -2934,7 +2934,7 @@ UID:8a6ab53d68c027015db7ec6184252750@crew-calendar
 SUMMARY:✈️ 9C7652Y 合肥新桥→揭阳潮汕
 DTSTART;TZID=Asia/Shanghai:20261017T215000
 DTEND;TZID=Asia/Shanghai:20261017T235000
-DESCRIPTION:10月17日 周六\n类型：航班\n航班：9C7652Y\n航线：合肥新桥 → 揭阳潮汕\n地点：合肥新桥\n签到：20:15｜合肥新桥\n任务：21:50 - 23:50\n机型：A320｜注册号：B32G3\n\n人员名单：\n• 刘仕丹(T2\,R)\n• 王宙(R)\n• 段洋硕\n• 房文富(B)\n\n版本：2026-10-17 01:33
+DESCRIPTION:10月17日 周六\n类型：航班\n航班：9C7652Y\n航线：合肥新桥 → 揭阳潮汕\n地点：合肥新桥\n签到：20:15｜合肥新桥\n任务：21:50 - 23:50\n机型：A320｜注册号：B32G3\n\n人员名单：\n• 刘仕丹(T2\,R)\n• 王宙(R)\n• 段洋硕\n• 房文富(B)\n\n版本：2026-10-17 13:31
 X-CONTENT-SIGNATURE:441b8bca0e15dfdbee35bbbc4fff8408
 LOCATION:合肥新桥
 BEGIN:VALARM
@@ -2948,7 +2948,7 @@ UID:f4479d990607e778d0a4f682cbcb9823@crew-calendar
 SUMMARY:✈️ 9C8678 揭阳潮汕→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20261018T095500
 DTEND;TZID=Asia/Shanghai:20261018T120000
-DESCRIPTION:10月18日 周日\n类型：航班\n航班：9C8678\n航线：揭阳潮汕 → 上海虹桥\n地点：揭阳潮汕\n签到：08:05｜揭阳潮汕\n任务：09:55 - 12:00\n机型：A320｜注册号：B308V\n\n人员名单：\n• 施龙(R)\n• 胡思航(R)\n• 樊靖轩\n• 陈丽(B)\n• 刘仕丹\n• 段洋硕\n\n版本：2026-10-17 01:33
+DESCRIPTION:10月18日 周日\n类型：航班\n航班：9C8678\n航线：揭阳潮汕 → 上海虹桥\n地点：揭阳潮汕\n签到：08:05｜揭阳潮汕\n任务：09:55 - 12:00\n机型：A320｜注册号：B308V\n\n人员名单：\n• 施龙(R)\n• 胡思航(R)\n• 樊靖轩\n• 陈丽(B)\n• 刘仕丹\n• 段洋硕\n\n版本：2026-10-17 13:31
 X-CONTENT-SIGNATURE:a9034129511b396fa9da79c7c8057a8f
 LOCATION:揭阳潮汕
 BEGIN:VALARM
@@ -2958,12 +2958,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:53df63d655f00eca5ab4e2a6dadfd4df@crew-calendar
+UID:f7015f44df31be30c798e777ede64fb9@crew-calendar
 SUMMARY:✈️ 9C8749 上海浦东→太原武宿
 DTSTART;TZID=Asia/Shanghai:20261021T072500
 DTEND;TZID=Asia/Shanghai:20261021T095500
-DESCRIPTION:10月21日 周三\n类型：航班\n航班：9C8749\n航线：上海浦东 → 太原武宿\n地点：上海浦东\n签到：05:35｜上海浦东\n任务：07:25 - 09:55\n机型：A320｜注册号：B8646\n\n人员名单：\n• 张建文\n• 夏曦\n• 段洋硕\n• 蔡海清(B)\n\n版本：2026-10-17 01:33
-X-CONTENT-SIGNATURE:9d5ba799a672480eee4b92bbd1abb5e5
+DESCRIPTION:10月21日 周三\n类型：航班\n航班：9C8749\n航线：上海浦东 → 太原武宿\n地点：上海浦东\n签到：05:35｜上海浦东\n任务：07:25 - 09:55\n机型：A320｜注册号：B32D6\n\n人员名单：\n• 张建文\n• 夏曦\n• 段洋硕\n• 蔡海清(B)\n\n版本：2026-10-17 13:31
+X-CONTENT-SIGNATURE:ac3bd2cfbd3b2d9d7f9ac68322e2ef73
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -2972,12 +2972,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:00d3036f6bc2920e80d9b0744b854278@crew-calendar
+UID:8feaa7977f788530a893df74e85888aa@crew-calendar
 SUMMARY:✈️ 9C8750 太原武宿→上海浦东
 DTSTART;TZID=Asia/Shanghai:20261021T104500
 DTEND;TZID=Asia/Shanghai:20261021T131500
-DESCRIPTION:10月21日 周三\n类型：航班\n航班：9C8750\n航线：太原武宿 → 上海浦东\n地点：太原武宿\n签到：09:10｜太原武宿\n任务：10:45 - 13:15\n机型：A320｜注册号：B8646\n\n人员名单：\n• 张建文\n• 夏曦\n• 段洋硕\n• 蔡海清(B)\n\n版本：2026-10-17 01:33
-X-CONTENT-SIGNATURE:42c618b776a0de995f946d0dd5e0a4a7
+DESCRIPTION:10月21日 周三\n类型：航班\n航班：9C8750\n航线：太原武宿 → 上海浦东\n地点：太原武宿\n签到：09:10｜太原武宿\n任务：10:45 - 13:15\n机型：A320｜注册号：B32D6\n\n人员名单：\n• 张建文\n• 夏曦\n• 段洋硕\n• 蔡海清(B)\n\n版本：2026-10-17 13:31
+X-CONTENT-SIGNATURE:55811438993e2039d0f74d47cf92bb79
 LOCATION:太原武宿
 BEGIN:VALARM
 TRIGGER:-PT90M
