@@ -2990,7 +2990,7 @@ UID:08412c5e9555eeb7cb7b0240ad52861a@crew-calendar
 SUMMARY:✈️ 9C6617 上海浦东→丽江三义
 DTSTART;TZID=Asia/Shanghai:20261022T170500
 DTEND;TZID=Asia/Shanghai:20261022T205000
-DESCRIPTION:10月22日 周四\n类型：航班\n航班：9C6617\n航线：上海浦东 → 丽江三义\n地点：上海浦东\n签到：15:15｜上海浦东\n任务：17:05 - 20:50\n机型：A320｜注册号：B32S5\n\n人员名单：\n• 杨少杰(T2\,R)\n• 段洋硕\n• 白炳晓\n• 汤慧君(B)\n• 秦建华\n\n版本：2026-10-21 20:58
+DESCRIPTION:10月22日 周四\n类型：航班\n航班：9C6617\n航线：上海浦东 → 丽江三义\n地点：上海浦东\n签到：15:15｜上海浦东\n任务：17:05 - 20:50\n机型：A320｜注册号：B32S5\n\n人员名单：\n• 杨少杰(T2\,R)\n• 段洋硕\n• 白炳晓\n• 汤慧君(B)\n• 秦建华\n\n版本：2026-10-22 02:08
 X-CONTENT-SIGNATURE:7f8d84788831727ca842bccd14c3c64a
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -3004,7 +3004,7 @@ UID:475482494dd6fa9aa4f02242bfbd41ca@crew-calendar
 SUMMARY:✈️ 9C6618 丽江三义→上海浦东(+1)
 DTSTART;TZID=Asia/Shanghai:20261023T213500
 DTEND;TZID=Asia/Shanghai:20261024T011000
-DESCRIPTION:10月23日 周五\n类型：航班\n航班：9C6618\n航线：丽江三义 → 上海浦东(+1)\n地点：丽江三义\n签到：19:55｜丽江三义\n任务：21:35 - 01:10\n机型：A320｜注册号：B32S5\n\n人员名单：\n• 杨少杰(T2\,R)\n• 段洋硕\n• 白炳晓\n• 毛佳骏(B)\n\n版本：2026-10-21 20:58
+DESCRIPTION:10月23日 周五\n类型：航班\n航班：9C6618\n航线：丽江三义 → 上海浦东(+1)\n地点：丽江三义\n签到：19:55｜丽江三义\n任务：21:35 - 01:10\n机型：A320｜注册号：B32S5\n\n人员名单：\n• 杨少杰(T2\,R)\n• 段洋硕\n• 白炳晓\n• 毛佳骏(B)\n\n版本：2026-10-22 02:08
 X-CONTENT-SIGNATURE:57d7246e622749dd4178e6ec1d5308c5
 LOCATION:丽江三义
 BEGIN:VALARM
@@ -3018,7 +3018,7 @@ UID:4e56f3550cb2d055c3ad901e385c3369@crew-calendar
 SUMMARY:✈️ 9C7289 上海浦东→曼谷素旺那普
 DTSTART;TZID=Asia/Shanghai:20261026T170000
 DTEND;TZID=Asia/Shanghai:20261026T214500
-DESCRIPTION:10月26日 周一\n类型：航班\n航班：9C7289\n航线：上海浦东 → 曼谷素旺那普\n地点：上海浦东\n签到：14:55｜上海浦东\n任务：17:00 - 21:45\n机型：A320｜注册号：B6931\n\n人员名单：\n• ZINDLER INGO WERNER(R)\n• 李贺贺(R)\n• 段洋硕\n• 徐滢(B)\n\n版本：2026-10-21 20:58
+DESCRIPTION:10月26日 周一\n类型：航班\n航班：9C7289\n航线：上海浦东 → 曼谷素旺那普\n地点：上海浦东\n签到：14:55｜上海浦东\n任务：17:00 - 21:45\n机型：A320｜注册号：B6931\n\n人员名单：\n• ZINDLER INGO WERNER(R)\n• 李贺贺(R)\n• 段洋硕\n• 徐滢(B)\n\n版本：2026-10-22 02:08
 X-CONTENT-SIGNATURE:2fc4917113e5fd4ef8b42fb58d5fa2cb
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -3032,7 +3032,7 @@ UID:b93fbb20f204afb7a60aa790fe42be49@crew-calendar
 SUMMARY:✈️ 9C7420 曼谷素旺那普→广州白云(+1)
 DTSTART;TZID=Asia/Shanghai:20261026T225500
 DTEND;TZID=Asia/Shanghai:20261027T020000
-DESCRIPTION:10月26日 周一\n类型：航班\n航班：9C7420\n航线：曼谷素旺那普 → 广州白云(+1)\n地点：曼谷素旺那普\n签到：21:20｜曼谷素旺那普\n任务：22:55 - 02:00\n机型：A320｜注册号：B6931\n\n人员名单：\n• ZINDLER INGO WERNER(R)\n• 李贺贺(R)\n• 段洋硕\n• 徐滢(B)\n\n版本：2026-10-21 20:58
+DESCRIPTION:10月26日 周一\n类型：航班\n航班：9C7420\n航线：曼谷素旺那普 → 广州白云(+1)\n地点：曼谷素旺那普\n签到：21:20｜曼谷素旺那普\n任务：22:55 - 02:00\n机型：A320｜注册号：B6931\n\n人员名单：\n• ZINDLER INGO WERNER(R)\n• 李贺贺(R)\n• 段洋硕\n• 徐滢(B)\n\n版本：2026-10-22 02:08
 X-CONTENT-SIGNATURE:11ca887961f3c003081fcd5bfe9e6f77
 LOCATION:曼谷素旺那普
 BEGIN:VALARM
