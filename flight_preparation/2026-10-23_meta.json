@@ -1,0 +1,41 @@
+{
+  "status": "SUCCESS",
+  "target_date": "2026-10-23",
+  "generated_at_beijing": "2026-10-21T08:52:02.091655+08:00",
+  "task_fingerprint": "20dd44a6e04392dab75815350bf467621dfc6ab88753873175a1e1ff86f86329",
+  "matched_flights": [
+    {
+      "uid": "1fcefd3da14bb0b6bea07f4d910829ef@crew-calendar",
+      "summary": "✈️ 9C6618 丽江三义→上海浦东(+1)",
+      "start": "2026-10-23T21:35:00+08:00",
+      "end": "2026-10-24T01:10:00+08:00",
+      "description": "10月23日 周五\n类型：航班\n航班：9C6618\n航线：丽江三义 → 上海浦东(+1)\n地点：丽江三义\n签到：19:55｜丽江三义\n任务：21:35 - 01:10\n机型：A320｜注册号：B329U\n\n人员名单：\n• 杨少杰(T2,R)\n• 段洋硕\n• 白炳晓\n• 毛佳骏(B)\n\n版本：2026-10-21 02:03",
+      "location": "丽江三义",
+      "properties": {
+        "UID": "1fcefd3da14bb0b6bea07f4d910829ef@crew-calendar",
+        "SUMMARY": "✈️ 9C6618 丽江三义→上海浦东(+1)",
+        "DTSTART": "20261023T213500",
+        "DTEND": "20261024T011000",
+        "DESCRIPTION": "10月23日 周五\\n类型：航班\\n航班：9C6618\\n航线：丽江三义 → 上海浦东(+1)\\n地点：丽江三义\\n签到：19:55｜丽江三义\\n任务：21:35 - 01:10\\n机型：A320｜注册号：B329U\\n\\n人员名单：\\n• 杨少杰(T2\\,R)\\n• 段洋硕\\n• 白炳晓\\n• 毛佳骏(B)\\n\\n版本：2026-10-21 02:03",
+        "X-CONTENT-SIGNATURE": "52b7c2ef74501b305fbba0b0365d30b2",
+        "LOCATION": "丽江三义"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C6618",
+      "departure": "丽江三义",
+      "arrival": "上海浦东",
+      "aircraft_type": "A320",
+      "registration": "B329U",
+      "checkin": "19:55｜丽江三义",
+      "people": [
+        "杨少杰(T2,R)",
+        "段洋硕",
+        "白炳晓",
+        "毛佳骏(B)"
+      ],
+      "cross_day": true
+    }
+  ],
+  "group_output": "2026-10-23_航前准备.txt",
+  "english_output": ""
+}
