@@ -1,7 +1,7 @@
 {
   "failure_notified_at": "2026-10-22T14:05:53+08:00",
-  "incident_active": true,
+  "incident_active": false,
   "incident_started_at": "2026-10-22T14:05:53+08:00",
   "last_failure_status": "PAGE_CHANGED_OR_UNKNOWN",
-  "recovery_notified_at": ""
+  "recovery_notified_at": "2026-10-22T21:01:43+08:00"
 }
