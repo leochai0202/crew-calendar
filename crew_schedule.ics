@@ -3415,7 +3415,7 @@ UID:1fcefd3da14bb0b6bea07f4d910829ef@crew-calendar
 SUMMARY:✈️ 9C6618 丽江三义→上海浦东(+1)
 DTSTART;TZID=Asia/Shanghai:20261023T213500
 DTEND;TZID=Asia/Shanghai:20261024T011000
-DESCRIPTION:10月23日 周五\n类型：航班\n航班：9C6618\n航线：丽江三义 → 上海浦东(+1)\n地点：丽江三义\n签到：19:55｜丽江三义\n任务：21:35 - 01:10\n机型：A320｜注册号：B329U\n\n人员名单：\n• 杨少杰(T2\,R)\n• 段洋硕\n• 白炳晓\n• 毛佳骏(B)\n• 奚晓迪\n\n版本：2026-10-23 02:08
+DESCRIPTION:10月23日 周五\n类型：航班\n航班：9C6618\n航线：丽江三义 → 上海浦东(+1)\n地点：丽江三义\n签到：19:55｜丽江三义\n任务：21:35 - 01:10\n机型：A320｜注册号：B329U\n\n人员名单：\n• 杨少杰(T2\,R)\n• 段洋硕\n• 白炳晓\n• 毛佳骏(B)\n• 奚晓迪\n\n版本：2026-10-23 13:58
 X-CONTENT-SIGNATURE:5e568656ac1c711ff2f94e627633c31b
 LOCATION:丽江三义
 BEGIN:VALARM
@@ -3429,7 +3429,7 @@ UID:b67b1048d9164699713d7c4b12c3d596@crew-calendar
 SUMMARY:✈️ 9C7289 上海浦东→曼谷素旺那普
 DTSTART;TZID=Asia/Shanghai:20261026T170000
 DTEND;TZID=Asia/Shanghai:20261026T214500
-DESCRIPTION:10月26日 周一\n类型：航班\n航班：9C7289\n航线：上海浦东 → 曼谷素旺那普\n地点：上海浦东\n签到：14:55｜上海浦东\n任务：17:00 - 21:45\n机型：A320｜注册号：B30CM\n\n人员名单：\n• ZINDLER INGO WERNER(R)\n• 李贺贺(R)\n• 段洋硕\n• 徐滢(B)\n\n版本：2026-10-23 02:08
+DESCRIPTION:10月26日 周一\n类型：航班\n航班：9C7289\n航线：上海浦东 → 曼谷素旺那普\n地点：上海浦东\n签到：14:55｜上海浦东\n任务：17:00 - 21:45\n机型：A320｜注册号：B30CM\n\n人员名单：\n• ZINDLER INGO WERNER(R)\n• 李贺贺(R)\n• 段洋硕\n• 徐滢(B)\n\n版本：2026-10-23 13:58
 X-CONTENT-SIGNATURE:ce8c0dfa69692546465795e169d8bcea
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -3443,7 +3443,7 @@ UID:db70fe40d2466aff3611ef706aa49a92@crew-calendar
 SUMMARY:✈️ 9C7420 曼谷素旺那普→广州白云(+1)
 DTSTART;TZID=Asia/Shanghai:20261026T225500
 DTEND;TZID=Asia/Shanghai:20261027T020000
-DESCRIPTION:10月26日 周一\n类型：航班\n航班：9C7420\n航线：曼谷素旺那普 → 广州白云(+1)\n地点：曼谷素旺那普\n签到：21:20｜曼谷素旺那普\n任务：22:55 - 02:00\n机型：A320｜注册号：B30CM\n\n人员名单：\n• ZINDLER INGO WERNER(R)\n• 李贺贺(R)\n• 段洋硕\n• 徐滢(B)\n\n版本：2026-10-23 02:08
+DESCRIPTION:10月26日 周一\n类型：航班\n航班：9C7420\n航线：曼谷素旺那普 → 广州白云(+1)\n地点：曼谷素旺那普\n签到：21:20｜曼谷素旺那普\n任务：22:55 - 02:00\n机型：A320｜注册号：B30CM\n\n人员名单：\n• ZINDLER INGO WERNER(R)\n• 李贺贺(R)\n• 段洋硕\n• 徐滢(B)\n\n版本：2026-10-23 13:58
 X-CONTENT-SIGNATURE:a00b5bc21cf29f7201b9c154de3d3af4
 LOCATION:曼谷素旺那普
 BEGIN:VALARM
