@@ -1962,9 +1962,14 @@ def build_manual_index(text: str) -> list[dict]:
 
 
 ENGLISH_MANUAL_HEADER_RE = re.compile(
-    r"(?P<name>[A-Za-z][A-Za-z /&.'-]{1,80}?)\s+Airport\s*"
-    r"\(\s*(?P<left>[A-Z]{3,4})\s*/\s*(?P<right>[A-Z]{3,4})\s*\)",
+    r"(?P<name>[A-Za-z][A-Za-z /&.'-]{1,80}?)\s+Airport"
+    r"(?:\s*,\s*[A-Za-z][A-Za-z .'-]{1,50})?\s*"
+    r"\(\s*(?P<left>[A-Z]{3,4})\s*[/\-]\s*(?P<right>[A-Z]{3,4})\s*\)",
     re.IGNORECASE,
+)
+ENGLISH_MANUAL_CODE_HEADER_RE = re.compile(
+    r"^(?P<name>[A-Z][A-Z /&.'-]{3,80})\s*"
+    r"\(\s*(?P<left>[A-Z]{3,4})\s*[/\-]\s*(?P<right>[A-Z]{3,4})\s*\)$"
 )
 
 
@@ -1983,12 +1988,18 @@ def build_english_manual_index(text: str) -> list[dict[str, object]]:
         page_match = re.search(r"页码\s*[:：]\s*(\d{1,5})", raw)
         if page_match:
             current_page = int(page_match.group(1))
-        if "airport" not in raw.lower():
+        code_header = ENGLISH_MANUAL_CODE_HEADER_RE.fullmatch(normalize_text(raw))
+        if "airport" not in raw.lower() and not code_header:
             continue
         probe = " ".join(
             normalize_text(value) for value in lines[index : index + 3]
-        )
+        ).translate(str.maketrans("（）／－", "()/-"))
         match = ENGLISH_MANUAL_HEADER_RE.search(probe)
+        if not match and code_header and any(
+            re.search(r"Updated\s*on|Responsib", value, re.IGNORECASE)
+            for value in lines[index + 1 : index + 8]
+        ):
+            match = code_header
         if not match or not current_page:
             continue
         left, right = match.group("left").upper(), match.group("right").upper()
@@ -2061,6 +2072,8 @@ def extract_pdf_layout_text(
 
 def _english_manual_heading(value: str) -> tuple[str, str]:
     compact = re.sub(r"[^A-Z0-9]+", "", value.upper())
+    if "HISTORICALSAFETYOCCURRENCES" in compact:
+        return "typical", "incident"
     if "DETAILEDDESCRIPTIONOFTYPICALUNSAFEINCIDENT" in compact:
         return "typical", "incident"
     if "TYPICALSAFETYINCIDENT" in compact or "TYPICALUNSAFEEVENT" in compact:
@@ -2073,6 +2086,8 @@ def _english_manual_heading(value: str) -> tuple[str, str]:
         return "core", "ground"
     if "POSTLANDINGGROUNDOPERATIONSPHASE" in compact:
         return "core", "landing_ground"
+    if "OPERATINGCHARACTERISTICSINSPECIFICENVIRONMENTS" in compact:
+        return "core", "operations"
     if "DEPARTURE" in compact and "PHASE" in compact:
         return "core", "departure"
     if "ARRIVAL" in compact and "LANDING" in compact and "PHASE" in compact:
@@ -2112,15 +2127,14 @@ def _english_manual_metadata_item(value: str, phase: str) -> bool:
     if phase in {"core", "incident"}:
         return False
     compact = re.sub(r"\s+", "", value).lower()
-    return any(
-        marker in compact
-        for marker in (
-            "airportelevation:",
-            "on-site/dispatchfrequency:",
-            "onsite/dispatchfrequency:",
-            "iceremoval/anti-icingcapability:",
-        )
-    )
+    if "airportelevation:" in compact or "iceremoval/anti-icingcapability:" in compact:
+        return True
+    if "on-site/dispatchfrequency:" in compact or "onsite/dispatchfrequency:" in compact:
+        # A bare frequency is table metadata; a paragraph explaining when and
+        # how to contact that frequency is an operational source item.
+        detail = value.split(":", 1)[-1].strip()
+        return len(detail.split()) <= 8
+    return False
 
 
 def extract_english_manual_facts(text: str) -> list[ManualEnglishFact]:
@@ -2172,9 +2186,37 @@ def extract_english_manual_facts(text: str) -> list[ManualEnglishFact]:
             else:
                 category = heading_category
                 phase = heading_phase
+            # A flattened PDF table can place the section title and several
+            # numbered incidents on one physical line. Keep each incident's
+            # source order instead of discarding the whole heading line.
+            inline_items = re.search(r"[（(]\s*1\s*[）)]", line)
+            if inline_items and category == "typical":
+                for item in re.split(
+                    r"(?=[（(]\s*\d+\s*[）)])", line[inline_items.start():]
+                ):
+                    item = item.strip()
+                    match = sub_item_re.match(item)
+                    if match:
+                        flush()
+                        current_level = "sub"
+                        current_parts = [match.group("body")]
             continue
         if not category:
             continue
+        if category == "typical" and current_parts:
+            inline_parts = re.split(
+                r"(?<=[.!?])\s+(?=[（(]\s*\d+\s*[）)])", line
+            )
+            if len(inline_parts) > 1:
+                for part in inline_parts:
+                    match = sub_item_re.match(part)
+                    if match:
+                        flush()
+                        current_level = "sub"
+                        current_parts = [match.group("body")]
+                    else:
+                        current_parts.append(part)
+                continue
         sub_match = sub_item_re.match(line)
         if sub_match:
             flush(before_subitem=True)
@@ -2206,6 +2248,7 @@ def _chinese_manual_fact_phase(value: str, category: str) -> str:
         "航路": "navigation",
         "进场": "arrival",
         "着陆后地面": "landing_ground",
+        "运行特点": "operations",
     }.get(prefix, "core")
 
 
@@ -2219,7 +2262,7 @@ def manual_pairing_tokens(value: str) -> set[str]:
         upper,
     ):
         tokens.add("ATC")
-    if "指令高度" in text or "指挥" in text:
+    if "指令高度" in text or "指挥" in text or "放行许可" in text:
         tokens.add("ATC")
     if "盲降" in text or re.search(r"\bILS\b", upper):
         tokens.add("ILS")
@@ -2230,7 +2273,12 @@ def manual_pairing_tokens(value: str) -> set[str]:
     ):
         tokens.add(token.replace(" ", "").upper())
     for runway in re.findall(
-        r"(?<!\d)(\d{1,2}[LRC]?)(?=号(?:跑道|盲降|进近|VOR|ILS)|\s*号)",
+        r"(?<!\d)(\d{1,2}[LRC]?)(?=\s*(?:号)?(?:跑道|盲降|进近|起飞|落地)|\s*号)",
+        upper,
+    ):
+        tokens.add(f"RWY{runway}")
+    for runway in re.findall(
+        r"(?<![A-Z0-9])(\d{1,2}[LRC]?)(?=\s+(?:RUNWAY|APPROACH|TAKEOFF|LANDING))",
         upper,
     ):
         tokens.add(f"RWY{runway}")
@@ -2262,6 +2310,13 @@ def manual_pairing_tokens(value: str) -> set[str]:
     for runway in re.findall(r"RUNWAY\s+1\.(\d{2}[LRC]?)", upper):
         tokens.discard("RWY1")
         tokens.add(f"RWY{runway}")
+    for stand in re.findall(
+        r"(?:机位|停机位|STAND|TERMINAL)\s*(?:NO\.?\s*)?([A-Z]?\d{2,4}[A-Z]?)",
+        upper,
+    ):
+        tokens.add(f"STAND{stand}")
+    for stand in re.findall(r"([A-Z]?\d{2,4}[A-Z]?)\s*(?:号)?(?:机位|停机位)", upper):
+        tokens.add(f"STAND{stand}")
     fpa_values = re.findall(r"FPA\s*(?:OF\s*)?(\d+(?:\.\d+)?)", upper)
     if fpa_values:
         tokens.discard("FPA")
@@ -2316,48 +2371,35 @@ def pair_manual_english_items(
             grouped.setdefault(fact.phase, []).append(fact)
     paired: list[str] = []
     phase_offsets: dict[str, int] = {}
-    used: set[tuple[str, int]] = set()
     for item in chinese_items:
         phase = _chinese_manual_fact_phase(item, category)
         candidates = grouped.get(phase, [])
         ordinal = phase_offsets.get(phase, 0)
-        phase_offsets[phase] = ordinal + 1
         selected: ManualEnglishFact | None = None
         source_tokens = manual_pairing_tokens(item)
-        if source_tokens:
-            anchored: list[tuple[tuple[int, int, int], ManualEnglishFact]] = []
-            for fact in candidates:
-                subset = _english_subset_for_chinese_fact(item, fact.text)
-                english_tokens = manual_pairing_tokens(subset)
-                if english_tokens == source_tokens:
-                    quality = 0
-                elif source_tokens.issubset(english_tokens):
-                    quality = 1 + len(english_tokens - source_tokens)
-                else:
-                    continue
-                anchored.append(
-                    (
-                        (
-                            quality,
-                            1 if (phase, fact.sequence) in used else 0,
-                            abs(fact.sequence - ordinal),
-                        ),
-                        fact,
-                    )
-                )
-            if anchored:
-                selected = min(anchored, key=lambda value: value[0])[1]
-        if selected is None and ordinal < len(candidates):
+        if ordinal < len(candidates):
             direct = candidates[ordinal]
-            if (phase, direct.sequence) not in used:
+            direct_tokens = manual_pairing_tokens(
+                _english_subset_for_chinese_fact(item, direct.text)
+            )
+            if not source_tokens or source_tokens & direct_tokens:
                 selected = direct
+            else:
+                # A missing source item must not shift all later records or
+                # borrow a later airport fact merely because its text shares
+                # a common acronym. Only an exact, monotonic token anchor can
+                # justify skipping an intervening English item.
+                for fact in candidates[ordinal + 1 :]:
+                    english_tokens = manual_pairing_tokens(
+                        _english_subset_for_chinese_fact(item, fact.text)
+                    )
+                    if source_tokens == english_tokens:
+                        selected = fact
+                        break
         if selected is not None:
-            was_used = (phase, selected.sequence) in used
-            used.add((phase, selected.sequence))
+            phase_offsets[phase] = selected.sequence + 1
             paired.append(
-                selected.text
-                if selected.sequence == ordinal and not was_used
-                else _english_subset_for_chinese_fact(item, selected.text)
+                _english_subset_for_chinese_fact(item, selected.text)
             )
         else:
             paired.append("")

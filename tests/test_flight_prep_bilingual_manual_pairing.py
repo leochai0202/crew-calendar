@@ -1,9 +1,22 @@
 from __future__ import annotations
 
 from datetime import date, datetime
+from pathlib import Path
 
 from crew_agents import flight_prep_agent as agent
 from crew_agents.ics_utils import CalendarEvent
+
+
+REAL_MANUAL = next(
+    (Path(__file__).parents[1] / "knowledge" / "pdf").glob("*20260924*.pdf")
+)
+
+
+def _manual_pages(*pages: int) -> str:
+    return "\n".join(
+        agent.extract_pdf_layout_text(str(REAL_MANUAL), page, page)
+        for page in pages
+    )
 
 
 def _manual_record(
@@ -145,6 +158,63 @@ I. Typical Safety Incidents
     assert alpha["end_page"] == 19
     assert bravo and bravo["name"] == "Bravo"
     assert agent.match_english_manual_chapter(index, "ZCCC") is None
+
+
+def test_latest_manual_real_chapters_use_exact_icao_and_english_pages() -> None:
+    index = agent.build_english_manual_index(
+        _manual_pages(983, 1163, 1354, 1359, 1563, 1567)
+    )
+
+    assert agent.match_english_manual_chapter(index, "VTBS")["start_page"] == 1163
+    assert agent.match_english_manual_chapter(index, "ZSPD")["start_page"] == 1354
+    assert agent.match_english_manual_chapter(index, "ZGGG")["start_page"] == 1563
+    assert agent.match_english_manual_chapter(index, "ZGKL")["start_page"] == 1567
+    assert not any(chapter["start_page"] == 983 for chapter in index)
+
+
+def test_latest_manual_flattened_history_keeps_two_english_events() -> None:
+    facts = agent.extract_english_manual_facts(_manual_pages(1354, 1358))
+    incidents = [fact for fact in facts if fact.category == "typical"]
+
+    assert len(incidents) == 2
+    assert "radome damage" in incidents[0].text
+    assert "Flight-plan data-entry errors" in incidents[1].text
+    assert "Flight-plan" not in incidents[0].text
+
+
+def test_latest_manual_operational_frequency_is_not_discarded_as_metadata() -> None:
+    facts = agent.extract_english_manual_facts(_manual_pages(1163, 1164))
+
+    assert any(
+        fact.phase == "ground"
+        and "129.050" in fact.text
+        and "contact them" in fact.text
+        for fact in facts
+    )
+
+
+def test_release_clearance_matches_atc_actor_without_ignoring_other_atc() -> None:
+    assert agent.manual_pairing_tokens("脱波频率按照 PDC 或放行许可。") == {
+        "ATC", "PDC"
+    }
+    assert agent.manual_pairing_tokens("仅按 PDC 执行。") == {"PDC"}
+    assert agent.manual_pairing_tokens("PDC or ATC departure clearance.") == {
+        "ATC", "PDC"
+    }
+
+
+def test_missing_english_item_does_not_shift_later_source_order() -> None:
+    english = agent.extract_english_manual_facts(
+        """
+        II. Core Threats
+        1. Thunderstorms are frequent.
+        """
+    )
+    paired = agent.pair_manual_english_items(
+        ["机位818R不建议单发滑行。", "雷雨天气频繁。"], english, "core"
+    )
+
+    assert paired == ["", "Thunderstorms are frequent."]
 
 
 def test_route_specific_chinese_exclusion_also_excludes_english_counterpart() -> None:
