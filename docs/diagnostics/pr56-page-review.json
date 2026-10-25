@@ -1,0 +1,102 @@
+{
+  "manual_version": "20260924",
+  "latest_main_sha": "56732c91bade5e9636332f6d6663638699b42b3f",
+  "review_method": "Physical PDF pages rendered with pdftoppm and read alongside complete plain/layout extraction; candidates alone were not used as proof of absence.",
+  "parser_bug_items": [
+    {"classification": "C", "issue": "Source item was token-trimmed before Chinese clause splitting, discarding tokenless continuation sentences.", "examples": ["ZSPD stand 168 speed caution, p586/p1357", "VTBS NAV fault operational caution, p317/p1166", "VTBS VIA BATEM continuation, p318/p1167"], "fixed": true},
+    {"classification": "C", "issue": "One remaining English sentence was always assigned to the first Chinese clause even when that clause was missing in the English source.", "examples": ["VTBS STAR clause incorrectly received the following pavement/towing English clause, p315/p1163-1164"], "fixed": true},
+    {"classification": "C", "issue": "Greedy exact-token skipping could borrow a later source item with a common token; alignment now requires an unambiguous globally monotonic assignment.", "fixed": true},
+    {"classification": "B", "issue": "Joined annunciation words in extracted Chinese text produced false NAV/GPS token differences, although the rendered Chinese page has the same spaced words as English.", "examples": ["VTBS p317/p1166"], "fixed": true},
+    {"classification": "B", "issue": "Runway pair ends, reverse runway labels, short taxiway identifiers, attached UTC and explicit bilingual acronym expansions were not extracted consistently.", "examples": ["VTBS p315/p1163", "ZSPD p585/p1356", "ZGGG J3 p984/p1564", "VTBS FOIB p316/p1164", "ZSPD VDGS p586/p1357-1358"], "fixed": true},
+    {"classification": "B", "issue": "Wind shear with a space was not recognized as windshear; turbulence remains a non-equivalent concept.", "examples": ["ZGGG typical incident p983/p1563"], "fixed": true},
+    {"classification": "C", "issue": "Current-manual source provenance was populated from old static airport page ranges (e.g. ZSPD 448-451 instead of current 584-587). Dynamic chapter page metadata now comes from the actual PDF headers.", "fixed": true},
+    {"classification": "C", "issue": "Equivalent arrival/approach/landing headings and decimal list numbering without terminal dots needed structural coverage.", "fixed": true}
+  ],
+  "source_findings": [
+    {
+      "id": "A-VTBS-STAR", "classification": "A", "icao": "VTBS",
+      "selected_clause_markers": ["STAR"],
+      "source_record_ids": ["曼谷素旺那普:core:2c9eb872ff8083ca"],
+      "chinese_page": 315, "english_pages_reviewed": [1163,1164,1165,1166,1167,1168],
+      "chinese_exact_clause": "曼谷进近只给出进场STAR 程序，不告知跑道，虽然 通波只告知一条进近跑道，但仍有可能使用通波没有列出的跑 道，机组建立五边之前务必证实跑道和进近方式。",
+      "evidence": "Chinese Command Characteristics subitem (4) appears after north/south runway operations. English p1163 ends Command Characteristics at subitem (3), followed directly by 4. Pavement characteristics; its continuation on p1164 concerns towing only. Complete arrival section p1166-1168 has no STAR/runway-confirmation counterpart. Later chapter pages are hotel information, not a continuation of this source item.",
+      "selected_dates": ["2026-10-26", "2026-10-28"], "status": "TRUE_ENGLISH_COVERAGE_GAP"
+    },
+    {
+      "id": "A-ZGGG-919R", "classification": "A", "icao": "ZGGG",
+      "source_record_ids": ["广州白云:core:a173ff5e7969d2ed"],
+      "chinese_page": 983, "english_pages_reviewed": [1563,1564,1565,1566],
+      "chinese_exact_clause": "广州 机位919R 不建议单发滑行.。",
+      "evidence": "Chinese Core Threats / Pavement characteristics has subitem (1) E J23-J14 uphill and subitem (2) stand 919R. English p1563 has only the first pavement subitem, then immediately Meteorological characteristics. No 919R restriction occurs elsewhere in the complete four-page English chapter. The p1564 J3 single-engine taxi paragraph exists and is correctly paired; it cannot substitute for 919R.",
+      "selected_dates": ["2026-10-26"], "selection_note": "The selected merged paragraph retains this source fact ID even though its final Chinese projection omits the 919R clause. No Chinese selection or source identity was removed by this fix.",
+      "status": "TRUE_ENGLISH_COVERAGE_GAP"
+    },
+    {
+      "id": "A-ZGGG-PUSHBACK", "classification": "A", "icao": "ZGGG",
+      "source_record_ids": ["广州白云:core:9bbbbc56abd69b8b"],
+      "chinese_page": 986, "english_pages_reviewed": [1563,1564,1565,1566],
+      "chinese_exact_clause": "广州T3，939附近机位，管制给推出指令，可以推 开，推到R3，跑道01R。机务可能只推到大概正对838到939 之间的位置。这个时候应提醒机务往前拉一点，尽量满足推 到R3上。因R3，R4，R5连接处有点滑行区域没有标注，在推 出过程中管制指令和机务行为有时候不够统一，务必多留心。建议设计特定推出程序，或者给出明确清晰推出指令。",
+      "evidence": "Chinese Ground / Precautions subitem (6) occurs on p986 after a p984-985 page continuation and illustration. English Ground / Precautions on p1564 ends at subitem (4) T64, then anti-icing and Exit. No R3/R4/R5, 838/939 pushback item appears in the remaining English chapter.",
+      "selected_dates": ["2026-10-28"], "status": "TRUE_ENGLISH_COVERAGE_GAP"
+    },
+    {
+      "id": "A-ZGGG-BRAKE", "classification": "A", "icao": "ZGGG",
+      "source_record_ids": ["广州白云:core:6328ded28cd58d53"],
+      "chinese_page": 983, "english_pages_reviewed": [1563,1564,1565,1566],
+      "chinese_exact_clause": "广州涉及航线距离较长，飞机起飞重量大，从T3滑行 至01R/19L地面滑行时间长，且道面坡度起伏和转弯多，易 造成刹车温度高，导致航班延误或起飞后机轮温度超限情况，请机组注意。",
+      "evidence": "Chinese Core Threats / Other threats subitem (5) is the final paragraph on p983. English Other threats p1563 ends at subitem (4) new-runway confusion, followed by Operational Characteristics p1564. No equivalent high-weight/long-taxi/brake-temperature paragraph appears in the complete English chapter.",
+      "selected_dates": ["2026-10-28"], "status": "TRUE_ENGLISH_COVERAGE_GAP"
+    },
+    {
+      "id": "A-ZGGG-NORTH-DEPARTURE", "classification": "A", "icao": "ZGGG",
+      "source_record_ids": ["广州白云:core:2422ee6d04561eeb"],
+      "chinese_page": 986, "english_pages_reviewed": [1563,1564,1565,1566],
+      "chinese_exact_clause": "广州早出港航班，向北起飞，有时管制指挥使用跑道 02R起飞。需要穿越跑道02L，需要注意穿越跑道之后正对着 的是P13并不是02R跑道头。Y18为跑道02R跑道等待点，转向 Y时需要注意，Y18并非为Y尽头，注意滑行速度，避免滑过。",
+      "evidence": "Chinese Exit / Precautions subitem (2) contains both the crossing/P13 and Y18 clauses. English Exit / Precautions p1565 contains only the general early-departure runway-choice paragraph, then Navigation routes. Neither 02L crossing/P13 nor Y18 exists in the complete English chapter. Two selected Chinese facts share this one parent record.",
+      "selected_dates": ["2026-10-28"], "status": "TRUE_ENGLISH_COVERAGE_GAP"
+    },
+    {
+      "id": "D-ZGGG-W19", "classification": "D", "icao": "ZGGG",
+      "source_record_ids": ["广州白云:core:c9f2ac8896ce0bac"],
+      "chinese_page": 987, "english_pages_reviewed": [1565],
+      "chinese_exact_clause": "将W19航线MASGU-MABAG-OGABI-NOMAR 航段调整为MASGU- UPMIP-ATKAV-OLPAB-NOMAR供华东方向落地广州航班及飞跃 珠三角航班使用。",
+      "english_exact_clause": "The W19 route segment MASGU-MABAG-OGABI-NOMAR will be adjusted to MASGU-UPMIP-ATKAV-OBLAP-NOMAR for flights landing in Guangzhou and those flying over the Pearl River Delta region bound for East China.",
+      "evidence": "Both pages show Navigation routes item 1 with W19 and the same surrounding MASGU/UPMIP/ATKAV/NOMAR sequence. Rendered glyphs confirm OLPAB versus OBLAP, not a text-extraction substitution.",
+      "cross_reference_pages": {"OLPAB": [987], "OBLAP": [523,619,1294,1378,1565]},
+      "cross_reference_conclusion": "The other OBLAP occurrences concern Changzhou/Yangzhou via EMRID/V143/OLRIS; they do not independently confirm this W19 revision. Frequency of spelling is not authority to choose either waypoint. No spelling has been selected or rewritten.",
+      "selected_dates": ["2026-10-26"], "status": "SOURCE_CONFLICT"
+    },
+    {
+      "id": "D-ZGGG-180", "classification": "D", "icao": "ZGGG",
+      "source_record_ids": ["广州白云:core:c86df9922ff0cc1f"],
+      "chinese_page": 987, "english_pages_reviewed": [1565],
+      "chinese_exact_clause": "会指挥速度180到8海里，尽量满足避免造成间隔不够。",
+      "english_exact_clause": "The vessel shall maintain a speed of 180 to 8 knots, ensuring sufficient spacing to avoid insufficient intervals.",
+      "evidence": "Both are Entry / Command Characteristics subitem (2). English does exist and the parser extracts it as arrival sequence 1. It says 8 knots rather than the Chinese distance 8 nautical miles, and describes a speed range rather than retaining a speed to a distance. Pairing cannot repair this source-level unit/meaning conflict; empty pairing is not classified as missing source.",
+      "selected_dates": ["2026-10-26"], "status": "SOURCE_CONFLICT"
+    },
+    {
+      "id": "D-VTBS-FIVE-WAY", "classification": "D", "icao": "VTBS",
+      "source_record_ids": ["曼谷素旺那普:core:cb29f683c773c0a8"],
+      "chinese_page": 318, "english_pages_reviewed": [1166],
+      "chinese_exact_clause": "航图新增Z 进近程序为主用程序，数据库也有变化，提示机组注意阅读对应进场图中Warning 中的说明，避免未经ATC 许可转向五边加入进近程序。",
+      "english_exact_clause": "The new Z approach procedure has been designated as the primary procedure in the air chart, with corresponding database updates. Crews are advised to carefully review the Warning section in the relevant approach chart to prevent unauthorized five-way turns into the approach procedure without ATC clearance.",
+      "evidence": "Corresponding Arrival / Command Characteristics subitem (3) is fully extracted and paired. The rendered English itself says five-way turns, not final approach. This is a source-English semantic-quality difference, not a missing paragraph or page-continuation bug; no generated replacement was supplied.",
+      "selected_dates": ["2026-10-26", "2026-10-28"], "status": "SOURCE_SEMANTIC_DIVERGENCE_REQUIRES_REVIEW"
+    },
+    {
+      "id": "D-VTBS-FIVE-SIDES", "classification": "D", "icao": "VTBS",
+      "source_record_ids": ["曼谷素旺那普:core:15735735141c21a3", "曼谷素旺那普:core:8c5489785e54caec"],
+      "chinese_page": 318, "english_pages_reviewed": [1166,1167],
+      "evidence": "English Precautions (1) starts at the bottom of p1166 and continues on p1167; the parser retains the full item. English (2) is also present. Rendered English uses 20R RNP five sides and three-way approach, whereas Chinese uses 五边 and 三边航向. Numeric/runway anchors now match, but the existing final-approach semantic guard still rejects the English. This is not a coverage gap; it needs source-English review, not an unreviewed automatic translation.",
+      "selected_dates": ["2026-10-26", "2026-10-28"], "status": "SOURCE_SEMANTIC_DIVERGENCE_REQUIRES_REVIEW"
+    },
+    {
+      "id": "D-ZSPD-BASE-LEG", "classification": "D", "icao": "ZSPD",
+      "source_record_ids": ["上海浦东:core:368f05545407d85b"],
+      "chinese_page": 585, "english_pages_reviewed": [1357],
+      "evidence": "Chinese item 4.4 says ATC可能指挥短切五边; English item 4.4 says ATC may assign short base-leg vectors. Correct same numbered counterpart is present and paired, and runway/ATC/ILS anchors match after extraction fixes. The final-approach concept guard does not consider base-leg an equivalent final approach. This is documented as a source-language semantic difference requiring authoritative review, not asserted as a proven wrong procedure and not bypassed.",
+      "selected_dates": ["2026-10-28"], "status": "SOURCE_SEMANTIC_DIVERGENCE_REQUIRES_REVIEW"
+    }
+  ]
+}
