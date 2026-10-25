@@ -1933,6 +1933,13 @@ def _extract_airport_codes(probe: str) -> tuple[str, str]:
 
 def build_manual_index(text: str) -> list[dict]:
     lines = text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
+    page_by_line: list[int] = []
+    current_page = 0
+    for line in lines:
+        page_match = re.search(r"页码\s*[:：]\s*(\d{1,5})", line)
+        if page_match:
+            current_page = int(page_match.group(1))
+        page_by_line.append(current_page)
     headers = [i for i, line in enumerate(lines) if is_manual_airport_header(line)]
     sections: list[dict] = []
     for pos, start_idx in enumerate(headers):
@@ -1955,6 +1962,9 @@ def build_manual_index(text: str) -> list[dict]:
                 "weak_aliases": weak_aliases,
                 "iata": iata,
                 "icao": icao,
+                "start_page": page_by_line[start_idx],
+                "end_page": max(page_by_line[start_idx], page_by_line[end_idx] - 1)
+                if end_idx < len(lines) else page_by_line[-1],
                 "lines": body_lines,
             }
         )
@@ -2082,6 +2092,8 @@ def _english_manual_heading(value: str) -> tuple[str, str]:
         return "core", "core"
     if "SPECIALOPERATIONALREQUIREMENT" in compact:
         return "stop", ""
+    if re.fullmatch(r"(?:I{1,3}|IV|V|\d+)?OTHERS?", compact):
+        return "stop", ""
     if "PREDEPARTUREGROUNDOPERATIONSPHASE" in compact:
         return "core", "ground"
     if "POSTLANDINGGROUNDOPERATIONSPHASE" in compact:
@@ -2099,6 +2111,8 @@ def _english_manual_heading(value: str) -> tuple[str, str]:
     if "NAVIGATIONROUTE" in compact:
         return "core", "navigation"
     if re.fullmatch(r"(?:I{1,3}|IV|V|\d+)?ENTRY", compact):
+        return "core", "arrival"
+    if re.fullmatch(r"(?:I{1,3}|IV|V|\d+)?(?:ARRIVALAPPROACH(?:AND)?LANDING|ARRIVAL|APPROACH)(?:PHASE)?", compact):
         return "core", "arrival"
     if re.fullmatch(r"(?:I{1,3}|IV|V|\d+)?OPERATIONALCHARACTERISTICS?", compact):
         return "core", "operations"
@@ -2167,7 +2181,7 @@ def extract_english_manual_facts(text: str) -> list[ManualEnglishFact]:
         facts.append(ManualEnglishFact(value, category, fact_phase, sequence))
 
     main_item_re = re.compile(
-        r"^\s*\d+(?:\.\d+)*[.．](?!\d)\s*(?P<body>.*)$"
+        r"^\s*(?:\d+(?:\.\d+)*[.．](?!\d)\s*|\d+(?:\.\d+)+\s+)(?P<body>.*)$"
     )
     sub_item_re = re.compile(r"^\s*[（(]\s*\d+\s*[）)]\s*(?P<body>.*)$")
     for raw in text.replace("\r\n", "\n").replace("\r", "\n").split("\n"):
@@ -2255,6 +2269,19 @@ def _chinese_manual_fact_phase(value: str, category: str) -> str:
 def manual_pairing_tokens(value: str) -> set[str]:
     """Critical bilingual anchors, preserving source case for waypoint names."""
     text = normalize_text(value)
+    # Layout extraction can join adjacent ECAM words. Separate only a complete
+    # sequence of known annunciation words, never arbitrary uppercase fixes.
+    annunciation_words = ("PRIMARY", "FAULT", "RPTG", "BKUP", "LOST", "ADS-B", "GPS", "NAV", "SPD")
+    word_pattern = "|".join(re.escape(word) for word in annunciation_words)
+
+    def space_annunciation(match: re.Match[str]) -> str:
+        annunciation_context = match.group() + match.string[match.end():match.end() + 24]
+        if not re.search(r"FAULT|LOST", annunciation_context):
+            return match.group()
+        words = re.findall(word_pattern, match.group())
+        return " ".join(words) if "".join(words) == match.group() else match.group()
+
+    text = re.sub(r"(?<![A-Za-z])(?:" + word_pattern + r"){2,}(?![A-Za-z])", space_annunciation, text)
     upper = text.upper()
     tokens = set(critical_fact_tokens(text))
     if any(marker in text for marker in ("管制", "区调", "空管")) or re.search(
@@ -2262,13 +2289,21 @@ def manual_pairing_tokens(value: str) -> set[str]:
         upper,
     ):
         tokens.add("ATC")
-    if "指令高度" in text or "指挥" in text or "放行许可" in text:
+    actor_text = re.sub(r"地面指挥员|接机指挥员|机务指挥", "", text)
+    if "指令高度" in text or "指挥" in actor_text or "放行许可" in text:
         tokens.add("ATC")
+    if re.search(r"\b(?:RECEIVED|DEPARTURE|ATC)\s+CLEARANCE\b", upper):
+        tokens.add("ATC")
+    for chinese_term, acronym in (("飞行操作通告", "FOIB"), ("目视泊位引导系统", "VDGS")):
+        if chinese_term in text:
+            tokens.add(acronym)
+    if re.search(r"(?<![A-Z])UTC(?![A-Z])", upper):
+        tokens.add("UTC")
     if "盲降" in text or re.search(r"\bILS\b", upper):
         tokens.add("ILS")
     for token in re.findall(
         r"(?<![A-Za-z0-9])(?:[A-Z]{2,8}(?:/[A-Z]{2,8})?\d*(?:\.\d+)?|"
-        r"[A-Z]\d{2,4})(?![A-Za-z0-9])",
+        r"[A-Z]\d{1,4})(?![A-Za-z0-9])",
         text,
     ):
         tokens.add(token.replace(" ", "").upper())
@@ -2295,6 +2330,20 @@ def manual_pairing_tokens(value: str) -> set[str]:
         tokens.add(f"RWY{runway}")
     for runway in re.findall(r"\bMODEL\s+(\d{1,2}[LRC]?)\b", upper):
         tokens.add(f"RWY{runway}")
+    # Preserve both ends of runway pairs in either language and whitespace
+    # layout. A bare slash-separated route or frequency is not a runway pair.
+    for match in re.finditer(r"(?<![A-Z0-9])(\d{2}[LRC]?)\s*/\s*(\d{2}[LRC]?)(?![A-Z0-9])", upper):
+        context = upper[max(0, match.start() - 30):match.end() + 35]
+        if re.search(r"跑道|落地|起飞|RUNWAY|RWY|LANDING|TAKEOFF|RENAM", context):
+            tokens.update(f"RWY{runway}" for runway in match.groups())
+    for runway in re.findall(r"(?:跑道|RWY\s*)\s*(\d{2}[LRC]?)(?![A-Z0-9])", upper):
+        tokens.add(f"RWY{runway}")
+    for runway in re.findall(r"(?<![A-Z0-9])(\d{2}[LRC]?)(?=\s*(?:RNP|ILS|落地|起飞))", upper):
+        tokens.add(f"RWY{runway}")
+    for runway in re.findall(r"\b(?:LANDING|LANDED|TAKEOFF)\s+(?:ON\s+|AT\s+)?(\d{2}[LRC]?)(?![A-Z0-9])", upper):
+        tokens.add(f"RWY{runway}")
+    if any(token.startswith("RWY") and token != "RWY" for token in tokens):
+        tokens.discard("RWY")
     for degree in re.findall(
         r"(?<!\d)(\d+(?:\.\d+)?)\s*(?:度|[- ]*DEGREES?)",
         upper,
@@ -2369,41 +2418,72 @@ def pair_manual_english_items(
     for fact in english_facts:
         if fact.category == category:
             grouped.setdefault(fact.phase, []).append(fact)
-    paired: list[str] = []
-    phase_offsets: dict[str, int] = {}
-    for item in chinese_items:
-        phase = _chinese_manual_fact_phase(item, category)
-        candidates = grouped.get(phase, [])
-        ordinal = phase_offsets.get(phase, 0)
-        selected: ManualEnglishFact | None = None
-        source_tokens = manual_pairing_tokens(item)
-        if ordinal < len(candidates):
-            direct = candidates[ordinal]
-            direct_tokens = manual_pairing_tokens(
-                _english_subset_for_chinese_fact(item, direct.text)
-            )
-            if not source_tokens or source_tokens & direct_tokens:
-                selected = direct
-            else:
-                # A missing source item must not shift all later records or
-                # borrow a later airport fact merely because its text shares
-                # a common acronym. Only an exact, monotonic token anchor can
-                # justify skipping an intervening English item.
-                for fact in candidates[ordinal + 1 :]:
-                    english_tokens = manual_pairing_tokens(
-                        _english_subset_for_chinese_fact(item, fact.text)
-                    )
-                    if source_tokens == english_tokens:
-                        selected = fact
-                        break
-        if selected is not None:
-            phase_offsets[phase] = selected.sequence + 1
-            paired.append(
-                _english_subset_for_chinese_fact(item, selected.text)
-            )
-        else:
-            paired.append("")
+    paired = [""] * len(chinese_items)
+    for phase, candidates in grouped.items():
+        positions = [index for index, item in enumerate(chinese_items)
+                     if _chinese_manual_fact_phase(item, category) == phase]
+        values = _align_manual_source_order(
+            [chinese_items[index] for index in positions],
+            [fact.text for fact in candidates],
+        )
+        for index, value in zip(positions, values):
+            paired[index] = value
     return paired
+
+
+def _align_manual_source_order(chinese: list[str], english: list[str]) -> list[str]:
+    """Monotonic structural alignment, retaining gaps and refusing ambiguity.
+
+    Anchors support source order; a common token alone cannot justify borrowing
+    a later record. Keep a full source item here: sentence projection belongs
+    to clause pairing, not to record matching.
+    """
+    zh_tokens = [manual_pairing_tokens(value) for value in chinese]
+    en_tokens = [manual_pairing_tokens(value) for value in english]
+    gap = -12
+
+    def score(i: int, j: int) -> int:
+        left, right = zh_tokens[i], en_tokens[j]
+        if left and right and not left & right:
+            return -10**6
+        if left == right:
+            return 40 + 4 * len(left) if left else 12
+        if not left or not right:
+            return 6
+        return 20 + 4 * len(left & right) - 4 * len(left ^ right)
+
+    @lru_cache(maxsize=None)
+    def best(i: int, j: int) -> int:
+        if i == len(chinese):
+            return gap * (len(english) - j)
+        if j == len(english):
+            return gap * (len(chinese) - i)
+        return max(gap + best(i + 1, j), gap + best(i, j + 1),
+                   score(i, j) + best(i + 1, j + 1))
+
+    options: list[set[int | None]] = [set() for _ in chinese]
+    pending = [(0, 0)]
+    visited = set()
+    while pending:
+        i, j = pending.pop()
+        if (i, j) in visited or i == len(chinese):
+            continue
+        visited.add((i, j))
+        if j == len(english):
+            for position in range(i, len(chinese)):
+                options[position].add(None)
+            continue
+        optimal = best(i, j)
+        if gap + best(i + 1, j) == optimal:
+            options[i].add(None)
+            pending.append((i + 1, j))
+        if gap + best(i, j + 1) == optimal:
+            pending.append((i, j + 1))
+        if score(i, j) + best(i + 1, j + 1) == optimal:
+            options[i].add(j)
+            pending.append((i + 1, j + 1))
+    return [english[next(iter(matches))] if len(matches) == 1 and None not in matches else ""
+            for matches in options]
 
 
 def pair_manual_english_clauses(
@@ -2418,7 +2498,10 @@ def pair_manual_english_clauses(
         return [english_text]
     segments = _english_fact_segments(english_text)
     if len(segments) < len(clauses):
-        return [english_text, *([""] * (len(clauses) - 1))]
+        # A translated record may omit an early clause. Do not assign its one
+        # remaining sentence to that missing clause and leave the actual
+        # counterpart empty merely because it came second in Chinese.
+        return _align_manual_source_order([clause.text for clause in clauses], segments)
     best_groups: list[str] | None = None
     best_score = -10**9
     for cuts in combinations(range(1, len(segments)), len(clauses) - 1):
@@ -3240,6 +3323,10 @@ def manual_airport_data(
                     )
                     english_facts = extract_english_manual_facts(english_text)
                 result[airport] = {
+                    "source_page": ",".join(
+                        f"{section['start_page']}-{section['end_page']}"
+                        for section in sections if section.get("start_page")
+                    ) or "N/A",
                     "typical_incidents": typical,
                     "core_threats": core,
                     "english_typical_incidents": pair_manual_english_items(
@@ -4405,9 +4492,7 @@ def airport_risks(
             ),
             source=manual_type or "PDF",
             source_version=str(manual_ver or ""),
-            source_page=AIRPORT_SOURCE_LOCATIONS.get(
-                canonical_airport_name(airport), {}
-            ).get("source_page", "N/A"),
+            source_page=str(manual.get("source_page") or "N/A"),
             source_heading=manual_section,
             source_section=f"{manual_section}／典型不安全事件",
             category="typical",
@@ -4426,9 +4511,7 @@ def airport_risks(
             ),
             source=manual_type or "PDF",
             source_version=str(manual_ver or ""),
-            source_page=AIRPORT_SOURCE_LOCATIONS.get(
-                canonical_airport_name(airport), {}
-            ).get("source_page", "N/A"),
+            source_page=str(manual.get("source_page") or "N/A"),
             source_heading=manual_section,
             source_section=f"{manual_section}／核心威胁与运行特点",
             category="core",
@@ -9793,7 +9876,7 @@ SEMANTIC_CONCEPT_PATTERNS: tuple[tuple[str, re.Pattern[str], re.Pattern[str]], .
     ("final_approach", re.compile(r"五边"), re.compile(r"\b(?:FINAL APPROACH|ON FINAL|SHORT-?FINAL(?: VISUAL)? APPROACH)\b", re.I)),
     ("visual_approach", re.compile(r"目视进近"), re.compile(r"\bVISUAL APPROACH\b", re.I)),
     ("turbulence", re.compile(r"乱流"), re.compile(r"\bTURBULENCE\b", re.I)),
-    ("windshear", re.compile(r"风切变"), re.compile(r"\bWINDSHEAR\b", re.I)),
+    ("windshear", re.compile(r"风切变"), re.compile(r"\bWIND\s*[- ]?\s*SHEAR\b", re.I)),
     ("bank_angle", re.compile(r"低空[^。；]{0,12}坡度|坡度大"), re.compile(r"\bBANK ANGLES?\b", re.I)),
     ("descent_gradient", re.compile(r"下降梯度"), re.compile(r"\b(?:DESCENT GRADIENT|FPA|FLIGHT-PATH ANGLE)\b", re.I)),
     ("descent_rate", re.compile(r"下降率"), re.compile(r"\bDESCENT RATE\b", re.I)),
