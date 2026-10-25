@@ -102,3 +102,88 @@ def test_both_renderers_use_unordered_airport_paragraphs():
     assert "Typical unsafe events:\n\n" in en
     assert "1. " not in zh and "1. " not in en
     assert "机场典型不安全事件：" not in zh
+
+
+def test_full_chapter_unknown_sections_and_record_boundaries():
+    typical, core = agent.scan_chapter_source_records([
+        "一、典型不安全事件", "1.曾发生滑行偏差。", "二、核心威胁",
+        "1.指挥特点：", "（1）进近时先证实跑道。", "2.新版本特别说明：",
+        "跑道坡度为0.8%，着陆时注意。", "三、运行特点", "（一）离场：",
+        "1.起飞后按SID爬升。", "版本：20990101 修订日期：2099.1.1 页码：10",
+        "爬升期间不得提前转弯。", "（二）进场：", "1.着陆后快速脱离。",
+    ])
+    assert typical == ["曾发生滑行偏差。"]
+    assert any("0.8%" in item for item in core)
+    assert not any("先证实跑道" in item and "0.8%" in item for item in core)
+    assert any(item.startswith("离场：") and "SID" in item and "不得提前" in item for item in core)
+    assert any(item.startswith("进场：") and "快速脱离" in item for item in core)
+    assert not any("版本" in item for item in core)
+
+
+def test_operational_value_filter_distinguishes_communication_from_contacts():
+    for text in ("酒店接送信息：班车每日到达。", "廊桥密码：1234。", "联系电话：123456。", "ATIS 123.45"):
+        assert agent.source_operational_value_issue(text)
+    for text in ("通讯失效后按航图执行。", "滑行时管制可能要求提前换频，注意证实。", "收到离场许可后按要求复诵。", "A hotel building is an obstacle near Runway 13."):
+        assert not agent.source_operational_value_issue(text)
+    assert agent.source_operational_value_issue("The password for the covered bridge is provided by staff.")
+
+
+def test_phase_label_does_not_hide_detached_numeric_fragment():
+    for text in ("进场：速度160节。", "离场：高度3000米。", "地面：不超过20节。"):
+        assert agent.manual_source_quality_issue(text) == "detached_operational_fragment"
+    assert not agent.manual_source_quality_issue("进场：通过定位点时速度不超过160节。")
+
+
+def test_verbatim_guard_uses_real_source_controls_not_legacy_editor_controls():
+    fact = agent.source_record_facts("甲机场", [record("确认PDC之后无需复诵，直接联系地面。", "After confirming PDC, contact ground directly.")], category="core")[0]
+    assert not agent.validate_source_semantic_preservation(fact)
+    from dataclasses import replace
+    assert agent.validate_source_semantic_preservation(replace(fact, text_zh="PDC。"))
+
+
+def test_source_token_equivalence_does_not_change_source_numbers():
+    assert agent.manual_pairing_tokens("高度20000ft。") == agent.manual_pairing_tokens("Altitude 20,000 ft.")
+    assert agent.manual_pairing_tokens("机位s126。") == agent.manual_pairing_tokens("Stand S126.")
+    assert agent.manual_pairing_tokens("高度20000ft。") != agent.manual_pairing_tokens("Altitude 21,000 ft.")
+
+
+def test_english_unumbered_prose_and_unknown_numbered_sections_are_scanned():
+    facts = agent.extract_english_manual_facts("""Example Airport (AAA/AAAA)
+Responsibility Division: Test
+1. New operating restriction: Aircraft must remain on the taxi route.
+II. Core Threats
+Terrain requires careful monitoring during approach.
+""")
+    assert any("Aircraft must remain" in fact.text for fact in facts)
+    assert any("Terrain requires" in fact.text for fact in facts)
+    assert all("Responsibility" not in fact.text for fact in facts)
+
+
+def test_verbatim_renderer_removes_only_structural_labels():
+    for source, expected in (("地形：周边有山。", "周边有山"), ("道面特点：跑道坡度较大。", "跑道坡度较大"),
+                             ("ATC要求：保持5000ft。", "ATC要求：保持5000ft")):
+        fact = agent.source_record_facts("甲机场", [record(source, "Source text.")], category="core")[0]
+        assert agent.chinese_fact_output(fact) == expected
+
+
+def test_english_other_section_is_scanned_and_administration_is_excluded():
+    facts = agent.extract_english_manual_facts("""IV. Other
+1. In case of radio failure, follow the published procedure.
+2. Hotel accommodation: staff shuttle information.
+""")
+    assert len(facts) == 1
+    assert "radio failure" in facts[0].text
+
+
+def test_basic_attributes_pair_in_same_generic_phase_as_english_basic_fields():
+    assert agent._chinese_manual_fact_phase("机场标高：7000ft", "core") == "operations"
+    assert agent._chinese_manual_fact_phase("跑道信息：01/19（3000m×45m）", "core") == "operations"
+    assert agent._chinese_manual_fact_phase("PAPI信息：入口内300m，3度。", "core") == "operations"
+
+
+def test_basic_field_pairing_uses_field_identity_not_translated_position():
+    english = [agent.ManualEnglishFact("PAPI Information: 300m, 3 degrees.", "core", "ground", 0),
+               agent.ManualEnglishFact("Airport elevation: 7000ft.", "core", "operations", 1)]
+    paired = agent.pair_manual_english_items(["机场标高：7000ft", "PAPI信息：300m，3度。"], english, "core")
+    assert paired == [english[1].text, english[0].text]
+    assert agent.manual_source_quality_issue("固有属性 是/否 备注 是否为高原机场 否 是否存在EOSID 否") == "unparsed_attribute_table"

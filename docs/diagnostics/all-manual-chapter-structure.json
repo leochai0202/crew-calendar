@@ -1,0 +1,3541 @@
+{
+  "manual": "AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+  "sha256": "e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8",
+  "chinese_chapter_count": 177,
+  "english_chapter_count": 74,
+  "matched_chapter_count": 73,
+  "identity_errors": 0,
+  "warnings": [],
+  "chapters": [
+    {
+      "header": "沈阳/桃仙机场运行特点 ZYTX/SHE",
+      "icao": "ZYTX",
+      "chinese_pages": [
+        259,
+        263
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 37,
+      "candidate_quality": {
+        "": 34,
+        "PDF断句或残片未形成完整运行事实": 2,
+        "unparsed_attribute_table": 1
+      },
+      "english_header": "Shenyang Taoxian",
+      "english_pages": [
+        1091,
+        1101
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "大连/周水子机场运行特点 ZYTL/DLC",
+      "icao": "ZYTL",
+      "chinese_pages": [
+        264,
+        271
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 45,
+      "candidate_quality": {
+        "": 40,
+        "PDF断句或残片未形成完整运行事实": 3,
+        "unparsed_attribute_table": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "哈尔滨太平机场运行特点 ZYHB/HRB",
+      "icao": "ZYHB",
+      "chinese_pages": [
+        272,
+        277
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 39,
+      "candidate_quality": {
+        "": 37,
+        "unparsed_attribute_table": 1,
+        "来源包含无法可靠恢复的明显OCR错位": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "松原/查干湖机场运行特点",
+      "icao": "ZYSQ",
+      "chinese_pages": [
+        278,
+        280
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 16,
+      "candidate_quality": {
+        "": 14,
+        "detached_operational_fragment": 1,
+        "PDF断句或残片未形成完整运行事实": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "延吉/朝阳川机场运行特点",
+      "icao": "ZYYJ",
+      "chinese_pages": [
+        281,
+        283
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 23,
+      "candidate_quality": {
+        "": 18,
+        "PDF断句或残片未形成完整运行事实": 3,
+        "detached_operational_fragment": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "白山长白山机场运行特点 ZYBS/NBS",
+      "icao": "ZYBS",
+      "chinese_pages": [
+        284,
+        287
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 31,
+      "candidate_quality": {
+        "": 28,
+        "PDF断句或残片未形成完整运行事实": 2,
+        "unparsed_attribute_table": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "长春龙嘉机场运行特点 ZYCC/CGQ",
+      "icao": "ZYCC",
+      "chinese_pages": [
+        288,
+        292
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 28,
+      "candidate_quality": {
+        "": 24,
+        "PDF断句或残片未形成完整运行事实": 3,
+        "unparsed_attribute_table": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "漠河古莲机场运行特点 ZYMH/OHE",
+      "icao": "ZYMH",
+      "chinese_pages": [
+        293,
+        295
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 26,
+      "candidate_quality": {
+        "": 23,
+        "PDF断句或残片未形成完整运行事实": 2,
+        "unparsed_attribute_table": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "大兴安岭/鄂伦春机场运行特点 DAXINGANLINGE’",
+      "icao": "ZYJD",
+      "chinese_pages": [
+        296,
+        298
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 26,
+      "candidate_quality": {
+        "": 20,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "通化/三源浦机场运行特点",
+      "icao": "ZYTN",
+      "chinese_pages": [
+        299,
+        301
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 26,
+      "candidate_quality": {
+        "": 24,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "伊春/林都机场运行特点 YINCHUNLINDU(LDS/ZYLD)",
+      "icao": "ZYLD",
+      "chinese_pages": [
+        302,
+        305
+      ],
+      "chinese_typical_count": 4,
+      "chinese_core_candidates": 22,
+      "candidate_quality": {
+        "": 16,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "胡志明机场运行特点 TAN SON NHAT(SGN/VVTS)",
+      "icao": "VVTS",
+      "chinese_pages": [
+        306,
+        309
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 24,
+      "candidate_quality": {
+        "": 24
+      },
+      "english_header": "Ho Chi Minh",
+      "english_pages": [
+        1107,
+        1110
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "甲米机场运行特点 KRABI(KBV/VTSG)",
+      "icao": "VTSG",
+      "chinese_pages": [
+        310,
+        312
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 30,
+      "candidate_quality": {
+        "": 28,
+        "来源包含无法可靠恢复的明显OCR错位": 2
+      },
+      "english_header": "Krabi",
+      "english_pages": [
+        1165,
+        1168
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
+      "icao": "VTBS",
+      "chinese_pages": [
+        313,
+        325
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 56,
+      "candidate_quality": {
+        "": 42,
+        "non_operational_administration": 1,
+        "detached_operational_fragment": 1,
+        "来源包含无法可靠恢复的数字或标点错位": 1,
+        "passenger_or_staff_ground_transport": 10,
+        "PDF断句或残片未形成完整运行事实": 1
+      },
+      "english_header": "Suvarnabhumi",
+      "english_pages": [
+        1169,
+        1182
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "普吉机场运行特点 PHUKET(HKT/VTSP)",
+      "icao": "VTSP",
+      "chinese_pages": [
+        326,
+        333
+      ],
+      "chinese_typical_count": 6,
+      "chinese_core_candidates": 49,
+      "candidate_quality": {
+        "": 43,
+        "standalone_frequency_metadata": 1,
+        "PDF断句或残片未形成完整运行事实": 3,
+        "detached_operational_fragment": 2
+      },
+      "english_header": "Phuket",
+      "english_pages": [
+        1115,
+        1123
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "清迈机场运行特点 CHIANG MAI(CNX/VTCC)",
+      "icao": "VTCC",
+      "chinese_pages": [
+        334,
+        338
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 44,
+      "candidate_quality": {
+        "": 38,
+        "PDF断句或残片未形成完整运行事实": 4,
+        "passenger_or_staff_ground_transport": 2
+      },
+      "english_header": "Chiang Mai",
+      "english_pages": [
+        1188,
+        1211
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "沙巴机场运行特点 KOTA KINABALU(BKI/WBKK)",
+      "icao": "WBKK",
+      "chinese_pages": [
+        339,
+        343
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 37,
+      "candidate_quality": {
+        "": 35,
+        "来源包含无法可靠恢复的明显OCR错位": 2
+      },
+      "english_header": "SABAH KOTA KINABALU",
+      "english_pages": [
+        1124,
+        1129
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "素叻他尼机场运行特点 SURAT THANI(URT/VTSB)",
+      "icao": "VTSB",
+      "chinese_pages": [
+        344,
+        346
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 27,
+      "candidate_quality": {
+        "": 26,
+        "PDF断句或残片未形成完整运行事实": 1
+      },
+      "english_header": "Surat Thani",
+      "english_pages": [
+        1130,
+        1133
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "岘港机场运行特点 DA NANG(DAD/VVDN)",
+      "icao": "VVDN",
+      "chinese_pages": [
+        347,
+        350
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 30,
+      "candidate_quality": {
+        "": 25,
+        "PDF断句或残片未形成完整运行事实": 3,
+        "detached_operational_fragment": 2
+      },
+      "english_header": "Da Nang",
+      "english_pages": [
+        1102,
+        1106
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "新加坡机场运行特点 SINGAPORE(SIN/WSSS)",
+      "icao": "WSSS",
+      "chinese_pages": [
+        351,
+        359
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 58,
+      "candidate_quality": {
+        "": 56,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": "Singapore",
+      "english_pages": [
+        1138,
+        1157
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "仰光机场运行特点运行特点 YANGON（VYYY/RGN）",
+      "icao": "VYYY",
+      "chinese_pages": [
+        360,
+        363
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 30,
+      "candidate_quality": {
+        "": 27,
+        "passenger_or_staff_ground_transport": 3
+      },
+      "english_header": "YANGON",
+      "english_pages": [
+        1134,
+        1137
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "吉隆坡机场运行特点 KUALA LUMPUR(KUL/WMKK)",
+      "icao": "WMKK",
+      "chinese_pages": [
+        364,
+        369
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 57,
+      "candidate_quality": {
+        "": 53,
+        "PDF断句或残片未形成完整运行事实": 1,
+        "passenger_or_staff_ground_transport": 2,
+        "来源包含无法可靠恢复的明显OCR错位": 1
+      },
+      "english_header": "Kuala Lumpur",
+      "english_pages": [
+        1158,
+        1164
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "廊曼机场运行特点 BANGKOK（VTBD/DMK）",
+      "icao": "VTBD",
+      "chinese_pages": [
+        370,
+        375
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 54,
+      "candidate_quality": {
+        "": 51,
+        "来源包含无法可靠恢复的明显OCR错位": 1,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "河内内排机场运行特点 HANOI NOI BAI (HAN/VVNB)",
+      "icao": "VVNB",
+      "chinese_pages": [
+        376,
+        380
+      ],
+      "chinese_typical_count": 5,
+      "chinese_core_candidates": 33,
+      "candidate_quality": {
+        "": 32,
+        "PDF断句或残片未形成完整运行事实": 1
+      },
+      "english_header": "Hanoi Noi Bai",
+      "english_pages": [
+        1183,
+        1187
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "金边德崇国际机场运行特点 TECHO INTL（VDTI/KTI）",
+      "icao": "VDTI",
+      "chinese_pages": [
+        381,
+        384
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 34,
+      "candidate_quality": {
+        "": 32,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": "Phnom Penh Dechong International",
+      "english_pages": [
+        1111,
+        1114
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "槟城机场运行特点 Penang airport (WMKP/PEN)",
+      "icao": "WMKP",
+      "chinese_pages": [
+        385,
+        389
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 40,
+      "candidate_quality": {
+        "": 35,
+        "PDF断句或残片未形成完整运行事实": 5
+      },
+      "english_header": "Penang",
+      "english_pages": [
+        385,
+        389
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "雅加达苏加诺机场运行特点 Soekarno airport (WIII/CGK)",
+      "icao": "WIII",
+      "chinese_pages": [
+        390,
+        395
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 25,
+      "candidate_quality": {
+        "": 25
+      },
+      "english_header": "Soekarno",
+      "english_pages": [
+        390,
+        1090
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "万象瓦岱机场运行特点 VLVT/VTE",
+      "icao": "VLVT",
+      "chinese_pages": [
+        396,
+        401
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 38,
+      "candidate_quality": {
+        "": 32,
+        "PDF断句或残片未形成完整运行事实": 4,
+        "unparsed_attribute_table": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "台湾/高雄机场运行特点 KAOHSIUNG(KHH/RCKH)",
+      "icao": "RCKH",
+      "chinese_pages": [
+        402,
+        404
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 31,
+      "candidate_quality": {
+        "": 29,
+        "detached_operational_fragment": 2
+      },
+      "english_header": "Kaohsiung",
+      "english_pages": [
+        1246,
+        1250
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "台湾/花莲机场运行特点 HUALIEN(HUN/RCYU)",
+      "icao": "RCYU",
+      "chinese_pages": [
+        405,
+        406
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 14,
+      "candidate_quality": {
+        "": 11,
+        "PDF断句或残片未形成完整运行事实": 3
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "台湾/桃园机场运行特点 TAIPEI(TPE/RCTP)",
+      "icao": "RCTP",
+      "chinese_pages": [
+        407,
+        414
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 41,
+      "candidate_quality": {
+        "": 39,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": "Taoyuan",
+      "english_pages": [
+        1235,
+        1245
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "澳门机场运行特点 MACAO(MFM/VMMC)",
+      "icao": "VMMC",
+      "chinese_pages": [
+        415,
+        426
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 52,
+      "candidate_quality": {
+        "": 48,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": "Macau",
+      "english_pages": [
+        1221,
+        1234
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "香港机场运行特点 HONG KONG(HKG/VHHH)",
+      "icao": "VHHH",
+      "chinese_pages": [
+        427,
+        434
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 35,
+      "candidate_quality": {
+        "": 33,
+        "来源包含无法可靠恢复的明显OCR错位": 1,
+        "PDF断句或残片未形成完整运行事实": 1
+      },
+      "english_header": "Hong Kong",
+      "english_pages": [
+        1212,
+        1220
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "北京/首都机场运行特点 BEIJINGSHOUDU(PEK/ZBAA)",
+      "icao": "ZBAA",
+      "chinese_pages": [
+        435,
+        437
+      ],
+      "chinese_typical_count": 6,
+      "chinese_core_candidates": 19,
+      "candidate_quality": {
+        "": 10,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 7
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "北京/大兴机场运行特点 BEIJINGDAXING(PKX/ZBAD)",
+      "icao": "ZBAD",
+      "chinese_pages": [
+        438,
+        449
+      ],
+      "chinese_typical_count": 5,
+      "chinese_core_candidates": 51,
+      "candidate_quality": {
+        "": 44,
+        "detached_operational_fragment": 2,
+        "来源包含无法可靠恢复的明显OCR错位": 1,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": "Beijing Daxing International",
+      "english_pages": [
+        1289,
+        1303
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "邯郸机场运行特点 HANDAN(HDG/ZBHD)",
+      "icao": "ZBHD",
+      "chinese_pages": [
+        450,
+        453
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 23,
+      "candidate_quality": {
+        "": 21,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "石家庄/正定机场运行特点",
+      "icao": "ZBSJ",
+      "chinese_pages": [
+        454,
+        461
+      ],
+      "chinese_typical_count": 7,
+      "chinese_core_candidates": 52,
+      "candidate_quality": {
+        "": 46,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": "Shijiazhuang/Zhen Ding",
+      "english_pages": [
+        1259,
+        1269
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "呼和浩特/白塔机场运行特点",
+      "icao": "ZBHH",
+      "chinese_pages": [
+        462,
+        467
+      ],
+      "chinese_typical_count": 4,
+      "chinese_core_candidates": 38,
+      "candidate_quality": {
+        "": 30,
+        "non_operational_administration": 1,
+        "PDF断句或残片未形成完整运行事实": 5,
+        "detached_operational_fragment": 2
+      },
+      "english_header": "Hohhot/Baita",
+      "english_pages": [
+        1251,
+        1258
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "满洲里/西郊机场运行特点",
+      "icao": "ZBMZ",
+      "chinese_pages": [
+        468,
+        471
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 22,
+      "candidate_quality": {
+        "": 15,
+        "detached_operational_fragment": 2,
+        "来源包含无法可靠恢复的明显OCR错位": 1,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "太原/武宿机场运行特点 TAIYUANWUSU(TYN/ZBYN)",
+      "icao": "ZBYN",
+      "chinese_pages": [
+        472,
+        481
+      ],
+      "chinese_typical_count": 5,
+      "chinese_core_candidates": 40,
+      "candidate_quality": {
+        "": 33,
+        "PDF断句或残片未形成完整运行事实": 5,
+        "detached_operational_fragment": 2
+      },
+      "english_header": "TAIYUANWUSU",
+      "english_pages": [
+        1278,
+        1288
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "唐山/三女河机场运行特点",
+      "icao": "ZBSN",
+      "chinese_pages": [
+        482,
+        484
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 20,
+      "candidate_quality": {
+        "PDF断句或残片未形成完整运行事实": 8,
+        "": 11,
+        "detached_operational_fragment": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "天津/滨海机场运行特点 TIANJINBINHAN(TSN/ZBTJ)",
+      "icao": "ZBTJ",
+      "chinese_pages": [
+        485,
+        489
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 40,
+      "candidate_quality": {
+        "": 33,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 5
+      },
+      "english_header": "Tianjin/Binhai",
+      "english_pages": [
+        1270,
+        1277
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "通辽机场运行特点 TONGLIAO(TGO/ZBTL)",
+      "icao": "ZBTL",
+      "chinese_pages": [
+        490,
+        493
+      ],
+      "chinese_typical_count": 4,
+      "chinese_core_candidates": 34,
+      "candidate_quality": {
+        "": 23,
+        "PDF断句或残片未形成完整运行事实": 8,
+        "non_operational_administration": 1,
+        "detached_operational_fragment": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "张家口/宁远机场运行特点（ZQZ/ZBZJ）",
+      "icao": "ZBZJ",
+      "chinese_pages": [
+        494,
+        498
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 48,
+      "candidate_quality": {
+        "": 40,
+        "PDF断句或残片未形成完整运行事实": 6,
+        "unparsed_attribute_table": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "承德/普宁机场运行特点（ZBCD/CDE）",
+      "icao": "ZBCD",
+      "chinese_pages": [
+        499,
+        501
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 30,
+      "candidate_quality": {
+        "": 24,
+        "PDF断句或残片未形成完整运行事实": 4,
+        "unparsed_attribute_table": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "包头/东河机场运行特点 BAOTOUDONGHE(BAV/ZBOW)",
+      "icao": "ZBOW",
+      "chinese_pages": [
+        502,
+        505
+      ],
+      "chinese_typical_count": 4,
+      "chinese_core_candidates": 28,
+      "candidate_quality": {
+        "": 24,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "忻州/五台山机场运行特点",
+      "icao": "ZBXZ",
+      "chinese_pages": [
+        506,
+        510
+      ],
+      "chinese_typical_count": 4,
+      "chinese_core_candidates": 40,
+      "candidate_quality": {
+        "": 34,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "乌海机场运行特点 WUHAI(ZBUH/WUA)",
+      "icao": "ZBUH",
+      "chinese_pages": [
+        511,
+        516
+      ],
+      "chinese_typical_count": 4,
+      "chinese_core_candidates": 45,
+      "candidate_quality": {
+        "": 39,
+        "non_operational_administration": 1,
+        "PDF断句或残片未形成完整运行事实": 4,
+        "detached_operational_fragment": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "呼伦贝尔/海拉尔机场运行特点",
+      "icao": "ZBLA",
+      "chinese_pages": [
+        517,
+        521
+      ],
+      "chinese_typical_count": 6,
+      "chinese_core_candidates": 26,
+      "candidate_quality": {
+        "": 19,
+        "non_operational_administration": 1,
+        "detached_operational_fragment": 1,
+        "PDF断句或残片未形成完整运行事实": 5
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "乌兰浩特/义勒力特机场运行特点 WULANHAOTE",
+      "icao": "ZBUL",
+      "chinese_pages": [
+        522,
+        523
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 14,
+      "candidate_quality": {
+        "": 11,
+        "PDF断句或残片未形成完整运行事实": 3
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "常州奔牛机场运行特点 ZSCG/CZX",
+      "icao": "ZSCG",
+      "chinese_pages": [
+        524,
+        527
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 23,
+      "candidate_quality": {
+        "": 20,
+        "PDF断句或残片未形成完整运行事实": 2,
+        "unparsed_attribute_table": 1
+      },
+      "english_header": "ChangZhou Benniu",
+      "english_pages": [
+        1304,
+        1307
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "东营胜利机场运行特点 ZSDY/DOY",
+      "icao": "ZSDY",
+      "chinese_pages": [
+        528,
+        531
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 34,
+      "candidate_quality": {
+        "": 31,
+        "PDF断句或残片未形成完整运行事实": 2,
+        "unparsed_attribute_table": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "福州/长乐机场运行特点 FUZHOUCHANGLE(FOC/ZSFZ)",
+      "icao": "ZSFZ",
+      "chinese_pages": [
+        532,
+        536
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 37,
+      "candidate_quality": {
+        "": 32,
+        "PDF断句或残片未形成完整运行事实": 4,
+        "来源包含无法可靠恢复的明显OCR错位": 1
+      },
+      "english_header": "Fuzhou/Changle",
+      "english_pages": [
+        1308,
+        1313
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "杭州/萧山机场运行特点 ZSHC/HGH",
+      "icao": "ZSHC",
+      "chinese_pages": [
+        537,
+        540
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 30,
+      "candidate_quality": {
+        "": 28,
+        "unparsed_attribute_table": 1,
+        "PDF断句或残片未形成完整运行事实": 1
+      },
+      "english_header": "Hangzhou Xiaoshan",
+      "english_pages": [
+        1314,
+        1318
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "合肥/新桥机场运行特点 HEFEIXINQIAO(HFE/ZSOF)",
+      "icao": "ZSOF",
+      "chinese_pages": [
+        541,
+        544
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 29,
+      "candidate_quality": {
+        "": 25,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": "Hefei/Xinqiao",
+      "english_pages": [
+        1319,
+        1324
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "上海/虹桥机场运行特点（ZSSS/SHA）",
+      "icao": "ZSSS",
+      "chinese_pages": [
+        545,
+        551
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 39,
+      "candidate_quality": {
+        "": 37,
+        "unparsed_attribute_table": 1,
+        "PDF断句或残片未形成完整运行事实": 1
+      },
+      "english_header": "Shanghai/Hongqiao",
+      "english_pages": [
+        1358,
+        1366
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "济南/遥墙机场运行特点 JINANYAOQIANG(TNA/ZSJN)",
+      "icao": "ZSJN",
+      "chinese_pages": [
+        552,
+        556
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 37,
+      "candidate_quality": {
+        "": 33,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": "Jinan/Yaoqiang",
+      "english_pages": [
+        1325,
+        1331
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "淮安/涟水机场运行特点 HUAIANLIANSHUI(HIA/ZSSH)",
+      "icao": "ZSSH",
+      "chinese_pages": [
+        557,
+        558
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 27,
+      "candidate_quality": {
+        "": 22,
+        "来源包含无法可靠恢复的明显OCR错位": 1,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": "HUAIAN LIANSHUI",
+      "english_pages": [
+        1332,
+        1334
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "井冈山机场运行特点 JINGGANGSHAN(JGS/ZSGS)",
+      "icao": "ZSGS",
+      "chinese_pages": [
+        559,
+        562
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 46,
+      "candidate_quality": {
+        "": 42,
+        "PDF断句或残片未形成完整运行事实": 3,
+        "来源包含无法可靠恢复的明显OCR错位": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "临沂/启阳机场运行特点 LINYI QIYANG(LYI/ZSLY)",
+      "icao": "ZSLY",
+      "chinese_pages": [
+        563,
+        564
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 24,
+      "candidate_quality": {
+        "": 21,
+        "detached_operational_fragment": 1,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "南京/禄口机场运行特点 NANJINGLUKOU(NKG/ZSNJ)",
+      "icao": "ZSNJ",
+      "chinese_pages": [
+        565,
+        568
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 40,
+      "candidate_quality": {
+        "": 33,
+        "PDF断句或残片未形成完整运行事实": 7
+      },
+      "english_header": "Nanjing Lukou",
+      "english_pages": [
+        1335,
+        1339
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "南通/兴东机场运行特点",
+      "icao": "ZSNT",
+      "chinese_pages": [
+        569,
+        571
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 28,
+      "candidate_quality": {
+        "": 24,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": "Nantong Xingdong",
+      "english_pages": [
+        1346,
+        1349
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "南昌/昌北机场运行特点",
+      "icao": "ZSCN",
+      "chinese_pages": [
+        572,
+        576
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 47,
+      "candidate_quality": {
+        "": 41,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": "Nanchang/Changbei",
+      "english_pages": [
+        1340,
+        1345
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "赣州/黄金机场运行特点",
+      "icao": "ZSGZ",
+      "chinese_pages": [
+        577,
+        578
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 21,
+      "candidate_quality": {
+        "": 17,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
+      "icao": "ZSNB",
+      "chinese_pages": [
+        579,
+        585
+      ],
+      "chinese_typical_count": 5,
+      "chinese_core_candidates": 47,
+      "candidate_quality": {
+        "PDF断句或残片未形成完整运行事实": 5,
+        "": 40,
+        "来源包含无法可靠恢复的明显OCR错位": 1,
+        "detached_operational_fragment": 1
+      },
+      "english_header": "Ningbo/Lieshe",
+      "english_pages": [
+        1350,
+        1357
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "上海/浦东机场运行特点（ZSPD/PVG）",
+      "icao": "ZSPD",
+      "chinese_pages": [
+        586,
+        589
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 23,
+      "candidate_quality": {
+        "": 20,
+        "unparsed_attribute_table": 1,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": "Shanghai/Pudong",
+      "english_pages": [
+        1367,
+        1371
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "青岛/胶东机场运行特点",
+      "icao": "ZSQD",
+      "chinese_pages": [
+        590,
+        594
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 32,
+      "candidate_quality": {
+        "": 27,
+        "detached_operational_fragment": 1,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": "Qingdao/Jiaodong",
+      "english_pages": [
+        1372,
+        1377
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "泉州/晋江机场运行特点",
+      "icao": "ZSQZ",
+      "chinese_pages": [
+        595,
+        597
+      ],
+      "chinese_typical_count": 4,
+      "chinese_core_candidates": 23,
+      "candidate_quality": {
+        "": 18,
+        "PDF断句或残片未形成完整运行事实": 4,
+        "detached_operational_fragment": 1
+      },
+      "english_header": "Quanzhou/Jinjiang",
+      "english_pages": [
+        1378,
+        1381
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "日照/山字河机场运行特点",
+      "icao": "ZSRZ",
+      "chinese_pages": [
+        598,
+        600
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 31,
+      "candidate_quality": {
+        "": 26,
+        "PDF断句或残片未形成完整运行事实": 5
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "三明/沙县机场运行特点 SANMINGSHAXIAN(SQJ/ZSSM)",
+      "icao": "ZSSM",
+      "chinese_pages": [
+        601,
+        603
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 28,
+      "candidate_quality": {
+        "PDF断句或残片未形成完整运行事实": 5,
+        "": 22,
+        "来源包含无法可靠恢复的明显OCR错位": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "厦门/高崎机场运行特点 XIAMENGAOQI(XMN/ZSAM)",
+      "icao": "ZSAM",
+      "chinese_pages": [
+        604,
+        607
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 41,
+      "candidate_quality": {
+        "": 35,
+        "PDF断句或残片未形成完整运行事实": 5,
+        "来源包含无法可靠恢复的明显OCR错位": 1
+      },
+      "english_header": "Xiamen/Gaoqi",
+      "english_pages": [
+        1409,
+        1414
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "温州/龙湾机场运行特点",
+      "icao": "ZSWZ",
+      "chinese_pages": [
+        608,
+        610
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 19,
+      "candidate_quality": {
+        "": 14,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 3
+      },
+      "english_header": "Wenzhou/Longwan",
+      "english_pages": [
+        1382,
+        1384
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "上饶/三清山机场运行特点",
+      "icao": "ZSSR",
+      "chinese_pages": [
+        611,
+        612
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 21,
+      "candidate_quality": {
+        "PDF断句或残片未形成完整运行事实": 2,
+        "": 17,
+        "来源包含无法可靠恢复的明显OCR错位": 1,
+        "detached_operational_fragment": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "徐州/观音机场运行特点 XUZHOUGUANYIN(XUZ/ZSXZ)",
+      "icao": "ZSXZ",
+      "chinese_pages": [
+        613,
+        615
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 23,
+      "candidate_quality": {
+        "": 18,
+        "来源包含无法可靠恢复的明显OCR错位": 1,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "烟台/蓬莱机场运行特点 YANTAIPENGLAI(YNT/ZSYT)",
+      "icao": "ZSYT",
+      "chinese_pages": [
+        616,
+        618
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 25,
+      "candidate_quality": {
+        "": 18,
+        "PDF断句或残片未形成完整运行事实": 5,
+        "detached_operational_fragment": 2
+      },
+      "english_header": "Yantai/Penglai",
+      "english_pages": [
+        1385,
+        1388
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "扬州/泰州机场运行特点",
+      "icao": "ZSYA",
+      "chinese_pages": [
+        619,
+        623
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 52,
+      "candidate_quality": {
+        "": 45,
+        "PDF断句或残片未形成完整运行事实": 2,
+        "detached_operational_fragment": 1,
+        "来源包含无法可靠恢复的明显OCR错位": 4
+      },
+      "english_header": "Yangzhou/Taizhou",
+      "english_pages": [
+        1389,
+        1394
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "威海/大水泊机场运行特点WEIHAIDASHUIPO（WEH/ZSWH）",
+      "icao": "ZSWH",
+      "chinese_pages": [
+        624,
+        627
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 31,
+      "candidate_quality": {
+        "": 27,
+        "来源包含无法可靠恢复的明显OCR错位": 1,
+        "PDF断句或残片未形成完整运行事实": 3
+      },
+      "english_header": "Weihai/Dashuibo",
+      "english_pages": [
+        1405,
+        1408
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "盐城/南洋机场运行特点",
+      "icao": "ZSYN",
+      "chinese_pages": [
+        628,
+        633
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 34,
+      "candidate_quality": {
+        "": 30,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": "Yancheng/Nanyang",
+      "english_pages": [
+        1395,
+        1401
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "阜阳机场运行特点 FUYANG(FUG/ZSFY)",
+      "icao": "ZSFY",
+      "chinese_pages": [
+        634,
+        635
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 26,
+      "candidate_quality": {
+        "": 22,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "舟山/普陀山机场运行特点",
+      "icao": "ZSZS",
+      "chinese_pages": [
+        636,
+        638
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 26,
+      "candidate_quality": {
+        "": 21,
+        "detached_operational_fragment": 1,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": "Zhoushan/Putuo Mountain",
+      "english_pages": [
+        1402,
+        1404
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "菏泽/牡丹机场运行特点 HEZEMUDAN(HZA/ZSHZ)",
+      "icao": "ZSHZ",
+      "chinese_pages": [
+        639,
+        640
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 28,
+      "candidate_quality": {
+        "": 26,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "无锡/硕放机场运行特点 WUXISHUOFANG(WUX/ZSWX)",
+      "icao": "ZSWX",
+      "chinese_pages": [
+        641,
+        645
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 45,
+      "candidate_quality": {
+        "": 40,
+        "PDF断句或残片未形成完整运行事实": 5
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "九江/庐山机场运行特点 JIUJIANGLUSHAN(JIU/ZSJJ)",
+      "icao": "ZSJJ",
+      "chinese_pages": [
+        646,
+        648
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 36,
+      "candidate_quality": {
+        "": 32,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "芜湖/宣州机场运行特点 WUHUXUANZHOU(WHA/ZSWA)",
+      "icao": "ZSWA",
+      "chinese_pages": [
+        649,
+        653
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 46,
+      "candidate_quality": {
+        "": 38,
+        "PDF断句或残片未形成完整运行事实": 8
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "潍坊机场运行特点 WEIFANG(WEF/ZSWF)",
+      "icao": "ZSWF",
+      "chinese_pages": [
+        654,
+        656
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 30,
+      "candidate_quality": {
+        "": 24,
+        "PDF断句或残片未形成完整运行事实": 5,
+        "detached_operational_fragment": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "连云港/花果山机场运行特点",
+      "icao": "ZSLG",
+      "chinese_pages": [
+        657,
+        660
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 35,
+      "candidate_quality": {
+        "": 21,
+        "PDF断句或残片未形成完整运行事实": 12,
+        "detached_operational_fragment": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "济州机场运行特点 JIZHOU(CJU/RKPC)",
+      "icao": "RKPC",
+      "chinese_pages": [
+        661,
+        668
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 61,
+      "candidate_quality": {
+        "PDF断句或残片未形成完整运行事实": 8,
+        "": 49,
+        "non_operational_administration": 1,
+        "来源包含无法可靠恢复的明显OCR错位": 2,
+        "passenger_or_staff_ground_transport": 1
+      },
+      "english_header": "JIZHOU",
+      "english_pages": [
+        1477,
+        1486
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "首尔仁川机场运行特点 SHOUERRENCHUAN(ICN/RKSI)",
+      "icao": "RKSI",
+      "chinese_pages": [
+        669,
+        674
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 36,
+      "candidate_quality": {
+        "": 29,
+        "来源包含无法可靠恢复的明显OCR错位": 1,
+        "PDF断句或残片未形成完整运行事实": 6
+      },
+      "english_header": "Seoul Incheon International",
+      "english_pages": [
+        1497,
+        1528
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "茨城机场运行特点 CICHENG(IBR/RJAH)",
+      "icao": "RJAH",
+      "chinese_pages": [
+        675,
+        680
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 35,
+      "candidate_quality": {
+        "PDF断句或残片未形成完整运行事实": 8,
+        "": 27
+      },
+      "english_header": "Ibaraki",
+      "english_pages": [
+        1422,
+        1427
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "大阪机场运行特点 DABAN(KIX/RJBB)",
+      "icao": "RJBB",
+      "chinese_pages": [
+        681,
+        686
+      ],
+      "chinese_typical_count": 9,
+      "chinese_core_candidates": 40,
+      "candidate_quality": {
+        "PDF断句或残片未形成完整运行事实": 7,
+        "": 32,
+        "passenger_or_staff_ground_transport": 1
+      },
+      "english_header": "Osaka",
+      "english_pages": [
+        1437,
+        1444
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "东京羽田机场运行特点 DONGJINGYUTIAN(HND/RJTT)",
+      "icao": "RJTT",
+      "chinese_pages": [
+        687,
+        700
+      ],
+      "chinese_typical_count": 4,
+      "chinese_core_candidates": 32,
+      "candidate_quality": {
+        "PDF断句或残片未形成完整运行事实": 8,
+        "": 24
+      },
+      "english_header": "Tokyo Haneda",
+      "english_pages": [
+        1445,
+        1452
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "高松机场运行特点 GAOSONG(TAK/RJOT)",
+      "icao": "RJOT",
+      "chinese_pages": [
+        701,
+        705
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 34,
+      "candidate_quality": {
+        "PDF断句或残片未形成完整运行事实": 9,
+        "": 23,
+        "来源包含无法可靠恢复的明显OCR错位": 2
+      },
+      "english_header": "Takarazuka",
+      "english_pages": [
+        1471,
+        1476
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "名古屋机场运行特点 MINGUWU(NGO/RJGG)",
+      "icao": "RJGG",
+      "chinese_pages": [
+        706,
+        713
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 36,
+      "candidate_quality": {
+        "": 22,
+        "PDF断句或残片未形成完整运行事实": 14
+      },
+      "english_header": "Nagoya",
+      "english_pages": [
+        1487,
+        1496
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "札幌机场运行特点 ZHAHUANG(CTS/RJCC)",
+      "icao": "RJCC",
+      "chinese_pages": [
+        714,
+        718
+      ],
+      "chinese_typical_count": 5,
+      "chinese_core_candidates": 34,
+      "candidate_quality": {
+        "": 28,
+        "PDF断句或残片未形成完整运行事实": 6
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "佐贺机场运行特点 ZUOHE(HSG/RJFS)",
+      "icao": "RJFS",
+      "chinese_pages": [
+        719,
+        725
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 29,
+      "candidate_quality": {
+        "PDF断句或残片未形成完整运行事实": 5,
+        "": 23,
+        "detached_operational_fragment": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "成田机场运行特点 CHENGTIAN(RJAA/NRT)",
+      "icao": "RJAA",
+      "chinese_pages": [
+        726,
+        732
+      ],
+      "chinese_typical_count": 6,
+      "chinese_core_candidates": 27,
+      "candidate_quality": {
+        "PDF断句或残片未形成完整运行事实": 6,
+        "": 21
+      },
+      "english_header": "NARITA",
+      "english_pages": [
+        1415,
+        1421
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "福冈机场运行特点（RJFF/FUK)",
+      "icao": "RJFF",
+      "chinese_pages": [
+        733,
+        742
+      ],
+      "chinese_typical_count": 7,
+      "chinese_core_candidates": 56,
+      "candidate_quality": {
+        "PDF断句或残片未形成完整运行事实": 9,
+        "": 47
+      },
+      "english_header": "Fukuoka",
+      "english_pages": [
+        1453,
+        1470
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "冲绳/那霸机场运行特点 NAHA（ROAH/OKA）",
+      "icao": "ROAH",
+      "chinese_pages": [
+        743,
+        747
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 29,
+      "candidate_quality": {
+        "": 25,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": "Okinawa/Naha",
+      "english_pages": [
+        1428,
+        1436
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "釜山机场运行特点 Busan(PUS/RKPK)",
+      "icao": "RKPK",
+      "chinese_pages": [
+        748,
+        754
+      ],
+      "chinese_typical_count": 6,
+      "chinese_core_candidates": 44,
+      "candidate_quality": {
+        "": 39,
+        "PDF断句或残片未形成完整运行事实": 4,
+        "non_operational_administration": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "清州机场运行特点（RKTU/CJJ）",
+      "icao": "RKTU",
+      "chinese_pages": [
+        755,
+        761
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 53,
+      "candidate_quality": {
+        "": 50,
+        "unparsed_attribute_table": 2,
+        "PDF断句或残片未形成完整运行事实": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "敦煌/莫高机场运行特点",
+      "icao": "ZLDH",
+      "chinese_pages": [
+        762,
+        765
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 25,
+      "candidate_quality": {
+        "": 18,
+        "PDF断句或残片未形成完整运行事实": 6,
+        "detached_operational_fragment": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "嘉峪关机场运行特点 JIAYUGUAN(JGN/ZLJQ)",
+      "icao": "ZLJQ",
+      "chinese_pages": [
+        766,
+        769
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 30,
+      "candidate_quality": {
+        "": 24,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "喀什国际机场运行特点 KASHI(ZWSH/KHG)",
+      "icao": "ZWSH",
+      "chinese_pages": [
+        770,
+        775
+      ],
+      "chinese_typical_count": 5,
+      "chinese_core_candidates": 43,
+      "candidate_quality": {
+        "": 39,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "兰州/中川机场运行特点 ZLLL/LHW",
+      "icao": "ZLLL",
+      "chinese_pages": [
+        776,
+        783
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 49,
+      "candidate_quality": {
+        "": 47,
+        "unparsed_attribute_table": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "庆阳/西峰机场运行特点 QINGYANGXIFENG(IQN/ZLQY)",
+      "icao": "ZLQY",
+      "chinese_pages": [
+        784,
+        786
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 20,
+      "candidate_quality": {
+        "": 15,
+        "detached_operational_fragment": 1,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "克拉玛依机场运行特点 KELAMAYI(KRY/ZWKM)",
+      "icao": "ZWKM",
+      "chinese_pages": [
+        787,
+        791
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 38,
+      "candidate_quality": {
+        "": 31,
+        "PDF断句或残片未形成完整运行事实": 3,
+        "detached_operational_fragment": 2,
+        "来源包含无法可靠恢复的明显OCR错位": 1,
+        "清洗后无实质运行内容": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "莎车/叶尔羌机场运行特点",
+      "icao": "ZWSC",
+      "chinese_pages": [
+        792,
+        794
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 27,
+      "candidate_quality": {
+        "": 22,
+        "detached_operational_fragment": 1,
+        "清洗后无实质运行内容": 1,
+        "PDF断句或残片未形成完整运行事实": 3
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "石河子/花园机场运行特点",
+      "icao": "ZWHZ",
+      "chinese_pages": [
+        795,
+        798
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 33,
+      "candidate_quality": {
+        "": 29,
+        "detached_operational_fragment": 1,
+        "PDF断句或残片未形成完整运行事实": 3
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "乌鲁木齐/天山机场运行特点",
+      "icao": "ZWWW",
+      "chinese_pages": [
+        799,
+        804
+      ],
+      "chinese_typical_count": 4,
+      "chinese_core_candidates": 44,
+      "candidate_quality": {
+        "": 39,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 3
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "西安/咸阳机场运行特点 XIANXIANYANG(XIY/ZLXY)",
+      "icao": "ZLXY",
+      "chinese_pages": [
+        805,
+        817
+      ],
+      "chinese_typical_count": 6,
+      "chinese_core_candidates": 73,
+      "candidate_quality": {
+        "": 64,
+        "PDF断句或残片未形成完整运行事实": 7,
+        "detached_operational_fragment": 2
+      },
+      "english_header": "XIAN YANG",
+      "english_pages": [
+        1529,
+        1537
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "西宁/曹家堡机场运行特点",
+      "icao": "ZLXN",
+      "chinese_pages": [
+        818,
+        825
+      ],
+      "chinese_typical_count": 7,
+      "chinese_core_candidates": 75,
+      "candidate_quality": {
+        "": 64,
+        "standalone_frequency_metadata": 1,
+        "PDF断句或残片未形成完整运行事实": 8,
+        "detached_operational_fragment": 1,
+        "来源包含无法可靠恢复的明显OCR错位": 1
+      },
+      "english_header": "XININGCAOJIAPU",
+      "english_pages": [
+        1538,
+        1542
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "榆林/榆阳机场运行特点 YULINYUYANG(UYN/ZLYL)",
+      "icao": "ZLYL",
+      "chinese_pages": [
+        826,
+        827
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 22,
+      "candidate_quality": {
+        "": 16,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "张掖/甘州机场运行特点",
+      "icao": "ZLZY",
+      "chinese_pages": [
+        828,
+        830
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 32,
+      "candidate_quality": {
+        "": 25,
+        "PDF断句或残片未形成完整运行事实": 5,
+        "detached_operational_fragment": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "中卫/沙坡头机场运行特点",
+      "icao": "ZLZW",
+      "chinese_pages": [
+        831,
+        832
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 27,
+      "candidate_quality": {
+        "": 18,
+        "PDF断句或残片未形成完整运行事实": 8,
+        "detached_operational_fragment": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "伊宁机场运行特点 YINING(YIN/ZWYN)",
+      "icao": "ZWYN",
+      "chinese_pages": [
+        833,
+        837
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 47,
+      "candidate_quality": {
+        "": 41,
+        "PDF断句或残片未形成完整运行事实": 5,
+        "detached_operational_fragment": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "吐鲁番/交河机场运行特点 TULUFAJIAOHE(TLQ/ZWTL)",
+      "icao": "ZWTL",
+      "chinese_pages": [
+        838,
+        841
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 26,
+      "candidate_quality": {
+        "": 20,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "于田/万方机场运行特点 YUTIANWANFANG(YTW/ZWYT)",
+      "icao": "ZWYT",
+      "chinese_pages": [
+        842,
+        846
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 45,
+      "candidate_quality": {
+        "": 40,
+        "PDF断句或残片未形成完整运行事实": 5
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "金昌/金川机场运行特点",
+      "icao": "ZLJC",
+      "chinese_pages": [
+        847,
+        848
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 24,
+      "candidate_quality": {
+        "": 19,
+        "PDF断句或残片未形成完整运行事实": 5
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "阿勒泰机场运行特点 ALETAI(AAT/ZWAT)",
+      "icao": "ZWAT",
+      "chinese_pages": [
+        849,
+        851
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 30,
+      "candidate_quality": {
+        "": 23,
+        "PDF断句或残片未形成完整运行事实": 5,
+        "来源包含无法可靠恢复的明显OCR错位": 1,
+        "detached_operational_fragment": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "阿克苏/红旗坡机场运行特点 AKESU HONGQIPO",
+      "icao": "ZWAK",
+      "chinese_pages": [
+        852,
+        854
+      ],
+      "chinese_typical_count": 4,
+      "chinese_core_candidates": 30,
+      "candidate_quality": {
+        "": 25,
+        "PDF断句或残片未形成完整运行事实": 5
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "汉中城固机场运行特点 HANZHONG（ZLHZ/HZG）",
+      "icao": "ZLHZ",
+      "chinese_pages": [
+        855,
+        858
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 39,
+      "candidate_quality": {
+        "": 35,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "库尔勒/梨城机场运行特点 KUERLELICHENG",
+      "icao": "ZWKL",
+      "chinese_pages": [
+        859,
+        863
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 51,
+      "candidate_quality": {
+        "": 46,
+        "PDF断句或残片未形成完整运行事实": 5
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "和田昆冈机场运行特点 ZWTN/HTN",
+      "icao": "ZWTN",
+      "chinese_pages": [
+        864,
+        869
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 55,
+      "candidate_quality": {
+        "": 53,
+        "unparsed_attribute_table": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "安康/富强机场运行特点 ANKANG FUQIANG (AKA/ZLAK)",
+      "icao": "ZLAK",
+      "chinese_pages": [
+        870,
+        874
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 51,
+      "candidate_quality": {
+        "": 37,
+        "PDF断句或残片未形成完整运行事实": 13,
+        "detached_operational_fragment": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "库车龟兹机场运行特点 KUCHE(KCA/ZWKC)",
+      "icao": "ZWKC",
+      "chinese_pages": [
+        875,
+        880
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 47,
+      "candidate_quality": {
+        "": 40,
+        "PDF断句或残片未形成完整运行事实": 5,
+        "detached_operational_fragment": 1,
+        "清洗后无实质运行内容": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "成都/天府机场运行特点（ZUTF/TFU）",
+      "icao": "ZUTF",
+      "chinese_pages": [
+        881,
+        884
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 26,
+      "candidate_quality": {
+        "": 25,
+        "unparsed_attribute_table": 1
+      },
+      "english_header": "Chengdu/Tianfu",
+      "english_pages": [
+        1548,
+        1550
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "贵阳/龙洞堡机场运行特点(ZUGY/KWE)",
+      "icao": "ZUGY",
+      "chinese_pages": [
+        885,
+        889
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 32,
+      "candidate_quality": {
+        "": 30,
+        "unparsed_attribute_table": 1,
+        "non_operational_administration": 1
+      },
+      "english_header": "Guiyang/LongDongBao",
+      "english_pages": [
+        1551,
+        1571
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "昆明/长水机场运行特点 ZPPP/KMG",
+      "icao": "ZPPP",
+      "chinese_pages": [
+        890,
+        895
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 41,
+      "candidate_quality": {
+        "": 37,
+        "unparsed_attribute_table": 2,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "绵阳/南郊机场运行特点",
+      "icao": "ZUMY",
+      "chinese_pages": [
+        896,
+        898
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 20,
+      "candidate_quality": {
+        "PDF断句或残片未形成完整运行事实": 3,
+        "": 17
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "南充/高坪机场运行特点",
+      "icao": "ZUNC",
+      "chinese_pages": [
+        899,
+        901
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 17,
+      "candidate_quality": {
+        "": 14,
+        "detached_operational_fragment": 1,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "黔江/武陵山机场运行特点",
+      "icao": "ZUQJ",
+      "chinese_pages": [
+        902,
+        906
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 36,
+      "candidate_quality": {
+        "": 32,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "铜仁/凤凰机场运行特点",
+      "icao": "ZUTR",
+      "chinese_pages": [
+        907,
+        911
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 33,
+      "candidate_quality": {
+        "": 29,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "宜宾/五粮液机场运行特点",
+      "icao": "ZUYB",
+      "chinese_pages": [
+        912,
+        914
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 27,
+      "candidate_quality": {
+        "": 23,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "西双版纳/嘎洒机场运行特点 ZPJH/JHG",
+      "icao": "ZPJH",
+      "chinese_pages": [
+        915,
+        919
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 44,
+      "candidate_quality": {
+        "": 39,
+        "PDF断句或残片未形成完整运行事实": 3,
+        "unparsed_attribute_table": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "重庆/江北机场运行特点 ZUCK/CKG",
+      "icao": "ZUCK",
+      "chinese_pages": [
+        920,
+        925
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 41,
+      "candidate_quality": {
+        "": 39,
+        "unparsed_attribute_table": 1,
+        "来源包含无法可靠恢复的明显OCR错位": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "遵义/新舟机场运行特点（ZUZY/ZYI）",
+      "icao": "ZUZY",
+      "chinese_pages": [
+        926,
+        930
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 26,
+      "candidate_quality": {
+        "": 23,
+        "PDF断句或残片未形成完整运行事实": 2,
+        "unparsed_attribute_table": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "遵义/茅台机场运行特点 ZUNYIMAOTAI(WMT/ZUMT)",
+      "icao": "ZUMT",
+      "chinese_pages": [
+        931,
+        934
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 28,
+      "candidate_quality": {
+        "PDF断句或残片未形成完整运行事实": 4,
+        "": 23,
+        "detached_operational_fragment": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "毕节/飞雄机场运行特点 BIJIEFEIXIONG(BFJ/ZUBJ)",
+      "icao": "ZUBJ",
+      "chinese_pages": [
+        935,
+        937
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 14,
+      "candidate_quality": {
+        "": 12,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "凯里/黄平机场运行特点 KAILIHUANGPIN(KJH/ZUKJ)",
+      "icao": "ZUKJ",
+      "chinese_pages": [
+        938,
+        939
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 12,
+      "candidate_quality": {
+        "": 9,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "广元/盘龙机场运行特点",
+      "icao": "ZUGU",
+      "chinese_pages": [
+        940,
+        945
+      ],
+      "chinese_typical_count": 4,
+      "chinese_core_candidates": 52,
+      "candidate_quality": {
+        "PDF断句或残片未形成完整运行事实": 6,
+        "": 44,
+        "detached_operational_fragment": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "丽江/三义机场运行特点 ZPLJ/LJG",
+      "icao": "ZPLJ",
+      "chinese_pages": [
+        946,
+        951
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 45,
+      "candidate_quality": {
+        "": 40,
+        "PDF断句或残片未形成完整运行事实": 3,
+        "unparsed_attribute_table": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "文山/砚山机场运行特点",
+      "icao": "ZPWS",
+      "chinese_pages": [
+        952,
+        955
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 29,
+      "candidate_quality": {
+        "PDF断句或残片未形成完整运行事实": 6,
+        "": 22,
+        "detached_operational_fragment": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "重庆/仙女山机场运行特点",
+      "icao": "ZUWL",
+      "chinese_pages": [
+        956,
+        958
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 23,
+      "candidate_quality": {
+        "": 19,
+        "PDF断句或残片未形成完整运行事实": 3,
+        "detached_operational_fragment": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "泸州/云龙机场运行特点 LUZHOUYUNLONG(LZO/ZULZ)",
+      "icao": "ZULZ",
+      "chinese_pages": [
+        959,
+        960
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 15,
+      "candidate_quality": {
+        "": 11,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "成都/双流机场运行特点（ZUUU/CTU）",
+      "icao": "ZUUU",
+      "chinese_pages": [
+        961,
+        963
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 26,
+      "candidate_quality": {
+        "": 25,
+        "unparsed_attribute_table": 1
+      },
+      "english_header": "Chengdu/Shuangliu",
+      "english_pages": [
+        1572,
+        1576
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "德宏/芒市机场运行特点 MANGSHI(LUM/ZPMS)",
+      "icao": "ZPMS",
+      "chinese_pages": [
+        964,
+        967
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 30,
+      "candidate_quality": {
+        "PDF断句或残片未形成完整运行事实": 5,
+        "": 23,
+        "detached_operational_fragment": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "安顺/黄果树机场运行特点",
+      "icao": "ZUAS",
+      "chinese_pages": [
+        968,
+        970
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 19,
+      "candidate_quality": {
+        "": 15,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "大理/凤仪机场运行特点（ZPDL/DLU）",
+      "icao": "ZPDL",
+      "chinese_pages": [
+        971,
+        975
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 41,
+      "candidate_quality": {
+        "": 36,
+        "PDF断句或残片未形成完整运行事实": 3,
+        "unparsed_attribute_table": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "北海/福成机场运行特点 BEIHAIFUCHENG(BHY/ZGBH)",
+      "icao": "ZGBH",
+      "chinese_pages": [
+        976,
+        978
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 23,
+      "candidate_quality": {
+        "": 23
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "常德/桃花源机场运行特点",
+      "icao": "ZGCD",
+      "chinese_pages": [
+        979,
+        980
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 17,
+      "candidate_quality": {
+        "": 17
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "揭阳/潮汕机场运行特点",
+      "icao": "ZGOW",
+      "chinese_pages": [
+        981,
+        982
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 20,
+      "candidate_quality": {
+        "": 19,
+        "PDF断句或残片未形成完整运行事实": 1
+      },
+      "english_header": "JIEYANG CHAOSHAN",
+      "english_pages": [
+        1577,
+        1579
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "恩施/许家坪机场运行特点",
+      "icao": "ZHES",
+      "chinese_pages": [
+        983,
+        985
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 31,
+      "candidate_quality": {
+        "": 30,
+        "PDF断句或残片未形成完整运行事实": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "广州/白云机场运行特点",
+      "icao": "ZGGG",
+      "chinese_pages": [
+        986,
+        991
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 49,
+      "candidate_quality": {
+        "": 41,
+        "PDF断句或残片未形成完整运行事实": 7,
+        "来源包含无法可靠恢复的明显OCR错位": 1
+      },
+      "english_header": "GUANGZHOU BAIYUN",
+      "english_pages": [
+        1580,
+        1584
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "桂林/两江机场运行特点",
+      "icao": "ZGKL",
+      "chinese_pages": [
+        992,
+        994
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 16,
+      "candidate_quality": {
+        "": 16
+      },
+      "english_header": "Guilin Liangjiang",
+      "english_pages": [
+        1585,
+        1588
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "海口/美兰机场运行特点 HAIKOUMEILAN(HAK/ZJHK)",
+      "icao": "ZJHK",
+      "chinese_pages": [
+        995,
+        996
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 19,
+      "candidate_quality": {
+        "": 17,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": "Haikou Meilan",
+      "english_pages": [
+        1622,
+        1627
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "柳州/白莲机场运行特点",
+      "icao": "ZGZH",
+      "chinese_pages": [
+        997,
+        998
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 19,
+      "candidate_quality": {
+        "": 18,
+        "PDF断句或残片未形成完整运行事实": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "洛阳机场运行特点 LUOYANG(LYA/ZHLY)",
+      "icao": "ZHLY",
+      "chinese_pages": [
+        999,
+        1000
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 15,
+      "candidate_quality": {
+        "": 14,
+        "PDF断句或残片未形成完整运行事实": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "南宁/吴圩机场运行特点NANNINGWUXU(NNG/ZGNN)",
+      "icao": "ZGNN",
+      "chinese_pages": [
+        1001,
+        1003
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 40,
+      "candidate_quality": {
+        "": 40
+      },
+      "english_header": "Nanning/Wuxu",
+      "english_pages": [
+        1589,
+        1593
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "南阳/姜营机场运行特点",
+      "icao": "ZHNY",
+      "chinese_pages": [
+        1004,
+        1006
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 32,
+      "candidate_quality": {
+        "": 27,
+        "来源包含无法可靠恢复的明显OCR错位": 1,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "三亚/凤凰机场运行特点",
+      "icao": "ZJSY",
+      "chinese_pages": [
+        1007,
+        1009
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 23,
+      "candidate_quality": {
+        "": 17,
+        "PDF断句或残片未形成完整运行事实": 6
+      },
+      "english_header": "Sanya/Fenghuang",
+      "english_pages": [
+        1594,
+        1596
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "深圳/宝安机场运行特点 SHENZHENBAOAN(SZX/ZGSZ)",
+      "icao": "ZGSZ",
+      "chinese_pages": [
+        1010,
+        1020
+      ],
+      "chinese_typical_count": 6,
+      "chinese_core_candidates": 45,
+      "candidate_quality": {
+        "": 40,
+        "PDF断句或残片未形成完整运行事实": 5
+      },
+      "english_header": "SHENZHEN BAOAN",
+      "english_pages": [
+        1597,
+        1605
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "十堰/武当山机场运行特点",
+      "icao": "ZHSY",
+      "chinese_pages": [
+        1021,
+        1023
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 33,
+      "candidate_quality": {
+        "PDF断句或残片未形成完整运行事实": 8,
+        "": 24,
+        "来源包含无法可靠恢复的明显OCR错位": 1
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "武汉/天河机场运行特点 WUHANTIANHE(WUH/ZHHH)",
+      "icao": "ZHHH",
+      "chinese_pages": [
+        1024,
+        1026
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 31,
+      "candidate_quality": {
+        "": 26,
+        "PDF断句或残片未形成完整运行事实": 5
+      },
+      "english_header": "Wuhan/Tianhe",
+      "english_pages": [
+        1606,
+        1609
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "宜昌/三峡机场运行特点 YICHANGSANXIA(YIH/ZHYC)",
+      "icao": "ZHYC",
+      "chinese_pages": [
+        1027,
+        1029
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 16,
+      "candidate_quality": {
+        "": 14,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "岳阳/三荷机场运行特点 YUEYANGSANHE",
+      "icao": "ZGYY",
+      "chinese_pages": [
+        1030,
+        1032
+      ],
+      "chinese_typical_count": 5,
+      "chinese_core_candidates": 13,
+      "candidate_quality": {
+        "": 9,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "湛江/吴川机场运行特点",
+      "icao": "ZGZJ",
+      "chinese_pages": [
+        1033,
+        1034
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 13,
+      "candidate_quality": {
+        "": 11,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "张家界/荷花机场运行特点",
+      "icao": "ZGDY",
+      "chinese_pages": [
+        1035,
+        1037
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 25,
+      "candidate_quality": {
+        "PDF断句或残片未形成完整运行事实": 5,
+        "": 20
+      },
+      "english_header": "Zhangjiajie/Huahua",
+      "english_pages": [
+        1610,
+        1612
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "长沙/黄花机场运行特点",
+      "icao": "ZGHA",
+      "chinese_pages": [
+        1038,
+        1040
+      ],
+      "chinese_typical_count": 6,
+      "chinese_core_candidates": 20,
+      "candidate_quality": {
+        "": 16,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": "Changsha/Huanghua",
+      "english_pages": [
+        1613,
+        1616
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "郑州/新郑机场运行特点",
+      "icao": "ZHCC",
+      "chinese_pages": [
+        1041,
+        1044
+      ],
+      "chinese_typical_count": 4,
+      "chinese_core_candidates": 33,
+      "candidate_quality": {
+        "": 25,
+        "来源包含无法可靠恢复的明显OCR错位": 2,
+        "PDF断句或残片未形成完整运行事实": 6
+      },
+      "english_header": "Zhengzhou/Xinzheng",
+      "english_pages": [
+        1617,
+        1621
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    },
+    {
+      "header": "怀化/芷江机场运行特点 HUAIHUAZHIJIANG(HJJ/ZGCJ)",
+      "icao": "ZGCJ",
+      "chinese_pages": [
+        1045,
+        1048
+      ],
+      "chinese_typical_count": 4,
+      "chinese_core_candidates": 19,
+      "candidate_quality": {
+        "": 15,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "珠海/金湾机场运行特点 ZHUHAIJINWAN(ZUH/ZGSD)",
+      "icao": "ZGSD",
+      "chinese_pages": [
+        1049,
+        1052
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 26,
+      "candidate_quality": {
+        "": 24,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "邵阳/武冈机场运行特点",
+      "icao": "ZGSY",
+      "chinese_pages": [
+        1053,
+        1054
+      ],
+      "chinese_typical_count": 1,
+      "chinese_core_candidates": 17,
+      "candidate_quality": {
+        "": 15,
+        "PDF断句或残片未形成完整运行事实": 2
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "琼海/博鳌机场运行特点 QIONGHAIBOAO(ZJQH/BAR)",
+      "icao": "ZJQH",
+      "chinese_pages": [
+        1055,
+        1057
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 31,
+      "candidate_quality": {
+        "": 23,
+        "PDF断句或残片未形成完整运行事实": 5,
+        "来源包含无法可靠恢复的明显OCR错位": 3
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "襄阳/刘集机场运行特点 XIANGYANGLIUJI(XFN/ZHXF)",
+      "icao": "ZHXF",
+      "chinese_pages": [
+        1058,
+        1059
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 13,
+      "candidate_quality": {
+        "": 9,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "衡阳/南岳机场运行特点",
+      "icao": "ZGHY",
+      "chinese_pages": [
+        1060,
+        1067
+      ],
+      "chinese_typical_count": 3,
+      "chinese_core_candidates": 27,
+      "candidate_quality": {
+        "": 21,
+        "来源包含无法可靠恢复的明显OCR错位": 1,
+        "PDF断句或残片未形成完整运行事实": 5
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "玉林/福绵机场运行特点 YULINFUMIAN(YLX/ZGYL)",
+      "icao": "ZGYL",
+      "chinese_pages": [
+        1068,
+        1071
+      ],
+      "chinese_typical_count": 2,
+      "chinese_core_candidates": 20,
+      "candidate_quality": {
+        "": 16,
+        "PDF断句或残片未形成完整运行事实": 4
+      },
+      "english_header": null,
+      "english_pages": [],
+      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "identity_error": false
+    },
+    {
+      "header": "乌兰巴托/成吉思汗机场运行特点 ULAANBAATAR",
+      "icao": "ZMCK",
+      "chinese_pages": [
+        1072,
+        1630
+      ],
+      "chinese_typical_count": 0,
+      "chinese_core_candidates": 2793,
+      "candidate_quality": {
+        "": 2747,
+        "detached_operational_fragment": 17,
+        "PDF断句或残片未形成完整运行事实": 22,
+        "passenger_or_staff_ground_transport": 7
+      },
+      "english_header": "Ulaanbaatar Chinggis Khaan International",
+      "english_pages": [
+        1628,
+        1639
+      ],
+      "english_identity_status": "ICAO_MATCHED",
+      "identity_error": false
+    }
+  ],
+  "notice": "Structural inventory only, not proof of bilingual content equivalence or source absence."
+}

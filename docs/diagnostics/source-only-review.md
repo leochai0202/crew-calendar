@@ -1,5 +1,7 @@
 # Complete-chapter source-only extraction — DRAFT REVIEW
 
+Initial-head baseline only. For the subsequent PR #58 revision and current test results, see [revision review](source-only-revision-review.md).
+
 This branch is not production ready. Do not merge or publish diagnostic previews as formal briefings.
 
 ## Authoritative manual actually synchronized

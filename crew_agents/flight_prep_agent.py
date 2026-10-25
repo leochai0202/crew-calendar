@@ -2097,7 +2097,7 @@ def _english_manual_heading(value: str) -> tuple[str, str]:
     if "SPECIALOPERATIONALREQUIREMENT" in compact:
         return "core", "operations"
     if re.fullmatch(r"(?:I{1,3}|IV|V|\d+)?OTHERS?", compact):
-        return "stop", ""
+        return "core", "operations"
     if "PREDEPARTUREGROUNDOPERATIONSPHASE" in compact:
         return "core", "ground"
     if "POSTLANDINGGROUNDOPERATIONSPHASE" in compact:
@@ -2188,7 +2188,7 @@ def extract_english_manual_facts(text: str) -> list[ManualEnglishFact]:
     """Recover English facts by chapter section, phase, and source order."""
     facts: list[ManualEnglishFact] = []
     sequences: dict[tuple[str, str], int] = {}
-    category = ""
+    category = "core"
     phase = ""
     current_parts: list[str] = []
     current_level = ""
@@ -2204,6 +2204,8 @@ def extract_english_manual_facts(text: str) -> list[ManualEnglishFact]:
         if before_subitem and level == "main" and _english_manual_structural_label(value):
             return
         if _english_manual_structural_label(value):
+            return
+        if source_operational_value_issue(value):
             return
         fact_phase = "incident" if category == "typical" else (phase or "core")
         if _english_manual_metadata_item(value, fact_phase):
@@ -2298,6 +2300,8 @@ def extract_english_manual_facts(text: str) -> list[ManualEnglishFact]:
 def _chinese_manual_fact_phase(value: str, category: str) -> str:
     if category == "typical":
         return "incident"
+    if operational_attribute_text(value) or re.match(r"(?:跑道信息|PAPI\s*信息)\s*[:：]", value, re.I):
+        return "operations"
     prefix = normalize_text(value).split("：", 1)[0]
     return {
         "地面": "ground",
@@ -2312,6 +2316,9 @@ def _chinese_manual_fact_phase(value: str, category: str) -> str:
 def manual_pairing_tokens(value: str) -> set[str]:
     """Critical bilingual anchors, preserving source case for waypoint names."""
     text = normalize_text(value)
+    # Thousands grouping is typography, not a different altitude. Normalize
+    # only a complete grouped integer; decimal separators remain untouched.
+    text = re.sub(r"(?<![\d.])\d{1,3}(?:,\d{3})+(?![\d.])", lambda match: match.group().replace(",", ""), text)
     # Layout extraction can join adjacent ECAM words. Separate only a complete
     # sequence of known annunciation words, never arbitrary uppercase fixes.
     annunciation_words = ("PRIMARY", "FAULT", "RPTG", "BKUP", "LOST", "ADS-B", "GPS", "NAV", "SPD")
@@ -2327,6 +2334,7 @@ def manual_pairing_tokens(value: str) -> set[str]:
     text = re.sub(r"(?<![A-Za-z])(?:" + word_pattern + r"){2,}(?![A-Za-z])", space_annunciation, text)
     upper = text.upper()
     tokens = set(critical_fact_tokens(text))
+    tokens.update(re.findall(r"(?<![A-Z0-9])[A-Z]{1,5}\d{1,4}[A-Z]?(?![A-Z0-9.]\d|[A-Z0-9])", upper))
     if any(marker in text for marker in ("管制", "区调", "空管")) or re.search(
         r"\b(?:ATC|AIR\s+TRAFFIC\s+CONTROL|CONTROLLERS?|CONTROL'S|CONTROLLED\s+AREA)\b",
         upper,
@@ -2377,7 +2385,7 @@ def manual_pairing_tokens(value: str) -> set[str]:
     # layout. A bare slash-separated route or frequency is not a runway pair.
     for match in re.finditer(r"(?<![A-Z0-9])(\d{2}[LRC]?)\s*/\s*(\d{2}[LRC]?)(?![A-Z0-9])", upper):
         context = upper[max(0, match.start() - 30):match.end() + 35]
-        if re.search(r"跑道|落地|起飞|RUNWAY|RWY|LANDING|TAKEOFF|RENAM", context):
+        if re.search(r"跑道|落地|起飞|RUNWAY|RWY|LANDING|TAKEOFF|RENAM", context) or re.match(r"(?:跑道信息|Runway\s+Information)\s*[:：]", text, re.I):
             tokens.update(f"RWY{runway}" for runway in match.groups())
     for runway in re.findall(r"(?:跑道|RWY\s*)\s*(\d{2}[LRC]?)(?![A-Z0-9])", upper):
         tokens.add(f"RWY{runway}")
@@ -2457,14 +2465,27 @@ def pair_manual_english_items(
     category: str,
 ) -> list[str]:
     """Pair by airport chapter, section, operational phase, and source order."""
-    grouped: dict[str, list[ManualEnglishFact]] = {}
+    def source_group(text: str, phase: str) -> tuple[str, str]:
+        value = SOURCE_HEADING_RE.sub("", normalize_text(text))
+        for field, pattern in (
+            ("elevation", r"^(?:机场标高|Airport\s+elevation)\s*[:：]"),
+            ("runways", r"^(?:跑道信息|Runway\s+Information)\s*[:：]"),
+            ("papi", r"^PAPI\s*(?:信息|Information)\s*[:：]"),
+        ):
+            if re.match(pattern, value, re.I):
+                return "basic", field
+        return "phase", phase
+
+    grouped: dict[tuple[str, str], list[ManualEnglishFact]] = {}
     for fact in english_facts:
         if fact.category == category:
-            grouped.setdefault(fact.phase, []).append(fact)
+            group = grouped.setdefault(source_group(fact.text, fact.phase), [])
+            if not any(compact_key(previous.text) == compact_key(fact.text) for previous in group):
+                group.append(fact)
     paired = [""] * len(chinese_items)
-    for phase, candidates in grouped.items():
+    for group, candidates in grouped.items():
         positions = [index for index, item in enumerate(chinese_items)
-                     if _chinese_manual_fact_phase(item, category) == phase]
+                     if source_group(item, _chinese_manual_fact_phase(item, category)) == group]
         values = _align_manual_source_order(
             [chinese_items[index] for index in positions],
             [fact.text for fact in candidates],
@@ -3303,6 +3324,97 @@ def table_core_items(records: list[dict], max_items: int) -> list[str]:
     return unique(result)[:max_items]
 
 
+def source_operational_value_issue(value: str) -> str:
+    """Reject non-flight administrative records, not whole operational topics.
+
+    A frequency alone is metadata; a communication failure or special transfer
+    instruction is not. This classifier never depends on an airport identity.
+    """
+    text = SOURCE_HEADING_RE.sub("", normalize_text(value))
+    if re.search(r"廊桥密码|登机桥密码|加油签名|\b(?:bridge.{0,30}password|password.{0,30}bridge|fuel\s+signature)\b", text, re.I):
+        return "non_operational_administration"
+    if re.search(r"酒店|住宿|接送|班车|航站列车|机票|自动扶梯|医院|Toll\s+Road|员工通道|"
+                 r"\b(?:hotel|accommodation|shuttle|ticket|escalator|hospital|staff\s+passage|terminal\s+train)\b", text, re.I) and not re.search(
+                     r"飞机|航空器|跑道|滑行道|障碍|\b(?:aircraft|runway|taxiway|obstacle)\b", text, re.I):
+        return "passenger_or_staff_ground_transport"
+    if re.fullmatch(r"(?:联系电话|电话|传真|邮箱|联系人|Tel(?:ephone)?|Fax|E-?mail|Contact)\s*[:：].*", text, re.I):
+        return "contact_metadata"
+    if re.fullmatch(r"(?:[A-Z/\u4e00-\u9fff ]{0,20}(?:频率|频点)|(?:ATIS|TWR|GND|APP|DEL|FREQUENCY))\s*[:：]?\s*\d{2,3}\.\d+\s*(?:MHZ)?[。.]?", text, re.I):
+        return "standalone_frequency_metadata"
+    return ""
+
+
+def scan_chapter_source_records(lines: list[str]) -> tuple[list[str], list[str]]:
+    """Scan every Chinese source item, independently of a Core Threat title.
+
+    Numbered labels are boundaries even when their wording is unfamiliar.
+    Only explicit incident headings switch category. Page headers do not flush
+    an unfinished item; a new numbered record does. No airport-specific rules.
+    """
+    typical: list[str] = []
+    core: list[str] = []
+    category, phase = "core", ""
+    parts: list[str] = []
+    active = False
+
+    def flush() -> None:
+        nonlocal parts
+        value = clean_manual_item(_join_pdf_record_lines(parts))
+        parts = []
+        if not value:
+            return
+        if category == "typical":
+            typical.append(value)
+        else:
+            core.append(f"{phase}：{value}" if phase else value)
+
+    for raw in lines:
+        line = normalize_text(raw)
+        if not line or is_repeated_pdf_line(line) or re.match(r"^(?:版本|修订日期|页码|更新日期|责任中队)", line):
+            continue
+        kind = heading_kind(line)
+        stage = STRUCTURED_STAGE_RE.match(line)
+        item = re.match(r"^\s*(?:\d+(?:\.\d+)*[.．、](?!\d)\s*|\d+(?:\.\d+)+\s+|[（(][\d一二三四五六七八九十]+[）)]\s*|[一二三四五六七八九十]+[、.．]\s*)(?P<body>.*)$", line)
+        body = item.group("body").strip() if item else line
+        source_phase = re.fullmatch(r"(地面|离场|航路|进场|着陆后地面)[:：]?", body)
+        explicit_event = bool(kind in {"typical", "details"} or re.fullmatch(r"(?:历史|典型)不安全事件(?:详述)?[:：]?", body))
+        if explicit_event:
+            flush()
+            category, phase, active = "typical", "", True
+            continue
+        if kind or stage or source_phase:
+            flush()
+            category, active = "core", True
+            phase = (source_phase.group(1) if source_phase else
+                     STRUCTURED_PHASE_LABELS.get(STRUCTURED_STAGE_PHASES.get(stage.group("label"), ""), "") if stage else "")
+            continue
+        # Any numbered noun-label starts a new source section. It must never
+        # be appended to a preceding item merely because it is not in a list
+        # of known section names.
+        label_only = bool(item and (body.endswith((":", "：")) or is_manual_structure_only(body)))
+        if label_only:
+            flush()
+            active = True
+            category = "core"
+            continue
+        if item:
+            flush()
+            active = True
+            if operational_attribute_text(body):
+                body = operational_attribute_text(body)
+            if body and not is_boilerplate_line(body):
+                parts = [body]
+        elif operational_attribute_text(body):
+            flush()
+            active = True
+            parts = [operational_attribute_text(body)]
+            flush()
+        elif active and not is_boilerplate_line(line):
+            parts.append(line)
+    flush()
+    return unique(typical), unique(core)
+
+
 def extract_manual_lists(section: dict, max_items: int) -> tuple[list[str], list[str]]:
     lines = list(section.get("lines") or [])
     # The caller's legacy paragraph budget is not a source extraction limit.
@@ -3336,8 +3448,11 @@ def extract_manual_lists(section: dict, max_items: int) -> tuple[list[str], list
     # Modern numbered chapters supply explicit event item boundaries. The
     # legacy line collector can otherwise add a duplicate containing several
     # concatenated events across a page break.
-    typical = unique(structured_typical if structured_typical else typical)
-    core = unique([*core, *operational, *structured_core, *extract_complete_chapter_extras(lines)])
+    scanned_typical, scanned_core = scan_chapter_source_records(lines)
+    typical = unique(scanned_typical or structured_typical or typical)
+    # A single record scanner prevents parallel legacy collectors from adding
+    # overlapping or concatenated copies of the same source items.
+    core = unique([*(scanned_core or structured_core or core or operational), *extract_complete_chapter_extras(lines)])
 
     table_records = extract_threat_table_entries(section)
     # 机场特点表格用于生成核心威胁，不能直接当“典型不安全事件”。
@@ -3616,7 +3731,7 @@ DETACHED_OPERATIONAL_FRAGMENT_RE = re.compile(
 
 def is_detached_operational_fragment(value: str) -> bool:
     """Identify a numeric limit that has no independently stated subject."""
-    cleaned = strip_manual_ordinal_prefix(strip_source_metadata(value)).strip()
+    cleaned = SOURCE_HEADING_RE.sub("", strip_manual_ordinal_prefix(strip_source_metadata(value))).strip()
     return bool(
         DETACHED_OPERATIONAL_FRAGMENT_RE.fullmatch(cleaned)
         or re.fullmatch(r"[A-Z][A-Z0-9/.-]{1,15}[。.]?", cleaned, re.IGNORECASE)
@@ -3642,6 +3757,11 @@ def manual_source_quality_issue(value: str) -> str:
     cleaned = normalize_text(cleaned)
     if not cleaned:
         return "清洗后无实质运行内容"
+    if re.search(r"固有属性\s*是/否|是否(?:为|存在|涉及).*(?:是否为|是否存在|是否涉及)", cleaned):
+        return "unparsed_attribute_table"
+    operational_issue = source_operational_value_issue(cleaned)
+    if operational_issue:
+        return operational_issue
     if operational_attribute_text(SOURCE_HEADING_RE.sub("", cleaned)):
         return ""
     if is_detached_operational_fragment(cleaned):
@@ -9521,7 +9641,9 @@ def validate_source_semantic_preservation(fact: BilingualFact) -> list[str]:
             f"来源语义新增内容：{fact.fact_id}新增{','.join(added_literals)}"
         )
 
-    required_source_controls = "；".join([*fact.mitigation, *fact.restriction])
+    # The legacy semantic classifier can synthesize control wording. Verbatim
+    # facts must be checked against their actual source, not that projection.
+    required_source_controls = semantic_source if fact.source_verbatim else "；".join([*fact.mitigation, *fact.restriction])
     control_groups = (
         (r"禁止|不得|严禁", r"禁止|不得|严禁", "禁止性要求"),
         (
@@ -10251,6 +10373,9 @@ def chinese_fact_output(fact: BilingualFact) -> str:
     # Source-only rendering may remove a structural label and extraction
     # whitespace, but must not enter the legacy Chinese prose editor.
     text = SOURCE_HEADING_RE.sub("", strip_source_metadata(fact.zh)).strip()
+    label_match = SOURCE_LABEL_RE.match(text) or GENERIC_SOURCE_LABEL_RE.match(text)
+    if label_match and not source_label_has_operational_semantics(label_match.group("label")):
+        text = label_match.group("value")
     text = re.sub(r"(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])", "", text)
     return strip_terminal_punct(text)
 

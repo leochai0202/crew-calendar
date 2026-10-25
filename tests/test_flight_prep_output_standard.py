@@ -204,7 +204,6 @@ def test_unprovable_single_fact_is_dropped_without_discarding_safe_fact() -> Non
     "value",
     [
         "版本：20260817 修订日期：2026.08.17 页码：512",
-        "机场标高：10ft",
         "是否存在短跑道：否",
         "离场前地面运行阶段",
         "目前数据库中无数据",
@@ -214,6 +213,11 @@ def test_unprovable_single_fact_is_dropped_without_discarding_safe_fact() -> Non
 def test_manual_structure_fields_are_not_operational_facts(value: str) -> None:
     assert agent.manual_source_quality_issue(value)
     assert agent.typical_source_quality_issue(value)
+
+
+def test_elevation_is_operational_core_not_a_typical_event() -> None:
+    assert not agent.manual_source_quality_issue("机场标高：10ft")
+    assert agent.typical_source_quality_issue("机场标高：10ft")
 
 
 def test_typical_event_quality_requires_event_semantics() -> None:

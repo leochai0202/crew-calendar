@@ -32,6 +32,9 @@ def write_report(report: dict, path: Path) -> None:
                   result["english_core_preview"] or "FAILED_SAFE: no English counterpart was extracted. No translation or generic template was supplied.",
                   "", "### Every acceptance error", ""]
         lines += [f"- {error}" for error in result["errors"]]
+        for role, sample in result.get("role_samples", {}).items():
+            lines += ["", f"### {role}: source-only role selection preview", "",
+                      sample["chinese_preview"], "", sample["english_preview"]]
     offline = report["offline"]
     lines += ["", "## Isolated real-duty generation", "", f"Target: {offline['target_date']}",
               f"Status: {offline['status']}; success marker: {offline['success_marker']}",
@@ -79,6 +82,20 @@ def audit(repo: Path, airports: list[str], target: str, output: Path) -> None:
             "english_core_preview": "\n\n".join(fact.en for fact in core if fact.en),
             "source_records": records.get(airport, []),
         }
+        role_samples = {}
+        for role, event in zip(("departure", "arrival"), events):
+            exclusions = []
+            selected = agent.prepare_operational_facts(
+                event, airport, date.fromisoformat(target), core,
+                max_items=10000, exclusion_log=exclusions,
+            )
+            role_samples[role] = {
+                "selected_fact_ids": [fact.fact_id for fact in selected],
+                "chinese_preview": "\n\n".join(agent.chinese_fact_output(fact) for fact in selected),
+                "english_preview": "\n\n".join(fact.en for fact in selected if fact.en),
+                "exclusions": exclusions,
+            }
+        report["airports"][airport]["role_samples"] = role_samples
 
     captures = []
     original_chinese = agent.render_chinese_briefing
