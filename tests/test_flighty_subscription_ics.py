@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import copy
+import hashlib
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -52,7 +54,7 @@ def build(root):
                                 now=NOW, historical_path=root / "flight.ics")
 
 
-def test_future_only_and_google_body_parity_with_suffixes(source_root):
+def test_history_and_future_google_body_parity_with_suffixes(source_root):
     events = [source_event(),
         source_event("9C7651X", "揭阳潮汕", "合肥新桥", "20261016T100000", "20261016T120000", "置位"),
         source_event("9C7651Y", "合肥新桥", "伊犁伊宁", "20261016T130000", "20261016T170000", "其他"),
@@ -65,28 +67,33 @@ def test_future_only_and_google_body_parity_with_suffixes(source_root):
     write_source(source_root / "flight.ics", [past])
     before = {p.name: p.read_bytes() for p in source_root.glob("*.ics")}
     snapshot = build(source_root)
-    assert subscription.generate(source_root, now=NOW) == 5
+    assert subscription.generate(source_root, now=NOW) == 6
     data = (source_root / "flighty.ics").read_bytes()
     parsed = Calendar(data.decode())
-    expected = {flighty.private(f.body)["flighty_source_key"] + "@crew-calendar-flighty": f.body
-                for f in snapshot.flights.values() if flighty.private(f.body).get("flighty_source_key") in snapshot.future_sources}
-    assert len(parsed.events) == len(snapshot.future_sources) == 5
+    expected = {snapshot.subscription_source_keys[f.key] + "@crew-calendar-flighty": f.body
+                for f in snapshot.flights.values()}
+    assert len(parsed.events) == 6
+    assert len(snapshot.future_sources) == 5
     assert {e.uid for e in parsed.events} == set(expected)
     for event in parsed.events:
         body = expected[event.uid]
         assert event.name == body["summary"]
         assert event.location == body["location"]
-        assert event.description == body["description"]
+        if flighty.private(body).get("flighty_source_key") in snapshot.future_sources:
+            assert event.description == body["description"]
+        else:
+            assert event.description.replace("\nDeparture Airport: SHA\nArrival Airport: SWA", "") == body["description"]
+        assert "Departure Airport: " in event.description and "Arrival Airport: " in event.description
         assert event.begin.datetime == datetime.fromisoformat(body["start"]["dateTime"])
         assert event.end.datetime == datetime.fromisoformat(body["end"]["dateTime"])
         assert not event.alarms
     assert {e.name for e in parsed.events} == {
         "Spring Airlines 9C7681 SHA → SWA", "Spring Airlines 9C7651X SWA → HFE",
         "Spring Airlines 9C7651Y HFE → YIN", "Spring Airlines 9C7652X YIN → HFE",
-        "Spring Airlines 9C7652Y HFE → SWA",
+        "Spring Airlines 9C7652Y HFE → SWA", "Spring Airlines 9C6731 SHA → SWA",
     }
     for forbidden in ("私密机长甲", "私密乘务乙", "人员名单", "签到", "注册号", "B-TEST", "机型", "A320-TEST",
-                      "PRIVATE-SCHEDULE-VERSION", "never-print-secret", "VALARM", "source-9C", "9C6731"):
+                      "PRIVATE-SCHEDULE-VERSION", "never-print-secret", "VALARM", "source-9C"):
         assert forbidden not in data.decode()
     assert all((source_root / name).read_bytes() == original for name, original in before.items())
 
@@ -156,7 +163,7 @@ def test_conflicting_future_sources_have_distinct_stable_uids(source_root):
     assert (source_root / "flighty.ics").read_bytes() == data
 
 
-def test_zero_future_sources_produces_valid_empty_subscription(source_root):
+def test_no_history_or_future_produces_valid_empty_subscription(source_root):
     write_source(source_root / "crew_schedule.ics", [])
     assert subscription.generate(source_root, now=NOW) == 0
     assert not Calendar((source_root / "flighty.ics").read_text(encoding="utf-8")).events
@@ -244,3 +251,107 @@ def test_workflow_order_is_nonblocking_and_has_no_credentials():
     assert "flighty_subscription" not in publish
     google = workflow.split("- name: Sync Flighty Google Calendar", 1)[1]
     assert "flighty_subscription" not in google
+
+
+@pytest.mark.parametrize("entry", [
+    source_event(),
+    source_event("9C7651X", "揭阳潮汕", "合肥新桥", "20261016T100000", "20261016T120000"),
+    source_event("9C7651Y", destination="揭阳潮汕(+1)", start="20261015T230000", end="20261016T010000"),
+])
+def test_uid_is_identical_before_at_and_after_departure(source_root, entry):
+    write_source(source_root / "crew_schedule.ics", [entry])
+    write_source(source_root / "flight.ics", [entry])
+    snapshot = build(source_root)
+    flight, = snapshot.flights.values()
+    source_key = flighty.private(flight.body)["flighty_source_key"]
+    start = datetime.fromisoformat(flight.body["start"]["dateTime"])
+    end = datetime.fromisoformat(flight.body["end"]["dateTime"])
+    expected_uid = source_key + "@crew-calendar-flighty"
+    expected_event = None
+    for now in (NOW, start, start + timedelta(seconds=1), end + timedelta(days=1)):
+        before = {p: p.read_bytes() for p in (source_root / "flight.ics", source_root / "crew_schedule.ics")}
+        assert subscription.generate(source_root, now=now) == 1
+        data = (source_root / "flighty.ics").read_bytes()
+        event, = Calendar(data.decode()).events
+        assert event.uid == expected_uid
+        properties = (event.uid, event.name, event.location, event.description, event.begin, event.end)
+        if expected_event is None:
+            expected_event = properties
+        assert properties == expected_event
+        assert subscription.generate(source_root, now=now) == 1
+        assert (source_root / "flighty.ics").read_bytes() == data
+        assert all(p.read_bytes() == original for p, original in before.items())
+
+
+def test_uid_matches_preexisting_production_future_algorithm(source_root):
+    # Captured from the deployed future-only feed for this unchanged source.
+    expected_uid = "92e274a6f6c769c9bbbe28d302081ef2f67a1a476ac19a0469ea81d7804c91f0@crew-calendar-flighty"
+    write_source(source_root / "flight.ics", [source_event()])
+    for now in (NOW, datetime(2026, 10, 16, tzinfo=flighty.BEIJING)):
+        subscription.generate(source_root, now=now)
+        event, = Calendar((source_root / "flighty.ics").read_text(encoding="utf-8")).events
+        assert event.uid == expected_uid
+
+
+def test_history_only_skips_unknown_airports_conflicts_and_positioning(source_root):
+    good = source_event("9C6731", start="20261013T100000", end="20261013T120000")
+    unknown = source_event("9C6732", origin="未知机场", start="20261013T130000", end="20261013T150000")
+    conflict1 = source_event("9C6733", start="20261013T160000", end="20261013T180000")
+    conflict2 = source_event("9C6733", start="20261013T160000", end="20261013T183000")
+    positioning = source_event("9C6734", start="20261013T190000", end="20261013T210000", kind="置位")
+    write_source(source_root / "flight.ics", [good, good, unknown, conflict1, conflict2, positioning])
+    write_source(source_root / "crew_schedule.ics", [])
+    snapshot = build(source_root)
+    assert not snapshot.future_sources
+    assert len(snapshot.flights) == len(snapshot.subscription_source_keys) == 1
+    assert subscription.generate(source_root, now=NOW) == 1
+    data = (source_root / "flighty.ics").read_bytes()
+    event, = Calendar(data.decode()).events
+    assert event.name == "Spring Airlines 9C6731 SHA → SWA"
+    assert subscription.generate(source_root, now=NOW) == 1
+    assert (source_root / "flighty.ics").read_bytes() == data
+
+
+def test_subscription_metadata_and_rendering_do_not_patch_google_history(source_root):
+    past = source_event("9C6731", start="20261013T100000", end="20261013T120000")
+    write_source(source_root / "flight.ics", [past])
+    snapshot = build(source_root)
+    before = copy.deepcopy(snapshot.flights)
+    historical = next(f for f in snapshot.flights.values() if f.service == "2026-10-13|9C6731")
+    legacy_key = hashlib.sha256(b"2026-10-13|9C6731|SHA|SWA").hexdigest()
+    assert flighty.private(historical.body) == {
+        "flighty_owner": flighty.OWNER, "flighty_key": legacy_key,
+        "flighty_service": "2026-10-13|9C6731", "flighty_route": "SHA|SWA",
+    }
+    assert "Departure Airport:" not in historical.body["description"]
+    assert "Arrival Airport:" not in historical.body["description"]
+    remotes = [copy.deepcopy(f.body) | {"id": "existing-google-id-" + f.key} for f in snapshot.flights.values()]
+    original_plan = flighty.make_plan(snapshot, remotes)
+    assert not original_plan.create and not original_plan.update and not original_plan.delete
+    subscription.render_calendar(snapshot)
+    assert snapshot.flights == before
+    assert flighty.make_plan(snapshot, remotes) == original_plan
+    snapshot.subscription_source_keys.clear()
+    assert flighty.make_plan(snapshot, remotes) == original_plan
+    flighty.check_future(snapshot, remotes)
+
+
+@pytest.mark.parametrize("damage", ["duplicate", "missing", "future_mismatch"])
+def test_incomplete_subscription_metadata_keeps_last_good(source_root, monkeypatch, damage):
+    write_source(source_root / "flight.ics", [source_event("9C6731", start="20261013T100000", end="20261013T120000")])
+    snapshot = build(source_root)
+    future_key = next(f.key for f in snapshot.flights.values() if "flighty_source_key" in flighty.private(f.body))
+    historical_key = next(key for key in snapshot.flights if key != future_key)
+    if damage == "duplicate":
+        snapshot.subscription_source_keys[historical_key] = snapshot.subscription_source_keys[future_key]
+    elif damage == "missing":
+        del snapshot.subscription_source_keys[historical_key]
+    else:
+        snapshot.subscription_source_keys[future_key], snapshot.subscription_source_keys[historical_key] = (
+            snapshot.subscription_source_keys[historical_key], snapshot.subscription_source_keys[future_key])
+    target = source_root / "flighty.ics"
+    target.write_bytes(b"last-good")
+    monkeypatch.setattr(flighty, "read_snapshot", lambda *args, **kwargs: snapshot)
+    with pytest.raises(ValueError, match="Incomplete or duplicate"):
+        subscription.generate(source_root, now=NOW)
+    assert target.read_bytes() == b"last-good"

@@ -132,14 +132,16 @@ python -B -m pytest tests/test_flighty_google_calendar.py tests/test_workflow_au
 Apple 订阅形式：`webcal://raw.githubusercontent.com/leochai0202/crew-calendar/main/flighty.ics`。
 将它添加到 iPhone / Apple Calendar 的订阅日历，再在 Flighty 中选择该系统日历。订阅更新取决于客户端刷新；Google 镜像继续独立运行。
 
-`python -B generate_flighty_subscription_ics.py` 离线调用现有 `Airports.load()` 与 `read_snapshot(crew_schedule.ics, historical_path=flight.ics)`，只序列化 `snapshot.future_sources` 对应的 Flighty body。航段筛选、未来边界、置位、机场回退、summary/description、source identity 全由共享 builder 决定，生成器没有第二套业务规则，不读取 Google Secrets，也不创建 Google 客户端。
+`python -B generate_flighty_subscription_ics.py` 离线调用现有 `Airports.load()` 与 `read_snapshot(crew_schedule.ics, historical_path=flight.ics)`，订阅同时序列化 `snapshot.flights` 中通过现有保护规则的历史航班和 Future Strict 当前/未来航段。历史仅来源于 `flight.ics`，无法可靠解析机场或存在时间冲突时仍跳过；当前/未来仅来源于 `crew_schedule.ics`，类型不参与筛选，有可靠航班号、起降航线和有效时间即可进入，继续使用 IATA → ICAO → 原名回退。不会追补历史置位等不符合原历史规则的任务。航段筛选、未来边界、置位、机场回退、summary/description、source identity 全由共享 builder 决定，生成器没有第二套业务规则，不读取 Google Secrets，也不创建 Google 客户端。
 
-每个 VEVENT 仅包含 UID、DTSTAMP、SUMMARY、DTSTART、DTEND、LOCATION 和共享 Flighty DESCRIPTION。UID 使用 `<flighty_source_key>@crew-calendar-flighty`，保留完整 X/Y 后缀；同一身份刷新时 UID 不变。DESCRIPTION 只含航空公司、航班号、出发/到达机场、路线及字面 `Crew` 标签，不复制源 DESCRIPTION、人员、签到、注册号、机型、排班版本或提醒。
+每个 VEVENT 仅包含 UID、DTSTAMP、SUMMARY、DTSTART、DTEND、LOCATION 和共享 Flighty DESCRIPTION。UID 使用 `<flighty_source_key>@crew-calendar-flighty`。共享 helper 按原算法对 `[完整航班号, DTSTART.isoformat(), DTEND.isoformat(), 原始出发机场, 原始到达机场]` 的紧凑 UTF-8 JSON 计算 SHA-256，保留完整 X/Y 后缀，不包含类型或转换后的机场代码。`Snapshot.subscription_source_keys` 将最终 Flight key 映射到订阅 source identity；历史 metadata 不进入 Google body，既有未来 `flighty_source_key` 算法不变。同一源航班从未来、起飞当天到历史保持相同 UID；仍须符合现有历史保留规则。历史的 `Departure Airport` / `Arrival Airport` 标签只在订阅渲染时加入，Google 历史 body 不增加字段，不因此批量 PATCH。DESCRIPTION 只含航空公司、航班号、出发/到达机场、路线及字面 `Crew` 标签，不复制源 DESCRIPTION、人员、签到、注册号、机型、排班版本或提醒。
 
 输出为 UTF-8、CRLF，按 75 字节折行且不截断中文字符，转义 TEXT 中的反斜杠、分号、逗号与换行。包含 Asia/Shanghai 的 VTIMEZONE，供 DTSTART/DTEND 的 TZID 引用；格式依据 [RFC 5545](https://www.rfc-editor.org/rfc/rfc5545)。`.gitattributes` 仅对 `flighty.ics` 禁用文本换行转换，避免 Git 把 CRLF 转为 LF；同时允许 RFC 折行边界上属于正文的空格，其他文件的空白检查不变。
 
-生成器先完整构建并检查未来身份集合，再写 `flighty.ics.tmp`、flush/fsync、`os.replace()` 原子替换。任一生成或写入失败都不会覆盖已有 last-good；临时文件不会被 `*.ics` 发布规则选中。有效的零未来航段会生成空事件订阅，正常移除已经过去的航班。
+生成器先完整构建并检查历史及未来身份集合、UID 唯一性和未来完整性，再写 `flighty.ics.tmp`、flush/fsync、`os.replace()` 原子替换。任一生成或写入失败都不会覆盖已有 last-good；临时文件不会被 `*.ics` 发布规则选中。零未来航段时仍保留符合规则的历史航班；只有历史和未来均为空才生成空事件订阅。相同快照和 as_of 重复生成的字节相同；刷新时 DTSTAMP 仍表示生成时刻，UID 不随刷新时间改变。
 
-workflow 在 Clean 成功后、原 Publish 前运行 `Generate Flighty subscription ICS`，`continue-on-error: true`。失败输出 warning，原发布继续；既有 publisher 自动发布 `*.ics`，无需新增传输逻辑。Google 同步的认证、门控、ID reconciliation 和 Future Check 均不变。PR 自带基于已提交统一日程生成的有效 feed，无需手工运行真实 scraper 初始化。
+workflow 在 Clean 成功后、原 Publish 前运行 `Generate Flighty subscription ICS`，`continue-on-error: true`。失败输出 warning，原发布继续；既有 publisher 自动发布 `*.ics`，无需新增传输逻辑。Google 同步的认证、门控、ID reconciliation 和 Future Check 均不变。PR 自带基于已提交 `flight.ics` 和统一日程生成的有效 feed，无需手工运行真实 scraper 初始化。
 
 初始订阅所需的“伊犁伊宁”通过既有 `airport_aliases.json` 补充为 `ZWYN`，共享 `config/airport_iata.json` 补充 `ZWYN → YIN`（[OurAirports 原始机场记录](https://ourairports.com/airports/ZWYN/)，核对日期 2026-10-14）。该条目保留独立来源日期，原批量数据的哈希和核对日期不变；生成器不维护第二套机场映射。
+
+历史订阅回归只运行 `python -B -m pytest tests/test_flighty_subscription_ics.py tests/test_flighty_google_calendar.py`。已有 Apple Calendar 订阅地址和 `Flighty Flights` 名称不变，合并发布后客户端刷新即可获取历史航班，无需重新订阅。

@@ -184,6 +184,13 @@ def current_time() -> datetime:
     return datetime.now(BEIJING)
 
 
+def flighty_source_key(number: str, start: datetime, end: datetime,
+                       origin: str, destination: str) -> str:
+    """Source identity shared across time boundaries; never uses mapped codes."""
+    identity = [number, start.isoformat(), end.isoformat(), origin, destination]
+    return hashlib.sha256(json.dumps(identity, ensure_ascii=False, separators=(",", ":")).encode()).hexdigest()
+
+
 @dataclass
 class Snapshot:
     flights: dict[str, Flight] = field(default_factory=dict)
@@ -195,6 +202,8 @@ class Snapshot:
     future_positioning_sources: set[str] = field(default_factory=set)
     routes_without_flight_number: int = 0
     preserve_unmatched_history: bool = False
+    # Subscription-only metadata: Google bodies/reconciliation never read this.
+    subscription_source_keys: dict[str, str] = field(default_factory=dict)
 
 
 def read_snapshot(path: Path, airports: Airports, *, now: datetime | None = None,
@@ -301,11 +310,10 @@ def read_snapshot(path: Path, airports: Airports, *, now: datetime | None = None
             "extendedProperties": {"private": {"flighty_owner": OWNER, "flighty_key": key, "flighty_service": service, "flighty_route": f"{dep}|{arr}"}},
         }
         flight = Flight(key, service, body)
+        source_key = flighty_source_key(number, start, end, origin, destination)
         if future:
             # Include DTEND too, so equal departures with conflicting arrivals
             # remain independently traceable. No mapped code enters this hash.
-            identity = [number, start.isoformat(), end.isoformat(), origin, destination]
-            source_key = hashlib.sha256(json.dumps(identity, ensure_ascii=False, separators=(",", ":")).encode()).hexdigest()
             body["extendedProperties"]["private"]["flighty_source_key"] = source_key
             if any(kind.strip().lower() in {"置位", "positioning"} for kind in types):
                 snapshot.future_positioning_sources.add(source_key)  # Metrics only.
@@ -326,6 +334,7 @@ def read_snapshot(path: Path, airports: Airports, *, now: datetime | None = None
         if key in snapshot.flights:
             if snapshot.flights[key].body != body:
                 del snapshot.flights[key]
+                snapshot.subscription_source_keys.pop(key)
                 conflicting_keys.add(key)
                 snapshot.protected_services.add(service)
                 snapshot.skipped += 2
@@ -333,6 +342,7 @@ def read_snapshot(path: Path, airports: Airports, *, now: datetime | None = None
                 continue
             snapshot.skipped += 1
         snapshot.flights[key] = flight
+        snapshot.subscription_source_keys[key] = source_key
     for key, flights in future_groups.items():
         conflict = len(flights) > 1 or key in snapshot.flights or key in conflicting_keys
         if conflict:
@@ -344,6 +354,7 @@ def read_snapshot(path: Path, airports: Airports, *, now: datetime | None = None
                 private(flight.body)["flighty_key"] = unique_key
                 flight = replace(flight, key=unique_key)
             snapshot.flights[flight.key] = flight
+            snapshot.subscription_source_keys[flight.key] = private(flight.body)["flighty_source_key"]
     return snapshot
 
 
