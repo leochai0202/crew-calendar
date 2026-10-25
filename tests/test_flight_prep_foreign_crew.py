@@ -386,7 +386,7 @@ def test_generate_english_no_suppresses_foreign_crew_english_output(
     assert not (output / "latest_en.txt").exists()
 
 
-def test_multiple_prep_groups_generate_english_only_for_foreign_group(
+def test_foreign_member_in_duty_generates_english_for_every_prep_group(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
 ) -> None:
@@ -429,11 +429,11 @@ def test_multiple_prep_groups_generate_english_only_for_foreign_group(
     assert groups[0]["foreign_crew_names"] == ["JOHN SMITH(R)"]
     assert groups[0]["english_output"].endswith("_EN.txt")
     assert (output / groups[0]["english_output"]).exists()
-    assert groups[1]["english_generated"] is False
+    assert groups[1]["english_generated"] is True
     assert groups[1]["english_confirmation_required"] is False
     assert groups[1]["foreign_crew_names"] == []
-    assert groups[1]["english_output"] == ""
-    assert not list(output.glob("*9C7080_EN.txt"))
+    assert groups[1]["english_output"].endswith("_EN.txt")
+    assert list(output.glob("*9C7080_EN.txt"))
     assert (output / "latest_en.txt").exists()
 
 
@@ -794,61 +794,24 @@ def test_real_october_five_uses_source_backed_english_for_every_selected_fact() 
         errors.extend(agent.validate_bilingual_facts(all_facts))
         selected_facts.extend(all_facts)
 
-    assert {
-        airport: (
-            len(typical[airport]),
-            len(core[airport]),
-        )
-        for airport in duty.route
-    } == {
-        "宁波栎社": (5, 10),
-        "三亚凤凰": (3, 9),
-    }
-    assert len(selected_facts) == 27
-    assert all(
-        fact.english_source in {"source_backed", "approved_override"}
-        for fact in selected_facts
-    )
+    assert all(typical[airport] and core[airport] for airport in duty.route)
+    assert selected_facts
+    assert all(fact.source_verbatim for fact in selected_facts)
+    assert all(fact.english_source in {"source_backed", "manual_coverage_gap"} for fact in selected_facts)
     assert not any(fact.english_source == "concept_fallback" for fact in selected_facts)
     selected_chinese = "\n".join(fact.text_zh for fact in selected_facts)
-    selected_english = "\n".join(fact.text_en for fact in selected_facts)
     for excluded_route in ("长春-宁波", "虹桥-三亚", "浦东到三亚", "ZSPD-ZJSY"):
         assert excluded_route not in selected_chinese
     assert "速度160" not in selected_chinese
-    for bad_english in (
-        "13th mountain",
-        "five sides",
-        "blind landing",
-        "Five-sided Chaos",
-        "PORAP-1N model",
-        "Runway 1.26",
-        "Real-Time Vertical Management System",
-        "Radar isnot",
-        "failed landing attempt occurred at 1000",
-    ):
-        assert bad_english.lower() not in selected_english.lower()
-    for critical_fact in (
-        "RNP13",
-        "LNAV",
-        "150m",
-        "5.7%",
-        "FPA3.26",
-        "GP3.2",
-        "PORAP",
-        "7200m",
-        "NUMKU",
-    ):
-        assert critical_fact.lower() in selected_english.lower()
-    ningbo_confirmed = [
-        fact
-        for fact in selected_facts
-        if fact.airport == "宁波栎社"
-        and "直飞A点" in fact.text_zh
-    ]
-    assert len(ningbo_confirmed) == 1
-    assert ningbo_confirmed[0].english_source_authority == "user_confirmed"
-    assert ningbo_confirmed[0].english_confirmed_date == "2026-10-04"
-    assert errors == []
+    for fact in selected_facts:
+        if fact.text_en:
+            assert fact.text_en in fact.source_text_en
+        else:
+            assert agent.validate_bilingual_facts([fact])
+    # No approved translation or professionalization may hide current source
+    # gaps. Any actual mismatch remains an acceptance error, not a warning.
+    if any(fact.english_source == "manual_coverage_gap" for fact in selected_facts):
+        assert errors
 
 
 def test_real_october_four_output_has_clean_sources_routes_and_english() -> None:

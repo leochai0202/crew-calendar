@@ -113,16 +113,18 @@ def test_chinese_output_uses_fixed_four_part_order_and_numbered_events() -> None
 
     headings = [
         "上一次飞行中机长/教员对我优缺点的评价（作为PF/PM各取最近一次）：",
-        "上海虹桥机场典型不安全事件：",
-        "贵阳龙洞堡机场典型不安全事件：",
+        "典型不安全事件：",
+        "上海虹桥机场：",
+        "贵阳龙洞堡机场：",
         "核心威胁：",
     ]
     assert content.startswith("我是来自飞行十五中队的副驾驶段洋硕")
     assert [content.index(heading) for heading in headings] == sorted(
         content.index(heading) for heading in headings
     )
-    assert "上海虹桥机场典型不安全事件：\n1. 上海虹桥真实事件。" in content
-    assert "贵阳龙洞堡机场典型不安全事件：\n1. 贵阳龙洞堡真实事件。" in content
+    assert "上海虹桥机场：\n\n上海虹桥真实事件。" in content
+    assert "贵阳龙洞堡机场：\n\n贵阳龙洞堡真实事件。" in content
+    assert not re.search(r"(?m)^\d+\.\s+", content)
     assert content.count("核心威胁：") == 1
     assert "个人对本次航班中识别的风险：" not in content
     assert "上海虹桥机场航班时段天气以航前最新TAF/METAR及放行资料为准。" not in content
