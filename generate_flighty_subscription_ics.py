@@ -1,4 +1,4 @@
-"""Publish the shared Flighty future bodies as a minimal, credential-free ICS."""
+"""Publish the shared Flighty historical and future bodies as a minimal, credential-free ICS."""
 from __future__ import annotations
 
 import os
@@ -34,27 +34,36 @@ def fold_line(line: str) -> str:
 
 
 def render_calendar(snapshot: flighty.Snapshot) -> bytes:
-    # Selection and date boundary belong exclusively to the shared builder.
-    selected = [f for f in snapshot.flights.values()
-                if flighty.private(f.body).get("flighty_source_key") in snapshot.future_sources]
-    keys = [flighty.private(f.body)["flighty_source_key"] for f in selected]
-    if len(keys) != len(set(keys)) or set(keys) != set(snapshot.future_sources):
-        raise ValueError("Incomplete or duplicate future source bodies")
+    # Selection/protection rules and the time boundary belong to the builder.
+    keys = list(snapshot.subscription_source_keys.values())
+    if (set(snapshot.subscription_source_keys) != set(snapshot.flights)
+            or len(keys) != len(set(keys))
+            or not set(snapshot.future_sources).issubset(keys)
+            or any(flighty.private(f.body).get("flighty_source_key", snapshot.subscription_source_keys[f.key])
+                   != snapshot.subscription_source_keys[f.key] for f in snapshot.flights.values())):
+        raise ValueError("Incomplete or duplicate subscription source bodies")
     lines = [
         "BEGIN:VCALENDAR", "VERSION:2.0",
         "PRODID:-//Crew Calendar//Flighty Subscription//EN",
         "CALSCALE:GREGORIAN", "METHOD:PUBLISH",
         "X-WR-CALNAME:Flighty Flights", "X-WR-TIMEZONE:Asia/Shanghai",
-        # Future-only Beijing events use standard time; include the timezone
+        # Retained modern Beijing events use standard time; include the timezone
         # component required for the TZID parameters, also for Apple clients.
         "BEGIN:VTIMEZONE", "TZID:Asia/Shanghai", "BEGIN:STANDARD",
         "DTSTART:20000101T000000", "TZOFFSETFROM:+0800", "TZOFFSETTO:+0800",
         "TZNAME:CST", "END:STANDARD", "END:VTIMEZONE",
     ]
     stamp = snapshot.as_of.astimezone(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    for flight in sorted(selected, key=lambda f: (f.body["start"]["dateTime"], flighty.private(f.body)["flighty_source_key"])):
+    for flight in sorted(snapshot.flights.values(), key=lambda f: (f.body["start"]["dateTime"], snapshot.subscription_source_keys[f.key])):
         body = flight.body
-        source_key = flighty.private(body)["flighty_source_key"]
+        source_key = snapshot.subscription_source_keys[flight.key]
+        description = body["description"]
+        if source_key not in snapshot.future_sources:
+            # Add the subscription's airport labels without mutating the legacy
+            # Google body (which would otherwise trigger historical PATCHes).
+            dep, arr = flighty.private(body)["flighty_route"].split("|")
+            description = description.replace("\nRoute:",
+                f"\nDeparture Airport: {dep}\nArrival Airport: {arr}\nRoute:", 1)
         start = datetime.fromisoformat(body["start"]["dateTime"]).astimezone(flighty.BEIJING)
         end = datetime.fromisoformat(body["end"]["dateTime"]).astimezone(flighty.BEIJING)
         lines.extend([
@@ -63,7 +72,7 @@ def render_calendar(snapshot: flighty.Snapshot) -> bytes:
             f"DTSTART;TZID=Asia/Shanghai:{start:%Y%m%dT%H%M%S}",
             f"DTEND;TZID=Asia/Shanghai:{end:%Y%m%dT%H%M%S}",
             f"LOCATION:{escape_text(body['location'])}",
-            f"DESCRIPTION:{escape_text(body['description'])}", "END:VEVENT",
+            f"DESCRIPTION:{escape_text(description)}", "END:VEVENT",
         ])
     lines.append("END:VCALENDAR")
     return ("\r\n".join(fold_line(line) for line in lines) + "\r\n").encode("utf-8")
@@ -83,7 +92,7 @@ def generate(root: Path, *, now: datetime | None = None) -> int:
         os.replace(temporary, target)
     finally:
         temporary.unlink(missing_ok=True)
-    return len(snapshot.future_sources)
+    return len(snapshot.subscription_source_keys)
 
 
 def main() -> int:
