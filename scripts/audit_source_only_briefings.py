@@ -8,6 +8,7 @@ import hashlib
 import json
 from pathlib import Path
 import shutil
+import subprocess
 import sys
 import tempfile
 
@@ -48,7 +49,8 @@ def write_report(report: dict, path: Path) -> None:
     path.write_text("\n".join(lines), encoding="utf-8")
 
 
-def audit(repo: Path, airports: list[str], target: str, output: Path) -> None:
+def audit(repo: Path, airports: list[str], target: str, output: Path, input_ref: str | None = None) -> None:
+    input_sha = subprocess.run(["git", "rev-parse", input_ref], cwd=repo, capture_output=True, check=True, text=True).stdout.strip() if input_ref else None
     manual = agent.find_latest_airport_manual(repo / "knowledge")
     assert manual
     mapping = agent.extract_airport_mapping(repo / "crew_calendar_main.py")
@@ -58,6 +60,7 @@ def audit(repo: Path, airports: list[str], target: str, output: Path) -> None:
               "sha256": hashlib.sha256(manual.read_bytes()).hexdigest(),
               "sample_notice": "DRAFT SOURCE PREVIEW ONLY; not a publishable briefing when guards fail.",
               "warnings": warnings, "airports": {}, "offline": {}}
+    english_index = agent.build_english_manual_index(agent.extract_pdf_text(str(manual.resolve()))[0])
     for airport in airports:
         # Two synthetic segments exercise both roles without altering the ICS.
         # They exist solely in this offline diagnostic process.
@@ -82,6 +85,15 @@ def audit(repo: Path, airports: list[str], target: str, output: Path) -> None:
             "english_core_preview": "\n\n".join(fact.en for fact in core if fact.en),
             "source_records": records.get(airport, []),
         }
+        chapters = agent.match_english_manual_chapters(english_index, codes[airport])
+        candidates = []
+        for chapter in chapters:
+            chapter_text = agent.extract_pdf_layout_text(str(manual.resolve()), int(chapter["start_page"]), int(chapter["end_page"]))
+            english_facts = agent.extract_english_manual_facts(chapter_text)
+            page_map = agent.source_item_page_map(chapter_text.splitlines(), [fact.text for fact in english_facts], int(chapter["start_page"]))
+            candidates.extend({**asdict(fact), "source_page": page_map.get(agent.normalize_text(fact.text), f"{chapter['start_page']}-{chapter['end_page']}")} for fact in english_facts)
+        report["airports"][airport]["english_chapters"] = chapters
+        report["airports"][airport]["english_candidates"] = candidates
         role_samples = {}
         for role, event in zip(("departure", "arrival"), events):
             exclusions = []
@@ -102,6 +114,8 @@ def audit(repo: Path, airports: list[str], target: str, output: Path) -> None:
     original_render = agent.render_english_briefing
     original_validate = agent.validate_bilingual_facts
     original_extract = agent.extract_pdf_text
+    original_fact_sets = agent.briefing_fact_sets
+    selection_trace = {}
     source_text = original_extract(str(manual.resolve()))
     source_digest = report["sha256"]
 
@@ -113,8 +127,17 @@ def audit(repo: Path, airports: list[str], target: str, output: Path) -> None:
     def chinese(duty, *args, **kwargs):
         content = original_chinese(duty, *args, **kwargs)
         captures.append({"flights": [event.flight_number for event in duty.events],
-                         "chinese_preview": content})
+                         "chinese_preview": content, **selection_trace})
         return content
+
+    def fact_sets(duty, *args, **kwargs):
+        result = original_fact_sets(duty, *args, **kwargs)
+        selection_trace.clear()
+        selection_trace.update(
+            routes=[list(event.route) for event in duty.events],
+            exclusions=list(kwargs.get("exclusion_log") or []),
+        )
+        return result
 
     def render(duty, *args, **kwargs):
         content = original_render(duty, *args, **kwargs)
@@ -131,6 +154,7 @@ def audit(repo: Path, airports: list[str], target: str, output: Path) -> None:
     agent.render_chinese_briefing = chinese
     agent.validate_bilingual_facts = validate
     agent.extract_pdf_text = extract
+    agent.briefing_fact_sets = fact_sets
     try:
         with tempfile.TemporaryDirectory(prefix="source-only-acceptance-") as temporary:
             isolated = Path(temporary)
@@ -138,6 +162,11 @@ def audit(repo: Path, airports: list[str], target: str, output: Path) -> None:
                 shutil.copytree(repo / directory, isolated / directory)
             for name in ("flight.ics", "crew_calendar_main.py"):
                 shutil.copy2(repo / name, isolated / name)
+            if input_ref:
+                # Read the latest production input into the isolated workspace
+                # only. Never alter the checkout's ICS or main branch.
+                result = subprocess.run(["git", "show", f"{input_sha}:flight.ics"], cwd=repo, capture_output=True, check=True)
+                (isolated / "flight.ics").write_bytes(result.stdout)
             prep = isolated / "flight_preparation"
             prep.mkdir()
             sentinel = "LAST_GOOD_SENTINEL\n"
@@ -147,6 +176,8 @@ def audit(repo: Path, airports: list[str], target: str, output: Path) -> None:
             exit_code = agent.main()
             meta = json.loads((prep / f"{target}_meta.json").read_text(encoding="utf-8"))
             report["offline"] = {
+                "input_ref": input_ref or "working-tree",
+                "input_sha": input_sha,
                 "target_date": target, "status": meta["status"], "exit_code": exit_code,
                 "errors": meta.get("errors", []), "groups": captures,
                 "success_marker": (prep / ".success").exists(),
@@ -159,6 +190,7 @@ def audit(repo: Path, airports: list[str], target: str, output: Path) -> None:
         agent.render_chinese_briefing = original_chinese
         agent.validate_bilingual_facts = original_validate
         agent.extract_pdf_text = original_extract
+        agent.briefing_fact_sets = original_fact_sets
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     write_report(report, output.with_suffix(".md"))
@@ -173,5 +205,6 @@ if __name__ == "__main__":
     parser.add_argument("--target-date", required=True)
     parser.add_argument("--airports", nargs="+", required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--input-ref")
     args = parser.parse_args()
-    audit(args.repo.resolve(), args.airports, args.target_date, args.output)
+    audit(args.repo.resolve(), args.airports, args.target_date, args.output, args.input_ref)

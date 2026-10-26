@@ -1851,15 +1851,14 @@ def test_real_august_four_final_confirmed_format(
         "运行特点：",
     ):
         assert raw_heading not in content
-    assert (
-        "01号跑道入口内移，实际着陆可用距离为2410米，应使用中档刹车"
-        in content
-    )
+    # Latest source p.983 keeps these as separate original statements. Do not
+    # require the former editor's combined sentence or deletion of source data.
+    assert "01号跑道实际可用着陆距离为2410米" in content
+    assert "应使用中档刹车" in content
     assert "19号跑道只能用于起飞，禁止进近及着陆" in content
-    assert "2350米" not in content
+    assert "2410米和2350米" in content
     assert (
-        "01号跑道起飞有载重限制，应结合FLY SMART计算结果采取措施，"
-        "如计算需要再关空调起飞"
+        "01号跑道起飞有载重限制，请结合FLY SMART计算结果采取措施（关空调起飞）"
     ) in content
 
     assert meta["flight_numbers"] == ["9C8523", "9C8524"]
@@ -1871,13 +1870,10 @@ def test_real_august_four_final_confirmed_format(
     assert meta["english_generated"] is False
     assert not (output / "latest_en.txt").exists()
     assert not (output / "2026-08-04_航前准备_详细版.txt").exists()
-    excluded = meta["excluded_source_clauses"]
-    assert any(
-        item["airport"] == "恩施许家坪"
-        and "19号跑道" in item["clause"]
-        and "禁止进近着陆" in item["reason"]
-        for item in excluded
-    )
+    # Source-only mode keeps the source's explicit prohibition instead of the
+    # old editor deleting/rephrasing pieces of its runway-distance paragraph.
+    assert any("19号跑道只能用于起飞，禁止进近及着陆" in item["source_text_zh"]
+               for item in meta["airport_fact_sources"]["恩施许家坪"])
     assert hashlib.sha256((REPO_ROOT / "flight.ics").read_bytes()).hexdigest() == original_hash
 
 
@@ -1933,16 +1929,16 @@ def test_real_august_eight_applies_season_task_and_topic_quality(
     assert "嘉峪关酒泉机场典型不安全事件：" not in content
     assert "一般高原机场" in jiayuguan
     assert "一类操纵复杂机场" in jiayuguan
-    assert "150°至320°" in jiayuguan
+    assert "150°～320°" in jiayuguan
     assert "3300米" in jiayuguan and "6000米" in jiayuguan
-    assert "20000英尺" in jiayuguan
+    assert "2万英尺" in jiayuguan  # retain the manual's unit notation
     assert "冬春季" not in jiayuguan
     for label in ("机场分类：", "高原机场：", "特殊复杂程序：", "地形："):
         assert label not in jiayuguan
 
     excluded = meta["excluded_source_clauses"]
     assert any("冬春季" in item["clause"] and "目标月份为8月" in item["reason"] for item in excluded)
-    assert any(len(ids) > 1 for ids in meta["core_paragraph_fact_ids"]["嘉峪关酒泉"])
+    assert all(ids and len(ids) == len(set(ids)) for ids in meta["core_paragraph_fact_ids"]["嘉峪关酒泉"])
     assert hashlib.sha256((REPO_ROOT / "flight.ics").read_bytes()).hexdigest() == original_hash
 
 
@@ -2008,7 +2004,7 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
     assert "甩冰" not in first_shenyang
     assert "跑道有坡度" in first_guilin
     assert "19号跑道盲降" in first_guilin
-    assert "19号z盲降" not in first_guilin
+    assert "19号z盲降" in first_guilin  # original conditional procedure, not editorial generalization
     assert "PDC" not in first_guilin
     assert "19号跑道盲降" not in second_guilin
     assert "着陆时的下沉" not in second_guilin
@@ -2022,16 +2018,16 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
     assert "ZJ" in second_yangzhou
     assert second_yangzhou.count("自主建立盲降概率大") == 1
     assert "高截获" in second_yangzhou
-    assert "扬州泰州机场典型不安全事件：" in second
-    assert "1000英尺" in second
-    assert "约400英尺" in second
-    assert "AFLOOR" in second
+    assert "典型不安全事件：" in second and "扬州泰州机场：" in second
+    assert re.search(r"1000\s*(?:英尺|尺|ft)", second, re.I)
+    assert re.search(r"400\s*(?:英尺|尺|ft)\s*左右", second, re.I)
+    assert re.search(r"A[ .]*FLOOR", second, re.I)
     assert "机组执行" in second
     assert "我们执行" not in second
     assert "不稳定终止进近/复飞" in first
     assert "我们复飞" not in first
-    assert "飞偏、飞错进离场程序" in first
-    assert "曾发生低空风切变事件" in first
+    assert "飞偏/飞错进离场程序" in first
+    assert re.search(r"曾发生(?:过)?低空风切变事件", first)
     for content in (first, second):
         intro = content.split("\n\n", 1)[0]
         assert "本阶段经历时间93小时" in intro
@@ -2089,7 +2085,7 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
     assert not auto_report_indexes or a2_index < auto_report_indexes[0]
     assert "离场使用A2离场" not in first_shenyang
     assert "离场使用A8离场" not in first_shenyang
-    assert "by ATC" not in second_guilin
+    assert "进/离场通常会用by ATC程序，提前与管制证实" in second_guilin
 
     first_sources = meta["prep_groups"][0]["airport_fact_sources"]
     second_sources = meta["prep_groups"][1]["airport_fact_sources"]
@@ -2119,7 +2115,7 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
     first_guilin_paragraphs = meta["prep_groups"][0]["core_paragraphs"]["桂林两江"]
     ils_topics = [
         item for item in first_guilin_paragraphs
-        if item["topic"] == "approach_intercept" and "19号" in item["text"]
+        if "KL508" in item["text"] and "19号" in item["text"]
     ]
     assert len(ils_topics) == 1
     assert all(
@@ -2134,7 +2130,7 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
         assert any(
             "向北运行" in item["text"]
             and "ZJ" in item["text"]
-            and "军方活动" in item["text"]
+            and "军方活动" in re.sub(r"\s+", "", item["text"])
             and "通过900米后才可以右转飞YA104" in item["text"]
             for item in ya104_paragraphs
         )
@@ -2323,13 +2319,11 @@ def test_real_august_twelve_generalizes_event_and_role_filters(
     first = (output / meta["prep_groups"][0]["output"]).read_text(encoding="utf-8")
     second = (output / meta["prep_groups"][1]["output"]).read_text(encoding="utf-8")
 
-    chongqing_typical = first.split("重庆江北机场典型不安全事件：", 1)[1].split(
-        "核心威胁：", 1
-    )[0]
+    chongqing_typical = first.split("典型不安全事件：", 1)[1].split("核心威胁：", 1)[0].split("重庆江北机场：", 1)[1]
     assert chongqing_typical.count("未及时脱离跑道") == 1
     assert chongqing_typical.count("塔台指挥后机复飞") == 1
-    assert "104秒" in chongqing_typical
-    assert "94秒" in chongqing_typical
+    assert re.search(r"104\s*秒", chongqing_typical)
+    assert re.search(r"94\s*秒", chongqing_typical)
     assert "278*175" not in chongqing_typical
     assert "更换雷达罩" not in chongqing_typical
     assert "023年" not in chongqing_typical

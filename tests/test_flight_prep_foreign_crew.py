@@ -802,7 +802,13 @@ def test_real_october_five_uses_source_backed_english_for_every_selected_fact() 
     selected_chinese = "\n".join(fact.text_zh for fact in selected_facts)
     for excluded_route in ("长春-宁波", "虹桥-三亚", "浦东到三亚", "ZSPD-ZJSY"):
         assert excluded_route not in selected_chinese
-    assert "速度160" not in selected_chinese
+    # The latest source p.582 contains a complete conditional Runway 13 item
+    # with configuration 2 and 160 kt. Reject orphan fragments, not that valid
+    # source-backed limit or its applicability conditions.
+    assert not any(agent.is_detached_operational_fragment(fact.zh) for fact in selected_facts)
+    speed_facts = [fact for fact in selected_facts if "速度160" in fact.zh]
+    assert speed_facts
+    assert all("13" in fact.zh and "顺风" in fact.zh and "形态" in fact.zh for fact in speed_facts)
     for fact in selected_facts:
         if fact.text_en:
             assert fact.text_en in fact.source_text_en
@@ -1385,7 +1391,7 @@ def test_real_9c8552_exact_event_keeps_source_grounded_chinese_when_english_supp
     assert "机组" in chinese
     assert "请我们注意" not in chinese
 
-    assert "IRS完全校准" in chinese
+    assert re.search(r"IRS\s*完全校准", chinese)
     assert "TOBT" in chinese
     assert "FOLLOW GREEN" not in _paragraph(chinese, "上海浦东机场：")
     pudong_core = chinese.split("核心威胁：", 1)[1].split("上海浦东机场：", 1)[1]

@@ -2,8 +2,8 @@
   "manual": "AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
   "sha256": "e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8",
   "chinese_chapter_count": 177,
-  "english_chapter_count": 74,
-  "matched_chapter_count": 73,
+  "english_chapter_count": 79,
+  "matched_chapter_count": 76,
   "identity_errors": 0,
   "warnings": [],
   "chapters": [
@@ -15,11 +15,12 @@
         263
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 37,
+      "chinese_core_candidates": 32,
       "candidate_quality": {
-        "": 34,
+        "": 28,
         "PDF断句或残片未形成完整运行事实": 2,
-        "unparsed_attribute_table": 1
+        "unparsed_attribute_table": 1,
+        "standalone_frequency_metadata": 1
       },
       "english_header": "Shenyang Taoxian",
       "english_pages": [
@@ -56,15 +57,18 @@
         277
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 39,
+      "chinese_core_candidates": 40,
       "candidate_quality": {
-        "": 37,
+        "": 38,
         "unparsed_attribute_table": 1,
         "来源包含无法可靠恢复的明显OCR错位": 1
       },
-      "english_header": null,
-      "english_pages": [],
-      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "english_header": "HarbinTaipingAirport",
+      "english_pages": [
+        1084,
+        1090
+      ],
+      "english_identity_status": "ICAO_MATCHED",
       "identity_error": false
     },
     {
@@ -75,9 +79,9 @@
         280
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 16,
+      "chinese_core_candidates": 17,
       "candidate_quality": {
-        "": 14,
+        "": 15,
         "detached_operational_fragment": 1,
         "PDF断句或残片未形成完整运行事实": 1
       },
@@ -94,10 +98,11 @@
         283
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 23,
+      "chinese_core_candidates": 22,
       "candidate_quality": {
-        "": 18,
-        "PDF断句或残片未形成完整运行事实": 3,
+        "": 17,
+        "PDF断句或残片未形成完整运行事实": 2,
+        "standalone_frequency_metadata": 1,
         "detached_operational_fragment": 2
       },
       "english_header": null,
@@ -134,8 +139,8 @@
       "chinese_typical_count": 1,
       "chinese_core_candidates": 28,
       "candidate_quality": {
-        "": 24,
-        "PDF断句或残片未形成完整运行事实": 3,
+        "": 25,
+        "PDF断句或残片未形成完整运行事实": 2,
         "unparsed_attribute_table": 1
       },
       "english_header": null,
@@ -170,11 +175,11 @@
         298
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 26,
+      "chinese_core_candidates": 23,
       "candidate_quality": {
-        "": 20,
+        "": 19,
         "detached_operational_fragment": 2,
-        "PDF断句或残片未形成完整运行事实": 4
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -189,10 +194,10 @@
         301
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 26,
+      "chinese_core_candidates": 25,
       "candidate_quality": {
         "": 24,
-        "PDF断句或残片未形成完整运行事实": 2
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -207,11 +212,11 @@
         305
       ],
       "chinese_typical_count": 4,
-      "chinese_core_candidates": 22,
+      "chinese_core_candidates": 20,
       "candidate_quality": {
         "": 16,
         "detached_operational_fragment": 2,
-        "PDF断句或残片未形成完整运行事实": 4
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -246,9 +251,9 @@
         312
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 30,
+      "chinese_core_candidates": 29,
       "candidate_quality": {
-        "": 28,
+        "": 27,
         "来源包含无法可靠恢复的明显OCR错位": 2
       },
       "english_header": "Krabi",
@@ -267,9 +272,9 @@
         325
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 56,
+      "chinese_core_candidates": 54,
       "candidate_quality": {
-        "": 42,
+        "": 40,
         "non_operational_administration": 1,
         "detached_operational_fragment": 1,
         "来源包含无法可靠恢复的数字或标点错位": 1,
@@ -292,12 +297,11 @@
         333
       ],
       "chinese_typical_count": 6,
-      "chinese_core_candidates": 49,
+      "chinese_core_candidates": 45,
       "candidate_quality": {
-        "": 43,
-        "standalone_frequency_metadata": 1,
-        "PDF断句或残片未形成完整运行事实": 3,
-        "detached_operational_fragment": 2
+        "": 42,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": "Phuket",
       "english_pages": [
@@ -315,16 +319,16 @@
         338
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 44,
+      "chinese_core_candidates": 40,
       "candidate_quality": {
-        "": 38,
-        "PDF断句或残片未形成完整运行事实": 4,
+        "": 36,
+        "PDF断句或残片未形成完整运行事实": 2,
         "passenger_or_staff_ground_transport": 2
       },
       "english_header": "Chiang Mai",
       "english_pages": [
         1188,
-        1211
+        1193
       ],
       "english_identity_status": "ICAO_MATCHED",
       "identity_error": false
@@ -381,9 +385,9 @@
       "chinese_typical_count": 0,
       "chinese_core_candidates": 30,
       "candidate_quality": {
-        "": 25,
-        "PDF断句或残片未形成完整运行事实": 3,
-        "detached_operational_fragment": 2
+        "": 26,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": "Da Nang",
       "english_pages": [
@@ -401,15 +405,15 @@
         359
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 58,
+      "chinese_core_candidates": 55,
       "candidate_quality": {
-        "": 56,
-        "PDF断句或残片未形成完整运行事实": 2
+        "": 54,
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": "Singapore",
       "english_pages": [
         1138,
-        1157
+        1149
       ],
       "english_identity_status": "ICAO_MATCHED",
       "identity_error": false
@@ -466,15 +470,18 @@
         375
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 54,
+      "chinese_core_candidates": 52,
       "candidate_quality": {
-        "": 51,
+        "": 50,
         "来源包含无法可靠恢复的明显OCR错位": 1,
-        "PDF断句或残片未形成完整运行事实": 2
+        "PDF断句或残片未形成完整运行事实": 1
       },
-      "english_header": null,
-      "english_pages": [],
-      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "english_header": "Langman Airport BANGKOK",
+      "english_pages": [
+        1150,
+        1157
+      ],
+      "english_identity_status": "ICAO_MATCHED",
       "identity_error": false
     },
     {
@@ -485,9 +492,9 @@
         380
       ],
       "chinese_typical_count": 5,
-      "chinese_core_candidates": 33,
+      "chinese_core_candidates": 32,
       "candidate_quality": {
-        "": 32,
+        "": 31,
         "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": "Hanoi Noi Bai",
@@ -506,10 +513,10 @@
         384
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 34,
+      "chinese_core_candidates": 31,
       "candidate_quality": {
-        "": 32,
-        "PDF断句或残片未形成完整运行事实": 2
+        "": 30,
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": "Phnom Penh Dechong International",
       "english_pages": [
@@ -529,8 +536,8 @@
       "chinese_typical_count": 1,
       "chinese_core_candidates": 40,
       "candidate_quality": {
-        "": 35,
-        "PDF断句或残片未形成完整运行事实": 5
+        "": 36,
+        "PDF断句或残片未形成完整运行事实": 4
       },
       "english_header": "Penang",
       "english_pages": [
@@ -555,7 +562,7 @@
       "english_header": "Soekarno",
       "english_pages": [
         390,
-        1090
+        1083
       ],
       "english_identity_status": "ICAO_MATCHED",
       "identity_error": false
@@ -587,9 +594,9 @@
         404
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 31,
+      "chinese_core_candidates": 28,
       "candidate_quality": {
-        "": 29,
+        "": 26,
         "detached_operational_fragment": 2
       },
       "english_header": "Kaohsiung",
@@ -608,10 +615,10 @@
         406
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 14,
+      "chinese_core_candidates": 13,
       "candidate_quality": {
         "": 11,
-        "PDF断句或残片未形成完整运行事实": 3
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -626,10 +633,10 @@
         414
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 41,
+      "chinese_core_candidates": 40,
       "candidate_quality": {
         "": 39,
-        "PDF断句或残片未形成完整运行事实": 2
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": "Taoyuan",
       "english_pages": [
@@ -647,10 +654,10 @@
         426
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 52,
+      "chinese_core_candidates": 50,
       "candidate_quality": {
-        "": 48,
-        "PDF断句或残片未形成完整运行事实": 4
+        "": 47,
+        "PDF断句或残片未形成完整运行事实": 3
       },
       "english_header": "Macau",
       "english_pages": [
@@ -668,9 +675,9 @@
         434
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 35,
+      "chinese_core_candidates": 33,
       "candidate_quality": {
-        "": 33,
+        "": 31,
         "来源包含无法可靠恢复的明显OCR错位": 1,
         "PDF断句或残片未形成完整运行事实": 1
       },
@@ -690,11 +697,12 @@
         437
       ],
       "chinese_typical_count": 6,
-      "chinese_core_candidates": 19,
+      "chinese_core_candidates": 17,
       "candidate_quality": {
         "": 10,
+        "standalone_frequency_metadata": 1,
         "detached_operational_fragment": 2,
-        "PDF断句或残片未形成完整运行事实": 7
+        "PDF断句或残片未形成完整运行事实": 4
       },
       "english_header": null,
       "english_pages": [],
@@ -709,12 +717,12 @@
         449
       ],
       "chinese_typical_count": 5,
-      "chinese_core_candidates": 51,
+      "chinese_core_candidates": 48,
       "candidate_quality": {
-        "": 44,
+        "": 43,
         "detached_operational_fragment": 2,
         "来源包含无法可靠恢复的明显OCR错位": 1,
-        "PDF断句或残片未形成完整运行事实": 4
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": "Beijing Daxing International",
       "english_pages": [
@@ -732,10 +740,10 @@
         453
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 23,
+      "chinese_core_candidates": 21,
       "candidate_quality": {
-        "": 21,
-        "PDF断句或残片未形成完整运行事实": 2
+        "": 20,
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -750,11 +758,12 @@
         461
       ],
       "chinese_typical_count": 7,
-      "chinese_core_candidates": 52,
+      "chinese_core_candidates": 49,
       "candidate_quality": {
-        "": 46,
+        "": 44,
+        "standalone_frequency_metadata": 1,
         "detached_operational_fragment": 2,
-        "PDF断句或残片未形成完整运行事实": 4
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": "Shijiazhuang/Zhen Ding",
       "english_pages": [
@@ -772,11 +781,11 @@
         467
       ],
       "chinese_typical_count": 4,
-      "chinese_core_candidates": 38,
+      "chinese_core_candidates": 36,
       "candidate_quality": {
         "": 30,
         "non_operational_administration": 1,
-        "PDF断句或残片未形成完整运行事实": 5,
+        "PDF断句或残片未形成完整运行事实": 3,
         "detached_operational_fragment": 2
       },
       "english_header": "Hohhot/Baita",
@@ -795,12 +804,12 @@
         471
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 22,
+      "chinese_core_candidates": 21,
       "candidate_quality": {
-        "": 15,
+        "": 16,
         "detached_operational_fragment": 2,
         "来源包含无法可靠恢复的明显OCR错位": 1,
-        "PDF断句或残片未形成完整运行事实": 4
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -815,10 +824,11 @@
         481
       ],
       "chinese_typical_count": 5,
-      "chinese_core_candidates": 40,
+      "chinese_core_candidates": 39,
       "candidate_quality": {
         "": 33,
-        "PDF断句或残片未形成完整运行事实": 5,
+        "PDF断句或残片未形成完整运行事实": 3,
+        "standalone_frequency_metadata": 1,
         "detached_operational_fragment": 2
       },
       "english_header": "TAIYUANWUSU",
@@ -837,10 +847,10 @@
         484
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 20,
+      "chinese_core_candidates": 19,
       "candidate_quality": {
-        "PDF断句或残片未形成完整运行事实": 8,
-        "": 11,
+        "PDF断句或残片未形成完整运行事实": 6,
+        "": 12,
         "detached_operational_fragment": 1
       },
       "english_header": null,
@@ -856,11 +866,12 @@
         489
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 40,
+      "chinese_core_candidates": 38,
       "candidate_quality": {
-        "": 33,
+        "": 32,
+        "standalone_frequency_metadata": 1,
         "detached_operational_fragment": 2,
-        "PDF断句或残片未形成完整运行事实": 5
+        "PDF断句或残片未形成完整运行事实": 3
       },
       "english_header": "Tianjin/Binhai",
       "english_pages": [
@@ -878,10 +889,10 @@
         493
       ],
       "chinese_typical_count": 4,
-      "chinese_core_candidates": 34,
+      "chinese_core_candidates": 32,
       "candidate_quality": {
         "": 23,
-        "PDF断句或残片未形成完整运行事实": 8,
+        "PDF断句或残片未形成完整运行事实": 6,
         "non_operational_administration": 1,
         "detached_operational_fragment": 2
       },
@@ -898,9 +909,9 @@
         498
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 48,
+      "chinese_core_candidates": 49,
       "candidate_quality": {
-        "": 40,
+        "": 41,
         "PDF断句或残片未形成完整运行事实": 6,
         "unparsed_attribute_table": 2
       },
@@ -936,11 +947,12 @@
         505
       ],
       "chinese_typical_count": 4,
-      "chinese_core_candidates": 28,
+      "chinese_core_candidates": 26,
       "candidate_quality": {
-        "": 24,
+        "": 22,
+        "standalone_frequency_metadata": 1,
         "detached_operational_fragment": 2,
-        "PDF断句或残片未形成完整运行事实": 2
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -955,11 +967,11 @@
         510
       ],
       "chinese_typical_count": 4,
-      "chinese_core_candidates": 40,
+      "chinese_core_candidates": 37,
       "candidate_quality": {
-        "": 34,
+        "": 33,
         "detached_operational_fragment": 2,
-        "PDF断句或残片未形成完整运行事实": 4
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -974,11 +986,11 @@
         516
       ],
       "chinese_typical_count": 4,
-      "chinese_core_candidates": 45,
+      "chinese_core_candidates": 41,
       "candidate_quality": {
-        "": 39,
+        "": 36,
         "non_operational_administration": 1,
-        "PDF断句或残片未形成完整运行事实": 4,
+        "PDF断句或残片未形成完整运行事实": 3,
         "detached_operational_fragment": 1
       },
       "english_header": null,
@@ -994,12 +1006,12 @@
         521
       ],
       "chinese_typical_count": 6,
-      "chinese_core_candidates": 26,
+      "chinese_core_candidates": 25,
       "candidate_quality": {
-        "": 19,
+        "": 20,
         "non_operational_administration": 1,
         "detached_operational_fragment": 1,
-        "PDF断句或残片未形成完整运行事实": 5
+        "PDF断句或残片未形成完整运行事实": 3
       },
       "english_header": null,
       "english_pages": [],
@@ -1014,10 +1026,10 @@
         523
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 14,
+      "chinese_core_candidates": 11,
       "candidate_quality": {
-        "": 11,
-        "PDF断句或残片未形成完整运行事实": 3
+        "": 10,
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -1054,9 +1066,9 @@
         531
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 34,
+      "chinese_core_candidates": 35,
       "candidate_quality": {
-        "": 31,
+        "": 32,
         "PDF断句或残片未形成完整运行事实": 2,
         "unparsed_attribute_table": 1
       },
@@ -1073,10 +1085,10 @@
         536
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 37,
+      "chinese_core_candidates": 35,
       "candidate_quality": {
-        "": 32,
-        "PDF断句或残片未形成完整运行事实": 4,
+        "": 31,
+        "PDF断句或残片未形成完整运行事实": 3,
         "来源包含无法可靠恢复的明显OCR错位": 1
       },
       "english_header": "Fuzhou/Changle",
@@ -1095,11 +1107,12 @@
         540
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 30,
+      "chinese_core_candidates": 31,
       "candidate_quality": {
         "": 28,
         "unparsed_attribute_table": 1,
-        "PDF断句或残片未形成完整运行事实": 1
+        "PDF断句或残片未形成完整运行事实": 1,
+        "standalone_frequency_metadata": 1
       },
       "english_header": "Hangzhou Xiaoshan",
       "english_pages": [
@@ -1117,10 +1130,11 @@
         544
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 29,
+      "chinese_core_candidates": 27,
       "candidate_quality": {
-        "": 25,
-        "PDF断句或残片未形成完整运行事实": 4
+        "": 24,
+        "standalone_frequency_metadata": 1,
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": "Hefei/Xinqiao",
       "english_pages": [
@@ -1138,9 +1152,9 @@
         551
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 39,
+      "chinese_core_candidates": 40,
       "candidate_quality": {
-        "": 37,
+        "": 38,
         "unparsed_attribute_table": 1,
         "PDF断句或残片未形成完整运行事实": 1
       },
@@ -1160,10 +1174,10 @@
         556
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 37,
+      "chinese_core_candidates": 34,
       "candidate_quality": {
-        "": 33,
-        "PDF断句或残片未形成完整运行事实": 4
+        "": 32,
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": "Jinan/Yaoqiang",
       "english_pages": [
@@ -1181,11 +1195,11 @@
         558
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 27,
+      "chinese_core_candidates": 25,
       "candidate_quality": {
         "": 22,
         "来源包含无法可靠恢复的明显OCR错位": 1,
-        "PDF断句或残片未形成完整运行事实": 4
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": "HUAIAN LIANSHUI",
       "english_pages": [
@@ -1203,10 +1217,10 @@
         562
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 46,
+      "chinese_core_candidates": 43,
       "candidate_quality": {
-        "": 42,
-        "PDF断句或残片未形成完整运行事实": 3,
+        "": 40,
+        "PDF断句或残片未形成完整运行事实": 2,
         "来源包含无法可靠恢复的明显OCR错位": 1
       },
       "english_header": null,
@@ -1222,11 +1236,11 @@
         564
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 24,
+      "chinese_core_candidates": 22,
       "candidate_quality": {
-        "": 21,
+        "": 20,
         "detached_operational_fragment": 1,
-        "PDF断句或残片未形成完整运行事实": 2
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -1241,10 +1255,10 @@
         568
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 40,
+      "chinese_core_candidates": 35,
       "candidate_quality": {
-        "": 33,
-        "PDF断句或残片未形成完整运行事实": 7
+        "": 32,
+        "PDF断句或残片未形成完整运行事实": 3
       },
       "english_header": "Nanjing Lukou",
       "english_pages": [
@@ -1262,10 +1276,11 @@
         571
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 28,
+      "chinese_core_candidates": 25,
       "candidate_quality": {
-        "": 24,
-        "PDF断句或残片未形成完整运行事实": 4
+        "": 22,
+        "standalone_frequency_metadata": 1,
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": "Nantong Xingdong",
       "english_pages": [
@@ -1283,11 +1298,12 @@
         576
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 47,
+      "chinese_core_candidates": 44,
       "candidate_quality": {
-        "": 41,
+        "": 39,
+        "standalone_frequency_metadata": 1,
         "detached_operational_fragment": 2,
-        "PDF断句或残片未形成完整运行事实": 4
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": "Nanchang/Changbei",
       "english_pages": [
@@ -1305,10 +1321,10 @@
         578
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 21,
+      "chinese_core_candidates": 19,
       "candidate_quality": {
         "": 17,
-        "PDF断句或残片未形成完整运行事实": 4
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -1323,12 +1339,14 @@
         585
       ],
       "chinese_typical_count": 5,
-      "chinese_core_candidates": 47,
+      "chinese_core_candidates": 44,
       "candidate_quality": {
-        "PDF断句或残片未形成完整运行事实": 5,
-        "": 40,
+        "PDF断句或残片未形成完整运行事实": 3,
+        "": 37,
+        "standalone_frequency_metadata": 1,
         "来源包含无法可靠恢复的明显OCR错位": 1,
-        "detached_operational_fragment": 1
+        "detached_operational_fragment": 1,
+        "passenger_or_staff_ground_transport": 1
       },
       "english_header": "Ningbo/Lieshe",
       "english_pages": [
@@ -1346,9 +1364,9 @@
         589
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 23,
+      "chinese_core_candidates": 24,
       "candidate_quality": {
-        "": 20,
+        "": 21,
         "unparsed_attribute_table": 1,
         "PDF断句或残片未形成完整运行事实": 2
       },
@@ -1368,11 +1386,11 @@
         594
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 32,
+      "chinese_core_candidates": 30,
       "candidate_quality": {
         "": 27,
         "detached_operational_fragment": 1,
-        "PDF断句或残片未形成完整运行事实": 4
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": "Qingdao/Jiaodong",
       "english_pages": [
@@ -1412,10 +1430,10 @@
         600
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 31,
+      "chinese_core_candidates": 30,
       "candidate_quality": {
         "": 26,
-        "PDF断句或残片未形成完整运行事实": 5
+        "PDF断句或残片未形成完整运行事实": 4
       },
       "english_header": null,
       "english_pages": [],
@@ -1430,10 +1448,10 @@
         603
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 28,
+      "chinese_core_candidates": 27,
       "candidate_quality": {
-        "PDF断句或残片未形成完整运行事实": 5,
-        "": 22,
+        "PDF断句或残片未形成完整运行事实": 3,
+        "": 23,
         "来源包含无法可靠恢复的明显OCR错位": 1
       },
       "english_header": null,
@@ -1449,10 +1467,11 @@
         607
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 41,
+      "chinese_core_candidates": 37,
       "candidate_quality": {
-        "": 35,
-        "PDF断句或残片未形成完整运行事实": 5,
+        "": 32,
+        "standalone_frequency_metadata": 1,
+        "PDF断句或残片未形成完整运行事实": 3,
         "来源包含无法可靠恢复的明显OCR错位": 1
       },
       "english_header": "Xiamen/Gaoqi",
@@ -1471,11 +1490,12 @@
         610
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 19,
+      "chinese_core_candidates": 18,
       "candidate_quality": {
-        "": 14,
+        "": 13,
+        "standalone_frequency_metadata": 1,
         "detached_operational_fragment": 2,
-        "PDF断句或残片未形成完整运行事实": 3
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": "Wenzhou/Longwan",
       "english_pages": [
@@ -1513,11 +1533,11 @@
         615
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 23,
+      "chinese_core_candidates": 22,
       "candidate_quality": {
-        "": 18,
+        "": 19,
         "来源包含无法可靠恢复的明显OCR错位": 1,
-        "PDF断句或残片未形成完整运行事实": 4
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -1532,11 +1552,11 @@
         618
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 25,
+      "chinese_core_candidates": 23,
       "candidate_quality": {
-        "": 18,
-        "PDF断句或残片未形成完整运行事实": 5,
-        "detached_operational_fragment": 2
+        "": 19,
+        "detached_operational_fragment": 2,
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": "Yantai/Penglai",
       "english_pages": [
@@ -1554,10 +1574,11 @@
         623
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 52,
+      "chinese_core_candidates": 50,
       "candidate_quality": {
-        "": 45,
+        "": 42,
         "PDF断句或残片未形成完整运行事实": 2,
+        "standalone_frequency_metadata": 1,
         "detached_operational_fragment": 1,
         "来源包含无法可靠恢复的明显OCR错位": 4
       },
@@ -1579,9 +1600,9 @@
       "chinese_typical_count": 1,
       "chinese_core_candidates": 31,
       "candidate_quality": {
-        "": 27,
+        "": 28,
         "来源包含无法可靠恢复的明显OCR错位": 1,
-        "PDF断句或残片未形成完整运行事实": 3
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": "Weihai/Dashuibo",
       "english_pages": [
@@ -1599,9 +1620,9 @@
         633
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 34,
+      "chinese_core_candidates": 35,
       "candidate_quality": {
-        "": 30,
+        "": 31,
         "PDF断句或残片未形成完整运行事实": 4
       },
       "english_header": "Yancheng/Nanyang",
@@ -1620,10 +1641,10 @@
         635
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 26,
+      "chinese_core_candidates": 22,
       "candidate_quality": {
-        "": 22,
-        "PDF断句或残片未形成完整运行事实": 4
+        "": 20,
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -1638,11 +1659,11 @@
         638
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 26,
+      "chinese_core_candidates": 24,
       "candidate_quality": {
         "": 21,
         "detached_operational_fragment": 1,
-        "PDF断句或残片未形成完整运行事实": 4
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": "Zhoushan/Putuo Mountain",
       "english_pages": [
@@ -1660,10 +1681,10 @@
         640
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 28,
+      "chinese_core_candidates": 26,
       "candidate_quality": {
-        "": 26,
-        "PDF断句或残片未形成完整运行事实": 2
+        "": 25,
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -1678,10 +1699,10 @@
         645
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 45,
+      "chinese_core_candidates": 44,
       "candidate_quality": {
-        "": 40,
-        "PDF断句或残片未形成完整运行事实": 5
+        "": 41,
+        "PDF断句或残片未形成完整运行事实": 3
       },
       "english_header": null,
       "english_pages": [],
@@ -1696,10 +1717,10 @@
         648
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 36,
+      "chinese_core_candidates": 32,
       "candidate_quality": {
-        "": 32,
-        "PDF断句或残片未形成完整运行事实": 4
+        "": 30,
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -1714,10 +1735,11 @@
         653
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 46,
+      "chinese_core_candidates": 44,
       "candidate_quality": {
         "": 38,
-        "PDF断句或残片未形成完整运行事实": 8
+        "PDF断句或残片未形成完整运行事实": 5,
+        "standalone_frequency_metadata": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -1732,10 +1754,10 @@
         656
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 30,
+      "chinese_core_candidates": 28,
       "candidate_quality": {
-        "": 24,
-        "PDF断句或残片未形成完整运行事实": 5,
+        "": 23,
+        "PDF断句或残片未形成完整运行事实": 4,
         "detached_operational_fragment": 1
       },
       "english_header": null,
@@ -1751,10 +1773,11 @@
         660
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 35,
+      "chinese_core_candidates": 34,
       "candidate_quality": {
-        "": 21,
+        "": 19,
         "PDF断句或残片未形成完整运行事实": 12,
+        "standalone_frequency_metadata": 1,
         "detached_operational_fragment": 2
       },
       "english_header": null,
@@ -1770,11 +1793,12 @@
         668
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 61,
+      "chinese_core_candidates": 59,
       "candidate_quality": {
-        "PDF断句或残片未形成完整运行事实": 8,
-        "": 49,
+        "PDF断句或残片未形成完整运行事实": 6,
+        "": 48,
         "non_operational_administration": 1,
+        "standalone_frequency_metadata": 1,
         "来源包含无法可靠恢复的明显OCR错位": 2,
         "passenger_or_staff_ground_transport": 1
       },
@@ -1794,11 +1818,11 @@
         674
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 36,
+      "chinese_core_candidates": 33,
       "candidate_quality": {
         "": 29,
         "来源包含无法可靠恢复的明显OCR错位": 1,
-        "PDF断句或残片未形成完整运行事实": 6
+        "PDF断句或残片未形成完整运行事实": 3
       },
       "english_header": "Seoul Incheon International",
       "english_pages": [
@@ -1816,9 +1840,9 @@
         680
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 35,
+      "chinese_core_candidates": 33,
       "candidate_quality": {
-        "PDF断句或残片未形成完整运行事实": 8,
+        "PDF断句或残片未形成完整运行事实": 6,
         "": 27
       },
       "english_header": "Ibaraki",
@@ -1837,10 +1861,10 @@
         686
       ],
       "chinese_typical_count": 9,
-      "chinese_core_candidates": 40,
+      "chinese_core_candidates": 36,
       "candidate_quality": {
-        "PDF断句或残片未形成完整运行事实": 7,
-        "": 32,
+        "PDF断句或残片未形成完整运行事实": 5,
+        "": 30,
         "passenger_or_staff_ground_transport": 1
       },
       "english_header": "Osaka",
@@ -1859,9 +1883,9 @@
         700
       ],
       "chinese_typical_count": 4,
-      "chinese_core_candidates": 32,
+      "chinese_core_candidates": 29,
       "candidate_quality": {
-        "PDF断句或残片未形成完整运行事实": 8,
+        "PDF断句或残片未形成完整运行事实": 5,
         "": 24
       },
       "english_header": "Tokyo Haneda",
@@ -1880,10 +1904,10 @@
         705
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 34,
+      "chinese_core_candidates": 30,
       "candidate_quality": {
-        "PDF断句或残片未形成完整运行事实": 9,
-        "": 23,
+        "PDF断句或残片未形成完整运行事实": 6,
+        "": 22,
         "来源包含无法可靠恢复的明显OCR错位": 2
       },
       "english_header": "Takarazuka",
@@ -1902,10 +1926,10 @@
         713
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 36,
+      "chinese_core_candidates": 31,
       "candidate_quality": {
-        "": 22,
-        "PDF断句或残片未形成完整运行事实": 14
+        "": 23,
+        "PDF断句或残片未形成完整运行事实": 8
       },
       "english_header": "Nagoya",
       "english_pages": [
@@ -1923,10 +1947,10 @@
         718
       ],
       "chinese_typical_count": 5,
-      "chinese_core_candidates": 34,
+      "chinese_core_candidates": 31,
       "candidate_quality": {
-        "": 28,
-        "PDF断句或残片未形成完整运行事实": 6
+        "": 27,
+        "PDF断句或残片未形成完整运行事实": 4
       },
       "english_header": null,
       "english_pages": [],
@@ -1941,10 +1965,10 @@
         725
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 29,
+      "chinese_core_candidates": 26,
       "candidate_quality": {
-        "PDF断句或残片未形成完整运行事实": 5,
-        "": 23,
+        "PDF断句或残片未形成完整运行事实": 3,
+        "": 22,
         "detached_operational_fragment": 1
       },
       "english_header": null,
@@ -1960,10 +1984,10 @@
         732
       ],
       "chinese_typical_count": 6,
-      "chinese_core_candidates": 27,
+      "chinese_core_candidates": 24,
       "candidate_quality": {
-        "PDF断句或残片未形成完整运行事实": 6,
-        "": 21
+        "PDF断句或残片未形成完整运行事实": 4,
+        "": 20
       },
       "english_header": "NARITA",
       "english_pages": [
@@ -1981,15 +2005,15 @@
         742
       ],
       "chinese_typical_count": 7,
-      "chinese_core_candidates": 56,
+      "chinese_core_candidates": 51,
       "candidate_quality": {
-        "PDF断句或残片未形成完整运行事实": 9,
-        "": 47
+        "PDF断句或残片未形成完整运行事实": 5,
+        "": 46
       },
       "english_header": "Fukuoka",
       "english_pages": [
         1453,
-        1470
+        1462
       ],
       "english_identity_status": "ICAO_MATCHED",
       "identity_error": false
@@ -2002,10 +2026,10 @@
         747
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 29,
+      "chinese_core_candidates": 27,
       "candidate_quality": {
-        "": 25,
-        "PDF断句或残片未形成完整运行事实": 4
+        "": 24,
+        "PDF断句或残片未形成完整运行事实": 3
       },
       "english_header": "Okinawa/Naha",
       "english_pages": [
@@ -2023,15 +2047,18 @@
         754
       ],
       "chinese_typical_count": 6,
-      "chinese_core_candidates": 44,
+      "chinese_core_candidates": 41,
       "candidate_quality": {
-        "": 39,
-        "PDF断句或残片未形成完整运行事实": 4,
+        "": 37,
+        "PDF断句或残片未形成完整运行事实": 3,
         "non_operational_administration": 1
       },
-      "english_header": null,
-      "english_pages": [],
-      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "english_header": "Busan Airpor",
+      "english_pages": [
+        1463,
+        1470
+      ],
+      "english_identity_status": "ICAO_MATCHED",
       "identity_error": false
     },
     {
@@ -2042,9 +2069,9 @@
         761
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 53,
+      "chinese_core_candidates": 54,
       "candidate_quality": {
-        "": 50,
+        "": 51,
         "unparsed_attribute_table": 2,
         "PDF断句或残片未形成完整运行事实": 1
       },
@@ -2061,10 +2088,10 @@
         765
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 25,
+      "chinese_core_candidates": 23,
       "candidate_quality": {
         "": 18,
-        "PDF断句或残片未形成完整运行事实": 6,
+        "PDF断句或残片未形成完整运行事实": 4,
         "detached_operational_fragment": 1
       },
       "english_header": null,
@@ -2080,11 +2107,11 @@
         769
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 30,
+      "chinese_core_candidates": 29,
       "candidate_quality": {
-        "": 24,
+        "": 25,
         "detached_operational_fragment": 2,
-        "PDF断句或残片未形成完整运行事实": 4
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -2099,10 +2126,10 @@
         775
       ],
       "chinese_typical_count": 5,
-      "chinese_core_candidates": 43,
+      "chinese_core_candidates": 36,
       "candidate_quality": {
-        "": 39,
-        "PDF断句或残片未形成完整运行事实": 4
+        "": 34,
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -2117,10 +2144,11 @@
         783
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 49,
+      "chinese_core_candidates": 51,
       "candidate_quality": {
-        "": 47,
-        "unparsed_attribute_table": 2
+        "": 48,
+        "unparsed_attribute_table": 2,
+        "standalone_frequency_metadata": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -2137,9 +2165,9 @@
       "chinese_typical_count": 1,
       "chinese_core_candidates": 20,
       "candidate_quality": {
-        "": 15,
+        "": 17,
         "detached_operational_fragment": 1,
-        "PDF断句或残片未形成完整运行事实": 4
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -2154,13 +2182,12 @@
         791
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 38,
+      "chinese_core_candidates": 36,
       "candidate_quality": {
-        "": 31,
+        "": 30,
         "PDF断句或残片未形成完整运行事实": 3,
         "detached_operational_fragment": 2,
-        "来源包含无法可靠恢复的明显OCR错位": 1,
-        "清洗后无实质运行内容": 1
+        "来源包含无法可靠恢复的明显OCR错位": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -2175,12 +2202,11 @@
         794
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 27,
+      "chinese_core_candidates": 26,
       "candidate_quality": {
-        "": 22,
+        "": 23,
         "detached_operational_fragment": 1,
-        "清洗后无实质运行内容": 1,
-        "PDF断句或残片未形成完整运行事实": 3
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -2195,11 +2221,11 @@
         798
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 33,
+      "chinese_core_candidates": 30,
       "candidate_quality": {
-        "": 29,
+        "": 27,
         "detached_operational_fragment": 1,
-        "PDF断句或残片未形成完整运行事实": 3
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -2214,11 +2240,12 @@
         804
       ],
       "chinese_typical_count": 4,
-      "chinese_core_candidates": 44,
+      "chinese_core_candidates": 41,
       "candidate_quality": {
-        "": 39,
+        "": 36,
+        "standalone_frequency_metadata": 1,
         "detached_operational_fragment": 2,
-        "PDF断句或残片未形成完整运行事实": 3
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -2233,10 +2260,10 @@
         817
       ],
       "chinese_typical_count": 6,
-      "chinese_core_candidates": 73,
+      "chinese_core_candidates": 70,
       "candidate_quality": {
         "": 64,
-        "PDF断句或残片未形成完整运行事实": 7,
+        "PDF断句或残片未形成完整运行事实": 4,
         "detached_operational_fragment": 2
       },
       "english_header": "XIAN YANG",
@@ -2255,11 +2282,11 @@
         825
       ],
       "chinese_typical_count": 7,
-      "chinese_core_candidates": 75,
+      "chinese_core_candidates": 68,
       "candidate_quality": {
-        "": 64,
+        "": 60,
         "standalone_frequency_metadata": 1,
-        "PDF断句或残片未形成完整运行事实": 8,
+        "PDF断句或残片未形成完整运行事实": 5,
         "detached_operational_fragment": 1,
         "来源包含无法可靠恢复的明显OCR错位": 1
       },
@@ -2279,11 +2306,11 @@
         827
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 22,
+      "chinese_core_candidates": 19,
       "candidate_quality": {
-        "": 16,
+        "": 15,
         "detached_operational_fragment": 2,
-        "PDF断句或残片未形成完整运行事实": 4
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -2298,10 +2325,10 @@
         830
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 32,
+      "chinese_core_candidates": 30,
       "candidate_quality": {
         "": 25,
-        "PDF断句或残片未形成完整运行事实": 5,
+        "PDF断句或残片未形成完整运行事实": 3,
         "detached_operational_fragment": 2
       },
       "english_header": null,
@@ -2317,10 +2344,10 @@
         832
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 27,
+      "chinese_core_candidates": 23,
       "candidate_quality": {
-        "": 18,
-        "PDF断句或残片未形成完整运行事实": 8,
+        "": 16,
+        "PDF断句或残片未形成完整运行事实": 6,
         "detached_operational_fragment": 1
       },
       "english_header": null,
@@ -2336,10 +2363,10 @@
         837
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 47,
+      "chinese_core_candidates": 45,
       "candidate_quality": {
         "": 41,
-        "PDF断句或残片未形成完整运行事实": 5,
+        "PDF断句或残片未形成完整运行事实": 3,
         "detached_operational_fragment": 1
       },
       "english_header": null,
@@ -2355,11 +2382,11 @@
         841
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 26,
+      "chinese_core_candidates": 24,
       "candidate_quality": {
         "": 20,
         "detached_operational_fragment": 2,
-        "PDF断句或残片未形成完整运行事实": 4
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -2374,10 +2401,10 @@
         846
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 45,
+      "chinese_core_candidates": 43,
       "candidate_quality": {
-        "": 40,
-        "PDF断句或残片未形成完整运行事实": 5
+        "": 39,
+        "PDF断句或残片未形成完整运行事实": 4
       },
       "english_header": null,
       "english_pages": [],
@@ -2392,10 +2419,10 @@
         848
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 24,
+      "chinese_core_candidates": 21,
       "candidate_quality": {
-        "": 19,
-        "PDF断句或残片未形成完整运行事实": 5
+        "": 18,
+        "PDF断句或残片未形成完整运行事实": 3
       },
       "english_header": null,
       "english_pages": [],
@@ -2410,10 +2437,10 @@
         851
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 30,
+      "chinese_core_candidates": 27,
       "candidate_quality": {
-        "": 23,
-        "PDF断句或残片未形成完整运行事实": 5,
+        "": 22,
+        "PDF断句或残片未形成完整运行事实": 3,
         "来源包含无法可靠恢复的明显OCR错位": 1,
         "detached_operational_fragment": 1
       },
@@ -2430,10 +2457,10 @@
         854
       ],
       "chinese_typical_count": 4,
-      "chinese_core_candidates": 30,
+      "chinese_core_candidates": 28,
       "candidate_quality": {
         "": 25,
-        "PDF断句或残片未形成完整运行事实": 5
+        "PDF断句或残片未形成完整运行事实": 3
       },
       "english_header": null,
       "english_pages": [],
@@ -2448,10 +2475,10 @@
         858
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 39,
+      "chinese_core_candidates": 36,
       "candidate_quality": {
-        "": 35,
-        "PDF断句或残片未形成完整运行事实": 4
+        "": 33,
+        "PDF断句或残片未形成完整运行事实": 3
       },
       "english_header": null,
       "english_pages": [],
@@ -2466,10 +2493,11 @@
         863
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 51,
+      "chinese_core_candidates": 50,
       "candidate_quality": {
-        "": 46,
-        "PDF断句或残片未形成完整运行事实": 5
+        "": 45,
+        "standalone_frequency_metadata": 1,
+        "PDF断句或残片未形成完整运行事实": 4
       },
       "english_header": null,
       "english_pages": [],
@@ -2502,10 +2530,10 @@
         874
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 51,
+      "chinese_core_candidates": 44,
       "candidate_quality": {
-        "": 37,
-        "PDF断句或残片未形成完整运行事实": 13,
+        "": 33,
+        "PDF断句或残片未形成完整运行事实": 10,
         "detached_operational_fragment": 1
       },
       "english_header": null,
@@ -2521,12 +2549,11 @@
         880
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 47,
+      "chinese_core_candidates": 45,
       "candidate_quality": {
         "": 40,
-        "PDF断句或残片未形成完整运行事实": 5,
-        "detached_operational_fragment": 1,
-        "清洗后无实质运行内容": 1
+        "PDF断句或残片未形成完整运行事实": 4,
+        "detached_operational_fragment": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -2541,9 +2568,9 @@
         884
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 26,
+      "chinese_core_candidates": 27,
       "candidate_quality": {
-        "": 25,
+        "": 26,
         "unparsed_attribute_table": 1
       },
       "english_header": "Chengdu/Tianfu",
@@ -2562,9 +2589,9 @@
         889
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 32,
+      "chinese_core_candidates": 33,
       "candidate_quality": {
-        "": 30,
+        "": 31,
         "unparsed_attribute_table": 1,
         "non_operational_administration": 1
       },
@@ -2584,11 +2611,12 @@
         895
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 41,
+      "chinese_core_candidates": 42,
       "candidate_quality": {
         "": 37,
         "unparsed_attribute_table": 2,
-        "PDF断句或残片未形成完整运行事实": 2
+        "PDF断句或残片未形成完整运行事实": 2,
+        "standalone_frequency_metadata": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -2605,8 +2633,8 @@
       "chinese_typical_count": 1,
       "chinese_core_candidates": 20,
       "candidate_quality": {
-        "PDF断句或残片未形成完整运行事实": 3,
-        "": 17
+        "PDF断句或残片未形成完整运行事实": 2,
+        "": 18
       },
       "english_header": null,
       "english_pages": [],
@@ -2621,11 +2649,11 @@
         901
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 17,
+      "chinese_core_candidates": 18,
       "candidate_quality": {
-        "": 14,
+        "": 16,
         "detached_operational_fragment": 1,
-        "PDF断句或残片未形成完整运行事实": 2
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -2640,11 +2668,11 @@
         906
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 36,
+      "chinese_core_candidates": 34,
       "candidate_quality": {
-        "": 32,
+        "": 31,
         "detached_operational_fragment": 2,
-        "PDF断句或残片未形成完整运行事实": 2
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -2659,11 +2687,11 @@
         911
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 33,
+      "chinese_core_candidates": 32,
       "candidate_quality": {
         "": 29,
         "detached_operational_fragment": 2,
-        "PDF断句或残片未形成完整运行事实": 2
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -2678,11 +2706,11 @@
         914
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 27,
+      "chinese_core_candidates": 25,
       "candidate_quality": {
-        "": 23,
+        "": 22,
         "detached_operational_fragment": 2,
-        "PDF断句或残片未形成完整运行事实": 2
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -2699,8 +2727,8 @@
       "chinese_typical_count": 2,
       "chinese_core_candidates": 44,
       "candidate_quality": {
-        "": 39,
-        "PDF断句或残片未形成完整运行事实": 3,
+        "": 40,
+        "PDF断句或残片未形成完整运行事实": 2,
         "unparsed_attribute_table": 2
       },
       "english_header": null,
@@ -2716,9 +2744,9 @@
         925
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 41,
+      "chinese_core_candidates": 42,
       "candidate_quality": {
-        "": 39,
+        "": 40,
         "unparsed_attribute_table": 1,
         "来源包含无法可靠恢复的明显OCR错位": 1
       },
@@ -2735,9 +2763,9 @@
         930
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 26,
+      "chinese_core_candidates": 27,
       "candidate_quality": {
-        "": 23,
+        "": 24,
         "PDF断句或残片未形成完整运行事实": 2,
         "unparsed_attribute_table": 1
       },
@@ -2756,8 +2784,8 @@
       "chinese_typical_count": 1,
       "chinese_core_candidates": 28,
       "candidate_quality": {
-        "PDF断句或残片未形成完整运行事实": 4,
-        "": 23,
+        "PDF断句或残片未形成完整运行事实": 3,
+        "": 24,
         "detached_operational_fragment": 1
       },
       "english_header": null,
@@ -2775,8 +2803,8 @@
       "chinese_typical_count": 0,
       "chinese_core_candidates": 14,
       "candidate_quality": {
-        "": 12,
-        "PDF断句或残片未形成完整运行事实": 2
+        "": 13,
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -2810,10 +2838,10 @@
         945
       ],
       "chinese_typical_count": 4,
-      "chinese_core_candidates": 52,
+      "chinese_core_candidates": 47,
       "candidate_quality": {
-        "PDF断句或残片未形成完整运行事实": 6,
-        "": 44,
+        "PDF断句或残片未形成完整运行事实": 4,
+        "": 41,
         "detached_operational_fragment": 2
       },
       "english_header": null,
@@ -2829,9 +2857,9 @@
         951
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 45,
+      "chinese_core_candidates": 46,
       "candidate_quality": {
-        "": 40,
+        "": 41,
         "PDF断句或残片未形成完整运行事实": 3,
         "unparsed_attribute_table": 2
       },
@@ -2848,10 +2876,10 @@
         955
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 29,
+      "chinese_core_candidates": 28,
       "candidate_quality": {
-        "PDF断句或残片未形成完整运行事实": 6,
-        "": 22,
+        "PDF断句或残片未形成完整运行事实": 4,
+        "": 23,
         "detached_operational_fragment": 1
       },
       "english_header": null,
@@ -2867,10 +2895,10 @@
         958
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 23,
+      "chinese_core_candidates": 22,
       "candidate_quality": {
         "": 19,
-        "PDF断句或残片未形成完整运行事实": 3,
+        "PDF断句或残片未形成完整运行事实": 2,
         "detached_operational_fragment": 1
       },
       "english_header": null,
@@ -2886,10 +2914,10 @@
         960
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 15,
+      "chinese_core_candidates": 12,
       "candidate_quality": {
-        "": 11,
-        "PDF断句或残片未形成完整运行事实": 4
+        "": 10,
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -2904,10 +2932,11 @@
         963
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 26,
+      "chinese_core_candidates": 27,
       "candidate_quality": {
         "": 25,
-        "unparsed_attribute_table": 1
+        "unparsed_attribute_table": 1,
+        "standalone_frequency_metadata": 1
       },
       "english_header": "Chengdu/Shuangliu",
       "english_pages": [
@@ -2925,9 +2954,9 @@
         967
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 30,
+      "chinese_core_candidates": 28,
       "candidate_quality": {
-        "PDF断句或残片未形成完整运行事实": 5,
+        "PDF断句或残片未形成完整运行事实": 3,
         "": 23,
         "detached_operational_fragment": 2
       },
@@ -2946,9 +2975,9 @@
       "chinese_typical_count": 0,
       "chinese_core_candidates": 19,
       "candidate_quality": {
-        "": 15,
+        "": 16,
         "detached_operational_fragment": 2,
-        "PDF断句或残片未形成完整运行事实": 2
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -2963,9 +2992,9 @@
         975
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 41,
+      "chinese_core_candidates": 42,
       "candidate_quality": {
-        "": 36,
+        "": 37,
         "PDF断句或残片未形成完整运行事实": 3,
         "unparsed_attribute_table": 2
       },
@@ -2982,9 +3011,10 @@
         978
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 23,
+      "chinese_core_candidates": 24,
       "candidate_quality": {
-        "": 23
+        "": 23,
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -3016,9 +3046,11 @@
         982
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 20,
+      "chinese_core_candidates": 22,
       "candidate_quality": {
         "": 19,
+        "清洗后无实质运行内容": 1,
+        "standalone_frequency_metadata": 1,
         "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": "JIEYANG CHAOSHAN",
@@ -3037,9 +3069,9 @@
         985
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 31,
+      "chinese_core_candidates": 29,
       "candidate_quality": {
-        "": 30,
+        "": 28,
         "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": null,
@@ -3055,10 +3087,11 @@
         991
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 49,
+      "chinese_core_candidates": 46,
       "candidate_quality": {
-        "": 41,
-        "PDF断句或残片未形成完整运行事实": 7,
+        "": 40,
+        "PDF断句或残片未形成完整运行事实": 4,
+        "standalone_frequency_metadata": 1,
         "来源包含无法可靠恢复的明显OCR错位": 1
       },
       "english_header": "GUANGZHOU BAIYUN",
@@ -3077,9 +3110,9 @@
         994
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 16,
+      "chinese_core_candidates": 17,
       "candidate_quality": {
-        "": 16
+        "": 17
       },
       "english_header": "Guilin Liangjiang",
       "english_pages": [
@@ -3097,10 +3130,10 @@
         996
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 19,
+      "chinese_core_candidates": 15,
       "candidate_quality": {
-        "": 17,
-        "PDF断句或残片未形成完整运行事实": 2
+        "": 14,
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": "Haikou Meilan",
       "english_pages": [
@@ -3118,9 +3151,9 @@
         998
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 19,
+      "chinese_core_candidates": 18,
       "candidate_quality": {
-        "": 18,
+        "": 17,
         "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": null,
@@ -3154,9 +3187,10 @@
         1003
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 40,
+      "chinese_core_candidates": 39,
       "candidate_quality": {
-        "": 40
+        "": 38,
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": "Nanning/Wuxu",
       "english_pages": [
@@ -3174,11 +3208,11 @@
         1006
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 32,
+      "chinese_core_candidates": 30,
       "candidate_quality": {
         "": 27,
         "来源包含无法可靠恢复的明显OCR错位": 1,
-        "PDF断句或残片未形成完整运行事实": 4
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -3193,10 +3227,11 @@
         1009
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 23,
+      "chinese_core_candidates": 20,
       "candidate_quality": {
-        "": 17,
-        "PDF断句或残片未形成完整运行事实": 6
+        "": 16,
+        "standalone_frequency_metadata": 1,
+        "PDF断句或残片未形成完整运行事实": 3
       },
       "english_header": "Sanya/Fenghuang",
       "english_pages": [
@@ -3214,10 +3249,11 @@
         1020
       ],
       "chinese_typical_count": 6,
-      "chinese_core_candidates": 45,
+      "chinese_core_candidates": 43,
       "candidate_quality": {
-        "": 40,
-        "PDF断句或残片未形成完整运行事实": 5
+        "": 39,
+        "standalone_frequency_metadata": 1,
+        "PDF断句或残片未形成完整运行事实": 3
       },
       "english_header": "SHENZHEN BAOAN",
       "english_pages": [
@@ -3235,10 +3271,10 @@
         1023
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 33,
+      "chinese_core_candidates": 29,
       "candidate_quality": {
-        "PDF断句或残片未形成完整运行事实": 8,
-        "": 24,
+        "PDF断句或残片未形成完整运行事实": 5,
+        "": 23,
         "来源包含无法可靠恢复的明显OCR错位": 1
       },
       "english_header": null,
@@ -3254,10 +3290,10 @@
         1026
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 31,
+      "chinese_core_candidates": 28,
       "candidate_quality": {
-        "": 26,
-        "PDF断句或残片未形成完整运行事实": 5
+        "": 25,
+        "PDF断句或残片未形成完整运行事实": 3
       },
       "english_header": "Wuhan/Tianhe",
       "english_pages": [
@@ -3278,7 +3314,8 @@
       "chinese_core_candidates": 16,
       "candidate_quality": {
         "": 14,
-        "PDF断句或残片未形成完整运行事实": 2
+        "standalone_frequency_metadata": 1,
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -3293,10 +3330,10 @@
         1032
       ],
       "chinese_typical_count": 5,
-      "chinese_core_candidates": 13,
+      "chinese_core_candidates": 11,
       "candidate_quality": {
         "": 9,
-        "PDF断句或残片未形成完整运行事实": 4
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -3329,10 +3366,11 @@
         1037
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 25,
+      "chinese_core_candidates": 23,
       "candidate_quality": {
-        "PDF断句或残片未形成完整运行事实": 5,
-        "": 20
+        "PDF断句或残片未形成完整运行事实": 3,
+        "": 19,
+        "standalone_frequency_metadata": 1
       },
       "english_header": "Zhangjiajie/Huahua",
       "english_pages": [
@@ -3350,10 +3388,10 @@
         1040
       ],
       "chinese_typical_count": 6,
-      "chinese_core_candidates": 20,
+      "chinese_core_candidates": 17,
       "candidate_quality": {
-        "": 16,
-        "PDF断句或残片未形成完整运行事实": 4
+        "": 15,
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": "Changsha/Huanghua",
       "english_pages": [
@@ -3371,11 +3409,12 @@
         1044
       ],
       "chinese_typical_count": 4,
-      "chinese_core_candidates": 33,
+      "chinese_core_candidates": 30,
       "candidate_quality": {
-        "": 25,
+        "": 24,
+        "standalone_frequency_metadata": 1,
         "来源包含无法可靠恢复的明显OCR错位": 2,
-        "PDF断句或残片未形成完整运行事实": 6
+        "PDF断句或残片未形成完整运行事实": 3
       },
       "english_header": "Zhengzhou/Xinzheng",
       "english_pages": [
@@ -3393,10 +3432,10 @@
         1048
       ],
       "chinese_typical_count": 4,
-      "chinese_core_candidates": 19,
+      "chinese_core_candidates": 16,
       "candidate_quality": {
-        "": 15,
-        "PDF断句或残片未形成完整运行事实": 4
+        "": 14,
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -3414,7 +3453,8 @@
       "chinese_core_candidates": 26,
       "candidate_quality": {
         "": 24,
-        "PDF断句或残片未形成完整运行事实": 2
+        "standalone_frequency_metadata": 1,
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -3429,10 +3469,10 @@
         1054
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 17,
+      "chinese_core_candidates": 14,
       "candidate_quality": {
-        "": 15,
-        "PDF断句或残片未形成完整运行事实": 2
+        "": 13,
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -3447,10 +3487,10 @@
         1057
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 31,
+      "chinese_core_candidates": 28,
       "candidate_quality": {
-        "": 23,
-        "PDF断句或残片未形成完整运行事实": 5,
+        "": 22,
+        "PDF断句或残片未形成完整运行事实": 3,
         "来源包含无法可靠恢复的明显OCR错位": 3
       },
       "english_header": null,
@@ -3466,10 +3506,10 @@
         1059
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 13,
+      "chinese_core_candidates": 11,
       "candidate_quality": {
         "": 9,
-        "PDF断句或残片未形成完整运行事实": 4
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -3484,11 +3524,11 @@
         1067
       ],
       "chinese_typical_count": 3,
-      "chinese_core_candidates": 27,
+      "chinese_core_candidates": 25,
       "candidate_quality": {
         "": 21,
         "来源包含无法可靠恢复的明显OCR错位": 1,
-        "PDF断句或残片未形成完整运行事实": 5
+        "PDF断句或残片未形成完整运行事实": 3
       },
       "english_header": null,
       "english_pages": [],
@@ -3503,10 +3543,10 @@
         1071
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 20,
+      "chinese_core_candidates": 18,
       "candidate_quality": {
         "": 16,
-        "PDF断句或残片未形成完整运行事实": 4
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -3521,17 +3561,18 @@
         1630
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 2793,
+      "chinese_core_candidates": 2745,
       "candidate_quality": {
-        "": 2747,
+        "": 2687,
         "detached_operational_fragment": 17,
         "PDF断句或残片未形成完整运行事实": 22,
-        "passenger_or_staff_ground_transport": 7
+        "passenger_or_staff_ground_transport": 7,
+        "standalone_frequency_metadata": 12
       },
       "english_header": "Ulaanbaatar Chinggis Khaan International",
       "english_pages": [
         1628,
-        1639
+        1630
       ],
       "english_identity_status": "ICAO_MATCHED",
       "identity_error": false

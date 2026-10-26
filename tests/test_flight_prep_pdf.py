@@ -250,6 +250,8 @@ def _copy_real_runtime_repo(destination: Path, *, include_pdf: bool) -> None:
 def _run_real_task(
     monkeypatch: pytest.MonkeyPatch,
     repo: Path,
+    *,
+    expected_exit: int = 0,
 ) -> tuple[str, dict]:
     monkeypatch.setattr(
         agent,
@@ -281,9 +283,15 @@ def _run_real_task(
     )
     agent.extract_pdf_text.cache_clear()
 
-    assert agent.main() == 0
+    assert agent.main() == expected_exit
 
     output = repo / "flight_preparation"
+    if expected_exit:
+        meta = json.loads((output / f"{REAL_TARGET_DATE}_meta.json").read_text(encoding="utf-8"))
+        assert meta["status"] == "FAILED_SAFE"
+        assert not (output / ".success").exists()
+        assert not (output / "latest.txt").exists()
+        return "", meta
     group = (output / "latest.txt").read_text(encoding="utf-8")
     meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
     assert not (output / f"{REAL_TARGET_DATE}_航前准备_详细版.txt").exists()
@@ -323,28 +331,32 @@ def test_real_flight_before_after_pdf_regression(
     baseline_group, baseline_meta = _run_real_task(
         monkeypatch,
         baseline_repo,
+        expected_exit=2,
     )
     upgraded_group, upgraded_meta = _run_real_task(
         monkeypatch,
         upgraded_repo,
     )
 
-    assert baseline_meta["airport_information_type"] == "TXT"
-    assert baseline_meta["airport_information_version"] == 20260615
+    # The old flattened TXT contains numbered/concatenated records, not a
+    # publishable baseline. Keep the safety rejection instead of blessing it
+    # merely to compare headings against the newer authoritative PDF.
+    assert not baseline_group
+    assert any("数字编号" in error for error in baseline_meta["errors"])
+    assert not list((baseline_repo / "flight_preparation").glob("*.txt"))
     assert upgraded_meta["airport_information_type"] == "PDF"
     assert upgraded_meta["airport_information_version"] == REAL_PDF_VERSION
 
-    assert _paragraphs(upgraded_group)[:2] == _paragraphs(baseline_group)[:2]
+    assert "段洋硕" in _paragraphs(upgraded_group)[0]
     assert "作为PF/PM各取最近一次" in _paragraphs(upgraded_group)[1]
-    assert _headings(upgraded_group) == _headings(baseline_group)
+    group_count = len(upgraded_meta["prep_groups"])
+    assert _headings(upgraded_group).count("典型不安全事件：") == group_count
+    assert _headings(upgraded_group).count("核心威胁：") == group_count
 
     for airport in KEY_AIRPORTS:
-        typical_section = _section(
-            upgraded_group,
-            f"{airport}机场典型不安全事件：",
-        )
-        assert re.search(r"(?m)^1\.\s+\S", typical_section)
-        assert not re.search(r"(?m)^\d+、", typical_section)
+        typical_section = upgraded_group.split("典型不安全事件：", 1)[1].split("核心威胁：", 1)[0].split(f"{airport}机场：", 1)[1]
+        assert typical_section.strip()
+        assert not re.search(r"(?m)^\d+[.、]", typical_section)
         assert "责任中队" not in typical_section
         assert "机场运行特点" not in typical_section
 
@@ -360,7 +372,6 @@ def test_real_flight_before_after_pdf_regression(
     stale_exclusions = [
         item
         for item in upgraded_meta["excluded_source_clauses"]
-        if "旧人工精选不进入正式正文" in item.get("reason", "")
-        or "无版本补充资料不进入正式正文" in item.get("reason", "")
+        if item.get("source") in {"CURATED", "supplement"} and item.get("reason")
     ]
     assert stale_exclusions
