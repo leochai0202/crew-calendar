@@ -77,6 +77,8 @@ def audit(repo: Path, airports: list[str], target: str, output: Path, input_ref:
                                               records.get(airport, []), duty, date.fromisoformat(target))
         all_facts = [*typical, *core]
         errors = [*agent.validate_bilingual_facts(all_facts), *agent.validate_airport_fact_bindings(airport, all_facts)]
+        if not core:
+            errors.append("NO_CORE_SOURCE_FACTS_EXTRACTED: empty extraction is not successful acceptance")
         report["airports"][airport] = {
             "icao": codes[airport], "status": "FAILED_SAFE" if errors else "SUCCESS",
             "errors": errors, "typical": [asdict(fact) for fact in typical],
@@ -170,7 +172,8 @@ def audit(repo: Path, airports: list[str], target: str, output: Path, input_ref:
             prep = isolated / "flight_preparation"
             prep.mkdir()
             sentinel = "LAST_GOOD_SENTINEL\n"
-            for name in (f"{target}_航前准备.txt", "latest.txt", "latest_en.txt"):
+            protected_files = (f"{target}_航前准备.txt", f"{target}_航前准备_EN.txt", "latest.txt", "latest_en.txt")
+            for name in protected_files:
                 (prep / name).write_text(sentinel, encoding="utf-8")
             sys.argv = ["flight_prep_agent.py", "--repo", str(isolated), "--target-date", target, "--days-ahead", "1"]
             exit_code = agent.main()
@@ -182,7 +185,8 @@ def audit(repo: Path, airports: list[str], target: str, output: Path, input_ref:
                 "errors": meta.get("errors", []), "groups": captures,
                 "success_marker": (prep / ".success").exists(),
                 "last_good_preserved_on_failure": all((prep / name).read_text(encoding="utf-8") == sentinel
-                    for name in (f"{target}_航前准备.txt", "latest.txt", "latest_en.txt")) if exit_code else None,
+                    for name in protected_files) if exit_code else None,
+                "last_good_files_checked": list(protected_files),
                 "generated_files": [path.name for path in prep.glob("*.txt") if path.read_text(encoding="utf-8") != sentinel],
             }
     finally:

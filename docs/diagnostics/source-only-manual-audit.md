@@ -12,14 +12,16 @@ SHA256: `e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8`
 |---|---|---:|---:|---|---:|
 | 丽江三义 | ZPLJ | 33 | 0 | FAILED_SAFE | 36 |
 | 桂林两江 | ZGKL | 11 | 9 | FAILED_SAFE | 12 |
-| 广州白云 | ZGGG | 37 | 26 | FAILED_SAFE | 21 |
-| 曼谷素旺那普 | VTBS | 36 | 35 | FAILED_SAFE | 5 |
-| 上海浦东 | ZSPD | 16 | 16 | FAILED_SAFE | 3 |
-| 沈阳桃仙 | ZYTX | 18 | 18 | FAILED_SAFE | 9 |
+| 广州白云 | ZGGG | 36 | 28 | FAILED_SAFE | 16 |
+| 曼谷素旺那普 | VTBS | 36 | 35 | FAILED_SAFE | 4 |
+| 上海浦东 | ZSPD | 15 | 15 | FAILED_SAFE | 2 |
+| 沈阳桃仙 | ZYTX | 18 | 18 | FAILED_SAFE | 8 |
 
 ## 丽江三义: Chinese core source preview
 
 机场标高 7358ft，跑道坡度 02 号标高 2225.6m，20 号标高 2242.4m，跑道 坡度相差 16.8m，坡度较大。
+
+02/20均存在 EOSID。
 
 除安全原因外，起飞后不得长时间使用 TOGA 或 FLEX 或 MCT 推力减推力高 度以上及时设置 CLB 推力。
 
@@ -79,8 +81,6 @@ PAPI信息：02：跑道左侧入口内 287m，3°，MEHT 13.7m；20：跑道左
 
 三类综合类复杂机场。
 
-02/20均存在 EOSID。
-
 是否为繁忙机场 否。
 
 现场/签派频率：121.675，无 PDC。
@@ -94,6 +94,7 @@ FAILED_SAFE: no English counterpart was extracted. No translation or generic tem
 - 最新版机场手册英文配对缺失：丽江三义_typical_record_1：丽江三义／丽江/三义机场运行特点 ZPLJ/LJG／典型不安全事件
 - 最新版机场手册英文配对缺失：丽江三义_typical_record_2：丽江三义／丽江/三义机场运行特点 ZPLJ/LJG／典型不安全事件
 - 最新版机场手册英文配对缺失：丽江三义_core_record_13：丽江三义／丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点
+- 最新版机场手册英文配对缺失：丽江三义_core_record_9：丽江三义／丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点
 - 最新版机场手册英文配对缺失：丽江三义_core_record_14：丽江三义／丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点
 - 最新版机场手册英文配对缺失：丽江三义_core_record_15：丽江三义／丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点
 - 最新版机场手册英文配对缺失：丽江三义_core_record_16：丽江三义／丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点
@@ -123,14 +124,15 @@ FAILED_SAFE: no English counterpart was extracted. No translation or generic tem
 - 最新版机场手册英文配对缺失：丽江三义_core_record_39：丽江三义／丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点
 - 最新版机场手册英文配对缺失：丽江三义_core_record_5：丽江三义／丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点
 - 最新版机场手册英文配对缺失：丽江三义_core_record_8：丽江三义／丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点
-- 最新版机场手册英文配对缺失：丽江三义_core_record_9：丽江三义／丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点
 - 最新版机场手册英文配对缺失：丽江三义_core_record_12：丽江三义／丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点
 - 最新版机场手册英文配对缺失：丽江三义_core_record_43：丽江三义／丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点
-- 中英文选定事实身份不一致：中文['丽江三义_typical_record_1', '丽江三义_typical_record_2', '丽江三义_core_record_13', '丽江三义_core_record_14', '丽江三义_core_record_15', '丽江三义_core_record_16', '丽江三义_core_record_17', '丽江三义_core_record_18', '丽江三义_core_record_19', '丽江三义_core_record_20', '丽江三义_core_record_21', '丽江三义_core_record_22', '丽江三义_core_record_23', '丽江三义_core_869d848068013146_clause_1', '丽江三义_core_record_27', '丽江三义_core_record_28', '丽江三义_core_record_29', '丽江三义_core_record_30', '丽江三义_core_record_31', '丽江三义_core_record_32', '丽江三义_core_record_33', '丽江三义_core_record_34', '丽江三义_core_record_35', '丽江三义_core_record_36', '丽江三义_core_record_42', '丽江三义_core_record_41', '丽江三义_core_record_11', '丽江三义_core_record_40', '丽江三义_core_record_38', '丽江三义_core_record_39', '丽江三义_core_record_5', '丽江三义_core_record_8', '丽江三义_core_record_9', '丽江三义_core_record_12', '丽江三义_core_record_43']，英文[]
+- 中英文选定事实身份不一致：中文['丽江三义_typical_record_1', '丽江三义_typical_record_2', '丽江三义_core_record_13', '丽江三义_core_record_9', '丽江三义_core_record_14', '丽江三义_core_record_15', '丽江三义_core_record_16', '丽江三义_core_record_17', '丽江三义_core_record_18', '丽江三义_core_record_19', '丽江三义_core_record_20', '丽江三义_core_record_21', '丽江三义_core_record_22', '丽江三义_core_record_23', '丽江三义_core_869d848068013146_clause_1', '丽江三义_core_record_27', '丽江三义_core_record_28', '丽江三义_core_record_29', '丽江三义_core_record_30', '丽江三义_core_record_31', '丽江三义_core_record_32', '丽江三义_core_record_33', '丽江三义_core_record_34', '丽江三义_core_record_35', '丽江三义_core_record_36', '丽江三义_core_record_42', '丽江三义_core_record_41', '丽江三义_core_record_11', '丽江三义_core_record_40', '丽江三义_core_record_38', '丽江三义_core_record_39', '丽江三义_core_record_5', '丽江三义_core_record_8', '丽江三义_core_record_12', '丽江三义_core_record_43']，英文[]
 
 ### departure: source-only role selection preview
 
 机场标高 7358ft，跑道坡度 02 号标高 2225.6m，20 号标高 2242.4m，跑道坡度相差 16.8m，坡度较大
+
+02/20均存在 EOSID
 
 除安全原因外，起飞后不得长时间使用 TOGA 或 FLEX 或 MCT 推力减推力高度以上及时设置 CLB 推力
 
@@ -149,8 +151,6 @@ FAILED_SAFE: no English counterpart was extracted. No translation or generic tem
 地形复杂：机场东靠群山，西邻漾弓江，机场周围四面环山，地形较为复杂。“V”字形南北走向的鹤庆坝子东西宽 3-7km，南北长 33km，东西两侧被南北走向的山体包围，造成机场东西两侧净空不能满足飞行要求，而南北纵向端净空较好
 
 三类综合类复杂机场
-
-02/20均存在 EOSID
 
 是否为繁忙机场否
 
@@ -351,8 +351,6 @@ yellow11滑行线在Q到T61,Q和M滑行路线很近，没有地 面标识，滑�
 
 公司对广州落地飞机有单发滑行要求，某些较短窄停 机位进位时注意转弯速度，如J3上的停机位等。
 
-廊桥开门密码202510绿色√，如国际航班走登机口进 场需拨打门禁电话（在门旁边有注释）开门。
-
 02L跑道起飞时地面常指挥T61在Y19前等，由于绕滑的 滑行道设计特殊性，中方航图与杰普逊AMM航图标识有差异，杰普逊AMM航图标识Y19标识不显示，有时会误导机组T61 前方的滑行道是Y20完成右转才是Y19，经与地面管制证实如 果发布T61在Y19前等，机组需要在T61上等待，避免错过等 待线。
 
 广州O2 R落地，M滑行，T64滑行道前无标志牌，仅有地面滑行标志，实际T64标志牌在T64滑行道之后，容易 引发误解。
@@ -362,6 +360,8 @@ yellow11滑行线在Q到T61,Q和M滑行路线很近，没有地 面标识，滑�
 着陆航空器应尽可能使用顺向且靠近接地点的第 一或第二快速脱离道退出跑道，需要使用第三条快速脱离道 及以远道口脱离跑道时，机组应在与塔台建立首次联系时进 行通报。
 
 绕滑距离变长，起飞前预留充足地面滑行时间。
+
+注意根据fly Smart修改单发加速高度。
 
 广州涉及航线距离较长，飞机起飞重量大，从T3滑行 至01R/19L地面滑行时间长，且道面坡度起伏和转弯多，易 造成刹车温度高，导致航班延误或起飞后机轮温度超限情况，请机组注意。
 
@@ -385,19 +385,17 @@ SID中如有速度限制，可尝试申请取消，否则应遵循。
 
 广州01L落地后，指挥GREEN 1时，由E左转T3 时，左 侧无t3灯牌，且地面也无转入t3的图标，只有一个转入T4的 图标，且T4处有灯牌，容易造成误解。
 
+如航图复飞高度与管制指挥不一致时，以管制指挥为 准。
+
 01L落地后，滑行道E J23到J14段有较明显上坡，建议 在此之后执行单发滑行。
 
 夏秋季有台风影响，带来大范围的强风、暴雨、雷 暴天气。
 
 将W19航线MASGU-MABAG-OGABI-NOMAR 航段调整为MASGU-UPMIP-ATKAV-OLPAB-NOMAR供华东方向落地广州航班及飞跃 珠三角航班使用。
 
-如航图复飞高度与管制指挥不一致时，以管制指挥为 准。
-
 E/F/D/T3/T4为高冲突区，加强观察，指令及时复诵确 认。
 
 机场繁忙且相邻机场较多，严格遵守管制指挥，避免 造成冲突。
-
-注意根据fly Smart修改单发加速高度。
 
 新程序调整，多个程序更名，限制高度涉及更改，注 意参阅航图对照MCDU数据。
 
@@ -425,11 +423,11 @@ When the lead vehicle approaches, the ground commander acts as itsdriver. Upon r
 
 The company requires single-engine taxiing for aircraft landing in Guangzhou, with particular attention to turning speed when approaching shorter and narrower aprons, such as those on the J3 apron.
 
-For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.
-
 At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.
 
 Expect longer taxi distances and allow sufficient ground taxi time before departure.
+
+Adjust the single-shot acceleration altitude according to the fly Smart modification.
 
 The aircraft automatically disengages from the wave contact after leaving the ground and approaches, with the specific frequency provided by the air traffic control.
 
@@ -437,49 +435,48 @@ Ifthe SID has speed restrictions, you may apply to cancel them; otherwise, you m
 
 Departing from Lanzhou may be directed tofly directly to P268 or P118, then join the X64 temporary route to QP. Departing from Southeast Asia may be directed tofly directly to P50, then join the X66 temporary route to BIGRO.
 
+For early departure flights, select the departure runway based on real-time airtraffic updates and clearance requirements.
+
+The JEPPESEN chart does not include single-engine departure procedures; Foreign pilots should refer to the EFB chart.
+
 After entering the field, radar guidance will be used to calculate the altitude-to-range ratio.
 
 After the Guangzhou 01L aircraft landed, when directing the GREEN 1 aircraft, the E left-turn signal for T3 was absent on the leftside, and no ground indicator showed the approach to T3. Only an approach to T4 was indicated, with a signal light at T4, which could easily cause confusion.
 
+In case of discrepancy between the flight plan's re-flight altitude and the air trafficcontrol command, the lattershall prevail.
+
 After landing at01L, the taxiway from E J23 to J14 features a steep incline. We recommend performing a single-engine taxi after thissection.
 
-The W19 route segment MASGU-MABAG-OGABI- NOMAR will be adjusted to MASGU-UPMIP-ATKAV- OBLAP-NOMAR for flights landing in Guangzhou and those flying over the Pearl River Delta region bound for East China.
+During summer and autumn, typhoons exert influence, bringing widespread strong winds, heavy rainfall, and thunderstorms.
 
-In case of discrepancy between the flight plan's re-flight altitude and the air trafficcontrol command, the lattershall prevail.
+The W19 route segment MASGU-MABAG-OGABI- NOMAR will be adjusted to MASGU-UPMIP-ATKAV- OBLAP-NOMAR for flights landing in Guangzhou and those flying over the Pearl River Delta region bound for East China.
 
 Exercise increased vigilance in the high-conflict areas E/F/D/T3/T4, maintain enhanced visual lookout, and read back all ATC instructions promptly and correctly.
 
 The airport ishighly busy with multiple adjacent airports, requiring strict compliance with air traffic control directives to prevent conflicts.
 
-Adjust the single-shot acceleration altitude according to the fly Smart modification.
-
 The new procedure involves adjustments to multiple programs and name changes, with height restrictions requiring modifications. Please refer to the air chart for MCDU data verification.
 
-PBN single-engine departure procedures for Runways 01L/R 、02L/R and RWY03 are applicable. The JEPPESEN chart does not include single-engine departure procedures; Foreign pilots should refer to the EFB chart.
+PBN single-engine departure procedures for Runways 01L/R 、02L/R and RWY03 are applicable.
 
 ### Every acceptance error
 
 - 最新版机场手册英文配对缺失：广州白云_core_record_5：广州白云／广州/白云机场运行特点／核心威胁与运行特点
-- 中英文关键概念不一致：广州白云_core_record_18：英文缺少['readback']
 - 中英文关键事实不一致：广州白云_core_record_22：中文['RWY03', 'RWY19L', 'RWY19R', 'RWY20L', 'RWY20R', 'RWY21', 'RWYO1L', 'RWYO1R', 'RWYO2L', 'RWYO2R']，英文[]
 - 中英文关键概念不一致：广州白云_core_record_22：英文缺少['runway']
-- 最新版机场手册英文配对缺失：广州白云_core_record_26：广州白云／广州/白云机场运行特点／核心威胁与运行特点
+- 最新版机场手册英文配对缺失：广州白云_core_record_25：广州白云／广州/白云机场运行特点／核心威胁与运行特点
+- 最新版机场手册英文配对缺失：广州白云_core_record_27：广州白云／广州/白云机场运行特点／核心威胁与运行特点
 - 最新版机场手册英文配对缺失：广州白云_core_record_28：广州白云／广州/白云机场运行特点／核心威胁与运行特点
-- 最新版机场手册英文配对缺失：广州白云_core_record_29：广州白云／广州/白云机场运行特点／核心威胁与运行特点
 - 最新版机场手册英文配对缺失：广州白云_core_record_17：广州白云／广州/白云机场运行特点／核心威胁与运行特点
-- 中英文关键事实不一致：广州白云_core_record_30：中文[]，英文['ATC']
-- 中英文关键事实不一致：广州白云_core_record_32：中文['ATC', 'BIGRO', 'P118', 'P268', 'P50', 'QP', 'X64', 'X66']，英文['BIGRO', 'P118', 'P268', 'P50', 'QP', 'X64', 'X66']
+- 中英文关键事实不一致：广州白云_core_record_29：中文[]，英文['ATC']
+- 中英文关键事实不一致：广州白云_core_record_31：中文['ATC', 'BIGRO', 'P118', 'P268', 'P50', 'QP', 'X64', 'X66']，英文['BIGRO', 'P118', 'P268', 'P50', 'QP', 'X64', 'X66']
+- 中英文关键事实不一致：广州白云_core_record_32：中文['ATIS']，英文[]
 - 最新版机场手册英文配对缺失：广州白云_core_record_33：广州白云／广州/白云机场运行特点／核心威胁与运行特点
-- 最新版机场手册英文配对缺失：广州白云_core_record_34：广州白云／广州/白云机场运行特点／核心威胁与运行特点
 - 最新版机场手册英文配对缺失：广州白云_core_record_36：广州白云／广州/白云机场运行特点／核心威胁与运行特点
-- 最新版机场手册英文配对缺失：广州白云_core_record_37：广州白云／广州/白云机场运行特点／核心威胁与运行特点
-- 最新版机场手册英文配对缺失：广州白云_core_record_43：广州白云／广州/白云机场运行特点／核心威胁与运行特点
-- 中英文关键事实不一致：广州白云_core_record_44：中文['ATC', 'GREEN', 'RWY01L', 'T3', 'T4']，英文['GREEN', 'T3', 'T4']
-- 最新版机场手册英文配对缺失：广州白云_core_record_12：广州白云／广州/白云机场运行特点／核心威胁与运行特点
-- 中英文关键事实不一致：广州白云_core_record_38：中文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OGABI', 'OLPAB', 'UPMIP', 'W19']，英文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OBLAP', 'OGABI', 'UPMIP', 'W19']
-- 中英文关键事实不一致：广州白云_core_record_46：中文['06.11', 'RWY01L']，英文['EFB', 'JEPPESEN', 'PBN', 'RWY01L', 'RWY03']
-- 中英文关键概念不一致：广州白云_core_record_46：英文缺少['runway']
-- 中英文选定事实身份不一致：中文['广州白云_typical_record_1', '广州白云_core_record_2', '广州白云_core_record_5', '广州白云_core_record_6', '广州白云_core_record_8', '广州白云_core_record_11', '广州白云_core_record_18', '广州白云_core_83ceab667bf6af73_clause_2', '广州白云_core_83ceab667bf6af73_clause_3', '广州白云_core_record_22', '广州白云_core_record_23', '广州白云_core_record_24', '广州白云_core_record_25', '广州白云_core_record_26', '广州白云_core_record_27', '广州白云_core_record_28', '广州白云_core_record_29', '广州白云_core_record_9', '广州白云_core_record_17', '广州白云_core_record_30', '广州白云_core_record_31', '广州白云_core_record_32', '广州白云_core_record_33', '广州白云_core_record_34', '广州白云_core_record_36', '广州白云_core_record_37', '广州白云_core_record_42', '广州白云_core_record_43', '广州白云_core_record_44', '广州白云_core_record_4', '广州白云_core_record_12', '广州白云_core_record_38', '广州白云_core_record_3', '广州白云_core_record_10', '广州白云_core_record_13', '广州白云_core_record_14', '广州白云_core_record_15', '广州白云_core_record_46']，英文['广州白云_typical_record_1', '广州白云_core_record_2', '广州白云_core_record_6', '广州白云_core_record_8', '广州白云_core_record_11', '广州白云_core_record_18', '广州白云_core_83ceab667bf6af73_clause_2', '广州白云_core_83ceab667bf6af73_clause_3', '广州白云_core_record_22', '广州白云_core_record_23', '广州白云_core_record_24', '广州白云_core_record_25', '广州白云_core_record_27', '广州白云_core_record_9', '广州白云_core_record_30', '广州白云_core_record_31', '广州白云_core_record_32', '广州白云_core_record_42', '广州白云_core_record_44', '广州白云_core_record_4', '广州白云_core_record_38', '广州白云_core_record_3', '广州白云_core_record_10', '广州白云_core_record_13', '广州白云_core_record_14', '广州白云_core_record_15', '广州白云_core_record_46']
+- 最新版机场手册英文配对缺失：广州白云_core_record_42：广州白云／广州/白云机场运行特点／核心威胁与运行特点
+- 中英文关键事实不一致：广州白云_core_record_37：中文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OGABI', 'OLPAB', 'UPMIP', 'W19']，英文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OBLAP', 'OGABI', 'UPMIP', 'W19']
+- 中英文关键事实不一致：广州白云_core_record_45：中文['06.11', 'RWY01L']，英文['PBN', 'RWY01L', 'RWY03']
+- 中英文选定事实身份不一致：中文['广州白云_typical_record_1', '广州白云_core_record_2', '广州白云_core_record_5', '广州白云_core_record_6', '广州白云_core_record_8', '广州白云_core_record_11', '广州白云_core_record_18', '广州白云_core_83ceab667bf6af73_clause_2', '广州白云_core_83ceab667bf6af73_clause_3', '广州白云_core_record_22', '广州白云_core_record_23', '广州白云_core_record_24', '广州白云_core_record_25', '广州白云_core_record_26', '广州白云_core_record_27', '广州白云_core_record_28', '广州白云_core_record_9', '广州白云_core_record_14', '广州白云_core_record_17', '广州白云_core_record_29', '广州白云_core_record_30', '广州白云_core_record_31', '广州白云_core_record_32', '广州白云_core_record_33', '广州白云_core_record_35', '广州白云_core_record_36', '广州白云_core_record_41', '广州白云_core_record_42', '广州白云_core_record_43', '广州白云_core_record_3', '广州白云_core_record_4', '广州白云_core_record_12', '广州白云_core_record_37', '广州白云_core_record_10', '广州白云_core_record_13', '广州白云_core_record_15', '广州白云_core_record_45']，英文['广州白云_typical_record_1', '广州白云_core_record_2', '广州白云_core_record_6', '广州白云_core_record_8', '广州白云_core_record_11', '广州白云_core_record_18', '广州白云_core_83ceab667bf6af73_clause_2', '广州白云_core_83ceab667bf6af73_clause_3', '广州白云_core_record_22', '广州白云_core_record_23', '广州白云_core_record_24', '广州白云_core_record_26', '广州白云_core_record_9', '广州白云_core_record_14', '广州白云_core_record_29', '广州白云_core_record_30', '广州白云_core_record_31', '广州白云_core_record_32', '广州白云_core_record_35', '广州白云_core_record_41', '广州白云_core_record_43', '广州白云_core_record_3', '广州白云_core_record_4', '广州白云_core_record_12', '广州白云_core_record_37', '广州白云_core_record_10', '广州白云_core_record_13', '广州白云_core_record_15', '广州白云_core_record_45']
 
 ### departure: source-only role selection preview
 
@@ -499,13 +496,13 @@ yellow11滑行线在Q到T61,Q和M滑行路线很近，没有地面标识，滑�
 
 跑道运行规则：向北运行：RWYO1L主要用于进场；RWYO1R 主要用于离场；RWYO2L主要用于离场；RWYO2R 主要用于进场；RWY03进、离场混合运行。向南运行：RWY19R 主要用于进场；RWY19L 主要用于离场；RWY20R 主要用于离场；RWY20L 主要用于进场；RWY21 进、离场混合运行
 
-廊桥开门密码202510绿色√，如国际航班走登机口进场需拨打门禁电话（在门旁边有注释）开门
-
 02L跑道起飞时地面常指挥T61在Y19前等，由于绕滑的滑行道设计特殊性，中方航图与杰普逊AMM航图标识有差异，杰普逊AMM航图标识Y19标识不显示，有时会误导机组T61 前方的滑行道是Y20完成右转才是Y19，经与地面管制证实如果发布T61在Y19前等，机组需要在T61上等待，避免错过等待线
 
 广州T3，939附近机位，管制给推出指令，可以推开，推到R3，跑道01R。机务可能只推到大概正对838到939 之间的位置。这个时候应提醒机务往前拉一点，尽量满足推到R3上。因R3，R4，R5连接处有点滑行区域没有标注，在推出过程中管制指令和机务行为有时候不够统一，务必多留心。建议设计特定推出程序，或者给出明确清晰推出指令
 
 绕滑距离变长，起飞前预留充足地面滑行时间
+
+注意根据fly Smart修改单发加速高度
 
 广州涉及航线距离较长，飞机起飞重量大，从T3滑行至01R/19L地面滑行时间长，且道面坡度起伏和转弯多，易造成刹车温度高，导致航班延误或起飞后机轮温度超限情况，请机组注意
 
@@ -525,13 +522,9 @@ SID中如有速度限制，可尝试申请取消，否则应遵循
 
 夏秋季有台风影响，带来大范围的强风、暴雨、雷暴天气
 
-如航图复飞高度与管制指挥不一致时，以管制指挥为准
-
 E/F/D/T3/T4为高冲突区，加强观察，指令及时复诵确认
 
 机场繁忙且相邻机场较多，严格遵守管制指挥，避免造成冲突
-
-注意根据fly Smart修改单发加速高度
 
 新程序调整，多个程序更名，限制高度涉及更改，注意参阅航图对照MCDU数据
 
@@ -551,9 +544,9 @@ Pilots must familiarize themselves with the specific taxiway number before each 
 
 Typically, aircraft take off from 01R/19L or 02L/20R, and land from 01L/20R or 02L/20R.
 
-For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.
-
 Expect longer taxi distances and allow sufficient ground taxi time before departure.
+
+Adjust the single-shot acceleration altitude according to the fly Smart modification.
 
 The aircraft automatically disengages from the wave contact after leaving the ground and approaches, with the specific frequency provided by the air traffic control.
 
@@ -561,17 +554,19 @@ Ifthe SID has speed restrictions, you may apply to cancel them; otherwise, you m
 
 Departing from Lanzhou may be directed tofly directly to P268 or P118, then join the X64 temporary route to QP. Departing from Southeast Asia may be directed tofly directly to P50, then join the X66 temporary route to BIGRO.
 
-In case of discrepancy between the flight plan's re-flight altitude and the air trafficcontrol command, the lattershall prevail.
+For early departure flights, select the departure runway based on real-time airtraffic updates and clearance requirements.
+
+The JEPPESEN chart does not include single-engine departure procedures; Foreign pilots should refer to the EFB chart.
+
+During summer and autumn, typhoons exert influence, bringing widespread strong winds, heavy rainfall, and thunderstorms.
 
 Exercise increased vigilance in the high-conflict areas E/F/D/T3/T4, maintain enhanced visual lookout, and read back all ATC instructions promptly and correctly.
 
 The airport ishighly busy with multiple adjacent airports, requiring strict compliance with air traffic control directives to prevent conflicts.
 
-Adjust the single-shot acceleration altitude according to the fly Smart modification.
-
 The new procedure involves adjustments to multiple programs and name changes, with height restrictions requiring modifications. Please refer to the air chart for MCDU data verification.
 
-PBN single-engine departure procedures for Runways 01L/R 、02L/R and RWY03 are applicable. The JEPPESEN chart does not include single-engine departure procedures; Foreign pilots should refer to the EFB chart.
+PBN single-engine departure procedures for Runways 01L/R 、02L/R and RWY03 are applicable.
 
 ### arrival: source-only role selection preview
 
@@ -580,6 +575,8 @@ PBN single-engine departure procedures for Runways 01L/R 、02L/R and RWY03 are 
 会指挥速度180到8海里，尽量满足避免造成间隔不够
 
 广州01L落地后，指挥GREEN 1时，由E左转T3 时，左侧无t3灯牌，且地面也无转入t3的图标，只有一个转入T4的图标，且T4处有灯牌，容易造成误解
+
+如航图复飞高度与管制指挥不一致时，以管制指挥为准
 
 01L落地后，滑行道E J23到J14段有较明显上坡，建议在此之后执行单发滑行
 
@@ -605,21 +602,15 @@ yellow11滑行线在Q到T61,Q和M滑行路线很近，没有地面标识，滑�
 
 公司对广州落地飞机有单发滑行要求，某些较短窄停机位进位时注意转弯速度，如J3上的停机位等
 
-廊桥开门密码202510绿色√，如国际航班走登机口进场需拨打门禁电话（在门旁边有注释）开门
-
 广州O2 R落地，M滑行，T64滑行道前无标志牌，仅有地面滑行标志，实际T64标志牌在T64滑行道之后，容易引发误解
 
 着陆航空器应尽可能使用顺向且靠近接地点的第一或第二快速脱离道退出跑道，需要使用第三条快速脱离道及以远道口脱离跑道时，机组应在与塔台建立首次联系时进行通报
 
 将W19航线MASGU-MABAG-OGABI-NOMAR 航段调整为MASGU-UPMIP-ATKAV-OLPAB-NOMAR供华东方向落地广州航班及飞跃珠三角航班使用
 
-如航图复飞高度与管制指挥不一致时，以管制指挥为准
-
 E/F/D/T3/T4为高冲突区，加强观察，指令及时复诵确认
 
 机场繁忙且相邻机场较多，严格遵守管制指挥，避免造成冲突
-
-注意根据fly Smart修改单发加速高度
 
 新程序调整，多个程序更名，限制高度涉及更改，注意参阅航图对照MCDU数据
 
@@ -629,7 +620,11 @@ After entering the field, radar guidance will be used to calculate the altitude-
 
 After the Guangzhou 01L aircraft landed, when directing the GREEN 1 aircraft, the E left-turn signal for T3 was absent on the leftside, and no ground indicator showed the approach to T3. Only an approach to T4 was indicated, with a signal light at T4, which could easily cause confusion.
 
+In case of discrepancy between the flight plan's re-flight altitude and the air trafficcontrol command, the lattershall prevail.
+
 After landing at01L, the taxiway from E J23 to J14 features a steep incline. We recommend performing a single-engine taxi after thissection.
+
+During summer and autumn, typhoons exert influence, bringing widespread strong winds, heavy rainfall, and thunderstorms.
 
 The departure taxiway is marked as "YELLOW", and the arrival taxiway ismarked as "GREEN".
 
@@ -649,23 +644,17 @@ When the lead vehicle approaches, the ground commander acts as itsdriver. Upon r
 
 The company requires single-engine taxiing for aircraft landing in Guangzhou, with particular attention to turning speed when approaching shorter and narrower aprons, such as those on the J3 apron.
 
-For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.
-
 At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.
 
 The W19 route segment MASGU-MABAG-OGABI- NOMAR will be adjusted to MASGU-UPMIP-ATKAV- OBLAP-NOMAR for flights landing in Guangzhou and those flying over the Pearl River Delta region bound for East China.
-
-In case of discrepancy between the flight plan's re-flight altitude and the air trafficcontrol command, the lattershall prevail.
 
 Exercise increased vigilance in the high-conflict areas E/F/D/T3/T4, maintain enhanced visual lookout, and read back all ATC instructions promptly and correctly.
 
 The airport ishighly busy with multiple adjacent airports, requiring strict compliance with air traffic control directives to prevent conflicts.
 
-Adjust the single-shot acceleration altitude according to the fly Smart modification.
-
 The new procedure involves adjustments to multiple programs and name changes, with height restrictions requiring modifications. Please refer to the air chart for MCDU data verification.
 
-PBN single-engine departure procedures for Runways 01L/R 、02L/R and RWY03 are applicable. The JEPPESEN chart does not include single-engine departure procedures; Foreign pilots should refer to the EFB chart.
+PBN single-engine departure procedures for Runways 01L/R 、02L/R and RWY03 are applicable.
 
 ## 曼谷素旺那普: Chinese core source preview
 
@@ -817,9 +806,8 @@ Radio Failure Procedure: Specific Implementation Methods inAirport Regulations a
 
 - 中英文关键概念不一致：曼谷素旺那普_core_record_34：英文缺少['final_approach']
 - 最新版机场手册英文配对缺失：曼谷素旺那普_core_record_8：曼谷素旺那普／曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点
-- 中英文关键事实不一致：曼谷素旺那普_core_record_11：中文['ILS', 'SVB', 'VOR']，英文['SVB', 'VOR']
-- 中英文关键概念不一致：曼谷素旺那普_core_record_11：英文缺少['ILS']
-- 中英文选定事实身份不一致：中文['曼谷素旺那普_typical_record_1', '曼谷素旺那普_core_record_2', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_16', '曼谷素旺那普_core_record_17', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_21', '曼谷素旺那普_core_record_23', '曼谷素旺那普_core_record_24', '曼谷素旺那普_core_record_25', '曼谷素旺那普_core_record_26', '曼谷素旺那普_core_record_27', '曼谷素旺那普_core_record_31', '曼谷素旺那普_core_record_32', '曼谷素旺那普_core_record_34', '曼谷素旺那普_core_record_35', '曼谷素旺那普_core_record_36', '曼谷素旺那普_core_record_37', '曼谷素旺那普_core_record_38', '曼谷素旺那普_core_record_39', '曼谷素旺那普_core_record_6', '曼谷素旺那普_core_record_7', '曼谷素旺那普_core_record_8', '曼谷素旺那普_core_record_11', '曼谷素旺那普_core_record_13', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_42']，英文['曼谷素旺那普_typical_record_1', '曼谷素旺那普_core_record_2', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_16', '曼谷素旺那普_core_record_17', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_21', '曼谷素旺那普_core_record_23', '曼谷素旺那普_core_record_24', '曼谷素旺那普_core_record_25', '曼谷素旺那普_core_record_26', '曼谷素旺那普_core_record_27', '曼谷素旺那普_core_record_31', '曼谷素旺那普_core_record_32', '曼谷素旺那普_core_record_34', '曼谷素旺那普_core_record_35', '曼谷素旺那普_core_record_36', '曼谷素旺那普_core_record_37', '曼谷素旺那普_core_record_38', '曼谷素旺那普_core_record_39', '曼谷素旺那普_core_record_6', '曼谷素旺那普_core_record_7', '曼谷素旺那普_core_record_11', '曼谷素旺那普_core_record_13', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42']
+- 中英文关键事实不一致：曼谷素旺那普_core_record_42：中文['JEPPESEN']，英文[]
+- 中英文选定事实身份不一致：中文['曼谷素旺那普_typical_record_1', '曼谷素旺那普_core_record_2', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_16', '曼谷素旺那普_core_record_17', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_21', '曼谷素旺那普_core_record_23', '曼谷素旺那普_core_record_24', '曼谷素旺那普_core_record_25', '曼谷素旺那普_core_record_26', '曼谷素旺那普_core_record_27', '曼谷素旺那普_core_record_31', '曼谷素旺那普_core_record_32', '曼谷素旺那普_core_record_34', '曼谷素旺那普_core_record_35', '曼谷素旺那普_core_record_36', '曼谷素旺那普_core_record_37', '曼谷素旺那普_core_record_38', '曼谷素旺那普_core_record_39', '曼谷素旺那普_core_record_6', '曼谷素旺那普_core_record_7', '曼谷素旺那普_core_record_8', '曼谷素旺那普_core_record_11', '曼谷素旺那普_core_record_13', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42']，英文['曼谷素旺那普_typical_record_1', '曼谷素旺那普_core_record_2', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_16', '曼谷素旺那普_core_record_17', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_21', '曼谷素旺那普_core_record_23', '曼谷素旺那普_core_record_24', '曼谷素旺那普_core_record_25', '曼谷素旺那普_core_record_26', '曼谷素旺那普_core_record_27', '曼谷素旺那普_core_record_31', '曼谷素旺那普_core_record_32', '曼谷素旺那普_core_record_34', '曼谷素旺那普_core_record_35', '曼谷素旺那普_core_record_36', '曼谷素旺那普_core_record_37', '曼谷素旺那普_core_record_38', '曼谷素旺那普_core_record_39', '曼谷素旺那普_core_record_6', '曼谷素旺那普_core_record_7', '曼谷素旺那普_core_record_11', '曼谷素旺那普_core_record_13', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42']
 
 ### departure: source-only role selection preview
 
@@ -859,11 +847,11 @@ H6与 H3,H5与 H2为同一条滑行道注意识别
 
 军演频繁，常涉及改航路，请对照飞行计划检查
 
-见机场细则
+减噪程序：见机场细则
 
-见放行单
+释压程序：见放行单
 
-机场细则及杰普逊手册有具体实施方法
+无线电失效程序：机场细则及杰普逊手册有具体实施方法
 
 Special complex procedures: During the deployment of some aircraft positions, the system may temporarily halt to issue an engine startcommand, after which itwill resume aircraft traction. The crew must carefully heed the instructions and avoid sudden braking, as this could risk shearing pin fracture.
 
@@ -961,11 +949,11 @@ H6与 H3,H5与 H2为同一条滑行道注意识别
 
 军演频繁，常涉及改航路，请对照飞行计划检查
 
-见机场细则
+减噪程序：见机场细则
 
-见放行单
+释压程序：见放行单
 
-机场细则及杰普逊手册有具体实施方法
+无线电失效程序：机场细则及杰普逊手册有具体实施方法
 
 Common procedures: RNAV entry
 
@@ -1055,8 +1043,6 @@ PAPI信息：16L：跑道左侧入口内 454 米，3°，MEHT 20.9m；34R：跑�
 
 浦东机场驱鸟炮声音较响，机组不要产生惊吓效应。
 
-如果回浦东后再飞一个国际航班，建议第一次边检走人工，自助系统默认 一天只能通过一次，容易第一次被困在自助通道，需要工作人员人工退回然后重新走人工。
-
 ## 上海浦东: English core source preview
 
 Apron control may issue push-back and start-up clearance, or instruction to report push-back complete. Flight crews shall identify and comply with relevant clearances.
@@ -1089,13 +1075,10 @@ PAPI Information: RWY 16L: 454 m inside runway threshold on left side, glidepath
 
 Bird-scare cannon blasts are loud atPudong. Crews shall avoid undesired startle response.
 
-After returning to Pudong prior to an onward international flight, manual immigration clearance is recommended for the first entry. Self-service kiosks are system-restricted to one passage per calendar day. Crews may get trapped at self-service channels and require staff assistance for fallback to manual clearance.
-
 ### Every acceptance error
 
 - 中英文关键概念不一致：上海浦东_core_record_15：英文缺少['final_approach']
-- 中英文关键事实不一致：上海浦东_core_record_19：中文['ATC', 'VDGS']，英文['ATC', 'STOP', 'VDGS']
-- 中英文关键事实不一致：上海浦东_core_record_5：中文['20.9', '20.9M', '21.0', '21.0M', '21.4', '21.4M', '21.5', '21.5M', '21.7', '21.7M', '21.9', '21.9M', '22.4', '22.4M', '22.5', '22.5M', '452M', '454M', '455M', '464M', 'MEHT', 'PAPI']，英文['20.9', '20.9M', '21.0', '21.0M', '21.4', '21.4M', '21.5', '21.5M', '21.7', '21.7M', '21.9', '21.9M', '22.4', '22.4M', '22.5', '22.5M', '452M', '454M', '455M', '464M', 'MEHT', 'PAPI', 'RWY16L', 'RWY16R', 'RWY17L', 'RWY17R', 'RWY34L', 'RWY34R', 'RWY35L', 'RWY35R']
+- 中英文关键概念不一致：上海浦东_core_record_5：英文缺少['papi_runway_value_association']
 
 ### departure: source-only role selection preview
 
@@ -1113,8 +1096,6 @@ After returning to Pudong prior to an onward international flight, manual immigr
 
 浦东机场驱鸟炮声音较响，机组不要产生惊吓效应
 
-如果回浦东后再飞一个国际航班，建议第一次边检走人工，自助系统默认一天只能通过一次，容易第一次被困在自助通道，需要工作人员人工退回然后重新走人工
-
 Apron control may issue push-back and start-up clearance, or instruction to report push-back complete. Flight crews shall identify and comply with relevant clearances.
 
 Frequent frequency changes occur during surface movement. Frequency change points are geographically close to taxi holding positions. Exercise vigilance to prevent taxi routing errors or overshooting holding lines.
@@ -1128,8 +1109,6 @@ Airportelevation:13 ft
 Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m)
 
 Bird-scare cannon blasts are loud atPudong. Crews shall avoid undesired startle response.
-
-After returning to Pudong prior to an onward international flight, manual immigration clearance is recommended for the first entry. Self-service kiosks are system-restricted to one passage per calendar day. Crews may get trapped at self-service channels and require staff assistance for fallback to manual clearance.
 
 ### arrival: source-only role selection preview
 
@@ -1157,8 +1136,6 @@ PAPI信息：16L：跑道左侧入口内 454 米，3°，MEHT 20.9m；34R：跑�
 
 浦东机场驱鸟炮声音较响，机组不要产生惊吓效应
 
-如果回浦东后再飞一个国际航班，建议第一次边检走人工，自助系统默认一天只能通过一次，容易第一次被困在自助通道，需要工作人员人工退回然后重新走人工
-
 For BK arrival: during north-bound operations, RWY 35L (western runway) is normally assigned; during south-bound operations, RWY 16L (eastern runway) isnormally assigned.
 
 Multiple arrival procedures are in use, with ad-hoc amendments possible. Direct-to clearances are common during off-peak periods. Maintain contingency plans.
@@ -1182,8 +1159,6 @@ Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R 
 PAPI Information: RWY 16L: 454 m inside runway threshold on left side, glidepath angle 3°, MEHT 20.9 m - RWY 34R: 455 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.5 m - RWY 16R: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.9 m - RWY 34L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 22.4 m - RWY 17L: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.7 m - RWY 35R: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 22.5 m - RWY 17R: 35L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 21.4 m - RWY 35L: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.0 m
 
 Bird-scare cannon blasts are loud atPudong. Crews shall avoid undesired startle response.
-
-After returning to Pudong prior to an onward international flight, manual immigration clearance is recommended for the first entry. Self-service kiosks are system-restricted to one passage per calendar day. Crews may get trapped at self-service channels and require staff assistance for fallback to manual clearance.
 
 ## 沈阳桃仙: Chinese core source preview
 
@@ -1271,7 +1246,6 @@ PAPI Information: RWY 06: 357.8 m inside runway threshold on left side, glidepat
 - 中英文关键概念不一致：沈阳桃仙_core_record_15：英文缺少['final_approach']
 - 中英文关键事实不一致：沈阳桃仙_core_record_16：中文['7-3NM', 'ILS', 'RWY06']，英文['7-3NM', 'ILS', 'RWY06', 'RWY24']
 - 中英文关键事实不一致：沈阳桃仙_core_record_20：中文['ATC', 'LOC', 'MCDU', 'MDA', 'NOTAM', 'RNP']，英文['LOC', 'MCDU', 'MDA', 'NOTAM', 'RNP']
-- 中英文关键事实不一致：沈阳桃仙_core_record_4：中文['17.7', '17.7M', '18.0', '18.0M', '357.8', '357.8M', '360.3', '360.3M', 'MEHT', 'PAPI']，英文['17.7', '17.7M', '18.0', '18.0M', '357.8', '357.8M', '360.3', '360.3M', 'MEHT', 'PAPI', 'RWY06', 'RWY24']
 
 ### departure: source-only role selection preview
 
@@ -1367,20 +1341,17 @@ Groups: [['9C7289'], ['9C7420']]
 
 - 9C7289：中英文关键概念不一致：曼谷素旺那普_core_record_34：英文缺少['final_approach']
 - 9C7289：最新版机场手册英文配对缺失：曼谷素旺那普_core_record_8：曼谷素旺那普／曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点
-- 9C7289：中英文关键事实不一致：曼谷素旺那普_core_record_11：中文['ILS', 'SVB', 'VOR']，英文['SVB', 'VOR']
-- 9C7289：中英文关键概念不一致：曼谷素旺那普_core_record_11：英文缺少['ILS']
-- 9C7289：中英文选定事实身份不一致：中文['上海浦东_typical_record_1', '上海浦东_typical_record_2', '曼谷素旺那普_typical_record_1', '上海浦东_core_record_7', '上海浦东_core_record_9', '上海浦东_core_record_10', '上海浦东_core_record_11', '上海浦东_core_record_3', '上海浦东_core_record_4', '上海浦东_core_record_21', '上海浦东_core_record_22', '曼谷素旺那普_core_record_31', '曼谷素旺那普_core_record_32', '曼谷素旺那普_core_record_34', '曼谷素旺那普_core_record_35', '曼谷素旺那普_core_record_36', '曼谷素旺那普_core_record_37', '曼谷素旺那普_core_record_38', '曼谷素旺那普_core_record_39', '曼谷素旺那普_core_record_6', '曼谷素旺那普_core_record_7', '曼谷素旺那普_core_record_8', '曼谷素旺那普_core_record_11', '曼谷素旺那普_core_record_13', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_17', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_21', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_42']，英文['上海浦东_typical_record_1', '上海浦东_typical_record_2', '曼谷素旺那普_typical_record_1', '上海浦东_core_record_7', '上海浦东_core_record_9', '上海浦东_core_record_10', '上海浦东_core_record_11', '上海浦东_core_record_3', '上海浦东_core_record_4', '上海浦东_core_record_21', '上海浦东_core_record_22', '曼谷素旺那普_core_record_31', '曼谷素旺那普_core_record_32', '曼谷素旺那普_core_record_34', '曼谷素旺那普_core_record_35', '曼谷素旺那普_core_record_36', '曼谷素旺那普_core_record_37', '曼谷素旺那普_core_record_38', '曼谷素旺那普_core_record_39', '曼谷素旺那普_core_record_6', '曼谷素旺那普_core_record_7', '曼谷素旺那普_core_record_11', '曼谷素旺那普_core_record_13', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_17', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_21', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42']
-- 9C7420：最新版机场手册英文配对缺失：广州白云_core_record_43：广州白云／广州/白云机场运行特点／核心威胁与运行特点
-- 9C7420：中英文关键事实不一致：广州白云_core_record_44：中文['ATC', 'GREEN', 'RWY01L', 'T3', 'T4']，英文['GREEN', 'T3', 'T4']
-- 9C7420：最新版机场手册英文配对缺失：广州白云_core_record_12：广州白云／广州/白云机场运行特点／核心威胁与运行特点
+- 9C7289：中英文关键事实不一致：曼谷素旺那普_core_record_42：中文['JEPPESEN']，英文[]
+- 9C7289：中英文选定事实身份不一致：中文['上海浦东_typical_record_1', '上海浦东_typical_record_2', '曼谷素旺那普_typical_record_1', '上海浦东_core_record_7', '上海浦东_core_record_9', '上海浦东_core_record_10', '上海浦东_core_record_11', '上海浦东_core_record_3', '上海浦东_core_record_4', '上海浦东_core_record_21', '曼谷素旺那普_core_record_31', '曼谷素旺那普_core_record_32', '曼谷素旺那普_core_record_34', '曼谷素旺那普_core_record_35', '曼谷素旺那普_core_record_36', '曼谷素旺那普_core_record_37', '曼谷素旺那普_core_record_38', '曼谷素旺那普_core_record_39', '曼谷素旺那普_core_record_6', '曼谷素旺那普_core_record_7', '曼谷素旺那普_core_record_8', '曼谷素旺那普_core_record_11', '曼谷素旺那普_core_record_13', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_17', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_21', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42']，英文['上海浦东_typical_record_1', '上海浦东_typical_record_2', '曼谷素旺那普_typical_record_1', '上海浦东_core_record_7', '上海浦东_core_record_9', '上海浦东_core_record_10', '上海浦东_core_record_11', '上海浦东_core_record_3', '上海浦东_core_record_4', '上海浦东_core_record_21', '曼谷素旺那普_core_record_31', '曼谷素旺那普_core_record_32', '曼谷素旺那普_core_record_34', '曼谷素旺那普_core_record_35', '曼谷素旺那普_core_record_36', '曼谷素旺那普_core_record_37', '曼谷素旺那普_core_record_38', '曼谷素旺那普_core_record_39', '曼谷素旺那普_core_record_6', '曼谷素旺那普_core_record_7', '曼谷素旺那普_core_record_11', '曼谷素旺那普_core_record_13', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_17', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_21', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42']
+- 9C7420：中英文关键事实不一致：曼谷素旺那普_core_record_42：中文['JEPPESEN']，英文[]
+- 9C7420：最新版机场手册英文配对缺失：广州白云_core_record_42：广州白云／广州/白云机场运行特点／核心威胁与运行特点
 - 9C7420：最新版机场手册英文配对缺失：广州白云_core_record_5：广州白云／广州/白云机场运行特点／核心威胁与运行特点
 - 9C7420：中英文关键事实不一致：广州白云_core_record_22：中文['RWY03', 'RWY19L', 'RWY19R', 'RWY20L', 'RWY20R', 'RWY21', 'RWYO1L', 'RWYO1R', 'RWYO2L', 'RWYO2R']，英文[]
 - 9C7420：中英文关键概念不一致：广州白云_core_record_22：英文缺少['runway']
-- 9C7420：最新版机场手册英文配对缺失：广州白云_core_record_29：广州白云／广州/白云机场运行特点／核心威胁与运行特点
-- 9C7420：中英文关键事实不一致：广州白云_core_record_38：中文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OGABI', 'OLPAB', 'UPMIP', 'W19']，英文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OBLAP', 'OGABI', 'UPMIP', 'W19']
-- 9C7420：中英文关键事实不一致：广州白云_core_record_46：中文['06.11', 'RWY01L']，英文['EFB', 'JEPPESEN', 'PBN', 'RWY01L', 'RWY03']
-- 9C7420：中英文关键概念不一致：广州白云_core_record_46：英文缺少['runway']
-- 9C7420：中英文选定事实身份不一致：中文['曼谷素旺那普_typical_record_1', '广州白云_typical_record_1', '曼谷素旺那普_core_record_2', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_16', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_23', '曼谷素旺那普_core_record_24', '曼谷素旺那普_core_record_25', '曼谷素旺那普_core_record_26', '曼谷素旺那普_core_record_27', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_42', '广州白云_core_record_42', '广州白云_core_record_43', '广州白云_core_record_44', '广州白云_core_record_4', '广州白云_core_record_12', '广州白云_core_record_2', '广州白云_core_record_5', '广州白云_core_record_6', '广州白云_core_record_8', '广州白云_core_record_11', '广州白云_core_83ceab667bf6af73_clause_2', '广州白云_core_83ceab667bf6af73_clause_3', '广州白云_core_record_22', '广州白云_core_record_23', '广州白云_core_record_24', '广州白云_core_record_25', '广州白云_core_record_27', '广州白云_core_record_29', '广州白云_core_record_38', '广州白云_core_record_3', '广州白云_core_record_10', '广州白云_core_record_13', '广州白云_core_record_14', '广州白云_core_record_15', '广州白云_core_record_16', '广州白云_core_record_46']，英文['曼谷素旺那普_typical_record_1', '广州白云_typical_record_1', '曼谷素旺那普_core_record_2', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_16', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_23', '曼谷素旺那普_core_record_24', '曼谷素旺那普_core_record_25', '曼谷素旺那普_core_record_26', '曼谷素旺那普_core_record_27', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42', '广州白云_core_record_42', '广州白云_core_record_44', '广州白云_core_record_4', '广州白云_core_record_2', '广州白云_core_record_6', '广州白云_core_record_8', '广州白云_core_record_11', '广州白云_core_83ceab667bf6af73_clause_2', '广州白云_core_83ceab667bf6af73_clause_3', '广州白云_core_record_22', '广州白云_core_record_23', '广州白云_core_record_24', '广州白云_core_record_25', '广州白云_core_record_27', '广州白云_core_record_38', '广州白云_core_record_3', '广州白云_core_record_10', '广州白云_core_record_13', '广州白云_core_record_14', '广州白云_core_record_15', '广州白云_core_record_16', '广州白云_core_record_46']
+- 9C7420：最新版机场手册英文配对缺失：广州白云_core_record_28：广州白云／广州/白云机场运行特点／核心威胁与运行特点
+- 9C7420：中英文关键事实不一致：广州白云_core_record_37：中文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OGABI', 'OLPAB', 'UPMIP', 'W19']，英文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OBLAP', 'OGABI', 'UPMIP', 'W19']
+- 9C7420：中英文关键事实不一致：广州白云_core_record_45：中文['06.11', 'RWY01L']，英文['PBN', 'RWY01L', 'RWY03']
+- 9C7420：中英文选定事实身份不一致：中文['曼谷素旺那普_typical_record_1', '广州白云_typical_record_1', '曼谷素旺那普_core_record_2', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_16', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_23', '曼谷素旺那普_core_record_24', '曼谷素旺那普_core_record_25', '曼谷素旺那普_core_record_26', '曼谷素旺那普_core_record_27', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42', '广州白云_core_record_41', '广州白云_core_record_42', '广州白云_core_record_43', '广州白云_core_record_3', '广州白云_core_record_4', '广州白云_core_record_12', '广州白云_core_record_2', '广州白云_core_record_5', '广州白云_core_record_6', '广州白云_core_record_8', '广州白云_core_record_11', '广州白云_core_83ceab667bf6af73_clause_2', '广州白云_core_83ceab667bf6af73_clause_3', '广州白云_core_record_22', '广州白云_core_record_23', '广州白云_core_record_24', '广州白云_core_record_26', '广州白云_core_record_28', '广州白云_core_record_37', '广州白云_core_record_10', '广州白云_core_record_13', '广州白云_core_record_15', '广州白云_core_record_16', '广州白云_core_record_45']，英文['曼谷素旺那普_typical_record_1', '广州白云_typical_record_1', '曼谷素旺那普_core_record_2', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_16', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_23', '曼谷素旺那普_core_record_24', '曼谷素旺那普_core_record_25', '曼谷素旺那普_core_record_26', '曼谷素旺那普_core_record_27', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42', '广州白云_core_record_41', '广州白云_core_record_43', '广州白云_core_record_3', '广州白云_core_record_4', '广州白云_core_record_12', '广州白云_core_record_2', '广州白云_core_record_6', '广州白云_core_record_8', '广州白云_core_record_11', '广州白云_core_83ceab667bf6af73_clause_2', '广州白云_core_83ceab667bf6af73_clause_3', '广州白云_core_record_22', '广州白云_core_record_23', '广州白云_core_record_24', '广州白云_core_record_26', '广州白云_core_record_37', '广州白云_core_record_10', '广州白云_core_record_13', '广州白云_core_record_15', '广州白云_core_record_16', '广州白云_core_record_45']
 
 ### Actual isolated rendered group: 9C7289
 
@@ -1420,8 +1391,6 @@ FAILED_SAFE diagnostic text, not published.
 跑道信息：16L/34R（3800m×60m）；16R/34L（3800m×60m）；17L/35R（4000m× 60m）；17R/35L（3400m×60m）。
 
 浦东机场驱鸟炮声音较响，机组不要产生惊吓效应。
-
-如果回浦东后再飞一个国际航班，建议第一次边检走人工，自助系统默认一天只能通过一次，容易第一次被困在自助通道，需要工作人员人工退回然后重新走人工。
 
 曼谷素旺那普机场：
 
@@ -1477,11 +1446,11 @@ H6与 H3,H5与 H2为同一条滑行道注意识别。
 
 军演频繁，常涉及改航路，请对照飞行计划检查。
 
-见机场细则。
+减噪程序：见机场细则。
 
-见放行单。
+释压程序：见放行单。
 
-机场细则及杰普逊手册有具体实施方法。
+无线电失效程序：机场细则及杰普逊手册有具体实施方法。
 
 
 I am Duan Yangshuo, a First Officer in Flight Squadron 15. My current technical level is A2, and my promotion date is January 13. In this qualification stage, I have 93 hours and 21 takeoffs and landings. I have completed 8 landings in the last 90 days. I have operated at both Shanghai Pudong International and VTBS within the past three months. My most recent landing as PF was at Shanghai Pudong International Airport on October 1.
@@ -1517,8 +1486,6 @@ Airportelevation:13 ft.
 Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m).
 
 Bird-scare cannon blasts are loud atPudong. Crews shall avoid undesired startle response.
-
-After returning to Pudong prior to an onward international flight, manual immigration clearance is recommended for the first entry. Self-service kiosks are system-restricted to one passage per calendar day. Crews may get trapped at self-service channels and require staff assistance for fallback to manual clearance.
 
 Suvarnabhumi Airport:
 
@@ -1638,11 +1605,11 @@ H6与 H3,H5与 H2为同一条滑行道注意识别。
 
 军演频繁，常涉及改航路，请对照飞行计划检查。
 
-见机场细则。
+减噪程序：见机场细则。
 
-见放行单。
+释压程序：见放行单。
 
-机场细则及杰普逊手册有具体实施方法。
+无线电失效程序：机场细则及杰普逊手册有具体实施方法。
 
 广州白云机场：
 
@@ -1651,6 +1618,8 @@ H6与 H3,H5与 H2为同一条滑行道注意识别。
 会指挥速度180到8海里，尽量满足避免造成间隔不够。
 
 广州01L落地后，指挥GREEN 1时，由E左转T3 时，左侧无t3灯牌，且地面也无转入t3的图标，只有一个转入T4的图标，且T4处有灯牌，容易造成误解。
+
+如航图复飞高度与管制指挥不一致时，以管制指挥为准。
 
 01L落地后，滑行道E J23到J14段有较明显上坡，建议在此之后执行单发滑行。
 
@@ -1676,21 +1645,15 @@ yellow11滑行线在Q到T61,Q和M滑行路线很近，没有地面标识，滑�
 
 公司对广州落地飞机有单发滑行要求，某些较短窄停机位进位时注意转弯速度，如J3上的停机位等。
 
-廊桥开门密码202510绿色√，如国际航班走登机口进场需拨打门禁电话（在门旁边有注释）开门。
-
 广州O2 R落地，M滑行，T64滑行道前无标志牌，仅有地面滑行标志，实际T64标志牌在T64滑行道之后，容易引发误解。
 
 着陆航空器应尽可能使用顺向且靠近接地点的第一或第二快速脱离道退出跑道，需要使用第三条快速脱离道及以远道口脱离跑道时，机组应在与塔台建立首次联系时进行通报。
 
 将W19航线MASGU-MABAG-OGABI-NOMAR 航段调整为MASGU-UPMIP-ATKAV-OLPAB-NOMAR供华东方向落地广州航班及飞跃珠三角航班使用。
 
-如航图复飞高度与管制指挥不一致时，以管制指挥为准。
-
 E/F/D/T3/T4为高冲突区，加强观察，指令及时复诵确认。
 
 机场繁忙且相邻机场较多，严格遵守管制指挥，避免造成冲突。
-
-注意根据fly Smart修改单发加速高度。
 
 新程序调整，多个程序更名，限制高度涉及更改，注意参阅航图对照MCDU数据。
 
@@ -1765,7 +1728,11 @@ After entering the field, radar guidance will be used to calculate the altitude-
 
 After the Guangzhou 01L aircraft landed, when directing the GREEN 1 aircraft, the E left-turn signal for T3 was absent on the leftside, and no ground indicator showed the approach to T3. Only an approach to T4 was indicated, with a signal light at T4, which could easily cause confusion.
 
+In case of discrepancy between the flight plan's re-flight altitude and the air trafficcontrol command, the lattershall prevail.
+
 After landing at01L, the taxiway from E J23 to J14 features a steep incline. We recommend performing a single-engine taxi after thissection.
+
+During summer and autumn, typhoons exert influence, bringing widespread strong winds, heavy rainfall, and thunderstorms.
 
 The departure taxiway is marked as "YELLOW", and the arrival taxiway ismarked as "GREEN".
 
@@ -1785,22 +1752,16 @@ When the lead vehicle approaches, the ground commander acts as itsdriver. Upon r
 
 The company requires single-engine taxiing for aircraft landing in Guangzhou, with particular attention to turning speed when approaching shorter and narrower aprons, such as those on the J3 apron.
 
-For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.
-
 At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.
 
 The W19 route segment MASGU-MABAG-OGABI- NOMAR will be adjusted to MASGU-UPMIP-ATKAV- OBLAP-NOMAR for flights landing in Guangzhou and those flying over the Pearl River Delta region bound for East China.
-
-In case of discrepancy between the flight plan's re-flight altitude and the air trafficcontrol command, the lattershall prevail.
 
 Exercise increased vigilance in the high-conflict areas E/F/D/T3/T4, maintain enhanced visual lookout, and read back all ATC instructions promptly and correctly.
 
 The airport ishighly busy with multiple adjacent airports, requiring strict compliance with air traffic control directives to prevent conflicts.
 
-Adjust the single-shot acceleration altitude according to the fly Smart modification.
-
 The new procedure involves adjustments to multiple programs and name changes, with height restrictions requiring modifications. Please refer to the air chart for MCDU data verification.
 
 New airport runways pose risks of misidentification, misdirection, or land to wrong way. Crews must stay vigilant, enforce standardized announcements and cross-checking procedures, especially during low visibility, rain, or night operations, to prevent runway confusion.
 
-PBN single-engine departure procedures for Runways 01L/R 、02L/R and RWY03 are applicable. The JEPPESEN chart does not include single-engine departure procedures; Foreign pilots should refer to the EFB chart.
+PBN single-engine departure procedures for Runways 01L/R 、02L/R and RWY03 are applicable.

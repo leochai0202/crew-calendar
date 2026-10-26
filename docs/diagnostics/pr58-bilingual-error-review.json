@@ -1,13 +1,15 @@
 {
   "baseline_ref": "5b1c7fa06bdb6fa9ce7d542964648a2385ddef87",
+  "baseline_path": "docs/diagnostics/source-only-manual-audit.json",
   "manual": "AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
   "sha256": "e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8",
   "errors_before": 44,
-  "errors_after": 16,
+  "errors_after": 13,
   "outcomes": {
-    "COUNTERPART_VALIDATED": 21,
-    "UNRESOLVED": 17,
-    "NOT_SELECTED_REQUIRES_EXCLUSION_REVIEW": 4,
+    "COUNTERPART_VALIDATED": 25,
+    "NOT_SELECTED_REQUIRES_EXCLUSION_REVIEW": 6,
+    "UNRESOLVED": 8,
+    "CHECK_REPAIRED_SOURCE_CONFLICT_REMAINS": 3,
     "UNRESOLVED_DERIVED_PARITY": 2
   },
   "entries": [
@@ -80,18 +82,10 @@
               "source_page": "1370"
             },
             {
-              "text": "After returning to Pudong prior to an onward international flight, manual immigration clearance is recommended for the first entry. Self-service kiosks are system-restricted to one passage per calendar day. Crews may get trapped at self-service channels and require staff assistance for fallback to manual clearance.",
-              "category": "core",
-              "phase": "operations",
-              "sequence": 4,
-              "original_text": "After returning to Pudong prior to an onward international flight, manual immigration clearance is recommended for the first entry. Self-service kiosks are system-restricted to one passage per calendar day. Crews may get trapped at self-service channels and require staff assistance for fallback to manual clearance.",
-              "source_page": "1370-1371"
-            },
-            {
               "text": "Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m)",
               "category": "core",
               "phase": "operations",
-              "sequence": 5,
+              "sequence": 4,
               "original_text": "",
               "source_page": "1367"
             },
@@ -99,7 +93,7 @@
               "text": "PAPI Information: RWY 16L: 454 m inside runway threshold on left side, glidepath angle 3°, MEHT 20.9 m - RWY 34R: 455 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.5 m - RWY 16R: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.9 m - RWY 34L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 22.4 m - RWY 17L: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.7 m - RWY 35R: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 22.5 m - RWY 17R: 35L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 21.4 m - RWY 35L: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.0 m",
               "category": "core",
               "phase": "operations",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "",
               "source_page": "1367"
             }
@@ -318,18 +312,10 @@
               "source_page": "1370"
             },
             {
-              "text": "After returning to Pudong prior to an onward international flight, manual immigration clearance is recommended for the first entry. Self-service kiosks are system-restricted to one passage per calendar day. Crews may get trapped at self-service channels and require staff assistance for fallback to manual clearance.",
-              "category": "core",
-              "phase": "operations",
-              "sequence": 4,
-              "original_text": "After returning to Pudong prior to an onward international flight, manual immigration clearance is recommended for the first entry. Self-service kiosks are system-restricted to one passage per calendar day. Crews may get trapped at self-service channels and require staff assistance for fallback to manual clearance.",
-              "source_page": "1370-1371"
-            },
-            {
               "text": "Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m)",
               "category": "core",
               "phase": "operations",
-              "sequence": 5,
+              "sequence": 4,
               "original_text": "",
               "source_page": "1367"
             },
@@ -337,7 +323,7 @@
               "text": "PAPI Information: RWY 16L: 454 m inside runway threshold on left side, glidepath angle 3°, MEHT 20.9 m - RWY 34R: 455 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.5 m - RWY 16R: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.9 m - RWY 34L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 22.4 m - RWY 17L: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.7 m - RWY 35R: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 22.5 m - RWY 17R: 35L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 21.4 m - RWY 35L: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.0 m",
               "category": "core",
               "phase": "operations",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "",
               "source_page": "1367"
             }
@@ -489,7 +475,7 @@
       "flights": [
         "9C7289"
       ],
-      "status": "COUNTERPART_VALIDATED",
+      "status": "NOT_SELECTED_REQUIRES_EXCLUSION_REVIEW",
       "source_evidence": [
         {
           "airport": "上海浦东",
@@ -682,18 +668,10 @@
               "source_page": "1370"
             },
             {
-              "text": "After returning to Pudong prior to an onward international flight, manual immigration clearance is recommended for the first entry. Self-service kiosks are system-restricted to one passage per calendar day. Crews may get trapped at self-service channels and require staff assistance for fallback to manual clearance.",
-              "category": "core",
-              "phase": "operations",
-              "sequence": 4,
-              "original_text": "After returning to Pudong prior to an onward international flight, manual immigration clearance is recommended for the first entry. Self-service kiosks are system-restricted to one passage per calendar day. Crews may get trapped at self-service channels and require staff assistance for fallback to manual clearance.",
-              "source_page": "1370-1371"
-            },
-            {
               "text": "Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m)",
               "category": "core",
               "phase": "operations",
-              "sequence": 5,
+              "sequence": 4,
               "original_text": "",
               "source_page": "1367"
             },
@@ -701,19 +679,35 @@
               "text": "PAPI Information: RWY 16L: 454 m inside runway threshold on left side, glidepath angle 3°, MEHT 20.9 m - RWY 34R: 455 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.5 m - RWY 16R: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.9 m - RWY 34L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 22.4 m - RWY 17L: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.7 m - RWY 35R: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 22.5 m - RWY 17R: 35L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 21.4 m - RWY 35L: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.0 m",
               "category": "core",
               "phase": "operations",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "",
               "source_page": "1367"
             }
           ],
           "chinese_tokens": [],
           "english_tokens_before": [],
-          "fact_id_after": "上海浦东_core_record_22",
-          "source_page_after": "588",
-          "english_after": "After returning to Pudong prior to an onward international flight, manual immigration clearance is recommended for the first entry. Self-service kiosks are system-restricted to one passage per calendar day. Crews may get trapped at self-service channels and require staff assistance for fallback to manual clearance.",
-          "english_page_after": "1370-1371",
-          "validation_after": [],
-          "english_tokens_after": []
+          "duty_routes": [
+            [
+              "上海浦东",
+              "曼谷素旺那普"
+            ]
+          ],
+          "exclusion_candidates": [
+            {
+              "airport": "上海浦东",
+              "fact_id": "",
+              "source_file": "C:\\Users\\chai\\AppData\\Local\\Temp\\source-only-acceptance-y8uha8v_\\knowledge\\pdf\\AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+              "source": "PDF",
+              "source_authority": "latest_airport_manual",
+              "source_version": "20261019",
+              "source_page": "586-589",
+              "source_heading": "上海/浦东机场运行特点（ZSPD/PVG）",
+              "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／行政内容排除",
+              "clause": "运行特点：如果回浦东后再飞一个国际航班，建议第一次边检走人工，自助系统默认 一天只能通过一次，容易第一次被困在自助通道，需要工作人员人工退回然后重新走人工。",
+              "reason": "passenger_or_staff_border_administration",
+              "discarded_reason": "passenger_or_staff_border_administration"
+            }
+          ]
         }
       ]
     },
@@ -3331,7 +3325,7 @@
       "flights": [
         "9C7289"
       ],
-      "status": "UNRESOLVED",
+      "status": "COUNTERPART_VALIDATED",
       "source_evidence": [
         {
           "airport": "曼谷素旺那普",
@@ -3738,6 +3732,7 @@
             "VOR"
           ],
           "english_tokens_before": [
+            "ILS",
             "SVB",
             "VOR"
           ],
@@ -3745,11 +3740,9 @@
           "source_page_after": "314",
           "english_after": "The SVB station has been inactive for an extended period due to relocation, resulting in the absence of VOR approach procedures. The blind landing range finder exhibits positional inaccuracies relative to the runway end, which may cause operational instability.",
           "english_page_after": "1170",
-          "validation_after": [
-            "中英文关键事实不一致：曼谷素旺那普_core_record_11：中文['ILS', 'SVB', 'VOR']，英文['SVB', 'VOR']",
-            "中英文关键概念不一致：曼谷素旺那普_core_record_11：英文缺少['ILS']"
-          ],
+          "validation_after": [],
           "english_tokens_after": [
+            "ILS",
             "SVB",
             "VOR"
           ]
@@ -3762,7 +3755,7 @@
       "flights": [
         "9C7289"
       ],
-      "status": "UNRESOLVED",
+      "status": "COUNTERPART_VALIDATED",
       "source_evidence": [
         {
           "airport": "曼谷素旺那普",
@@ -4169,6 +4162,7 @@
             "VOR"
           ],
           "english_tokens_before": [
+            "ILS",
             "SVB",
             "VOR"
           ],
@@ -4176,11 +4170,9 @@
           "source_page_after": "314",
           "english_after": "The SVB station has been inactive for an extended period due to relocation, resulting in the absence of VOR approach procedures. The blind landing range finder exhibits positional inaccuracies relative to the runway end, which may cause operational instability.",
           "english_page_after": "1170",
-          "validation_after": [
-            "中英文关键事实不一致：曼谷素旺那普_core_record_11：中文['ILS', 'SVB', 'VOR']，英文['SVB', 'VOR']",
-            "中英文关键概念不一致：曼谷素旺那普_core_record_11：英文缺少['ILS']"
-          ],
+          "validation_after": [],
           "english_tokens_after": [
+            "ILS",
             "SVB",
             "VOR"
           ]
@@ -5483,7 +5475,7 @@
       "flights": [
         "9C7289"
       ],
-      "status": "UNRESOLVED",
+      "status": "COUNTERPART_VALIDATED",
       "source_evidence": [
         {
           "airport": "曼谷素旺那普",
@@ -5890,9 +5882,7 @@
           "source_page_after": "317",
           "english_after": "Noise reduction procedure: See airport regulations",
           "english_page_after": "1174",
-          "validation_after": [
-            "中英文选定事实身份不一致：中文[]，英文['曼谷素旺那普_core_record_40']"
-          ],
+          "validation_after": [],
           "english_tokens_after": []
         }
       ]
@@ -5903,7 +5893,7 @@
       "flights": [
         "9C7289"
       ],
-      "status": "UNRESOLVED",
+      "status": "COUNTERPART_VALIDATED",
       "source_evidence": [
         {
           "airport": "曼谷素旺那普",
@@ -6310,9 +6300,7 @@
           "source_page_after": "317",
           "english_after": "Pressure relief procedure: Refer to the release form",
           "english_page_after": "1174",
-          "validation_after": [
-            "中英文选定事实身份不一致：中文[]，英文['曼谷素旺那普_core_record_41']"
-          ],
+          "validation_after": [],
           "english_tokens_after": []
         }
       ]
@@ -6323,7 +6311,7 @@
       "flights": [
         "9C7289"
       ],
-      "status": "COUNTERPART_VALIDATED",
+      "status": "CHECK_REPAIRED_SOURCE_CONFLICT_REMAINS",
       "source_evidence": [
         {
           "airport": "曼谷素旺那普",
@@ -6724,13 +6712,17 @@
               "source_page": "1170"
             }
           ],
-          "chinese_tokens": [],
+          "chinese_tokens": [
+            "JEPPESEN"
+          ],
           "english_tokens_before": [],
           "fact_id_after": "曼谷素旺那普_core_record_42",
           "source_page_after": "317",
           "english_after": "Radio Failure Procedure: Specific Implementation Methods inAirport Regulations and Jepperson Manual",
           "english_page_after": "1174",
-          "validation_after": [],
+          "validation_after": [
+            "中英文关键事实不一致：曼谷素旺那普_core_record_42：中文['JEPPESEN']，英文[]"
+          ],
           "english_tokens_after": []
         }
       ]
@@ -7158,7 +7150,7 @@
             {
               "airport": "曼谷素旺那普",
               "fact_id": "",
-              "source_file": "C:\\Users\\chai\\AppData\\Local\\Temp\\source-only-acceptance-g5bh35hi\\knowledge\\pdf\\AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+              "source_file": "C:\\Users\\chai\\AppData\\Local\\Temp\\source-only-acceptance-y8uha8v_\\knowledge\\pdf\\AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
               "source": "PDF",
               "source_authority": "latest_airport_manual",
               "source_version": "20261019",
@@ -8117,7 +8109,7 @@
       "flights": [
         "9C7420"
       ],
-      "status": "UNRESOLVED",
+      "status": "COUNTERPART_VALIDATED",
       "source_evidence": [
         {
           "airport": "曼谷素旺那普",
@@ -8524,9 +8516,7 @@
           "source_page_after": "317",
           "english_after": "Noise reduction procedure: See airport regulations",
           "english_page_after": "1174",
-          "validation_after": [
-            "中英文选定事实身份不一致：中文[]，英文['曼谷素旺那普_core_record_40']"
-          ],
+          "validation_after": [],
           "english_tokens_after": []
         }
       ]
@@ -8537,7 +8527,7 @@
       "flights": [
         "9C7420"
       ],
-      "status": "UNRESOLVED",
+      "status": "COUNTERPART_VALIDATED",
       "source_evidence": [
         {
           "airport": "曼谷素旺那普",
@@ -8944,9 +8934,7 @@
           "source_page_after": "317",
           "english_after": "Pressure relief procedure: Refer to the release form",
           "english_page_after": "1174",
-          "validation_after": [
-            "中英文选定事实身份不一致：中文[]，英文['曼谷素旺那普_core_record_41']"
-          ],
+          "validation_after": [],
           "english_tokens_after": []
         }
       ]
@@ -8957,7 +8945,7 @@
       "flights": [
         "9C7420"
       ],
-      "status": "COUNTERPART_VALIDATED",
+      "status": "CHECK_REPAIRED_SOURCE_CONFLICT_REMAINS",
       "source_evidence": [
         {
           "airport": "曼谷素旺那普",
@@ -9358,13 +9346,17 @@
               "source_page": "1170"
             }
           ],
-          "chinese_tokens": [],
+          "chinese_tokens": [
+            "JEPPESEN"
+          ],
           "english_tokens_before": [],
           "fact_id_after": "曼谷素旺那普_core_record_42",
           "source_page_after": "317",
           "english_after": "Radio Failure Procedure: Specific Implementation Methods inAirport Regulations and Jepperson Manual",
           "english_page_after": "1174",
-          "validation_after": [],
+          "validation_after": [
+            "中英文关键事实不一致：曼谷素旺那普_core_record_42：中文['JEPPESEN']，英文[]"
+          ],
           "english_tokens_after": []
         }
       ]
@@ -9792,7 +9784,7 @@
             {
               "airport": "曼谷素旺那普",
               "fact_id": "",
-              "source_file": "C:\\Users\\chai\\AppData\\Local\\Temp\\source-only-acceptance-g5bh35hi\\knowledge\\pdf\\AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+              "source_file": "C:\\Users\\chai\\AppData\\Local\\Temp\\source-only-acceptance-y8uha8v_\\knowledge\\pdf\\AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
               "source": "PDF",
               "source_authority": "latest_airport_manual",
               "source_version": "20261019",
@@ -10022,18 +10014,10 @@
               "source_page": "1582"
             },
             {
-              "text": "For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "category": "core",
-              "phase": "ground",
-              "sequence": 5,
-              "original_text": "The green password for the covered bridge is 202510 (marked with a green√). For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "source_page": "1582"
-            },
-            {
               "text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "category": "core",
               "phase": "ground",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "source_page": "1582"
             },
@@ -10136,7 +10120,7 @@
           ],
           "chinese_tokens": [],
           "english_tokens_before": [],
-          "fact_id_after": "广州白云_core_record_42",
+          "fact_id_after": "广州白云_core_record_41",
           "source_page_after": "990",
           "english_after": "After entering the field, radar guidance will be used to calculate the altitude-to-range ratio.",
           "english_page_after": "1583",
@@ -10360,18 +10344,10 @@
               "source_page": "1582"
             },
             {
-              "text": "For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "category": "core",
-              "phase": "ground",
-              "sequence": 5,
-              "original_text": "The green password for the covered bridge is 202510 (marked with a green√). For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "source_page": "1582"
-            },
-            {
               "text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "category": "core",
               "phase": "ground",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "source_page": "1582"
             },
@@ -10477,13 +10453,13 @@
             "ATC"
           ],
           "english_tokens_before": [],
-          "fact_id_after": "广州白云_core_record_43",
+          "fact_id_after": "广州白云_core_record_42",
           "source_page_after": "991",
           "english_after": "",
           "english_page_after": "1580-1584",
           "validation_after": [
-            "最新版机场手册英文配对缺失：广州白云_core_record_43：广州白云／广州/白云机场运行特点／核心威胁与运行特点",
-            "中英文选定事实身份不一致：中文['广州白云_core_record_43']，英文[]"
+            "最新版机场手册英文配对缺失：广州白云_core_record_42：广州白云／广州/白云机场运行特点／核心威胁与运行特点",
+            "中英文选定事实身份不一致：中文['广州白云_core_record_42']，英文[]"
           ],
           "english_tokens_after": []
         }
@@ -10495,7 +10471,7 @@
       "flights": [
         "9C7420"
       ],
-      "status": "UNRESOLVED",
+      "status": "COUNTERPART_VALIDATED",
       "source_evidence": [
         {
           "airport": "广州白云",
@@ -10704,18 +10680,10 @@
               "source_page": "1582"
             },
             {
-              "text": "For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "category": "core",
-              "phase": "ground",
-              "sequence": 5,
-              "original_text": "The green password for the covered bridge is 202510 (marked with a green√). For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "source_page": "1582"
-            },
-            {
               "text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "category": "core",
               "phase": "ground",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "source_page": "1582"
             },
@@ -10824,19 +10792,21 @@
             "T4"
           ],
           "english_tokens_before": [
+            "ATC",
             "GREEN",
+            "RWY01L",
             "T3",
             "T4"
           ],
-          "fact_id_after": "广州白云_core_record_44",
+          "fact_id_after": "广州白云_core_record_43",
           "source_page_after": "991",
           "english_after": "After the Guangzhou 01L aircraft landed, when directing the GREEN 1 aircraft, the E left-turn signal for T3 was absent on the leftside, and no ground indicator showed the approach to T3. Only an approach to T4 was indicated, with a signal light at T4, which could easily cause confusion.",
           "english_page_after": "1583",
-          "validation_after": [
-            "中英文关键事实不一致：广州白云_core_record_44：中文['ATC', 'GREEN', 'RWY01L', 'T3', 'T4']，英文['GREEN', 'T3', 'T4']"
-          ],
+          "validation_after": [],
           "english_tokens_after": [
+            "ATC",
             "GREEN",
+            "RWY01L",
             "T3",
             "T4"
           ]
@@ -11034,18 +11004,10 @@
               "source_page": "1582"
             },
             {
-              "text": "For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "category": "core",
-              "phase": "ground",
-              "sequence": 5,
-              "original_text": "The green password for the covered bridge is 202510 (marked with a green√). For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "source_page": "1582"
-            },
-            {
               "text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "category": "core",
               "phase": "ground",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "source_page": "1582"
             },
@@ -11199,7 +11161,7 @@
       "flights": [
         "9C7420"
       ],
-      "status": "UNRESOLVED",
+      "status": "COUNTERPART_VALIDATED",
       "source_evidence": [
         {
           "airport": "广州白云",
@@ -11384,18 +11346,10 @@
               "source_page": "1582"
             },
             {
-              "text": "For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "category": "core",
-              "phase": "ground",
-              "sequence": 5,
-              "original_text": "The green password for the covered bridge is 202510 (marked with a green√). For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "source_page": "1582"
-            },
-            {
               "text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "category": "core",
               "phase": "ground",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "source_page": "1582"
             },
@@ -11524,12 +11478,9 @@
           "english_tokens_before": [],
           "fact_id_after": "广州白云_core_record_12",
           "source_page_after": "986",
-          "english_after": "",
+          "english_after": "During summer and autumn, typhoons exert influence, bringing widespread strong winds, heavy rainfall, and thunderstorms.",
           "english_page_after": "1581",
-          "validation_after": [
-            "最新版机场手册英文配对缺失：广州白云_core_record_12：广州白云／广州/白云机场运行特点／核心威胁与运行特点",
-            "中英文选定事实身份不一致：中文['广州白云_core_record_12']，英文[]"
-          ],
+          "validation_after": [],
           "english_tokens_after": []
         }
       ]
@@ -11725,18 +11676,10 @@
               "source_page": "1582"
             },
             {
-              "text": "For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "category": "core",
-              "phase": "ground",
-              "sequence": 5,
-              "original_text": "The green password for the covered bridge is 202510 (marked with a green√). For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "source_page": "1582"
-            },
-            {
               "text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "category": "core",
               "phase": "ground",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "source_page": "1582"
             },
@@ -12068,18 +12011,10 @@
               "source_page": "1582"
             },
             {
-              "text": "For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "category": "core",
-              "phase": "ground",
-              "sequence": 5,
-              "original_text": "The green password for the covered bridge is 202510 (marked with a green√). For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "source_page": "1582"
-            },
-            {
               "text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "category": "core",
               "phase": "ground",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "source_page": "1582"
             },
@@ -12298,18 +12233,10 @@
               "source_page": "1582"
             },
             {
-              "text": "For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "category": "core",
-              "phase": "ground",
-              "sequence": 5,
-              "original_text": "The green password for the covered bridge is 202510 (marked with a green√). For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "source_page": "1582"
-            },
-            {
               "text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "category": "core",
               "phase": "ground",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "source_page": "1582"
             }
@@ -12650,18 +12577,10 @@
               "source_page": "1582"
             },
             {
-              "text": "For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "category": "core",
-              "phase": "ground",
-              "sequence": 5,
-              "original_text": "The green password for the covered bridge is 202510 (marked with a green√). For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "source_page": "1582"
-            },
-            {
               "text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "category": "core",
               "phase": "ground",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "source_page": "1582"
             }
@@ -12931,7 +12850,7 @@
       "flights": [
         "9C7420"
       ],
-      "status": "COUNTERPART_VALIDATED",
+      "status": "NOT_SELECTED_REQUIRES_EXCLUSION_REVIEW",
       "source_evidence": [
         {
           "airport": "广州白云",
@@ -13002,18 +12921,10 @@
               "source_page": "1582"
             },
             {
-              "text": "For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "category": "core",
-              "phase": "ground",
-              "sequence": 5,
-              "original_text": "The green password for the covered bridge is 202510 (marked with a green√). For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "source_page": "1582"
-            },
-            {
               "text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "category": "core",
               "phase": "ground",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "source_page": "1582"
             }
@@ -13254,12 +13165,28 @@
           ],
           "chinese_tokens": [],
           "english_tokens_before": [],
-          "fact_id_after": "广州白云_core_record_25",
-          "source_page_after": "988",
-          "english_after": "For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-          "english_page_after": "1582",
-          "validation_after": [],
-          "english_tokens_after": []
+          "duty_routes": [
+            [
+              "曼谷素旺那普",
+              "广州白云"
+            ]
+          ],
+          "exclusion_candidates": [
+            {
+              "airport": "广州白云",
+              "fact_id": "",
+              "source_file": "C:\\Users\\chai\\AppData\\Local\\Temp\\source-only-acceptance-y8uha8v_\\knowledge\\pdf\\AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+              "source": "PDF",
+              "source_authority": "latest_airport_manual",
+              "source_version": "20261019",
+              "source_page": "986-991",
+              "source_heading": "广州/白云机场运行特点",
+              "source_section": "广州/白云机场运行特点／行政内容排除",
+              "clause": "地面：廊桥开门密码202510绿色√，如国际航班走登机口进 场需拨打门禁电话（在门旁边有注释）开门。",
+              "reason": "passenger_or_staff_access_administration",
+              "discarded_reason": "passenger_or_staff_access_administration"
+            }
+          ]
         }
       ]
     },
@@ -13340,18 +13267,10 @@
               "source_page": "1582"
             },
             {
-              "text": "For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "category": "core",
-              "phase": "ground",
-              "sequence": 5,
-              "original_text": "The green password for the covered bridge is 202510 (marked with a green√). For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "source_page": "1582"
-            },
-            {
               "text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "category": "core",
               "phase": "ground",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "source_page": "1582"
             }
@@ -13592,13 +13511,13 @@
           ],
           "chinese_tokens": [],
           "english_tokens_before": [],
-          "fact_id_after": "广州白云_core_record_29",
+          "fact_id_after": "广州白云_core_record_28",
           "source_page_after": "989",
           "english_after": "",
           "english_page_after": "1580-1584",
           "validation_after": [
-            "最新版机场手册英文配对缺失：广州白云_core_record_29：广州白云／广州/白云机场运行特点／核心威胁与运行特点",
-            "中英文选定事实身份不一致：中文['广州白云_core_record_29']，英文[]"
+            "最新版机场手册英文配对缺失：广州白云_core_record_28：广州白云／广州/白云机场运行特点／核心威胁与运行特点",
+            "中英文选定事实身份不一致：中文['广州白云_core_record_28']，英文[]"
           ],
           "english_tokens_after": []
         }
@@ -13819,18 +13738,10 @@
               "source_page": "1582"
             },
             {
-              "text": "For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "category": "core",
-              "phase": "ground",
-              "sequence": 5,
-              "original_text": "The green password for the covered bridge is 202510 (marked with a green√). For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "source_page": "1582"
-            },
-            {
               "text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "category": "core",
               "phase": "ground",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "source_page": "1582"
             },
@@ -13951,12 +13862,12 @@
             "UPMIP",
             "W19"
           ],
-          "fact_id_after": "广州白云_core_record_38",
+          "fact_id_after": "广州白云_core_record_37",
           "source_page_after": "990",
           "english_after": "The W19 route segment MASGU-MABAG-OGABI- NOMAR will be adjusted to MASGU-UPMIP-ATKAV- OBLAP-NOMAR for flights landing in Guangzhou and those flying over the Pearl River Delta region bound for East China.",
           "english_page_after": "1582",
           "validation_after": [
-            "中英文关键事实不一致：广州白云_core_record_38：中文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OGABI', 'OLPAB', 'UPMIP', 'W19']，英文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OBLAP', 'OGABI', 'UPMIP', 'W19']"
+            "中英文关键事实不一致：广州白云_core_record_37：中文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OGABI', 'OLPAB', 'UPMIP', 'W19']，英文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OBLAP', 'OGABI', 'UPMIP', 'W19']"
           ],
           "english_tokens_after": [
             "ATKAV",
@@ -14186,18 +14097,10 @@
               "source_page": "1582"
             },
             {
-              "text": "For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "category": "core",
-              "phase": "ground",
-              "sequence": 5,
-              "original_text": "The green password for the covered bridge is 202510 (marked with a green√). For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "source_page": "1582"
-            },
-            {
               "text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "category": "core",
               "phase": "ground",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "source_page": "1582"
             },
@@ -14329,7 +14232,7 @@
           "exclusion_candidates": [
             {
               "airport": "广州白云",
-              "fact_id": "广州白云_core_record_40",
+              "fact_id": "广州白云_core_record_39",
               "source_file": "knowledge\\pdf\\AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
               "source_page": "990",
               "source_heading": "广州/白云机场运行特点",
@@ -14557,18 +14460,10 @@
               "source_page": "1582"
             },
             {
-              "text": "For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "category": "core",
-              "phase": "ground",
-              "sequence": 5,
-              "original_text": "The green password for the covered bridge is 202510 (marked with a green√). For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "source_page": "1582"
-            },
-            {
               "text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "category": "core",
               "phase": "ground",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "source_page": "1582"
             },
@@ -14700,7 +14595,7 @@
           "exclusion_candidates": [
             {
               "airport": "广州白云",
-              "fact_id": "广州白云_core_record_40",
+              "fact_id": "广州白云_core_record_39",
               "source_file": "knowledge\\pdf\\AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
               "source_page": "990",
               "source_heading": "广州/白云机场运行特点",
@@ -14904,18 +14799,10 @@
               "source_page": "1582"
             },
             {
-              "text": "For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "category": "core",
-              "phase": "ground",
-              "sequence": 5,
-              "original_text": "The green password for the covered bridge is 202510 (marked with a green√). For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "source_page": "1582"
-            },
-            {
               "text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "category": "core",
               "phase": "ground",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "source_page": "1582"
             },
@@ -15248,18 +15135,10 @@
               "source_page": "1582"
             },
             {
-              "text": "For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "category": "core",
-              "phase": "ground",
-              "sequence": 5,
-              "original_text": "The green password for the covered bridge is 202510 (marked with a green√). For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "source_page": "1582"
-            },
-            {
               "text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "category": "core",
               "phase": "ground",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "source_page": "1582"
             },
@@ -15592,18 +15471,10 @@
               "source_page": "1582"
             },
             {
-              "text": "For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "category": "core",
-              "phase": "ground",
-              "sequence": 5,
-              "original_text": "The green password for the covered bridge is 202510 (marked with a green√). For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "source_page": "1582"
-            },
-            {
               "text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "category": "core",
               "phase": "ground",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "source_page": "1582"
             },
@@ -15757,7 +15628,7 @@
       "flights": [
         "9C7420"
       ],
-      "status": "UNRESOLVED",
+      "status": "CHECK_REPAIRED_SOURCE_CONFLICT_REMAINS",
       "source_evidence": [
         {
           "airport": "广州白云",
@@ -15942,18 +15813,10 @@
               "source_page": "1582"
             },
             {
-              "text": "For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "category": "core",
-              "phase": "ground",
-              "sequence": 5,
-              "original_text": "The green password for the covered bridge is 202510 (marked with a green√). For international flights entering through boarding gates, please call the access control phone (marked beside the gate) to open the door.",
-              "source_page": "1582"
-            },
-            {
               "text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "category": "core",
               "phase": "ground",
-              "sequence": 6,
+              "sequence": 5,
               "original_text": "At Guangzhou O2 R, the M taxiway isoperational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign isactually positioned behind the taxiway, which may cause confusion.",
               "source_page": "1582"
             },
@@ -16083,17 +15946,14 @@
             "RWY01L"
           ],
           "english_tokens_before": [],
-          "fact_id_after": "广州白云_core_record_46",
+          "fact_id_after": "广州白云_core_record_45",
           "source_page_after": "991",
-          "english_after": "PBN single-engine departure procedures for Runways 01L/R 、02L/R and RWY03 are applicable. The JEPPESEN chart does not include single-engine departure procedures; Foreign pilots should refer to the EFB chart.",
+          "english_after": "PBN single-engine departure procedures for Runways 01L/R 、02L/R and RWY03 are applicable.",
           "english_page_after": "1583",
           "validation_after": [
-            "中英文关键事实不一致：广州白云_core_record_46：中文['06.11', 'RWY01L']，英文['EFB', 'JEPPESEN', 'PBN', 'RWY01L', 'RWY03']",
-            "中英文关键概念不一致：广州白云_core_record_46：英文缺少['runway']"
+            "中英文关键事实不一致：广州白云_core_record_45：中文['06.11', 'RWY01L']，英文['PBN', 'RWY01L', 'RWY03']"
           ],
           "english_tokens_after": [
-            "EFB",
-            "JEPPESEN",
             "PBN",
             "RWY01L",
             "RWY03"
@@ -16205,20 +16065,413 @@
   "current_errors": [
     "9C7289：中英文关键概念不一致：曼谷素旺那普_core_record_34：英文缺少['final_approach']",
     "9C7289：最新版机场手册英文配对缺失：曼谷素旺那普_core_record_8：曼谷素旺那普／曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
-    "9C7289：中英文关键事实不一致：曼谷素旺那普_core_record_11：中文['ILS', 'SVB', 'VOR']，英文['SVB', 'VOR']",
-    "9C7289：中英文关键概念不一致：曼谷素旺那普_core_record_11：英文缺少['ILS']",
-    "9C7289：中英文选定事实身份不一致：中文['上海浦东_typical_record_1', '上海浦东_typical_record_2', '曼谷素旺那普_typical_record_1', '上海浦东_core_record_7', '上海浦东_core_record_9', '上海浦东_core_record_10', '上海浦东_core_record_11', '上海浦东_core_record_3', '上海浦东_core_record_4', '上海浦东_core_record_21', '上海浦东_core_record_22', '曼谷素旺那普_core_record_31', '曼谷素旺那普_core_record_32', '曼谷素旺那普_core_record_34', '曼谷素旺那普_core_record_35', '曼谷素旺那普_core_record_36', '曼谷素旺那普_core_record_37', '曼谷素旺那普_core_record_38', '曼谷素旺那普_core_record_39', '曼谷素旺那普_core_record_6', '曼谷素旺那普_core_record_7', '曼谷素旺那普_core_record_8', '曼谷素旺那普_core_record_11', '曼谷素旺那普_core_record_13', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_17', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_21', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_42']，英文['上海浦东_typical_record_1', '上海浦东_typical_record_2', '曼谷素旺那普_typical_record_1', '上海浦东_core_record_7', '上海浦东_core_record_9', '上海浦东_core_record_10', '上海浦东_core_record_11', '上海浦东_core_record_3', '上海浦东_core_record_4', '上海浦东_core_record_21', '上海浦东_core_record_22', '曼谷素旺那普_core_record_31', '曼谷素旺那普_core_record_32', '曼谷素旺那普_core_record_34', '曼谷素旺那普_core_record_35', '曼谷素旺那普_core_record_36', '曼谷素旺那普_core_record_37', '曼谷素旺那普_core_record_38', '曼谷素旺那普_core_record_39', '曼谷素旺那普_core_record_6', '曼谷素旺那普_core_record_7', '曼谷素旺那普_core_record_11', '曼谷素旺那普_core_record_13', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_17', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_21', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42']",
-    "9C7420：最新版机场手册英文配对缺失：广州白云_core_record_43：广州白云／广州/白云机场运行特点／核心威胁与运行特点",
-    "9C7420：中英文关键事实不一致：广州白云_core_record_44：中文['ATC', 'GREEN', 'RWY01L', 'T3', 'T4']，英文['GREEN', 'T3', 'T4']",
-    "9C7420：最新版机场手册英文配对缺失：广州白云_core_record_12：广州白云／广州/白云机场运行特点／核心威胁与运行特点",
+    "9C7289：中英文关键事实不一致：曼谷素旺那普_core_record_42：中文['JEPPESEN']，英文[]",
+    "9C7289：中英文选定事实身份不一致：中文['上海浦东_typical_record_1', '上海浦东_typical_record_2', '曼谷素旺那普_typical_record_1', '上海浦东_core_record_7', '上海浦东_core_record_9', '上海浦东_core_record_10', '上海浦东_core_record_11', '上海浦东_core_record_3', '上海浦东_core_record_4', '上海浦东_core_record_21', '曼谷素旺那普_core_record_31', '曼谷素旺那普_core_record_32', '曼谷素旺那普_core_record_34', '曼谷素旺那普_core_record_35', '曼谷素旺那普_core_record_36', '曼谷素旺那普_core_record_37', '曼谷素旺那普_core_record_38', '曼谷素旺那普_core_record_39', '曼谷素旺那普_core_record_6', '曼谷素旺那普_core_record_7', '曼谷素旺那普_core_record_8', '曼谷素旺那普_core_record_11', '曼谷素旺那普_core_record_13', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_17', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_21', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42']，英文['上海浦东_typical_record_1', '上海浦东_typical_record_2', '曼谷素旺那普_typical_record_1', '上海浦东_core_record_7', '上海浦东_core_record_9', '上海浦东_core_record_10', '上海浦东_core_record_11', '上海浦东_core_record_3', '上海浦东_core_record_4', '上海浦东_core_record_21', '曼谷素旺那普_core_record_31', '曼谷素旺那普_core_record_32', '曼谷素旺那普_core_record_34', '曼谷素旺那普_core_record_35', '曼谷素旺那普_core_record_36', '曼谷素旺那普_core_record_37', '曼谷素旺那普_core_record_38', '曼谷素旺那普_core_record_39', '曼谷素旺那普_core_record_6', '曼谷素旺那普_core_record_7', '曼谷素旺那普_core_record_11', '曼谷素旺那普_core_record_13', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_17', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_21', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42']",
+    "9C7420：中英文关键事实不一致：曼谷素旺那普_core_record_42：中文['JEPPESEN']，英文[]",
+    "9C7420：最新版机场手册英文配对缺失：广州白云_core_record_42：广州白云／广州/白云机场运行特点／核心威胁与运行特点",
     "9C7420：最新版机场手册英文配对缺失：广州白云_core_record_5：广州白云／广州/白云机场运行特点／核心威胁与运行特点",
     "9C7420：中英文关键事实不一致：广州白云_core_record_22：中文['RWY03', 'RWY19L', 'RWY19R', 'RWY20L', 'RWY20R', 'RWY21', 'RWYO1L', 'RWYO1R', 'RWYO2L', 'RWYO2R']，英文[]",
     "9C7420：中英文关键概念不一致：广州白云_core_record_22：英文缺少['runway']",
-    "9C7420：最新版机场手册英文配对缺失：广州白云_core_record_29：广州白云／广州/白云机场运行特点／核心威胁与运行特点",
-    "9C7420：中英文关键事实不一致：广州白云_core_record_38：中文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OGABI', 'OLPAB', 'UPMIP', 'W19']，英文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OBLAP', 'OGABI', 'UPMIP', 'W19']",
-    "9C7420：中英文关键事实不一致：广州白云_core_record_46：中文['06.11', 'RWY01L']，英文['EFB', 'JEPPESEN', 'PBN', 'RWY01L', 'RWY03']",
-    "9C7420：中英文关键概念不一致：广州白云_core_record_46：英文缺少['runway']",
-    "9C7420：中英文选定事实身份不一致：中文['曼谷素旺那普_typical_record_1', '广州白云_typical_record_1', '曼谷素旺那普_core_record_2', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_16', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_23', '曼谷素旺那普_core_record_24', '曼谷素旺那普_core_record_25', '曼谷素旺那普_core_record_26', '曼谷素旺那普_core_record_27', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_42', '广州白云_core_record_42', '广州白云_core_record_43', '广州白云_core_record_44', '广州白云_core_record_4', '广州白云_core_record_12', '广州白云_core_record_2', '广州白云_core_record_5', '广州白云_core_record_6', '广州白云_core_record_8', '广州白云_core_record_11', '广州白云_core_83ceab667bf6af73_clause_2', '广州白云_core_83ceab667bf6af73_clause_3', '广州白云_core_record_22', '广州白云_core_record_23', '广州白云_core_record_24', '广州白云_core_record_25', '广州白云_core_record_27', '广州白云_core_record_29', '广州白云_core_record_38', '广州白云_core_record_3', '广州白云_core_record_10', '广州白云_core_record_13', '广州白云_core_record_14', '广州白云_core_record_15', '广州白云_core_record_16', '广州白云_core_record_46']，英文['曼谷素旺那普_typical_record_1', '广州白云_typical_record_1', '曼谷素旺那普_core_record_2', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_16', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_23', '曼谷素旺那普_core_record_24', '曼谷素旺那普_core_record_25', '曼谷素旺那普_core_record_26', '曼谷素旺那普_core_record_27', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42', '广州白云_core_record_42', '广州白云_core_record_44', '广州白云_core_record_4', '广州白云_core_record_2', '广州白云_core_record_6', '广州白云_core_record_8', '广州白云_core_record_11', '广州白云_core_83ceab667bf6af73_clause_2', '广州白云_core_83ceab667bf6af73_clause_3', '广州白云_core_record_22', '广州白云_core_record_23', '广州白云_core_record_24', '广州白云_core_record_25', '广州白云_core_record_27', '广州白云_core_record_38', '广州白云_core_record_3', '广州白云_core_record_10', '广州白云_core_record_13', '广州白云_core_record_14', '广州白云_core_record_15', '广州白云_core_record_16', '广州白云_core_record_46']"
+    "9C7420：最新版机场手册英文配对缺失：广州白云_core_record_28：广州白云／广州/白云机场运行特点／核心威胁与运行特点",
+    "9C7420：中英文关键事实不一致：广州白云_core_record_37：中文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OGABI', 'OLPAB', 'UPMIP', 'W19']，英文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OBLAP', 'OGABI', 'UPMIP', 'W19']",
+    "9C7420：中英文关键事实不一致：广州白云_core_record_45：中文['06.11', 'RWY01L']，英文['PBN', 'RWY01L', 'RWY03']",
+    "9C7420：中英文选定事实身份不一致：中文['曼谷素旺那普_typical_record_1', '广州白云_typical_record_1', '曼谷素旺那普_core_record_2', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_16', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_23', '曼谷素旺那普_core_record_24', '曼谷素旺那普_core_record_25', '曼谷素旺那普_core_record_26', '曼谷素旺那普_core_record_27', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42', '广州白云_core_record_41', '广州白云_core_record_42', '广州白云_core_record_43', '广州白云_core_record_3', '广州白云_core_record_4', '广州白云_core_record_12', '广州白云_core_record_2', '广州白云_core_record_5', '广州白云_core_record_6', '广州白云_core_record_8', '广州白云_core_record_11', '广州白云_core_83ceab667bf6af73_clause_2', '广州白云_core_83ceab667bf6af73_clause_3', '广州白云_core_record_22', '广州白云_core_record_23', '广州白云_core_record_24', '广州白云_core_record_26', '广州白云_core_record_28', '广州白云_core_record_37', '广州白云_core_record_10', '广州白云_core_record_13', '广州白云_core_record_15', '广州白云_core_record_16', '广州白云_core_record_45']，英文['曼谷素旺那普_typical_record_1', '广州白云_typical_record_1', '曼谷素旺那普_core_record_2', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_16', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_23', '曼谷素旺那普_core_record_24', '曼谷素旺那普_core_record_25', '曼谷素旺那普_core_record_26', '曼谷素旺那普_core_record_27', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42', '广州白云_core_record_41', '广州白云_core_record_43', '广州白云_core_record_3', '广州白云_core_record_4', '广州白云_core_record_12', '广州白云_core_record_2', '广州白云_core_record_6', '广州白云_core_record_8', '广州白云_core_record_11', '广州白云_core_83ceab667bf6af73_clause_2', '广州白云_core_83ceab667bf6af73_clause_3', '广州白云_core_record_22', '广州白云_core_record_23', '广州白云_core_record_24', '广州白云_core_record_26', '广州白云_core_record_37', '广州白云_core_record_10', '广州白云_core_record_13', '广州白云_core_record_15', '广州白云_core_record_16', '广州白云_core_record_45']"
   ],
-  "notice": "Candidate absence is not proof of source absence. Not-selected records are not counted as fixed."
+  "notice": "Candidate absence is not proof of source absence. Not-selected records are not counted as fixed.",
+  "current_issue_classification": [
+    {
+      "error": "9C7289：中英文关键概念不一致：曼谷素旺那普_core_record_34：英文缺少['final_approach']",
+      "flights": [
+        "9C7289"
+      ],
+      "classification": "D",
+      "review": {
+        "source_record_id": "曼谷素旺那普:core:cb29f683c773c0a8",
+        "class": "D",
+        "status": "PRINTED_CONCEPT_CONFLICT",
+        "zh_pages": "316",
+        "en_pages": "1172",
+        "evidence": "中文转向五边，英文原页印刷为 five-way turns；不能把 five-way 自动解释为 final approach。",
+        "authority_needed": true
+      },
+      "fact": {
+        "airport": "曼谷素旺那普",
+        "fact_id": "曼谷素旺那普_core_record_34",
+        "source_record_ids": [
+          "曼谷素旺那普:core:cb29f683c773c0a8"
+        ],
+        "source_page": "316",
+        "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
+        "source_section": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
+        "operational_phase": "arrival",
+        "text_zh": "航图新增Z 进近程序为主用程序，数据库也有变化，提 示机组注意阅读对应进场图中Warning 中的说明，避免未经 ATC 许可转向五边加入进近程序。",
+        "text_en": "The new Z approach procedure has been designated as the primary procedure in the air chart, with corresponding database updates. Crews are advised to carefully review the Warning section in the relevant approach chart to prevent unauthorized five-way turns into the approach procedure without ATC clearance.",
+        "source_text_en": "The new Z approach procedure has been designated as the primary procedure in the air chart, with corresponding database updates. Crews are advised to carefully review the Warning section in the relevant approach chart to prevent unauthorized five-way turns into the approach procedure without ATC clearance.",
+        "english_source_page": "1172",
+        "english_source_record_id": "曼谷素旺那普:en:762728438175820a"
+      }
+    },
+    {
+      "error": "9C7289：最新版机场手册英文配对缺失：曼谷素旺那普_core_record_8：曼谷素旺那普／曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
+      "flights": [
+        "9C7289"
+      ],
+      "classification": "C",
+      "review": {
+        "source_record_id": "曼谷素旺那普:core:52a66f2bdba380cb",
+        "class": "C",
+        "status": "CORRESPONDING_CHAPTER_GAP",
+        "zh_pages": "313",
+        "en_pages": "1169-1182",
+        "evidence": "中文指挥特点(4)要求STAR以外证实跑道和进近。英文1169指挥特点仅(1)-(3)，随后进入道面；其他运行页1170-1174及后续酒店/通关/示意图页中未定位该要求。不是仅根据parser空串分类。",
+        "authority_needed": true
+      },
+      "fact": {
+        "airport": "曼谷素旺那普",
+        "fact_id": "曼谷素旺那普_core_record_8",
+        "source_record_ids": [
+          "曼谷素旺那普:core:52a66f2bdba380cb"
+        ],
+        "source_page": "313",
+        "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
+        "source_section": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
+        "operational_phase": "approach",
+        "text_zh": "曼谷进近只给出进场STAR 程序，不告知跑道，虽然 通波只告知一条进近跑道，但仍有可能使用通波没有列出的跑 道，机组建立五边之前务必证实跑道和进近方式。",
+        "text_en": "",
+        "source_text_en": "",
+        "english_source_page": "1169-1182",
+        "english_source_record_id": ""
+      }
+    },
+    {
+      "error": "9C7289：中英文关键事实不一致：曼谷素旺那普_core_record_42：中文['JEPPESEN']，英文[]",
+      "flights": [
+        "9C7289"
+      ],
+      "classification": "D",
+      "review": {
+        "source_record_id": "曼谷素旺那普:core:fb162aaba634495d",
+        "class": "D",
+        "status": "PRINTED_REFERENCE_NAME_DIFFERENCE",
+        "zh_pages": "317",
+        "en_pages": "1174",
+        "evidence": "中文引用杰普逊手册，英文原页实际印刷 Jepperson Manual。新增正确译名锚点用于恢复其他段落后显露此差异；未把 Jepperson 擅改为 JEPPESEN。",
+        "authority_needed": true
+      },
+      "fact": {
+        "airport": "曼谷素旺那普",
+        "fact_id": "曼谷素旺那普_core_record_42",
+        "source_record_ids": [
+          "曼谷素旺那普:core:fb162aaba634495d"
+        ],
+        "source_page": "317",
+        "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
+        "source_section": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
+        "operational_phase": "unspecified",
+        "text_zh": "无线电失效程序：机场细则及杰普逊手册有具体实施 方法。",
+        "text_en": "Radio Failure Procedure: Specific Implementation Methods inAirport Regulations and Jepperson Manual",
+        "source_text_en": "Radio Failure Procedure: Specific Implementation Methods inAirport Regulations and Jepperson Manual",
+        "english_source_page": "1174",
+        "english_source_record_id": "曼谷素旺那普:en:0ae297f14b1d6ddd"
+      }
+    },
+    {
+      "error": "9C7289：中英文选定事实身份不一致：中文['上海浦东_typical_record_1', '上海浦东_typical_record_2', '曼谷素旺那普_typical_record_1', '上海浦东_core_record_7', '上海浦东_core_record_9', '上海浦东_core_record_10', '上海浦东_core_record_11', '上海浦东_core_record_3', '上海浦东_core_record_4', '上海浦东_core_record_21', '曼谷素旺那普_core_record_31', '曼谷素旺那普_core_record_32', '曼谷素旺那普_core_record_34', '曼谷素旺那普_core_record_35', '曼谷素旺那普_core_record_36', '曼谷素旺那普_core_record_37', '曼谷素旺那普_core_record_38', '曼谷素旺那普_core_record_39', '曼谷素旺那普_core_record_6', '曼谷素旺那普_core_record_7', '曼谷素旺那普_core_record_8', '曼谷素旺那普_core_record_11', '曼谷素旺那普_core_record_13', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_17', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_21', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42']，英文['上海浦东_typical_record_1', '上海浦东_typical_record_2', '曼谷素旺那普_typical_record_1', '上海浦东_core_record_7', '上海浦东_core_record_9', '上海浦东_core_record_10', '上海浦东_core_record_11', '上海浦东_core_record_3', '上海浦东_core_record_4', '上海浦东_core_record_21', '曼谷素旺那普_core_record_31', '曼谷素旺那普_core_record_32', '曼谷素旺那普_core_record_34', '曼谷素旺那普_core_record_35', '曼谷素旺那普_core_record_36', '曼谷素旺那普_core_record_37', '曼谷素旺那普_core_record_38', '曼谷素旺那普_core_record_39', '曼谷素旺那普_core_record_6', '曼谷素旺那普_core_record_7', '曼谷素旺那普_core_record_11', '曼谷素旺那普_core_record_13', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_17', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_21', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42']",
+      "flights": [
+        "9C7289"
+      ],
+      "classification": "DERIVED",
+      "review": null,
+      "fact": null
+    },
+    {
+      "error": "9C7420：中英文关键事实不一致：曼谷素旺那普_core_record_42：中文['JEPPESEN']，英文[]",
+      "flights": [
+        "9C7420"
+      ],
+      "classification": "D",
+      "review": {
+        "source_record_id": "曼谷素旺那普:core:fb162aaba634495d",
+        "class": "D",
+        "status": "PRINTED_REFERENCE_NAME_DIFFERENCE",
+        "zh_pages": "317",
+        "en_pages": "1174",
+        "evidence": "中文引用杰普逊手册，英文原页实际印刷 Jepperson Manual。新增正确译名锚点用于恢复其他段落后显露此差异；未把 Jepperson 擅改为 JEPPESEN。",
+        "authority_needed": true
+      },
+      "fact": {
+        "airport": "曼谷素旺那普",
+        "fact_id": "曼谷素旺那普_core_record_42",
+        "source_record_ids": [
+          "曼谷素旺那普:core:fb162aaba634495d"
+        ],
+        "source_page": "317",
+        "source_heading": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
+        "source_section": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
+        "operational_phase": "unspecified",
+        "text_zh": "无线电失效程序：机场细则及杰普逊手册有具体实施 方法。",
+        "text_en": "Radio Failure Procedure: Specific Implementation Methods inAirport Regulations and Jepperson Manual",
+        "source_text_en": "Radio Failure Procedure: Specific Implementation Methods inAirport Regulations and Jepperson Manual",
+        "english_source_page": "1174",
+        "english_source_record_id": "曼谷素旺那普:en:0ae297f14b1d6ddd"
+      }
+    },
+    {
+      "error": "9C7420：最新版机场手册英文配对缺失：广州白云_core_record_42：广州白云／广州/白云机场运行特点／核心威胁与运行特点",
+      "flights": [
+        "9C7420"
+      ],
+      "classification": "D",
+      "review": {
+        "source_record_id": "广州白云:core:c86df9922ff0cc1f",
+        "class": "D",
+        "status": "PRINTED_UNIT_CONFLICT",
+        "zh_pages": "991",
+        "en_pages": "1583",
+        "evidence": "同一进场指挥条目：中文速度180到8海里；英文原页 speed of 180 to 8 knots。数值/距离与速度单位冲突。",
+        "authority_needed": true
+      },
+      "fact": {
+        "airport": "广州白云",
+        "fact_id": "广州白云_core_record_42",
+        "source_record_ids": [
+          "广州白云:core:c86df9922ff0cc1f"
+        ],
+        "source_page": "991",
+        "source_heading": "广州/白云机场运行特点",
+        "source_section": "广州/白云机场运行特点／核心威胁与运行特点",
+        "operational_phase": "arrival",
+        "text_zh": "会指挥速度180到8海里，尽量满足避免造成间隔不够。",
+        "text_en": "",
+        "source_text_en": "",
+        "english_source_page": "1580-1584",
+        "english_source_record_id": ""
+      }
+    },
+    {
+      "error": "9C7420：最新版机场手册英文配对缺失：广州白云_core_record_5：广州白云／广州/白云机场运行特点／核心威胁与运行特点",
+      "flights": [
+        "9C7420"
+      ],
+      "classification": "C",
+      "review": {
+        "source_record_id": "广州白云:core:a173ff5e7969d2ed",
+        "class": "C",
+        "status": "CORRESPONDING_CHAPTER_GAP",
+        "zh_pages": "986",
+        "en_pages": "1580-1584",
+        "evidence": "中文机位919R不建议单发滑行。已逐页核查该ICAO完整英文章节，未见919R限制；英文其他单发滑行条目不能借用。",
+        "authority_needed": true
+      },
+      "fact": {
+        "airport": "广州白云",
+        "fact_id": "广州白云_core_record_5",
+        "source_record_ids": [
+          "广州白云:core:a173ff5e7969d2ed"
+        ],
+        "source_page": "986",
+        "source_heading": "广州/白云机场运行特点",
+        "source_section": "广州/白云机场运行特点／核心威胁与运行特点",
+        "operational_phase": "ground",
+        "text_zh": "广州 机位919R 不建议单发滑行。",
+        "text_en": "",
+        "source_text_en": "",
+        "english_source_page": "1580-1584",
+        "english_source_record_id": ""
+      }
+    },
+    {
+      "error": "9C7420：中英文关键事实不一致：广州白云_core_record_22：中文['RWY03', 'RWY19L', 'RWY19R', 'RWY20L', 'RWY20R', 'RWY21', 'RWYO1L', 'RWYO1R', 'RWYO2L', 'RWYO2R']，英文[]",
+      "flights": [
+        "9C7420"
+      ],
+      "classification": "D",
+      "review": {
+        "source_record_id": "广州白云:core:ecc6ab7e4fca5257",
+        "class": "D",
+        "status": "PRINTED_RUNWAY_ALLOCATION_CONFLICT",
+        "zh_pages": "987",
+        "en_pages": "1581",
+        "evidence": "中文分向北/向南列举含03/21的分配；英文仅两组通常起降跑道，且分配不等。中文提取的RWYO字形未擅改。",
+        "authority_needed": true
+      },
+      "fact": {
+        "airport": "广州白云",
+        "fact_id": "广州白云_core_record_22",
+        "source_record_ids": [
+          "广州白云:core:ecc6ab7e4fca5257"
+        ],
+        "source_page": "987",
+        "source_heading": "广州/白云机场运行特点",
+        "source_section": "广州/白云机场运行特点／核心威胁与运行特点",
+        "operational_phase": "ground",
+        "text_zh": "跑道运行规则：向北运行：RWYO1L主要用于进场；RWYO1R 主要用于离场；RWYO2L主要用于离场；RWYO2R 主要 用于进场；RWY03进、离场混合运行。向南运行：RWY19R 主要用于进场；RWY19L 主要用于离场；RWY20R 主要用于离场；RWY20L 主要用于进场；RWY21 进、离场混合运行。",
+        "text_en": "Typically, aircraft take off from 01R/19L or 02L/20R, and land from 01L/20R or 02L/20R.",
+        "source_text_en": "Typically, aircraft take off from 01R/19L or 02L/20R, and land from 01L/20R or 02L/20R.",
+        "english_source_page": "1581",
+        "english_source_record_id": "广州白云:en:062c898a4587310b"
+      }
+    },
+    {
+      "error": "9C7420：中英文关键概念不一致：广州白云_core_record_22：英文缺少['runway']",
+      "flights": [
+        "9C7420"
+      ],
+      "classification": "D",
+      "review": {
+        "source_record_id": "广州白云:core:ecc6ab7e4fca5257",
+        "class": "D",
+        "status": "PRINTED_RUNWAY_ALLOCATION_CONFLICT",
+        "zh_pages": "987",
+        "en_pages": "1581",
+        "evidence": "中文分向北/向南列举含03/21的分配；英文仅两组通常起降跑道，且分配不等。中文提取的RWYO字形未擅改。",
+        "authority_needed": true
+      },
+      "fact": {
+        "airport": "广州白云",
+        "fact_id": "广州白云_core_record_22",
+        "source_record_ids": [
+          "广州白云:core:ecc6ab7e4fca5257"
+        ],
+        "source_page": "987",
+        "source_heading": "广州/白云机场运行特点",
+        "source_section": "广州/白云机场运行特点／核心威胁与运行特点",
+        "operational_phase": "ground",
+        "text_zh": "跑道运行规则：向北运行：RWYO1L主要用于进场；RWYO1R 主要用于离场；RWYO2L主要用于离场；RWYO2R 主要 用于进场；RWY03进、离场混合运行。向南运行：RWY19R 主要用于进场；RWY19L 主要用于离场；RWY20R 主要用于离场；RWY20L 主要用于进场；RWY21 进、离场混合运行。",
+        "text_en": "Typically, aircraft take off from 01R/19L or 02L/20R, and land from 01L/20R or 02L/20R.",
+        "source_text_en": "Typically, aircraft take off from 01R/19L or 02L/20R, and land from 01L/20R or 02L/20R.",
+        "english_source_page": "1581",
+        "english_source_record_id": "广州白云:en:062c898a4587310b"
+      }
+    },
+    {
+      "error": "9C7420：最新版机场手册英文配对缺失：广州白云_core_record_28：广州白云／广州/白云机场运行特点／核心威胁与运行特点",
+      "flights": [
+        "9C7420"
+      ],
+      "classification": "C",
+      "review": {
+        "source_record_id": "广州白云:core:20ee3330994f239f",
+        "class": "C",
+        "status": "CORRESPONDING_CHAPTER_GAP",
+        "zh_pages": "989",
+        "en_pages": "1580-1584",
+        "evidence": "中文要求尽量第一/第二顺向快速脱离道，第三条及以远须首次联系塔台通报。完整英文地面/进场及相邻页未见该完整限制。",
+        "authority_needed": true
+      },
+      "fact": {
+        "airport": "广州白云",
+        "fact_id": "广州白云_core_record_28",
+        "source_record_ids": [
+          "广州白云:core:20ee3330994f239f"
+        ],
+        "source_page": "989",
+        "source_heading": "广州/白云机场运行特点",
+        "source_section": "广州/白云机场运行特点／核心威胁与运行特点",
+        "operational_phase": "ground",
+        "text_zh": "着陆航空器应尽可能使用顺向且靠近接地点的第 一或第二快速脱离道退出跑道，需要使用第三条快速脱离道 及以远道口脱离跑道时，机组应在与塔台建立首次联系时进 行通报。",
+        "text_en": "",
+        "source_text_en": "",
+        "english_source_page": "1580-1584",
+        "english_source_record_id": ""
+      }
+    },
+    {
+      "error": "9C7420：中英文关键事实不一致：广州白云_core_record_37：中文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OGABI', 'OLPAB', 'UPMIP', 'W19']，英文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OBLAP', 'OGABI', 'UPMIP', 'W19']",
+      "flights": [
+        "9C7420"
+      ],
+      "classification": "D",
+      "review": {
+        "source_record_id": "广州白云:core:c9f2ac8896ce0bac",
+        "class": "D",
+        "status": "PRINTED_WAYPOINT_CONFLICT",
+        "zh_pages": "990",
+        "en_pages": "1582",
+        "evidence": "同一W19调整条目中文OLPAB，英文OBLAP。两原页均已核查，不选择任何一方拼写。",
+        "authority_needed": true
+      },
+      "fact": {
+        "airport": "广州白云",
+        "fact_id": "广州白云_core_record_37",
+        "source_record_ids": [
+          "广州白云:core:c9f2ac8896ce0bac"
+        ],
+        "source_page": "990",
+        "source_heading": "广州/白云机场运行特点",
+        "source_section": "广州/白云机场运行特点／核心威胁与运行特点",
+        "operational_phase": "navigation",
+        "text_zh": "将W19航线MASGU-MABAG-OGABI-NOMAR 航段调整为MASGU-UPMIP-ATKAV-OLPAB-NOMAR供华东方向落地广州航班及飞跃 珠三角航班使用。",
+        "text_en": "The W19 route segment MASGU-MABAG-OGABI- NOMAR will be adjusted to MASGU-UPMIP-ATKAV- OBLAP-NOMAR for flights landing in Guangzhou and those flying over the Pearl River Delta region bound for East China.",
+        "source_text_en": "The W19 route segment MASGU-MABAG-OGABI- NOMAR will be adjusted to MASGU-UPMIP-ATKAV- OBLAP-NOMAR for flights landing in Guangzhou and those flying over the Pearl River Delta region bound for East China.",
+        "english_source_page": "1582",
+        "english_source_record_id": "广州白云:en:55953add87452ad1"
+      }
+    },
+    {
+      "error": "9C7420：中英文关键事实不一致：广州白云_core_record_45：中文['06.11', 'RWY01L']，英文['PBN', 'RWY01L', 'RWY03']",
+      "flights": [
+        "9C7420"
+      ],
+      "classification": "D",
+      "review": {
+        "source_record_id": "广州白云:core:de6ccf937608ddab",
+        "class": "D",
+        "status": "PRINTED_PROCEDURE_CONTENT_DIFFERENCE",
+        "zh_pages": "991",
+        "en_pages": "1583",
+        "evidence": "投影后英文仅保留对应的第一句，不再混入另一条杰普逊/EFB内容；中文06.11起实施，英文未给日期且增加PBN。冲突仍FAILED_SAFE。",
+        "authority_needed": true
+      },
+      "fact": {
+        "airport": "广州白云",
+        "fact_id": "广州白云_core_record_45",
+        "source_record_ids": [
+          "广州白云:core:de6ccf937608ddab"
+        ],
+        "source_page": "991",
+        "source_heading": "广州/白云机场运行特点",
+        "source_section": "广州/白云机场运行特点／核心威胁与运行特点",
+        "operational_phase": "unspecified",
+        "text_zh": "单发程序：广州机场跑道01L/R、02L/R、03从06.11日起 开始实施单发程序，请机组注意。",
+        "text_en": "PBN single-engine departure procedures for Runways 01L/R 、02L/R and RWY03 are applicable.",
+        "source_text_en": "PBN single-engine departure procedures for Runways 01L/R 、02L/R and RWY03 are applicable. The JEPPESEN chart does not include single-engine departure procedures; Foreign pilots should refer to the EFB chart.",
+        "english_source_page": "1583",
+        "english_source_record_id": "广州白云:en:a1c6d1e93f0ea860"
+      }
+    },
+    {
+      "error": "9C7420：中英文选定事实身份不一致：中文['曼谷素旺那普_typical_record_1', '广州白云_typical_record_1', '曼谷素旺那普_core_record_2', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_16', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_23', '曼谷素旺那普_core_record_24', '曼谷素旺那普_core_record_25', '曼谷素旺那普_core_record_26', '曼谷素旺那普_core_record_27', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42', '广州白云_core_record_41', '广州白云_core_record_42', '广州白云_core_record_43', '广州白云_core_record_3', '广州白云_core_record_4', '广州白云_core_record_12', '广州白云_core_record_2', '广州白云_core_record_5', '广州白云_core_record_6', '广州白云_core_record_8', '广州白云_core_record_11', '广州白云_core_83ceab667bf6af73_clause_2', '广州白云_core_83ceab667bf6af73_clause_3', '广州白云_core_record_22', '广州白云_core_record_23', '广州白云_core_record_24', '广州白云_core_record_26', '广州白云_core_record_28', '广州白云_core_record_37', '广州白云_core_record_10', '广州白云_core_record_13', '广州白云_core_record_15', '广州白云_core_record_16', '广州白云_core_record_45']，英文['曼谷素旺那普_typical_record_1', '广州白云_typical_record_1', '曼谷素旺那普_core_record_2', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_16', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_23', '曼谷素旺那普_core_record_24', '曼谷素旺那普_core_record_25', '曼谷素旺那普_core_record_26', '曼谷素旺那普_core_record_27', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42', '广州白云_core_record_41', '广州白云_core_record_43', '广州白云_core_record_3', '广州白云_core_record_4', '广州白云_core_record_12', '广州白云_core_record_2', '广州白云_core_record_6', '广州白云_core_record_8', '广州白云_core_record_11', '广州白云_core_83ceab667bf6af73_clause_2', '广州白云_core_83ceab667bf6af73_clause_3', '广州白云_core_record_22', '广州白云_core_record_23', '广州白云_core_record_24', '广州白云_core_record_26', '广州白云_core_record_37', '广州白云_core_record_10', '广州白云_core_record_13', '广州白云_core_record_15', '广州白云_core_record_16', '广州白云_core_record_45']",
+      "flights": [
+        "9C7420"
+      ],
+      "classification": "DERIVED",
+      "review": null,
+      "fact": null
+    }
+  ],
+  "classification_counts": {
+    "D": 8,
+    "C": 3,
+    "DERIVED": 2
+  },
+  "discovery_attention": [
+    {
+      "icao": "WIII",
+      "class": "A",
+      "status": "UNNUMBERED_BASIC_SECTION_EXTRACTION_INCOMPLETE",
+      "zh_pages": "390-395",
+      "en_pages": "1200-1211",
+      "evidence": "不同格式额外样本中英文原页明确有 Aerodrome elevation / Runway Information / Aerodrome Characteristics 等无编号正文。跑道滑行条件父标题及中文页假英文入口已修复，但无核心威胁总标题的前置基本信息块仍需进一步通用提取，部分后续记录配对尚不可靠，不得归为英文源缺失。",
+      "authority_needed": false
+    },
+    {
+      "icao": "ZPLJ",
+      "class": "B",
+      "status": "ENGLISH_CHAPTER_NOT_RELIABLY_LOCATED",
+      "zh_pages": "946-951",
+      "evidence": "提取文本中的ICAO、机场英文名、7358和PAN-53搜索仍未定位可靠英文章节。没有把它判为C；未排除不同标题或图像文本，需要手册目录/原稿权威定位。",
+      "authority_needed": true
+    }
+  ]
 }

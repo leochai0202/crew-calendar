@@ -2,7 +2,7 @@
   "manual": "AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
   "sha256": "e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8",
   "chinese_chapter_count": 177,
-  "english_chapter_count": 79,
+  "english_chapter_count": 77,
   "matched_chapter_count": 76,
   "identity_errors": 0,
   "warnings": [],
@@ -28,7 +28,23 @@
         1101
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "大连/周水子机场运行特点 ZYTL/DLC",
@@ -47,7 +63,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 29,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "哈尔滨太平机场运行特点 ZYHB/HRB",
@@ -59,8 +91,9 @@
       "chinese_typical_count": 3,
       "chinese_core_candidates": 40,
       "candidate_quality": {
-        "": 38,
+        "": 37,
         "unparsed_attribute_table": 1,
+        "standalone_frequency_metadata": 1,
         "来源包含无法可靠恢复的明显OCR错位": 1
       },
       "english_header": "HarbinTaipingAirport",
@@ -69,7 +102,23 @@
         1090
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 16,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 23,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "松原/查干湖机场运行特点",
@@ -88,7 +137,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "延吉/朝阳川机场运行特点",
@@ -108,7 +173,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "白山长白山机场运行特点 ZYBS/NBS",
@@ -127,7 +208,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 12,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 16,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "长春龙嘉机场运行特点 ZYCC/CGQ",
@@ -146,7 +243,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 8,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 17,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "漠河古莲机场运行特点 ZYMH/OHE",
@@ -165,7 +278,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 7,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 16,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "大兴安岭/鄂伦春机场运行特点 DAXINGANLINGE’",
@@ -184,7 +313,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 10,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "通化/三源浦机场运行特点",
@@ -202,7 +347,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 10,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 17,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "伊春/林都机场运行特点 YINCHUNLINDU(LDS/ZYLD)",
@@ -221,7 +382,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 4,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 14,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "胡志明机场运行特点 TAN SON NHAT(SGN/VVTS)",
@@ -241,7 +418,23 @@
         1110
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 12,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 17,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "甲米机场运行特点 KRABI(KBV/VTSG)",
@@ -262,7 +455,23 @@
         1168
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 19,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 20,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
@@ -287,7 +496,23 @@
         1182
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 21,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 29,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "普吉机场运行特点 PHUKET(HKT/VTSP)",
@@ -309,7 +534,23 @@
         1123
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 26,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 27,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "清迈机场运行特点 CHIANG MAI(CNX/VTCC)",
@@ -321,9 +562,10 @@
       "chinese_typical_count": 3,
       "chinese_core_candidates": 40,
       "candidate_quality": {
-        "": 36,
+        "": 35,
         "PDF断句或残片未形成完整运行事实": 2,
-        "passenger_or_staff_ground_transport": 2
+        "passenger_or_staff_ground_transport": 2,
+        "passenger_or_staff_border_administration": 1
       },
       "english_header": "Chiang Mai",
       "english_pages": [
@@ -331,7 +573,23 @@
         1193
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 18,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 24,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "沙巴机场运行特点 KOTA KINABALU(BKI/WBKK)",
@@ -352,7 +610,23 @@
         1129
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 24,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 22,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "素叻他尼机场运行特点 SURAT THANI(URT/VTSB)",
@@ -364,8 +638,9 @@
       "chinese_typical_count": 0,
       "chinese_core_candidates": 27,
       "candidate_quality": {
-        "": 26,
-        "PDF断句或残片未形成完整运行事实": 1
+        "": 25,
+        "PDF断句或残片未形成完整运行事实": 1,
+        "standalone_frequency_metadata": 1
       },
       "english_header": "Surat Thani",
       "english_pages": [
@@ -373,7 +648,23 @@
         1133
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 17,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 17,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "岘港机场运行特点 DA NANG(DAD/VVDN)",
@@ -395,7 +686,23 @@
         1106
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 18,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 19,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "新加坡机场运行特点 SINGAPORE(SIN/WSSS)",
@@ -416,7 +723,23 @@
         1149
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 35,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 33,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "仰光机场运行特点运行特点 YANGON（VYYY/RGN）",
@@ -437,7 +760,23 @@
         1137
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 16,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 20,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "吉隆坡机场运行特点 KUALA LUMPUR(KUL/WMKK)",
@@ -460,7 +799,23 @@
         1164
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 23,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 39,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "廊曼机场运行特点 BANGKOK（VTBD/DMK）",
@@ -482,7 +837,23 @@
         1157
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 29,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 31,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "河内内排机场运行特点 HANOI NOI BAI (HAN/VVNB)",
@@ -503,7 +874,23 @@
         1187
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 14,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 22,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "金边德崇国际机场运行特点 TECHO INTL（VDTI/KTI）",
@@ -524,7 +911,23 @@
         1114
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 20,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 22,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "槟城机场运行特点 Penang airport (WMKP/PEN)",
@@ -534,18 +937,35 @@
         389
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 40,
+      "chinese_core_candidates": 36,
       "candidate_quality": {
-        "": 36,
-        "PDF断句或残片未形成完整运行事实": 4
+        "": 31,
+        "PDF断句或残片未形成完整运行事实": 4,
+        "standalone_frequency_metadata": 1
       },
       "english_header": "Penang",
       "english_pages": [
-        385,
-        389
+        1194,
+        1199
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 18,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 19,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "雅加达苏加诺机场运行特点 Soekarno airport (WIII/CGK)",
@@ -559,13 +979,29 @@
       "candidate_quality": {
         "": 25
       },
-      "english_header": "Soekarno",
+      "english_header": "Soekarno-Hatta",
       "english_pages": [
-        390,
-        1083
+        1200,
+        1211
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 14,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 16,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "万象瓦岱机场运行特点 VLVT/VTE",
@@ -584,7 +1020,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 12,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 19,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "台湾/高雄机场运行特点 KAOHSIUNG(KHH/RCKH)",
@@ -605,7 +1057,23 @@
         1250
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 14,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 21,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "台湾/花莲机场运行特点 HUALIEN(HUN/RCYU)",
@@ -623,7 +1091,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 4,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "台湾/桃园机场运行特点 TAIPEI(TPE/RCTP)",
@@ -635,8 +1119,9 @@
       "chinese_typical_count": 2,
       "chinese_core_candidates": 40,
       "candidate_quality": {
-        "": 39,
-        "PDF断句或残片未形成完整运行事实": 1
+        "": 38,
+        "PDF断句或残片未形成完整运行事实": 1,
+        "passenger_or_staff_border_administration": 1
       },
       "english_header": "Taoyuan",
       "english_pages": [
@@ -644,7 +1129,23 @@
         1245
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 27,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 23,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "澳门机场运行特点 MACAO(MFM/VMMC)",
@@ -665,7 +1166,23 @@
         1234
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 19,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 36,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "香港机场运行特点 HONG KONG(HKG/VHHH)",
@@ -687,7 +1204,23 @@
         1220
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 17,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 22,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "北京/首都机场运行特点 BEIJINGSHOUDU(PEK/ZBAA)",
@@ -707,7 +1240,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 6,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 6,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "北京/大兴机场运行特点 BEIJINGDAXING(PKX/ZBAD)",
@@ -719,7 +1268,9 @@
       "chinese_typical_count": 5,
       "chinese_core_candidates": 48,
       "candidate_quality": {
-        "": 43,
+        "": 41,
+        "standalone_frequency_metadata": 1,
+        "passenger_or_staff_access_administration": 1,
         "detached_operational_fragment": 2,
         "来源包含无法可靠恢复的明显OCR错位": 1,
         "PDF断句或残片未形成完整运行事实": 2
@@ -730,7 +1281,23 @@
         1303
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 23,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 29,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "邯郸机场运行特点 HANDAN(HDG/ZBHD)",
@@ -748,7 +1315,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 7,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 14,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "石家庄/正定机场运行特点",
@@ -771,7 +1354,23 @@
         1269
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 21,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 31,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "呼和浩特/白塔机场运行特点",
@@ -794,7 +1393,23 @@
         1258
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 17,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "满洲里/西郊机场运行特点",
@@ -806,7 +1421,8 @@
       "chinese_typical_count": 2,
       "chinese_core_candidates": 21,
       "candidate_quality": {
-        "": 16,
+        "": 15,
+        "standalone_frequency_metadata": 1,
         "detached_operational_fragment": 2,
         "来源包含无法可靠恢复的明显OCR错位": 1,
         "PDF断句或残片未形成完整运行事实": 2
@@ -814,7 +1430,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 6,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 12,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "太原/武宿机场运行特点 TAIYUANWUSU(TYN/ZBYN)",
@@ -837,7 +1469,23 @@
         1288
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 17,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 20,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "唐山/三女河机场运行特点",
@@ -850,13 +1498,30 @@
       "chinese_core_candidates": 19,
       "candidate_quality": {
         "PDF断句或残片未形成完整运行事实": 6,
-        "": 12,
+        "": 11,
+        "standalone_frequency_metadata": 1,
         "detached_operational_fragment": 1
       },
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 8,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 8,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "天津/滨海机场运行特点 TIANJINBINHAN(TSN/ZBTJ)",
@@ -879,7 +1544,23 @@
         1277
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 23,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "通辽机场运行特点 TONGLIAO(TGO/ZBTL)",
@@ -899,7 +1580,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 5,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 15,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "张家口/宁远机场运行特点（ZQZ/ZBZJ）",
@@ -909,16 +1606,33 @@
         498
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 49,
+      "chinese_core_candidates": 45,
       "candidate_quality": {
-        "": 41,
+        "": 36,
         "PDF断句或残片未形成完整运行事实": 6,
-        "unparsed_attribute_table": 2
+        "unparsed_attribute_table": 2,
+        "standalone_frequency_metadata": 1
       },
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 24,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "承德/普宁机场运行特点（ZBCD/CDE）",
@@ -937,7 +1651,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 18,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "包头/东河机场运行特点 BAOTOUDONGHE(BAV/ZBOW)",
@@ -957,7 +1687,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 17,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "忻州/五台山机场运行特点",
@@ -976,7 +1722,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 12,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 27,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "乌海机场运行特点 WUHAI(ZBUH/WUA)",
@@ -996,7 +1758,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 16,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 24,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "呼伦贝尔/海拉尔机场运行特点",
@@ -1016,7 +1794,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 10,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 16,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "乌兰浩特/义勒力特机场运行特点 WULANHAOTE",
@@ -1034,7 +1828,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 7,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 7,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "常州奔牛机场运行特点 ZSCG/CZX",
@@ -1056,7 +1866,23 @@
         1307
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "东营胜利机场运行特点 ZSDY/DOY",
@@ -1068,14 +1894,31 @@
       "chinese_typical_count": 0,
       "chinese_core_candidates": 35,
       "candidate_quality": {
-        "": 32,
+        "": 31,
         "PDF断句或残片未形成完整运行事实": 2,
-        "unparsed_attribute_table": 1
+        "unparsed_attribute_table": 1,
+        "standalone_frequency_metadata": 1
       },
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 10,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 21,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "福州/长乐机场运行特点 FUZHOUCHANGLE(FOC/ZSFZ)",
@@ -1097,7 +1940,23 @@
         1313
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 14,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 18,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "杭州/萧山机场运行特点 ZSHC/HGH",
@@ -1120,7 +1979,23 @@
         1318
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 10,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 18,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "合肥/新桥机场运行特点 HEFEIXINQIAO(HFE/ZSOF)",
@@ -1142,7 +2017,23 @@
         1324
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 15,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "上海/虹桥机场运行特点（ZSSS/SHA）",
@@ -1154,9 +2045,10 @@
       "chinese_typical_count": 2,
       "chinese_core_candidates": 40,
       "candidate_quality": {
-        "": 38,
+        "": 37,
         "unparsed_attribute_table": 1,
-        "PDF断句或残片未形成完整运行事实": 1
+        "PDF断句或残片未形成完整运行事实": 1,
+        "standalone_frequency_metadata": 1
       },
       "english_header": "Shanghai/Hongqiao",
       "english_pages": [
@@ -1164,7 +2056,23 @@
         1366
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 21,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 21,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "济南/遥墙机场运行特点 JINANYAOQIANG(TNA/ZSJN)",
@@ -1185,7 +2093,23 @@
         1331
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 12,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 21,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "淮安/涟水机场运行特点 HUAIANLIANSHUI(HIA/ZSSH)",
@@ -1207,7 +2131,23 @@
         1334
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 7,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 15,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "井冈山机场运行特点 JINGGANGSHAN(JGS/ZSGS)",
@@ -1226,7 +2166,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 20,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 26,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "临沂/启阳机场运行特点 LINYI QIYANG(LYI/ZSLY)",
@@ -1245,7 +2201,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 7,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "南京/禄口机场运行特点 NANJINGLUKOU(NKG/ZSNJ)",
@@ -1266,7 +2238,23 @@
         1339
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 15,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 26,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "南通/兴东机场运行特点",
@@ -1288,7 +2276,23 @@
         1349
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 10,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 16,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "南昌/昌北机场运行特点",
@@ -1311,7 +2315,23 @@
         1345
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 21,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 31,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "赣州/黄金机场运行特点",
@@ -1323,13 +2343,30 @@
       "chinese_typical_count": 0,
       "chinese_core_candidates": 19,
       "candidate_quality": {
-        "": 17,
+        "": 16,
+        "standalone_frequency_metadata": 1,
         "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 7,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "宁波/栎社机场运行特点 NINGBOLISHE(NGB/ZSNB)",
@@ -1342,11 +2379,12 @@
       "chinese_core_candidates": 44,
       "candidate_quality": {
         "PDF断句或残片未形成完整运行事实": 3,
-        "": 37,
+        "": 36,
         "standalone_frequency_metadata": 1,
         "来源包含无法可靠恢复的明显OCR错位": 1,
         "detached_operational_fragment": 1,
-        "passenger_or_staff_ground_transport": 1
+        "passenger_or_staff_ground_transport": 1,
+        "passenger_or_staff_access_administration": 1
       },
       "english_header": "Ningbo/Lieshe",
       "english_pages": [
@@ -1354,7 +2392,23 @@
         1357
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 15,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 22,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "上海/浦东机场运行特点（ZSPD/PVG）",
@@ -1366,9 +2420,11 @@
       "chinese_typical_count": 2,
       "chinese_core_candidates": 24,
       "candidate_quality": {
-        "": 21,
+        "": 19,
         "unparsed_attribute_table": 1,
-        "PDF断句或残片未形成完整运行事实": 2
+        "PDF断句或残片未形成完整运行事实": 2,
+        "standalone_frequency_metadata": 1,
+        "passenger_or_staff_border_administration": 1
       },
       "english_header": "Shanghai/Pudong",
       "english_pages": [
@@ -1376,7 +2432,23 @@
         1371
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 7,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 12,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "青岛/胶东机场运行特点",
@@ -1388,7 +2460,9 @@
       "chinese_typical_count": 0,
       "chinese_core_candidates": 30,
       "candidate_quality": {
-        "": 27,
+        "": 25,
+        "standalone_frequency_metadata": 1,
+        "passenger_or_staff_access_administration": 1,
         "detached_operational_fragment": 1,
         "PDF断句或残片未形成完整运行事实": 2
       },
@@ -1398,7 +2472,23 @@
         1377
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 19,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "泉州/晋江机场运行特点",
@@ -1420,7 +2510,23 @@
         1381
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 12,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 12,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "日照/山字河机场运行特点",
@@ -1438,7 +2544,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 19,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "三明/沙县机场运行特点 SANMINGSHAXIAN(SQJ/ZSSM)",
@@ -1457,7 +2579,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 10,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 16,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "厦门/高崎机场运行特点 XIAMENGAOQI(XMN/ZSAM)",
@@ -1480,7 +2618,23 @@
         1414
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 18,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 17,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "温州/龙湾机场运行特点",
@@ -1503,7 +2657,23 @@
         1384
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 7,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 10,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "上饶/三清山机场运行特点",
@@ -1523,7 +2693,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 7,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "徐州/观音机场运行特点 XUZHOUGUANYIN(XUZ/ZSXZ)",
@@ -1542,7 +2728,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 12,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "烟台/蓬莱机场运行特点 YANTAIPENGLAI(YNT/ZSYT)",
@@ -1564,7 +2766,23 @@
         1388
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "扬州/泰州机场运行特点",
@@ -1588,7 +2806,23 @@
         1394
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 21,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 31,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "威海/大水泊机场运行特点WEIHAIDASHUIPO（WEH/ZSWH）",
@@ -1600,7 +2834,8 @@
       "chinese_typical_count": 1,
       "chinese_core_candidates": 31,
       "candidate_quality": {
-        "": 28,
+        "": 27,
+        "standalone_frequency_metadata": 1,
         "来源包含无法可靠恢复的明显OCR错位": 1,
         "PDF断句或残片未形成完整运行事实": 2
       },
@@ -1610,7 +2845,23 @@
         1408
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 19,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "盐城/南洋机场运行特点",
@@ -1631,7 +2882,23 @@
         1401
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 17,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 20,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "阜阳机场运行特点 FUYANG(FUG/ZSFY)",
@@ -1649,7 +2916,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 17,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "舟山/普陀山机场运行特点",
@@ -1661,7 +2944,8 @@
       "chinese_typical_count": 2,
       "chinese_core_candidates": 24,
       "candidate_quality": {
-        "": 21,
+        "": 20,
+        "standalone_frequency_metadata": 1,
         "detached_operational_fragment": 1,
         "PDF断句或残片未形成完整运行事实": 2
       },
@@ -1671,7 +2955,23 @@
         1404
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "菏泽/牡丹机场运行特点 HEZEMUDAN(HZA/ZSHZ)",
@@ -1689,7 +2989,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 12,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 19,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "无锡/硕放机场运行特点 WUXISHUOFANG(WUX/ZSWX)",
@@ -1707,7 +3023,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 22,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 29,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "九江/庐山机场运行特点 JIUJIANGLUSHAN(JIU/ZSJJ)",
@@ -1725,7 +3057,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 15,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 25,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "芜湖/宣州机场运行特点 WUHUXUANZHOU(WHA/ZSWA)",
@@ -1744,7 +3092,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 19,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 26,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "潍坊机场运行特点 WEIFANG(WEF/ZSWF)",
@@ -1763,7 +3127,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 12,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 18,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "连云港/花果山机场运行特点",
@@ -1783,7 +3163,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 15,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "济州机场运行特点 JIZHOU(CJU/RKPC)",
@@ -1808,7 +3204,23 @@
         1486
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 23,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 32,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "首尔仁川机场运行特点 SHOUERRENCHUAN(ICN/RKSI)",
@@ -1830,7 +3242,23 @@
         1528
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 15,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 19,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "茨城机场运行特点 CICHENG(IBR/RJAH)",
@@ -1851,7 +3279,23 @@
         1427
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 8,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 20,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "大阪机场运行特点 DABAN(KIX/RJBB)",
@@ -1873,7 +3317,23 @@
         1444
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 18,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 19,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "东京羽田机场运行特点 DONGJINGYUTIAN(HND/RJTT)",
@@ -1894,7 +3354,23 @@
         1452
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 16,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "高松机场运行特点 GAOSONG(TAK/RJOT)",
@@ -1907,7 +3383,8 @@
       "chinese_core_candidates": 30,
       "candidate_quality": {
         "PDF断句或残片未形成完整运行事实": 6,
-        "": 22,
+        "": 21,
+        "passenger_or_staff_access_administration": 1,
         "来源包含无法可靠恢复的明显OCR错位": 2
       },
       "english_header": "Takarazuka",
@@ -1916,7 +3393,23 @@
         1476
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 12,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 18,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "名古屋机场运行特点 MINGUWU(NGO/RJGG)",
@@ -1937,7 +3430,23 @@
         1496
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 7,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 20,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "札幌机场运行特点 ZHAHUANG(CTS/RJCC)",
@@ -1955,7 +3464,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 16,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 17,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "佐贺机场运行特点 ZUOHE(HSG/RJFS)",
@@ -1974,7 +3499,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 14,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 17,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "成田机场运行特点 CHENGTIAN(RJAA/NRT)",
@@ -1995,7 +3536,23 @@
         1421
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 10,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 14,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "福冈机场运行特点（RJFF/FUK)",
@@ -2016,7 +3573,23 @@
         1462
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 27,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 30,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "冲绳/那霸机场运行特点 NAHA（ROAH/OKA）",
@@ -2037,7 +3610,23 @@
         1436
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 10,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 19,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "釜山机场运行特点 Busan(PUS/RKPK)",
@@ -2059,7 +3648,23 @@
         1470
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 19,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 32,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "清州机场运行特点（RKTU/CJJ）",
@@ -2078,7 +3683,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 22,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 35,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "敦煌/莫高机场运行特点",
@@ -2097,7 +3718,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 10,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "嘉峪关机场运行特点 JIAYUGUAN(JGN/ZLJQ)",
@@ -2116,7 +3753,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 19,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "喀什国际机场运行特点 KASHI(ZWSH/KHG)",
@@ -2134,7 +3787,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 20,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 23,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "兰州/中川机场运行特点 ZLLL/LHW",
@@ -2153,7 +3822,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 22,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 24,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "庆阳/西峰机场运行特点 QINGYANGXIFENG(IQN/ZLQY)",
@@ -2172,7 +3857,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 10,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "克拉玛依机场运行特点 KELAMAYI(KRY/ZWKM)",
@@ -2192,7 +3893,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 15,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 24,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "莎车/叶尔羌机场运行特点",
@@ -2211,7 +3928,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 17,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 19,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "石河子/花园机场运行特点",
@@ -2230,7 +3963,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 16,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 21,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "乌鲁木齐/天山机场运行特点",
@@ -2250,7 +3999,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 25,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 23,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "西安/咸阳机场运行特点 XIANXIANYANG(XIY/ZLXY)",
@@ -2272,7 +4037,23 @@
         1537
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 29,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 43,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "西宁/曹家堡机场运行特点",
@@ -2296,7 +4077,23 @@
         1542
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 31,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 39,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "榆林/榆阳机场运行特点 YULINYUYANG(UYN/ZLYL)",
@@ -2315,7 +4112,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 10,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 10,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "张掖/甘州机场运行特点",
@@ -2334,7 +4147,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 21,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 20,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "中卫/沙坡头机场运行特点",
@@ -2353,7 +4182,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 14,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "伊宁机场运行特点 YINING(YIN/ZWYN)",
@@ -2372,7 +4217,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 23,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 31,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "吐鲁番/交河机场运行特点 TULUFAJIAOHE(TLQ/ZWTL)",
@@ -2384,14 +4245,31 @@
       "chinese_typical_count": 1,
       "chinese_core_candidates": 24,
       "candidate_quality": {
-        "": 20,
+        "": 19,
+        "standalone_frequency_metadata": 1,
         "detached_operational_fragment": 2,
         "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 10,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 14,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "于田/万方机场运行特点 YUTIANWANFANG(YTW/ZWYT)",
@@ -2409,7 +4287,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 22,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 27,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "金昌/金川机场运行特点",
@@ -2427,7 +4321,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "阿勒泰机场运行特点 ALETAI(AAT/ZWAT)",
@@ -2439,15 +4349,32 @@
       "chinese_typical_count": 2,
       "chinese_core_candidates": 27,
       "candidate_quality": {
-        "": 22,
+        "": 21,
         "PDF断句或残片未形成完整运行事实": 3,
+        "standalone_frequency_metadata": 1,
         "来源包含无法可靠恢复的明显OCR错位": 1,
         "detached_operational_fragment": 1
       },
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 15,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "阿克苏/红旗坡机场运行特点 AKESU HONGQIPO",
@@ -2465,7 +4392,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 15,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 18,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "汉中城固机场运行特点 HANZHONG（ZLHZ/HZG）",
@@ -2483,7 +4426,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 18,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 26,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "库尔勒/梨城机场运行特点 KUERLELICHENG",
@@ -2502,7 +4461,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 32,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 33,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "和田昆冈机场运行特点 ZWTN/HTN",
@@ -2520,7 +4495,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 24,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 36,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "安康/富强机场运行特点 ANKANG FUQIANG (AKA/ZLAK)",
@@ -2539,7 +4530,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 30,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 18,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "库车龟兹机场运行特点 KUCHE(KCA/ZWKC)",
@@ -2551,14 +4558,31 @@
       "chinese_typical_count": 2,
       "chinese_core_candidates": 45,
       "candidate_quality": {
-        "": 40,
+        "": 39,
         "PDF断句或残片未形成完整运行事实": 4,
+        "standalone_frequency_metadata": 1,
         "detached_operational_fragment": 1
       },
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 27,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 33,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "成都/天府机场运行特点（ZUTF/TFU）",
@@ -2570,8 +4594,9 @@
       "chinese_typical_count": 0,
       "chinese_core_candidates": 27,
       "candidate_quality": {
-        "": 26,
-        "unparsed_attribute_table": 1
+        "": 25,
+        "unparsed_attribute_table": 1,
+        "passenger_or_staff_access_administration": 1
       },
       "english_header": "Chengdu/Tianfu",
       "english_pages": [
@@ -2579,7 +4604,23 @@
         1550
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 16,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "贵阳/龙洞堡机场运行特点(ZUGY/KWE)",
@@ -2591,8 +4632,9 @@
       "chinese_typical_count": 0,
       "chinese_core_candidates": 33,
       "candidate_quality": {
-        "": 31,
+        "": 30,
         "unparsed_attribute_table": 1,
+        "standalone_frequency_metadata": 1,
         "non_operational_administration": 1
       },
       "english_header": "Guiyang/LongDongBao",
@@ -2601,7 +4643,23 @@
         1571
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 19,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "昆明/长水机场运行特点 ZPPP/KMG",
@@ -2621,7 +4679,25 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 17,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 25,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": [
+            "Flysmart 中要求 21 号跑道复飞单发加速高度为 9500ft，机组注意修改性 能复飞页面的复飞单发加速高度。"
+          ]
+        }
+      }
     },
     {
       "header": "绵阳/南郊机场运行特点",
@@ -2639,7 +4715,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "南充/高坪机场运行特点",
@@ -2658,7 +4750,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "黔江/武陵山机场运行特点",
@@ -2677,7 +4785,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 22,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "铜仁/凤凰机场运行特点",
@@ -2696,7 +4820,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 27,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "宜宾/五粮液机场运行特点",
@@ -2715,7 +4855,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 17,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "西双版纳/嘎洒机场运行特点 ZPJH/JHG",
@@ -2734,7 +4890,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 15,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 30,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "重庆/江北机场运行特点 ZUCK/CKG",
@@ -2753,7 +4925,25 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 16,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 24,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": [
+            "Flysmart 中显示 02L/02R 进近需修改复飞单发加速高度（4900ft）。"
+          ]
+        }
+      }
     },
     {
       "header": "遵义/新舟机场运行特点（ZUZY/ZYI）",
@@ -2765,14 +4955,31 @@
       "chinese_typical_count": 1,
       "chinese_core_candidates": 27,
       "candidate_quality": {
-        "": 24,
+        "": 23,
         "PDF断句或残片未形成完整运行事实": 2,
-        "unparsed_attribute_table": 1
+        "unparsed_attribute_table": 1,
+        "standalone_frequency_metadata": 1
       },
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 17,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "遵义/茅台机场运行特点 ZUNYIMAOTAI(WMT/ZUMT)",
@@ -2791,7 +4998,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 10,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 21,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "毕节/飞雄机场运行特点 BIJIEFEIXIONG(BFJ/ZUBJ)",
@@ -2809,7 +5032,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 8,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 7,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "凯里/黄平机场运行特点 KAILIHUANGPIN(KJH/ZUKJ)",
@@ -2828,7 +5067,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 1,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 8,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "广元/盘龙机场运行特点",
@@ -2847,7 +5102,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 15,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 31,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "丽江/三义机场运行特点 ZPLJ/LJG",
@@ -2866,7 +5137,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 14,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 27,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "文山/砚山机场运行特点",
@@ -2885,7 +5172,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 19,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "重庆/仙女山机场运行特点",
@@ -2904,7 +5207,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 15,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "泸州/云龙机场运行特点 LUZHOUYUNLONG(LZO/ZULZ)",
@@ -2922,7 +5241,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 7,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 7,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "成都/双流机场运行特点（ZUUU/CTU）",
@@ -2944,7 +5279,23 @@
         1576
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 16,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "德宏/芒市机场运行特点 MANGSHI(LUM/ZPMS)",
@@ -2957,13 +5308,30 @@
       "chinese_core_candidates": 28,
       "candidate_quality": {
         "PDF断句或残片未形成完整运行事实": 3,
-        "": 23,
+        "": 22,
+        "standalone_frequency_metadata": 1,
         "detached_operational_fragment": 2
       },
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 16,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "安顺/黄果树机场运行特点",
@@ -2982,7 +5350,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 7,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 12,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "大理/凤仪机场运行特点（ZPDL/DLU）",
@@ -3001,7 +5385,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 24,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "北海/福成机场运行特点 BEIHAIFUCHENG(BHY/ZGBH)",
@@ -3019,7 +5419,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 15,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "常德/桃花源机场运行特点",
@@ -3036,7 +5452,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "揭阳/潮汕机场运行特点",
@@ -3059,7 +5491,23 @@
         1579
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "恩施/许家坪机场运行特点",
@@ -3077,7 +5525,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 15,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 21,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "广州/白云机场运行特点",
@@ -3089,9 +5553,10 @@
       "chinese_typical_count": 1,
       "chinese_core_candidates": 46,
       "candidate_quality": {
-        "": 40,
+        "": 39,
         "PDF断句或残片未形成完整运行事实": 4,
         "standalone_frequency_metadata": 1,
+        "passenger_or_staff_access_administration": 1,
         "来源包含无法可靠恢复的明显OCR错位": 1
       },
       "english_header": "GUANGZHOU BAIYUN",
@@ -3100,7 +5565,23 @@
         1584
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 25,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 22,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "桂林/两江机场运行特点",
@@ -3120,7 +5601,23 @@
         1588
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 5,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 8,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "海口/美兰机场运行特点 HAIKOUMEILAN(HAK/ZJHK)",
@@ -3132,7 +5629,8 @@
       "chinese_typical_count": 2,
       "chinese_core_candidates": 15,
       "candidate_quality": {
-        "": 14,
+        "standalone_frequency_metadata": 1,
+        "": 13,
         "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": "Haikou Meilan",
@@ -3141,7 +5639,23 @@
         1627
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 7,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "柳州/白莲机场运行特点",
@@ -3159,7 +5673,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 12,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "洛阳机场运行特点 LUOYANG(LYA/ZHLY)",
@@ -3171,13 +5701,30 @@
       "chinese_typical_count": 2,
       "chinese_core_candidates": 15,
       "candidate_quality": {
-        "": 14,
+        "": 13,
+        "standalone_frequency_metadata": 1,
         "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "南宁/吴圩机场运行特点NANNINGWUXU(NNG/ZGNN)",
@@ -3198,7 +5745,23 @@
         1593
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 18,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 28,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "南阳/姜营机场运行特点",
@@ -3210,14 +5773,31 @@
       "chinese_typical_count": 2,
       "chinese_core_candidates": 30,
       "candidate_quality": {
-        "": 27,
+        "": 26,
+        "standalone_frequency_metadata": 1,
         "来源包含无法可靠恢复的明显OCR错位": 1,
         "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 16,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 15,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "三亚/凤凰机场运行特点",
@@ -3239,7 +5819,23 @@
         1596
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 5,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 6,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "深圳/宝安机场运行特点 SHENZHENBAOAN(SZX/ZGSZ)",
@@ -3261,7 +5857,23 @@
         1605
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 19,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 22,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "十堰/武当山机场运行特点",
@@ -3280,7 +5892,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 7,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 18,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "武汉/天河机场运行特点 WUHANTIANHE(WUH/ZHHH)",
@@ -3292,7 +5920,8 @@
       "chinese_typical_count": 1,
       "chinese_core_candidates": 28,
       "candidate_quality": {
-        "": 25,
+        "": 24,
+        "standalone_frequency_metadata": 1,
         "PDF断句或残片未形成完整运行事实": 3
       },
       "english_header": "Wuhan/Tianhe",
@@ -3301,7 +5930,23 @@
         1609
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 15,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "宜昌/三峡机场运行特点 YICHANGSANXIA(YIH/ZHYC)",
@@ -3320,7 +5965,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 10,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "岳阳/三荷机场运行特点 YUEYANGSANHE",
@@ -3338,7 +5999,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 4,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 7,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "湛江/吴川机场运行特点",
@@ -3356,7 +6033,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 4,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 8,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "张家界/荷花机场运行特点",
@@ -3378,7 +6071,23 @@
         1612
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 7,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "长沙/黄花机场运行特点",
@@ -3390,7 +6099,8 @@
       "chinese_typical_count": 6,
       "chinese_core_candidates": 17,
       "candidate_quality": {
-        "": 15,
+        "": 14,
+        "standalone_frequency_metadata": 1,
         "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": "Changsha/Huanghua",
@@ -3399,7 +6109,23 @@
         1616
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 8,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "郑州/新郑机场运行特点",
@@ -3411,7 +6137,8 @@
       "chinese_typical_count": 4,
       "chinese_core_candidates": 30,
       "candidate_quality": {
-        "": 24,
+        "": 23,
+        "passenger_or_staff_border_administration": 1,
         "standalone_frequency_metadata": 1,
         "来源包含无法可靠恢复的明显OCR错位": 2,
         "PDF断句或残片未形成完整运行事实": 3
@@ -3422,7 +6149,23 @@
         1621
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 10,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 18,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "怀化/芷江机场运行特点 HUAIHUAZHIJIANG(HJJ/ZGCJ)",
@@ -3440,7 +6183,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 5,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 12,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "珠海/金湾机场运行特点 ZHUHAIJINWAN(ZUH/ZGSD)",
@@ -3459,7 +6218,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 13,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 15,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "邵阳/武冈机场运行特点",
@@ -3477,7 +6252,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 3,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 11,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "琼海/博鳌机场运行特点 QIONGHAIBOAO(ZJQH/BAR)",
@@ -3496,7 +6287,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 10,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 18,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "襄阳/刘集机场运行特点 XIANGYANGLIUJI(XFN/ZHXF)",
@@ -3514,7 +6321,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 5,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 6,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "衡阳/南岳机场运行特点",
@@ -3533,7 +6356,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 9,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 15,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "玉林/福绵机场运行特点 YULINFUMIAN(YLX/ZGYL)",
@@ -3551,7 +6390,23 @@
       "english_header": null,
       "english_pages": [],
       "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 8,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 10,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     },
     {
       "header": "乌兰巴托/成吉思汗机场运行特点 ULAANBAATAR",
@@ -3561,13 +6416,14 @@
         1630
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 2745,
+      "chinese_core_candidates": 2747,
       "candidate_quality": {
         "": 2687,
         "detached_operational_fragment": 17,
         "PDF断句或残片未形成完整运行事实": 22,
         "passenger_or_staff_ground_transport": 7,
-        "standalone_frequency_metadata": 12
+        "standalone_frequency_metadata": 13,
+        "passenger_or_staff_border_administration": 1
       },
       "english_header": "Ulaanbaatar Chinggis Khaan International",
       "english_pages": [
@@ -3575,8 +6431,25 @@
         1630
       ],
       "english_identity_status": "ICAO_MATCHED",
-      "identity_error": false
+      "identity_error": false,
+      "role_checks": {
+        "departure": {
+          "selected": 2459,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        },
+        "arrival": {
+          "selected": 2474,
+          "opposite_only_selected": 0,
+          "duplicate_texts": 0,
+          "departure_performance_candidates": [],
+          "go_around_acceleration_mentions": []
+        }
+      }
     }
   ],
+  "role_audit_date": "2026-10-26",
   "notice": "Structural inventory only, not proof of bilingual content equivalence or source absence."
 }

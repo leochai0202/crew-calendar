@@ -13,9 +13,22 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from crew_agents import flight_prep_agent as agent
 
 
-def review(repo: Path, baseline_ref: str, current_path: Path, output: Path) -> None:
+def error_check(error: str) -> tuple[str, tuple[str, ...]]:
+    if "英文配对缺失" in error:
+        return "coverage_gap", ()
+    if "关键事实不一致" in error:
+        return "critical", ()
+    if "关键概念不一致" in error:
+        tail = error.split("英文缺少", 1)[-1]
+        return "semantic", tuple(sorted(re.findall(r"'([^']+)'", tail)))
+    return "other", ()
+
+
+def review(repo: Path, baseline_ref: str, current_path: Path, output: Path,
+           baseline_path: str = "docs/diagnostics/source-only-manual-audit.json",
+           source_rules: Path | None = None) -> None:
     baseline = json.loads(subprocess.run(
-        ["git", "show", f"{baseline_ref}:docs/diagnostics/source-only-manual-audit.json"],
+        ["git", "show", f"{baseline_ref}:{baseline_path}"],
         cwd=repo, capture_output=True, check=True, encoding="utf-8",
     ).stdout)
     current = json.loads(current_path.read_text(encoding="utf-8"))
@@ -60,7 +73,9 @@ def review(repo: Path, baseline_ref: str, current_path: Path, output: Path) -> N
                                     english_after=match["text_en"], english_page_after=match["english_source_page"],
                                     validation_after=validation,
                                     english_tokens_after=sorted(agent.manual_pairing_tokens(match["text_en"])))
-                    entry["status"] = "UNRESOLVED" if validation else "COUNTERPART_VALIDATED"
+                    entry["status"] = ("CHECK_REPAIRED_SOURCE_CONFLICT_REMAINS"
+                        if validation and all(error_check(value) != error_check(error) for value in validation)
+                        else "UNRESOLVED" if validation else "COUNTERPART_VALIDATED")
                 else:
                     entry["status"] = "NOT_SELECTED_REQUIRES_EXCLUSION_REVIEW"
                     evidence["duty_routes"] = (new_group or {}).get("routes", [])
@@ -70,11 +85,32 @@ def review(repo: Path, baseline_ref: str, current_path: Path, output: Path) -> N
                             or agent.compact_key(fact["text_zh"]) in agent.compact_key(str(item.get("clause", ""))))]
                 entry["source_evidence"].append(evidence)
         entries.append(entry)
-    result = {"baseline_ref": baseline_ref, "manual": current["manual"], "sha256": current["sha256"],
+    result = {"baseline_ref": baseline_ref, "baseline_path": baseline_path, "manual": current["manual"], "sha256": current["sha256"],
               "errors_before": len(baseline["offline"]["errors"]), "errors_after": len(current["offline"]["errors"]),
               "outcomes": dict(Counter(entry["status"] for entry in entries)), "entries": entries,
               "current_errors": current["offline"]["errors"],
               "notice": "Candidate absence is not proof of source absence. Not-selected records are not counted as fixed."}
+    if source_rules:
+        rules = json.loads(source_rules.read_text(encoding="utf-8"))
+        assert rules["manual_sha256"] == current["sha256"], "source review belongs to a different manual"
+        issues = {item["source_record_id"]: item for item in rules["issues"]}
+        classified = []
+        for error in current["offline"]["errors"]:
+            group = next((item for item in current["offline"]["groups"] if error.startswith("/".join(item["flights"]))), None)
+            fact = next((item for item in (group or {}).get("facts", []) if re.search(re.escape(item["fact_id"]) + r"(?!\d)", error)), None) if "身份不一致" not in error else None
+            rule = next((issues[key] for key in (fact or {}).get("source_record_ids", []) if key in issues), None)
+            classified.append({
+                "error": error, "flights": (group or {}).get("flights", []),
+                "classification": (rule or {}).get("class", "DERIVED" if "身份不一致" in error else "UNCLASSIFIED"),
+                "review": rule,
+                "fact": {key: fact.get(key) for key in (
+                    "airport", "fact_id", "source_record_ids", "source_page", "source_heading", "source_section",
+                    "operational_phase", "text_zh", "text_en", "source_text_en", "english_source_page", "english_source_record_id",
+                )} if fact else None,
+            })
+        result["current_issue_classification"] = classified
+        result["classification_counts"] = dict(Counter(item["classification"] for item in classified))
+        result["discovery_attention"] = rules.get("discovery_attention", [])
     output.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     lines = ["# PR #58: every baseline bilingual error", "",
              "Diagnostic evidence only. Not a formal briefing; unresolved items remain FAILED_SAFE.",
@@ -91,6 +127,16 @@ def review(repo: Path, baseline_ref: str, current_path: Path, output: Path) -> N
                           "English page: " + str(evidence.get("english_page_after") or evidence["english_page_before"]), "",
                           evidence.get("english_after", evidence["english_before"]) or "UNRESOLVED: no safely paired English text.", "",
                           "Validation: " + str(evidence.get("validation_after", "Not selected; see exclusion evidence in JSON")), ""])
+    if source_rules:
+        lines += ["## Every current error: source versus parser classification", "",
+                  "A=parser bug, B=existing source but unresolved reliable correspondence, C=reviewed chapter gap, D=source difference/conflict. Derived parity failures are not additional source items.", ""]
+        for number, issue in enumerate(result["current_issue_classification"], 1):
+            rule, fact = issue["review"] or {}, issue["fact"] or {}
+            lines += [f"### Current {number}: {issue['classification']}", "", issue["error"], "",
+                      f"Chinese page: {rule.get('zh_pages') or fact.get('source_page') or 'N/A'}; English page: {rule.get('en_pages') or fact.get('english_source_page') or 'N/A'}", "",
+                      str(fact.get("text_zh") or "Derived parity failure"), "",
+                      str(fact.get("text_en") or "No safe counterpart bound; see original source candidates in audit JSON."), "",
+                      str(rule.get("evidence") or "Requires separate source review."), ""]
     output.with_suffix(".md").write_text("\n".join(lines), encoding="utf-8")
     print(json.dumps({key: result[key] for key in ("errors_before", "errors_after", "outcomes")}))
 
@@ -99,7 +145,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo", type=Path, default=Path("."))
     parser.add_argument("--baseline-ref", required=True)
+    parser.add_argument("--baseline-path", default="docs/diagnostics/source-only-manual-audit.json")
     parser.add_argument("--current", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--source-rules", type=Path)
     args = parser.parse_args()
-    review(args.repo.resolve(), args.baseline_ref, args.current, args.output)
+    review(args.repo.resolve(), args.baseline_ref, args.current, args.output, args.baseline_path, args.source_rules)

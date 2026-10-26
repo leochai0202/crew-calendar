@@ -2004,6 +2004,10 @@ def build_english_manual_index(text: str) -> list[dict[str, object]]:
         if page_match:
             current_page = int(page_match.group(1))
         normalized_title = normalize_text(raw).translate(str.maketrans("（）／－", "()/-"))
+        # Chinese chapters may print an English name and ICAO in their title.
+        # That is not a second English chapter spanning the intervening airports.
+        if is_manual_airport_header(raw):
+            continue
         code_header = ENGLISH_MANUAL_CODE_HEADER_RE.fullmatch(normalized_title)
         if "airport" not in raw.lower() and not code_header:
             continue
@@ -2120,9 +2124,13 @@ def _english_manual_heading(value: str) -> tuple[str, str]:
         return "core", "ground"
     if "POSTLANDINGGROUNDOPERATIONSPHASE" in compact:
         return "core", "landing_ground"
+    if re.fullmatch(r"(?:[IVX]+|\d+)?POSTLANDINGTAXI(?:OPERATIONS)?", compact):
+        return "core", "landing_ground"
     if "OPERATINGCHARACTERISTICSINSPECIFICENVIRONMENTS" in compact:
         return "core", "operations"
     if "DEPARTURE" in compact and "PHASE" in compact:
+        return "core", "departure"
+    if re.fullmatch(r"(?:[IVX]+|\d+)?(?:DEPARTURE|TAKEOFF(?:AND)?CLIMB|DEPARTURE(?:AND)?CLIMB)(?:OPERATIONS)?", compact):
         return "core", "departure"
     if "ARRIVAL" in compact and "LANDING" in compact and "PHASE" in compact:
         return "core", "arrival"
@@ -2208,7 +2216,14 @@ def complete_basic_operational_items(lines: list[str], *, english: bool = False)
 
 def source_parent_has_condition(value: str) -> bool:
     """A conditional parent cannot be discarded when reading its subitems."""
-    return value.rstrip().endswith((":", "：")) and bool(
+    if re.fullmatch(r"(?:North|South|East|West)bound\s*(?:Arrival|Departure)(?:\s*Operations)?|向[东西南北](?:运行|进场|离场)", value.strip(), re.I):
+        return True
+    runway_heading = bool(
+        re.search(r"(?<!\d)\d{2}[LRC]?\s*号(?:跑道)?|\b(?:RWY|RUNWAY)\s*\d{2}[LRC]?(?![A-Z0-9])", value, re.I)
+        and not re.search(r"[，,。；;]", value)
+        and value.count(":") + value.count("：") == 1
+    )
+    return value.rstrip().endswith((":", "：")) and bool(runway_heading or
         detected_season_scope(value) or re.search(
             r"\b(?:winter|summer|spring|autumn|night|icing|when|if)\b|夜间|结冰|雨雪|如果|当.*时|使用.*跑道时",
             value, re.I,
@@ -2263,6 +2278,16 @@ def extract_english_manual_facts(text: str) -> list[ManualEnglishFact]:
         if "版本：" in line or re.search(r"页码\s*[:：]\s*\d+", line):
             continue
         if re.search(r"(?:Updated on|Responsible|Responsibility Division)", line, re.I):
+            continue
+        if (category != "typical" and not main_item_re.match(line) and not sub_item_re.match(line)
+                and source_parent_has_condition(line)):
+            flush()
+            category = "core"
+            if re.search(r"DEPARTURE", line, re.I):
+                phase = "ground" if re.search(r"TAXI", line, re.I) else "departure"
+            elif re.search(r"ARRIVAL", line, re.I):
+                phase = "arrival"
+            current_level, current_parts, conditional_parent = "main", [line], True
             continue
         heading_category, heading_phase = _english_manual_heading(line)
         if heading_category:
@@ -2362,6 +2387,7 @@ def manual_pairing_tokens(value: str) -> set[str]:
     text = re.sub(r"(?<![\d.])\d{1,3}(?:,\d{3})+(?![\d.])", lambda match: match.group().replace(",", ""), text)
     text = re.sub(r"\b(landing|landed|takeoff)\s+(at|on)(\d{2}[LRC]?)\b", r"\1 \2 \3", text, flags=re.I)
     text = re.sub(r"\b(in|within|at)([A-Z]{3,4}(?:TMA|CTR|ATZ))\b", r"\1 \2", text)
+    text = re.sub(r"\bMEHT(?=\d)", "MEHT ", text, flags=re.I)
     # Layout extraction can join adjacent ECAM words. Separate only a complete
     # sequence of known annunciation words, never arbitrary uppercase fixes.
     annunciation_words = ("PRIMARY", "FAULT", "RPTG", "BKUP", "LOST", "ADS-B", "GPS", "NAV", "SPD")
@@ -2378,13 +2404,19 @@ def manual_pairing_tokens(value: str) -> set[str]:
     upper = text.upper()
     tokens = set(critical_fact_tokens(text))
     tokens.update(re.findall(r"(?<![A-Z0-9])[A-Z]{1,5}\d{1,4}[A-Z]?(?![A-Z0-9.]\d|[A-Z0-9])", upper))
-    tokens.update(word.upper() for word in re.findall(r"(?<![A-Za-z])(?:OK|STOP)(?![A-Za-z])", text, re.I))
+    # An imperative "stop taxi" is an action, not a displayed STOP legend.
+    # Do not require a literal annunciation where both sources say to stop.
+    annunciation_text = re.sub(r"\bstop\s+taxi(?:ing)?\b", "", text, flags=re.I)
+    tokens.update(word.upper() for word in re.findall(r"(?<![A-Za-z])(?:OK|STOP)(?![A-Za-z])", annunciation_text, re.I))
     if any(marker in text for marker in ("管制", "区调", "空管")) or re.search(
         r"\b(?:ATC|AIR\s+TRAFFIC\s+CONTROL|CONTROLLERS?|CONTROL'S|CONTROLLED\s+AREA)\b",
         upper,
     ):
         tokens.add("ATC")
     if re.search(r"\bAIR\s*TRAFFIC\s*CONTROL\b|\b(?:THE\s+)?CONTROL\s+(?:MAY\s+)?(?:INSTRUCT|REQUIRE|CLEAR|DIRECT|DESCEND)", upper):
+        tokens.add("ATC")
+    if (re.search(r"\bWHEN DIRECTING\b[^.!?]{0,45}\bAIRCRAFT\b", upper)
+            and not re.search(r"\b(?:GROUND CREW|MAINTENANCE|MARSHALLERS?|CAPTAIN|PILOTS?|FIRE)\b", upper)):
         tokens.add("ATC")
     if "通播" in text:
         tokens.add("ATIS")
@@ -2395,14 +2427,15 @@ def manual_pairing_tokens(value: str) -> set[str]:
         tokens.add("ATC")
     if re.search(r"\b(?:RECEIVED|DEPARTURE|ATC)\s+CLEARANCE\b", upper):
         tokens.add("ATC")
-    for chinese_term, acronym in (("飞行操作通告", "FOIB"), ("目视泊位引导系统", "VDGS")):
+    for chinese_term, acronym in (("飞行操作通告", "FOIB"), ("目视泊位引导系统", "VDGS"), ("杰普逊", "JEPPESEN")):
         if chinese_term in text:
             tokens.add(acronym)
     if re.search(r"(?<![A-Z])UTC(?![A-Z])", upper):
         tokens.add("UTC")
-    if "盲降" in text or re.search(r"\bILS\b", upper):
+    if "盲降" in text or re.search(r"\bILS\b|\bBLIND\s+LANDING\s+RANGE\s+FINDER\b", upper):
         tokens.add("ILS")
     identifier_text = re.sub(r"(?<![A-Za-z0-9])\d+(?:\.\d+)?\s*(?:NM|KM|FT|KT|KTS|MIN|S)\b", " ", text, flags=re.I)
+    identifier_text = re.sub(r"\bstop\s+taxi(?:ing)?\b", "", identifier_text, flags=re.I)
     for token in re.findall(
         r"(?<![A-Za-z0-9])(?:[A-Z]{2,8}(?:/[A-Z]{2,8})?\d*(?:\.\d+)?|"
         r"[A-Z]\d{1,4})(?![A-Za-z0-9])",
@@ -2444,6 +2477,10 @@ def manual_pairing_tokens(value: str) -> set[str]:
         tokens.add(f"RWY{runway}")
     for runway in re.findall(r"\b(?:LANDING|LANDED|TAKEOFF)\s+(?:ON\s+|AT\s+)?(\d{2}[LRC]?)(?![A-Z0-9])", upper):
         tokens.add(f"RWY{runway}")
+    for runway in re.findall(r"\b(\d{2}[LRC])\s+AIRCRAFT\s+LANDED\b", upper):
+        tokens.add("RWY" + runway)
+    if manual_basic_field(text) in {"papi", "runways"}:
+        tokens.update("RWY" + runway for runway in re.findall(r"(?<![A-Z0-9])(\d{2}[LRC]?)(?=\s*[:：])", upper))
     if any(token.startswith("RWY") and token != "RWY" for token in tokens):
         tokens.discard("RWY")
     for degree in re.findall(
@@ -2599,7 +2636,137 @@ def pair_manual_english_items(
         )
         for index, value in zip(positions, values):
             paired[index] = value
-    return paired
+    return project_shared_english_records(chinese_items, english_facts, category, paired)
+
+
+def manual_pairing_concepts(value: str) -> set[str]:
+    """Comparison anchors only; these never supply or rewrite output text."""
+    value = re.sub(r"(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])", "", value)
+    concepts = {name for name, zh, en in SEMANTIC_CONCEPT_PATTERNS
+                if zh.search(value) or en.search(value)}
+    for name, pattern in (
+        ("thunderstorm", r"雷暴|雷雨|\bTHUNDERSTORMS?\b"),
+        ("typhoon", r"台风|\bTYPHOONS?\b"),
+        ("season_spring", r"春季|春末|初春|春夏|冬春|\b(?:LATE|EARLY|MID)?SPRING\b"),
+        ("season_summer", r"夏季|夏初|夏秋|春夏|至夏|\b(?:LATE|EARLY|MID)?SUMMER\b"),
+        ("season_autumn", r"秋季|夏秋|\bAUTUMN\b|\bFALL SEASON\b"),
+        ("season_winter", r"冬季|冬春|\bWINTER\b"),
+        ("noise_procedure", r"减噪程序|NOISE\s*(?:REDUCTION|ABATEMENT)\s*PROCEDURE"),
+        ("decompression_procedure", r"释压程序|(?:PRESSURE\s*RELIEF|DEPRESSURIZATION|DECOMPRESSION)\s*PROCEDURE"),
+        ("radio_failure", r"无线电失效|通信失效|(?:RADIO|COMMUNICATIONS?)\s*FAILURE"),
+    ):
+        if re.search(pattern, value, re.I):
+            concepts.add(name)
+    return concepts
+
+
+def english_record_sentence_spans(value: str) -> list[tuple[int, int]]:
+    """Offsets into the unchanged source, not reassembled/translated prose."""
+    boundaries = [0, *(match.end() for match in re.finditer(r"(?<=[.!?;])\s+(?=[A-Z])", value)), len(value)]
+    return [(left, right) for left, right in zip(boundaries, boundaries[1:]) if value[left:right].strip()]
+
+
+def source_projection_controls_match(chinese: str, english: str) -> bool:
+    """Shared nouns/values cannot justify reversing an explicit source control."""
+    zh = re.sub(r"(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])", "", chinese)
+    negative_zh = bool(re.search(r"禁止|不得|严禁|不允许|没有|无(?!关|线电|故|法)|未(?:包含|提供|载|启用|建立)|无需|无须|不必|不需要|不能|不应|不使用|不建议", zh))
+    en = re.sub(r"\bNO\.\s*(?=\d)", "", english, flags=re.I)
+    negative_en = bool(re.search(r"\b(?:NO|NOT|NEVER|WITHOUT|PROHIBITED|FORBIDDEN|UNAVAILABLE|ABSENT)\b", en, re.I))
+    required_zh = bool(re.search(r"必须|务必|应当|须", re.sub(r"无需|无须|不需要", "", zh)))
+    required_en = bool(re.search(r"\b(?:MUST|SHALL|REQUIRED)\b", re.sub(r"\bNOT REQUIRED\b|\b(?:MUST|SHALL) NOT\b", "", en, flags=re.I), re.I))
+    return negative_zh == negative_en and required_zh == required_en
+
+
+def unique_source_english_span(chinese: str, english: str) -> str:
+    """Return one exact, independent source span or retain a coverage gap."""
+    anchors, concepts = manual_pairing_tokens(chinese), manual_pairing_concepts(chinese)
+    if not concepts:
+        return ""
+    if re.match(r"\s*(?:When|If|Unless|While|In case)\b", english, re.I):
+        return ""  # an inherited parent condition is not a sentence-local fact
+    sentences = english_record_sentence_spans(english)
+    matches = []
+    for left in range(len(sentences)):
+        for right in range(left + 1, len(sentences) + 1):
+            value = english[sentences[left][0]:sentences[right - 1][1]].strip()
+            if re.match(r"(?:It|Its|This|These|They|Their|Such|Then|Therefore|Otherwise)\b", value, re.I):
+                continue
+            if (manual_pairing_tokens(value) == anchors and manual_pairing_concepts(value) == concepts
+                    and source_projection_controls_match(chinese, value)):
+                matches.append(value)
+    return matches[0] if len(matches) == 1 else ""
+
+
+def project_shared_english_records(
+    chinese: list[str], english_facts: list[ManualEnglishFact], category: str,
+    paired: list[str],
+) -> list[str]:
+    """Recover disjoint original sentences shared by several source records.
+
+    Ordinary order-based matches are unchanged. Projection requires exact
+    critical anchors plus positive bilingual concepts; cross-phase recovery
+    additionally requires multiple anchors and an explicit compatible role.
+    Ambiguous/shared spans and conditional continuations are never guessed.
+    """
+    result = list(paired)
+    for parent in english_facts:
+        if parent.category != category or category == "typical":
+            continue
+        sentences = english_record_sentence_spans(parent.text)
+        if len(sentences) < 2 or re.match(r"\s*(?:When|If|Unless|While|During|In case)\b", parent.text, re.I):
+            continue
+        owners = [index for index, value in enumerate(result) if value == parent.text]
+        proposals: dict[int, tuple[int, int]] = {}
+        for index, item in enumerate(chinese):
+            if result[index] and result[index] != parent.text:
+                continue
+            phase = _chinese_manual_fact_phase(item, category)
+            same_phase = phase == parent.phase
+            anchors, concepts = manual_pairing_tokens(item), manual_pairing_concepts(item)
+            if not concepts or (not same_phase and (parent.phase not in {"core", "operations"} or len(anchors) < 2)):
+                continue
+            spans = []
+            for left in range(len(sentences)):
+                for right in range(left + 1, len(sentences) + 1):
+                    fragment = parent.text[sentences[left][0]:sentences[right - 1][1]].strip()
+                    if re.match(r"(?:It|Its|This|These|They|Their|Such|Then|Therefore|Otherwise)\b", fragment, re.I):
+                        continue
+                    if manual_pairing_tokens(fragment) != anchors or manual_pairing_concepts(fragment) != concepts:
+                        continue
+                    if not source_projection_controls_match(item, fragment):
+                        continue
+                    if not same_phase:
+                        explicit_departure = bool(re.search(r"\b(?:DEPARTURE|TAKEOFF|SID|CLIMB)\b", fragment, re.I))
+                        explicit_arrival = bool(re.search(r"\b(?:ARRIVAL|APPROACH|LANDING|STAR)\b", fragment, re.I))
+                        if not ((phase == "departure" and explicit_departure and not explicit_arrival)
+                                or (phase == "arrival" and explicit_arrival and not explicit_departure)):
+                            continue
+                    spans.append((left, right))
+            if len(spans) == 1:
+                proposals[index] = spans[0]
+        if not proposals or len(set(owners) | set(proposals)) < 2:
+            continue  # never discard an unexplained sentence merely to pass
+        spans = list(proposals.values())
+        if any(a < d and c < b for n, (a, b) in enumerate(spans) for c, d in spans[n + 1:]):
+            continue
+        same_phase_order = [(index, span) for index, span in proposals.items()
+                            if _chinese_manual_fact_phase(chinese[index], category) == parent.phase]
+        if [span for _index, span in sorted(same_phase_order)] != sorted(span for _index, span in same_phase_order):
+            continue
+        for index, (left, right) in proposals.items():
+            result[index] = parent.text[sentences[left][0]:sentences[right - 1][1]].strip()
+        occupied = {number for left, right in spans for number in range(left, right)}
+        remaining = [number for number in range(len(sentences)) if number not in occupied]
+        for index in set(owners) - set(proposals):
+            # Keep source conflicts on the residual original sentences; do not
+            # reuse sentences already bound to a different Chinese record.
+            if remaining and remaining == list(range(remaining[0], remaining[-1] + 1)):
+                value = parent.text[sentences[remaining[0]][0]:sentences[remaining[-1]][1]].strip()
+                if manual_pairing_tokens(chinese[index]) & manual_pairing_tokens(value):
+                    result[index] = value
+                    continue
+            result[index] = ""  # Chinese fact remains selected and FAILED_SAFE
+    return result
 
 
 def _align_manual_source_order(chinese: list[str], english: list[str]) -> list[str]:
@@ -2613,11 +2780,15 @@ def _align_manual_source_order(chinese: list[str], english: list[str]) -> list[s
     en_tokens = [manual_pairing_tokens(value) for value in english]
     def concepts(text: str) -> set[str]:
         compact = re.sub(r"\s+", "", text).upper()
-        return {name for name, pattern in (
+        result = {name for name, pattern in (
             ("noise_procedure", r"减噪程序|NOISE(?:REDUCTION|ABATEMENT)PROCEDURE"),
             ("decompression_procedure", r"释压程序|(?:PRESSURERELIEF|DEPRESSURIZATION|DECOMPRESSION)PROCEDURE"),
             ("radio_failure", r"无线电失效|通信失效|(?:RADIO|COMMUNICATIONS?)FAILURE"),
         ) if re.search(pattern, compact)}
+        if (re.search(r"早出港|早航班|EARLYDEPARTUREFLIGHTS?", compact)
+                and re.search(r"跑道|RUNWAY", compact) and re.search(r"放行|CLEARANCE", compact)):
+            result.add("early_departure_runway_selection")
+        return result
     zh_concepts, en_concepts = list(map(concepts, chinese)), list(map(concepts, english))
     gap = -12
 
@@ -2841,6 +3012,7 @@ OPERATIONAL_SOURCE_LABEL_ANCHOR_RE = re.compile(
     r"(?:ATC|RNP|ILS|SID|STAR|RNAV|PBN|VOR|DME|TCAS|TA/RA|GPS|MCDU|"
     r"\d|跑道|滑行道|航路点|进场|离场|进近|着陆|起飞|复飞|航路|空域|"
     r"管制|塔台|机组|军航|军方|夜间|白天|高度|速度|航向|气压|间隔|距离|"
+    r"减噪|释压|通信|通讯|失效|应急|"
     r"时间|等待|穿越|推出|滑行|使用|如遇|如果|禁止|不得|必须|仅|"
     r"(?<![A-Z0-9])[A-Z]{3,6}(?![A-Z0-9]))",
     re.IGNORECASE,
@@ -3473,6 +3645,13 @@ def source_operational_value_issue(value: str) -> str:
         return "contact_metadata"
     if re.search(r"护照检查|海关口|过海关|过检|机组专用通道|\b(?:passport\s*control|customs\s*checkpoint|crew\s*inspection)\b", text, re.I) and not re.search(r"跑道|滑行道|飞机|航空器|\b(?:RUNWAY|TAXIWAY|AIRCRAFT)\b", text, re.I):
         return "passenger_or_staff_ground_transport"
+    if (re.search(r"边检|通关|自助通道|\b(?:IMMIGRATION\s+CLEARANCE|SELF[- ]SERVICE\s+KIOSKS?)\b", text, re.I)
+            and not re.search(r"跑道|滑行道|飞机|航空器|\b(?:RUNWAY|TAXIWAY|AIRCRAFT)\b", text, re.I)):
+        return "passenger_or_staff_border_administration"
+    if (re.search(r"门禁|登机口|\b(?:ACCESS CONTROL|BOARDING GATES?)\b", text, re.I)
+            and re.search(r"开门|电话|通行|进出|\b(?:OPEN|DOOR|PHONE|ENTERING)\b", text, re.I)
+            and not re.search(r"飞机|航空器|跑道|滑行|推出|碰撞|净距|机位|\b(?:AIRCRAFT|RUNWAY|TAXI|STAND|PUSHBACK|COLLISION)\b", text, re.I)):
+        return "passenger_or_staff_access_administration"
     if re.fullmatch(r"(?:[A-Z/\u4e00-\u9fff ]{0,20}(?:频率|频点)|(?:ATIS|TWR|GND|APP|DEL|FREQUENCY))\s*[:：]?\s*\d{2,3}\.\d+\s*(?:MHZ)?[。.]?", text, re.I):
         return "standalone_frequency_metadata"
     return ""
@@ -3487,6 +3666,10 @@ def filter_source_administrative_sentences(value: str, *, english: bool = False)
     phase = SOURCE_HEADING_RE.match(value)
     prefix = phase.group() if phase else ""
     body = value[phase.end():] if phase else value
+    # Border-entry instructions can span sentences with implicit subjects.
+    # Do not retain an orphaned kiosk instruction after dropping its context.
+    if source_operational_value_issue(body) == "passenger_or_staff_border_administration":
+        return ""
     if english:
         sentences = re.split(r"(?<=[.!?])\s+(?=[A-Z])|(?<=[.!?])(?=[A-Z])", body)
     else:
@@ -3562,6 +3745,15 @@ def scan_chapter_source_records(lines: list[str]) -> tuple[list[str], list[str]]
             flush()
             category, phase, active = "typical", "", True
             continue
+        if not item and category != "typical" and source_parent_has_condition(line):
+            flush()
+            category, active = "core", True
+            parts, conditional_parent = [line], True
+            if "进场" in line:
+                phase = "进场"
+            elif "离场" in line:
+                phase = "离场"
+            continue
         if kind or stage or source_phase:
             flush()
             category, active = "core", True
@@ -3579,7 +3771,9 @@ def scan_chapter_source_records(lines: list[str]) -> tuple[list[str], list[str]]
             category = "core"
             if source_parent_has_condition(body):
                 parts = [body]
-                conditional_parent = True
+                # Arabic parenthesized siblings are the same source level;
+                # an (1) condition cannot silently govern the later (2).
+                conditional_parent = not bool(re.match(r"^\s*[（(]\d+[）)]", line))
             continue
         if item:
             flush()
@@ -3716,20 +3910,27 @@ def manual_airport_data(
                     ) for chapter in english_chapters)
                     for chapter in english_chapters:
                         english_facts.extend(extract_english_manual_facts(extract_pdf_layout_text(str(source.resolve()), int(chapter["start_page"]), int(chapter["end_page"]))))
+                paired_typical = pair_manual_english_items(typical, english_facts, "typical")
+                paired_core = pair_manual_english_items(core, english_facts, "core")
+                english_originals = {normalize_text(fact.text): fact.original_text or fact.text for fact in english_facts}
+                for value in [*paired_typical, *paired_core]:
+                    parents = {fact.original_text or fact.text for fact in english_facts if value and value in fact.text}
+                    if len(parents) == 1:
+                        english_originals[normalize_text(value)] = next(iter(parents))
                 result[airport] = {
                     "source_verbatim": True,
                     "source_pages_by_text": {
                         key: page for section in sections
                         for key, page in source_item_page_map(list(section.get("lines") or []), [*typical, *core], int(section.get("start_page") or 0)).items()
                     },
-                    "english_pages_by_text": source_item_page_map(english_text.splitlines(), [fact.text for fact in english_facts], int(english_chapter["start_page"])) if english_chapter else {},
+                    "english_pages_by_text": source_item_page_map(english_text.splitlines(), [*[fact.text for fact in english_facts], *paired_typical, *paired_core], int(english_chapter["start_page"])) if english_chapter else {},
                     "source_original_by_text": {
                         **original_core,
                         **{normalize_text("运行特点：" + operational_attribute_text(strip_manual_ordinal_prefix(normalize_text(raw)))): normalize_text(raw)
                         for section in sections for raw in section.get("lines", [])
                         if operational_attribute_text(strip_manual_ordinal_prefix(normalize_text(raw)))},
                     },
-                    "english_original_by_text": {normalize_text(fact.text): fact.original_text or fact.text for fact in english_facts},
+                    "english_original_by_text": english_originals,
                     "source_page": ",".join(
                         f"{section['start_page']}-{section['end_page']}"
                         for section in sections if section.get("start_page")
@@ -3737,12 +3938,8 @@ def manual_airport_data(
                     "typical_incidents": typical,
                     "core_threats": core,
                     "discarded_core_items": discarded_core,
-                    "english_typical_incidents": pair_manual_english_items(
-                        typical, english_facts, "typical"
-                    ),
-                    "english_core_threats": pair_manual_english_items(
-                        core, english_facts, "core"
-                    ),
+                    "english_typical_incidents": paired_typical,
+                    "english_core_threats": paired_core,
                     "manual_english_available": bool(english_chapter),
                     "english_airport_name": (
                         str(english_chapter.get("name", ""))
@@ -4021,9 +4218,9 @@ def _source_clause_phase(value: str, heading: str) -> str:
         return "landing_ground"
     if heading == "气象特点":
         return "weather"
-    if any(token in value for token in ("进近", "着陆", "落地", "五边", "下滑道", "盲降", "ILS")):
+    if any(token in value for token in ("进近", "着陆", "落地", "五边", "下滑道", "盲降", "ILS", "复飞")):
         return "approach"
-    if any(token in value for token in ("起飞", "离场", "初始爬升")):
+    if any(token in value for token in ("起飞", "离场", "初始爬升", "单发加速高度", "EOSID", "单发离港")):
         return "departure"
     if any(token in value for token in ("滑行", "等待道口", "机位", "推出")):
         return "ground"
@@ -6965,11 +7162,14 @@ def filter_fact_for_duty(
         return None
     rendered_semantics = source_semantics(filtered)
     english_removed = bool(clauses and filtered != fact.zh)
+    projected_english = (unique_source_english_span(filtered, fact.text_en)
+                         if english_removed and fact.source_verbatim else "")
+    english_gap = english_removed and not projected_english
     return replace(
         fact,
         text_zh=filtered,
-        text_en="" if english_removed else fact.text_en,
-        english_source=("manual_coverage_gap" if fact.source_verbatim else "unavailable") if english_removed else fact.english_source,
+        text_en=projected_english if english_removed else fact.text_en,
+        english_source=("manual_coverage_gap" if fact.source_verbatim else "unavailable") if english_gap else fact.english_source,
         english_concepts=() if english_removed else fact.english_concepts,
         season_scope=scope,
         topic=classify_fact_topic(replace(fact, text_zh=filtered)),
@@ -7025,7 +7225,7 @@ def verbatim_manual_fact(airport: str, record: dict[str, object], index: int) ->
         airport_name_en=str(record.get("english_airport_name") or ""),
         source_verbatim=True, source_text_en=str(record.get("source_original_text_en") or original_en),
         english_source_page=str(record.get("english_source_page") or "N/A"),
-        english_source_record_id=(airport + ":en:" + hashlib.sha256(original_en.encode("utf-8")).hexdigest()[:16]) if original_en else "",
+        english_source_record_id=(airport + ":en:" + hashlib.sha256(str(record.get("source_original_text_en") or original_en).encode("utf-8")).hexdigest()[:16]) if original_en else "",
     ))
 
 
@@ -10509,8 +10709,8 @@ def normalize_aviation_terminology(text_zh: str, text_en: str) -> str:
 
 
 SEMANTIC_CONCEPT_PATTERNS: tuple[tuple[str, re.Pattern[str], re.Pattern[str]], ...] = (
-    ("runway", re.compile(r"跑道|(?<!\d)\d{1,2}[LRC]?号(?:盲降|进近|VOR|ILS|五边)"), re.compile(r"\b(?:RUNWAY|RWY)\b", re.I)),
-    ("ILS", re.compile(r"盲降|\bILS\b", re.I), re.compile(r"\bILS\b", re.I)),
+    ("runway", re.compile(r"跑道|(?<!\d)\d{1,2}[LRC]?号(?:盲降|进近|VOR|ILS|五边)"), re.compile(r"\b(?:RUNWAYS?|RWY)\b|\bRWY(?=\d{2}[LRC]?\b)", re.I)),
+    ("ILS", re.compile(r"盲降|\bILS\b", re.I), re.compile(r"\bILS\b|\bBLIND\s+LANDING\s+RANGE\s+FINDER\b", re.I)),
     ("RNP", re.compile(r"\bRNP\d*\b", re.I), re.compile(r"\bRNP\d*\b", re.I)),
     ("VOR/DME", re.compile(r"VOR/DME", re.I), re.compile(r"VOR/DME", re.I)),
     ("VOR", re.compile(r"\bVOR\d*\b", re.I), re.compile(r"\bVOR\d*\b", re.I)),
@@ -10548,18 +10748,42 @@ def bilingual_semantic_mismatches(text_zh: str, text_en: str) -> list[str]:
     ]
     # Some source records use "repetition" in a clearance-confirmation
     # sentence. Recognize that bounded context, not any occurrence of repeat.
-    repeated_clearance = bool(re.search(r"\b(?:PDC|CLEARANCE)\b[^.!?]{0,100}\b(?:REPETITION|REPEAT(?:ED|ING)?)\b", text_en, re.I))
+    repeated_clearance = bool(re.search(r"\b(?:PDC|CLEARANCE)\b[^.!?]{0,100}\b(?:REPETITION|REPEAT(?:ED|ING)?)\b|\bRECITE\s+(?:THE\s+)?PDC\b", text_en, re.I))
     if "readback" in mismatches and "PDC" in text_zh.upper() and repeated_clearance:
         mismatches.remove("readback")
     explicit_requirement = re.search(r"(?:无需|不需|不必|必须|应|需要)[^。；]{0,8}复诵", text_zh)
     if explicit_requirement and "readback" not in mismatches:
         zh_negative = bool(re.search(r"(?:无需|不需(?:要)?|不必)[^。；]{0,5}复诵", text_zh))
         en_negative = bool(re.search(
-            r"\b(?:NO NEED (?:FOR|TO)|NEED NOT|DO NOT|DOES NOT|WITHOUT)\s+(?:\w+\s+){0,3}(?:REPETITION|REPEAT|READ\s*BACK)\b|"
+            r"\b(?:NO NEED (?:FOR|TO)|NEED NOT|DO NOT|DOES NOT|WITHOUT)\s+(?:\w+\s+){0,3}(?:REPETITION|REPEAT|RECITE|READ\s*BACK)\b|"
             r"\b(?:READ\s*BACK|READBACK)\b[^.!?]{0,25}\bNOT (?:REQUIRED|NECESSARY)\b|\bNO READBACK REQUIREMENT\b", text_en, re.I))
         if zh_negative != en_negative:
             mismatches.append("readback_requirement_polarity")
     return mismatches
+
+
+def bilingual_keyed_table_mismatches(text_zh: str, text_en: str) -> list[str]:
+    """Compare runway-to-value associations, not only a bag of numbers."""
+    if manual_basic_field(text_zh) != "papi" or manual_basic_field(text_en) != "papi":
+        return []
+
+    def rows(text: str) -> dict[str, set[tuple[str, ...]]]:
+        labels = list(re.finditer(r"(?<![A-Z0-9])(?:RWY\s*)?(\d{2}[LRC]?)(?=\s*[:：])", text.upper()))
+        values: dict[str, set[tuple[str, ...]]] = {}
+        for number, label in enumerate(labels):
+            end = labels[number + 1].start() if number + 1 < len(labels) else len(text)
+            body = text[label.end():end]
+            tokens = manual_pairing_tokens(body)
+            tokens.update(value + "DEG" for value in re.findall(r"(\d+(?:\.\d+)?)\s*°", body))
+            values.setdefault(label.group(1), set()).add(tuple(sorted(tokens)))
+        return values
+
+    left, right = rows(text_zh), rows(text_en)
+    if not left and not right:
+        return []  # a prose field is not a keyed numeric table
+    if not left or not right or left != right or any(len(values) != 1 or not next(iter(values)) for values in [*left.values(), *right.values()]):
+        return ["papi_runway_value_association"]
+    return []
 
 
 def professionalize_source_english(fact: BilingualFact) -> BilingualFact:
@@ -10668,6 +10892,7 @@ def validate_bilingual_facts(facts: list[BilingualFact]) -> list[str]:
                 f"中英文关键事实不一致：{fact.key}：中文{sorted(zh_tokens)}，英文{sorted(en_tokens)}"
             )
         semantic_mismatches = bilingual_semantic_mismatches(fact.zh, fact.en)
+        semantic_mismatches.extend(bilingual_keyed_table_mismatches(fact.zh, fact.en))
         if semantic_mismatches:
             errors.append(
                 f"中英文关键概念不一致：{fact.key}：英文缺少{semantic_mismatches}"
