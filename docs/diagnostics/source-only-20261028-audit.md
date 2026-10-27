@@ -15,7 +15,9 @@ SHA256: `e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8`
 | 上海浦东 | ZSPD | 15 | 15 | FAILED_SAFE | 1 |
 | 南京禄口 | ZSNJ | 30 | 26 | FAILED_SAFE | 18 |
 | 厦门高崎 | ZSAM | 24 | 23 | FAILED_SAFE | 10 |
-| 雅加达苏加诺 | WIII | 22 | 14 | FAILED_SAFE | 20 |
+| 雅加达苏加诺哈达 | WIII | 26 | 18 | FAILED_SAFE | 22 |
+| 大连周水子 | ZYTL | 33 | 26 | FAILED_SAFE | 20 |
+| 长春龙嘉 | ZYCC | 19 | 17 | FAILED_SAFE | 7 |
 
 ## 广州白云: Chinese core source preview
 
@@ -963,7 +965,7 @@ Operation restrictions: None.
 
 ### Every acceptance error
 
-- 中英文关键事实不一致：南京禄口_typical_record_1：中文['800FT', 'ATC', 'ILS', 'RWY07', 'RWY25']，英文[]
+- 中英文关键事实不一致：南京禄口_typical_record_1：中文['800FT', 'ATC', 'DATE:2024-05-17', 'ILS', 'RWY07', 'RWY25']，英文[]
 - 中英文关键概念不一致：南京禄口_typical_record_1：英文缺少['runway', 'final_approach', 'ATC']
 - 中英文关键事实不一致：南京禄口_core_record_10：中文['ATC', 'D5', 'RWY07']，英文['D5', 'RWY07']
 - 中英文关键事实不一致：南京禄口_core_record_11：中文['STAND115']，英文[]
@@ -1393,15 +1395,17 @@ Pressure relief procedure: The route between Xiamen and Lanzhou involves pressur
 
 Low-temperature correction: In accordance with the company's relevant regulations
 
-## 雅加达苏加诺: Chinese core source preview
+## 雅加达苏加诺哈达: Chinese core source preview
 
 无单发离场程序。
 
-1、25R 或 07L 离场，分别对应离场程序为：25R DOLTA 2D；07L DOLTA 2A。2、25R 离场程序无低的高度限制，只有在走廊口点有 个 FL200 以下的限制，07L 离场程序里有 5000 尺的高度限 制，离地后是否需要取消可向 ATC证实（注意放行里给的 高度一般是 FL280）。
+跑道 25R，机坪管制会指挥内滑（无标识的滑行道）到 NC3，hold short NP1，交给地面管制，地面管制指挥：NC3，NP2，holding piont25R（上次地面直接省略到 N，直 接说的是 C3，P2，注意识别，回复完整）。后续地面移交 塔台时需仔细听是否为 monitor Tower，如是，转频后不需 联系，等待塔台呼叫即可。
+
+25R 或 07L 离场，分别对应离场程序为：25R DOLTA 2D；07L DOLTA 2A。
+
+25R 离场程序无低的高度限制，只有在走廊口点有 个 FL200 以下的限制，07L 离场程序里有 5000 尺的高度限 制，离地后是否需要取消可向 ATC证实（注意放行里给的 高度一般是 FL280）。
 
 管制员会询问航路点 PARDI 的预计到达时间，由于 口音问题（且 ATC的音量非常小），很难听清楚，ATC：CL TO FL280，EXP FL300，estimated PARDI time。
-
-离场后滑行。
 
 在沿 NP2 滑行时换频塔台，雅加达塔台管制指令:line up and wait RWY25R，（随意）并未给出具体的滑行道进跑 道，证实后使用 N1 进跑道 25R。N1 跑道等待线距离 NP2 较近，塔台指挥 25R N1 跑道外等可以在 NP2上等待避免 滑过。
 
@@ -1415,11 +1419,15 @@ Low-temperature correction: In accordance with the company's relevant regulation
 
 对于向南落地，24 号对应 AMBOY 2M 进场，且目前 只有 24 号 RNP 进近。后续进近可以申请 25L 的盲降，若管 制改为 25L ILS进近，引导直飞 UBNUX 点后按程序接 25L ILS，后直飞 UGSEL 4000ft 建立 25L ILS。4.07R 的进场程序 AMBOY 2F 有两个航路点 KAKAP、DAKAR 管制指挥直飞时发音相似，机组注意识别。
 
-跑道信息：06/24：3000 米长，60 米宽 07L/25R：3600 米长，60 米宽 07R/25L：3660 米长，60 米宽 06：仅 RNP (LNAV/VNAV或 LNAV) 24、07L/R、25L/R：均 ILS 或 LOC和 RNP 进近 目前 24 号盲降不工作，持续时间至 202611 月 27 号 （通告中有信息）。
+07L/R、25L/R：均 ILS 或 LOC和 RNP 进近 目前 24 号盲降不工作，持续时间至 202611 月 27 号 （通告中有信息）。
 
 有 DATIS，(有延迟，有时与实际起降方向不一致)进近 时距离本场 200 海里即可接收到语音通播。
 
-06/24 跑道仅用于着陆，如该跑道可用于起飞和着陆会在 通告中说明。06、07R 用于落地。
+06/24 跑道仅用于着陆，如该跑道可用于起飞和着陆会在 通告中说明。
+
+07R 用于落地。
+
+跑道信息：06/24：3000 米长，60 米宽 07L/25R：3600 米长，60 米宽 07R/25L：3660 米长，60 米宽 06：仅 RNP (LNAV/VNAV或 LNAV) 24、07L/R、25L/R：均 ILS 或 LOC和 RNP 进近 目前 24 号盲降不工作，持续时间至 202611 月 27 号 （通告中有信息）。
 
 地形特点：地势南高北低，机场周边 20NM 范围内地 势较为平坦，净空条件良好，南侧 25NM 以外地势较高。网格安全高度为 12300FT，飞行时注意地形影响。
 
@@ -1431,6 +1439,8 @@ Low-temperature correction: In accordance with the company's relevant regulation
 
 机场标高：10.3 米（34 英尺）。
 
+跑道信息：06/24：3000 米长，60 米宽 07L/25R：3600 米长，60 米宽 07R/25L：3660 米长，60 米宽 06：仅 RNP (LNAV/VNAV或 LNAV)。
+
 气候特征：属于热带雨林气候，年平均气温为 27° C。
 
 减噪程序无。
@@ -1439,11 +1449,19 @@ Low-temperature correction: In accordance with the company's relevant regulation
 
 部分 ATC口音较重（有印度口音），且有时候机组回 复错误的信息，ATC不予纠正，注意证实。
 
-## 雅加达苏加诺: English core source preview
+## 雅加达苏加诺哈达: English core source preview
 
 No engine-out departure procedures.
 
-When lining up or aligned on runway,ATC may issue revised departure procedure: turn right as soon as practicable after lift-offto NOHET. Crew shall prepare in advance, update flight plan, complete additional briefing and departure amendment checklist without haste.
+Departure Taxi (RWY 25R): Apron Control may instruct taxi via unnamed inner taxiway to NC3, hold short of NP1 before handover to Ground Control. Ground Control typical routing: NC3, NP2, holding point RWY 25R. Reminder: Controllers may abbreviate instructions (e.g. “C3, P2” instead of full designators). Identify routing correctly and read back full taxiway designators. When Ground hands over to Tower, listen carefully for instruction “monitor Tower”. Ifadvised to monitor only, maintain listening watch on Tower frequency without initiating contact until called.
+
+RWY 25R departure: DOLTA 2D RWY 07L departure: DOLTA 2A DOLTA 2D (RWY 25R) has no low-level altitude constraint; only FL200 restriction at corridor fix.
+
+DOLTA 2A (RWY 07L) incorporates a 5000 ftaltitude restriction after take-off. Crews may confirm with ATC whether cancellation is required (clearance altitude normally FL280 as stated on departure clearance).
+
+Controllers will request estimated time over waypoint PARDI. Poor audio volume and heavy accents often make instruction difficult to comprehend. Typical clearance format: “Cleared to FL280, expect FL300, estimated PARDI time…”
+
+No dedicated lost communication, emergency descent procedures published within Jakarta aerodrome instructions or arrival/departure charts. Standard practices for emergency landing, unlawful interference, communication failure, interception and SAR operations comply with recommended procedures stipulated in ICAO Annexes and relevant documents. Observation from previous sectors: Jakarta Ground Control instructions tend to be informal; controllers often omit error correction, so crews must verify all clearances actively. Due to relatively new route operation, numerous controllers are unfamiliar with Spring Airlines callsign and may use “CQH” in lieu of “AIR SPRING”. Maintain vigilance for correct identification.
 
 After exiting Singapore FIR and entering Jakarta FIR, arrival procedure designators will normally be issued on the third frequency (prior to waypoint KIKOR). Arrival clearance may occasionally be issued immediately upon entering Jakarta FIR without runway assignment. Runway information is broadcast on DATIS. Crews may identify landing runway by cross-referencing arrival instructions and verify runway when contacting Approach frequency.
 
@@ -1451,11 +1469,11 @@ Northbound Arrival Only AMBOY 2M procedure applies to RWY 07R. No AMBOY arrival 
 
 Southbound Arrival RWY 24 is served by AMBOY 2M arrival, and only RNP approach is published for RWY 24. Crews may request ILS approach RWY 25L during arrival. If cleared for RWY 25L ILS, vectors direct to UBNUX tojoin published procedure, then direct toUGSEL; maintain 4000 ft tointercept RWY 25L ILS.
 
-Runway Information RWY 06/24: 3000 m long, 60 m wide RWY 07L/25R: 3600 m long, 60 m wide RWY 07R/25L: 3660 m long, 60 m wide RWY 06: RNP only (LNAV/VNAV or LNAV) RWY 24, 07L/R, 25L/R: ILS /LOC or RNP approaches available The ILS facility for RWY 24 isunserviceable until 27 NOV 2026 (refer to relevant NOTAM).
-
 DATIS available; voice broadcast can be received at 200 NM from the aerodrome upon inbound.
 
 Runway Operational Restrictions RWY 06/24 is for landing only. If both takeoff and landing operations are permitted on this runway, relevant information will be published via NOTAM.
+
+Runway Information RWY 06/24: 3000 m long, 60 m wide RWY 07L/25R: 3600 m long, 60 m wide RWY 07R/25L: 3660 m long, 60 m wide RWY 06: RNP only (LNAV/VNAV or LNAV) RWY 24, 07L/R, 25L/R: ILS /LOC or RNP approaches available The ILS facility for RWY 24 isunserviceable until 27 NOV 2026 (refer to relevant NOTAM).
 
 Terrain: Terrain risesfrom north tosouth. The area within 20 NM of the aerodrome is relatively flatwith unobstructed clearance. Terrain elevation increases beyond 25 NM to the south. Grid Minimum Safe Altitude: 12300 FT. Exercise caution regarding terrain during flight.
 
@@ -1471,36 +1489,40 @@ Some ATC controllers have heavy accents (Indian accent). Controllers may not cor
 
 ### Every acceptance error
 
-- 中英文关键事实不一致：雅加达苏加诺_core_record_18：中文['ATC', 'DOLTA', 'FL200', 'FL280']，英文['ATC', 'NOHET']
-- 最新版机场手册英文配对缺失：雅加达苏加诺_core_record_19：雅加达苏加诺／雅加达苏加诺机场运行特点 Soekarno airport (WIII/CGK)／核心威胁与运行特点
-- 最新版机场手册英文配对缺失：雅加达苏加诺_core_record_20：雅加达苏加诺／雅加达苏加诺机场运行特点 Soekarno airport (WIII/CGK)／核心威胁与运行特点
-- 最新版机场手册英文配对缺失：雅加达苏加诺_core_record_21：雅加达苏加诺／雅加达苏加诺机场运行特点 Soekarno airport (WIII/CGK)／核心威胁与运行特点
-- 最新版机场手册英文配对缺失：雅加达苏加诺_core_record_23：雅加达苏加诺／雅加达苏加诺机场运行特点 Soekarno airport (WIII/CGK)／核心威胁与运行特点
-- 最新版机场手册英文配对缺失：雅加达苏加诺_core_record_24：雅加达苏加诺／雅加达苏加诺机场运行特点 Soekarno airport (WIII/CGK)／核心威胁与运行特点
-- 中英文关键事实不一致：雅加达苏加诺_core_record_12：中文['ATC', 'ATIS', 'KIKOR']，英文['DATIS', 'FIR', 'KIKOR']
-- 中英文关键概念不一致：雅加达苏加诺_core_record_12：英文缺少['ATC']
-- 中英文关键事实不一致：雅加达苏加诺_core_record_13：中文['180KT', '4000FT', '4NM', '5000FT', '8NM', 'AKSOX', 'AMBOY', 'ATC', 'DAKAR', 'LUVAX', 'OLPAS', 'RWY06', 'RWY07R']，英文['180KT', '2M', '4NM', '5000FT', '8NM', 'AKSOX', 'AMBOY', 'ATC', 'DAKAR', 'FIR', 'ILS', 'LUVAX', 'OLPAS', 'RWY06', 'RWY07R']
-- 中英文关键事实不一致：雅加达苏加诺_core_record_14：中文['2M', '4000FT', 'AMBOY', 'ATC', 'DAKAR', 'ILS', 'KAKAP', 'RNP', 'RWY24', 'RWY25L', 'UBNUX', 'UGSEL']，英文['2M', '4000FT', 'AMBOY', 'ILS', 'RNP', 'RWY24', 'RWY25L', 'UBNUX']
-- 中英文关键概念不一致：雅加达苏加诺_core_record_14：英文缺少['ATC']
-- 中英文关键事实不一致：雅加达苏加诺_core_record_3：中文['3000M', '3600M', '3660M', '60M', 'ILS', 'LNAV', 'LNAV/VNAV', 'LOC', 'RNP', 'RWY06', 'RWY07L', 'RWY07R', 'RWY24', 'RWY25L', 'RWY25R', 'RWY27']，英文['3000M', '3600M', '3660M', '60M', 'ILS', 'LNAV', 'LNAV/VNAV', 'LOC', 'NOTAM', 'NOV', 'RNP', 'RWY06', 'RWY07L', 'RWY07R', 'RWY24', 'RWY25L', 'RWY25R']
-- 中英文关键事实不一致：雅加达苏加诺_core_record_8：中文['200NM', 'ATIS', 'DATIS']，英文['200NM', 'DATIS']
-- 中英文关键事实不一致：雅加达苏加诺_core_record_11：中文['RWY06', 'RWY24']，英文['NOTAM', 'RWY06', 'RWY24']
-- 最新版机场手册英文配对缺失：雅加达苏加诺_core_record_15：雅加达苏加诺／雅加达苏加诺机场运行特点 Soekarno airport (WIII/CGK)／核心威胁与运行特点
-- 中英文关键事实不一致：雅加达苏加诺_core_record_16：中文['EC1', 'G12', 'G13', 'G14', 'G18', 'G19', 'JEPPESEN', 'NC2', 'NC4', 'NP1', 'RWY06', 'RWY07R', 'RWY24', 'S4', 'SP2', 'TAXI']，英文['EC1', 'NC2', 'NC4', 'NP1', 'RWY07R', 'S4', 'SP2', 'TWY']
-- 中英文关键概念不一致：雅加达苏加诺_core_record_16：英文缺少['taxi_route']
-- 最新版机场手册英文配对缺失：雅加达苏加诺_core_record_1：雅加达苏加诺／雅加达苏加诺机场运行特点 Soekarno airport (WIII/CGK)／核心威胁与运行特点
-- 最新版机场手册英文配对缺失：雅加达苏加诺_core_record_9：雅加达苏加诺／雅加达苏加诺机场运行特点 Soekarno airport (WIII/CGK)／核心威胁与运行特点
-- 中英文选定事实身份不一致：中文['雅加达苏加诺_core_record_6', '雅加达苏加诺_core_record_18', '雅加达苏加诺_core_record_19', '雅加达苏加诺_core_record_20', '雅加达苏加诺_core_record_21', '雅加达苏加诺_core_record_23', '雅加达苏加诺_core_record_24', '雅加达苏加诺_core_record_12', '雅加达苏加诺_core_record_13', '雅加达苏加诺_core_record_14', '雅加达苏加诺_core_record_3', '雅加达苏加诺_core_record_8', '雅加达苏加诺_core_record_11', '雅加达苏加诺_core_record_4', '雅加达苏加诺_core_record_15', '雅加达苏加诺_core_record_16', '雅加达苏加诺_core_record_1', '雅加达苏加诺_core_record_2', '雅加达苏加诺_core_record_5', '雅加达苏加诺_core_record_7', '雅加达苏加诺_core_record_9', '雅加达苏加诺_core_record_10']，英文['雅加达苏加诺_core_record_6', '雅加达苏加诺_core_record_18', '雅加达苏加诺_core_record_12', '雅加达苏加诺_core_record_13', '雅加达苏加诺_core_record_14', '雅加达苏加诺_core_record_3', '雅加达苏加诺_core_record_8', '雅加达苏加诺_core_record_11', '雅加达苏加诺_core_record_4', '雅加达苏加诺_core_record_16', '雅加达苏加诺_core_record_2', '雅加达苏加诺_core_record_5', '雅加达苏加诺_core_record_7', '雅加达苏加诺_core_record_10']
+- 中英文关键事实不一致：雅加达苏加诺哈达_core_record_20：中文['ATC', 'C3', 'NC3', 'NP1', 'NP2', 'P2', 'PIONT25R', 'RWY25R']，英文['ATC', 'C3', 'NC3', 'NP1', 'NP2', 'P2', 'RWY25R']
+- 中英文关键事实不一致：雅加达苏加诺哈达_core_record_21：中文['DOLTA']，英文['DOLTA', 'FL200', 'RWY07L', 'RWY25R']
+- 中英文关键事实不一致：雅加达苏加诺哈达_core_record_22：中文['ATC', 'FL200', 'FL280']，英文['ATC', 'DOLTA', 'FL280', 'RWY07L']
+- 中英文关键事实不一致：雅加达苏加诺哈达_core_record_23：中文['ATC', 'CL', 'EXP', 'FL280', 'FL300', 'PARDI', 'TO']，英文['ATC', 'FL280', 'FL300', 'PARDI']
+- 最新版机场手册英文配对缺失：雅加达苏加诺哈达_core_record_24：雅加达苏加诺哈达／雅加达苏加诺机场运行特点 Soekarno airport (WIII/CGK)／核心威胁与运行特点
+- 最新版机场手册英文配对缺失：雅加达苏加诺哈达_core_record_26：雅加达苏加诺哈达／雅加达苏加诺机场运行特点 Soekarno airport (WIII/CGK)／核心威胁与运行特点
+- 中英文关键事实不一致：雅加达苏加诺哈达_core_record_14：中文['ATC', 'ATIS', 'KIKOR']，英文['DATIS', 'FIR', 'KIKOR']
+- 中英文关键概念不一致：雅加达苏加诺哈达_core_record_14：英文缺少['ATC']
+- 中英文关键事实不一致：雅加达苏加诺哈达_core_record_15：中文['180KT', '4000FT', '4NM', '5000FT', '8NM', 'AKSOX', 'AMBOY', 'ATC', 'DAKAR', 'LUVAX', 'OLPAS', 'RWY06', 'RWY07R']，英文['180KT', '2M', '4NM', '5000FT', '8NM', 'AKSOX', 'AMBOY', 'ATC', 'DAKAR', 'FIR', 'ILS', 'LUVAX', 'OLPAS', 'RWY06', 'RWY07R']
+- 中英文关键事实不一致：雅加达苏加诺哈达_core_record_16：中文['2M', '4000FT', 'AMBOY', 'ATC', 'DAKAR', 'ILS', 'KAKAP', 'RNP', 'RWY24', 'RWY25L', 'UBNUX', 'UGSEL']，英文['2M', '4000FT', 'AMBOY', 'ILS', 'RNP', 'RWY24', 'RWY25L', 'UBNUX']
+- 中英文关键概念不一致：雅加达苏加诺哈达_core_record_16：英文缺少['ATC']
+- 最新版机场手册英文配对缺失：雅加达苏加诺哈达_core_record_4：雅加达苏加诺哈达／雅加达苏加诺机场运行特点 Soekarno airport (WIII/CGK)／核心威胁与运行特点
+- 中英文关键事实不一致：雅加达苏加诺哈达_core_record_9：中文['200NM', 'ATIS', 'DATIS']，英文['200NM', 'DATIS']
+- 中英文关键事实不一致：雅加达苏加诺哈达_core_record_12：中文['RWY06', 'RWY24']，英文['NOTAM', 'RWY06', 'RWY24']
+- 最新版机场手册英文配对缺失：雅加达苏加诺哈达_core_record_13：雅加达苏加诺哈达／雅加达苏加诺机场运行特点 Soekarno airport (WIII/CGK)／核心威胁与运行特点
+- 最新版机场手册英文配对缺失：雅加达苏加诺哈达_core_record_17：雅加达苏加诺哈达／雅加达苏加诺机场运行特点 Soekarno airport (WIII/CGK)／核心威胁与运行特点
+- 中英文关键事实不一致：雅加达苏加诺哈达_core_record_18：中文['EC1', 'G12', 'G13', 'G14', 'G18', 'G19', 'JEPPESEN', 'NC2', 'NC4', 'NP1', 'RWY06', 'RWY07R', 'RWY24', 'S4', 'SP2', 'TAXI']，英文['EC1', 'NC2', 'NC4', 'NP1', 'RWY07R', 'S4', 'SP2', 'TWY']
+- 中英文关键概念不一致：雅加达苏加诺哈达_core_record_18：英文缺少['taxi_route']
+- 最新版机场手册英文配对缺失：雅加达苏加诺哈达_core_record_1：雅加达苏加诺哈达／雅加达苏加诺机场运行特点 Soekarno airport (WIII/CGK)／核心威胁与运行特点
+- 最新版机场手册英文配对缺失：雅加达苏加诺哈达_core_record_3：雅加达苏加诺哈达／雅加达苏加诺机场运行特点 Soekarno airport (WIII/CGK)／核心威胁与运行特点
+- 最新版机场手册英文配对缺失：雅加达苏加诺哈达_core_record_10：雅加达苏加诺哈达／雅加达苏加诺机场运行特点 Soekarno airport (WIII/CGK)／核心威胁与运行特点
+- 中英文选定事实身份不一致：中文['雅加达苏加诺哈达_core_record_7', '雅加达苏加诺哈达_core_record_20', '雅加达苏加诺哈达_core_record_21', '雅加达苏加诺哈达_core_record_22', '雅加达苏加诺哈达_core_record_23', '雅加达苏加诺哈达_core_record_24', '雅加达苏加诺哈达_core_record_26', '雅加达苏加诺哈达_core_record_27', '雅加达苏加诺哈达_core_record_14', '雅加达苏加诺哈达_core_record_15', '雅加达苏加诺哈达_core_record_16', '雅加达苏加诺哈达_core_record_4', '雅加达苏加诺哈达_core_record_9', '雅加达苏加诺哈达_core_record_12', '雅加达苏加诺哈达_core_record_13', '雅加达苏加诺哈达_core_record_28', '雅加达苏加诺哈达_core_record_5', '雅加达苏加诺哈达_core_record_17', '雅加达苏加诺哈达_core_record_18', '雅加达苏加诺哈达_core_record_1', '雅加达苏加诺哈达_core_record_2', '雅加达苏加诺哈达_core_record_3', '雅加达苏加诺哈达_core_record_6', '雅加达苏加诺哈达_core_record_8', '雅加达苏加诺哈达_core_record_10', '雅加达苏加诺哈达_core_record_11']，英文['雅加达苏加诺哈达_core_record_7', '雅加达苏加诺哈达_core_record_20', '雅加达苏加诺哈达_core_record_21', '雅加达苏加诺哈达_core_record_22', '雅加达苏加诺哈达_core_record_23', '雅加达苏加诺哈达_core_record_27', '雅加达苏加诺哈达_core_record_14', '雅加达苏加诺哈达_core_record_15', '雅加达苏加诺哈达_core_record_16', '雅加达苏加诺哈达_core_record_9', '雅加达苏加诺哈达_core_record_12', '雅加达苏加诺哈达_core_record_28', '雅加达苏加诺哈达_core_record_5', '雅加达苏加诺哈达_core_record_18', '雅加达苏加诺哈达_core_record_2', '雅加达苏加诺哈达_core_record_6', '雅加达苏加诺哈达_core_record_8', '雅加达苏加诺哈达_core_record_11']
 
 ### departure: source-only role selection preview
 
 无单发离场程序
 
-1、25R 或 07L 离场，分别对应离场程序为：25R DOLTA 2D；07L DOLTA 2A。2、25R 离场程序无低的高度限制，只有在走廊口点有个 FL200 以下的限制，07L 离场程序里有 5000 尺的高度限制，离地后是否需要取消可向 ATC证实（注意放行里给的高度一般是 FL280）
+跑道 25R，机坪管制会指挥内滑（无标识的滑行道）到 NC3，hold short NP1，交给地面管制，地面管制指挥：NC3，NP2，holding piont25R（上次地面直接省略到 N，直接说的是 C3，P2，注意识别，回复完整）。后续地面移交塔台时需仔细听是否为 monitor Tower，如是，转频后不需联系，等待塔台呼叫即可
+
+25R 或 07L 离场，分别对应离场程序为：25R DOLTA 2D；07L DOLTA 2A
+
+25R 离场程序无低的高度限制，只有在走廊口点有个 FL200 以下的限制，07L 离场程序里有 5000 尺的高度限制，离地后是否需要取消可向 ATC证实（注意放行里给的高度一般是 FL280）
 
 管制员会询问航路点 PARDI 的预计到达时间，由于口音问题（且 ATC的音量非常小），很难听清楚，ATC：CL TO FL280，EXP FL300，estimated PARDI time
-
-离场后滑行
 
 在沿 NP2 滑行时换频塔台，雅加达塔台管制指令:line up and wait RWY25R，（随意）并未给出具体的滑行道进跑道，证实后使用 N1 进跑道 25R。N1 跑道等待线距离 NP2 较近，塔台指挥 25R N1 跑道外等可以在 NP2上等待避免滑过
 
@@ -1514,6 +1536,8 @@ Some ATC controllers have heavy accents (Indian accent). Controllers may not cor
 
 机场标高：10.3 米（34 英尺）
 
+跑道信息：06/24：3000 米长，60 米宽 07L/25R：3600 米长，60 米宽 07R/25L：3660 米长，60 米宽 06：仅 RNP (LNAV/VNAV或 LNAV)
+
 气候特征：属于热带雨林气候，年平均气温为 27° C
 
 减噪程序无
@@ -1524,7 +1548,15 @@ Some ATC controllers have heavy accents (Indian accent). Controllers may not cor
 
 No engine-out departure procedures.
 
-When lining up or aligned on runway,ATC may issue revised departure procedure: turn right as soon as practicable after lift-offto NOHET. Crew shall prepare in advance, update flight plan, complete additional briefing and departure amendment checklist without haste.
+Departure Taxi (RWY 25R): Apron Control may instruct taxi via unnamed inner taxiway to NC3, hold short of NP1 before handover to Ground Control. Ground Control typical routing: NC3, NP2, holding point RWY 25R. Reminder: Controllers may abbreviate instructions (e.g. “C3, P2” instead of full designators). Identify routing correctly and read back full taxiway designators. When Ground hands over to Tower, listen carefully for instruction “monitor Tower”. Ifadvised to monitor only, maintain listening watch on Tower frequency without initiating contact until called.
+
+RWY 25R departure: DOLTA 2D RWY 07L departure: DOLTA 2A DOLTA 2D (RWY 25R) has no low-level altitude constraint; only FL200 restriction at corridor fix.
+
+DOLTA 2A (RWY 07L) incorporates a 5000 ftaltitude restriction after take-off. Crews may confirm with ATC whether cancellation is required (clearance altitude normally FL280 as stated on departure clearance).
+
+Controllers will request estimated time over waypoint PARDI. Poor audio volume and heavy accents often make instruction difficult to comprehend. Typical clearance format: “Cleared to FL280, expect FL300, estimated PARDI time…”
+
+No dedicated lost communication, emergency descent procedures published within Jakarta aerodrome instructions or arrival/departure charts. Standard practices for emergency landing, unlawful interference, communication failure, interception and SAR operations comply with recommended procedures stipulated in ICAO Annexes and relevant documents. Observation from previous sectors: Jakarta Ground Control instructions tend to be informal; controllers often omit error correction, so crews must verify all clearances actively. Due to relatively new route operation, numerous controllers are unfamiliar with Spring Airlines callsign and may use “CQH” in lieu of “AIR SPRING”. Maintain vigilance for correct identification.
 
 Terrain: Terrain risesfrom north tosouth. The area within 20 NM of the aerodrome is relatively flatwith unobstructed clearance. Terrain elevation increases beyond 25 NM to the south. Grid Minimum Safe Altitude: 12300 FT. Exercise caution regarding terrain during flight.
 
@@ -1544,11 +1576,15 @@ Some ATC controllers have heavy accents (Indian accent). Controllers may not cor
 
 对于向南落地，24 号对应 AMBOY 2M 进场，且目前只有 24 号 RNP 进近。后续进近可以申请 25L 的盲降，若管制改为 25L ILS进近，引导直飞 UBNUX 点后按程序接 25L ILS，后直飞 UGSEL 4000ft 建立 25L ILS。4.07R 的进场程序 AMBOY 2F 有两个航路点 KAKAP、DAKAR 管制指挥直飞时发音相似，机组注意识别
 
-跑道信息：06/24：3000 米长，60 米宽 07L/25R：3600 米长，60 米宽 07R/25L：3660 米长，60 米宽 06：仅 RNP (LNAV/VNAV或 LNAV) 24、07L/R、25L/R：均 ILS 或 LOC和 RNP 进近目前 24 号盲降不工作，持续时间至 202611 月 27 号 （通告中有信息）
+07L/R、25L/R：均 ILS 或 LOC和 RNP 进近目前 24 号盲降不工作，持续时间至 202611 月 27 号 （通告中有信息）
 
 有 DATIS，(有延迟，有时与实际起降方向不一致)进近时距离本场 200 海里即可接收到语音通播
 
-06/24 跑道仅用于着陆，如该跑道可用于起飞和着陆会在通告中说明。06、07R 用于落地
+06/24 跑道仅用于着陆，如该跑道可用于起飞和着陆会在通告中说明
+
+07R 用于落地
+
+跑道信息：06/24：3000 米长，60 米宽 07L/25R：3600 米长，60 米宽 07R/25L：3660 米长，60 米宽 06：仅 RNP (LNAV/VNAV或 LNAV) 24、07L/R、25L/R：均 ILS 或 LOC和 RNP 进近目前 24 号盲降不工作，持续时间至 202611 月 27 号 （通告中有信息）
 
 地势南高北低，机场周边 20NM 范围内地势较为平坦，净空条件良好，南侧 25NM 以外地势较高。网格安全高度为 12300FT，飞行时注意地形影响
 
@@ -1559,6 +1595,8 @@ Some ATC controllers have heavy accents (Indian accent). Controllers may not cor
 位置：位于印度尼西亚首都雅加达以西 20 公里
 
 机场标高：10.3 米（34 英尺）
+
+跑道信息：06/24：3000 米长，60 米宽 07L/25R：3600 米长，60 米宽 07R/25L：3660 米长，60 米宽 06：仅 RNP (LNAV/VNAV或 LNAV)
 
 气候特征：属于热带雨林气候，年平均气温为 27° C
 
@@ -1574,11 +1612,11 @@ Northbound Arrival Only AMBOY 2M procedure applies to RWY 07R. No AMBOY arrival 
 
 Southbound Arrival RWY 24 is served by AMBOY 2M arrival, and only RNP approach is published for RWY 24. Crews may request ILS approach RWY 25L during arrival. If cleared for RWY 25L ILS, vectors direct to UBNUX tojoin published procedure, then direct toUGSEL; maintain 4000 ft tointercept RWY 25L ILS.
 
-Runway Information RWY 06/24: 3000 m long, 60 m wide RWY 07L/25R: 3600 m long, 60 m wide RWY 07R/25L: 3660 m long, 60 m wide RWY 06: RNP only (LNAV/VNAV or LNAV) RWY 24, 07L/R, 25L/R: ILS /LOC or RNP approaches available The ILS facility for RWY 24 isunserviceable until 27 NOV 2026 (refer to relevant NOTAM).
-
 DATIS available; voice broadcast can be received at 200 NM from the aerodrome upon inbound.
 
 Runway Operational Restrictions RWY 06/24 is for landing only. If both takeoff and landing operations are permitted on this runway, relevant information will be published via NOTAM.
+
+Runway Information RWY 06/24: 3000 m long, 60 m wide RWY 07L/25R: 3600 m long, 60 m wide RWY 07R/25L: 3660 m long, 60 m wide RWY 06: RNP only (LNAV/VNAV or LNAV) RWY 24, 07L/R, 25L/R: ILS /LOC or RNP approaches available The ILS facility for RWY 24 isunserviceable until 27 NOV 2026 (refer to relevant NOTAM).
 
 Terrain: Terrain risesfrom north tosouth. The area within 20 NM of the aerodrome is relatively flatwith unobstructed clearance. Terrain elevation increases beyond 25 NM to the south. Grid Minimum Safe Altitude: 12300 FT. Exercise caution regarding terrain during flight.
 
@@ -1591,6 +1629,477 @@ Climate: Tropical rainforest climate; average annual temperature 27°C.
 Noise abatement procedures not applicable.
 
 Some ATC controllers have heavy accents (Indian accent). Controllers may not correct crews if incorrect information is transmitted. Always confirm instructions.
+
+## 大连周水子: Chinese core source preview
+
+推出后飞机位置位于机坪内未命名的滑行线上，滑出直接加入 A，机组参考 地面滑行线加入 A，注意加强观察。
+
+28号跑道头有多个联络道可进入跑道，ATC 有时会指挥在盲降等待点等待，机组应听清指令，避免滑错或造成跑道侵入。
+
+根据大连机场细则要求 航空器的滑行速度不得超过 50km/h，在障碍物附 近滑行时速度应该减到 15km/h 以下。
+
+离场可能使用 CCO（连续爬升）离场，机组按离场图要求执行。
+
+10号跑道起飞时，不要接通 LS 按钮。由于航向道与跑道存在 3°偏差（五 边航向道 100°、跑道方向 103°），能见度较低时若接通 ILS 参考航道 会产生偏差。
+
+28号跑道起飞，一边侧方有小山，机组须注意阅读离场图注释中的离场爬 升梯度限制，确保满足越障梯度要求。
+
+进近会根据本场流量指挥直飞，直飞后通常下降剖面较陡，机组应提前做 好能量管理。
+
+大连如果执行 PMS 程序，飞机较少时会较早指挥直飞：28 号直飞 TL307、10 号直飞 TL111，加入扇形排序的航空器在弧上飞行速度 230 kt。
+
+使用 28 号跑道时，需在 DOBGA 之前确定进港方式，因为不同进场程序在 过 DOBGA 后航迹不同。
+
+青岛方向管制可能指挥飞 ORIXA（该点不在航路上），使用 ORIXA-07A（或 ORIXA-17A/19A）进场程序，飞机较少时可能会指挥直飞 TL105/TL309，注 意做好能量管理。
+
+10号盲降五边 3 海里处注意北侧有较高地形。
+
+10 号跑道盲降进近，受地形影响，下滑角为 3.3°。五边航向道为 100°，跑道方向为 103°，存在 3°差异。地形在五边 3 海里处，建议机组保持 航道，2 海里再断开 AP 修正至跑道中心延长线，避免过早对正跑道中心延 长线产生地形影响的风险。机组断开 AP 后，应忽略航道偏移，参考 GS。
+
+大连机场 RWY10 偏置 ILS 进近避免“Glide Slope”警戒的操作建议：大连机场 10 号盲降，有 3°偏置，通过模拟机验证，决断高度以后，继 续沿航图公布的 3.3°下滑角进近，飞机将以 50ft 通过跑道入口，受偏 置影响，G/S 信号显示会逐渐上移（指示飞机低于下滑道），验证飞机在 不同高度的 G/S 信号显示，如下图。综上所述，在执行 10 号盲降进近 时，RA200ft 以下，应参考 PAPI 指示灯及下降率指示继续保持 3.3°下 滑角至通过跑道入口。机组应意识到，当下滑道显示存在较大偏差时，意 味着下滑剖面异常。同时，因跑道入口内移，易产生偏高的视觉误差，因 此应避免因视觉误差而盲目增大下降率。
+
+10/28 号跑道入口均有内移，注意判断跑道入口位置，同时注意可能产生 的目视剖面高的错觉。
+
+如实施目视进近，须特别注意 10 号五边北侧地形，保持目视参考与越障裕 度。
+
+北侧有较高地形，10号五边 3 海里处有地形。
+
+受季风和地形影响，大连机场大风和乱流明显，五边出现颠簸较多，风切变 高发，机组应提前做好稳定进近，关注风向风速的变化，跑道入口时提前控 制好飞机下沉和收油门时机，遇到风切变时果断复飞。
+
+特殊复杂程序：10 号跑道盲降不可用时可能使用 RNP AR 程序，机组须注 意机组搭配资质要求，确保具备相应授权与签注。
+
+季风气候：因季风气候易发生突发侧风，导致拉平坡度大，机组在拉平阶段 须加强横侧操纵，遇超限风险果断复飞或复飞后再次进近。
+
+跑道入口内移、目视与盲降偏置及信号不稳定易触发 Glide Slope 警告，机组须熟知 10 号跑道偏置航道、大下滑角（3.3°）及 28 号跑道视觉错 觉问题，警惕地形乱流、侧风，严防 CFIT、重着陆、冲偏跑道。
+
+根据大连监管局《关于防控大连周水子国际机场 CFIT（可控飞行撞地）、冲偏出跑道、重着陆风险航空安全通告》要求，机组应：。
+
+熟知本场特殊风险：牢记 10 号跑道偏置航道、大下滑角及 28 号跑道视觉 错觉问题，警惕地形乱流、侧风，严防 CFIT、重着陆、冲偏跑道。
+
+规范机组协同操作：严格执行稳定进近标准，用好 CRM 管理，落实标准喊 话、交叉互检，及时识别处置飞行威胁与差错。
+
+做好天气预判与预案：密切关注雷雨、低能见、风切变预警，航前充分评估 风险，提前制定备降方案，异常情况果断复飞。
+
+28 号跑道落地后，塔台指挥脱离并跟引导车到位后报告；但脱离道口位置 常停有多辆引导车，机组需提前辨认，防止与引导车冲突。严格控制进位速 度，防止过线。
+
+地面滑行时间较短，机组需注意关车前慢车 3 分钟限制。
+
+227-229 号机位运行方式由“自滑进顶推出”变更为“自滑进自滑出”，新 增3 条机位引入线（227-229 机位滑出线），废除一条顶推线（227 机位顶 推线）废除 1 个推出等待点（227D）。
+
+机场标高：107 ft。
+
+PAPI 信息：10：跑道左侧内移入口内 320m，3.3°，MEHT 16.3m；28：跑道左侧内 移入口内 302m，3°，MEHT 14.7m。
+
+二类操纵类复杂机场。
+
+是否为繁忙机场 否。
+
+强化空地沟通配合：主动向管制通报飞机状态、机组决策，保证信息传递准 确，提升空地协同防控风险能力。
+
+直飞 KAE。
+
+## 大连周水子: English core source preview
+
+After pushback, the aircraftstands on an unnamed taxiway within the apron. Taxi out tojoin Taxiway A directly. Crews shall refer to surface taxi markings to join Taxiway A and maintain enhanced lookout.
+
+Multiple taxiway connectors lead to RWY28 threshold. ATC may assign hold at ILS holding point. Crews shall listen carefully to clearances to avoid taxi deviation or runway incursion.
+
+CCO (Continuous Climb Operation) departures may be applied. Crews shall comply with requirements on departure charts.
+
+Do not engage LS button for take-off from RWY10. A 3° offset exists between localiser and runway (final localiser course 100°, runway heading 103°). Engagement of ILS reference course under reduced visibility will introduce course deviation.
+
+A small hillexists abeam upwind leg for RWY28 take-off. Crews shall read climb gradient restrictions stated in notes on departure charts and ensure obstacle-clearance gradient compliance.
+
+ATC may assign direct routing according to traffic volume. Such direct routing usually results in steep descent profile; crews shallmanage energy in advance.
+
+When executing PMS procedure at Dalian, direct routing may be issued early under light traffic: direct to TL307 for RWY28, direct to TL111 for RWY10. Aircraft joining fan sequencing shall maintain 230 kt on the arc.
+
+For RWY28 operations, arrival type shall be determined prior to DOBGA, as different arrival procedures follow divergent tracks after passing DOBGA.
+
+Qingdao sector control may assign routing via ORIXA (waypoint not on published route), applying ORIXA-07A (orORIXA-17A/19A) arrival procedure. Under light traffic, direct routing to TL105/TL309 may be cleared. Perform energy management accordingly.
+
+High terrain to the north exists at 3 NM on the ILS final of RWY10.
+
+For ILS approach RWY10, terrain imposes a 3.3° glidepath. Final localiser course is 100°, runway heading 103°, creating a 3° difference. Terrain islocated at 3 NM on final.It is recommended that crews maintain localiser track, disconnect AP at 2 NM to correct towards runway centreline extension. Avoid early alignment with runway centreline extension to mitigate terrain risk. After AP disconnection, disregard localiser offset and reference GS.
+
+Operational guidance to avoid Glide Slope alert for offset ILS approach RWY10 at Dalian Airport: The ILS for RWY10 features a 3° offset. Simulator validation confirms that continuing the published 3.3° glidepath after decision height will result in crossing runway threshold at 50 ft. Owing to the offset, G/S indication gradually shifts upward (showing aircraft below glideslope). G/S indications at various altitudes are shown in the attached diagram. In summary, during ILS approach RWY10, below RA200 ft,crews shall reference PAPI and descent rate indication to maintain the 3.3° glidepath until crossing runway threshold. Crews shall recognise that substantial glideslope deviation indicates abnormal descent profile. Meanwhile, displaced runway threshold may create visual high-approach illusion; refrain from increasing descent rate solely due to visual cues.
+
+Both RWY10 and RWY28 have displaced thresholds. Identify threshold position carefully and be alert to potential visual high-profile illusion.
+
+If visual approach is conducted, pay special attention to terrain north of RWY10 final, maintain visual references and obstacle clearance margin.
+
+Special complex procedure: RNP AR procedure may be used when ILS RWY10 is unavailable. Crews shall verify crew pairing qualification and hold valid authorisation and endorsement.
+
+Monsoon climate: Sudden crosswinds may occur, leading to large bank angle during flare. Enhance lateral control in flare phase; execute go-around promptly when exceedance risk exists, or conduct another approach after go-around.
+
+Displaced runway thresholds, visual/ILS offset and unstable signals may trigger Glide Slope alert. Crews shall be familiar with offset localiser, steep glidepath (3.3°) for RWY10 and visual illusion for RWY28. Stay vigilant of terrain turbulence and crosswinds, and strictly prevent CFIT, hard landing, runway excursion and overrun.
+
+In accordance with Aviation Safety Notice issued by Dalian CAAC Sub-Administration Regarding Risk Prevention of CFIT, Runway Excursion and Hard Landing atDalian Zhoushuizi International Airport, crews shall:
+
+Be familiar with local specific hazards: memorise RWY10 offset localiser and steep glidepath, RWY28 visual illusion; stay alert to terrain turbulence and crosswinds, strictly prevent CFIT, hard landing and runway excursion.
+
+Standardise crew coordination: strictly adhere to stable approach criteria, utilise CRM, implement standard callouts and cross-checks, promptly recognise and mitigate flight threats and errors.
+
+Conduct weather assessment and contingency planning: closely monitor thunderstorm, low visibility and windshear alerts; fully evaluate risks pre-flight, prepare diversion plan and initiate go-around decisively under abnormal conditions.
+
+After landing RWY28, Tower will clear exit and request report after positioning with follow-me car. Multiple follow-me vehicles may park at exit taxiways. Crews shall identify in advance to prevent conflict with follow-me cars.Strictly control the carry speed to prevent crossing the line.
+
+The operation mode of stands 227-229 is changed from "taxi-in and push-back out" to "taxi-in and taxi-out". Three new stand lead-in taxiways (taxi-out taxiways for stands 227-229) are added, one push-back taxiway (push-back taxiway for stand 227) is abolished, and one push-back holding point (227D) isremoved.
+
+Airport Elevation: 107 ft
+
+PAPI Information: RWY10: 320 m inside displaced threshold on the leftside of runway, 3.3°, MEHT 16.3 m; RWY28: 302 m inside displaced threshold on the leftside of runway, 3°, MEHT 14.7 m.
+
+Strengthen air-ground communication: proactively report aircraft status and crew decisions to ATC, ensure accurate information transmission and improve air-ground collaborative risk control.
+
+### Every acceptance error
+
+- 最新版机场手册英文配对缺失：大连周水子_core_record_40：大连周水子／大连/周水子机场运行特点 ZYTL/DLC／核心威胁与运行特点
+- 中英文关键概念不一致：大连周水子_core_record_13：英文缺少['terrain']
+- 中英文关键事实不一致：大连周水子_core_record_15：中文['230KT', 'ATC', 'PMS', 'RWY10', 'RWY28', 'TL111', 'TL307']，英文['230KT', 'PMS', 'RWY10', 'RWY28', 'TL111', 'TL307']
+- 中英文关键事实不一致：大连周水子_core_record_17：中文['ATC', 'ORIXA', 'TL105', 'TL309']，英文['ORIXA', 'TL105', 'TL309']
+- 中英文关键概念不一致：大连周水子_core_record_17：英文缺少['ATC']
+- 中英文关键概念不一致：大连周水子_core_record_18：英文缺少['final_approach']
+- 中英文关键事实不一致：大连周水子_core_record_20：中文['200FT', '50FT', 'ILS', 'PAPI', 'RWY10']，英文['200FT', '50FT', 'ILS', 'PAPI', 'RA200', 'RWY10', 'RWY3']
+- 中英文关键概念不一致：大连周水子_core_record_20：英文缺少['displaced_threshold']
+- 中英文关键概念不一致：大连周水子_core_record_22：英文缺少['final_approach']
+- 最新版机场手册英文配对缺失：大连周水子_core_record_7：大连周水子／大连/周水子机场运行特点 ZYTL/DLC／核心威胁与运行特点
+- 最新版机场手册英文配对缺失：大连周水子_core_record_27：大连周水子／大连/周水子机场运行特点 ZYTL/DLC／核心威胁与运行特点
+- 中英文关键概念不一致：大连周水子_core_record_31：英文缺少['displaced_threshold']
+- 中英文关键事实不一致：大连周水子_core_record_33：中文['CFIT']，英文['CAAC', 'CFIT']
+- 中英文关键事实不一致：大连周水子_core_record_23：中文['ATC', 'RWY28']，英文['RWY28']
+- 最新版机场手册英文配对缺失：大连周水子_core_record_24：大连周水子／大连/周水子机场运行特点 ZYTL/DLC／核心威胁与运行特点
+- 中英文关键事实不一致：大连周水子_core_record_25：中文['STAND227', 'STAND229']，英文['STAND227']
+- 最新版机场手册英文配对缺失：大连周水子_core_record_5：大连周水子／大连/周水子机场运行特点 ZYTL/DLC／核心威胁与运行特点
+- 最新版机场手册英文配对缺失：大连周水子_core_record_8：大连周水子／大连/周水子机场运行特点 ZYTL/DLC／核心威胁与运行特点
+- 最新版机场手册英文配对缺失：大连周水子_core_record_39：大连周水子／大连/周水子机场运行特点 ZYTL/DLC／核心威胁与运行特点
+- 中英文选定事实身份不一致：中文['大连周水子_core_record_9', '大连周水子_core_record_10', '大连周水子_core_record_40', '大连周水子_core_record_11', '大连周水子_core_record_12', '大连周水子_core_record_13', '大连周水子_core_record_14', '大连周水子_core_record_15', '大连周水子_core_record_16', '大连周水子_core_record_17', '大连周水子_core_record_18', '大连周水子_core_record_19', '大连周水子_core_record_20', '大连周水子_core_record_21', '大连周水子_core_record_22', '大连周水子_core_record_7', '大连周水子_core_record_27', '大连周水子_core_record_28', '大连周水子_core_record_29', '大连周水子_core_record_31', '大连周水子_core_record_33', '大连周水子_core_record_34', '大连周水子_core_record_35', '大连周水子_core_record_37', '大连周水子_core_record_23', '大连周水子_core_record_24', '大连周水子_core_record_25', '大连周水子_core_record_1', '大连周水子_core_record_3', '大连周水子_core_record_5', '大连周水子_core_record_8', '大连周水子_core_record_36', '大连周水子_core_record_39']，英文['大连周水子_core_record_9', '大连周水子_core_record_10', '大连周水子_core_record_11', '大连周水子_core_record_12', '大连周水子_core_record_13', '大连周水子_core_record_14', '大连周水子_core_record_15', '大连周水子_core_record_16', '大连周水子_core_record_17', '大连周水子_core_record_18', '大连周水子_core_record_19', '大连周水子_core_record_20', '大连周水子_core_record_21', '大连周水子_core_record_22', '大连周水子_core_record_28', '大连周水子_core_record_29', '大连周水子_core_record_31', '大连周水子_core_record_33', '大连周水子_core_record_34', '大连周水子_core_record_35', '大连周水子_core_record_37', '大连周水子_core_record_23', '大连周水子_core_record_25', '大连周水子_core_record_1', '大连周水子_core_record_3', '大连周水子_core_record_36']
+
+### departure: source-only role selection preview
+
+推出后飞机位置位于机坪内未命名的滑行线上，滑出直接加入 A，机组参考地面滑行线加入 A，注意加强观察
+
+28号跑道头有多个联络道可进入跑道，ATC 有时会指挥在盲降等待点等待，机组应听清指令，避免滑错或造成跑道侵入
+
+根据大连机场细则要求航空器的滑行速度不得超过 50km/h，在障碍物附近滑行时速度应该减到 15km/h 以下
+
+离场可能使用 CCO（连续爬升）离场，机组按离场图要求执行
+
+10号跑道起飞时，不要接通 LS 按钮。由于航向道与跑道存在 3°偏差（五边航向道 100°、跑道方向 103°），能见度较低时若接通 ILS 参考航道会产生偏差
+
+28号跑道起飞，一边侧方有小山，机组须注意阅读离场图注释中的离场爬升梯度限制，确保满足越障梯度要求
+
+机场标高：107 ft
+
+二类操纵类复杂机场
+
+是否为繁忙机场否
+
+强化空地沟通配合：主动向管制通报飞机状态、机组决策，保证信息传递准确，提升空地协同防控风险能力
+
+直飞 KAE
+
+After pushback, the aircraftstands on an unnamed taxiway within the apron. Taxi out tojoin Taxiway A directly. Crews shall refer to surface taxi markings to join Taxiway A and maintain enhanced lookout.
+
+Multiple taxiway connectors lead to RWY28 threshold. ATC may assign hold at ILS holding point. Crews shall listen carefully to clearances to avoid taxi deviation or runway incursion.
+
+CCO (Continuous Climb Operation) departures may be applied. Crews shall comply with requirements on departure charts.
+
+Do not engage LS button for take-off from RWY10. A 3° offset exists between localiser and runway (final localiser course 100°, runway heading 103°). Engagement of ILS reference course under reduced visibility will introduce course deviation.
+
+A small hillexists abeam upwind leg for RWY28 take-off. Crews shall read climb gradient restrictions stated in notes on departure charts and ensure obstacle-clearance gradient compliance.
+
+Airport Elevation: 107 ft
+
+Strengthen air-ground communication: proactively report aircraft status and crew decisions to ATC, ensure accurate information transmission and improve air-ground collaborative risk control.
+
+### arrival: source-only role selection preview
+
+进近会根据本场流量指挥直飞，直飞后通常下降剖面较陡，机组应提前做好能量管理
+
+大连如果执行 PMS 程序，飞机较少时会较早指挥直飞：28 号直飞 TL307、10 号直飞 TL111，加入扇形排序的航空器在弧上飞行速度 230 kt
+
+使用 28 号跑道时，需在 DOBGA 之前确定进港方式，因为不同进场程序在过 DOBGA 后航迹不同
+
+青岛方向管制可能指挥飞 ORIXA（该点不在航路上），使用 ORIXA-07A（或 ORIXA-17A/19A）进场程序，飞机较少时可能会指挥直飞 TL105/TL309，注意做好能量管理
+
+10号盲降五边 3 海里处注意北侧有较高地形
+
+10 号跑道盲降进近，受地形影响，下滑角为 3.3°。五边航向道为 100°，跑道方向为 103°，存在 3°差异。地形在五边 3 海里处，建议机组保持航道，2 海里再断开 AP 修正至跑道中心延长线，避免过早对正跑道中心延长线产生地形影响的风险。机组断开 AP 后，应忽略航道偏移，参考 GS
+
+大连机场 RWY10 偏置 ILS 进近避免“Glide Slope”警戒的操作建议：大连机场 10 号盲降，有 3°偏置，通过模拟机验证，决断高度以后，继续沿航图公布的 3.3°下滑角进近，飞机将以 50ft 通过跑道入口，受偏置影响，G/S 信号显示会逐渐上移（指示飞机低于下滑道），验证飞机在不同高度的 G/S 信号显示，如下图。综上所述，在执行 10 号盲降进近时，RA200ft 以下，应参考 PAPI 指示灯及下降率指示继续保持 3.3°下滑角至通过跑道入口。机组应意识到，当下滑道显示存在较大偏差时，意味着下滑剖面异常。同时，因跑道入口内移，易产生偏高的视觉误差，因此应避免因视觉误差而盲目增大下降率
+
+10/28 号跑道入口均有内移，注意判断跑道入口位置，同时注意可能产生的目视剖面高的错觉
+
+如实施目视进近，须特别注意 10 号五边北侧地形，保持目视参考与越障裕度
+
+北侧有较高地形，10号五边 3 海里处有地形
+
+受季风和地形影响，大连机场大风和乱流明显，五边出现颠簸较多，风切变高发，机组应提前做好稳定进近，关注风向风速的变化，跑道入口时提前控制好飞机下沉和收油门时机，遇到风切变时果断复飞
+
+10 号跑道盲降不可用时可能使用 RNP AR 程序，机组须注意机组搭配资质要求，确保具备相应授权与签注
+
+季风气候：因季风气候易发生突发侧风，导致拉平坡度大，机组在拉平阶段须加强横侧操纵，遇超限风险果断复飞或复飞后再次进近
+
+跑道入口内移、目视与盲降偏置及信号不稳定易触发 Glide Slope 警告，机组须熟知 10 号跑道偏置航道、大下滑角（3.3°）及 28 号跑道视觉错觉问题，警惕地形乱流、侧风，严防 CFIT、重着陆、冲偏跑道
+
+根据大连监管局《关于防控大连周水子国际机场 CFIT（可控飞行撞地）、冲偏出跑道、重着陆风险航空安全通告》要求，机组应：
+
+熟知本场特殊风险：牢记 10 号跑道偏置航道、大下滑角及 28 号跑道视觉错觉问题，警惕地形乱流、侧风，严防 CFIT、重着陆、冲偏跑道
+
+规范机组协同操作：严格执行稳定进近标准，用好 CRM 管理，落实标准喊话、交叉互检，及时识别处置飞行威胁与差错
+
+做好天气预判与预案：密切关注雷雨、低能见、风切变预警，航前充分评估风险，提前制定备降方案，异常情况果断复飞
+
+28 号跑道落地后，塔台指挥脱离并跟引导车到位后报告；但脱离道口位置常停有多辆引导车，机组需提前辨认，防止与引导车冲突。严格控制进位速度，防止过线
+
+地面滑行时间较短，机组需注意关车前慢车 3 分钟限制
+
+227-229 号机位运行方式由“自滑进顶推出”变更为“自滑进自滑出”，新增3 条机位引入线（227-229 机位滑出线），废除一条顶推线（227 机位顶推线）废除 1 个推出等待点（227D）
+
+28号跑道头有多个联络道可进入跑道，ATC 有时会指挥在盲降等待点等待，机组应听清指令，避免滑错或造成跑道侵入
+
+根据大连机场细则要求航空器的滑行速度不得超过 50km/h，在障碍物附近滑行时速度应该减到 15km/h 以下
+
+机场标高：107 ft
+
+PAPI 信息：10：跑道左侧内移入口内 320m，3.3°，MEHT 16.3m；28：跑道左侧内移入口内 302m，3°，MEHT 14.7m
+
+二类操纵类复杂机场
+
+是否为繁忙机场否
+
+强化空地沟通配合：主动向管制通报飞机状态、机组决策，保证信息传递准确，提升空地协同防控风险能力
+
+直飞 KAE
+
+ATC may assign direct routing according to traffic volume. Such direct routing usually results in steep descent profile; crews shallmanage energy in advance.
+
+When executing PMS procedure at Dalian, direct routing may be issued early under light traffic: direct to TL307 for RWY28, direct to TL111 for RWY10. Aircraft joining fan sequencing shall maintain 230 kt on the arc.
+
+For RWY28 operations, arrival type shall be determined prior to DOBGA, as different arrival procedures follow divergent tracks after passing DOBGA.
+
+Qingdao sector control may assign routing via ORIXA (waypoint not on published route), applying ORIXA-07A (orORIXA-17A/19A) arrival procedure. Under light traffic, direct routing to TL105/TL309 may be cleared. Perform energy management accordingly.
+
+High terrain to the north exists at 3 NM on the ILS final of RWY10.
+
+For ILS approach RWY10, terrain imposes a 3.3° glidepath. Final localiser course is 100°, runway heading 103°, creating a 3° difference. Terrain islocated at 3 NM on final.It is recommended that crews maintain localiser track, disconnect AP at 2 NM to correct towards runway centreline extension. Avoid early alignment with runway centreline extension to mitigate terrain risk. After AP disconnection, disregard localiser offset and reference GS.
+
+Operational guidance to avoid Glide Slope alert for offset ILS approach RWY10 at Dalian Airport: The ILS for RWY10 features a 3° offset. Simulator validation confirms that continuing the published 3.3° glidepath after decision height will result in crossing runway threshold at 50 ft. Owing to the offset, G/S indication gradually shifts upward (showing aircraft below glideslope). G/S indications at various altitudes are shown in the attached diagram. In summary, during ILS approach RWY10, below RA200 ft,crews shall reference PAPI and descent rate indication to maintain the 3.3° glidepath until crossing runway threshold. Crews shall recognise that substantial glideslope deviation indicates abnormal descent profile. Meanwhile, displaced runway threshold may create visual high-approach illusion; refrain from increasing descent rate solely due to visual cues.
+
+Both RWY10 and RWY28 have displaced thresholds. Identify threshold position carefully and be alert to potential visual high-profile illusion.
+
+If visual approach is conducted, pay special attention to terrain north of RWY10 final, maintain visual references and obstacle clearance margin.
+
+Special complex procedure: RNP AR procedure may be used when ILS RWY10 is unavailable. Crews shall verify crew pairing qualification and hold valid authorisation and endorsement.
+
+Monsoon climate: Sudden crosswinds may occur, leading to large bank angle during flare. Enhance lateral control in flare phase; execute go-around promptly when exceedance risk exists, or conduct another approach after go-around.
+
+Displaced runway thresholds, visual/ILS offset and unstable signals may trigger Glide Slope alert. Crews shall be familiar with offset localiser, steep glidepath (3.3°) for RWY10 and visual illusion for RWY28. Stay vigilant of terrain turbulence and crosswinds, and strictly prevent CFIT, hard landing, runway excursion and overrun.
+
+In accordance with Aviation Safety Notice issued by Dalian CAAC Sub-Administration Regarding Risk Prevention of CFIT, Runway Excursion and Hard Landing atDalian Zhoushuizi International Airport, crews shall:
+
+Be familiar with local specific hazards: memorise RWY10 offset localiser and steep glidepath, RWY28 visual illusion; stay alert to terrain turbulence and crosswinds, strictly prevent CFIT, hard landing and runway excursion.
+
+Standardise crew coordination: strictly adhere to stable approach criteria, utilise CRM, implement standard callouts and cross-checks, promptly recognise and mitigate flight threats and errors.
+
+Conduct weather assessment and contingency planning: closely monitor thunderstorm, low visibility and windshear alerts; fully evaluate risks pre-flight, prepare diversion plan and initiate go-around decisively under abnormal conditions.
+
+After landing RWY28, Tower will clear exit and request report after positioning with follow-me car. Multiple follow-me vehicles may park at exit taxiways. Crews shall identify in advance to prevent conflict with follow-me cars.Strictly control the carry speed to prevent crossing the line.
+
+The operation mode of stands 227-229 is changed from "taxi-in and push-back out" to "taxi-in and taxi-out". Three new stand lead-in taxiways (taxi-out taxiways for stands 227-229) are added, one push-back taxiway (push-back taxiway for stand 227) is abolished, and one push-back holding point (227D) isremoved.
+
+Multiple taxiway connectors lead to RWY28 threshold. ATC may assign hold at ILS holding point. Crews shall listen carefully to clearances to avoid taxi deviation or runway incursion.
+
+Airport Elevation: 107 ft
+
+PAPI Information: RWY10: 320 m inside displaced threshold on the leftside of runway, 3.3°, MEHT 16.3 m; RWY28: 302 m inside displaced threshold on the leftside of runway, 3°, MEHT 14.7 m.
+
+Strengthen air-ground communication: proactively report aircraft status and crew decisions to ATC, ensure accurate information transmission and improve air-ground collaborative risk control.
+
+## 长春龙嘉: Chinese core source preview
+
+离港时管制员可能指挥在 L-H4，A 前等待，A 滑行道前无等待线，须注意留 足距离，避免滑错产生冲突。
+
+24 号通常使用 LEMOT-9D 离场 06 号使用 LEMOT-3D 或 LEMOT-4D 离场。
+
+24 号离场 ATC 可能要求 CC503 前上到 1500m，但 CC503 为 06 号进近的 IF 点，24 号离场程序中无此点，请机组注意，可考虑使用 FIX INFO 功能输入 该点作为参考。
+
+空域受限制时，06 号跑道使用 LEMOT-4A 进场，管制指挥下高度偏晚，可能 造成高截获，机组注意。
+
+06号跑道进近时，因其他用户活动，有时要求保持 2100m 至 DME15 海里，请机组提前做好高截获预案，提前减速、放形态。须特别注意，避免 1000 英尺未稳定。
+
+24 号跑道进场通常指挥 LEMOT-9A（也可能 LEMOT-7A、LEMOT-8A 进场），并直飞 CC455 或 CC608；天气寒冷时管制可能会指挥下 1000 米建立 24 号 盲降。
+
+当从 LEMOT 或 IDVOT 方向进场时，管制发布 LEMOT-9A 进场指令，MCDU 显示 为 LEMO9A，请机组正确复诵，不要复诵成 LEMOT-09A，以减少因管制纠正 指令而占用波道。
+
+NDB 进近曾出现机载数据库位置偏差及收不到 NDB 信号的情况，请机组做 好飞行准备与预案。
+
+RNP 进近时因 ATC 指挥直飞，易使 FDP 点前未达到航图限制高度；待命 APPR 后可能导致无法截获 FINAL APP，请机组注意剖面管理。
+
+跑道东低西高，坡度明显，24 号跑道上坡坡度 0.5%和 0.7%，06 号跑道下 坡坡度 0.5%和 0.7%，注意对着陆目视的影响，尤其下午 24 号着陆向阳。
+
+长春 RWY06 ILS/DME Z 决断高度调整为 DA（H）296（80）米，980（270） 英尺，请注意。
+
+风切变风险：机场曾发生风切变导致复飞事件，机组须识别相关风险，做好 复飞准备。
+
+落地后应尽快选择快速脱离道脱离跑道。
+
+基础信息。
+
+机场标高：706ft。
+
+现场/签派频率：132.0；慢车除冰频率：121.825（以机场细则及现场指挥 为准）。
+
+ZYCC—ZBSJ：数据库对外开放航路 G212 上 TGO 至 UKDUM 之间缺少 P528（该 点为不对外开放航路点），会造成航迹偏差，请机组注意。
+
+A588 航路，P388 后，大连可能指挥 CHI-DBL-MAKNO，请提前做好准备。
+
+PAPI信息：06：跑道左侧入口内 472m，3°，MEHT 20.4m；24：跑道右侧入口内 400m，3°，MEHT 21.2m。
+
+## 长春龙嘉: English core source preview
+
+During departure, ATC may instruct holding short of Taxiway A at L-H4; there is no holding position marking before Taxiway A. Leave sufficient distance to avoid taxi errors and conflicts.
+
+RWY 24 normally uses the LEMOT-9D departure; RWY 06 uses the LEMOT-3D or LEMOT-4D departure.
+
+On RWY 24 departures, ATC may require reaching 1,500 m before CC503. However, CC503 is the IF for the RWY 06 approach and is not included in the RWY 24 departure procedure. Crews should be aware, and may consider entering this point via the FIX INFO function for reference.
+
+When airspace is restricted, RWY 06 uses the LEMOT-4A arrival; ATC often clears the descent late, which may resultin a high interception — crews should be aware.
+
+On RWY 06 approaches, due to other users' activity,ATC sometimes requires maintaining 2,100 m until15 nm DME. Prepare inadvance for ahigh interception — slow down and configure early. Pay special attention to avoiding being unstable at1,000 ft.
+
+RWY 24 arrivals areusually cleared via the LEMOT-9A (or possibly LEMOT-7A /LEMOT-8A), with direct-to CC455 or CC608. In cold weather, ATC may clear a descent to 1,000 m to establish the RWY 24 ILS.
+
+When arriving from the LEMOT or IDVOT direction, ATC issues the LEMOT- 9A arrival;the MCDU displays it as"LEMO9A." Read back correctly and do not read back "LEMOT-09A," so as to reduce frequency occupancy caused by ATC corrections.
+
+During NDB approaches, cases of onboard database position error and failure to receive the NDB signal have occurred; crews should make proper preparations and plans.
+
+On RNP approaches, ATC direct-toclearances may easily resultin failing to meet the charted altitude constraint before the FDP; after arming APPR, failure to capture FINAL APP may occur. Crews should manage the vertical profile carefully.
+
+The runway islower at the east end and higher at the west end, with a noticeable gradient: RWY 24 has upslope gradients of 0.5% and 0.7%, and RWY 06 has downslope gradients of 0.5% and 0.7%. Be aware of the effect on visual references during landing, especially on RWY 24 in the afternoon when landing into the sun.
+
+Wind shear risk:Wind-shear-induced go-arounds have occurred at this airport. Crews must identify the associated risks and be prepared for go-around.
+
+Vacate the runway via arapid-exit taxiway as soon as possible after landing.
+
+Airport elevation:706 ft
+
+Ground/dispatch frequency: 132.0; taxi-through de-icing frequency: 121.825 (subject to the aerodrome regulations and ground control).
+
+ZYCC–ZBSJ: on published airway G212 inthe database, P528 is missing between TGO and UKDUM (P528 is a non-published waypoint), which can cause track deviation — crews should be aware.
+
+On airway A588, after P388, Dalian (ATC) may clear CHI–DBL–MAKNO — prepare in advance.
+
+PAPI data: RWY 06 — 472 m beyond the leftrunway threshold,3°,MEHT 20.4m; RWY 24 — 400 m beyond the rightrunway threshold,3°,MEHT 21.2 m.
+
+### Every acceptance error
+
+- 最新版机场手册英文配对缺失：长春龙嘉_typical_record_1：长春龙嘉／长春龙嘉机场运行特点 ZYCC/CGQ／典型不安全事件
+- 中英文关键事实不一致：长春龙嘉_core_record_11：中文['1000FT', '15NM', '2100M', 'DME15', 'RWY06']，英文['1000FT', '15NM', '2100M', 'AT1000', 'ATC', 'DME', 'RWY06', 'UNTIL15']
+- 最新版机场手册英文配对缺失：长春龙嘉_core_record_17：长春龙嘉／长春龙嘉机场运行特点 ZYCC/CGQ／核心威胁与运行特点
+- 最新版机场手册英文配对缺失：长春龙嘉_core_record_2：长春龙嘉／长春龙嘉机场运行特点 ZYCC/CGQ／核心威胁与运行特点
+- 中英文关键事实不一致：长春龙嘉_core_record_23：中文['121.825', '132.0', 'ATC']，英文['121.825', '132.0']
+- 中英文关键概念不一致：长春龙嘉_core_record_27：英文缺少['papi_runway_value_association']
+- 中英文选定事实身份不一致：中文['长春龙嘉_typical_record_1', '长春龙嘉_core_record_6', '长春龙嘉_core_record_8', '长春龙嘉_core_record_9', '长春龙嘉_core_record_10', '长春龙嘉_core_record_11', '长春龙嘉_core_record_12', '长春龙嘉_core_record_13', '长春龙嘉_core_record_14', '长春龙嘉_core_record_15', '长春龙嘉_core_record_16', '长春龙嘉_core_record_17', '长春龙嘉_core_record_22', '长春龙嘉_core_record_18', '长春龙嘉_core_record_2', '长春龙嘉_core_record_3', '长春龙嘉_core_record_23', '长春龙嘉_core_record_25', '长春龙嘉_core_record_26', '长春龙嘉_core_record_27']，英文['长春龙嘉_core_record_6', '长春龙嘉_core_record_8', '长春龙嘉_core_record_9', '长春龙嘉_core_record_10', '长春龙嘉_core_record_11', '长春龙嘉_core_record_12', '长春龙嘉_core_record_13', '长春龙嘉_core_record_14', '长春龙嘉_core_record_15', '长春龙嘉_core_record_16', '长春龙嘉_core_record_22', '长春龙嘉_core_record_18', '长春龙嘉_core_record_3', '长春龙嘉_core_record_23', '长春龙嘉_core_record_25', '长春龙嘉_core_record_26', '长春龙嘉_core_record_27']
+
+### departure: source-only role selection preview
+
+离港时管制员可能指挥在 L-H4，A 前等待，A 滑行道前无等待线，须注意留足距离，避免滑错产生冲突
+
+24 号通常使用 LEMOT-9D 离场 06 号使用 LEMOT-3D 或 LEMOT-4D 离场
+
+24 号离场 ATC 可能要求 CC503 前上到 1500m，但 CC503 为 06 号进近的 IF 点，24 号离场程序中无此点，请机组注意，可考虑使用 FIX INFO 功能输入该点作为参考
+
+基础信息
+
+机场标高：706ft
+
+132.0；慢车除冰频率：121.825（以机场细则及现场指挥为准）
+
+ZYCC—ZBSJ：数据库对外开放航路 G212 上 TGO 至 UKDUM 之间缺少 P528（该点为不对外开放航路点），会造成航迹偏差，请机组注意
+
+A588 航路，P388 后，大连可能指挥 CHI-DBL-MAKNO，请提前做好准备
+
+During departure, ATC may instruct holding short of Taxiway A at L-H4; there is no holding position marking before Taxiway A. Leave sufficient distance to avoid taxi errors and conflicts.
+
+RWY 24 normally uses the LEMOT-9D departure; RWY 06 uses the LEMOT-3D or LEMOT-4D departure.
+
+On RWY 24 departures, ATC may require reaching 1,500 m before CC503. However, CC503 is the IF for the RWY 06 approach and is not included in the RWY 24 departure procedure. Crews should be aware, and may consider entering this point via the FIX INFO function for reference.
+
+Airport elevation:706 ft
+
+Ground/dispatch frequency: 132.0; taxi-through de-icing frequency: 121.825 (subject to the aerodrome regulations and ground control).
+
+ZYCC–ZBSJ: on published airway G212 inthe database, P528 is missing between TGO and UKDUM (P528 is a non-published waypoint), which can cause track deviation — crews should be aware.
+
+On airway A588, after P388, Dalian (ATC) may clear CHI–DBL–MAKNO — prepare in advance.
+
+### arrival: source-only role selection preview
+
+空域受限制时，06 号跑道使用 LEMOT-4A 进场，管制指挥下高度偏晚，可能造成高截获，机组注意
+
+06号跑道进近时，因其他用户活动，有时要求保持 2100m 至 DME15 海里，请机组提前做好高截获预案，提前减速、放形态。须特别注意，避免 1000 英尺未稳定
+
+24 号跑道进场通常指挥 LEMOT-9A（也可能 LEMOT-7A、LEMOT-8A 进场），并直飞 CC455 或 CC608；天气寒冷时管制可能会指挥下 1000 米建立 24 号盲降
+
+当从 LEMOT 或 IDVOT 方向进场时，管制发布 LEMOT-9A 进场指令，MCDU 显示为 LEMO9A，请机组正确复诵，不要复诵成 LEMOT-09A，以减少因管制纠正指令而占用波道
+
+NDB 进近曾出现机载数据库位置偏差及收不到 NDB 信号的情况，请机组做好飞行准备与预案
+
+RNP 进近时因 ATC 指挥直飞，易使 FDP 点前未达到航图限制高度；待命 APPR 后可能导致无法截获 FINAL APP，请机组注意剖面管理
+
+跑道东低西高，坡度明显，24 号跑道上坡坡度 0.5%和 0.7%，06 号跑道下坡坡度 0.5%和 0.7%，注意对着陆目视的影响，尤其下午 24 号着陆向阳
+
+长春 RWY06 ILS/DME Z 决断高度调整为 DA（H）296（80）米，980（270） 英尺，请注意
+
+风切变风险：机场曾发生风切变导致复飞事件，机组须识别相关风险，做好复飞准备
+
+落地后应尽快选择快速脱离道脱离跑道
+
+离港时管制员可能指挥在 L-H4，A 前等待，A 滑行道前无等待线，须注意留足距离，避免滑错产生冲突
+
+基础信息
+
+机场标高：706ft
+
+132.0；慢车除冰频率：121.825（以机场细则及现场指挥为准）
+
+ZYCC—ZBSJ：数据库对外开放航路 G212 上 TGO 至 UKDUM 之间缺少 P528（该点为不对外开放航路点），会造成航迹偏差，请机组注意
+
+A588 航路，P388 后，大连可能指挥 CHI-DBL-MAKNO，请提前做好准备
+
+PAPI信息：06：跑道左侧入口内 472m，3°，MEHT 20.4m；24：跑道右侧入口内 400m，3°，MEHT 21.2m
+
+When airspace is restricted, RWY 06 uses the LEMOT-4A arrival; ATC often clears the descent late, which may resultin a high interception — crews should be aware.
+
+On RWY 06 approaches, due to other users' activity,ATC sometimes requires maintaining 2,100 m until15 nm DME. Prepare inadvance for ahigh interception — slow down and configure early. Pay special attention to avoiding being unstable at1,000 ft.
+
+RWY 24 arrivals areusually cleared via the LEMOT-9A (or possibly LEMOT-7A /LEMOT-8A), with direct-to CC455 or CC608. In cold weather, ATC may clear a descent to 1,000 m to establish the RWY 24 ILS.
+
+When arriving from the LEMOT or IDVOT direction, ATC issues the LEMOT- 9A arrival;the MCDU displays it as"LEMO9A." Read back correctly and do not read back "LEMOT-09A," so as to reduce frequency occupancy caused by ATC corrections.
+
+During NDB approaches, cases of onboard database position error and failure to receive the NDB signal have occurred; crews should make proper preparations and plans.
+
+On RNP approaches, ATC direct-toclearances may easily resultin failing to meet the charted altitude constraint before the FDP; after arming APPR, failure to capture FINAL APP may occur. Crews should manage the vertical profile carefully.
+
+The runway islower at the east end and higher at the west end, with a noticeable gradient: RWY 24 has upslope gradients of 0.5% and 0.7%, and RWY 06 has downslope gradients of 0.5% and 0.7%. Be aware of the effect on visual references during landing, especially on RWY 24 in the afternoon when landing into the sun.
+
+Wind shear risk:Wind-shear-induced go-arounds have occurred at this airport. Crews must identify the associated risks and be prepared for go-around.
+
+Vacate the runway via arapid-exit taxiway as soon as possible after landing.
+
+During departure, ATC may instruct holding short of Taxiway A at L-H4; there is no holding position marking before Taxiway A. Leave sufficient distance to avoid taxi errors and conflicts.
+
+Airport elevation:706 ft
+
+Ground/dispatch frequency: 132.0; taxi-through de-icing frequency: 121.825 (subject to the aerodrome regulations and ground control).
+
+ZYCC–ZBSJ: on published airway G212 inthe database, P528 is missing between TGO and UKDUM (P528 is a non-published waypoint), which can cause track deviation — crews should be aware.
+
+On airway A588, after P388, Dalian (ATC) may clear CHI–DBL–MAKNO — prepare in advance.
+
+PAPI data: RWY 06 — 472 m beyond the leftrunway threshold,3°,MEHT 20.4m; RWY 24 — 400 m beyond the rightrunway threshold,3°,MEHT 21.2 m.
 
 ## Isolated real-duty generation
 

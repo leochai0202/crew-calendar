@@ -2,9 +2,510 @@
   "manual": "AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
   "sha256": "e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8",
   "chinese_chapter_count": 177,
-  "english_chapter_count": 77,
-  "matched_chapter_count": 76,
+  "english_chapter_count": 83,
+  "matched_chapter_count": 82,
   "identity_errors": 0,
+  "english_chapter_ranges": [
+    {
+      "icao": "ZYTL",
+      "name": "Dalian/Zhoushuizi",
+      "start_page": 1076,
+      "end_page": 1083
+    },
+    {
+      "icao": "ZYHB",
+      "name": "HarbinTaiping",
+      "start_page": 1084,
+      "end_page": 1090
+    },
+    {
+      "icao": "ZYTX",
+      "name": "Shenyang Taoxian",
+      "start_page": 1091,
+      "end_page": 1095
+    },
+    {
+      "icao": "ZYCC",
+      "name": "ChangchunLongjia",
+      "start_page": 1096,
+      "end_page": 1101
+    },
+    {
+      "icao": "VVDN",
+      "name": "Da Nang",
+      "start_page": 1102,
+      "end_page": 1106
+    },
+    {
+      "icao": "VVTS",
+      "name": "Ho Chi Minh",
+      "start_page": 1107,
+      "end_page": 1110
+    },
+    {
+      "icao": "VDTI",
+      "name": "Phnom Penh Dechong International",
+      "start_page": 1111,
+      "end_page": 1114
+    },
+    {
+      "icao": "VTSP",
+      "name": "Phuket",
+      "start_page": 1115,
+      "end_page": 1123
+    },
+    {
+      "icao": "WBKK",
+      "name": "SABAH KOTA KINABALU",
+      "start_page": 1124,
+      "end_page": 1129
+    },
+    {
+      "icao": "VTSB",
+      "name": "Surat Thani",
+      "start_page": 1130,
+      "end_page": 1133
+    },
+    {
+      "icao": "VYYY",
+      "name": "YANGON",
+      "start_page": 1134,
+      "end_page": 1137
+    },
+    {
+      "icao": "WSSS",
+      "name": "Singapore",
+      "start_page": 1138,
+      "end_page": 1149
+    },
+    {
+      "icao": "VTBD",
+      "name": "Langman Airport BANGKOK",
+      "start_page": 1150,
+      "end_page": 1157
+    },
+    {
+      "icao": "WMKK",
+      "name": "Kuala Lumpur",
+      "start_page": 1158,
+      "end_page": 1164
+    },
+    {
+      "icao": "VTSG",
+      "name": "Krabi",
+      "start_page": 1165,
+      "end_page": 1168
+    },
+    {
+      "icao": "VTBS",
+      "name": "Suvarnabhumi",
+      "start_page": 1169,
+      "end_page": 1182
+    },
+    {
+      "icao": "VVNB",
+      "name": "Hanoi Noi Bai",
+      "start_page": 1183,
+      "end_page": 1187
+    },
+    {
+      "icao": "VTCC",
+      "name": "Chiang Mai",
+      "start_page": 1188,
+      "end_page": 1193
+    },
+    {
+      "icao": "WMKP",
+      "name": "Penang",
+      "start_page": 1194,
+      "end_page": 1199
+    },
+    {
+      "icao": "WIII",
+      "name": "Soekarno-Hatta",
+      "start_page": 1200,
+      "end_page": 1204
+    },
+    {
+      "icao": "VLVT",
+      "name": "VientianeWattay",
+      "start_page": 1205,
+      "end_page": 1211
+    },
+    {
+      "icao": "VHHH",
+      "name": "Hong Kong",
+      "start_page": 1212,
+      "end_page": 1220
+    },
+    {
+      "icao": "VMMC",
+      "name": "Macau",
+      "start_page": 1221,
+      "end_page": 1234
+    },
+    {
+      "icao": "RCTP",
+      "name": "Taoyuan",
+      "start_page": 1235,
+      "end_page": 1245
+    },
+    {
+      "icao": "RCKH",
+      "name": "Kaohsiung",
+      "start_page": 1246,
+      "end_page": 1250
+    },
+    {
+      "icao": "ZBHH",
+      "name": "Hohhot/Baita",
+      "start_page": 1251,
+      "end_page": 1258
+    },
+    {
+      "icao": "ZBSJ",
+      "name": "Shijiazhuang/Zhen Ding",
+      "start_page": 1259,
+      "end_page": 1269
+    },
+    {
+      "icao": "ZBTJ",
+      "name": "Tianjin/Binhai",
+      "start_page": 1270,
+      "end_page": 1277
+    },
+    {
+      "icao": "ZBYN",
+      "name": "TAIYUANWUSU",
+      "start_page": 1278,
+      "end_page": 1288
+    },
+    {
+      "icao": "ZBAD",
+      "name": "Beijing Daxing International",
+      "start_page": 1289,
+      "end_page": 1303
+    },
+    {
+      "icao": "ZSCG",
+      "name": "ChangZhou Benniu",
+      "start_page": 1304,
+      "end_page": 1307
+    },
+    {
+      "icao": "ZSFZ",
+      "name": "Fuzhou/Changle",
+      "start_page": 1308,
+      "end_page": 1313
+    },
+    {
+      "icao": "ZSHC",
+      "name": "Hangzhou Xiaoshan",
+      "start_page": 1314,
+      "end_page": 1318
+    },
+    {
+      "icao": "ZSOF",
+      "name": "Hefei/Xinqiao",
+      "start_page": 1319,
+      "end_page": 1324
+    },
+    {
+      "icao": "ZSJN",
+      "name": "Jinan/Yaoqiang",
+      "start_page": 1325,
+      "end_page": 1331
+    },
+    {
+      "icao": "ZSSH",
+      "name": "HUAIAN LIANSHUI",
+      "start_page": 1332,
+      "end_page": 1334
+    },
+    {
+      "icao": "ZSNJ",
+      "name": "Nanjing Lukou",
+      "start_page": 1335,
+      "end_page": 1339
+    },
+    {
+      "icao": "ZSCN",
+      "name": "Nanchang/Changbei",
+      "start_page": 1340,
+      "end_page": 1345
+    },
+    {
+      "icao": "ZSNT",
+      "name": "Nantong Xingdong",
+      "start_page": 1346,
+      "end_page": 1349
+    },
+    {
+      "icao": "ZSNB",
+      "name": "Ningbo/Lieshe",
+      "start_page": 1350,
+      "end_page": 1357
+    },
+    {
+      "icao": "ZSSS",
+      "name": "Shanghai/Hongqiao",
+      "start_page": 1358,
+      "end_page": 1366
+    },
+    {
+      "icao": "ZSPD",
+      "name": "Shanghai/Pudong",
+      "start_page": 1367,
+      "end_page": 1371
+    },
+    {
+      "icao": "ZSQD",
+      "name": "Qingdao/Jiaodong",
+      "start_page": 1372,
+      "end_page": 1377
+    },
+    {
+      "icao": "ZSQZ",
+      "name": "Quanzhou/Jinjiang",
+      "start_page": 1378,
+      "end_page": 1381
+    },
+    {
+      "icao": "ZSWZ",
+      "name": "Wenzhou/Longwan",
+      "start_page": 1382,
+      "end_page": 1384
+    },
+    {
+      "icao": "ZSYT",
+      "name": "Yantai/Penglai",
+      "start_page": 1385,
+      "end_page": 1388
+    },
+    {
+      "icao": "ZSYA",
+      "name": "Yangzhou/Taizhou",
+      "start_page": 1389,
+      "end_page": 1394
+    },
+    {
+      "icao": "ZSYN",
+      "name": "Yancheng/Nanyang",
+      "start_page": 1395,
+      "end_page": 1401
+    },
+    {
+      "icao": "ZSZS",
+      "name": "Zhoushan/Putuo Mountain",
+      "start_page": 1402,
+      "end_page": 1404
+    },
+    {
+      "icao": "ZSWH",
+      "name": "Weihai/Dashuibo",
+      "start_page": 1405,
+      "end_page": 1408
+    },
+    {
+      "icao": "ZSAM",
+      "name": "Xiamen/Gaoqi",
+      "start_page": 1409,
+      "end_page": 1414
+    },
+    {
+      "icao": "RJAA",
+      "name": "NARITA",
+      "start_page": 1415,
+      "end_page": 1421
+    },
+    {
+      "icao": "RJAH",
+      "name": "Ibaraki",
+      "start_page": 1422,
+      "end_page": 1427
+    },
+    {
+      "icao": "ROAH",
+      "name": "Okinawa/Naha",
+      "start_page": 1428,
+      "end_page": 1436
+    },
+    {
+      "icao": "RJBB",
+      "name": "Osaka",
+      "start_page": 1437,
+      "end_page": 1444
+    },
+    {
+      "icao": "RJTT",
+      "name": "Tokyo Haneda",
+      "start_page": 1445,
+      "end_page": 1452
+    },
+    {
+      "icao": "RJFF",
+      "name": "Fukuoka",
+      "start_page": 1453,
+      "end_page": 1462
+    },
+    {
+      "icao": "RKPK",
+      "name": "Busan Airpor",
+      "start_page": 1463,
+      "end_page": 1470
+    },
+    {
+      "icao": "RJOT",
+      "name": "Takarazuka",
+      "start_page": 1471,
+      "end_page": 1476
+    },
+    {
+      "icao": "RKPC",
+      "name": "JIZHOU",
+      "start_page": 1477,
+      "end_page": 1486
+    },
+    {
+      "icao": "RJGG",
+      "name": "Nagoya",
+      "start_page": 1487,
+      "end_page": 1496
+    },
+    {
+      "icao": "RKSI",
+      "name": "Seoul Incheon International",
+      "start_page": 1497,
+      "end_page": 1518
+    },
+    {
+      "icao": "ZLLL",
+      "name": "LanzhouZhongchuan",
+      "start_page": 1519,
+      "end_page": 1528
+    },
+    {
+      "icao": "ZLXY",
+      "name": "XIAN YANG",
+      "start_page": 1529,
+      "end_page": 1537
+    },
+    {
+      "icao": "ZLXN",
+      "name": "XININGCAOJIAPU",
+      "start_page": 1538,
+      "end_page": 1542
+    },
+    {
+      "icao": "ZLIC",
+      "name": "YINCHUAN HEDONG",
+      "start_page": 1543,
+      "end_page": 1547
+    },
+    {
+      "icao": "ZUTF",
+      "name": "Chengdu/Tianfu",
+      "start_page": 1548,
+      "end_page": 1550
+    },
+    {
+      "icao": "ZUGY",
+      "name": "Guiyang/LongDongBao",
+      "start_page": 1551,
+      "end_page": 1557
+    },
+    {
+      "icao": "ZPPP",
+      "name": "Kunming/Changshui",
+      "start_page": 1558,
+      "end_page": 1564
+    },
+    {
+      "icao": "ZUCK",
+      "name": "Chongqing/Jiangbei",
+      "start_page": 1565,
+      "end_page": 1571
+    },
+    {
+      "icao": "ZUUU",
+      "name": "Chengdu/Shuangliu",
+      "start_page": 1572,
+      "end_page": 1576
+    },
+    {
+      "icao": "ZGOW",
+      "name": "JIEYANG CHAOSHAN",
+      "start_page": 1577,
+      "end_page": 1579
+    },
+    {
+      "icao": "ZGGG",
+      "name": "GUANGZHOU BAIYUN",
+      "start_page": 1580,
+      "end_page": 1584
+    },
+    {
+      "icao": "ZGKL",
+      "name": "Guilin Liangjiang",
+      "start_page": 1585,
+      "end_page": 1588
+    },
+    {
+      "icao": "ZGNN",
+      "name": "Nanning/Wuxu",
+      "start_page": 1589,
+      "end_page": 1593
+    },
+    {
+      "icao": "ZJSY",
+      "name": "Sanya/Fenghuang",
+      "start_page": 1594,
+      "end_page": 1596
+    },
+    {
+      "icao": "ZGSZ",
+      "name": "SHENZHEN BAOAN",
+      "start_page": 1597,
+      "end_page": 1605
+    },
+    {
+      "icao": "ZHHH",
+      "name": "Wuhan/Tianhe",
+      "start_page": 1606,
+      "end_page": 1609
+    },
+    {
+      "icao": "ZGDY",
+      "name": "Zhangjiajie/Huahua",
+      "start_page": 1610,
+      "end_page": 1612
+    },
+    {
+      "icao": "ZGHA",
+      "name": "Changsha/Huanghua",
+      "start_page": 1613,
+      "end_page": 1616
+    },
+    {
+      "icao": "ZHCC",
+      "name": "Zhengzhou/Xinzheng",
+      "start_page": 1617,
+      "end_page": 1621
+    },
+    {
+      "icao": "ZJHK",
+      "name": "Haikou Meilan",
+      "start_page": 1622,
+      "end_page": 1627
+    },
+    {
+      "icao": "ZMCK",
+      "name": "Ulaanbaatar Chinggis Khaan International",
+      "start_page": 1628,
+      "end_page": 1630
+    }
+  ],
+  "overlapping_english_ranges": [],
   "warnings": [],
   "chapters": [
     {
@@ -25,7 +526,7 @@
       "english_header": "Shenyang Taoxian",
       "english_pages": [
         1091,
-        1101
+        1095
       ],
       "english_identity_status": "ICAO_MATCHED",
       "identity_error": false,
@@ -60,9 +561,12 @@
         "PDF断句或残片未形成完整运行事实": 3,
         "unparsed_attribute_table": 2
       },
-      "english_header": null,
-      "english_pages": [],
-      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "english_header": "Dalian/Zhoushuizi",
+      "english_pages": [
+        1076,
+        1083
+      ],
+      "english_identity_status": "ICAO_MATCHED",
       "identity_error": false,
       "role_checks": {
         "departure": {
@@ -96,7 +600,7 @@
         "standalone_frequency_metadata": 1,
         "来源包含无法可靠恢复的明显OCR错位": 1
       },
-      "english_header": "HarbinTaipingAirport",
+      "english_header": "HarbinTaiping",
       "english_pages": [
         1084,
         1090
@@ -240,9 +744,12 @@
         "PDF断句或残片未形成完整运行事实": 2,
         "unparsed_attribute_table": 1
       },
-      "english_header": null,
-      "english_pages": [],
-      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "english_header": "ChangchunLongjia",
+      "english_pages": [
+        1096,
+        1101
+      ],
+      "english_identity_status": "ICAO_MATCHED",
       "identity_error": false,
       "role_checks": {
         "departure": {
@@ -975,27 +1482,27 @@
         395
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 26,
+      "chinese_core_candidates": 29,
       "candidate_quality": {
-        "": 26
+        "": 29
       },
       "english_header": "Soekarno-Hatta",
       "english_pages": [
         1200,
-        1211
+        1204
       ],
       "english_identity_status": "ICAO_MATCHED",
       "identity_error": false,
       "role_checks": {
         "departure": {
-          "selected": 14,
+          "selected": 16,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
           "go_around_acceleration_mentions": []
         },
         "arrival": {
-          "selected": 15,
+          "selected": 18,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
@@ -1017,9 +1524,12 @@
         "PDF断句或残片未形成完整运行事实": 4,
         "unparsed_attribute_table": 2
       },
-      "english_header": null,
-      "english_pages": [],
-      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "english_header": "VientianeWattay",
+      "english_pages": [
+        1205,
+        1211
+      ],
+      "english_identity_status": "ICAO_MATCHED",
       "identity_error": false,
       "role_checks": {
         "departure": {
@@ -1266,9 +1776,9 @@
         449
       ],
       "chinese_typical_count": 5,
-      "chinese_core_candidates": 48,
+      "chinese_core_candidates": 50,
       "candidate_quality": {
-        "": 41,
+        "": 43,
         "standalone_frequency_metadata": 1,
         "passenger_or_staff_access_administration": 1,
         "detached_operational_fragment": 2,
@@ -1284,14 +1794,14 @@
       "identity_error": false,
       "role_checks": {
         "departure": {
-          "selected": 23,
+          "selected": 25,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
           "go_around_acceleration_mentions": []
         },
         "arrival": {
-          "selected": 29,
+          "selected": 31,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
@@ -1966,9 +2476,9 @@
         540
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 31,
+      "chinese_core_candidates": 32,
       "candidate_quality": {
-        "": 28,
+        "": 29,
         "unparsed_attribute_table": 1,
         "PDF断句或残片未形成完整运行事实": 1,
         "standalone_frequency_metadata": 1
@@ -1982,14 +2492,14 @@
       "identity_error": false,
       "role_checks": {
         "departure": {
-          "selected": 10,
+          "selected": 11,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
           "go_around_acceleration_mentions": []
         },
         "arrival": {
-          "selected": 18,
+          "selected": 19,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
@@ -2005,9 +2515,9 @@
         544
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 28,
+      "chinese_core_candidates": 29,
       "candidate_quality": {
-        "": 25,
+        "": 26,
         "standalone_frequency_metadata": 1,
         "PDF断句或残片未形成完整运行事实": 2
       },
@@ -2020,14 +2530,14 @@
       "identity_error": false,
       "role_checks": {
         "departure": {
-          "selected": 9,
+          "selected": 10,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
           "go_around_acceleration_mentions": []
         },
         "arrival": {
-          "selected": 15,
+          "selected": 16,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
@@ -2043,9 +2553,9 @@
         551
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 40,
+      "chinese_core_candidates": 41,
       "candidate_quality": {
-        "": 37,
+        "": 38,
         "unparsed_attribute_table": 1,
         "PDF断句或残片未形成完整运行事实": 1,
         "standalone_frequency_metadata": 1
@@ -2059,14 +2569,14 @@
       "identity_error": false,
       "role_checks": {
         "departure": {
-          "selected": 21,
+          "selected": 22,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
           "go_around_acceleration_mentions": []
         },
         "arrival": {
-          "selected": 21,
+          "selected": 23,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
@@ -3239,7 +3749,7 @@
       "english_header": "Seoul Incheon International",
       "english_pages": [
         1497,
-        1528
+        1518
       ],
       "english_identity_status": "ICAO_MATCHED",
       "identity_error": false,
@@ -3819,9 +4329,12 @@
         "unparsed_attribute_table": 2,
         "standalone_frequency_metadata": 1
       },
-      "english_header": null,
-      "english_pages": [],
-      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "english_header": "LanzhouZhongchuan",
+      "english_pages": [
+        1519,
+        1528
+      ],
+      "english_identity_status": "ICAO_MATCHED",
       "identity_error": false,
       "role_checks": {
         "departure": {
@@ -4024,7 +4537,7 @@
         805,
         817
       ],
-      "chinese_typical_count": 6,
+      "chinese_typical_count": 7,
       "chinese_core_candidates": 70,
       "candidate_quality": {
         "": 64,
@@ -4556,9 +5069,9 @@
         880
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 45,
+      "chinese_core_candidates": 46,
       "candidate_quality": {
-        "": 41,
+        "": 42,
         "standalone_frequency_metadata": 1,
         "detached_operational_fragment": 1,
         "PDF断句或残片未形成完整运行事实": 2
@@ -4569,14 +5082,14 @@
       "identity_error": false,
       "role_checks": {
         "departure": {
-          "selected": 28,
+          "selected": 29,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
           "go_around_acceleration_mentions": []
         },
         "arrival": {
-          "selected": 34,
+          "selected": 35,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
@@ -4640,7 +5153,7 @@
       "english_header": "Guiyang/LongDongBao",
       "english_pages": [
         1551,
-        1571
+        1557
       ],
       "english_identity_status": "ICAO_MATCHED",
       "identity_error": false,
@@ -4676,9 +5189,12 @@
         "PDF断句或残片未形成完整运行事实": 2,
         "standalone_frequency_metadata": 1
       },
-      "english_header": null,
-      "english_pages": [],
-      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "english_header": "Kunming/Changshui",
+      "english_pages": [
+        1558,
+        1564
+      ],
+      "english_identity_status": "ICAO_MATCHED",
       "identity_error": false,
       "role_checks": {
         "departure": {
@@ -4923,9 +5439,12 @@
         "来源包含无法可靠恢复的明显OCR错位": 1,
         "PDF断句或残片未形成完整运行事实": 1
       },
-      "english_header": null,
-      "english_pages": [],
-      "english_identity_status": "NOT_IDENTIFIED_REQUIRES_PAGE_REVIEW",
+      "english_header": "Chongqing/Jiangbei",
+      "english_pages": [
+        1565,
+        1571
+      ],
+      "english_identity_status": "ICAO_MATCHED",
       "identity_error": false,
       "role_checks": {
         "departure": {
@@ -5094,10 +5613,10 @@
         945
       ],
       "chinese_typical_count": 4,
-      "chinese_core_candidates": 47,
+      "chinese_core_candidates": 48,
       "candidate_quality": {
         "PDF断句或残片未形成完整运行事实": 4,
-        "": 41,
+        "": 42,
         "detached_operational_fragment": 2
       },
       "english_header": null,
@@ -5106,14 +5625,14 @@
       "identity_error": false,
       "role_checks": {
         "departure": {
-          "selected": 15,
+          "selected": 16,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
           "go_around_acceleration_mentions": []
         },
         "arrival": {
-          "selected": 31,
+          "selected": 32,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
@@ -6452,5 +6971,5 @@
     }
   ],
   "role_audit_date": "2026-10-26",
-  "notice": "Structural inventory only, not proof of bilingual content equivalence or source absence."
+  "notice": "Structural inventory only, not proof of bilingual content equivalence or source absence. identity_errors only compares matched ICAO metadata: it cannot detect an unrecognized later airport header inside a chapter. The English range list must also be reviewed against raw source headers."
 }

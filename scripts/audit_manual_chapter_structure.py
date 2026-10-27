@@ -19,6 +19,15 @@ def inventory(repo: Path, output: Path, target: date) -> None:
     text, warnings = agent.read_manual_text(manual)
     chinese = agent.build_manual_index(text)
     english = agent.build_english_manual_index(text)
+    english_ranges = [{"icao": chapter["icao"], "name": chapter["name"],
+                       "start_page": chapter["start_page"], "end_page": chapter["end_page"]}
+                      for chapter in english]
+    overlapping_ranges = [
+        [left["icao"], right["icao"]]
+        for index, left in enumerate(english_ranges)
+        for right in english_ranges[index + 1:]
+        if max(left["start_page"], right["start_page"]) <= min(left["end_page"], right["end_page"])
+    ]
     records = []
     for chapter in chinese:
         icao = str(chapter.get("icao") or "")
@@ -69,9 +78,11 @@ def inventory(repo: Path, output: Path, target: date) -> None:
         "chinese_chapter_count": len(chinese), "english_chapter_count": len(english),
         "matched_chapter_count": sum(bool(record["english_pages"]) for record in records),
         "identity_errors": sum(record["identity_error"] for record in records),
+        "english_chapter_ranges": english_ranges,
+        "overlapping_english_ranges": overlapping_ranges,
         "warnings": warnings, "chapters": records,
         "role_audit_date": target.isoformat(),
-        "notice": "Structural inventory only, not proof of bilingual content equivalence or source absence.",
+        "notice": "Structural inventory only, not proof of bilingual content equivalence or source absence. identity_errors only compares matched ICAO metadata: it cannot detect an unrecognized later airport header inside a chapter. The English range list must also be reviewed against raw source headers.",
     }
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")

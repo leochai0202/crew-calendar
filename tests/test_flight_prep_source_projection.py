@@ -201,7 +201,7 @@ Follow the SID.
     assert english[0].phase == "landing_ground"
     assert "DepartureTaxi" not in english[0].text
     assert english[1].text == "DepartureTaxi(RWY26): Taxi via T2 and hold short of T3."
-    assert english[1].phase == "ground"
+    assert english[1].phase == "departure"
     assert "SouthboundArrival" in english[2].text and english[2].phase == "arrival"
     assert english[-1].phase == "departure"
     _, chinese = agent.scan_chapter_source_records([

@@ -15,7 +15,7 @@ SHA256: `e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8`
 | 广州白云 | ZGGG | 36 | 27 | FAILED_SAFE | 15 |
 | 曼谷素旺那普 | VTBS | 36 | 35 | FAILED_SAFE | 5 |
 | 上海浦东 | ZSPD | 15 | 15 | FAILED_SAFE | 1 |
-| 沈阳桃仙 | ZYTX | 18 | 18 | FAILED_SAFE | 8 |
+| 沈阳桃仙 | ZYTX | 18 | 17 | FAILED_SAFE | 8 |
 
 ## 丽江三义: Chinese core source preview
 
@@ -1209,8 +1209,6 @@ For RWY 06 departures, early right-turn request ispermitted only after passing 1
 
 ATC may assign offset instructions at an early stage during departure. After entering the offset, the flight crew shall strengthen trajectory monitoring and take timely intervention when unexpected deviations occur.
 
-On RWY 24 departures, ATC may require reaching 1,500 m before CC503. However, CC503 is the IF for the RWY 06 approach and is not included in the RWY 24 departure procedure. Crews should be aware, and may consider entering this point via the FIX INFO function for reference.
-
 For TOSID arrival, Area Control generally maintains current track before TOSID. After establishing contact with Approach Control, vectors will be issued to join arrival procedure.
 
 Full arrival procedures are frequently omitted. Radar vectors are applied for trafficsequencing. Prioritise energy management. When vectored or instructed to turn onto final leg, accurately assess intercept point to avoid high glideslope capture.
@@ -1233,14 +1231,14 @@ PAPI Information: RWY 06: 357.8 m inside runway threshold on left side, glidepat
 
 ### Every acceptance error
 
-- 中英文关键事实不一致：沈阳桃仙_typical_record_1：中文['GPS']，英文['GPS', 'ZYCC/CGQ']
 - 中英文关键事实不一致：沈阳桃仙_core_record_8：中文['A2', 'A8', 'ATC']，英文['A2', 'A8']
-- 中英文关键事实不一致：沈阳桃仙_core_record_13：中文['ATC', 'CHG']，英文['1500M', 'ATC', 'CC503', 'FIX', 'IF', 'INFO', 'RWY06', 'RWY24']
+- 最新版机场手册英文配对缺失：沈阳桃仙_core_record_13：沈阳桃仙／沈阳/桃仙机场运行特点 ZYTX/SHE／核心威胁与运行特点
 - 中英文关键事实不一致：沈阳桃仙_core_record_14：中文['ATC', 'TOSID']，英文['TOSID']
 - 中英文关键事实不一致：沈阳桃仙_core_record_15：中文['ATC']，英文[]
 - 中英文关键概念不一致：沈阳桃仙_core_record_15：英文缺少['final_approach']
 - 中英文关键事实不一致：沈阳桃仙_core_record_16：中文['7-3NM', 'ILS', 'RWY06']，英文['7-3NM', 'ILS', 'RWY06', 'RWY24']
 - 中英文关键事实不一致：沈阳桃仙_core_record_20：中文['ATC', 'LOC', 'MCDU', 'MDA', 'NOTAM', 'RNP']，英文['LOC', 'MCDU', 'MDA', 'NOTAM', 'RNP']
+- 中英文选定事实身份不一致：中文['沈阳桃仙_typical_record_1', '沈阳桃仙_core_record_6', '沈阳桃仙_core_record_7', '沈阳桃仙_core_record_8', '沈阳桃仙_core_record_9', '沈阳桃仙_core_record_10', '沈阳桃仙_core_record_11', '沈阳桃仙_core_record_12', '沈阳桃仙_core_record_13', '沈阳桃仙_core_record_14', '沈阳桃仙_core_record_15', '沈阳桃仙_core_record_16', '沈阳桃仙_core_record_17', '沈阳桃仙_core_record_18', '沈阳桃仙_core_record_19', '沈阳桃仙_core_record_20', '沈阳桃仙_core_record_25', '沈阳桃仙_core_record_2', '沈阳桃仙_core_record_4']，英文['沈阳桃仙_typical_record_1', '沈阳桃仙_core_record_6', '沈阳桃仙_core_record_7', '沈阳桃仙_core_record_8', '沈阳桃仙_core_record_9', '沈阳桃仙_core_record_10', '沈阳桃仙_core_record_11', '沈阳桃仙_core_record_12', '沈阳桃仙_core_record_14', '沈阳桃仙_core_record_15', '沈阳桃仙_core_record_16', '沈阳桃仙_core_record_17', '沈阳桃仙_core_record_18', '沈阳桃仙_core_record_19', '沈阳桃仙_core_record_20', '沈阳桃仙_core_record_25', '沈阳桃仙_core_record_2', '沈阳桃仙_core_record_4']
 
 ### departure: source-only role selection preview
 
@@ -1275,8 +1273,6 @@ Automatic frequency hand-off upon lift-off isimplemented at thisairport.
 For RWY 06 departures, early right-turn request ispermitted only after passing 1200 m from threshold.
 
 ATC may assign offset instructions at an early stage during departure. After entering the offset, the flight crew shall strengthen trajectory monitoring and take timely intervention when unexpected deviations occur.
-
-On RWY 24 departures, ATC may require reaching 1,500 m before CC503. However, CC503 is the IF for the RWY 06 approach and is not included in the RWY 24 departure procedure. Crews should be aware, and may consider entering this point via the FIX INFO function for reference.
 
 Airportelevation:198 ft
 
