@@ -2163,6 +2163,64 @@ def _clean_english_manual_item(parts: list[str]) -> str:
     return text.strip(" ;")
 
 
+def english_layout_text(value: str) -> str:
+    """Restore evidenced word boundaries only; never replace operating words.
+
+    The raw source remains immutable. Every edit below inserts/removes only
+    whitespace, preserving spelling, punctuation, identifiers, values and units.
+    In particular this is not a translator or an aviation-term correction layer.
+    """
+    text = normalize_text(value)
+    pairs = (
+        ("is", "not"), ("is", "operational"), ("is", "located"), ("is", "available"),
+        ("is", "highly"), ("is", "currently"), ("is", "actually"), ("is", "required"),
+        ("is", "reached"), ("is", "on"), ("is", "marked"), ("it", "will"), ("it", "may"), ("it", "corresponds"),
+        ("its", "driver"), ("if", "the"), ("if", "boarding"), ("if", "stable"),
+        ("still", "cannot"), ("first", "join"), ("strictly", "prevent"),
+        ("to", "the"), ("to", "avoid"), ("to", "fly"), ("flight", "to"),
+        ("air", "traffic"), ("air", "chart"), ("left", "side"),
+        ("airport", "elevation"), ("start", "command"), ("in", "airport"),
+        ("for", "arriving"), ("criteria", "cannot"), ("traffic", "control"),
+        ("is", "normally"), ("tall", "obstacles"), ("at", "stands"),
+        ("latter", "shall"), ("to", "west"),
+        ("flight", "crews"), ("crew", "members"), ("crews", "are"),
+        ("are", "required"), ("are", "advised"), ("required", "to"),
+    )
+    for left, right in pairs:
+        # A whole-word join is required: never split island, airway names or
+        # arbitrary words merely because they start with a function word.
+        text = re.sub(rf"\b({left})({right})\b", r"\1 \2", text, flags=re.I)
+    text = re.sub(r"\b(at|in|to|from|with|for|before|after)(?=[A-Z][a-z])", r"\1 ", text)
+    text = re.sub(r"\b(at|in|to)(?=[A-Z]{2,}(?:[0-9/.-]*)(?:\b))", r"\1 ", text)
+    text = re.sub(r"\b(at|in|to)(?=[A-Z]/[A-Z]\b)", r"\1 ", text)
+    text = re.sub(r"\b(at|is|of|in)(?=\d)", r"\1 ", text)
+    text = re.sub(r"(?<=[a-z][.!?])(?=[A-Z][a-z])", " ", text)
+    text = re.sub(r"(?<=[0-9][.!?])(?=(?:If|When|The|It|Crews?)\b)", " ", text)
+    text = re.sub(r"([,;:])(?=[A-Za-z])", r"\1 ", text)
+    text = re.sub(r"(?<!\d)(:)(?=\d)", r"\1 ", text)
+    # Keep ECAM/callsign/procedure strings untouched, including source spelling.
+    # Inserting word boundaries must never change any non-whitespace character.
+    return text if re.sub(r"\s", "", text) == re.sub(r"\s", "", value) else value
+
+
+def english_route_aliases(chapters: list[dict]) -> dict[str, str]:
+    """Exact, unambiguous heading/code prefixes; no fuzzy city translation."""
+    candidates: dict[str, set[str]] = {}
+    for chapter in chapters:
+        code = str(chapter.get("icao") or "").upper()
+        if not re.fullmatch(r"[A-Z]{4}", code):
+            continue
+        name = re.sub(r"\s+", " ", str(chapter.get("name") or "").replace("/", " ")).strip().upper()
+        names = {code, str(chapter.get("iata") or "").upper(), name}
+        words = name.split()
+        # A prefix is usable only when it identifies one airport across the
+        # entire manual. Shared city prefixes remain unresolved, not guessed.
+        names.update(" ".join(words[:end]) for end in range(1, len(words)) if len(words[0]) >= 4)
+        for alias in names - {""}:
+            candidates.setdefault(alias, set()).add(code)
+    return {alias: next(iter(codes)) for alias, codes in candidates.items() if len(codes) == 1}
+
+
 def _english_manual_structural_label(value: str) -> bool:
     compact = re.sub(r"[^a-z]+", "", value.lower())
     return compact in {
@@ -4090,6 +4148,7 @@ def manual_airport_data(
                 if source.suffix.lower() == ".pdf"
                 else []
             )
+            route_aliases = english_route_aliases(english_index)
             if not index:
                 raise ValueError("未识别到机场知识章节")
 
@@ -4137,6 +4196,7 @@ def manual_airport_data(
                     [*[fact.text for fact in english_facts], *paired_typical, *paired_core],
                     int(english_chapter["start_page"])) if english_chapter else {}
                 result[airport] = {
+                    "english_route_aliases": route_aliases,
                     "source_verbatim": True,
                     "source_pages_by_text": {
                         key: page for section in sections
@@ -5513,6 +5573,7 @@ def airport_risks(
             original = str(english_record["source_original_text_en"])
             identity = airport + ":en:" + hashlib.sha256(original.encode("utf-8")).hexdigest()[:16]
             records.append({**english_record, "language": "en", "airport": airport,
+                "route_scope": english_source_route_scope(english_record, manual.get("english_route_aliases")),
                 "fact_id": identity, "source_record_id": identity, "source_verbatim": True,
                 "source": manual_type or "PDF", "source_authority": "latest_airport_manual",
                 "source_file": str(Path(manual_source).resolve().relative_to(repo.resolve()))
@@ -8274,7 +8335,7 @@ def bilingual_typical_facts(
     if real_facts:
         return [
             fact if fact.source_verbatim else replace(fact, text_zh=naturalize_typical_incident(fact.text_zh))
-            for fact in real_facts[:max_items]
+            for fact in (real_facts if any(fact.source_verbatim for fact in real_facts) else real_facts[:max_items])
         ]
     if placeholders and exclusion_log is not None:
         exclusion_log.extend(
@@ -11337,7 +11398,7 @@ def omit_operating_crew_subject(text: str, language: str, category: str) -> str:
 
 
 def english_fact_output(fact: BilingualFact) -> str:
-    text = re.sub(r"^(?:Command characteristics|Pavement characteristics|Meteorological characteristics|Other threats|Navigation facilities|Precautions|Operational restrictions|Special complex procedures)\s*:\s*", "", fact.en.strip(), flags=re.I)
+    text = re.sub(r"^(?:Command characteristics|Pavement characteristics|Meteorological characteristics|Other threats|Navigation facilities|Precautions|Operational restrictions|Special complex procedures)\s*:\s*", "", english_layout_text(fact.en), flags=re.I)
     return omit_operating_crew_subject(text, "en", fact.category)
 
 
@@ -11480,12 +11541,15 @@ def render_english_briefing(
 
 
 def english_source_role_scope(text: str, phase: str) -> tuple[str, ...]:
+    text = english_layout_text(text)
     if manual_basic_field(text) in {"runways", "elevation"}:
         return ("departure", "arrival")  # approach availability in a runway field does not erase takeoff dimensions
     if manual_basic_field(text) == "papi":
         return ("arrival",)
     departure = bool(re.search(r"\b(?:DEPART(?:URE|ING)?|TAKE[ -]?OFF|PUSH[ -]?BACK|START[ -]?UP|PDC|SID|CLIMB)\b", text, re.I))
-    arrival = bool(re.search(r"\b(?:ARRIV(?:AL|ING)?|APPROACH|LAND(?:S|ING|ED)?|STAR|VACAT(?:E|ING))\b", text, re.I))
+    arrival_pattern = (r"\b(?:ARRIV(?:AL|ING)?|LAND(?:S|ING|ED)?|STAR|VACAT(?:E|ING))\b"
+                       if phase == "ground" else r"\b(?:ARRIV(?:AL|ING)?|APPROACH|LAND(?:S|ING|ED)?|STAR|VACAT(?:E|ING))\b")
+    arrival = bool(re.search(arrival_pattern, text, re.I))
     if phase in {"departure", "initial_climb", "clearance"}:
         return ("departure",)
     if phase in {"arrival", "approach", "landing", "landing_ground"}:
@@ -11514,13 +11578,14 @@ def english_season_scope(text: str) -> tuple[int, ...]:
 
 def english_source_date_matches(text: str, target: date) -> bool:
     """Only explicit full-year operating windows prove expiry; never guess a year."""
+    text = english_layout_text(text)
     phrase = r"(?:20\d{2}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}\s+[A-Za-z]{3,9}\s+20\d{2}|[A-Za-z]{3,9}\s+\d{1,2},?\s+20\d{2})"
 
     def parsed(value: str) -> date | None:
         tokens = source_date_comparison(value)[1]
         return date.fromisoformat(next(iter(tokens))[5:]) if len(tokens) == 1 else None
 
-    for match in re.finditer(rf"\b(?:FROM|BETWEEN)\s+({phrase})\s+(?:TO|UNTIL|AND)\s+({phrase})", text, re.I):
+    for match in re.finditer(rf"\b(?:FROM|BETWEEN)\s+({phrase})\s+(?:TO|UNTIL|THROUGH|AND)\s+({phrase})", text, re.I):
         left, right = parsed(match[1]), parsed(match[2])
         if left and right:
             return left <= target <= right
@@ -11528,6 +11593,9 @@ def english_source_date_matches(text: str, target: date) -> bool:
         end = re.search(rf"\bUNTIL\s+({phrase})", text, re.I)
         if end and parsed(end[1]):
             return target <= parsed(end[1])
+    start = re.search(rf"\b(?:EFFECTIVE|VALID|APPLICABLE)\s+(?:FROM|AS OF)\s+({phrase})", text, re.I)
+    if start and parsed(start[1]):
+        return target >= parsed(start[1])
     return True
 
 
@@ -11544,24 +11612,29 @@ def filter_english_source_seasons(text: str, month: int) -> tuple[str, tuple[str
     return ("", (text,)) if scope and month not in scope else (text, ())
 
 
-def english_source_route_scope(record: dict) -> tuple[tuple[str, str], ...]:
-    text = str(record["text_en"])
+def english_source_route_scope(record: dict, heading_aliases: dict[str, str] | None = None) -> tuple[tuple[str, str], ...]:
+    text = english_layout_text(str(record["text_en"]))
     if record["category"] in {"typical", "history"}:
         return ()
     # Keep configured scope, but do not mistake a four-letter city name for an
     # ICAO code. Unrecognised named endpoints remain source conditions.
     routes = list(record_route_scope({**record, "category": "history"}, text))
-    code_route = re.match(r"\s*(?:For\s+)?([A-Z]{4})\s*[-—–→]\s*([A-Z]{4})(?=\s|[:,.]|$)", text)
+    code_route = re.match(r"\s*(?:(?i:For)\s+)?([A-Z]{4})\s*[-—–→]\s*([A-Z]{4})(?=\s|[:,.]|$)", text)
     if code_route:
         routes.append(tuple(canonical_route_airport(value) for value in code_route.groups()))
     aliases = {code: name for name, code in default_airport_icao_names().items()}
     for entry in default_airport_name_registry().values():
         aliases[str(entry["english_name"]).upper()] = str(entry["canonical_zh"])
+    aliases.update(heading_aliases or {})
     # ICAO scope is explicit even for an airport not yet in the name registry.
     endpoint = r"[A-Z]{4}|" + "|".join(re.escape(name) for name in sorted(aliases, key=len, reverse=True))
-    match = re.match(rf"\s*(?:FOR\s+)?(?:FLIGHTS?\s+)?FROM\s+({endpoint})\s+TO\s+({endpoint})(?=\s|[:,.]|$)", text, re.I)
+    suffix = r"(?=\s*(?:[:,.]|$)|\s+(?:WILL|SHALL|SHOULD|MUST|MAY|IS|ARE|FLIGHTS?|ROUTES?|BORDER\s+CROSSING)\b)"
+    match = re.match(rf"\s*(?:FOR\s+)?(?:THE\s+)?(?:FLIGHTS?\s+)?FROM\s+({endpoint})\s+TO\s+({endpoint}){suffix}", text, re.I)
     if match and all(value.upper() in aliases or re.fullmatch(r"[A-Z]{4}", value) for value in match.groups()):
         routes.append(tuple(aliases.get(value.upper(), value.upper()) for value in match.groups()))
+    named = re.match(rf"\s*(?:THE\s+)?({endpoint})\s*[-—–→]\s*({endpoint})\s+(?:FLIGHTS?|ROUTES?|BORDER\s+CROSSING)\b", text, re.I)
+    if named and all(value.upper() in aliases or re.fullmatch(r"[A-Z]{4}", value) for value in named.groups()):
+        routes.append(tuple(aliases.get(value.upper(), value.upper()) for value in named.groups()))
     return tuple(dict.fromkeys(routes))
 
 
@@ -11624,7 +11697,7 @@ def english_briefing_fact_sets(
                     exclusion_log.append({"airport": airport, "language": "en", "fact_id": identity,
                         "source_page": fact.source_page, "clause": text, "reason": reason})
                 continue
-            key = compact_key(text)
+            key = (category, english_layout_text(fact.en).casefold())
             if key not in seen:
                 categories[category].append(fact)
                 seen.add(key)

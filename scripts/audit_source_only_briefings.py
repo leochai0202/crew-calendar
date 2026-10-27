@@ -128,6 +128,7 @@ def audit(repo: Path, airports: list[str], target: str, output: Path, input_ref:
     original_validate = agent.validate_bilingual_facts
     original_extract = agent.extract_pdf_text
     original_fact_sets = agent.briefing_fact_sets
+    original_english_fact_sets = agent.english_briefing_fact_sets
     selection_trace = {}
     source_text = original_extract(str(manual.resolve()))
     source_digest = report["sha256"]
@@ -156,7 +157,19 @@ def audit(repo: Path, airports: list[str], target: str, output: Path, input_ref:
         content = original_render(duty, *args, **kwargs)
         captures[-1]["english_preview"] = content
         captures[-1]["english_facts"] = [asdict(fact) for airport in duty.route for fact in [*args[3].get(airport, []), *args[4].get(airport, [])]]
+        captures[-1]["english_layout_changes"] = [
+            {"fact_id": fact.fact_id, "source_page": fact.source_page, "before": fact.en,
+             "after": agent.english_layout_text(fact.en),
+             "non_whitespace_unchanged": "".join(fact.en.split()) == "".join(agent.english_layout_text(fact.en).split())}
+            for airport in duty.route for fact in [*args[3].get(airport, []), *args[4].get(airport, [])]
+            if fact.en != agent.english_layout_text(fact.en)
+        ]
         return content
+
+    def english_fact_sets(*args, **kwargs):
+        result = original_english_fact_sets(*args, **kwargs)
+        selection_trace["english_exclusions"] = list(args[3] if len(args) > 3 else kwargs.get("exclusion_log") or [])
+        return result
 
     def validate(facts):
         errors = original_validate(facts)
@@ -169,6 +182,7 @@ def audit(repo: Path, airports: list[str], target: str, output: Path, input_ref:
     agent.validate_bilingual_facts = validate
     agent.extract_pdf_text = extract
     agent.briefing_fact_sets = fact_sets
+    agent.english_briefing_fact_sets = english_fact_sets
     try:
         with tempfile.TemporaryDirectory(prefix="source-only-acceptance-") as temporary:
             isolated = Path(temporary)
@@ -207,6 +221,7 @@ def audit(repo: Path, airports: list[str], target: str, output: Path, input_ref:
         agent.validate_bilingual_facts = original_validate
         agent.extract_pdf_text = original_extract
         agent.briefing_fact_sets = original_fact_sets
+        agent.english_briefing_fact_sets = original_english_fact_sets
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     write_report(report, output.with_suffix(".md"))
