@@ -1,4 +1,7 @@
 from pathlib import Path
+import re
+
+import pytest
 
 
 ROOT = Path(__file__).parents[1]
@@ -10,18 +13,99 @@ RUNNER_SETUP = ROOT / "scripts" / "setup_self_hosted_runner.ps1"
 MAINTENANCE_AGENT = ROOT / "crew_agents" / "maintenance_agent.py"
 
 
-def test_actions_has_only_four_named_workflows() -> None:
+def _assert_training_login_workflow_safety(workflow: str) -> None:
+    assert workflow.splitlines()[0] == "name: 一点知识独立登录检查"
+    triggers = workflow.split("\non:\n", 1)[1].split("\npermissions:", 1)[0]
+    assert re.findall(r"^  ([\w-]+):", triggers, re.M) == ["workflow_dispatch"]
+    assert (
+        "      confirm_single_email:\n"
+        "        description: '确认仅执行一次独立登录，最多申请一次邮箱验证码'\n"
+        "        type: boolean\n"
+        "        required: true\n"
+        "        default: false" in triggers
+    )
+    assert "permissions:\n  contents: read\n  actions: read\n" in workflow
+    assert "  group: crew-calendar\n  cancel-in-progress: false\n  queue: max" in workflow
+    jobs = workflow.split("\njobs:\n", 1)[1]
+    assert re.findall(r"^  ([\w-]+):", jobs, re.M) == ["login-check"]
+    condition = jobs.split("    if: >-\n", 1)[1].split("    runs-on:", 1)[0]
+    assert " ".join(condition.split()) == (
+        "${{ github.event_name == 'workflow_dispatch' && "
+        "github.repository == 'leochai0202/crew-calendar' && "
+        "github.ref == 'refs/heads/main' && inputs.confirm_single_email }}"
+    )
+    for required in (
+        "runs-on: [self-hosted, Windows, X64, crew-calendar]",
+        "timeout-minutes: 12",
+        "if ($env:GITHUB_RUN_ATTEMPT -ne '1') { throw 'RERUN_DISABLED' }",
+        "[IO.Path]::GetFullPath($env:RUNNER_TEMP)",
+        "[Guid]::NewGuid().ToString('N')",
+        "throw 'DIRECTORY_ALREADY_EXISTS'",
+        "python -B -m unittest discover -s training_downloader -p 'test_*.py'",
+        "TRAINING_REQUIRE_GUARD: '1'",
+        "if: ${{ always() && env.TRAINING_RUN_ROOT != '' }}",
+        "UNSAFE_CLEANUP_PATH",
+        "CLEANUP_REPARSE_POINT_REFUSED",
+    ):
+        assert required in workflow
+    assert workflow.count("python -B training_downloader/workflow_guard.py") == 1
+    assert workflow.count("python -B training_downloader/login_probe.py --run") == 1
+    assert workflow.index("python -B -m unittest") < workflow.index(
+        "python -B training_downloader/workflow_guard.py"
+    ) < workflow.index("python -B training_downloader/login_probe.py --run")
+    assert sorted(re.findall(r"secrets\.([A-Z_]+)", workflow)) == [
+        "CREW_PASSWORD", "CREW_USERNAME", "IMAP_AUTH_CODE", "IMAP_EMAIL"
+    ]
+    for forbidden in (
+        "uses:", "contents: write", "actions: write", "CREW_PHONE", "CREW_LOGIN_PHONE",
+        "CREW_STORAGE_STATE_B64", "CREW_PERSISTENT_PROFILE_DIR", "CREW_AUTH_BACKUP_PATH",
+        "CREW_AUTH_CONTROL_PATH", "python crew_calendar", "clean_ics_people.py",
+        "github_api_publish.py", "git push",
+    ):
+        assert forbidden not in workflow
+
+
+def _assert_workflow_inventory(workflows: Path) -> None:
     expected = {
         "auth-session-check.yml": "代码测试",
         "flight-prep-free-v5-20260616.yml": "生成航前准备",
         "schedule.yml": "更新机组日历",
         "sync-airport-manual.yml": "同步机场手册",
     }
-    assert {path.name for path in WORKFLOWS.glob("*.yml")} == set(expected)
+    optional = "training-login-check.yml"
+    actual = {path.name for pattern in ("*.yml", "*.yaml") for path in workflows.glob(pattern)}
+    assert set(expected) <= actual <= set(expected) | {optional}
     for filename, display_name in expected.items():
-        workflow = (WORKFLOWS / filename).read_text(encoding="utf-8")
+        workflow = (workflows / filename).read_text(encoding="utf-8")
         assert workflow.splitlines()[0] == f"name: {display_name}"
         assert "workflow_run:" not in workflow
+    if optional in actual:
+        _assert_training_login_workflow_safety((workflows / optional).read_text(encoding="utf-8"))
+
+
+def test_actions_has_only_required_and_approved_named_workflows() -> None:
+    _assert_workflow_inventory(WORKFLOWS)
+
+
+@pytest.mark.parametrize("unexpected", ["unreviewed.yml", "unreviewed.yaml"])
+def test_workflow_inventory_rejects_unreviewed_workflows(tmp_path: Path, unexpected: str) -> None:
+    for path in WORKFLOWS.glob("*.yml"):
+        (tmp_path / path.name).write_text(path.read_text(encoding="utf-8"), encoding="utf-8")
+    (tmp_path / unexpected).write_text("name: Unreviewed\n", encoding="utf-8")
+    with pytest.raises(AssertionError):
+        _assert_workflow_inventory(tmp_path)
+
+
+@pytest.mark.parametrize("missing", [
+    "auth-session-check.yml", "flight-prep-free-v5-20260616.yml",
+    "schedule.yml", "sync-airport-manual.yml",
+])
+def test_workflow_inventory_still_requires_each_original_workflow(tmp_path: Path, missing: str) -> None:
+    for path in WORKFLOWS.glob("*.yml"):
+        if path.name != missing:
+            (tmp_path / path.name).write_text(path.read_text(encoding="utf-8"), encoding="utf-8")
+    with pytest.raises(AssertionError):
+        _assert_workflow_inventory(tmp_path)
 
 
 def test_schedule_uses_three_calendar_updates_and_three_prep_checks() -> None:
