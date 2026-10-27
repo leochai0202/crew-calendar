@@ -13,7 +13,7 @@ SHA256: `e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8`
 | 丽江三义 | ZPLJ | 33 | 0 | FAILED_SAFE | 36 |
 | 桂林两江 | ZGKL | 11 | 9 | FAILED_SAFE | 12 |
 | 广州白云 | ZGGG | 36 | 27 | FAILED_SAFE | 15 |
-| 曼谷素旺那普 | VTBS | 36 | 35 | FAILED_SAFE | 5 |
+| 曼谷素旺那普 | VTBS | 36 | 35 | FAILED_SAFE | 6 |
 | 上海浦东 | ZSPD | 15 | 15 | FAILED_SAFE | 1 |
 | 沈阳桃仙 | ZYTX | 18 | 17 | FAILED_SAFE | 8 |
 
@@ -138,9 +138,9 @@ FAILED_SAFE: no English counterpart was extracted. No translation or generic tem
 
 丽江离场通常使用 PAN-53 离场（对于跑道 20），在一边高度通过 4500m 后可以申请左转飞攀枝花
 
-机组应严格按程序进行起飞、着陆性能分析，注意遵守轮速限制，尤其本场报不定风时机组应做好分工和提醒，监控好地速，防止超轮速，同时也要关注擦机尾的风险
+应严格按程序进行起飞、着陆性能分析，注意遵守轮速限制，尤其本场报不定风时机组应做好分工和提醒，监控好地速，防止超轮速，同时也要关注擦机尾的风险
 
-机场有起飞一发失效应急程序，机组应加强飞行前准备，针对不同的离场程序，机组应根据所用程序确定决策点，若出现发动机故障，严格按相应航图要求执行应急程序
+机场有起飞一发失效应急程序，应加强飞行前准备，针对不同的离场程序，应根据所用程序确定决策点，若出现发动机故障，严格按相应航图要求执行应急程序
 
 本机场有超轮速风险，请机组计算起飞性能后严格执行以下轮速表的查询并按对应的要求操作（参考《机组标准操作程序》1.6.1 高原机场起飞防止超轮速。）
 
@@ -164,9 +164,9 @@ FAILED_SAFE: no English counterpart was extracted. No translation or generic tem
 
 程序管制，有进近频率，丽江机场提供 D-ATIS 服务，本场通信情况良好，但需注意提前和管制确认进场方式
 
-丽江进近区域内实施 ADS-B 管制，若飞行中 ADS-B 等机载设备发生故障时，机组应及时向 ATC 通报
+丽江进近区域内实施 ADS-B 管制，若飞行中 ADS-B 等机载设备发生故障时，应及时向 ATC 通报
 
-由于机场所处位置及地形障碍物影响，GPS 存在工作不稳定的情况，请机组注意交叉检查导航设备的工作情况。飞行机组在实施 PBN 进近程序时，需确保导航精度符合要求；如果导航能力降级，飞行机组必须按程序要求脱离PBN 程序，并按各机型相应程序进行处置
+由于机场所处位置及地形障碍物影响，GPS 存在工作不稳定的情况，请注意交叉检查导航设备的工作情况。在实施 PBN 进近程序时，需确保导航精度符合要求；如果导航能力降级，必须按程序要求脱离PBN 程序，并按各机型相应程序进行处置
 
 丽江跑道长度虽然有 3000m，但由于其为高原机场，再有各类不利因素叠加时，低档自动刹车计算的着陆停止裕度可能不足 300m，此时机组应注意按照SOP 要求使用中档自动刹车
 
@@ -174,15 +174,15 @@ FAILED_SAFE: no English counterpart was extracted. No translation or generic tem
 
 严格按照航图中公布的进、离场程序和进近程序飞行；如果需要，在等待和机动飞行中机组应关注安全高度的限制，避免可控飞行撞地风险
 
-20 号盲降不工作时，机组应实施 20 号 RNP 进近；02 号盲降不工作时应实施 02 号 RNP 进近或 02 号 LOC 进近。并遵循公司操作通告 FSMD-TA-FOB-2023-029《关于丽江机场盲降设备不工作期间的进近操作指导》执行
+20 号盲降不工作时，应实施 20 号 RNP 进近；02 号盲降不工作时应实施 02 号 RNP 进近或 02 号 LOC 进近。并遵循公司操作通告 FSMD-TA-FOB-2023-029《关于丽江机场盲降设备不工作期间的进近操作指导》执行
 
 20号进近，IF 至 FAF 点间地形较高，注意控制地速和下降率
 
 机场标高较高，注意放形态前检查高度不超过襟缝翼最大操作高度 20000ft，并注意乱流的影响，留够速度裕度
 
-昆明可能会指挥过渡高度层以下飞标准气压，请机组注意
+昆明可能会指挥过渡高度层以下飞标准气压，请注意
 
-20 号进近最后下降角/梯度较大，机组应做好下降和减速计划并控制好飞机的下降率，尽早建立着陆形态，防止不稳定进近
+20 号进近最后下降角/梯度较大，应做好下降和减速计划并控制好飞机的下降率，尽早建立着陆形态，防止不稳定进近
 
 02 号程序转弯角度过大，系统优化会提前转弯，注意提前减速，避免触发警告
 
@@ -301,7 +301,7 @@ Common procedures: Entry/exit is typically confirmed in advance with ATC through
 
 大榕江高度4200，之后可以申请直飞三转弯点，切跑道侧方高度2100米，01号跑道四转弯高度1200米建立盲降，四转弯时机不宜过早，易出现双截获，五边不要偏西。19号盲降，KL508到KL503会指挥5900ft下降到5100ft，距离短，注意能量管理 19号z盲降时，由于地形会指挥直飞KL508，下修压 1800m，后接KL503，或下1500m截获盲降，航图已更新请以航图为准
 
-当有军方活动时，ONEMI方向进场会指挥ONEMI之后飞JW，指挥机组保持较高高度。后续指挥在机场西侧消逝高度，飞机高度大于20000英尺，机组注意形态高度限制，同时西侧地形复杂，注意下降率控制
+当有军方活动时，ONEMI方向进场会指挥ONEMI之后飞JW，指挥机组保持较高高度。后续指挥在机场西侧消逝高度，飞机高度大于20000英尺，注意形态高度限制，同时西侧地形复杂，注意下降率控制
 
 机场北西南方向均有地形，增强地形意识
 
@@ -493,7 +493,7 @@ yellow11滑行线在Q到T61,Q和M滑行路线很近，没有地面标识，滑�
 
 跑道运行规则：向北运行：RWYO1L主要用于进场；RWYO1R 主要用于离场；RWYO2L主要用于离场；RWYO2R 主要用于进场；RWY03进、离场混合运行。向南运行：RWY19R 主要用于进场；RWY19L 主要用于离场；RWY20R 主要用于离场；RWY20L 主要用于进场；RWY21 进、离场混合运行
 
-02L跑道起飞时地面常指挥T61在Y19前等，由于绕滑的滑行道设计特殊性，中方航图与杰普逊AMM航图标识有差异，杰普逊AMM航图标识Y19标识不显示，有时会误导机组T61 前方的滑行道是Y20完成右转才是Y19，经与地面管制证实如果发布T61在Y19前等，机组需要在T61上等待，避免错过等待线
+02L跑道起飞时地面常指挥T61在Y19前等，由于绕滑的滑行道设计特殊性，中方航图与杰普逊AMM航图标识有差异，杰普逊AMM航图标识Y19标识不显示，有时会误导机组T61 前方的滑行道是Y20完成右转才是Y19，经与地面管制证实如果发布T61在Y19前等，需要在T61上等待，避免错过等待线
 
 广州T3，939附近机位，管制给推出指令，可以推开，推到R3，跑道01R。机务可能只推到大概正对838到939 之间的位置。这个时候应提醒机务往前拉一点，尽量满足推到R3上。因R3，R4，R5连接处有点滑行区域没有标注，在推出过程中管制指令和机务行为有时候不够统一，务必多留心。建议设计特定推出程序，或者给出明确清晰推出指令
 
@@ -501,7 +501,7 @@ yellow11滑行线在Q到T61,Q和M滑行路线很近，没有地面标识，滑�
 
 注意根据fly Smart修改单发加速高度
 
-广州涉及航线距离较长，飞机起飞重量大，从T3滑行至01R/19L地面滑行时间长，且道面坡度起伏和转弯多，易造成刹车温度高，导致航班延误或起飞后机轮温度超限情况，请机组注意
+广州涉及航线距离较长，飞机起飞重量大，从T3滑行至01R/19L地面滑行时间长，且道面坡度起伏和转弯多，易造成刹车温度高，导致航班延误或起飞后机轮温度超限情况，请注意
 
 离地后自动脱波联系进近，具体频率由放行给出
 
@@ -525,7 +525,7 @@ E/F/D/T3/T4为高冲突区，加强观察，指令及时复诵确认
 
 新程序调整，多个程序更名，限制高度涉及更改，注意参阅航图对照MCDU数据
 
-广州机场跑道01L/R、02L/R、03从06.11日起开始实施单发程序，请机组注意
+广州机场跑道01L/R、02L/R、03从06.11日起开始实施单发程序，请注意
 
 The departure taxiway is marked as "YELLOW", and the arrival taxiway ismarked as "GREEN".
 
@@ -599,7 +599,7 @@ yellow11滑行线在Q到T61,Q和M滑行路线很近，没有地面标识，滑�
 
 广州O2 R落地，M滑行，T64滑行道前无标志牌，仅有地面滑行标志，实际T64标志牌在T64滑行道之后，容易引发误解
 
-着陆航空器应尽可能使用顺向且靠近接地点的第一或第二快速脱离道退出跑道，需要使用第三条快速脱离道及以远道口脱离跑道时，机组应在与塔台建立首次联系时进行通报
+着陆航空器应尽可能使用顺向且靠近接地点的第一或第二快速脱离道退出跑道，需要使用第三条快速脱离道及以远道口脱离跑道时，应在与塔台建立首次联系时进行通报
 
 将W19航线MASGU-MABAG-OGABI-NOMAR 航段调整为MASGU-UPMIP-ATKAV-OLPAB-NOMAR供华东方向落地广州航班及飞跃珠三角航班使用
 
@@ -609,7 +609,7 @@ E/F/D/T3/T4为高冲突区，加强观察，指令及时复诵确认
 
 新程序调整，多个程序更名，限制高度涉及更改，注意参阅航图对照MCDU数据
 
-广州机场跑道01L/R、02L/R、03从06.11日起开始实施单发程序，请机组注意
+广州机场跑道01L/R、02L/R、03从06.11日起开始实施单发程序，请注意
 
 After entering the field, radar guidance will be used to calculate the altitude-to-range ratio.
 
@@ -800,6 +800,7 @@ Radio Failure Procedure: Specific Implementation Methods inAirport Regulations a
 ### Every acceptance error
 
 - 中英文关键概念不一致：曼谷素旺那普_core_record_17：英文缺少['system_activation_temporal_polarity']
+- 中英文关键概念不一致：曼谷素旺那普_core_record_23：英文缺少['takeoff_roll']
 - 中英文关键概念不一致：曼谷素旺那普_core_record_34：英文缺少['final_approach']
 - 最新版机场手册英文配对缺失：曼谷素旺那普_core_record_8：曼谷素旺那普／曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点
 - 中英文关键事实不一致：曼谷素旺那普_core_record_42：中文['JEPPESEN']，英文[]
@@ -807,7 +808,7 @@ Radio Failure Procedure: Specific Implementation Methods inAirport Regulations a
 
 ### departure: source-only role selection preview
 
-部分机位推出过程中会临时停下给出启动发动机的指令，后续会继续牵引飞机，机组应该注意听清指令，不要盲目刹车，否则有导致剪切销断裂的风险
+部分机位推出过程中会临时停下给出启动发动机的指令，后续会继续牵引飞机，应该注意听清指令，不要盲目刹车，否则有导致剪切销断裂的风险
 
 如预计经过沥青道面，不建议单发滑行
 
@@ -829,13 +830,13 @@ H6与 H3,H5与 H2为同一条滑行道注意识别
 
 离地自动脱波119.25
 
-使用20L 跑道起飞时容易滑错，因为 E1，E2非常近，而且E 滑行道有延伸段去货机坪，请机组务必注意
+使用20L 跑道起飞时容易滑错，因为 E1，E2非常近，而且E 滑行道有延伸段去货机坪，请务必注意
 
 01跑道会使用 B12离场
 
 19 号起飞离场一般用Selka1J 离场，起飞后可能会指挥取消限制直飞Selka，然后可能指挥直飞 SAV
 
-巡航时在曼谷区域，近期多触发 NAV ADS-B RPTG 1+2 FAULT,NAV BKUP SPD FAULT，随后出现两侧GPS PRIMARYLOST，机组应当提前熟知技术通告，飞行全过程中知晓最低安全高度，按技术通告处理
+巡航时在曼谷区域，近期多触发 NAV ADS-B RPTG 1+2 FAULT,NAV BKUP SPD FAULT，随后出现两侧GPS PRIMARYLOST，应当提前熟知技术通告，飞行全过程中知晓最低安全高度，按技术通告处理
 
 通讯失效后按航图或机场细则执行
 
@@ -849,7 +850,7 @@ H6与 H3,H5与 H2为同一条滑行道注意识别
 
 无线电失效程序：机场细则及杰普逊手册有具体实施方法
 
-Special complex procedures: During the deployment of some aircraft positions, the system may temporarily halt to issue an engine startcommand, after which itwill resume aircraft traction. The crew must carefully heed the instructions and avoid sudden braking, as this could risk shearing pin fracture.
+Special complex procedures: During the deployment of some aircraft positions, the system may temporarily halt to issue an engine startcommand, after which itwill resume aircraft traction. It is mandatory to carefully heed the instructions and avoid sudden braking, as this could risk shearing pin fracture.
 
 Single-engine taxiing is not recommended when the taxi route is expected to include asphalt pavement.
 
@@ -871,13 +872,13 @@ To minimize runway time, pilots must ensure they can begin taxiing immediately u
 
 Automatic wave separation from the ground 119.25.
 
-When using the 20L runway for takeoff, there is a high risk of taxiing errors due to the proximity of E1 and E2 runways, and the E taxiway's extension to the cargo apron. Crew members must exercise caution.
+When using the 20L runway for takeoff, there is a high risk of taxiing errors due to the proximity of E1 and E2 runways, and the E taxiway's extension to the cargo apron. It is mandatory to exercise caution.
 
 Runway 01 will use B12 for departure.
 
 For departure on the 19th, the Selka1J is typically used. After takeoff, the airtraffic controller may cancel the restricted direct flight to Selka and then direct a direct flightto SAV.
 
-During a cruise in the Bangkok area, the aircraft recently experienced multiple failures including NAV ADS-B RPTG 1+2 FAULT and NAV BKUP SPD FAULT, followed by GPS PRIMARY LOST on both sides. The crew should be thoroughly familiar with the technical notice, maintain awareness of the minimum safe altitude throughout the flight, and follow the technical notice for handling.
+During a cruise in the Bangkok area, the aircraft recently experienced multiple failures including NAV ADS-B RPTG 1+2 FAULT and NAV BKUP SPD FAULT, followed by GPS PRIMARY LOST on both sides. It is recommended to be thoroughly familiar with the technical notice, maintain awareness of the minimum safe altitude throughout the flight, and follow the technical notice for handling.
 
 In case of communication failure, follow the airchart or airport regulations.
 
@@ -899,7 +900,7 @@ RNAV进场
 
 航图新增Z 进近程序为主用程序，数据库也有变化，提示机组注意阅读对应进场图中Warning 中的说明，避免未经 ATC 许可转向五边加入进近程序
 
-执行 VTBS 20R RNP 进近需要注意。ATKIN 之后转 5 边的航段， 管制可能会指令“maintain 5000ft，turn right HDG 165,intercept final course 20R,report established.”注意管制是要求先建立20R RNP 的五边，而不是许可 RNP 进近,注意证实指令，防止误待命APPR。随后会让下3500ft，可以 RNP20R，容易造成能量大，机组注意做好预案，防止不稳定。RNP 进近不允许执行“高截获”程序
+执行 VTBS 20R RNP 进近需要注意。ATKIN 之后转 5 边的航段， 管制可能会指令“maintain 5000ft，turn right HDG 165,intercept final course 20R,report established.”注意管制是要求先建立20R RNP 的五边，而不是许可 RNP 进近,注意证实指令，防止误待命APPR。随后会让下3500ft，可以 RNP20R，容易造成能量大，注意做好预案，防止不稳定。RNP 进近不允许执行“高截获”程序
 
 02L进近常指挥保持3 边航向，控制前后机距离，之后指挥直飞BATEM 或ABVER，在引入02LRNP 进近计划时MCDU会提示选择VIA BATEM 如果没有选择VIA 计划上看不到BATEM 点
 
@@ -937,7 +938,7 @@ H6与 H3,H5与 H2为同一条滑行道注意识别
 
 曼谷的 s126机位的进位引导经常跳变，会出现瞬间从 2 米调到 0 然后出现 stop，ok 后又会跳变出数字，有滑过或者未滑行到位的风险，机组和机务都多次遇到此类情况
 
-巡航时在曼谷区域，近期多触发 NAV ADS-B RPTG 1+2 FAULT,NAV BKUP SPD FAULT，随后出现两侧GPS PRIMARYLOST，机组应当提前熟知技术通告，飞行全过程中知晓最低安全高度，按技术通告处理
+巡航时在曼谷区域，近期多触发 NAV ADS-B RPTG 1+2 FAULT,NAV BKUP SPD FAULT，随后出现两侧GPS PRIMARYLOST，应当提前熟知技术通告，飞行全过程中知晓最低安全高度，按技术通告处理
 
 通讯失效后按航图或机场细则执行
 
@@ -955,9 +956,9 @@ Common procedures: RNAV entry
 
 The minimum horizontal spacing of radar is5nm, and itmay be reduced to 3nm inBKKTMA, BKKCTR, and Suvarnabhumi ATZ.
 
-The new Z approach procedure has been designated as the primary procedure in the air chart, with corresponding database updates. Crews are advised to carefully review the Warning section in the relevant approach chart to prevent unauthorized five-way turns into the approach procedure without ATC clearance.
+The new Z approach procedure has been designated as the primary procedure in the air chart, with corresponding database updates. It is advised to carefully review the Warning section in the relevant approach chart to prevent unauthorized five-way turns into the approach procedure without ATC clearance.
 
-When executing a VTBS 20R RNP approach, note the following: After the ATKIN, the control may instruct to "maintain 5000ft, turn right HDG 165, intercept final course 20R, report established." Note that the control requires establishing the 20R RNP five sides first, not granting permission for the RNP approach. Pay attention tothe confirmation instructions toavoid mistakenly awaiting the APPR. Subsequently, the control may descend 3500ft, allowing the RNP 20R approach, which could cause excessive energy. The crew should prepare contingency plans to prevent instability. The "high intercept" procedure is not permitted during RNP approaches.
+When executing a VTBS 20R RNP approach, note the following: After the ATKIN, the control may instruct to "maintain 5000ft, turn right HDG 165, intercept final course 20R, report established." Note that the control requires establishing the 20R RNP five sides first, not granting permission for the RNP approach. Pay attention tothe confirmation instructions toavoid mistakenly awaiting the APPR. Subsequently, the control may descend 3500ft, allowing the RNP 20R approach, which could cause excessive energy. It is recommended to prepare contingency plans to prevent instability. The "high intercept" procedure is not permitted during RNP approaches.
 
 During 02L approach, the controller typically maintains a three-way approach while controlling the aircraft's distance from the front and rear. Subsequently, the controller directs the aircraft to fly directly to BATEM or ABVER. When initiating the 02LRNP approach plan, the MCDU will prompt the pilot to select VIA BATEM. If VIA is not selected, the BATEM point will not be visible on the plan.
 
@@ -993,7 +994,7 @@ Noise reduction procedures are in effect. The use of heavy reverse thrust is pro
 
 At Terminal S126 in Bangkok, the approach guidance system frequently exhibits abrupt switching: it may instantaneously shift from 2 meters to 0, then display "Stop"; after pressing "OK," the number may switch again, posing a risk of overshooting or failing to reach the correct position. Both flight crew and ground maintenance personnel have encountered this issue on multiple occasions.
 
-During a cruise in the Bangkok area, the aircraft recently experienced multiple failures including NAV ADS-B RPTG 1+2 FAULT and NAV BKUP SPD FAULT, followed by GPS PRIMARY LOST on both sides. The crew should be thoroughly familiar with the technical notice, maintain awareness of the minimum safe altitude throughout the flight, and follow the technical notice for handling.
+During a cruise in the Bangkok area, the aircraft recently experienced multiple failures including NAV ADS-B RPTG 1+2 FAULT and NAV BKUP SPD FAULT, followed by GPS PRIMARY LOST on both sides. It is recommended to be thoroughly familiar with the technical notice, maintain awareness of the minimum safe altitude throughout the flight, and follow the technical notice for handling.
 
 In case of communication failure, follow the airchart or airport regulations.
 
@@ -1077,9 +1078,9 @@ Bird-scare cannon blasts are loud atPudong. Crews shall avoid undesired startle 
 
 ### departure: source-only role selection preview
 
-机坪有时给推出开车指令，有时候给推出到位报告指令，机组注意识别并遵守指令
+机坪有时给推出开车指令，有时候给推出到位报告指令，注意识别并遵守指令
 
-地面运行换频频繁，换频指令与滑行等待位置较近，机组注意，防止滑错/滑过线
+地面运行换频频繁，换频指令与滑行等待位置较近，注意，防止滑错/滑过线
 
 离场方式在滑行时也可能发生变更，在变更离场方式后，及时遵循 SOP 离场变更执行更改计划，并做好补充简令，执行离场变更检查单，避免飞错
 
@@ -1089,9 +1090,9 @@ Bird-scare cannon blasts are loud atPudong. Crews shall avoid undesired startle 
 
 跑道信息：16L/34R（3800m×60m）；16R/34L（3800m×60m）；17L/35R（4000m× 60m）；17R/35L（3400m×60m）
 
-浦东机场驱鸟炮声音较响，机组不要产生惊吓效应
+浦东机场驱鸟炮声音较响，不要产生惊吓效应
 
-Apron control may issue push-back and start-up clearance, or instruction to report push-back complete. Flight crews shall identify and comply with relevant clearances.
+Apron control may issue push-back and start-up clearance, or instruction to report push-back complete. It is required to identify and comply with relevant clearances.
 
 Frequent frequency changes occur during surface movement. Frequency change points are geographically close to taxi holding positions. Exercise vigilance to prevent taxi routing errors or overshooting holding lines.
 
@@ -1103,25 +1104,25 @@ Airportelevation:13 ft
 
 Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m)
 
-Bird-scare cannon blasts are loud atPudong. Crews shall avoid undesired startle response.
+Bird-scare cannon blasts are loud atPudong. It is required to avoid undesired startle response.
 
 ### arrival: source-only role selection preview
 
 从BK 进场，若向北运行时，通常用西跑道 35L 号，若向南运行时，通常东跑道 16L
 
-进场程序较多，有时会临时更改，在非繁忙时刻通常会有直飞，机组做好预案
+进场程序较多，有时会临时更改，在非繁忙时刻通常会有直飞，做好预案
 
 浦东向南进近过程中曾多次触发 TA/RA 告警，请机组进近准备时做好相关预案，按照手册记忆项目程序执行
 
-浦东 17R/35L 跑道，ATC 可能指挥短切五边或较晚发布盲降许可，机组做好预判并提前做好能量管理，积极沟通，按需接受 ATC 雷达引导的指令。当需要实施"从上方截获下滑道"程序时，严格遵循 SOP 要求，如无法满足稳定进近标准，果断复飞或中止进近
+浦东 17R/35L 跑道，ATC 可能指挥短切五边或较晚发布盲降许可，做好预判并提前做好能量管理，积极沟通，按需接受 ATC 雷达引导的指令。当需要实施"从上方截获下滑道"程序时，严格遵循 SOP 要求，如无法满足稳定进近标准，果断复飞或中止进近
 
 近期发生多次浦东机场 168 号停机位，因上坡和单发原因油门加至地面最大可用推力仍不能移动飞机，而关车申请拖车。请注意在此类停机位的进位速度
 
 浦东机场细则要求，AD2.20，3.2.4"进港航空器机组发现地面滑行引导车后关闭滑行灯，跟随地面滑行引导车滑行"
 
-机组在进入设置目视泊位引导系统的机位时，发现有疑问的引导指示，或进入由人工引导入位的机位时发现地面接机人员未就位（尤其是着陆后临时更换机位时常发生），应当立即停止滑行，及时通报 ATC，并应当保持发动机运转，等待后续处置
+在进入设置目视泊位引导系统的机位时，发现有疑问的引导指示，或进入由人工引导入位的机位时发现地面接机人员未就位（尤其是着陆后临时更换机位时常发生），应当立即停止滑行，及时通报 ATC，并应当保持发动机运转，等待后续处置
 
-地面运行换频频繁，换频指令与滑行等待位置较近，机组注意，防止滑错/滑过线
+地面运行换频频繁，换频指令与滑行等待位置较近，注意，防止滑错/滑过线
 
 机场标高：13ft
 
@@ -1129,7 +1130,7 @@ Bird-scare cannon blasts are loud atPudong. Crews shall avoid undesired startle 
 
 PAPI信息：16L：跑道左侧入口内 454 米，3°，MEHT 20.9m；34R：跑道左侧入口内 455 米，3°，MEHT 21.5m；16R：跑道左侧入口内 452 米，3°，MEHT 21.9m；34L：跑道左侧入口内 452 米，3°，MEHT 22.4m；17L：跑道左侧入口内 464 米，3°，MEHT 21.7m；35R：跑道左侧入口内 464 米，3°，MEHT 22.5m；17R：跑道左侧入口内 452 米，3°，MEHT 21.4m；35L：跑道左侧入口内 452 米，3°，MEHT 21.0m
 
-浦东机场驱鸟炮声音较响，机组不要产生惊吓效应
+浦东机场驱鸟炮声音较响，不要产生惊吓效应
 
 For BK arrival: during north-bound operations, RWY 35L (western runway) is normally assigned; during south-bound operations, RWY 16L (eastern runway) isnormally assigned.
 
@@ -1153,7 +1154,7 @@ Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R 
 
 PAPI Information: RWY 16L: 454 m inside runway threshold on left side, glidepath angle 3°, MEHT 20.9 m - RWY 34R: 455 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.5 m - RWY 16R: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.9 m - RWY 34L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 22.4 m - RWY 17L: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.7 m - RWY 35R: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 22.5 m - RWY 17R: 35L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 21.4 m - RWY 35L: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.0 m
 
-Bird-scare cannon blasts are loud atPudong. Crews shall avoid undesired startle response.
+Bird-scare cannon blasts are loud atPudong. It is required to avoid undesired startle response.
 
 ## 沈阳桃仙: Chinese core source preview
 
@@ -1242,7 +1243,7 @@ PAPI Information: RWY 06: 357.8 m inside runway threshold on left side, glidepat
 
 ### departure: source-only role selection preview
 
-通常 06 号跑道使用 A2 离场，24 号跑道使用 A8 离场，机组注意 FLYSMART 非全跑道起飞性能计算
+通常 06 号跑道使用 A2 离场，24 号跑道使用 A8 离场，注意 FLYSMART 非全跑道起飞性能计算
 
 有时飞机推至远机位开车，在获得离场时间后，ATC 给出开车指令。未经 ATC 许可，不得在滑行道上开车
 
@@ -1254,13 +1255,13 @@ PAPI Information: RWY 06: 357.8 m inside runway threshold on left side, glidepat
 
 06号起飞通常过了 1200m 才可以申请提前右转
 
-ATC 在离场时可能较早指挥偏置，机组应在输入偏置后加强轨迹监控，出现非预期偏差时及时干预
+ATC 在离场时可能较早指挥偏置，应在输入偏置后加强轨迹监控，出现非预期偏差时及时干预
 
 由于禁飞区启用，沈阳 omdus 方向离场，沈阳区域汇报点为 CHG，基本首次联系沈阳区调就可以汇报安保状况
 
 机场标高：198ft
 
-Normally, A2 departure intersection is used for RWY 06, and A8 for RWY 24. Crews shall complete reduced-length take-off performance calculation via FLYSMART.
+Normally, A2 departure intersection is used for RWY 06, and A8 for RWY 24. It is required to complete reduced-length take-off performance calculation via FLYSMART.
 
 Engines may be started at remote stands. ATC start-up clearance is issued upon available departure slot.Engine start-up on taxiways isprohibited without ATC approval.
 
@@ -1282,7 +1283,7 @@ TOSID 方向通常在 TOSID 前区调指挥保持当前航迹，联系进近后�
 
 进近时，经常不会飞完整的进场程序，根据前后机排序间隔等雷达引导，第一注意能量管理，第二会雷达引导或指挥自行转向五边，机组一定注意判断切入点位置，避免出现高截获
 
-ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，机组注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态
+ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞跑道外等时，干扰位置总体集中在跑道入口 7-3 海里或跑道入口附近，注意做好盲降信号异常时的处置，同时注意内外结合，防止丢失状态
 
 24号 RNP 进近，管制可能指挥“下 900 米，可以 24 号 RNP 进近”，但是航图上为 600 米建立 RNP 进近。导航数据库内 FDP 点和 FAF 点为 TX601，高度 600 米。当 900 米 TO 点为 TX601 时待命 APPR，飞机不会从 9NM 开始下降，易造成垂直轨迹的较大偏离。建议机组与管制证实按程序下降建立 24 号RNP 进近或者按航图申请下 600 米建立 24 号 RNP 进近
 
@@ -1306,7 +1307,7 @@ Full arrival procedures are frequently omitted. Radar vectors are applied for tr
 
 ILS glideslope signals for RWY 06 / 24 are susceptible to interference. Interference mostly occurs 7-3 NM from runway threshold or near threshold when aircraft hold short for full-length departure. Prepare contingency actions for abnormal ILS indications. Maintain cross-monitoring between flight instruments and external references toprevent loss of situational awareness.
 
-.For RWY 24 RNP approach, ATC may clear “Descend to 900 m, cleared RNP approach RWY24”. However, charted altitude for RNP approach establishment is 600 m. Both FDP and FAF waypoints in navigation database are TX601 with altitude constraint 600 m. When TO point TX601 is captured at 900 m with APPR mode armed, the aircraft will not commence descent from 9 NM, resulting in significant vertical track deviation. Crews are advised to confirm with ATC for procedure-compliant descent to establish RNP RWY24 approach, or request descent to 600 m per chart prior to approach establishment.
+.For RWY 24 RNP approach, ATC may clear “Descend to 900 m, cleared RNP approach RWY24”. However, charted altitude for RNP approach establishment is 600 m. Both FDP and FAF waypoints in navigation database are TX601 with altitude constraint 600 m. When TO point TX601 is captured at 900 m with APPR mode armed, the aircraft will not commence descent from 9 NM, resulting in significant vertical track deviation. It is advised to confirm with ATC for procedure-compliant descent to establish RNP RWY24 approach, or request descent to 600 m per chart prior to approach establishment.
 
 A 2-degree track offset exists during final segment of RWY 24 RNP approach.
 
@@ -1335,6 +1336,7 @@ Groups: [['9C7289'], ['9C7420']]
 - 9C7289：中英文关键概念不一致：曼谷素旺那普_core_record_17：英文缺少['system_activation_temporal_polarity']
 - 9C7289：中英文关键事实不一致：曼谷素旺那普_core_record_42：中文['JEPPESEN']，英文[]
 - 9C7289：中英文选定事实身份不一致：中文['上海浦东_typical_record_1', '上海浦东_typical_record_2', '曼谷素旺那普_typical_record_1', '上海浦东_core_record_7', '上海浦东_core_record_9', '上海浦东_core_record_10', '上海浦东_core_record_11', '上海浦东_core_record_3', '上海浦东_core_record_4', '上海浦东_core_record_21', '曼谷素旺那普_core_record_31', '曼谷素旺那普_core_record_32', '曼谷素旺那普_core_record_34', '曼谷素旺那普_core_record_35', '曼谷素旺那普_core_record_36', '曼谷素旺那普_core_record_37', '曼谷素旺那普_core_record_38', '曼谷素旺那普_core_record_39', '曼谷素旺那普_core_record_6', '曼谷素旺那普_core_record_7', '曼谷素旺那普_core_record_8', '曼谷素旺那普_core_record_11', '曼谷素旺那普_core_record_13', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_17', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_21', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42']，英文['上海浦东_typical_record_1', '上海浦东_typical_record_2', '曼谷素旺那普_typical_record_1', '上海浦东_core_record_7', '上海浦东_core_record_9', '上海浦东_core_record_10', '上海浦东_core_record_11', '上海浦东_core_record_3', '上海浦东_core_record_4', '上海浦东_core_record_21', '曼谷素旺那普_core_record_31', '曼谷素旺那普_core_record_32', '曼谷素旺那普_core_record_34', '曼谷素旺那普_core_record_35', '曼谷素旺那普_core_record_36', '曼谷素旺那普_core_record_37', '曼谷素旺那普_core_record_38', '曼谷素旺那普_core_record_39', '曼谷素旺那普_core_record_6', '曼谷素旺那普_core_record_7', '曼谷素旺那普_core_record_11', '曼谷素旺那普_core_record_13', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_17', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_21', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42']
+- 9C7420：中英文关键概念不一致：曼谷素旺那普_core_record_23：英文缺少['takeoff_roll']
 - 9C7420：中英文关键事实不一致：曼谷素旺那普_core_record_42：中文['JEPPESEN']，英文[]
 - 9C7420：最新版机场手册英文配对缺失：广州白云_core_record_42：广州白云／广州/白云机场运行特点／核心威胁与运行特点
 - 9C7420：最新版机场手册英文配对缺失：广州白云_core_record_5：广州白云／广州/白云机场运行特点／核心威胁与运行特点
@@ -1369,9 +1371,9 @@ FAILED_SAFE diagnostic text, not published.
 
 上海浦东机场：
 
-机坪有时给推出开车指令，有时候给推出到位报告指令，机组注意识别并遵守指令。
+机坪有时给推出开车指令，有时候给推出到位报告指令，注意识别并遵守指令。
 
-地面运行换频频繁，换频指令与滑行等待位置较近，机组注意，防止滑错/滑过线。
+地面运行换频频繁，换频指令与滑行等待位置较近，注意，防止滑错/滑过线。
 
 离场方式在滑行时也可能发生变更，在变更离场方式后，及时遵循 SOP 离场变更执行更改计划，并做好补充简令，执行离场变更检查单，避免飞错。
 
@@ -1381,7 +1383,7 @@ FAILED_SAFE diagnostic text, not published.
 
 跑道信息：16L/34R（3800m×60m）；16R/34L（3800m×60m）；17L/35R（4000m× 60m）；17R/35L（3400m×60m）。
 
-浦东机场驱鸟炮声音较响，机组不要产生惊吓效应。
+浦东机场驱鸟炮声音较响，不要产生惊吓效应。
 
 曼谷素旺那普机场：
 
@@ -1391,7 +1393,7 @@ RNAV进场。
 
 航图新增Z 进近程序为主用程序，数据库也有变化，提示机组注意阅读对应进场图中Warning 中的说明，避免未经 ATC 许可转向五边加入进近程序。
 
-执行 VTBS 20R RNP 进近需要注意。ATKIN 之后转 5 边的航段， 管制可能会指令“maintain 5000ft，turn right HDG 165,intercept final course 20R,report established.”注意管制是要求先建立20R RNP 的五边，而不是许可 RNP 进近,注意证实指令，防止误待命APPR。随后会让下3500ft，可以 RNP20R，容易造成能量大，机组注意做好预案，防止不稳定。RNP 进近不允许执行“高截获”程序。
+执行 VTBS 20R RNP 进近需要注意。ATKIN 之后转 5 边的航段， 管制可能会指令“maintain 5000ft，turn right HDG 165,intercept final course 20R,report established.”注意管制是要求先建立20R RNP 的五边，而不是许可 RNP 进近,注意证实指令，防止误待命APPR。随后会让下3500ft，可以 RNP20R，容易造成能量大，注意做好预案，防止不稳定。RNP 进近不允许执行“高截获”程序。
 
 02L进近常指挥保持3 边航向，控制前后机距离，之后指挥直飞BATEM 或ABVER，在引入02LRNP 进近计划时MCDU会提示选择VIA BATEM 如果没有选择VIA 计划上看不到BATEM 点。
 
@@ -1429,7 +1431,7 @@ H6与 H3,H5与 H2为同一条滑行道注意识别。
 
 曼谷的 s126机位的进位引导经常跳变，会出现瞬间从 2 米调到 0 然后出现 stop，ok 后又会跳变出数字，有滑过或者未滑行到位的风险，机组和机务都多次遇到此类情况。
 
-巡航时在曼谷区域，近期多触发 NAV ADS-B RPTG 1+2 FAULT,NAV BKUP SPD FAULT，随后出现两侧GPS PRIMARYLOST，机组应当提前熟知技术通告，飞行全过程中知晓最低安全高度，按技术通告处理。
+巡航时在曼谷区域，近期多触发 NAV ADS-B RPTG 1+2 FAULT,NAV BKUP SPD FAULT，随后出现两侧GPS PRIMARYLOST，应当提前熟知技术通告，飞行全过程中知晓最低安全高度，按技术通告处理。
 
 通讯失效后按航图或机场细则执行。
 
@@ -1464,7 +1466,7 @@ Core threats:
 
 Shanghai Pudong International Airport:
 
-Apron control may issue push-back and start-up clearance, or instruction to report push-back complete. Flight crews shall identify and comply with relevant clearances.
+Apron control may issue push-back and start-up clearance, or instruction to report push-back complete. It is required to identify and comply with relevant clearances.
 
 Frequent frequency changes occur during surface movement. Frequency change points are geographically close to taxi holding positions. Exercise vigilance to prevent taxi routing errors or overshooting holding lines.
 
@@ -1476,7 +1478,7 @@ Airportelevation:13 ft.
 
 Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m).
 
-Bird-scare cannon blasts are loud atPudong. Crews shall avoid undesired startle response.
+Bird-scare cannon blasts are loud atPudong. It is required to avoid undesired startle response.
 
 Suvarnabhumi Airport:
 
@@ -1484,9 +1486,9 @@ Common procedures: RNAV entry.
 
 The minimum horizontal spacing of radar is5nm, and itmay be reduced to 3nm inBKKTMA, BKKCTR, and Suvarnabhumi ATZ.
 
-The new Z approach procedure has been designated as the primary procedure in the air chart, with corresponding database updates. Crews are advised to carefully review the Warning section in the relevant approach chart to prevent unauthorized five-way turns into the approach procedure without ATC clearance.
+The new Z approach procedure has been designated as the primary procedure in the air chart, with corresponding database updates. It is advised to carefully review the Warning section in the relevant approach chart to prevent unauthorized five-way turns into the approach procedure without ATC clearance.
 
-When executing a VTBS 20R RNP approach, note the following: After the ATKIN, the control may instruct to "maintain 5000ft, turn right HDG 165, intercept final course 20R, report established." Note that the control requires establishing the 20R RNP five sides first, not granting permission for the RNP approach. Pay attention tothe confirmation instructions toavoid mistakenly awaiting the APPR. Subsequently, the control may descend 3500ft, allowing the RNP 20R approach, which could cause excessive energy. The crew should prepare contingency plans to prevent instability. The "high intercept" procedure is not permitted during RNP approaches.
+When executing a VTBS 20R RNP approach, note the following: After the ATKIN, the control may instruct to "maintain 5000ft, turn right HDG 165, intercept final course 20R, report established." Note that the control requires establishing the 20R RNP five sides first, not granting permission for the RNP approach. Pay attention tothe confirmation instructions toavoid mistakenly awaiting the APPR. Subsequently, the control may descend 3500ft, allowing the RNP 20R approach, which could cause excessive energy. It is recommended to prepare contingency plans to prevent instability. The "high intercept" procedure is not permitted during RNP approaches.
 
 During 02L approach, the controller typically maintains a three-way approach while controlling the aircraft's distance from the front and rear. Subsequently, the controller directs the aircraft to fly directly to BATEM or ABVER. When initiating the 02LRNP approach plan, the MCDU will prompt the pilot to select VIA BATEM. If VIA is not selected, the BATEM point will not be visible on the plan.
 
@@ -1522,7 +1524,7 @@ Noise reduction procedures are in effect. The use of heavy reverse thrust is pro
 
 At Terminal S126 in Bangkok, the approach guidance system frequently exhibits abrupt switching: it may instantaneously shift from 2 meters to 0, then display "Stop"; after pressing "OK," the number may switch again, posing a risk of overshooting or failing to reach the correct position. Both flight crew and ground maintenance personnel have encountered this issue on multiple occasions.
 
-During a cruise in the Bangkok area, the aircraft recently experienced multiple failures including NAV ADS-B RPTG 1+2 FAULT and NAV BKUP SPD FAULT, followed by GPS PRIMARY LOST on both sides. The crew should be thoroughly familiar with the technical notice, maintain awareness of the minimum safe altitude throughout the flight, and follow the technical notice for handling.
+During a cruise in the Bangkok area, the aircraft recently experienced multiple failures including NAV ADS-B RPTG 1+2 FAULT and NAV BKUP SPD FAULT, followed by GPS PRIMARY LOST on both sides. It is recommended to be thoroughly familiar with the technical notice, maintain awareness of the minimum safe altitude throughout the flight, and follow the technical notice for handling.
 
 In case of communication failure, follow the airchart or airport regulations.
 
@@ -1560,7 +1562,7 @@ FAILED_SAFE diagnostic text, not published.
 
 曼谷素旺那普机场：
 
-部分机位推出过程中会临时停下给出启动发动机的指令，后续会继续牵引飞机，机组应该注意听清指令，不要盲目刹车，否则有导致剪切销断裂的风险。
+部分机位推出过程中会临时停下给出启动发动机的指令，后续会继续牵引飞机，应该注意听清指令，不要盲目刹车，否则有导致剪切销断裂的风险。
 
 如预计经过沥青道面，不建议单发滑行。
 
@@ -1582,13 +1584,13 @@ H6与 H3,H5与 H2为同一条滑行道注意识别。
 
 离地自动脱波119.25。
 
-使用20L 跑道起飞时容易滑错，因为 E1，E2非常近，而且E 滑行道有延伸段去货机坪，请机组务必注意。
+使用20L 跑道起飞时容易滑错，因为 E1，E2非常近，而且E 滑行道有延伸段去货机坪，请务必注意。
 
 01跑道会使用 B12离场。
 
 19 号起飞离场一般用Selka1J 离场，起飞后可能会指挥取消限制直飞Selka，然后可能指挥直飞 SAV。
 
-巡航时在曼谷区域，近期多触发 NAV ADS-B RPTG 1+2 FAULT,NAV BKUP SPD FAULT，随后出现两侧GPS PRIMARYLOST，机组应当提前熟知技术通告，飞行全过程中知晓最低安全高度，按技术通告处理。
+巡航时在曼谷区域，近期多触发 NAV ADS-B RPTG 1+2 FAULT,NAV BKUP SPD FAULT，随后出现两侧GPS PRIMARYLOST，应当提前熟知技术通告，飞行全过程中知晓最低安全高度，按技术通告处理。
 
 通讯失效后按航图或机场细则执行。
 
@@ -1638,7 +1640,7 @@ yellow11滑行线在Q到T61,Q和M滑行路线很近，没有地面标识，滑�
 
 广州O2 R落地，M滑行，T64滑行道前无标志牌，仅有地面滑行标志，实际T64标志牌在T64滑行道之后，容易引发误解。
 
-着陆航空器应尽可能使用顺向且靠近接地点的第一或第二快速脱离道退出跑道，需要使用第三条快速脱离道及以远道口脱离跑道时，机组应在与塔台建立首次联系时进行通报。
+着陆航空器应尽可能使用顺向且靠近接地点的第一或第二快速脱离道退出跑道，需要使用第三条快速脱离道及以远道口脱离跑道时，应在与塔台建立首次联系时进行通报。
 
 将W19航线MASGU-MABAG-OGABI-NOMAR 航段调整为MASGU-UPMIP-ATKAV-OLPAB-NOMAR供华东方向落地广州航班及飞跃珠三角航班使用。
 
@@ -1648,9 +1650,9 @@ E/F/D/T3/T4为高冲突区，加强观察，指令及时复诵确认。
 
 新程序调整，多个程序更名，限制高度涉及更改，注意参阅航图对照MCDU数据。
 
-机场新建跑道容易产生看错、对错、落错等跑道混淆风险，请机组注意观察，落实标准喊话和交叉检查，尤其是低能见、降雨、夜航等条件下，保持警惕， 严防跑道混淆。
+机场新建跑道容易产生看错、对错、落错等跑道混淆风险，请注意观察，落实标准喊话和交叉检查，尤其是低能见、降雨、夜航等条件下，保持警惕， 严防跑道混淆。
 
-广州机场跑道01L/R、02L/R、03从06.11日起开始实施单发程序，请机组注意。
+广州机场跑道01L/R、02L/R、03从06.11日起开始实施单发程序，请注意。
 
 
 I am Duan Yangshuo, a First Officer in Flight Squadron 15. My current technical level is A2, and my promotion date is January 13. In this qualification stage, I have 93 hours and 21 takeoffs and landings. I have completed 8 landings in the last 90 days. I have operated at both VTBS and ZGGG within the past three months. My most recent landing as PF was at Shanghai Pudong International Airport on October 1.
@@ -1671,7 +1673,7 @@ Core threats:
 
 Suvarnabhumi Airport:
 
-Special complex procedures: During the deployment of some aircraft positions, the system may temporarily halt to issue an engine startcommand, after which itwill resume aircraft traction. The crew must carefully heed the instructions and avoid sudden braking, as this could risk shearing pin fracture.
+Special complex procedures: During the deployment of some aircraft positions, the system may temporarily halt to issue an engine startcommand, after which itwill resume aircraft traction. It is mandatory to carefully heed the instructions and avoid sudden braking, as this could risk shearing pin fracture.
 
 Single-engine taxiing is not recommended when the taxi route is expected to include asphalt pavement.
 
@@ -1693,13 +1695,13 @@ To minimize runway time, pilots must ensure they can begin taxiing immediately u
 
 Automatic wave separation from the ground 119.25.
 
-When using the 20L runway for takeoff, there is a high risk of taxiing errors due to the proximity of E1 and E2 runways, and the E taxiway's extension to the cargo apron. Crew members must exercise caution.
+When using the 20L runway for takeoff, there is a high risk of taxiing errors due to the proximity of E1 and E2 runways, and the E taxiway's extension to the cargo apron. It is mandatory to exercise caution.
 
 Runway 01 will use B12 for departure.
 
 For departure on the 19th, the Selka1J is typically used. After takeoff, the airtraffic controller may cancel the restricted direct flight to Selka and then direct a direct flightto SAV.
 
-During a cruise in the Bangkok area, the aircraft recently experienced multiple failures including NAV ADS-B RPTG 1+2 FAULT and NAV BKUP SPD FAULT, followed by GPS PRIMARY LOST on both sides. The crew should be thoroughly familiar with the technical notice, maintain awareness of the minimum safe altitude throughout the flight, and follow the technical notice for handling.
+During a cruise in the Bangkok area, the aircraft recently experienced multiple failures including NAV ADS-B RPTG 1+2 FAULT and NAV BKUP SPD FAULT, followed by GPS PRIMARY LOST on both sides. It is recommended to be thoroughly familiar with the technical notice, maintain awareness of the minimum safe altitude throughout the flight, and follow the technical notice for handling.
 
 In case of communication failure, follow the airchart or airport regulations.
 
@@ -1753,6 +1755,6 @@ The airport ishighly busy with multiple adjacent airports, requiring strict comp
 
 The new procedure involves adjustments to multiple programs and name changes, with height restrictions requiring modifications. Please refer to the air chart for MCDU data verification.
 
-New airport runways pose risks of misidentification, misdirection, or land to wrong way. Crews must stay vigilant, enforce standardized announcements and cross-checking procedures, especially during low visibility, rain, or night operations, to prevent runway confusion.
+New airport runways pose risks of misidentification, misdirection, or land to wrong way. It is mandatory to stay vigilant, enforce standardized announcements and cross-checking procedures, especially during low visibility, rain, or night operations, to prevent runway confusion.
 
 PBN single-engine departure procedures for Runways 01L/R 、02L/R and RWY03 are applicable.

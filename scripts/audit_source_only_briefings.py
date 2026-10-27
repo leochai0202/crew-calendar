@@ -106,7 +106,7 @@ def audit(repo: Path, airports: list[str], target: str, output: Path, input_ref:
             role_samples[role] = {
                 "selected_fact_ids": [fact.fact_id for fact in selected],
                 "chinese_preview": "\n\n".join(agent.chinese_fact_output(fact) for fact in selected),
-                "english_preview": "\n\n".join(fact.en for fact in selected if fact.en),
+                "english_preview": "\n\n".join(agent.english_fact_output(fact) for fact in selected if fact.en),
                 "exclusions": exclusions,
             }
         report["airports"][airport]["role_samples"] = role_samples

@@ -2705,8 +2705,46 @@ def pair_manual_english_items(
         )
         for index, value in zip(positions, values):
             paired[index] = value
+    paired = recover_reordered_english_records(chinese_items, english_facts, category, paired)
     paired = project_shared_english_records(chinese_items, english_facts, category, paired)
     return bundle_adjacent_english_records(chinese_items, english_facts, category, paired)
+
+
+def recover_reordered_english_records(
+    chinese: list[str], english: list[ManualEnglishFact], category: str, paired: list[str],
+) -> list[str]:
+    """Recover only mutually unique, unoccupied whole-source counterparts.
+
+    Source order remains the default. Different ordering is not evidence of a
+    missing translation, but a shared token alone is not enough to recover it.
+    Never replace an existing pairing/conflict or borrow its source paragraph.
+    """
+    result = list(paired)
+    signatures = [(manual_pairing_tokens(text), manual_pairing_concepts(text)) for text in chinese]
+    for index, source in enumerate(chinese):
+        anchors, concepts = signatures[index]
+        if result[index] or len(anchors) < 2 or len(concepts) < 2 or manual_basic_field(source):
+            continue
+        phase = _chinese_manual_fact_phase(source, category)
+        # Another Chinese source with the same evidence makes identity unsafe,
+        # even when it is not selected for this particular duty.
+        if sum(signature == (anchors, concepts) and _chinese_manual_fact_phase(text, category) == phase
+               for signature, text in zip(signatures, chinese)) != 1:
+            continue
+        matches = []
+        for candidate in english:
+            if candidate.category != category or candidate.phase != phase:
+                continue
+            if any(value and (value in candidate.text or candidate.text in value) for value in result):
+                continue
+            if (manual_pairing_tokens(candidate.text) == anchors
+                    and manual_pairing_concepts(candidate.text) == concepts
+                    and source_projection_controls_match(source, candidate.text)
+                    and not bilingual_semantic_mismatches(source, candidate.text)):
+                matches.append(candidate.text)
+        if len(matches) == 1:
+            result[index] = matches[0]
+    return result
 
 
 def manual_pairing_concepts(value: str) -> set[str]:
@@ -10922,6 +10960,8 @@ SEMANTIC_CONCEPT_PATTERNS: tuple[tuple[str, re.Pattern[str], re.Pattern[str]], .
     ("descent_gradient", re.compile(r"下降梯度"), re.compile(r"\b(?:DESCENT GRADIENT|FPA|FLIGHT-PATH ANGLE)\b", re.I)),
     ("descent_rate", re.compile(r"下降率"), re.compile(r"\bDESCENT RATE\b", re.I)),
     ("landing_configuration", re.compile(r"(?:着陆|落地)形态"), re.compile(r"\bLANDING CONFIGURATION\b", re.I)),
+    ("takeoff_roll", re.compile(r"起飞滑跑"), re.compile(r"\bTAKE[ -]?OFF\s+(?:GROUND\s+)?(?:ROLL|RUN)\b|\b(?:BEGIN|START|COMMENCE)\s+(?:THE\s+)?TAKE[ -]?OFF\b(?!\s+(?:BRIEFING|CHECKS?|PREPARATION))", re.I)),
+    ("landing_roll", re.compile(r"(?:着陆|落地)滑跑"), re.compile(r"\bLANDING\s+(?:GROUND\s+)?(?:ROLL|RUN)\b|\bROLL[ -]?OUT\b", re.I)),
     ("displaced_threshold", re.compile(r"入口内移"), re.compile(r"\b(?:DISPLACED THRESHOLD|THRESHOLD[^.]{0,30}DISPLACED)\b", re.I)),
     ("taxi_route", re.compile(r"滑错路线|滑行路线"), re.compile(r"\b(?:TAXI ROUTE|TAXI-ROUTE|TAXIING ROUTE|TAXIWAY)\b", re.I)),
     ("altitude_deviation", re.compile(r"偏离[^。；]{0,8}(?:指令)?高度"), re.compile(r"\b(?:ALTITUDE DEVIATION|DEVIATION FROM THE ATC-CLEARED ALTITUDE)\b", re.I)),
@@ -11183,9 +11223,79 @@ def strip_compilation_citations(text: str) -> str:
     return text
 
 
+def omit_operating_crew_subject(text: str, language: str, category: str) -> str:
+    """Render operating instructions, never alter source facts or event actors.
+
+    Chinese modals remain literal. English impersonal infinitives retain each
+    modal's force; ambiguous may/not, pronoun antecedents and reported events
+    are left intact rather than guessing who acts or what is permitted.
+    """
+    if category in {"typical", "history", "typical_no_data"}:
+        return text
+    if language == "zh":
+        if re.search(r"曾|事故|事件中|责任认定", text):
+            return text
+        return re.sub(
+            r"(^|[。！？；;，,：:]\s*)(请)?(?:飞行)?机组(?=应|必须|务必|不得|不要|严禁|禁止|不应|不能|不允许|可以|可(?=申请|使用|接受|选择)|需要|需(?=要|注意|确认|证实)|注意|提前|严格|做好|确认|证实|监控|遵守|合理|避免|防止|(?:在|当|如|如果)[^。！？]{1,250}?(?:应当|应|必须|不得|须|务必))",
+            lambda match: match.group(1) + (match.group(2) or ""), text,
+        )
+    if language != "en":
+        return text
+    # A later pronoun can depend on the subject even across a sentence break.
+    # Keeping that subject is safer than inventing a replacement antecedent.
+    if re.search(r"\b(?:THEY|THEIR|THEM|THEMSELVES|ITS|ITSELF)\b", text, re.I):
+        return text
+    subject = r"(?:THE\s+)?(?:FLIGHT\s+)?CREW(?:S|\s+MEMBERS)?"
+    pattern = re.compile(
+        rf"(?P<boundary>^|(?<=[.!?;])\s+|(?<=,)\s+)(?P<subject>{subject})\s+"
+        r"(?P<modal>SHOULD|MUST|SHALL|MAY)\s+(?P<negative>NOT\s+)?(?P<adverbs>(?:[A-Z]+LY\s+){0,3})(?P<verb>[A-Z]+)\b", re.I,
+    )
+    permission_verbs = {"REQUEST", "APPLY", "USE", "ACCEPT", "SELECT", "ENTER", "PROCEED", "CROSS"}
+    instruction_verbs = permission_verbs | {
+        "ENSURE", "IDENTIFY", "COMPLY", "MAINTAIN", "MONITOR", "VERIFY", "CONFIRM", "READ",
+        "FOLLOW", "EXERCISE", "AVOID", "CONTROL", "STOP", "KEEP", "CHECK", "PREPARE", "REVIEW",
+        "CONDUCT", "EXECUTE", "PAY", "OBSERVE", "REPORT", "NOTIFY", "COMPLETE", "FAMILIARIZE", "REMAIN", "HEED", "STAY",
+    }
+
+    def instruction_verb(verb: str, following: str) -> bool:
+        return verb.upper() in instruction_verbs or (verb.upper() == "BE" and bool(
+            re.match(r"\s+(?:[A-Z]+LY\s+)?(?:AWARE|READY|PREPARED|VIGILANT|FAMILIAR)\b", following, re.I)))
+
+    def elide(match: re.Match[str]) -> str:
+        modal, verb = match.group("modal").upper(), match.group("verb")
+        if not instruction_verb(verb, text[match.end():]):
+            return match.group()  # epistemic must have / should occur is not an instruction
+        if modal == "MAY" and (match.group("negative") or verb.upper() not in permission_verbs
+                or not re.search(r"\b(?:PERMITTED|ALLOWED|AUTHORIZED|PERMISSION)\b", text, re.I)):
+            return match.group()  # may experience / may not = possibility
+        equivalent = {"SHOULD": "recommended", "MUST": "mandatory", "SHALL": "required", "MAY": "permitted"}[modal]
+        prefix = "It" if match.start() == 0 or re.search(r"[.!?]\s*$", text[:match.start()]) else "it"
+        return f"{match.group('boundary')}{prefix} is {equivalent} {'not ' if match.group('negative') else ''}to {match.group('adverbs')}{verb.lower()}"
+
+    text = pattern.sub(elide, text)
+    passive = re.compile(
+        rf"(?P<boundary>^|(?<=[.!?;])\s+|(?<=,)\s+){subject}\s+(?:IS|ARE)\s+"
+        r"(?P<mode>ADVISED|REQUIRED|PERMITTED|ALLOWED|AUTHORIZED|RECOMMENDED)\s+"
+        r"(?P<negative>NOT\s+)?TO\s+(?P<adverbs>(?:[A-Z]+LY\s+){0,3})(?P<verb>[A-Z]+)\b", re.I,
+    )
+
+    def elide_passive(match: re.Match[str]) -> str:
+        if not instruction_verb(match.group("verb"), text[match.end():]):
+            return match.group()
+        prefix = "It" if match.start() == 0 or re.search(r"[.!?]\s*$", text[:match.start()]) else "it"
+        return (f"{match.group('boundary')}{prefix} is {match.group('mode').lower()} "
+                f"{'not ' if match.group('negative') else ''}to {match.group('adverbs')}{match.group('verb').lower()}")
+
+    return passive.sub(elide_passive, text)
+
+
+def english_fact_output(fact: BilingualFact) -> str:
+    return omit_operating_crew_subject(fact.en.strip(), "en", fact.category)
+
+
 def chinese_fact_output(fact: BilingualFact) -> str:
     if not fact.source_verbatim:
-        return clean_output_fact(fact.zh)
+        return omit_operating_crew_subject(clean_output_fact(fact.zh), "zh", fact.category)
     # Source-only rendering may remove a structural label and extraction
     # whitespace, but must not enter the legacy Chinese prose editor.
     text = SOURCE_HEADING_RE.sub("", strip_source_metadata(fact.zh)).strip()
@@ -11197,7 +11307,7 @@ def chinese_fact_output(fact: BilingualFact) -> str:
     if label_match and not source_label_has_operational_semantics(label_match.group("label")):
         text = label_match.group("value")
     text = re.sub(r"(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])", "", text)
-    return strip_terminal_punct(text)
+    return omit_operating_crew_subject(strip_terminal_punct(text), "zh", fact.category)
 
 
 def render_chinese_briefing(
@@ -11293,7 +11403,7 @@ def render_english_briefing(
         if not items:
             continue
         paragraphs = "\n\n".join(
-            fact.en.strip().rstrip(".") + "." for fact in items
+            english_fact_output(fact).rstrip(".") + "." for fact in items
         )
         airport_name = english_airport_name_for_facts(
             airport,
@@ -11308,7 +11418,7 @@ def render_english_briefing(
     core_lines = ["Core threats:"]
     for airport in airports:
         paragraphs = "\n\n".join(
-            fact.en.strip().rstrip(".") + "."
+            english_fact_output(fact).rstrip(".") + "."
             for fact in core_facts[airport]
             if fact.en.strip()
         )
