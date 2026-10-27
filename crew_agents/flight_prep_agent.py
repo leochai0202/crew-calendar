@@ -2721,9 +2721,15 @@ def recover_reordered_english_records(
     """
     result = list(paired)
     signatures = [(manual_pairing_tokens(text), manual_pairing_concepts(text)) for text in chinese]
+    condition_cues = re.compile(
+        r"如|若|当|时|仅|只有|否则|除非|之前|之后|以后|以前|先|随后|直到|夜|昼|白天|雨|雪|结冰|"
+        r"\b(?:IF|WHEN|WHILE|UNLESS|UNTIL|BEFORE|AFTER|DURING|ONLY|OTHERWISE|PROVIDED|NIGHT|DAYTIME|ICING)\b",
+        re.I,
+    )
     for index, source in enumerate(chinese):
         anchors, concepts = signatures[index]
-        if result[index] or len(anchors) < 2 or len(concepts) < 2 or manual_basic_field(source):
+        if (result[index] or len(anchors) < 2 or len(concepts) < 2 or manual_basic_field(source)
+                or condition_cues.search(source) or detected_season_scope(source)):
             continue
         phase = _chinese_manual_fact_phase(source, category)
         # Another Chinese source with the same evidence makes identity unsafe,
@@ -2735,6 +2741,8 @@ def recover_reordered_english_records(
         for candidate in english:
             if candidate.category != category or candidate.phase != phase:
                 continue
+            if condition_cues.search(candidate.text) or detected_season_scope(candidate.text):
+                continue  # anchors cannot prove conditional or temporal equivalence
             if any(value and (value in candidate.text or candidate.text in value) for value in result):
                 continue
             if (manual_pairing_tokens(candidate.text) == anchors

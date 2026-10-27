@@ -139,3 +139,8 @@ def test_reordered_whole_records_require_unique_full_operating_evidence():
     assert agent.recover_reordered_english_records(zh, changed, "core", ["", ""])[0] == ""
     shared = [agent.ManualEnglishFact("ATC instructions apply.", "core", "departure", 0)]
     assert agent.recover_reordered_english_records(["离场：遵守ATC。"], shared, "core", [""]) == [""]
+    # Equal runway/numeric/concept anchors cannot prove night/day or timing.
+    conditional_zh = [zh[0].replace("离场：", "离场：夜间"), zh[1]]
+    assert agent.recover_reordered_english_records(conditional_zh, facts, "core", ["", ""])[0] == ""
+    conditional_en = [agent.replace(fact, text="After clearance, " + fact.text) for fact in facts]
+    assert agent.recover_reordered_english_records(zh, conditional_en, "core", ["", ""]) == ["", ""]
