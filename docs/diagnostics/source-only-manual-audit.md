@@ -12,9 +12,9 @@ SHA256: `e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8`
 |---|---|---:|---:|---|---:|
 | 丽江三义 | ZPLJ | 33 | 0 | FAILED_SAFE | 36 |
 | 桂林两江 | ZGKL | 11 | 9 | FAILED_SAFE | 12 |
-| 广州白云 | ZGGG | 36 | 28 | FAILED_SAFE | 16 |
-| 曼谷素旺那普 | VTBS | 36 | 35 | FAILED_SAFE | 4 |
-| 上海浦东 | ZSPD | 15 | 15 | FAILED_SAFE | 2 |
+| 广州白云 | ZGGG | 36 | 27 | FAILED_SAFE | 15 |
+| 曼谷素旺那普 | VTBS | 36 | 35 | FAILED_SAFE | 5 |
+| 上海浦东 | ZSPD | 15 | 15 | FAILED_SAFE | 1 |
 | 沈阳桃仙 | ZYTX | 18 | 18 | FAILED_SAFE | 8 |
 
 ## 丽江三义: Chinese core source preview
@@ -369,7 +369,7 @@ yellow11滑行线在Q到T61,Q和M滑行路线很近，没有地 面标识，滑�
 
 SID中如有速度限制，可尝试申请取消，否则应遵循。
 
-兰州方向离场可能指挥直飞P268或者P118加入X64临时 航路到QP。东南亚方向离场可能指挥直飞P50加入X66临时航 路到BIGRO。
+东南亚方向离场可能指挥直飞P50加入X66临时航 路到BIGRO。
 
 早出港航班需参考实际通播和放行按需选择离场跑道。
 
@@ -433,8 +433,6 @@ The aircraft automatically disengages from the wave contact after leaving the gr
 
 Ifthe SID has speed restrictions, you may apply to cancel them; otherwise, you must comply.
 
-Departing from Lanzhou may be directed tofly directly to P268 or P118, then join the X64 temporary route to QP. Departing from Southeast Asia may be directed tofly directly to P50, then join the X66 temporary route to BIGRO.
-
 For early departure flights, select the departure runway based on real-time airtraffic updates and clearance requirements.
 
 The JEPPESEN chart does not include single-engine departure procedures; Foreign pilots should refer to the EFB chart.
@@ -462,21 +460,20 @@ PBN single-engine departure procedures for Runways 01L/R 、02L/R and RWY03 are 
 ### Every acceptance error
 
 - 最新版机场手册英文配对缺失：广州白云_core_record_5：广州白云／广州/白云机场运行特点／核心威胁与运行特点
-- 中英文关键事实不一致：广州白云_core_record_22：中文['RWY03', 'RWY19L', 'RWY19R', 'RWY20L', 'RWY20R', 'RWY21', 'RWYO1L', 'RWYO1R', 'RWYO2L', 'RWYO2R']，英文[]
-- 中英文关键概念不一致：广州白云_core_record_22：英文缺少['runway']
+- 中英文关键事实不一致：广州白云_core_record_22：中文['RWY03', 'RWY19L', 'RWY19R', 'RWY20L', 'RWY20R', 'RWY21', 'RWYO1L', 'RWYO1R', 'RWYO2L', 'RWYO2R']，英文['RWY01L', 'RWY01R', 'RWY02L', 'RWY19L', 'RWY20R']
 - 最新版机场手册英文配对缺失：广州白云_core_record_25：广州白云／广州/白云机场运行特点／核心威胁与运行特点
 - 最新版机场手册英文配对缺失：广州白云_core_record_27：广州白云／广州/白云机场运行特点／核心威胁与运行特点
 - 最新版机场手册英文配对缺失：广州白云_core_record_28：广州白云／广州/白云机场运行特点／核心威胁与运行特点
 - 最新版机场手册英文配对缺失：广州白云_core_record_17：广州白云／广州/白云机场运行特点／核心威胁与运行特点
 - 中英文关键事实不一致：广州白云_core_record_29：中文[]，英文['ATC']
-- 中英文关键事实不一致：广州白云_core_record_31：中文['ATC', 'BIGRO', 'P118', 'P268', 'P50', 'QP', 'X64', 'X66']，英文['BIGRO', 'P118', 'P268', 'P50', 'QP', 'X64', 'X66']
+- 最新版机场手册英文配对缺失：广州白云_core_record_31：广州白云／广州/白云机场运行特点／核心威胁与运行特点
 - 中英文关键事实不一致：广州白云_core_record_32：中文['ATIS']，英文[]
 - 最新版机场手册英文配对缺失：广州白云_core_record_33：广州白云／广州/白云机场运行特点／核心威胁与运行特点
 - 最新版机场手册英文配对缺失：广州白云_core_record_36：广州白云／广州/白云机场运行特点／核心威胁与运行特点
 - 最新版机场手册英文配对缺失：广州白云_core_record_42：广州白云／广州/白云机场运行特点／核心威胁与运行特点
 - 中英文关键事实不一致：广州白云_core_record_37：中文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OGABI', 'OLPAB', 'UPMIP', 'W19']，英文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OBLAP', 'OGABI', 'UPMIP', 'W19']
 - 中英文关键事实不一致：广州白云_core_record_45：中文['06.11', 'RWY01L']，英文['PBN', 'RWY01L', 'RWY03']
-- 中英文选定事实身份不一致：中文['广州白云_typical_record_1', '广州白云_core_record_2', '广州白云_core_record_5', '广州白云_core_record_6', '广州白云_core_record_8', '广州白云_core_record_11', '广州白云_core_record_18', '广州白云_core_83ceab667bf6af73_clause_2', '广州白云_core_83ceab667bf6af73_clause_3', '广州白云_core_record_22', '广州白云_core_record_23', '广州白云_core_record_24', '广州白云_core_record_25', '广州白云_core_record_26', '广州白云_core_record_27', '广州白云_core_record_28', '广州白云_core_record_9', '广州白云_core_record_14', '广州白云_core_record_17', '广州白云_core_record_29', '广州白云_core_record_30', '广州白云_core_record_31', '广州白云_core_record_32', '广州白云_core_record_33', '广州白云_core_record_35', '广州白云_core_record_36', '广州白云_core_record_41', '广州白云_core_record_42', '广州白云_core_record_43', '广州白云_core_record_3', '广州白云_core_record_4', '广州白云_core_record_12', '广州白云_core_record_37', '广州白云_core_record_10', '广州白云_core_record_13', '广州白云_core_record_15', '广州白云_core_record_45']，英文['广州白云_typical_record_1', '广州白云_core_record_2', '广州白云_core_record_6', '广州白云_core_record_8', '广州白云_core_record_11', '广州白云_core_record_18', '广州白云_core_83ceab667bf6af73_clause_2', '广州白云_core_83ceab667bf6af73_clause_3', '广州白云_core_record_22', '广州白云_core_record_23', '广州白云_core_record_24', '广州白云_core_record_26', '广州白云_core_record_9', '广州白云_core_record_14', '广州白云_core_record_29', '广州白云_core_record_30', '广州白云_core_record_31', '广州白云_core_record_32', '广州白云_core_record_35', '广州白云_core_record_41', '广州白云_core_record_43', '广州白云_core_record_3', '广州白云_core_record_4', '广州白云_core_record_12', '广州白云_core_record_37', '广州白云_core_record_10', '广州白云_core_record_13', '广州白云_core_record_15', '广州白云_core_record_45']
+- 中英文选定事实身份不一致：中文['广州白云_typical_record_1', '广州白云_core_record_2', '广州白云_core_record_5', '广州白云_core_record_6', '广州白云_core_record_8', '广州白云_core_record_11', '广州白云_core_record_18', '广州白云_core_83ceab667bf6af73_clause_2', '广州白云_core_83ceab667bf6af73_clause_3', '广州白云_core_record_22', '广州白云_core_record_23', '广州白云_core_record_24', '广州白云_core_record_25', '广州白云_core_record_26', '广州白云_core_record_27', '广州白云_core_record_28', '广州白云_core_record_9', '广州白云_core_record_14', '广州白云_core_record_17', '广州白云_core_record_29', '广州白云_core_record_30', '广州白云_core_record_31', '广州白云_core_record_32', '广州白云_core_record_33', '广州白云_core_record_35', '广州白云_core_record_36', '广州白云_core_record_41', '广州白云_core_record_42', '广州白云_core_record_43', '广州白云_core_record_3', '广州白云_core_record_4', '广州白云_core_record_12', '广州白云_core_record_37', '广州白云_core_record_10', '广州白云_core_record_13', '广州白云_core_record_15', '广州白云_core_record_45']，英文['广州白云_typical_record_1', '广州白云_core_record_2', '广州白云_core_record_6', '广州白云_core_record_8', '广州白云_core_record_11', '广州白云_core_record_18', '广州白云_core_83ceab667bf6af73_clause_2', '广州白云_core_83ceab667bf6af73_clause_3', '广州白云_core_record_22', '广州白云_core_record_23', '广州白云_core_record_24', '广州白云_core_record_26', '广州白云_core_record_9', '广州白云_core_record_14', '广州白云_core_record_29', '广州白云_core_record_30', '广州白云_core_record_32', '广州白云_core_record_35', '广州白云_core_record_41', '广州白云_core_record_43', '广州白云_core_record_3', '广州白云_core_record_4', '广州白云_core_record_12', '广州白云_core_record_37', '广州白云_core_record_10', '广州白云_core_record_13', '广州白云_core_record_15', '广州白云_core_record_45']
 
 ### departure: source-only role selection preview
 
@@ -510,7 +507,7 @@ yellow11滑行线在Q到T61,Q和M滑行路线很近，没有地面标识，滑�
 
 SID中如有速度限制，可尝试申请取消，否则应遵循
 
-兰州方向离场可能指挥直飞P268或者P118加入X64临时航路到QP。东南亚方向离场可能指挥直飞P50加入X66临时航路到BIGRO
+东南亚方向离场可能指挥直飞P50加入X66临时航路到BIGRO
 
 早出港航班需参考实际通播和放行按需选择离场跑道
 
@@ -551,8 +548,6 @@ Adjust the single-shot acceleration altitude according to the fly Smart modifica
 The aircraft automatically disengages from the wave contact after leaving the ground and approaches, with the specific frequency provided by the air traffic control.
 
 Ifthe SID has speed restrictions, you may apply to cancel them; otherwise, you must comply.
-
-Departing from Lanzhou may be directed tofly directly to P268 or P118, then join the X64 temporary route to QP. Departing from Southeast Asia may be directed tofly directly to P50, then join the X66 temporary route to BIGRO.
 
 For early departure flights, select the departure runway based on real-time airtraffic updates and clearance requirements.
 
@@ -804,6 +799,7 @@ Radio Failure Procedure: Specific Implementation Methods inAirport Regulations a
 
 ### Every acceptance error
 
+- 中英文关键概念不一致：曼谷素旺那普_core_record_17：英文缺少['system_activation_temporal_polarity']
 - 中英文关键概念不一致：曼谷素旺那普_core_record_34：英文缺少['final_approach']
 - 最新版机场手册英文配对缺失：曼谷素旺那普_core_record_8：曼谷素旺那普／曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点
 - 中英文关键事实不一致：曼谷素旺那普_core_record_42：中文['JEPPESEN']，英文[]
@@ -1077,7 +1073,6 @@ Bird-scare cannon blasts are loud atPudong. Crews shall avoid undesired startle 
 
 ### Every acceptance error
 
-- 中英文关键概念不一致：上海浦东_core_record_15：英文缺少['final_approach']
 - 中英文关键概念不一致：上海浦东_core_record_5：英文缺少['papi_runway_value_association']
 
 ### departure: source-only role selection preview
@@ -1341,13 +1336,13 @@ Groups: [['9C7289'], ['9C7420']]
 
 - 9C7289：中英文关键概念不一致：曼谷素旺那普_core_record_34：英文缺少['final_approach']
 - 9C7289：最新版机场手册英文配对缺失：曼谷素旺那普_core_record_8：曼谷素旺那普／曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点
+- 9C7289：中英文关键概念不一致：曼谷素旺那普_core_record_17：英文缺少['system_activation_temporal_polarity']
 - 9C7289：中英文关键事实不一致：曼谷素旺那普_core_record_42：中文['JEPPESEN']，英文[]
 - 9C7289：中英文选定事实身份不一致：中文['上海浦东_typical_record_1', '上海浦东_typical_record_2', '曼谷素旺那普_typical_record_1', '上海浦东_core_record_7', '上海浦东_core_record_9', '上海浦东_core_record_10', '上海浦东_core_record_11', '上海浦东_core_record_3', '上海浦东_core_record_4', '上海浦东_core_record_21', '曼谷素旺那普_core_record_31', '曼谷素旺那普_core_record_32', '曼谷素旺那普_core_record_34', '曼谷素旺那普_core_record_35', '曼谷素旺那普_core_record_36', '曼谷素旺那普_core_record_37', '曼谷素旺那普_core_record_38', '曼谷素旺那普_core_record_39', '曼谷素旺那普_core_record_6', '曼谷素旺那普_core_record_7', '曼谷素旺那普_core_record_8', '曼谷素旺那普_core_record_11', '曼谷素旺那普_core_record_13', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_17', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_21', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42']，英文['上海浦东_typical_record_1', '上海浦东_typical_record_2', '曼谷素旺那普_typical_record_1', '上海浦东_core_record_7', '上海浦东_core_record_9', '上海浦东_core_record_10', '上海浦东_core_record_11', '上海浦东_core_record_3', '上海浦东_core_record_4', '上海浦东_core_record_21', '曼谷素旺那普_core_record_31', '曼谷素旺那普_core_record_32', '曼谷素旺那普_core_record_34', '曼谷素旺那普_core_record_35', '曼谷素旺那普_core_record_36', '曼谷素旺那普_core_record_37', '曼谷素旺那普_core_record_38', '曼谷素旺那普_core_record_39', '曼谷素旺那普_core_record_6', '曼谷素旺那普_core_record_7', '曼谷素旺那普_core_record_11', '曼谷素旺那普_core_record_13', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_17', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_21', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42']
 - 9C7420：中英文关键事实不一致：曼谷素旺那普_core_record_42：中文['JEPPESEN']，英文[]
 - 9C7420：最新版机场手册英文配对缺失：广州白云_core_record_42：广州白云／广州/白云机场运行特点／核心威胁与运行特点
 - 9C7420：最新版机场手册英文配对缺失：广州白云_core_record_5：广州白云／广州/白云机场运行特点／核心威胁与运行特点
-- 9C7420：中英文关键事实不一致：广州白云_core_record_22：中文['RWY03', 'RWY19L', 'RWY19R', 'RWY20L', 'RWY20R', 'RWY21', 'RWYO1L', 'RWYO1R', 'RWYO2L', 'RWYO2R']，英文[]
-- 9C7420：中英文关键概念不一致：广州白云_core_record_22：英文缺少['runway']
+- 9C7420：中英文关键事实不一致：广州白云_core_record_22：中文['RWY03', 'RWY19L', 'RWY19R', 'RWY20L', 'RWY20R', 'RWY21', 'RWYO1L', 'RWYO1R', 'RWYO2L', 'RWYO2R']，英文['RWY01L', 'RWY01R', 'RWY02L', 'RWY19L', 'RWY20R']
 - 9C7420：最新版机场手册英文配对缺失：广州白云_core_record_28：广州白云／广州/白云机场运行特点／核心威胁与运行特点
 - 9C7420：中英文关键事实不一致：广州白云_core_record_37：中文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OGABI', 'OLPAB', 'UPMIP', 'W19']，英文['ATKAV', 'MABAG', 'MASGU', 'NOMAR', 'OBLAP', 'OGABI', 'UPMIP', 'W19']
 - 9C7420：中英文关键事实不一致：广州白云_core_record_45：中文['06.11', 'RWY01L']，英文['PBN', 'RWY01L', 'RWY03']
@@ -1550,7 +1545,7 @@ Radio Failure Procedure: Specific Implementation Methods inAirport Regulations a
 
 FAILED_SAFE diagnostic text, not published.
 
-我是来自飞行十五中队的副驾驶段洋硕，目前技术级别A2，晋级日期1月13日，本阶段经历时间93小时，起落21个，近90天起落8个，近3个月已运行过曼谷素旺那普机场，近3个月未运行过广州白云机场，上一次实际操纵落地为10月1日上海浦东机场。
+我是来自飞行十五中队的副驾驶段洋硕，目前技术级别A2，晋级日期1月13日，本阶段经历时间93小时，起落21个，近90天起落8个，近3个月已运行过曼谷素旺那普机场，近3个月已运行过广州白云机场，上一次实际操纵落地为10月1日上海浦东机场。
 
 上一次飞行中机长/教员对我优缺点的评价（作为PF/PM各取最近一次）：
 上一次作为PF教员评价：30尺以下带杆量欠一点；着陆后快速脱离道口前及时减速至30节以下；作为PM机长评价：增加SOP熟练度，标准喊话声音大一些。
@@ -1662,7 +1657,7 @@ E/F/D/T3/T4为高冲突区，加强观察，指令及时复诵确认。
 广州机场跑道01L/R、02L/R、03从06.11日起开始实施单发程序，请机组注意。
 
 
-I am Duan Yangshuo, a First Officer in Flight Squadron 15. My current technical level is A2, and my promotion date is January 13. In this qualification stage, I have 93 hours and 21 takeoffs and landings. I have completed 8 landings in the last 90 days. Within the past three months, I have operated at VTBS. Within the past three months, I have not operated at ZGGG. My most recent landing as PF was at Shanghai Pudong International Airport on October 1.
+I am Duan Yangshuo, a First Officer in Flight Squadron 15. My current technical level is A2, and my promotion date is January 13. In this qualification stage, I have 93 hours and 21 takeoffs and landings. I have completed 8 landings in the last 90 days. I have operated at both VTBS and ZGGG within the past three months. My most recent landing as PF was at Shanghai Pudong International Airport on October 1.
 
 Latest PF/PM feedback: as PF, the instructor noted that below 30 ft I should use slightly more aft-stick input and, after landing, decelerate below 30 kt before entering the rapid-exit taxiway; as PM, the captain noted that I should improve SOP proficiency and make standard callouts more audible.
 

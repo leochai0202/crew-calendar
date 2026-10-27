@@ -975,9 +975,9 @@
         395
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 25,
+      "chinese_core_candidates": 26,
       "candidate_quality": {
-        "": 25
+        "": 26
       },
       "english_header": "Soekarno-Hatta",
       "english_pages": [
@@ -995,7 +995,7 @@
           "go_around_acceleration_mentions": []
         },
         "arrival": {
-          "selected": 16,
+          "selected": 15,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
@@ -1343,10 +1343,10 @@
       "chinese_typical_count": 7,
       "chinese_core_candidates": 49,
       "candidate_quality": {
-        "": 44,
+        "": 43,
         "standalone_frequency_metadata": 1,
         "detached_operational_fragment": 2,
-        "PDF断句或残片未形成完整运行事实": 2
+        "PDF断句或残片未形成完整运行事实": 3
       },
       "english_header": "Shijiazhuang/Zhen Ding",
       "english_pages": [
@@ -1364,7 +1364,7 @@
           "go_around_acceleration_mentions": []
         },
         "arrival": {
-          "selected": 31,
+          "selected": 30,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
@@ -1854,10 +1854,10 @@
         527
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 23,
+      "chinese_core_candidates": 24,
       "candidate_quality": {
         "": 20,
-        "PDF断句或残片未形成完整运行事实": 2,
+        "PDF断句或残片未形成完整运行事实": 3,
         "unparsed_attribute_table": 1
       },
       "english_header": "ChangZhou Benniu",
@@ -1905,7 +1905,7 @@
       "identity_error": false,
       "role_checks": {
         "departure": {
-          "selected": 10,
+          "selected": 9,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
@@ -2005,9 +2005,9 @@
         544
       ],
       "chinese_typical_count": 1,
-      "chinese_core_candidates": 27,
+      "chinese_core_candidates": 28,
       "candidate_quality": {
-        "": 24,
+        "": 25,
         "standalone_frequency_metadata": 1,
         "PDF断句或残片未形成完整运行事实": 2
       },
@@ -4558,10 +4558,10 @@
       "chinese_typical_count": 2,
       "chinese_core_candidates": 45,
       "candidate_quality": {
-        "": 39,
-        "PDF断句或残片未形成完整运行事实": 4,
+        "": 41,
         "standalone_frequency_metadata": 1,
-        "detached_operational_fragment": 1
+        "detached_operational_fragment": 1,
+        "PDF断句或残片未形成完整运行事实": 2
       },
       "english_header": null,
       "english_pages": [],
@@ -4569,14 +4569,14 @@
       "identity_error": false,
       "role_checks": {
         "departure": {
-          "selected": 27,
+          "selected": 28,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
           "go_around_acceleration_mentions": []
         },
         "arrival": {
-          "selected": 33,
+          "selected": 34,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
@@ -4646,14 +4646,14 @@
       "identity_error": false,
       "role_checks": {
         "departure": {
-          "selected": 13,
+          "selected": 12,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
           "go_around_acceleration_mentions": []
         },
         "arrival": {
-          "selected": 19,
+          "selected": 18,
           "opposite_only_selected": 0,
           "duplicate_texts": 0,
           "departure_performance_candidates": [],
@@ -4916,11 +4916,12 @@
         925
       ],
       "chinese_typical_count": 2,
-      "chinese_core_candidates": 42,
+      "chinese_core_candidates": 43,
       "candidate_quality": {
         "": 40,
         "unparsed_attribute_table": 1,
-        "来源包含无法可靠恢复的明显OCR错位": 1
+        "来源包含无法可靠恢复的明显OCR错位": 1,
+        "PDF断句或残片未形成完整运行事实": 1
       },
       "english_header": null,
       "english_pages": [],
@@ -5305,10 +5306,10 @@
         967
       ],
       "chinese_typical_count": 0,
-      "chinese_core_candidates": 28,
+      "chinese_core_candidates": 29,
       "candidate_quality": {
         "PDF断句或残片未形成完整运行事实": 3,
-        "": 22,
+        "": 23,
         "standalone_frequency_metadata": 1,
         "detached_operational_fragment": 2
       },

@@ -51,6 +51,11 @@ def review(repo: Path, baseline_ref: str, current_path: Path, output: Path,
                         if item["airport"] == fact["airport"] and item["category"] == fact["category"]
                         and agent.compact_key(fact["text_zh"]) in agent.compact_key(item["text_zh"])]
                     match = containing[0] if len(containing) == 1 else None
+                if match is None:
+                    same_parent = [item for item in (new_group or {}).get("facts", [])
+                        if item["airport"] == fact["airport"] and item["category"] == fact["category"]
+                        and set(item["source_record_ids"]).intersection(fact["source_record_ids"])]
+                    match = same_parent[0] if len(same_parent) == 1 else None
                 airport = current["airports"].get(fact["airport"], {})
                 phase = agent._chinese_manual_fact_phase(fact["source_text_zh"], fact["category"])
                 evidence = {
@@ -70,12 +75,18 @@ def review(repo: Path, baseline_ref: str, current_path: Path, output: Path,
                 if match:
                     validation = agent.validate_bilingual_facts([agent.BilingualFact(**match)])
                     evidence.update(fact_id_after=match["fact_id"], source_page_after=match["source_page"],
+                                    chinese_after=match["text_zh"],
+                                    excluded_source_clauses_after=match["excluded_source_clauses"],
+                                    exclusion_reasons_after=match["exclusion_reasons"],
                                     english_after=match["text_en"], english_page_after=match["english_source_page"],
                                     validation_after=validation,
                                     english_tokens_after=sorted(agent.manual_pairing_tokens(match["text_en"])))
                     entry["status"] = ("CHECK_REPAIRED_SOURCE_CONFLICT_REMAINS"
                         if validation and all(error_check(value) != error_check(error) for value in validation)
                         else "UNRESOLVED" if validation else "COUNTERPART_VALIDATED")
+                    if (agent.compact_key(match["text_zh"]) != agent.compact_key(fact["text_zh"])
+                            and any(error_check(value)[0] == "coverage_gap" for value in validation)):
+                        entry["status"] = "UNRESOLVED_AFTER_APPLICABILITY_FILTERING"
                 else:
                     entry["status"] = "NOT_SELECTED_REQUIRES_EXCLUSION_REVIEW"
                     evidence["duty_routes"] = (new_group or {}).get("routes", [])
@@ -127,6 +138,9 @@ def review(repo: Path, baseline_ref: str, current_path: Path, output: Path,
                           "English page: " + str(evidence.get("english_page_after") or evidence["english_page_before"]), "",
                           evidence.get("english_after", evidence["english_before"]) or "UNRESOLVED: no safely paired English text.", "",
                           "Validation: " + str(evidence.get("validation_after", "Not selected; see exclusion evidence in JSON")), ""])
+            if evidence.get("chinese_after") and evidence["chinese_after"] != evidence["chinese_exact_text"]:
+                lines.extend(["Retained Chinese after applicability filtering:", "", evidence["chinese_after"], "",
+                              "Excluded clauses/reasons: " + str(list(zip(evidence["excluded_source_clauses_after"], evidence["exclusion_reasons_after"]))), ""])
     if source_rules:
         lines += ["## Every current error: source versus parser classification", "",
                   "A=parser bug, B=existing source but unresolved reliable correspondence, C=reviewed chapter gap, D=source difference/conflict. Derived parity failures are not additional source items.", ""]

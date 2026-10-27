@@ -78,6 +78,7 @@ def test_season_filter_projects_the_same_parent_english_without_translation():
     assert selected.en == "During summer and autumn, typhoons bring thunderstorms."
     assert selected.en in en
     assert selected.source_text_en == en
+    assert "RNP" in agent.manual_pairing_concepts("按RNP26程序运行。")
     assert selected.source_record_ids == fact.source_record_ids
     assert selected.english_source_record_id == fact.english_source_record_id
     assert agent.validate_bilingual_facts([selected]) == []
@@ -255,3 +256,123 @@ II. Core Threats
         ("AAAA", 100, 101), ("BBBB", 102, 102),
     ]
     assert agent.match_english_manual_chapters(chapters, "AAAA") == chapters[:1]
+
+
+def test_short_base_vector_equivalence_requires_the_complete_matching_context():
+    zh = "08号跑道，ATC可能短切五边或较晚发布ILS许可。从上方截获下滑道时按SOP执行。"
+    en = "For Runway 08, ATC may assign short base-leg vectors or late ILS clearance. For glideslope capture from above, follow SOP."
+    assert agent.validate_bilingual_facts([source_fact(zh, en)]) == []
+    assert source_fact(zh, en).en == en  # equivalence does not rewrite English
+    assert "final_approach" in agent.bilingual_semantic_mismatches("五边保持航向。", "Maintain heading on base leg.")
+    assert "final_approach" in agent.bilingual_semantic_mismatches(zh, en.replace("glideslope", "descent"))
+    assert "final_approach" in agent.bilingual_semantic_mismatches(zh, en.replace("follow SOP", "never follow SOP"))
+    assert "final_approach" in agent.bilingual_semantic_mismatches(zh, en.replace("may assign", "must assign"))
+    assert agent.source_projection_controls_match("如无法稳定，果断复飞。", "If unstable, go around without hesitation.")
+    assert not agent.source_projection_controls_match("遵守ATC许可。", "Proceed without ATC clearance.")
+    assert agent.source_projection_controls_match("按需接受ATC指令。", "Accept ATC instructions as required.")
+    assert not agent.source_projection_controls_match("按需接受ATC指令。", "You must accept ATC instructions.")
+    assert agent.validate_bilingual_facts([source_fact(zh, en.replace("Runway 08", "Runway 26"))])
+
+
+def test_take_off_from_runway_pairs_are_not_dates_or_new_runway_assignments():
+    zh = "通常01R/19L跑道起飞，01L/19R跑道落地。"
+    en = "Aircraft take off from 01R/19L and land from 01L/19R."
+    assert agent.validate_bilingual_facts([source_fact(zh, en)]) == []
+    assert not agent.manual_pairing_tokens("The passenger trip was on 01/19.")
+    assert agent.validate_bilingual_facts([source_fact(zh, en.replace("01L/19R", "02L/20R"))])
+
+
+def test_equipment_activation_gate_cannot_reverse_until_and_only_after():
+    for system in ("TCAS", "GPS"):
+        zh = f"直到收到进入跑道指令才打开{system}。"
+        wrong = f"{system} should remain activated until receiving clearance to enter the runway."
+        correct = f"{system} should only be activated after receiving clearance to enter the runway."
+        assert "system_activation_temporal_polarity" in agent.bilingual_semantic_mismatches(zh, wrong)
+        assert "system_activation_temporal_polarity" in agent.bilingual_semantic_mismatches(zh.replace(system, system + "系统"), wrong)
+        assert "system_activation_temporal_polarity" not in agent.bilingual_semantic_mismatches(zh, correct)
+        assert "system_activation_temporal_polarity" not in agent.bilingual_semantic_mismatches(zh, f"{system} remains inactive until receiving runway clearance.")
+
+
+def test_independent_destination_direction_sentences_share_selection_and_source_identity(monkeypatch):
+    monkeypatch.setattr(agent, "known_route_airport_aliases", lambda: {"甲地": "甲地机场", "乙地": "乙地机场"})
+    zh = "甲地方向离场使用RNP08程序，保持3000ft。乙地方向离场使用RNP26程序，保持4000ft。"
+    en = "Departures towards Alpha use RNP08, maintain 3000ft. Departures towards Beta use RNP26, maintain 4000ft."
+    fact = agent.replace(source_fact(zh, en), airport="丙地机场")
+    flight = agent.replace(duty(), summary="9C0001 丙地机场→乙地机场")
+    exclusions = []
+    selected = agent.filter_fact_for_duty(fact, flight, date(2026, 10, 26), exclusions)
+    assert selected.zh == "乙地方向离场使用RNP26程序，保持4000ft。"
+    assert selected.en == "Departures towards Beta use RNP26, maintain 4000ft."
+    assert selected.fact_id == fact.fact_id
+    assert selected.english_source_record_id == fact.english_source_record_id
+    assert selected.source_text_en == en
+    assert selected.excluded_source_clauses == ("甲地方向离场使用RNP08程序，保持3000ft。",)
+    assert exclusions[0]["reason"] == "与当前实际航段不匹配的明确目的方向"
+    assert agent.validate_selected_fact_id_parity([selected]) == []
+    both_routes = {(fact.airport, "甲地机场"), (fact.airport, "乙地机场")}
+    assert agent.filter_explicit_direction_sentences(fact, both_routes) == (zh, (), ())
+    assert agent.filter_explicit_direction_sentences(agent.replace(fact, category="typical"), set()) == (zh, (), ())
+
+
+def test_direction_filter_does_not_guess_a_region_or_drop_a_dependent_control(monkeypatch):
+    monkeypatch.setattr(agent, "known_route_airport_aliases", lambda: {"甲地": "甲地机场"})
+    zh = "甲地方向离场直飞FIXAA。随后保持3000ft。"
+    assert agent.filter_explicit_direction_sentences(source_fact(zh, ""), set()) == (zh, (), ())
+    unknown = "海东地区方向离场直飞FIXBB。"
+    assert agent.filter_explicit_direction_sentences(source_fact(unknown, ""), set()) == (unknown, (), ())
+
+
+def test_unnumbered_basic_fields_and_layout_paragraphs_keep_full_source():
+    text = """I. Location
+      20 km west of the city.
+      Aerodrome elevation: 10.3 m (34 ft)
+II. Runway Information
+      RWY 08/26: 3000 m long, 60 m wide
+      RWY 08: RNP only (LNAV/VNAV or LNAV)
+      The ILS for RWY 26 is unserviceable until 27 NOV 2026.
+III. Aerodrome Characteristics
+      Terrain rises to the north. Minimum safe altitude is
+5000 ft. Check terrain clearance.
+      No engine-out departure procedures.
+      Some ATC controllers have heavy accents.
+Confirm instructions.
+IV. Arrival Operations
+      Request the published arrival clearance.
+"""
+    facts = agent.extract_english_manual_facts(text)
+    assert not any("west of the city" in f.text for f in facts)
+    elevation = next(f for f in facts if agent.manual_basic_field(f.text) == "elevation")
+    assert elevation.text == "Aerodrome elevation: 10.3 m (34 ft)"
+    runway = next(f for f in facts if agent.manual_basic_field(f.text) == "runways")
+    assert "3000 m" in runway.text and "LNAV/VNAV" in runway.text and "27 NOV 2026" in runway.text
+    assert "Terrain" not in runway.text
+    terrain = next(f for f in facts if f.text.startswith("Terrain rises"))
+    assert "5000 ft" in terrain.text and "Check terrain clearance" in terrain.text
+    assert "engine-out" not in terrain.text
+    assert next(f for f in facts if f.text.startswith("Some ATC")).text.endswith("Confirm instructions.")
+    assert next(f for f in facts if f.text.startswith("Request")).phase == "arrival"
+    location_risk = agent.extract_english_manual_facts("I. Location\n      Terrain surrounding the aerodrome is high. Maintain 5000 ft.\nII. Core Threats\n1. Monitor ATC instructions.")
+    assert any("Terrain surrounding" in f.text and "5000 ft" in f.text for f in location_risk)
+    typical, chinese = agent.scan_chapter_source_records([
+        "一、位置：", "位于市区以西20公里。", "机场标高：10.3米（34英尺）",
+        "二、跑道信息：", "08/26：3000米长，60米宽。", "08仅RNP进近。",
+        "三、机场特点：", "1.地形较高，最低安全高度5000ft。",
+        "四、进场情况", "1.注意证实进场许可。", "五、落地后滑行", "1.T1前等待。",
+    ])
+    assert not typical
+    assert "机场标高：10.3米（34英尺）。" in chinese
+    assert any(f.startswith("跑道信息：") and "3000米" in f and "RNP" in f for f in chinese)
+    assert "进场：注意证实进场许可。" in chinese
+    assert "着陆后地面：T1前等待。" in chinese
+
+
+def test_light_reordering_is_allowed_but_source_controls_and_data_are_not_optional():
+    original = "夜间使用08号跑道时，必须保持3000ft。注意滑行净距。"
+    english = "At night on Runway 08, maintain 3000ft. Monitor taxi clearance."
+    fact = source_fact(original, english)
+    tidy = agent.replace(fact, text_zh="注意滑行净距。夜间使用08号跑道时，必须保持3000ft。")
+    assert agent.validate_source_semantic_preservation(tidy) == []
+    assert agent.validate_bilingual_facts([tidy]) == []
+    assert agent.validate_source_semantic_preservation(agent.replace(tidy, text_zh=tidy.zh.replace("必须", "")))
+    assert agent.validate_source_semantic_preservation(agent.replace(tidy, text_zh=tidy.zh.replace("夜间", "白天")))
+    assert agent.validate_bilingual_facts([agent.replace(tidy, text_en=english.replace("3000", "4000"))])

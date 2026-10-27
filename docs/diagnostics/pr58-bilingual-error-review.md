@@ -266,6 +266,12 @@ On-site/Dispatch Frequency: BANGKOKBLUEPORT (BANG-KOKBLUEPORT), Frequency 129.05
 
 Validation: []
 
+Retained Chinese after applicability filtering:
+
+现场/签派频率：BANGKOKBLUEPORT(BANG-KOKBLUEPORT)，频率129.050，如果我们的机组人员在素万那普机场有任何疑 问，例如需要TOBT/TSAT/停机位方面的信息，或者需要飞行计 划方面的协助，或需要提出特殊要求，请通过此频率联系他 们。
+
+Excluded clauses/reasons: []
+
 ## 14: 9C7289
 
 9C7289：中英文关键事实不一致：曼谷素旺那普_core_record_21：中文['2M', 'S126', 'STANDS126']，英文['2M', 'OK', 'S126', 'STANDS126']
@@ -411,6 +417,12 @@ English page: 1170
 On-site/Dispatch Frequency: BANGKOKBLUEPORT (BANG-KOKBLUEPORT), Frequency 129.050. Should our crew members have any inquiries at Suvarnabhumi Airport—such as requests for TOBT/TSAT/landing slot information, flight planning assistance, or special requests—please contact them via this frequency.
 
 Validation: []
+
+Retained Chinese after applicability filtering:
+
+现场/签派频率：BANGKOKBLUEPORT(BANG-KOKBLUEPORT)，频率129.050，如果我们的机组人员在素万那普机场有任何疑 问，例如需要TOBT/TSAT/停机位方面的信息，或者需要飞行计 划方面的协助，或需要提出特殊要求，请通过此频率联系他 们。
+
+Excluded clauses/reasons: []
 
 ## 22: 9C7420
 
@@ -650,13 +662,13 @@ English page: 1581
 
 Typically, aircraft take off from 01R/19L or 02L/20R, and land from 01L/20R or 02L/20R.
 
-Validation: ["中英文关键事实不一致：广州白云_core_record_22：中文['RWY03', 'RWY19L', 'RWY19R', 'RWY20L', 'RWY20R', 'RWY21', 'RWYO1L', 'RWYO1R', 'RWYO2L', 'RWYO2R']，英文[]", "中英文关键概念不一致：广州白云_core_record_22：英文缺少['runway']"]
+Validation: ["中英文关键事实不一致：广州白云_core_record_22：中文['RWY03', 'RWY19L', 'RWY19R', 'RWY20L', 'RWY20R', 'RWY21', 'RWYO1L', 'RWYO1R', 'RWYO2L', 'RWYO2R']，英文['RWY01L', 'RWY01R', 'RWY02L', 'RWY19L', 'RWY20R']"]
 
 ## 34: 9C7420
 
 9C7420：中英文关键概念不一致：广州白云_core_record_20：英文缺少['runway']
 
-Outcome: UNRESOLVED
+Outcome: CHECK_REPAIRED_SOURCE_CONFLICT_REMAINS
 
 Airport: 广州白云 / ZGGG; category: core; phase: ground
 
@@ -670,7 +682,7 @@ English page: 1581
 
 Typically, aircraft take off from 01R/19L or 02L/20R, and land from 01L/20R or 02L/20R.
 
-Validation: ["中英文关键事实不一致：广州白云_core_record_22：中文['RWY03', 'RWY19L', 'RWY19R', 'RWY20L', 'RWY20R', 'RWY21', 'RWYO1L', 'RWYO1R', 'RWYO2L', 'RWYO2R']，英文[]", "中英文关键概念不一致：广州白云_core_record_22：英文缺少['runway']"]
+Validation: ["中英文关键事实不一致：广州白云_core_record_22：中文['RWY03', 'RWY19L', 'RWY19R', 'RWY20L', 'RWY20R', 'RWY21', 'RWYO1L', 'RWYO1R', 'RWYO2L', 'RWYO2R']，英文['RWY01L', 'RWY01R', 'RWY02L', 'RWY19L', 'RWY20R']"]
 
 ## 35: 9C7420
 
@@ -888,6 +900,18 @@ No safe counterpart bound; see original source candidates in audit JSON.
 
 ### Current 3: D
 
+9C7289：中英文关键概念不一致：曼谷素旺那普_core_record_17：英文缺少['system_activation_temporal_polarity']
+
+Chinese page: 314; English page: 1171
+
+为防止可能的干扰，对离港飞机，直到收到进入或者对 正跑道指令才打开 TCAS；对于进港飞机，直到脱离跑道再关闭。
+
+To prevent potential interference, TCAS should remain activated for departing aircraft until receiving the go-to or go-around command, and deactivated for arriving aircraft until the aircraft has left the runway.
+
+渲染两原页核查：中文离港直到进入/对正跑道指令才打开TCAS，进港直到脱离跑道再关闭；英文remain activated ... until ... / deactivated ... until ...。不是相同启停时序，不能润色或猜改。本轮通用装备启用条件校验已检出system_activation_temporal_polarity，不再仅靠人工提示；未宣称完整覆盖所有时序句式。
+
+### Current 4: D
+
 9C7289：中英文关键事实不一致：曼谷素旺那普_core_record_42：中文['JEPPESEN']，英文[]
 
 Chinese page: 317; English page: 1174
@@ -898,7 +922,7 @@ Radio Failure Procedure: Specific Implementation Methods inAirport Regulations a
 
 中文引用杰普逊手册，英文原页实际印刷 Jepperson Manual。新增正确译名锚点用于恢复其他段落后显露此差异；未把 Jepperson 擅改为 JEPPESEN。
 
-### Current 4: DERIVED
+### Current 5: DERIVED
 
 9C7289：中英文选定事实身份不一致：中文['上海浦东_typical_record_1', '上海浦东_typical_record_2', '曼谷素旺那普_typical_record_1', '上海浦东_core_record_7', '上海浦东_core_record_9', '上海浦东_core_record_10', '上海浦东_core_record_11', '上海浦东_core_record_3', '上海浦东_core_record_4', '上海浦东_core_record_21', '曼谷素旺那普_core_record_31', '曼谷素旺那普_core_record_32', '曼谷素旺那普_core_record_34', '曼谷素旺那普_core_record_35', '曼谷素旺那普_core_record_36', '曼谷素旺那普_core_record_37', '曼谷素旺那普_core_record_38', '曼谷素旺那普_core_record_39', '曼谷素旺那普_core_record_6', '曼谷素旺那普_core_record_7', '曼谷素旺那普_core_record_8', '曼谷素旺那普_core_record_11', '曼谷素旺那普_core_record_13', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_17', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_21', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42']，英文['上海浦东_typical_record_1', '上海浦东_typical_record_2', '曼谷素旺那普_typical_record_1', '上海浦东_core_record_7', '上海浦东_core_record_9', '上海浦东_core_record_10', '上海浦东_core_record_11', '上海浦东_core_record_3', '上海浦东_core_record_4', '上海浦东_core_record_21', '曼谷素旺那普_core_record_31', '曼谷素旺那普_core_record_32', '曼谷素旺那普_core_record_34', '曼谷素旺那普_core_record_35', '曼谷素旺那普_core_record_36', '曼谷素旺那普_core_record_37', '曼谷素旺那普_core_record_38', '曼谷素旺那普_core_record_39', '曼谷素旺那普_core_record_6', '曼谷素旺那普_core_record_7', '曼谷素旺那普_core_record_11', '曼谷素旺那普_core_record_13', '曼谷素旺那普_core_record_3', '曼谷素旺那普_core_record_9', '曼谷素旺那普_core_record_14', '曼谷素旺那普_core_record_15', '曼谷素旺那普_core_record_17', '曼谷素旺那普_core_record_18', '曼谷素旺那普_core_record_19', '曼谷素旺那普_core_record_20', '曼谷素旺那普_core_record_21', '曼谷素旺那普_core_record_30', '曼谷素旺那普_core_record_4', '曼谷素旺那普_core_record_5', '曼谷素旺那普_core_record_12', '曼谷素旺那普_core_record_40', '曼谷素旺那普_core_record_41', '曼谷素旺那普_core_record_42']
 
@@ -910,7 +934,7 @@ No safe counterpart bound; see original source candidates in audit JSON.
 
 Requires separate source review.
 
-### Current 5: D
+### Current 6: D
 
 9C7420：中英文关键事实不一致：曼谷素旺那普_core_record_42：中文['JEPPESEN']，英文[]
 
@@ -922,7 +946,7 @@ Radio Failure Procedure: Specific Implementation Methods inAirport Regulations a
 
 中文引用杰普逊手册，英文原页实际印刷 Jepperson Manual。新增正确译名锚点用于恢复其他段落后显露此差异；未把 Jepperson 擅改为 JEPPESEN。
 
-### Current 6: D
+### Current 7: D
 
 9C7420：最新版机场手册英文配对缺失：广州白云_core_record_42：广州白云／广州/白云机场运行特点／核心威胁与运行特点
 
@@ -934,7 +958,7 @@ No safe counterpart bound; see original source candidates in audit JSON.
 
 同一进场指挥条目：中文速度180到8海里；英文原页 speed of 180 to 8 knots。数值/距离与速度单位冲突。
 
-### Current 7: C
+### Current 8: C
 
 9C7420：最新版机场手册英文配对缺失：广州白云_core_record_5：广州白云／广州/白云机场运行特点／核心威胁与运行特点
 
@@ -946,21 +970,9 @@ No safe counterpart bound; see original source candidates in audit JSON.
 
 中文机位919R不建议单发滑行。已逐页核查该ICAO完整英文章节，未见919R限制；英文其他单发滑行条目不能借用。
 
-### Current 8: D
-
-9C7420：中英文关键事实不一致：广州白云_core_record_22：中文['RWY03', 'RWY19L', 'RWY19R', 'RWY20L', 'RWY20R', 'RWY21', 'RWYO1L', 'RWYO1R', 'RWYO2L', 'RWYO2R']，英文[]
-
-Chinese page: 987; English page: 1581
-
-跑道运行规则：向北运行：RWYO1L主要用于进场；RWYO1R 主要用于离场；RWYO2L主要用于离场；RWYO2R 主要 用于进场；RWY03进、离场混合运行。向南运行：RWY19R 主要用于进场；RWY19L 主要用于离场；RWY20R 主要用于离场；RWY20L 主要用于进场；RWY21 进、离场混合运行。
-
-Typically, aircraft take off from 01R/19L or 02L/20R, and land from 01L/20R or 02L/20R.
-
-中文分向北/向南列举含03/21的分配；英文仅两组通常起降跑道，且分配不等。中文提取的RWYO字形未擅改。
-
 ### Current 9: D
 
-9C7420：中英文关键概念不一致：广州白云_core_record_22：英文缺少['runway']
+9C7420：中英文关键事实不一致：广州白云_core_record_22：中文['RWY03', 'RWY19L', 'RWY19R', 'RWY20L', 'RWY20R', 'RWY21', 'RWYO1L', 'RWYO1R', 'RWYO2L', 'RWYO2R']，英文['RWY01L', 'RWY01R', 'RWY02L', 'RWY19L', 'RWY20R']
 
 Chinese page: 987; English page: 1581
 
