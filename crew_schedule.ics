@@ -3457,7 +3457,7 @@ UID:678c035fefe72bd4ccf9b5ed2e607e51@crew-calendar
 SUMMARY:✈️ 9C7419 广州白云→曼谷素旺那普
 DTSTART;TZID=Asia/Shanghai:20261028T055500
 DTEND;TZID=Asia/Shanghai:20261028T085000
-DESCRIPTION:10月28日 周三\n类型：航班\n航班：9C7419\n航线：广州白云 → 曼谷素旺那普\n地点：广州白云\n签到：03:50｜广州白云\n任务：05:55 - 08:50\n机型：A320｜注册号：B30AR\n\n人员名单：\n• ZINDLER INGO WERNER(R)\n• 李贺贺(R)\n• 段洋硕\n• 徐滢(B)\n\n版本：2026-10-27 14:10
+DESCRIPTION:10月28日 周三\n类型：航班\n航班：9C7419\n航线：广州白云 → 曼谷素旺那普\n地点：广州白云\n签到：03:50｜广州白云\n任务：05:55 - 08:50\n机型：A320｜注册号：B30AR\n\n人员名单：\n• ZINDLER INGO WERNER(R)\n• 李贺贺(R)\n• 段洋硕\n• 徐滢(B)\n\n版本：2026-10-27 21:17
 X-CONTENT-SIGNATURE:bda178cd93c550adfbc6a4d117a64be0
 LOCATION:广州白云
 BEGIN:VALARM
@@ -3471,7 +3471,7 @@ UID:9854119ce90ac7b87fa2a71d8d134115@crew-calendar
 SUMMARY:✈️ 9C7290 曼谷素旺那普→上海浦东
 DTSTART;TZID=Asia/Shanghai:20261028T095000
 DTEND;TZID=Asia/Shanghai:20261028T141500
-DESCRIPTION:10月28日 周三\n类型：航班\n航班：9C7290\n航线：曼谷素旺那普 → 上海浦东\n地点：曼谷素旺那普\n签到：08:15｜曼谷素旺那普\n任务：09:50 - 14:15\n机型：A320｜注册号：B30AR\n\n人员名单：\n• ZINDLER INGO WERNER(R)\n• 李贺贺(R)\n• 段洋硕\n• 徐滢(B)\n\n版本：2026-10-27 14:10
+DESCRIPTION:10月28日 周三\n类型：航班\n航班：9C7290\n航线：曼谷素旺那普 → 上海浦东\n地点：曼谷素旺那普\n签到：08:15｜曼谷素旺那普\n任务：09:50 - 14:15\n机型：A320｜注册号：B30AR\n\n人员名单：\n• ZINDLER INGO WERNER(R)\n• 李贺贺(R)\n• 段洋硕\n• 徐滢(B)\n\n版本：2026-10-27 21:17
 X-CONTENT-SIGNATURE:98af61098bd8d3c92e19710dbca71492
 LOCATION:曼谷素旺那普
 BEGIN:VALARM
@@ -3485,7 +3485,7 @@ UID:2c6a3b0df5ea2d86d50c33a4132038dd@crew-calendar
 SUMMARY:🎓 模拟机-定期复训结合熟练检查
 DTSTART;TZID=Asia/Shanghai:20261105T060000
 DTEND;TZID=Asia/Shanghai:20261105T120000
-DESCRIPTION:11月05日 周四\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：06:00 - 12:00\n\n人员名单：\n• 段洋硕\n• 袁君杰\n• 程书青\n• 傅松霖\n\n版本：2026-10-27 14:10
+DESCRIPTION:11月05日 周四\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：06:00 - 12:00\n\n人员名单：\n• 段洋硕\n• 袁君杰\n• 程书青\n• 傅松霖\n\n版本：2026-10-27 21:17
 X-CONTENT-SIGNATURE:6c68c88815fd18c5d75579ad4d6b3716
 LOCATION:春秋飞培
 BEGIN:VALARM
@@ -3499,7 +3499,7 @@ UID:e7136845a0ff01bf5a66c01d8c065488@crew-calendar
 SUMMARY:🎓 模拟机-定期复训结合熟练检查
 DTSTART;TZID=Asia/Shanghai:20261106T080000
 DTEND;TZID=Asia/Shanghai:20261106T140000
-DESCRIPTION:11月06日 周五\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：08:00 - 14:00\n\n人员名单：\n• 段洋硕\n• 袁君杰\n• 程书青\n• 傅松霖\n\n版本：2026-10-27 14:10
+DESCRIPTION:11月06日 周五\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：08:00 - 14:00\n\n人员名单：\n• 段洋硕\n• 袁君杰\n• 程书青\n• 傅松霖\n\n版本：2026-10-27 21:17
 X-CONTENT-SIGNATURE:eb7d05884654e940e83e7abe9b90a107
 LOCATION:春秋飞培
 BEGIN:VALARM
@@ -3513,7 +3513,7 @@ UID:64965e96e1e2a291e50e09f4a637c83b@crew-calendar
 SUMMARY:🎓 模拟机-定期复训结合熟练检查
 DTSTART;TZID=Asia/Shanghai:20261107T142000
 DTEND;TZID=Asia/Shanghai:20261107T202000
-DESCRIPTION:11月07日 周六\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：14:20 - 20:20\n\n人员名单：\n• 段洋硕\n• 袁君杰\n• 程书青\n\n版本：2026-10-27 14:10
+DESCRIPTION:11月07日 周六\n类型：训练\n事项：模拟机-定期复训结合熟练检查\n地点：春秋飞培\n任务：14:20 - 20:20\n\n人员名单：\n• 段洋硕\n• 袁君杰\n• 程书青\n\n版本：2026-10-27 21:17
 X-CONTENT-SIGNATURE:9f49a2cb9cae6a7d3c81519c42cbc756
 LOCATION:春秋飞培
 BEGIN:VALARM
@@ -3527,7 +3527,7 @@ UID:c13da6d3e04c41668f85a0c9fb830e56@crew-calendar
 SUMMARY:🎓 理论课-复训理论课(下半年)
 DTSTART;TZID=Asia/Shanghai:20261108T090000
 DTEND;TZID=Asia/Shanghai:20261108T174500
-DESCRIPTION:11月08日 周日\n类型：训练\n事项：理论课-复训理论课(下半年)\n地点：春秋飞培2号楼教室2\n任务：09:00 - 17:45\n\n人员名单：\n• 段洋硕\n• 魏乐天\n\n版本：2026-10-27 14:10
+DESCRIPTION:11月08日 周日\n类型：训练\n事项：理论课-复训理论课(下半年)\n地点：春秋飞培2号楼教室2\n任务：09:00 - 17:45\n\n人员名单：\n• 段洋硕\n• 魏乐天\n\n版本：2026-10-27 21:17
 X-CONTENT-SIGNATURE:a74e625d432234b0dc56d522c08c061d
 LOCATION:春秋飞培2号楼教室2
 BEGIN:VALARM
