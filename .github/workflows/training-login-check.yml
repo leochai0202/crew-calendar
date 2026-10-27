@@ -1,0 +1,149 @@
+name: 一点知识独立登录检查
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_single_email:
+        description: '确认仅执行一次独立登录，最多申请一次邮箱验证码'
+        type: boolean
+        required: true
+        default: false
+
+permissions:
+  contents: read
+  actions: read
+
+# Deliberately share the existing production mutex, without changing production.
+# queue:max avoids replacing an already pending production run on admission.
+concurrency:
+  group: crew-calendar
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  login-check:
+    if: >-
+      ${{ github.event_name == 'workflow_dispatch' &&
+          github.repository == 'leochai0202/crew-calendar' &&
+          github.ref == 'refs/heads/main' && inputs.confirm_single_email }}
+    runs-on: [self-hosted, Windows, X64, crew-calendar]
+    timeout-minutes: 12
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+      - name: Stage only reviewed sources in a fresh temporary directory
+        env:
+          TRAINING_API_TOKEN: ${{ github.token }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          try {
+            if ($env:GITHUB_RUN_ATTEMPT -ne '1') { throw 'RERUN_DISABLED' }
+            if ($env:GITHUB_SHA -notmatch '^[0-9a-f]{40}$') { throw 'INVALID_REF' }
+            $tempBase = [IO.Path]::GetFullPath($env:RUNNER_TEMP).TrimEnd('\')
+            $runName = 'training-login-' + $env:GITHUB_RUN_ID + '-' + [Guid]::NewGuid().ToString('N')
+            $runRoot = Join-Path $tempBase $runName
+            if (Test-Path -LiteralPath $runRoot) { throw 'DIRECTORY_ALREADY_EXISTS' }
+            New-Item -ItemType Directory -Path $runRoot | Out-Null
+            "TRAINING_RUN_ROOT=$runRoot" | Out-File -LiteralPath $env:GITHUB_ENV -Append -Encoding utf8
+            $sourceRoot = Join-Path $runRoot 'source'
+            New-Item -ItemType Directory -Path $sourceRoot | Out-Null
+            New-Item -ItemType Directory -Path (Join-Path $runRoot 'temp') | Out-Null
+            $files = @(
+              'password_email_auth.py', 'springair_email_otp.py',
+              'authenticate_crew_session.py', 'crew_auth_session.py', 'imap_otp.py',
+              'training_downloader/login_probe.py', 'training_downloader/workflow_guard.py',
+              'training_downloader/test_login_probe.py', 'training_downloader/test_workflow_guard.py',
+              '.github/workflows/training-login-check.yml'
+            )
+            $handler = [Net.Http.HttpClientHandler]::new()
+            $handler.AllowAutoRedirect = $false
+            $client = [Net.Http.HttpClient]::new($handler)
+            $client.Timeout = [TimeSpan]::FromSeconds(30)
+            $client.DefaultRequestHeaders.UserAgent.ParseAdd('training-login-check')
+            $client.DefaultRequestHeaders.Authorization = [Net.Http.Headers.AuthenticationHeaderValue]::new('Bearer', $env:TRAINING_API_TOKEN)
+            $client.DefaultRequestHeaders.Accept.ParseAdd('application/vnd.github+json')
+            try {
+              foreach ($file in $files) {
+                $uri = 'https://api.github.com/repos/leochai0202/crew-calendar/contents/' + $file + '?ref=' + $env:GITHUB_SHA
+                $response = $client.GetAsync($uri).GetAwaiter().GetResult()
+                try {
+                  if (-not $response.IsSuccessStatusCode) { throw 'SOURCE_FETCH_FAILED' }
+                  $item = $response.Content.ReadAsStringAsync().GetAwaiter().GetResult() | ConvertFrom-Json
+                  if ($item.type -ne 'file' -or $item.encoding -ne 'base64') { throw 'INVALID_SOURCE' }
+                  $destination = Join-Path $sourceRoot $file
+                  New-Item -ItemType Directory -Path (Split-Path -Parent $destination) -Force | Out-Null
+                  [IO.File]::WriteAllBytes($destination, [Convert]::FromBase64String($item.content))
+                }
+                finally { $response.Dispose() }
+              }
+            }
+            finally { $client.Dispose() }
+            Write-Host 'TRAINING_SOURCE_STAGE=READY'
+          }
+          catch {
+            Write-Host 'TRAINING_SOURCE_STAGE=FAILED_SAFE'
+            exit 2
+          }
+
+      - name: Run offline safety checks without login Secrets
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Set-Location -LiteralPath (Join-Path $env:TRAINING_RUN_ROOT 'source')
+          $env:TEMP = Join-Path $env:TRAINING_RUN_ROOT 'temp'
+          $env:TMP = $env:TEMP
+          $env:PYTHONIOENCODING = 'utf-8'
+          python -B -m unittest discover -s training_downloader -p 'test_*.py'
+          exit $LASTEXITCODE
+
+      - name: Refuse conflicting or unverifiable production activity
+        env:
+          TRAINING_API_TOKEN: ${{ github.token }}
+        run: |
+          Set-Location -LiteralPath (Join-Path $env:TRAINING_RUN_ROOT 'source')
+          python -B training_downloader/workflow_guard.py
+          exit $LASTEXITCODE
+
+      - name: Perform one isolated email login and read-only course inspection
+        timeout-minutes: 6
+        env:
+          CREW_USERNAME: ${{ secrets.CREW_USERNAME }}
+          CREW_PASSWORD: ${{ secrets.CREW_PASSWORD }}
+          IMAP_EMAIL: ${{ secrets.IMAP_EMAIL }}
+          IMAP_AUTH_CODE: ${{ secrets.IMAP_AUTH_CODE }}
+          TRAINING_API_TOKEN: ${{ github.token }}
+          TRAINING_REQUIRE_GUARD: '1'
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Set-Location -LiteralPath (Join-Path $env:TRAINING_RUN_ROOT 'source')
+          $env:TEMP = Join-Path $env:TRAINING_RUN_ROOT 'temp'
+          $env:TMP = $env:TEMP
+          $env:PYTHONIOENCODING = 'utf-8'
+          $env:PYTHONDONTWRITEBYTECODE = '1'
+          python -B training_downloader/login_probe.py --run
+          exit $LASTEXITCODE
+
+      - name: Remove this run's isolated browser state and source copy
+        if: ${{ always() && env.TRAINING_RUN_ROOT != '' }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          try {
+            $tempBase = [IO.Path]::GetFullPath($env:RUNNER_TEMP).TrimEnd('\')
+            $runRoot = [IO.Path]::GetFullPath($env:TRAINING_RUN_ROOT).TrimEnd('\')
+            $namePattern = '^training-login-' + [Regex]::Escape($env:GITHUB_RUN_ID) + '-[0-9a-f]{32}$'
+            if ((Split-Path -Parent $runRoot) -ne $tempBase -or
+                (Split-Path -Leaf $runRoot) -notmatch $namePattern) { throw 'UNSAFE_CLEANUP_PATH' }
+            if (Test-Path -LiteralPath $runRoot) {
+              $items = @(Get-Item -LiteralPath $runRoot) + @(Get-ChildItem -LiteralPath $runRoot -Recurse -Force)
+              if (@($items | Where-Object { $_.Attributes -band [IO.FileAttributes]::ReparsePoint }).Count -gt 0) {
+                throw 'CLEANUP_REPARSE_POINT_REFUSED'
+              }
+              Remove-Item -LiteralPath $runRoot -Recurse -Force
+            }
+            Write-Host 'TRAINING_TEMP_CLEANUP=COMPLETE'
+          }
+          catch {
+            Write-Host 'TRAINING_TEMP_CLEANUP=FAILED_REQUIRES_LOCAL_REVIEW'
+            exit 2
+          }
