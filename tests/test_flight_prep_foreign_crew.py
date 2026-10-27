@@ -163,6 +163,14 @@ def _stub_airport_risks(
         ]
         for airport in airports
     }
+    # Independent English source fixtures: no production fallback from Chinese
+    # records is permitted merely because these older fixtures were bilingual.
+    for airport, records in source_records.items():
+        records.extend({**record, "language": "en", "fact_id": f"{airport}:en:stub:{number}",
+            "source_record_id": f"{airport}:en:stub:{number}", "source_sequence": number,
+            "source_version": "test", "source_original_text_en": record["text_en"],
+            "english_airport_name": "Test", "source_verbatim": True}
+            for number, record in enumerate(list(records)))
     return risks, threats, source_records, [], "stub-20260720.pdf", 20260720, "PDF"
 
 

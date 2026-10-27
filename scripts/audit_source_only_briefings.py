@@ -18,15 +18,15 @@ from crew_agents.ics_utils import CalendarEvent
 
 
 def write_report(report: dict, path: Path) -> None:
-    lines = ["# Source-only manual extraction acceptance (DRAFT)", "",
+    lines = ["# Independent-language manual extraction acceptance (DRAFT)", "",
              "This is a diagnostic preview, not a valid production briefing. FAILED_SAFE outputs must not be published.",
              "", f"Manual: {report['manual']}", f"Version: {report['version']}",
              f"SHA256: `{report['sha256']}`", "",
              "## Real-manual airport checks", "",
-             "| Airport | ICAO | Core candidates selected | English available | Acceptance | Errors |",
+             "| Airport | ICAO | Chinese core selected | Independent English core | Acceptance | Blocking errors |",
              "|---|---|---:|---:|---|---:|"]
     for airport, result in report["airports"].items():
-        lines.append(f"| {airport} | {result['icao']} | {len(result['core'])} | {sum(bool(f['text_en']) for f in result['core'])} | {result['status']} | {len(result['errors'])} |")
+        lines.append(f"| {airport} | {result['icao']} | {len(result['core'])} | {len(result.get('english_core', []))} | {result['status']} | {len(result['errors'])} |")
     for airport, result in report["airports"].items():
         lines += ["", f"## {airport}: Chinese core source preview", "", result["chinese_core_preview"],
                   "", f"## {airport}: English core source preview", "",
@@ -76,15 +76,25 @@ def audit(repo: Path, airports: list[str], target: str, output: Path, input_ref:
                                               date.fromisoformat(target).month, 10000,
                                               records.get(airport, []), duty, date.fromisoformat(target))
         all_facts = [*typical, *core]
-        errors = [*agent.validate_bilingual_facts(all_facts), *agent.validate_airport_fact_bindings(airport, all_facts)]
+        en_typical, en_core, en_all = agent.english_briefing_fact_sets(duty, date.fromisoformat(target), records)
+        en_airport = [*en_typical[airport], *en_core[airport]]
+        diagnostics = agent.validate_bilingual_facts(all_facts)
+        errors = [*agent.validate_cross_language_conflicts(all_facts, en_airport, records),
+                  *agent.validate_airport_fact_bindings(airport, all_facts),
+                  *agent.validate_english_source_facts(airport, en_airport)]
+        if not en_core[airport]:
+            errors.append("NO_ENGLISH_CORE_SOURCE_FACTS: necessary English material not reliably available")
         if not core:
             errors.append("NO_CORE_SOURCE_FACTS_EXTRACTED: empty extraction is not successful acceptance")
         report["airports"][airport] = {
             "icao": codes[airport], "status": "FAILED_SAFE" if errors else "SUCCESS",
             "errors": errors, "typical": [asdict(fact) for fact in typical],
             "core": [asdict(fact) for fact in core],
+            "english_core": [asdict(fact) for fact in en_core[airport]],
+            "english_typical": [asdict(fact) for fact in en_typical[airport]],
+            "bilingual_pairing_diagnostics": diagnostics,
             "chinese_core_preview": "\n\n".join(fact.zh for fact in core),
-            "english_core_preview": "\n\n".join(fact.en for fact in core if fact.en),
+            "english_core_preview": "\n\n".join(agent.english_fact_output(fact) for fact in en_core[airport]),
             "source_records": records.get(airport, []),
         }
         chapters = agent.match_english_manual_chapters(english_index, codes[airport])
@@ -106,7 +116,8 @@ def audit(repo: Path, airports: list[str], target: str, output: Path, input_ref:
             role_samples[role] = {
                 "selected_fact_ids": [fact.fact_id for fact in selected],
                 "chinese_preview": "\n\n".join(agent.chinese_fact_output(fact) for fact in selected),
-                "english_preview": "\n\n".join(agent.english_fact_output(fact) for fact in selected if fact.en),
+                "english_preview": "\n\n".join(agent.english_fact_output(fact) for fact in
+                    agent.english_briefing_fact_sets(event, date.fromisoformat(target), records)[1][airport]),
                 "exclusions": exclusions,
             }
         report["airports"][airport]["role_samples"] = role_samples
@@ -144,12 +155,13 @@ def audit(repo: Path, airports: list[str], target: str, output: Path, input_ref:
     def render(duty, *args, **kwargs):
         content = original_render(duty, *args, **kwargs)
         captures[-1]["english_preview"] = content
+        captures[-1]["english_facts"] = [asdict(fact) for airport in duty.route for fact in [*args[3].get(airport, []), *args[4].get(airport, [])]]
         return content
 
     def validate(facts):
         errors = original_validate(facts)
         if captures:
-            captures[-1].update(facts=[asdict(fact) for fact in facts], bilingual_errors=errors)
+            captures[-1].update(facts=[asdict(fact) for fact in facts], bilingual_pairing_diagnostics=errors)
         return errors
 
     agent.render_english_briefing = render
