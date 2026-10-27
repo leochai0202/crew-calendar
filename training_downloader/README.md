@@ -13,6 +13,7 @@
 - `.github/workflows/training-login-check.yml`：手动入口、隔离源码获取、离线检查、并发检查、一次登录、临时目录清理。
 - `training_downloader/login_probe.py`：复用原密码/邮箱认证，保持同一 context 访问课程和目标 PDF 阅读器。
 - `training_downloader/workflow_guard.py`：只读检查 GitHub 活动任务和生产互斥配置。
+- `training_downloader/cleanup_training.ps1`：严格验证独立运行目录后清理；`test_cleanup_training.ps1` 只使用合成目录测试。
 - 两个 `test_*.py`：离线安全检查，包括直接调用经审阅原函数的模拟测试；不启动浏览器或连接邮箱。
 - `.gitignore`：排除本地测试运行目录及字节码。
 
@@ -35,7 +36,7 @@
 3. 用现有 `[self-hosted, Windows, X64, crew-calendar]` runner。整个测试上限 12 分钟，登录步骤上限 6 分钟；不会取消正在执行的生产任务。后来到达的生产任务可能短暂排队，因此仍应选择空闲时段。
 4. 不执行 checkout 或生产 bootstrap。仅从触发提交的不可变 `GITHUB_SHA` 获取明确列出的 Python 测试/依赖文件与本工作流，放在 `RUNNER_TEMP/training-login-<run_id>-<随机ID>/source`。不切换或清理生产仓库。
 5. 每次浏览器 Profile 位于该副本的 `training_downloader/.runtime/<随机ID>/edge-profile`；浏览器 TEMP/TMP 也指向本次临时目录。只写独立的 `auth-status.json`（固定状态及布尔值），不导出 storage_state、Cookie 或 Session。不会读取、挂载或覆盖生产 Profile、备份、auth-control 或缓存。
-6. `always()` 清理只允许当前 run_id 对应、直接位于 RUNNER_TEMP 下的目录；路径不符合规则或有重解析点时拒绝递归删除。正常结束清理整个独立目录。机器断电、runner 强制终止或文件占用仍可能留下测试状态，需要本机人工核查；不要上传残留 Profile。
+6. `always()` 清理只允许当前 run_id 对应、直接位于 RUNNER_TEMP 下且带本次所有权标记的目录；根目录、祖先或子项有重解析点时拒绝操作。逐层检查，不跟随目录联接。仅文件占用/访问拒绝可进行最多三次清理尝试，每次重新检查全部边界，不结束浏览器进程、不修改权限。标记最后删除，避免失败重试失去归属证据。机器断电、runner 强制终止仍可能留下测试状态，需要本机人工核查；不要上传残留 Profile。
 
 [GitHub 并发规则](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency)说明了共享互斥组及 `queue: max` 的行为。
 
@@ -56,6 +57,15 @@ CP 成功与一点知识成功分别判断。CP 通过后在同一 context 打�
 ```powershell
 python -B training_downloader/login_probe.py
 python -B -m unittest discover -s training_downloader -p 'test_*.py'
+pwsh -File training_downloader/test_cleanup_training.ps1
 ```
 
 默认只做预检查；不会启动浏览器或申请验证码。当前本地 checkout 较旧且未注入四项环境变量，因此真实登录仍未执行。独立工作流按 GitHub 提交获取已审阅源码，不替换本地生产文件。
+
+## 失败原因诊断
+
+两次并发检查均保留：独立步骤输出 `TRAINING_CONCURRENCY_REASON` / `TRAINING_CONCURRENCY_CHECK`；登录前检查在脱敏 JSON 中输出 `concurrency_failure_reason` / `concurrency_check`。固定原因码区分其他活动任务、生产工作流变更、响应不完整、HTTP 401/403/429/5xx、超时、TLS、网络、JSON 错误及本地导入失败。所有未知异常仍停止，且只报固定代码，不打印异常文本、URL 或请求头。不重试认证，也不因为 API 故障放行。
+
+清理输出固定 `TRAINING_TEMP_CLEANUP_REASON`、数字 `TRAINING_TEMP_CLEANUP_NATIVE_CODE` 和尝试次数。原始异常文本、文件内容及认证状态不写日志。缺少所有权标记的旧目录不自动删除。
+
+Run `40501322255` / Job `122179435036`：第一次检查于 2026-10-27 12:08:06 UTC 通过，12:08:20 第二次检查停止，`login_attempted=false`。当天 Actions 时间线未显示与这段时间重叠的其他任务，但旧日志吞掉了异常，无法唯一还原第二次阻止或清理失败的具体底层原因。2026-10-28 只读检查确认日志中那个准确目录已经不存在，同 Run ID 下也没有残留目录；未删除任何实际测试或生产目录。新原因码用于下一次人工运行给出可核查结论，文件锁测试只能证明该场景已受控，不能证明它就是历史故障原因。

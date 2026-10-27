@@ -2,7 +2,13 @@
 import importlib.util
 from pathlib import Path
 import re
+import io
+import contextlib
+import json
+import ssl
 import unittest
+from unittest.mock import patch
+from urllib.error import HTTPError, URLError
 
 SPEC = importlib.util.spec_from_file_location("training_guard", Path(__file__).with_name("workflow_guard.py"))
 guard = importlib.util.module_from_spec(SPEC)
@@ -46,6 +52,53 @@ class WorkflowGuardTests(unittest.TestCase):
         with self.assertRaises(guard.GuardError):
             guard.check_activity(unavailable, self.env)
 
+    def test_transport_causes_have_fixed_codes(self):
+        cases = [(TimeoutError("private"), "CONCURRENCY_API_TIMEOUT"),
+                 (URLError(TimeoutError("private")), "CONCURRENCY_API_TIMEOUT"),
+                 (ssl.SSLError("private"), "CONCURRENCY_API_TLS_ERROR"),
+                 (URLError("private"), "CONCURRENCY_API_NETWORK_ERROR"),
+                 (json.JSONDecodeError("private", "private", 0), "CONCURRENCY_API_INVALID_JSON"),
+                 (RuntimeError("private"), "CONCURRENCY_UNEXPECTED_ERROR")]
+        for status, expected in ((401, "401"), (403, "403"), (429, "429"), (503, "5XX"), (302, "OTHER")):
+            cases.append((HTTPError("https://private.invalid/?token=private", status, "private", {}, None),
+                          "CONCURRENCY_API_HTTP_" + expected))
+        for exc, code in cases:
+            with self.subTest(code=code):
+                self.assertEqual(guard.transport_failure(exc), code)
+
+    def test_failure_keeps_check_stage_but_no_exception_details(self):
+        def get(path):
+            if "status=queued&" in path:
+                raise URLError(TimeoutError("synthetic-secret"))
+            return self.get(path)
+        with self.assertRaises(guard.GuardError) as captured:
+            guard.check_activity(get, self.env)
+        self.assertEqual(guard.safe_failure(captured.exception), {
+            "concurrency_failure_reason": "CONCURRENCY_API_TIMEOUT",
+            "concurrency_check": "ACTIVE_RUNS_QUEUED"})
+        self.assertNotIn("synthetic-secret", str(captured.exception))
+
+    def test_main_does_not_log_arbitrary_exception_text(self):
+        output = io.StringIO()
+        with patch.object(guard, "check_activity", side_effect=RuntimeError("synthetic-secret")):
+            with contextlib.redirect_stdout(output):
+                self.assertEqual(guard.main(), 2)
+        self.assertIn("CONCURRENCY_UNEXPECTED_ERROR", output.getvalue())
+        self.assertNotIn("synthetic-secret", output.getvalue())
+
+    def test_unknown_reason_and_stage_are_replaced(self):
+        report = guard.safe_failure(guard.GuardError("synthetic-secret", "private-url"))
+        self.assertEqual(report, {"concurrency_failure_reason": "CONCURRENCY_UNEXPECTED_ERROR",
+                                  "concurrency_check": "UNKNOWN"})
+
+    def test_malformed_runs_are_unverifiable(self):
+        for runs in ([None], [{"id": "123"}]):
+            with self.subTest(runs=runs):
+                def get(path):
+                    return self.get(path) if path.startswith("/contents/") else {"total_count": 1, "workflow_runs": runs}
+                with self.assertRaisesRegex(guard.GuardError, "CONCURRENCY_RESULT_INCOMPLETE"):
+                    guard.check_activity(get, self.env)
+
     def test_changed_production_mutex_requires_review(self):
         with self.assertRaisesRegex(guard.GuardError, "PRODUCTION_WORKFLOW_CHANGED_REVIEW_REQUIRED"):
             guard.check_activity(lambda path: {"sha": "changed"}, self.env)
@@ -74,8 +127,12 @@ class WorkflowGuardTests(unittest.TestCase):
         self.assertCountEqual(secrets, ["CREW_USERNAME", "CREW_PASSWORD", "IMAP_EMAIL", "IMAP_AUTH_CODE"])
         self.assertEqual(text.count("login_probe.py --run"), 1)
         self.assertIn("TRAINING_REQUIRE_GUARD: '1'", text)
-        self.assertIn("UNSAFE_CLEANUP_PATH", text)
-        self.assertIn("CLEANUP_REPARSE_POINT_REFUSED", text)
+        self.assertIn("CLEANUP_PATH_INVALID", text)
+        cleanup = Path(__file__).with_name("cleanup_training.ps1").read_text(encoding="utf-8")
+        self.assertIn("CLEANUP_REPARSE_POINT_REFUSED", cleanup)
+        self.assertIn("CLEANUP_OWNER_INVALID", cleanup)
+        self.assertIn("Get-TrainingCleanupPlan -Root $Root -TempBase $TempBase -Id $Id", cleanup)
+        self.assertIn("test_cleanup_training.ps1", text)
 
 
 if __name__ == "__main__":

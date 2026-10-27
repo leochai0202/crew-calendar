@@ -128,6 +128,21 @@ def course_observation(page) -> dict:
             "on_target_course": on_course, "target_pdf_listed": target_visible}
 
 
+def check_before_auth(report: dict) -> None:
+    """Keep the second guard mandatory and preserve only fixed failure codes."""
+    try:
+        from workflow_guard import check_activity, safe_failure
+    except Exception:
+        report.update(concurrency_failure_reason="CONCURRENCY_GUARD_IMPORT_FAILED",
+                      concurrency_check="GUARD_IMPORT")
+        raise RuntimeError("CONCURRENCY_CHECK_BLOCKED") from None
+    try:
+        check_activity()
+    except Exception as exc:
+        report.update(safe_failure(exc))
+        raise RuntimeError("CONCURRENCY_CHECK_BLOCKED") from None
+
+
 def inspect_course_and_viewer(page, context) -> dict:
     """Only follow the one visible target resource; never save a download."""
     evidence = {"course_heading_visible": False, "course_catalog_visible": False,
@@ -229,8 +244,7 @@ def run_probe(*, headed: bool = False) -> dict:
                     page.goto("https://cp.9cair.com", wait_until="domcontentloaded", timeout=60_000)
                     if os.environ.get("TRAINING_REQUIRE_GUARD") == "1":
                         phase = "CONCURRENCY_CHECK_BLOCKED"
-                        from workflow_guard import check_activity
-                        check_activity()
+                        check_before_auth(report)
                     phase = "AUTHENTICATION_FAILED"
                     # Status only. No storage_state export, cookies, or OTP on disk.
                     with state_file.open("x", encoding="utf-8") as state:

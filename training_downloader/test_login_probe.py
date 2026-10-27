@@ -3,6 +3,7 @@ import contextlib
 import importlib.util
 import io
 import os
+import types
 from pathlib import Path
 import tempfile
 import unittest
@@ -72,6 +73,29 @@ class LoginProbeSafetyTests(unittest.TestCase):
                 print("SYNTHETIC_PRIVATE_VALUE")
                 print("SYNTHETIC_PRIVATE_VALUE", file=probe.sys.stderr)
         self.assertEqual(output.getvalue(), "")
+
+    def test_second_guard_preserves_safe_reason_and_still_raises(self):
+        failure = {"concurrency_failure_reason": "CONCURRENCY_API_TIMEOUT",
+                   "concurrency_check": "ACTIVE_RUNS_QUEUED"}
+        module = types.ModuleType("workflow_guard")
+        module.check_activity = Mock(side_effect=RuntimeError("synthetic-private-value"))
+        module.safe_failure = Mock(return_value=failure)
+        report = {"login_attempted": False, "cp_authenticated": False}
+        with patch.dict(probe.sys.modules, {"workflow_guard": module}):
+            with self.assertRaisesRegex(RuntimeError, "^CONCURRENCY_CHECK_BLOCKED$"):
+                probe.check_before_auth(report)
+        self.assertFalse(report["login_attempted"])
+        self.assertFalse(report["cp_authenticated"])
+        self.assertEqual(report["concurrency_failure_reason"], "CONCURRENCY_API_TIMEOUT")
+        self.assertNotIn("synthetic-private-value", str(report))
+
+    def test_second_guard_import_failure_is_distinct(self):
+        report = {"login_attempted": False}
+        with patch.dict(probe.sys.modules, {"workflow_guard": None}):
+            with self.assertRaises(RuntimeError):
+                probe.check_before_auth(report)
+        self.assertEqual(report["concurrency_failure_reason"], "CONCURRENCY_GUARD_IMPORT_FAILED")
+        self.assertFalse(report["login_attempted"])
 
     def viewer_fixture(self, before, after):
         page = MagicMock()

@@ -47,10 +47,14 @@ jobs:
             if (Test-Path -LiteralPath $runRoot) { throw 'DIRECTORY_ALREADY_EXISTS' }
             New-Item -ItemType Directory -Path $runRoot | Out-Null
             "TRAINING_RUN_ROOT=$runRoot" | Out-File -LiteralPath $env:GITHUB_ENV -Append -Encoding utf8
+            $owner = @{kind='training-login-test-v1'; run_id=$env:GITHUB_RUN_ID; root_name=$runName} | ConvertTo-Json -Compress
+            [IO.File]::WriteAllText((Join-Path $runRoot '.training-run-owner.json'), $owner)
             $sourceRoot = Join-Path $runRoot 'source'
             New-Item -ItemType Directory -Path $sourceRoot | Out-Null
             New-Item -ItemType Directory -Path (Join-Path $runRoot 'temp') | Out-Null
             $files = @(
+              'training_downloader/cleanup_training.ps1',
+              'training_downloader/test_cleanup_training.ps1',
               'password_email_auth.py', 'springair_email_otp.py',
               'authenticate_crew_session.py', 'crew_auth_session.py', 'imap_otp.py',
               'training_downloader/login_probe.py', 'training_downloader/workflow_guard.py',
@@ -95,6 +99,8 @@ jobs:
           $env:TMP = $env:TEMP
           $env:PYTHONIOENCODING = 'utf-8'
           python -B -m unittest discover -s training_downloader -p 'test_*.py'
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & ./training_downloader/test_cleanup_training.ps1
           exit $LASTEXITCODE
 
       - name: Refuse conflicting or unverifiable production activity
@@ -133,17 +139,22 @@ jobs:
             $runRoot = [IO.Path]::GetFullPath($env:TRAINING_RUN_ROOT).TrimEnd('\')
             $namePattern = '^training-login-' + [Regex]::Escape($env:GITHUB_RUN_ID) + '-[0-9a-f]{32}$'
             if ((Split-Path -Parent $runRoot) -ne $tempBase -or
-                (Split-Path -Leaf $runRoot) -notmatch $namePattern) { throw 'UNSAFE_CLEANUP_PATH' }
-            if (Test-Path -LiteralPath $runRoot) {
-              $items = @(Get-Item -LiteralPath $runRoot) + @(Get-ChildItem -LiteralPath $runRoot -Recurse -Force)
-              if (@($items | Where-Object { $_.Attributes -band [IO.FileAttributes]::ReparsePoint }).Count -gt 0) {
-                throw 'CLEANUP_REPARSE_POINT_REFUSED'
-              }
-              Remove-Item -LiteralPath $runRoot -Recurse -Force
+                (Split-Path -Leaf $runRoot) -notmatch $namePattern) {
+              Write-Host 'TRAINING_TEMP_CLEANUP=FAILED_REQUIRES_LOCAL_REVIEW'
+              Write-Host 'TRAINING_TEMP_CLEANUP_REASON=CLEANUP_PATH_INVALID'
+              exit 2
             }
-            Write-Host 'TRAINING_TEMP_CLEANUP=COMPLETE'
+            $helper = Join-Path $env:TRAINING_RUN_ROOT 'source/training_downloader/cleanup_training.ps1'
+            if (-not (Test-Path -LiteralPath $helper -PathType Leaf)) {
+              Write-Host 'TRAINING_TEMP_CLEANUP=FAILED_REQUIRES_LOCAL_REVIEW'
+              Write-Host 'TRAINING_TEMP_CLEANUP_REASON=CLEANUP_HELPER_MISSING'
+              exit 2
+            }
+            & $helper
+            exit $LASTEXITCODE
           }
           catch {
             Write-Host 'TRAINING_TEMP_CLEANUP=FAILED_REQUIRES_LOCAL_REVIEW'
+            Write-Host 'TRAINING_TEMP_CLEANUP_REASON=CLEANUP_HELPER_START_FAILED'
             exit 2
           }
