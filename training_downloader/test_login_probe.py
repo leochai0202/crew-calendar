@@ -252,6 +252,103 @@ class SsoStateTests(unittest.TestCase):
         page.get_by_role.assert_not_called()
         page.locator.return_value.nth.return_value.fill.assert_not_called()
 
+    def sso_control(self, page, *, role="link", label="企业登录", visible=True,
+                    href="https://cas.9cair.com/login?service=site-provided",
+                    button_type="button", implicit_submit=False, count=1):
+        controls = self.locator(count)
+        control = controls.nth.return_value
+        control.is_visible.return_value = visible
+        control.get_attribute.side_effect = lambda name: href if name == "href" else button_type
+        control.evaluate.return_value = implicit_submit
+        page.get_by_role.side_effect = lambda requested_role, name: (
+            controls if requested_role == role and name.fullmatch(label) else self.locator(0))
+        return control
+
+    def test_fifth_run_visible_form_still_uses_unique_safe_sso_entry(self):
+        for role in ("link", "button"):
+            with self.subTest(role=role):
+                page = self.page("https://m.yidianzhishi.com/#!/login", form=True)
+                control = self.sso_control(page, role=role)
+                def finish(**kwargs):
+                    page.url = probe.COURSE
+                    page.locator.return_value.count.return_value = 0
+                    page.test_content[:] = [probe.TARGET]
+                control.click.side_effect = finish
+                report = {"cp_authenticated": True, "email_otp_received": True}
+                _, state = probe.open_course_through_site(page, Mock(pages=[page]), report)
+                self.assertTrue(state["course_content_visible"])
+                self.assertTrue(report["sso_handoff_attempted"])
+                self.assertEqual(report["sso_entry_source"], "VISIBLE_SITE_LOGIN_ENTRY")
+                self.assertNotIn("sso_entry_status", report)
+                control.click.assert_called_once_with(timeout=10_000)
+                page.locator.return_value.nth.return_value.fill.assert_not_called()
+                page.locator.return_value.nth.return_value.press.assert_not_called()
+                page.goto.assert_called_once_with(probe.COURSE, wait_until="domcontentloaded", timeout=60_000)
+
+    def test_visible_form_with_no_safe_unique_sso_reports_entry_not_found(self):
+        cases = [{"label": "登录"}, {"role": "button", "label": "登录"},
+                 {"role": "button", "label": "获取验证码"}, {"visible": False},
+                 {"href": "https://unrelated.invalid/sso"},
+                 {"href": "https://spring.yidianzhishi.com/logout"},
+                 {"count": 2}, {"count": 0},
+                 {"role": "button", "button_type": "submit"},
+                 {"role": "button", "button_type": None, "implicit_submit": True}]
+        for case in cases:
+            with self.subTest(case=case):
+                page = self.page("https://m.yidianzhishi.com/#!/login", form=True)
+                control = self.sso_control(page, **case)
+                report = {}
+                _, state = probe.open_course_through_site(page, Mock(pages=[page]), report)
+                self.assertTrue(state["login_form_visible"])
+                self.assertEqual(report["sso_entry_status"], "SSO_ENTRY_NOT_FOUND")
+                self.assertFalse(report["sso_handoff_attempted"])
+                control.click.assert_not_called()
+                page.locator.return_value.nth.return_value.fill.assert_not_called()
+                page.locator.return_value.nth.return_value.press.assert_not_called()
+
+    def test_no_entry_final_status_does_not_override_successful_cp_auth(self):
+        # Entire probe with synthetic auth/Playwright; no real login or mail IO.
+        for has_entry in (False, True):
+            with self.subTest(has_entry=has_entry), tempfile.TemporaryDirectory(
+                    dir=Path(probe.__file__).resolve().parent, prefix=".sso-offline-") as directory:
+                page = self.page("https://m.yidianzhishi.com/#!/login", form=True)
+                control = self.sso_control(page, count=int(has_entry))
+                context = Mock(pages=[page])
+                playwright = MagicMock()
+                playwright.chromium.launch_persistent_context.return_value = context
+                sync_api = types.ModuleType("playwright.sync_api")
+                sync_api.sync_playwright = MagicMock()
+                sync_api.sync_playwright.return_value.__enter__.return_value = playwright
+                auth, otp = MagicMock(), MagicMock()
+                auth.AuthStatus.AUTHENTICATED = "AUTHENTICATED"
+                auth.attempt_password_email_login.return_value.status = "AUTHENTICATED"
+                modules = {"password_email_auth": auth, "springair_email_otp": otp}
+                with patch.object(probe, "preflight", return_value={"status": "READY", "login_attempted": False}), \
+                        patch.object(probe, "RUNTIME", Path(directory)), \
+                        patch.object(probe.importlib, "import_module", side_effect=modules.__getitem__), \
+                        patch.dict(probe.sys.modules, {"playwright.sync_api": sync_api}), \
+                        patch.object(probe.sys, "path", list(probe.sys.path)), \
+                        patch.object(probe.sys, "dont_write_bytecode", True), \
+                        patch.dict(probe.os.environ, {}, clear=True):
+                    result = probe.run_probe()
+                self.assertTrue(result["cp_authenticated"], result)
+                self.assertEqual(result["status"], "SSO_REAUTH_REQUIRED" if has_entry else "SSO_ENTRY_NOT_FOUND")
+                self.assertEqual(result["course_access"], "NOT_CONFIRMED")
+                self.assertEqual(result["sso_handoff_attempted"], has_entry)
+                self.assertEqual(control.click.call_count, int(has_entry))
+                auth.attempt_password_email_login.assert_called_once()
+                otp.SpringAirEmailOtpReader.from_environment.return_value.connect.assert_not_called()
+                context.close.assert_called_once()
+                page.locator.return_value.nth.return_value.fill.assert_not_called()
+
+    def test_visible_form_does_not_override_permission_denial(self):
+        page = self.page("https://m.yidianzhishi.com/#!/login", ["无权访问"], form=True)
+        report = {}
+        _, state = probe.open_course_through_site(page, Mock(pages=[page]), report)
+        self.assertTrue(state["access_denied"])
+        page.get_by_role.assert_not_called()
+        self.assertNotIn("sso_entry_status", report)
+
     def test_unique_real_site_link_is_clicked_once_without_constructing_url(self):
         page = self.page("https://m.yidianzhishi.com/#!/login", ["请先登录"])
         link = self.locator(1)

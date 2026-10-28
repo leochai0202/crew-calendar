@@ -234,20 +234,23 @@ def wait_for_course_state(page, context, known_pages, diagnostics, *, timeout_ms
     return active, observed
 
 
-def visible_site_login_entry(page):
+def visible_site_login_entry(page, *, sso_only=False):
     """Select one real site's login control. Never construct a service/callback URL."""
     if domain_category(page.url) not in {"TRAINING_MOBILE", "TRAINING_TENANT"}:
         return None
     matches = []
     for role in ("link", "button"):
         # A generic "登录" submit button could start another credential/OTP flow.
-        controls = page.get_by_role(role, name=LOGIN_ENTRY_NAME if role == "link" else SSO_BUTTON_NAME)
+        controls = page.get_by_role(role, name=LOGIN_ENTRY_NAME if role == "link" and not sso_only else SSO_BUTTON_NAME)
         for index in range(controls.count()):
             control = controls.nth(index)
             if not control.is_visible():
                 continue
             if role == "button" and control.get_attribute("type") == "submit":
                 continue
+            if role == "button" and control.evaluate(
+                    "element => element.tagName === 'BUTTON' && element.type === 'submit' && element.form !== null"):
+                continue  # A button inside a form defaults to submit without a type attribute.
             if role == "link":
                 href = control.get_attribute("href") or ""
                 # A regular app link or JS click handler is used as rendered;
@@ -273,13 +276,17 @@ def open_course_through_site(page, context, report):
         diagnostics.record("COURSE_OPEN", "TRAINING_MOBILE")
         page.goto(COURSE, wait_until="domcontentloaded", timeout=60_000)
         active, state = wait_for_course_state(page, context, known_pages, diagnostics)
-        if state and not (state["course_content_visible"] or state["access_denied"] or state["login_form_visible"]):
-            entry = visible_site_login_entry(active)
+        if state and not (state["course_content_visible"] or state["access_denied"]):
+            # A credential form may sit beside the enterprise SSO control.
+            # In that case inspect only explicit SSO controls, never generic login.
+            entry = visible_site_login_entry(active, sso_only=state["login_form_visible"])
             if entry is not None:
                 diagnostics.record("SITE_LOGIN_ENTRY_CLICK", state["domain_category"], login_visible=state["login_page_visible"])
                 report.update(sso_handoff_attempted=True, sso_entry_source="VISIBLE_SITE_LOGIN_ENTRY")
                 entry.click(timeout=10_000)  # One site login action, never an OTP request.
                 active, state = wait_for_course_state(page, context, known_pages, diagnostics)
+            elif state["login_required"] and state["domain_category"] in {"TRAINING_MOBILE", "TRAINING_TENANT"}:
+                report["sso_entry_status"] = "SSO_ENTRY_NOT_FOUND"
         # A site callback may end at its home page. Return once only after it has
         # settled on a training page without visible login UI or a callback path.
         if state and not (state["course_content_visible"] or state["login_required"] or state["access_denied"]):
@@ -445,7 +452,9 @@ def run_probe(*, headed: bool = False) -> dict:
                     if seen["access_denied"]:
                         report.update(status="PERMISSION_DENIED", course_access="DENIED")
                     elif seen["login_required"]:
-                        report.update(status="SSO_REAUTH_REQUIRED", course_access="NOT_CONFIRMED")
+                        report.update(status=("SSO_ENTRY_NOT_FOUND"
+                            if report.get("sso_entry_status") == "SSO_ENTRY_NOT_FOUND" else "SSO_REAUTH_REQUIRED"),
+                            course_access="NOT_CONFIRMED")
                     elif seen["course_content_visible"]:
                         report.update(status="COURSE_TARGET_VISIBLE_INSPECTION_REQUIRED",
                                       course_access="TARGET_LIST_VISIBLE")
