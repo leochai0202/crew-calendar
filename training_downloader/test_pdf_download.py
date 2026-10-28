@@ -1,5 +1,6 @@
 """Synthetic PDFs, browser events and ephemeral keys only; no login/network."""
 import io
+import os
 from pathlib import Path
 import tempfile
 import unittest
@@ -162,6 +163,47 @@ class SiteDownloadTests(unittest.TestCase):
                 page.frames[0].evaluate.assert_not_called()
                 context.request.get.assert_not_called()
                 self.assertNotIn("https://", str(report))
+
+    def test_capture_without_download_button_encrypts_valid_pdf(self):
+        import page_capture
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {
+                'TRAINING_CAPTURE_MODE': '1', 'TRAINING_CAPTURE_ALLOWED': '1'}):
+            page, context, title, button, saved, response = self.fixture(allowed=False)
+            destination = Path(directory) / 'capture'
+            def capture(viewers, output, raw):
+                raw.write_bytes(self.pdf)
+                return {**validation.validate_pdf(raw), 'captured_pages': 29}
+            with patch.object(download, 'recipient', return_value=self.key.public_key()), \
+                    patch.object(page_capture, 'identify_reader', side_effect=[
+                        page_capture.CaptureFailure(1, 'READER_TOTAL_UNCONFIRMED'), None]), \
+                    patch.object(page_capture, 'capture_reader_pdf', side_effect=capture):
+                result = download.download_target_pdf(page, context, destination, 'target.pdf')
+            self.assertEqual(result['status'], 'PDF_CAPTURED_ENCRYPTED')
+            self.assertEqual(result['captured_pages'], 29)
+            self.assertFalse(result['delivery_completed'])
+            self.assertTrue((destination / 'training-pdf.enc').is_file())
+            self.assertFalse((destination / 'target.pdf').exists())
+            title.click.assert_called_once()
+            button.click.assert_not_called()
+            response.body.assert_not_called()
+            context.request.get.assert_not_called()
+            page.wait_for_timeout.assert_called_once_with(500)
+
+    def test_failed_capture_reports_page_and_never_delivers_partial_pdf(self):
+        import page_capture
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {
+                'TRAINING_CAPTURE_MODE': '1', 'TRAINING_CAPTURE_ALLOWED': '1'}):
+            page, context, *_ = self.fixture(allowed=False)
+            destination = Path(directory) / 'capture'
+            with patch.object(download, 'recipient', return_value=self.key.public_key()), \
+                    patch.object(page_capture, 'identify_reader'), \
+                    patch.object(page_capture, 'capture_reader_pdf', side_effect=page_capture.CaptureFailure(17, 'PAGE_NOT_RENDERED')):
+                result = download.download_target_pdf(page, context, destination, 'target.pdf')
+            self.assertEqual(result['status'], 'PAGE_CAPTURE_FAILED')
+            self.assertEqual(result['failed_page'], 17)
+            self.assertEqual(result['capture_failure_reason'], 'PAGE_NOT_RENDERED')
+            self.assertFalse((destination / 'training-pdf.enc').exists())
+            self.assertFalse((destination / 'target.pdf').exists())
 
     def test_restrictions_disabled_ambiguous_and_absent_controls_stop(self):
         for options, expected in (({"restriction": True}, "SITE_DOWNLOAD_PROHIBITED"),

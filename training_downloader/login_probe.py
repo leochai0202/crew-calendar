@@ -456,6 +456,9 @@ def run_probe(*, headed: bool = False) -> dict:
     report = preflight()
     if report["status"] != "READY":
         return report
+    if os.environ.get('TRAINING_CAPTURE_MODE') == '1' and os.environ.get('TRAINING_CAPTURE_ALLOWED') != '1':
+        report.update(status='CAPTURE_PERMISSION_NOT_CONFIRMED')
+        return report
     report.update(status="NOT_VERIFIED", cp_authenticated=False, enterprise_session_established=False,
                   course_access="NOT_TESTED", pdf_29_pages_confirmed=False,
                   course_title_confirmed=False, module_list_confirmed=False)
@@ -527,7 +530,7 @@ def run_probe(*, headed: bool = False) -> dict:
                                       course_access="TARGET_LIST_VISIBLE")
                         phase = "PDF_DOWNLOAD_ERROR"
                         report.update(download_target_pdf(page, context, run_dir / "download", TARGET))
-                        if report["status"] == "PDF_DOWNLOADED_ENCRYPTED" and os.environ.get("GITHUB_OUTPUT"):
+                        if report["status"] in {"PDF_DOWNLOADED_ENCRYPTED", "PDF_CAPTURED_ENCRYPTED"} and os.environ.get("GITHUB_OUTPUT"):
                             with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
                                 output.write("encrypted_package=" + str(run_dir / "download/training-pdf.enc") + "\n")
                     else:
@@ -562,7 +565,7 @@ def main() -> int:
     except Exception:
         report = {"status": "PREFLIGHT_ERROR", "login_attempted": False}
     print(json.dumps(report, ensure_ascii=False, indent=2))
-    return 0 if report["status"] in {"READY", "PDF_DOWNLOADED_ENCRYPTED"} else 2
+    return 0 if report["status"] in {"READY", "PDF_DOWNLOADED_ENCRYPTED", "PDF_CAPTURED_ENCRYPTED"} else 2
 
 
 if __name__ == "__main__":

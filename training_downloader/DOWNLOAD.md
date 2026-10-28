@@ -1,18 +1,22 @@
-# 单份 PDF 下载与私人交付
+# 29 页截图 PDF 与私人交付
 
-现有独立手动工作流仍只接受一次登录，复用原 CP 邮箱认证、企业 SSO 和目标学习任务定位。不会因发布代码自动运行。本次只下载已指定的模拟机复训 PDF。
+现有独立手动工作流仍只接受一次登录，复用原 CP 邮箱认证、企业 SSO 和目标学习任务定位。不会因发布代码自动运行。本次手动工作流采用 **29 张完整页面截图 → 图片型 PDF → 加密 Artifact**。所得文件是保留可见水印的图片型副本，不是网站原始 PDF。
 
-## 下载与限制
+## 截图与限制
 
-点击实际目标文件名后，等待页面或其阅读器框架出现唯一、可见且可用的下载/保存/导出 PDF 控件，点击一次。接收正常 Playwright download 事件；如果正常保存操作返回内联完整 PDF，则接收该次页面导航响应。网站直接通过点击课件触发的正常下载也可接收。
+人工触发前必须确认平台允许保存本课件并勾选 `confirm_platform_allows_capture`；默认 false，只有查看权限不能代替保存许可。缺少确认时工作流不会登录。页面明确禁止截图、复制或保存时仍停止，不规避截屏保护、DRM 或复制限制。
 
-不读取 PDF.js 缓存，不调用 getData/打印，不枚举隐藏地址，不猜下载 API，不重建 Range 分片，不复制 Cookie/Token，不绕过禁用按钮、DRM 或明确下载限制。没有可识别的正常保存方式时停止。
+点击现有实际目标文件名后，寻找唯一的正常阅读页面（带 `data-page-number` 的 PDF.js/React PDF 页面容器），通过可见总页数或完整 1–29 页编号确认范围。使用阅读器正常页码输入、滚动及可见的“适合页面”缩放选项。不能识别页面结构时明确停止，不猜测内部 API。
 
-文件必须存在，包含 `%PDF-` 文件头及完整 EOF，以严格模式解析成功、无加密限制、准确 29 页，并能由独立渲染器逐页渲染。网页 PDF.js 页数不参与下载准入判断。
+按 1–29 顺序等待页面加载，检查页面、画布/图片及 iframe 边界，确认没有裁切或遮挡；连续三次截图稳定后保存整页元素截图。截图不含阅读器工具栏，不去除水印；拒绝低分辨率、空白、重复或缺失页。某页失败即报告 `failed_page` 和固定原因码，绝不补空白页。保守检测可能拒绝内容近似的页面或动态水印持续变化的页面；不会把这种情况宣称成功。
+
+只使用正常浏览器截图，不读取 PDF.js 缓存、canvas 像素或隐藏 PDF 数据，不调用 getData/打印，不猜下载 API，不修改保护样式。截图仅写入当次隔离临时目录，按原始比例合成 29 页图片型 PDF，随后删除截图。任何截图清理失败都会阻止交付；原有安全清理流程仍会检查并处理当次隔离目录。
+
+文件必须存在，包含 `%PDF-` 文件头及完整 EOF，以严格模式解析成功、准确 29 页，并能由独立渲染器逐页渲染。既有正常下载实现保留，但本工作流不再依赖下载按钮。
 
 ## 私人交付
 
-公开仓库中**只上传加密包**。每次使用新的 AES-256-GCM 密钥加密原始 PDF，以本机收件人的 RSA-4096 公钥通过 OAEP-SHA256 包装密钥。加密文件写入后回读验证；随后删除临时明文。独立工作流只上传该次输出的准确 `.enc` 文件，保存 7 天，不上传 Profile、日志、trace、私钥或未加密 PDF。
+公开仓库中**只上传加密包**。每次使用新的 AES-256-GCM 密钥加密合成 PDF，以本机收件人的 RSA-4096 公钥通过 OAEP-SHA256 包装密钥。加密文件写入后回读验证；随后删除临时明文。独立工作流只上传该次输出的准确 `.enc` 文件，保存 7 天，不上传截图、Profile、日志、trace、私钥或未加密 PDF。
 
 收件公钥为 `training_downloader/recipient_public.pem`。配套私钥已在本机创建于 `training_downloader/.runtime/private-delivery/recipient-private.pem`，目录 ACL 仅允许当前 Windows 用户和 SYSTEM；私钥受 Git ignore 排除，未提交 GitHub。请在本机安全保管该私钥；丢失后无法解密已有交付包。不要把私钥贴到日志、聊天或仓库。
 
@@ -33,6 +37,9 @@ python -m pip install --target training_downloader/.runtime/download-deps -r tra
 
 ## 状态说明
 
+- `PDF_CAPTURED_ENCRYPTED`：完整 29 页截图已合成、逐页验证并加密，仍需上传成功和本机解密。
+- `PAGE_CAPTURE_FAILED`：`failed_page` 指出失败页码；`capture_failure_reason` 区分未加载、裁切、空白或保护、重复、页码变化、结构不支持等。不会交付不完整 PDF。
+- `CAPTURE_PERMISSION_NOT_CONFIRMED`：尚未确认平台允许截图保存，登录前停止。
 - `PDF_DOWNLOADED_ENCRYPTED`：已下载、校验并加密；尚不代表用户已经取得文件，`delivery_completed` 保持 false。
 - Actions 的 `ENCRYPTED_ARTIFACT_AVAILABLE; LOCAL_DECRYPTION_REQUIRED`：加密包上传成功，还需本机解密。
 - `SITE_DOWNLOAD_PROHIBITED` / `SITE_DOWNLOAD_DISABLED`：页面明确限制或禁用下载，停止。

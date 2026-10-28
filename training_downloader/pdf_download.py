@@ -1,5 +1,6 @@
-"""Save only a site-offered download in the existing authenticated context."""
+"""Save a site download or explicitly permitted visible-page captures."""
 import re
+import os
 from pathlib import Path
 
 from pdf_validation import PdfValidationError, validate_pdf
@@ -14,6 +15,9 @@ def prepare_download():
     import pymupdf
     import pypdf
     recipient()
+    if os.environ.get('TRAINING_CAPTURE_MODE') == '1':
+        from page_capture import require_permission
+        require_permission()
 
 
 def inspect_controls(viewers):
@@ -95,6 +99,33 @@ def download_target_pdf(page, context, output_dir, target):
         context.on("page", watch)
         visible[0].click(timeout=10_000)
         report["target_pdf_name_confirmed"] = True
+        if os.environ.get('TRAINING_CAPTURE_MODE') == '1':
+            from page_capture import CaptureFailure, capture_reader_pdf, identify_reader, check_restrictions
+            try:
+                # Wait for the actual reader DOM after the already-successful
+                # target-title click. No download control or hidden API is used.
+                for attempt in range(30):
+                    viewers = [candidate for candidate in context.pages if candidate not in previous_pages] or [page]
+                    check_restrictions([page, *viewers], 1)
+                    try:
+                        identify_reader(viewers)
+                        break
+                    except CaptureFailure as exc:
+                        if exc.reason not in {'READER_PAGE_STRUCTURE_UNSUPPORTED',
+                                              'READER_TOTAL_UNCONFIRMED', 'READER_TOTAL_NOT_29'} or attempt == 29:
+                            raise
+                        page.wait_for_timeout(500)
+                report.update(capture_reader_pdf(viewers, output_dir, raw))
+                report['pdf_29_pages_confirmed'] = True
+                report.update(encrypt_pdf(raw, encrypted, key))
+                raw.unlink()
+                report.update(status='PDF_CAPTURED_ENCRYPTED', download_channel='VISIBLE_PAGE_SCREENSHOTS')
+                return report
+            except CaptureFailure as exc:
+                report.update(status='PAGE_CAPTURE_FAILED', failed_page=exc.page, capture_failure_reason=exc.reason)
+                if getattr(exc, 'cleanup_failed', False):
+                    report['screenshot_cleanup_failed'] = True
+                return report
         control, obstacle = None, "DOWNLOAD_CONTROL_NOT_FOUND"
         for _ in range(30):
             viewers = [candidate for candidate in context.pages if candidate not in previous_pages] or [page]
@@ -163,7 +194,7 @@ def download_target_pdf(page, context, output_dir, target):
                 candidate.remove_listener("response", responded)
             except Exception:
                 pass
-        if report["status"] != "PDF_DOWNLOADED_ENCRYPTED":
+        if report["status"] not in {"PDF_DOWNLOADED_ENCRYPTED", "PDF_CAPTURED_ENCRYPTED"}:
             for download in downloads:
                 try:
                     download.cancel()

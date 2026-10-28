@@ -8,6 +8,11 @@ on:
         type: boolean
         required: true
         default: false
+      confirm_platform_allows_capture:
+        description: '已确认平台允许将本课件截图保存；仅有查看权限不能勾选'
+        type: boolean
+        required: true
+        default: false
 
 permissions:
   contents: read
@@ -25,9 +30,9 @@ jobs:
     if: >-
       ${{ github.event_name == 'workflow_dispatch' &&
           github.repository == 'leochai0202/crew-calendar' &&
-          github.ref == 'refs/heads/main' && inputs.confirm_single_email }}
+          github.ref == 'refs/heads/main' && inputs.confirm_single_email && inputs.confirm_platform_allows_capture }}
     runs-on: [self-hosted, Windows, X64, crew-calendar]
-    timeout-minutes: 12
+    timeout-minutes: 20
     defaults:
       run:
         shell: pwsh
@@ -64,6 +69,7 @@ jobs:
               'training_downloader/pdf_download.py', 'training_downloader/pdf_validation.py',
               'training_downloader/private_delivery.py', 'training_downloader/recipient_public.pem',
               'training_downloader/test_pdf_download.py', 'training_downloader/download-requirements.txt',
+              'training_downloader/page_capture.py', 'training_downloader/test_page_capture.py',
               '.github/workflows/training-login-check.yml'
             )
             $handler = [Net.Http.HttpClientHandler]::new()
@@ -133,9 +139,9 @@ jobs:
           python -B training_downloader/workflow_guard.py
           exit $LASTEXITCODE
 
-      - name: Download the target PDF through the authenticated site and encrypt it
+      - name: Capture all 29 permitted reader pages and encrypt the assembled PDF
         id: pdf_attempt
-        timeout-minutes: 6
+        timeout-minutes: 12
         env:
           CREW_USERNAME: ${{ secrets.CREW_USERNAME }}
           CREW_PASSWORD: ${{ secrets.CREW_PASSWORD }}
@@ -143,6 +149,8 @@ jobs:
           IMAP_AUTH_CODE: ${{ secrets.IMAP_AUTH_CODE }}
           TRAINING_API_TOKEN: ${{ github.token }}
           TRAINING_REQUIRE_GUARD: '1'
+          TRAINING_CAPTURE_MODE: '1'
+          TRAINING_CAPTURE_ALLOWED: ${{ inputs.confirm_platform_allows_capture && '1' || '0' }}
         run: |
           $ErrorActionPreference = 'Stop'
           Set-Location -LiteralPath (Join-Path $env:TRAINING_RUN_ROOT 'source')

@@ -23,6 +23,17 @@ class PresenceOnly(dict):
 
 
 class LoginProbeSafetyTests(unittest.TestCase):
+    def test_missing_capture_permission_stops_before_auth_and_profile(self):
+        with patch.dict(os.environ, {'TRAINING_CAPTURE_MODE': '1', 'TRAINING_CAPTURE_ALLOWED': '0'}), \
+                patch.object(probe, 'preflight', return_value={'status': 'READY', 'login_attempted': False}), \
+                patch.object(probe.importlib, 'import_module') as importer, \
+                patch.object(probe.Path, 'mkdir') as mkdir:
+            result = probe.run_probe()
+        self.assertEqual(result['status'], 'CAPTURE_PERMISSION_NOT_CONFIRMED')
+        self.assertFalse(result['login_attempted'])
+        importer.assert_not_called()
+        mkdir.assert_not_called()
+
     def test_download_delivery_failure_stops_before_auth_or_browser(self):
         downloader = types.ModuleType("pdf_download")
         downloader.prepare_download = Mock(side_effect=RuntimeError("synthetic-private"))
