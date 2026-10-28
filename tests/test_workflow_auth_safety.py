@@ -32,6 +32,32 @@ def _assert_training_cleanup_safety(helper: str) -> None:
     assert helper.index("$plan = Get-TrainingCleanupPlan") < helper.index("Remove-Item -LiteralPath")
 
 
+def _assert_training_cleanup_workflow_safety(workflow: str, cleanup_helper: str | None) -> None:
+    if "'training_downloader/cleanup_training.ps1'" in workflow:
+        assert cleanup_helper is not None
+        for required in (
+            "& $helper", "CLEANUP_PATH_INVALID", "CLEANUP_HELPER_MISSING",
+            "CLEANUP_HELPER_START_FAILED", "(Split-Path -Parent $runRoot) -ne $tempBase",
+            "(Split-Path -Leaf $runRoot) -notmatch $namePattern",
+            "& ./training_downloader/test_cleanup_training.ps1",
+        ):
+            assert required in workflow
+        if "TRAINING_CLEANUP_HELPER" in workflow:
+            for required in (
+                "$expectedHelper = Join-Path $tempBase",
+                "[IO.Path]::GetFullPath($env:TRAINING_CLEANUP_HELPER) -ne $expectedHelper",
+                "CLEANUP_HELPER_PATH_INVALID", "$helper = $expectedHelper",
+                "(Get-Item -LiteralPath $helper -Force).Attributes -band [IO.FileAttributes]::ReparsePoint",
+            ):
+                assert required in workflow
+        else:
+            assert "source/training_downloader/cleanup_training.ps1" in workflow
+        _assert_training_cleanup_safety(cleanup_helper)
+    else:
+        assert "UNSAFE_CLEANUP_PATH" in workflow
+        assert "CLEANUP_REPARSE_POINT_REFUSED" in workflow
+
+
 def _assert_training_login_workflow_safety(workflow: str, cleanup_helper: str | None = None) -> None:
     assert workflow.splitlines()[0] == "name: 一点知识独立登录检查"
     triggers = workflow.split("\non:\n", 1)[1].split("\npermissions:", 1)[0]
@@ -65,20 +91,7 @@ def _assert_training_login_workflow_safety(workflow: str, cleanup_helper: str | 
         "if: ${{ always() && env.TRAINING_RUN_ROOT != '' }}",
     ):
         assert required in workflow
-    if "source/training_downloader/cleanup_training.ps1" in workflow:
-        assert cleanup_helper is not None
-        for required in (
-            "'training_downloader/cleanup_training.ps1'", "& $helper",
-            "CLEANUP_PATH_INVALID", "CLEANUP_HELPER_MISSING", "CLEANUP_HELPER_START_FAILED",
-            "(Split-Path -Parent $runRoot) -ne $tempBase",
-            "(Split-Path -Leaf $runRoot) -notmatch $namePattern",
-            "& ./training_downloader/test_cleanup_training.ps1",
-        ):
-            assert required in workflow
-        _assert_training_cleanup_safety(cleanup_helper)
-    else:
-        assert "UNSAFE_CLEANUP_PATH" in workflow
-        assert "CLEANUP_REPARSE_POINT_REFUSED" in workflow
+    _assert_training_cleanup_workflow_safety(workflow, cleanup_helper)
     assert workflow.count("python -B training_downloader/workflow_guard.py") == 1
     assert workflow.count("python -B training_downloader/login_probe.py --run") == 1
     assert workflow.index("python -B -m unittest") < workflow.index(
@@ -119,6 +132,59 @@ def _assert_workflow_inventory(workflows: Path) -> None:
 
 def test_actions_has_only_required_and_approved_named_workflows() -> None:
     _assert_workflow_inventory(WORKFLOWS)
+
+
+@pytest.fixture
+def external_training_cleanup_wrapper() -> str:
+    # The helper is staged outside the source tree in newer main revisions.
+    return "\n".join((
+        "'training_downloader/cleanup_training.ps1'", "& $helper",
+        "CLEANUP_PATH_INVALID", "CLEANUP_HELPER_MISSING", "CLEANUP_HELPER_START_FAILED",
+        "(Split-Path -Parent $runRoot) -ne $tempBase",
+        "(Split-Path -Leaf $runRoot) -notmatch $namePattern",
+        "& ./training_downloader/test_cleanup_training.ps1",
+        "$expectedHelper = Join-Path $tempBase",
+        "[IO.Path]::GetFullPath($env:TRAINING_CLEANUP_HELPER) -ne $expectedHelper",
+        "CLEANUP_HELPER_PATH_INVALID", "$helper = $expectedHelper",
+        "(Get-Item -LiteralPath $helper -Force).Attributes -band [IO.FileAttributes]::ReparsePoint",
+    ))
+
+
+def test_external_training_cleanup_delegates_to_helper_validation(
+    monkeypatch: pytest.MonkeyPatch, external_training_cleanup_wrapper: str,
+) -> None:
+    checked = []
+    monkeypatch.setitem(globals(), "_assert_training_cleanup_safety", checked.append)
+    _assert_training_cleanup_workflow_safety(external_training_cleanup_wrapper, "helper source")
+    assert checked == ["helper source"]
+
+
+@pytest.mark.parametrize("missing", [
+    "& $helper", "CLEANUP_PATH_INVALID", "CLEANUP_HELPER_MISSING", "CLEANUP_HELPER_START_FAILED",
+    "(Split-Path -Parent $runRoot) -ne $tempBase",
+    "(Split-Path -Leaf $runRoot) -notmatch $namePattern",
+    "& ./training_downloader/test_cleanup_training.ps1",
+    "$expectedHelper = Join-Path $tempBase",
+    "[IO.Path]::GetFullPath($env:TRAINING_CLEANUP_HELPER) -ne $expectedHelper",
+    "CLEANUP_HELPER_PATH_INVALID", "$helper = $expectedHelper",
+    "(Get-Item -LiteralPath $helper -Force).Attributes -band [IO.FileAttributes]::ReparsePoint",
+])
+def test_external_training_cleanup_rejects_removed_wrapper_guard(
+    monkeypatch: pytest.MonkeyPatch, external_training_cleanup_wrapper: str, missing: str,
+) -> None:
+    monkeypatch.setitem(globals(), "_assert_training_cleanup_safety", lambda helper: None)
+    with pytest.raises(AssertionError):
+        _assert_training_cleanup_workflow_safety(
+            external_training_cleanup_wrapper.replace(missing, "REMOVED"), "invalid helper",
+        )
+
+
+@pytest.mark.parametrize("helper", [None, "invalid helper"])
+def test_external_training_cleanup_requires_valid_helper(
+    external_training_cleanup_wrapper: str, helper: str | None,
+) -> None:
+    with pytest.raises(AssertionError):
+        _assert_training_cleanup_workflow_safety(external_training_cleanup_wrapper, helper)
 
 
 @pytest.mark.parametrize("unexpected", ["unreviewed.yml", "unreviewed.yaml"])
