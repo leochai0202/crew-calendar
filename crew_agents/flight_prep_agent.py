@@ -6,7 +6,7 @@ import json
 import re
 import sys
 import traceback
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, field, replace
 from datetime import date, datetime, timedelta, timezone
 from difflib import SequenceMatcher
 from functools import lru_cache
@@ -199,6 +199,7 @@ class BilingualFact:
     english_source_page: str = "N/A"
     english_source_record_id: str = ""
     language: str = "zh"
+    translation_provenance: dict = field(default_factory=dict)
 
     # Compatibility aliases keep the rendering code and older tests readable while
     # the structured names above make provenance explicit.
@@ -4890,10 +4891,64 @@ def operation_subsection_importance(text: str) -> int:
 USER_CONFIRMED_AIRPORT_FACTS_FILE = "config/user_confirmed_airport_facts.json"
 AIRPORT_ENGLISH_NAMES_FILE = "config/airport_english_names.json"
 FLIGHT_PREP_ENGLISH_OVERRIDES_FILE = "config/flight_prep_english_overrides.json"
+CHINESE_TRANSLATIONS_FILE = "config/flight_prep_chinese_translations.json"
 
 
 def source_text_hash(value: str) -> str:
     return hashlib.sha256(normalize_text(value).encode("utf-8")).hexdigest()
+
+
+def load_chinese_translation_reviews(repo: Path) -> list[dict]:
+    """Reviewed translations are data bound to both immutable source texts.
+
+    No network translator, generic template or inferred operational data is used.
+    A new/unreviewed source remains subject to the existing fail-safe gates.
+    """
+    config = load_json(repo / CHINESE_TRANSLATIONS_FILE, None)
+    if config is None:
+        return []
+    if not isinstance(config, dict) or config.get("schema_version") != 1 or not isinstance(config.get("translations"), list):
+        raise ValueError("中文权威翻译配置无效")
+    entries, seen = [], set()
+    for entry in config["translations"]:
+        required = ("manual_version", "icao", "source_record_id", "source_text_zh", "original_text_en",
+                    "source_text_hash", "original_english_hash", "source_page_zh", "source_page_en",
+                    "english_source_record_id", "text_en", "review_note", "reviewed_by", "reviewed_date")
+        if not isinstance(entry, dict) or any(not str(entry.get(key) or "").strip() for key in required):
+            raise ValueError("中文权威翻译缺少原文或审核来源")
+        if (not re.fullmatch(r"[A-Z]{4}", entry["icao"])
+                or source_text_hash(entry["source_text_zh"]) != entry["source_text_hash"]
+                or source_text_hash(entry["original_text_en"]) != entry["original_english_hash"]
+                or any(not re.fullmatch(r"\d+(?:[-,]\d+)*", str(entry[key]))
+                       for key in ("source_page_zh", "source_page_en"))):
+            raise ValueError("中文权威翻译来源身份无效")
+        date.fromisoformat(entry["reviewed_date"])
+        identity = (str(entry["manual_version"]), entry["icao"], entry["english_source_record_id"])
+        if identity in seen:
+            raise ValueError("中文权威翻译身份重复")
+        seen.add(identity)
+        entries.append(dict(entry))
+    return entries
+
+
+def bind_chinese_translation_reviews(records: list[dict], icao: str, reviews: list[dict]) -> None:
+    """Only bind when the current manual still contains BOTH reviewed originals."""
+    for english in records:
+        if english.get("language") != "en":
+            continue
+        for review in reviews:
+            if (review["icao"] != icao or str(review["manual_version"]) != str(english.get("source_version"))
+                    or review["english_source_record_id"] != english.get("source_record_id")
+                    or review["original_english_hash"] != source_text_hash(str(english.get("source_original_text_en") or ""))
+                    or str(review["source_page_en"]) != str(english.get("source_page"))):
+                continue
+            matches = [record for record in records if record.get("language") != "en"
+                       and record.get("source_record_id") == review["source_record_id"]
+                       and str(record.get("source_version")) == str(review["manual_version"])
+                       and str(record.get("source_page")) == str(review["source_page_zh"])
+                       and source_text_hash(str(record.get("source_original_text") or record.get("text_zh") or "")) == review["source_text_hash"]]
+            if len(matches) == 1:
+                english["chinese_translation_review"] = dict(review)
 
 
 def load_airport_name_registry(repo: Path) -> dict[str, dict[str, object]]:
@@ -5127,6 +5182,7 @@ def airport_risks(
     supplements = load_json(repo / "config" / "airport_supplements.json", {}) or {}
     user_confirmed = load_user_confirmed_airport_records(repo)
     english_overrides = load_flight_prep_english_overrides(repo)
+    chinese_translations = load_chinese_translation_reviews(repo)
     manual_data, manual_source, manual_ver, manual_type, source_warnings = manual_airport_data(
         repo / "knowledge", airports, icao_map, max_items=max_items
     )
@@ -5619,6 +5675,7 @@ def airport_risks(
                 "source_heading": str(manual.get("english_airport_name") or "") + " / " + icao_map.get(airport, ""),
                 "source_section": "English / " + str(english_record["category"]) + " / " + str(english_record["operational_phase"]),
                 "english_airport_name": str(manual.get("english_airport_name") or "")})
+        bind_chinese_translation_reviews(records, icao_map.get(airport, ""), chinese_translations)
         source_records[airport] = records
 
         # Authority policy: once the latest manual chapter is matched, only that
@@ -11694,6 +11751,7 @@ def english_source_route_scope(record: dict, heading_aliases: dict[str, str] | N
 def english_briefing_fact_sets(
     event: CalendarEvent | DutyContext, target: date, source_records: dict[str, list[dict]],
     exclusion_log: list[dict] | None = None,
+    chinese_facts: list[BilingualFact] | None = None,
 ) -> tuple[dict[str, list[BilingualFact]], dict[str, list[BilingualFact]], list[BilingualFact]]:
     """Select English records directly, never from the selected Chinese IDs."""
     typical, core = {}, {}
@@ -11720,6 +11778,33 @@ def english_briefing_fact_sets(
                 source_sequence=int(record["source_sequence"]), english_source_record_id=identity,
                 english_source_page=str(record["source_page"]), airport_name_en=str(record["english_airport_name"]),
                 route_scope=english_source_route_scope(record))
+            review = record.get("chinese_translation_review")
+            if review:
+                matches = [chinese for chinese in chinese_facts or []
+                           if chinese.airport == airport and review["source_record_id"] in chinese.source_record_ids
+                           and source_text_hash(chinese.source_text_zh) == review["source_text_hash"]]
+                if not matches:
+                    # Chinese PRIMARY SOURCE, not Chinese SELECTED IDs. Keep
+                    # independent English applicability and do not drop an
+                    # applicable requirement merely due to another selection.
+                    matches = [chinese for chinese in source_record_facts(airport, source_records.get(airport, []), category=category)
+                               if review["source_record_id"] in chinese.source_record_ids
+                               and source_text_hash(chinese.source_text_zh) == review["source_text_hash"]]
+                if len(matches) == 1 and normalize_text(matches[0].zh) == normalize_text(SOURCE_HEADING_RE.sub("", review["source_text_zh"])):
+                    chinese = matches[0]
+                    fact = replace(fact, text_zh=chinese.zh, text_en=str(review["text_en"]),
+                        source_text_zh=chinese.source_text_zh, source_page=chinese.source_page,
+                        source_heading=chinese.source_heading, source_section=chinese.source_section,
+                        source_clauses=chinese.source_clauses, source_original_texts=chinese.source_original_texts,
+                        source_record_ids=chinese.source_record_ids,
+                        route_scope=chinese.route_scope, operational_phase=chinese.operational_phase,
+                        condition_scope=chinese.condition_scope, season_scope=chinese.season_scope,
+                        flight_scope=chinese.flight_scope,
+                        english_source_authority="latest_airport_manual_chinese",
+                        english_source_note=str(review["review_note"]),
+                        english_source="translated_from_chinese", translation_provenance=dict(review))
+                    text, phase, scope = fact.en, fact.operational_phase, fact.role_scope
+                # A partial/ambiguous Chinese selection cannot authorize a full translation.
             reason = ""
             if (category == "core" and standalone_airport_elevation(text)
                     and not has_sourced_highland_classification(source_records.get(airport, []), airport)):
@@ -11764,6 +11849,46 @@ def english_briefing_fact_sets(
     return typical, core, [fact for airport in event.route for fact in [*typical[airport], *core[airport]]]
 
 
+def validate_chinese_translation(fact: BilingualFact) -> list[str]:
+    review = fact.translation_provenance
+    if (not review or fact.english_source != "translated_from_chinese"
+            or review.get("text_en") != fact.en
+            or review.get("source_text_zh") != fact.source_text_zh
+            or review.get("original_text_en") != fact.source_text_en
+            or str(review.get("manual_version")) != fact.source_version
+            or str(review.get("source_page_zh")) != fact.source_page
+            or str(review.get("source_page_en")) != fact.english_source_page
+            or review.get("english_source_record_id") != fact.english_source_record_id
+            or review.get("source_record_id") not in fact.source_record_ids
+            or source_text_hash(fact.source_text_zh) != review.get("source_text_hash")
+            or source_text_hash(fact.source_text_en) != review.get("original_english_hash")
+            or not review.get("review_note") or not review.get("reviewed_by")):
+        return [f"中文重译追溯或内容校验失败：{fact.fact_id}"]
+    # Translation permission is not permission to choose conflicting data.
+    original = replace(fact, text_en=fact.source_text_en, translation_provenance={},
+                       english_source="source_backed", language="en")
+    source_conflicts = validate_cross_language_conflicts([original], [original])
+    hard_conflicts = ("procedure_or_waypoint_conflict", "named_procedure_designator_conflict",
+                      "operating_quantity_or_unit_conflict", "runway_requirement_conflict",
+                      "papi_runway_value_association", "departure_direction_conflict")
+    errors = [f"中文重译仍有未确认运行数据：{fact.fact_id}：{error}" for error in source_conflicts
+              if any(kind in error for kind in hard_conflicts)]
+    errors.extend(validate_bilingual_facts([replace(fact, manual_english_counterpart=True)]))
+    controls = (
+        (r"如果|若[^干]|当[^。；]{1,60}时", r"\b(?:IF|WHEN|UNLESS|IN CASE)\b"),
+        (r"收到[^。；]{0,35}后", r"\b(?:AFTER|UPON)\b"),
+        (r"直到[^。；]{0,80}才", r"\b(?:ONLY AFTER|NOT[^.!?;]{0,60}UNTIL)\b"),
+        (r"随后|然后", r"\b(?:SUBSEQUENTLY|THEN|AFTERWARDS)\b"),
+        (r"不得|不允许|禁止", r"\b(?:DO NOT|MUST NOT|SHALL NOT|NOT PERMITTED|PROHIBITED|FORBIDDEN)\b"),
+        (r"必须|务必|应当", r"\b(?:MUST|SHALL|REQUIRED)\b"),
+        (r"未经[^。；]{0,15}许可", r"\bWITHOUT[^.!?;]{0,50}CLEARANCE\b"),
+    )
+    chinese = re.sub(r"\s+", "", fact.zh)
+    if any(re.search(zh, chinese) and not re.search(en, fact.en, re.I) for zh, en in controls):
+        errors.append(f"中文重译条件/要求/时序未完整保留：{fact.fact_id}")
+    return errors
+
+
 def validate_english_source_facts(airport: str, facts: list[BilingualFact]) -> list[str]:
     """English has its own provenance/content gate; no Chinese counterpart needed."""
     errors = validate_airport_fact_bindings(airport, facts)
@@ -11774,6 +11899,9 @@ def validate_english_source_facts(airport: str, facts: list[BilingualFact]) -> l
         if (fact.source_authority != "latest_airport_manual" or fact.source not in {"PDF", "TXT"}
                 or not fact.source_version or not re.fullmatch(r"\d+(?:[-,]\d+)*", fact.source_page)):
             errors.append(f"英文权威来源或版本不完整：{fact.fact_id}")
+        if fact.english_source == "translated_from_chinese":
+            errors.extend(validate_chinese_translation(fact))
+            continue
         expected = filter_source_administrative_sentences(fact.source_text_en, english=True)
         for removed in fact.excluded_source_clauses:
             expected = expected.replace(removed, "", 1)
@@ -11826,6 +11954,15 @@ def validate_cross_language_conflicts(
                  if candidate.english_source_record_id in fact.english_source_record_id.split("|")]
         en_text = fact.en if bound and fact.en else ""
         en_page = fact.english_source_page
+        translated = [candidate for candidate in bound if candidate.english_source == "translated_from_chinese"
+                      and candidate.translation_provenance.get("source_record_id") in fact.source_record_ids
+                      and source_text_hash(fact.source_text_zh) == candidate.translation_provenance.get("source_text_hash")]
+        if len(translated) == 1:
+            # Compare the verified Chinese-derived English, while keeping the
+            # printed originals available for unresolved-data checks and audit.
+            candidate = translated[0]
+            if not validate_chinese_translation(candidate):
+                en_text, en_page = candidate.en, candidate.source_page
         if not en_text:
             # Missing ordinal pairing is not proof that a known critical source
             # conflict disappeared. Use only a unique explicit requirement key.
@@ -12149,6 +12286,7 @@ def prep_group_output_name(
 
 def fact_source_metadata(fact: BilingualFact) -> dict[str, object]:
     return {
+        "translation_provenance": fact.translation_provenance,
         "language": fact.language,
         "source_verbatim": fact.source_verbatim,
         "source_text_en": fact.source_text_en,
@@ -12489,7 +12627,7 @@ def main() -> int:
             english_required = english_required or duty_english_required
             english_exclusions: list[dict] = []
             en_typical, en_core, en_facts = english_briefing_fact_sets(
-                group_duty, target, airport_source_records, english_exclusions,
+                group_duty, target, airport_source_records, english_exclusions, chinese_facts=all_facts,
             ) if english_required else ({}, {}, [])
             group_content = render_chinese_briefing(
                 group_duty,

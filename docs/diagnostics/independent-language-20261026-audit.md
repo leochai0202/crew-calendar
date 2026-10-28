@@ -12,8 +12,8 @@ SHA256: `e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8`
 |---|---|---:|---:|---|---:|
 | 丽江三义 | ZPLJ | 33 | 0 | FAILED_SAFE | 1 |
 | 桂林两江 | ZGKL | 10 | 13 | SUCCESS | 0 |
-| 广州白云 | ZGGG | 36 | 32 | FAILED_SAFE | 4 |
-| 曼谷素旺那普 | VTBS | 35 | 37 | FAILED_SAFE | 5 |
+| 广州白云 | ZGGG | 36 | 32 | FAILED_SAFE | 3 |
+| 曼谷素旺那普 | VTBS | 35 | 37 | FAILED_SAFE | 1 |
 | 上海浦东 | ZSPD | 14 | 16 | FAILED_SAFE | 1 |
 | 沈阳桃仙 | ZYTX | 17 | 27 | SUCCESS | 0 |
 
@@ -380,7 +380,7 @@ The company requires single-engine taxiing for aircraft landing in Guangzhou, wi
 
 At Guangzhou O2 R, the M taxiway is operational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign is actually positioned behind the taxiway, which may cause confusion.
 
-The aircraft automatically disengages from the wave contact after leaving the ground and approaches, with the specific frequency provided by the air traffic control.
+After becoming airborne, change to Approach on the frequency provided by Clearance Delivery.
 
 If the SID has speed restrictions, you may apply to cancel them; otherwise, you must comply.
 
@@ -437,7 +437,6 @@ Radio failure procedure: Refer to Section 2.22.5 of the airport regulations for 
 - 中英文权威来源关键运行冲突：广州白云_core_record_22：['procedure_or_waypoint_conflict', 'runway_requirement_conflict']；中文页987；英文页1581
 - 中英文权威来源关键运行冲突：广州白云_core_record_42：['operating_quantity_or_unit_conflict']；中文页991；英文页1583
 - 中英文权威来源关键运行冲突：广州白云_core_record_37：['procedure_or_waypoint_conflict']；中文页990；英文页1582
-- 英文关键运行表达无法可靠确认：广州白云:en:86382f3678c87672；源页1582
 
 ### departure: source-only role selection preview
 
@@ -501,7 +500,7 @@ When the lead vehicle approaches, the ground commander acts as its driver. Upon 
 
 At Guangzhou O2 R, the M taxiway is operational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign is actually positioned behind the taxiway, which may cause confusion.
 
-The aircraft automatically disengages from the wave contact after leaving the ground and approaches, with the specific frequency provided by the air traffic control.
+After becoming airborne, change to Approach on the frequency provided by Clearance Delivery.
 
 If the SID has speed restrictions, you may apply to cancel them; otherwise, you must comply.
 
@@ -717,7 +716,7 @@ On-site/Dispatch Frequency: BANGKOKBLUEPORT (BANG-KOKBLUEPORT), Frequency 129.05
 
 During ground operations, ensure the Mode S transponder is operational and activated (e.g., not in STAND-BY or OFF position). Set the designated Mode A code (for departing aircraft, use the code from the received clearance; for arriving aircraft, maintain the original code until fully parked in the apron).
 
-To prevent potential interference, TCAS should remain activated for departing aircraft until receiving the go-to or go-around command, and deactivated for arriving aircraft until the aircraft has left the runway.
+To prevent possible interference, activate TCAS for departing aircraft only after receiving clearance to enter or line up on the runway. For arriving aircraft, do not deactivate TCAS until the aircraft has vacated the runway.
 
 Note that H6 and H3, as well as H5 and H2, are on the same taxiway.
 
@@ -729,7 +728,7 @@ At Terminal S126 in Bangkok, the approach guidance system frequently exhibits ab
 
 Common procedures: RNAV
 
-To minimize runway time, pilots must ensure they can begin taxiing immediately upon receiving the takeoff clearance.
+To reduce runway occupancy time, ensure that the takeoff roll can begin immediately after receipt of takeoff clearance.
 
 Automatic wave separation from the ground 119.25.
 
@@ -747,9 +746,9 @@ The minimum horizontal spacing of radar is 5nm, and it may be reduced to 3nm in 
 
 Speed limits: Refer to the speed limits in Bangkok Terminal Area Chart 20-1P5. At 10,000 feet or below... maintain 250 knots unless ATC issues a 'No ATC speed restrictions' clearance. During intermediate approach, fly at 210 knots. In final approach, intercept or approach ILS course at 160-180 knots. When establishing ILS, maintain 160 knots.
 
-The new Z approach procedure has been designated as the primary procedure in the air chart, with corresponding database updates. It is advised to carefully review the Warning section in the relevant approach chart to prevent unauthorized five-way turns into the approach procedure without ATC clearance.
+The new Z approach procedure is the primary procedure, and the navigation database has also changed. Carefully review the Warning notes on the corresponding arrival chart. Do not turn onto final approach to join the approach procedure without ATC clearance.
 
-When executing a VTBS 20R RNP approach, note the following: After the ATKIN, the control may instruct to "maintain 5000ft, turn right HDG 165, intercept final course 20R, report established." Note that the control requires establishing the 20R RNP five sides first, not granting permission for the RNP approach. Pay attention to the confirmation instructions to avoid mistakenly awaiting the APPR. Subsequently, the control may descend 3500ft, allowing the RNP 20R approach, which could cause excessive energy. It is recommended to prepare contingency plans to prevent instability. The "high intercept" procedure is not permitted during RNP approaches.
+When flying the VTBS 20R RNP approach, pay particular attention after ATKIN on the turn to final. ATC may instruct: "maintain 5000ft, turn right HDG 165, intercept final course 20R, report established." This requires first establishing on the 20R RNP final approach course; it is not clearance for the RNP approach. Confirm the instruction to avoid inadvertently arming APPR. ATC will subsequently clear descent to 3500ft and clear the RNP20R approach. This can result in high energy; plan ahead to prevent an unstable approach. The "high intercept" procedure is not permitted during RNP approaches.
 
 During 02L approach, the controller typically maintains a three-way approach while controlling the aircraft's distance from the front and rear. Subsequently, the controller directs the aircraft to fly directly to BATEM or ABVER. When initiating the 02LRNP approach plan, the MCDU will prompt the pilot to select VIA BATEM. If VIA is not selected, the BATEM point will not be visible on the plan.
 
@@ -789,11 +788,7 @@ The SVBVOR station will cease operations by 2025. Please note any program change
 
 ### Every acceptance error
 
-- 中英文权威来源关键运行冲突：曼谷素旺那普_core_record_17：['system_activation_temporal_polarity']；中文页314；英文页1171
-- 中英文权威来源关键运行冲突：曼谷素旺那普_core_record_23：['takeoff_roll']；中文页315；英文页1171
 - 英文关键运行表达无法可靠确认：曼谷素旺那普:en:730e7517374f441e；源页1171
-- 英文关键运行表达无法可靠确认：曼谷素旺那普:en:762728438175820a；源页1172
-- 英文关键运行表达无法可靠确认：曼谷素旺那普:en:b6c12b97473d3ea3；源页1172-1173
 
 ### departure: source-only role selection preview
 
@@ -839,7 +834,7 @@ H6与 H3,H5与 H2为同一条滑行道注意识别
 
 During ground operations, ensure the Mode S transponder is operational and activated (e.g., not in STAND-BY or OFF position). Set the designated Mode A code (for departing aircraft, use the code from the received clearance; for arriving aircraft, maintain the original code until fully parked in the apron).
 
-To prevent potential interference, TCAS should remain activated for departing aircraft until receiving the go-to or go-around command, and deactivated for arriving aircraft until the aircraft has left the runway.
+To prevent possible interference, activate TCAS for departing aircraft only after receiving clearance to enter or line up on the runway. For arriving aircraft, do not deactivate TCAS until the aircraft has vacated the runway.
 
 Note that H6 and H3, as well as H5 and H2, are on the same taxiway.
 
@@ -851,7 +846,7 @@ At Terminal S126 in Bangkok, the approach guidance system frequently exhibits ab
 
 Common procedures: RNAV
 
-To minimize runway time, pilots must ensure they can begin taxiing immediately upon receiving the takeoff clearance.
+To reduce runway occupancy time, ensure that the takeoff roll can begin immediately after receipt of takeoff clearance.
 
 Automatic wave separation from the ground 119.25.
 
@@ -947,7 +942,7 @@ On-site/Dispatch Frequency: BANGKOKBLUEPORT (BANG-KOKBLUEPORT), Frequency 129.05
 
 During ground operations, ensure the Mode S transponder is operational and activated (e.g., not in STAND-BY or OFF position). Set the designated Mode A code (for departing aircraft, use the code from the received clearance; for arriving aircraft, maintain the original code until fully parked in the apron).
 
-To prevent potential interference, TCAS should remain activated for departing aircraft until receiving the go-to or go-around command, and deactivated for arriving aircraft until the aircraft has left the runway.
+To prevent possible interference, activate TCAS for departing aircraft only after receiving clearance to enter or line up on the runway. For arriving aircraft, do not deactivate TCAS until the aircraft has vacated the runway.
 
 Note that H6 and H3, as well as H5 and H2, are on the same taxiway.
 
@@ -965,9 +960,9 @@ The minimum horizontal spacing of radar is 5nm, and it may be reduced to 3nm in 
 
 Speed limits: Refer to the speed limits in Bangkok Terminal Area Chart 20-1P5. At 10,000 feet or below... maintain 250 knots unless ATC issues a 'No ATC speed restrictions' clearance. During intermediate approach, fly at 210 knots. In final approach, intercept or approach ILS course at 160-180 knots. When establishing ILS, maintain 160 knots.
 
-The new Z approach procedure has been designated as the primary procedure in the air chart, with corresponding database updates. It is advised to carefully review the Warning section in the relevant approach chart to prevent unauthorized five-way turns into the approach procedure without ATC clearance.
+The new Z approach procedure is the primary procedure, and the navigation database has also changed. Carefully review the Warning notes on the corresponding arrival chart. Do not turn onto final approach to join the approach procedure without ATC clearance.
 
-When executing a VTBS 20R RNP approach, note the following: After the ATKIN, the control may instruct to "maintain 5000ft, turn right HDG 165, intercept final course 20R, report established." Note that the control requires establishing the 20R RNP five sides first, not granting permission for the RNP approach. Pay attention to the confirmation instructions to avoid mistakenly awaiting the APPR. Subsequently, the control may descend 3500ft, allowing the RNP 20R approach, which could cause excessive energy. It is recommended to prepare contingency plans to prevent instability. The "high intercept" procedure is not permitted during RNP approaches.
+When flying the VTBS 20R RNP approach, pay particular attention after ATKIN on the turn to final. ATC may instruct: "maintain 5000ft, turn right HDG 165, intercept final course 20R, report established." This requires first establishing on the 20R RNP final approach course; it is not clearance for the RNP approach. Confirm the instruction to avoid inadvertently arming APPR. ATC will subsequently clear descent to 3500ft and clear the RNP20R approach. This can result in high energy; plan ahead to prevent an unstable approach. The "high intercept" procedure is not permitted during RNP approaches.
 
 During 02L approach, the controller typically maintains a three-way approach while controlling the aircraft's distance from the front and rear. Subsequently, the controller directs the aircraft to fly directly to BATEM or ABVER. When initiating the 02LRNP approach plan, the MCDU will prompt the pilot to select VIA BATEM. If VIA is not selected, the BATEM point will not be visible on the plan.
 
@@ -1366,10 +1361,6 @@ Last-good files preserved on failure: True
 
 Groups: [['9C7289'], ['9C7420']]
 
-- 9C7289：中英文权威来源关键运行冲突：曼谷素旺那普_core_record_17：['system_activation_temporal_polarity']；中文页314；英文页1171
-- 9C7289英文版：英文关键运行表达无法可靠确认：曼谷素旺那普:en:762728438175820a；源页1172
-- 9C7289英文版：英文关键运行表达无法可靠确认：曼谷素旺那普:en:b6c12b97473d3ea3；源页1172-1173
-- 9C7420：中英文权威来源关键运行冲突：曼谷素旺那普_core_record_23：['takeoff_roll']；中文页315；英文页1171
 - 9C7420：中英文权威来源关键运行冲突：广州白云_core_record_42：['operating_quantity_or_unit_conflict']；中文页991；英文页1583
 - 9C7420：中英文权威来源关键运行冲突：广州白云_core_record_22：['procedure_or_waypoint_conflict', 'runway_requirement_conflict']；中文页987；英文页1581
 - 9C7420：中英文权威来源关键运行冲突：广州白云_core_record_37：['procedure_or_waypoint_conflict']；中文页990；英文页1582
@@ -1511,7 +1502,7 @@ On-site/Dispatch Frequency: BANGKOKBLUEPORT (BANG-KOKBLUEPORT), Frequency 129.05
 
 During ground operations, ensure the Mode S transponder is operational and activated (e.g., not in STAND-BY or OFF position). Set the designated Mode A code (for departing aircraft, use the code from the received clearance; for arriving aircraft, maintain the original code until fully parked in the apron).
 
-To prevent potential interference, TCAS should remain activated for departing aircraft until receiving the go-to or go-around command, and deactivated for arriving aircraft until the aircraft has left the runway.
+To prevent possible interference, activate TCAS for departing aircraft only after receiving clearance to enter or line up on the runway. For arriving aircraft, do not deactivate TCAS until the aircraft has vacated the runway.
 
 Note that H6 and H3, as well as H5 and H2, are on the same taxiway.
 
@@ -1529,9 +1520,9 @@ The minimum horizontal spacing of radar is 5nm, and it may be reduced to 3nm in 
 
 Speed limits: Refer to the speed limits in Bangkok Terminal Area Chart 20-1P5. At 10,000 feet or below... maintain 250 knots unless ATC issues a 'No ATC speed restrictions' clearance. During intermediate approach, fly at 210 knots. In final approach, intercept or approach ILS course at 160-180 knots. When establishing ILS, maintain 160 knots.
 
-The new Z approach procedure has been designated as the primary procedure in the air chart, with corresponding database updates. It is advised to carefully review the Warning section in the relevant approach chart to prevent unauthorized five-way turns into the approach procedure without ATC clearance.
+The new Z approach procedure is the primary procedure, and the navigation database has also changed. Carefully review the Warning notes on the corresponding arrival chart. Do not turn onto final approach to join the approach procedure without ATC clearance.
 
-When executing a VTBS 20R RNP approach, note the following: After the ATKIN, the control may instruct to "maintain 5000ft, turn right HDG 165, intercept final course 20R, report established." Note that the control requires establishing the 20R RNP five sides first, not granting permission for the RNP approach. Pay attention to the confirmation instructions to avoid mistakenly awaiting the APPR. Subsequently, the control may descend 3500ft, allowing the RNP 20R approach, which could cause excessive energy. It is recommended to prepare contingency plans to prevent instability. The "high intercept" procedure is not permitted during RNP approaches.
+When flying the VTBS 20R RNP approach, pay particular attention after ATKIN on the turn to final. ATC may instruct: "maintain 5000ft, turn right HDG 165, intercept final course 20R, report established." This requires first establishing on the 20R RNP final approach course; it is not clearance for the RNP approach. Confirm the instruction to avoid inadvertently arming APPR. ATC will subsequently clear descent to 3500ft and clear the RNP20R approach. This can result in high energy; plan ahead to prevent an unstable approach. The "high intercept" procedure is not permitted during RNP approaches.
 
 During 02L approach, the controller typically maintains a three-way approach while controlling the aircraft's distance from the front and rear. Subsequently, the controller directs the aircraft to fly directly to BATEM or ABVER. When initiating the 02LRNP approach plan, the MCDU will prompt the pilot to select VIA BATEM. If VIA is not selected, the BATEM point will not be visible on the plan.
 
@@ -1704,7 +1695,7 @@ Suvarnabhumi Airport:
 
 During ground operations, ensure the Mode S transponder is operational and activated (e.g., not in STAND-BY or OFF position). Set the designated Mode A code (for departing aircraft, use the code from the received clearance; for arriving aircraft, maintain the original code until fully parked in the apron).
 
-To prevent potential interference, TCAS should remain activated for departing aircraft until receiving the go-to or go-around command, and deactivated for arriving aircraft until the aircraft has left the runway.
+To prevent possible interference, activate TCAS for departing aircraft only after receiving clearance to enter or line up on the runway. For arriving aircraft, do not deactivate TCAS until the aircraft has vacated the runway.
 
 Note that H6 and H3, as well as H5 and H2, are on the same taxiway.
 
@@ -1716,7 +1707,7 @@ At Terminal S126 in Bangkok, the approach guidance system frequently exhibits ab
 
 Common procedures: RNAV.
 
-To minimize runway time, pilots must ensure they can begin taxiing immediately upon receiving the takeoff clearance.
+To reduce runway occupancy time, ensure that the takeoff roll can begin immediately after receipt of takeoff clearance.
 
 Automatic wave separation from the ground 119.25.
 

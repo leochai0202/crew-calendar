@@ -81,7 +81,7 @@ def test_real_source_blockers_remain_blocking_and_last_good_is_preserved(target:
             reproduced.extend(prefix + "英文版：" + error
                               for error in agent.validate_english_source_facts(airport, [fact for fact in en if fact.airport == airport]))
     assert reproduced == report["offline"]["errors"]
-    assert len(reproduced) == 8  # real-date regression only, not production selection logic
+    assert len(reproduced) == {"20261026": 4, "20261028": 3}[target]  # source-data regression, not selection logic
     assert report["offline"]["status"] == "FAILED_SAFE"
     assert not report["offline"]["success_marker"]
     assert report["offline"]["last_good_preserved_on_failure"]
@@ -100,6 +100,13 @@ def test_unreliable_printed_english_is_not_silently_rewritten(identity: str, pri
         report = json.loads((ROOT / "docs/diagnostics" / f"independent-language-{target}-audit.json").read_text(encoding="utf-8"))
         facts.extend(fact for group in report["offline"]["groups"] for fact in group["english_facts"])
     fact = agent.BilingualFact(**next(fact for fact in facts if fact["fact_id"] == identity))
+    if fact.english_source == "translated_from_chinese":
+        assert not agent.validate_chinese_translation(fact)
+        assert fact.translation_provenance["original_text_en"] == fact.source_text_en
+        # The new user policy permits reviewed retranslation, never silent
+        # alteration of the printed source or relaxation of its raw-text guard.
+        fact = replace(fact, text_zh="", text_en=fact.source_text_en,
+                       english_source="source_backed", translation_provenance={})
     original = fact.en
     rendered = agent.english_fact_output(fact)
     assert fact.en == original and fact.source_text_en == original

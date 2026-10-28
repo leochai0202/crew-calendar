@@ -173,7 +173,7 @@ def audit(repo: Path, airports: list[str], target: str, output: Path, input_ref:
 
     def validate(facts):
         errors = original_validate(facts)
-        if captures:
+        if captures and all(fact.language != "en" for fact in facts):
             captures[-1].update(facts=[asdict(fact) for fact in facts], bilingual_pairing_diagnostics=errors)
         return errors
 

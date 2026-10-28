@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "policy": "Chinese latest-manual source is primary; only source-bound reviewed translations, never generic fallback.",
+  "translations": [
+    {
+      "manual_version": "20261019",
+      "icao": "VTBS",
+      "source_record_id": "曼谷素旺那普:core:6785143081757f96",
+      "source_text_zh": "地面：为防止可能的干扰，对离港飞机，直到收到进入或者对 正跑道指令才打开 TCAS；对于进港飞机，直到脱离跑道再关闭。",
+      "source_text_hash": "6785143081757f9645abf825c3d01eee88f3bc8501047c2a8811ab32e0d33a15",
+      "source_page_zh": "314",
+      "original_text_en": "To prevent potential interference, TCAS should remain activated for departing aircraft until receiving the go-to or go-around command, and deactivated for arriving aircraft until the aircraft has left the runway.",
+      "original_english_hash": "43bfc156a3da1481ca94e9857b8f309de5f1cbdfbc85a3bd25c27180b3da1a3d",
+      "source_page_en": "1171",
+      "english_source_record_id": "曼谷素旺那普:en:43bfc156a3da1481",
+      "text_en": "To prevent possible interference, activate TCAS for departing aircraft only after receiving clearance to enter or line up on the runway. For arriving aircraft, do not deactivate TCAS until the aircraft has vacated the runway.",
+      "reviewed_by": "CODEX_SOURCE_REVIEW_UNDER_USER_CHINESE_PRIMARY_POLICY",
+      "reviewed_date": "2026-10-28",
+      "review_note": "以已逐页核实的中文为依据修正动作/时序或五边术语误译；不改变数字、适用条件或新增操作建议。"
+    },
+    {
+      "manual_version": "20261019",
+      "icao": "VTBS",
+      "source_record_id": "曼谷素旺那普:core:098da864b419e70f",
+      "source_text_zh": "离场：为减少跑道占用时间，飞行员应确保在收到起飞 许可后能立即开始起飞滑跑。",
+      "source_text_hash": "098da864b419e70f4e73c3f1f47bed69ef7a7d318ad8e17af2b53fd13e1769b3",
+      "source_page_zh": "315",
+      "original_text_en": "To minimize runway time, pilots must ensure they can begin taxiing immediately upon receiving the takeoff clearance.",
+      "original_english_hash": "1f8781cb0a00f86ebdf0e2adee2167f3ac86e9ee49798b412649b004b2341ec3",
+      "source_page_en": "1171",
+      "english_source_record_id": "曼谷素旺那普:en:1f8781cb0a00f86e",
+      "text_en": "To reduce runway occupancy time, ensure that the takeoff roll can begin immediately after receipt of takeoff clearance.",
+      "reviewed_by": "CODEX_SOURCE_REVIEW_UNDER_USER_CHINESE_PRIMARY_POLICY",
+      "reviewed_date": "2026-10-28",
+      "review_note": "以已逐页核实的中文为依据修正动作/时序或五边术语误译；不改变数字、适用条件或新增操作建议。"
+    },
+    {
+      "manual_version": "20261019",
+      "icao": "VTBS",
+      "source_record_id": "曼谷素旺那普:core:cb29f683c773c0a8",
+      "source_text_zh": "进场：航图新增Z 进近程序为主用程序，数据库也有变化，提 示机组注意阅读对应进场图中Warning 中的说明，避免未经 ATC 许可转向五边加入进近程序。",
+      "source_text_hash": "cb29f683c773c0a81254d53a117b58694ab3d94c8ed0e1eedad0e9e0d6e1c3c9",
+      "source_page_zh": "316",
+      "original_text_en": "The new Z approach procedure has been designated as the primary procedure in the air chart, with corresponding database updates. Crews are advised to carefully review the Warning section in the relevant approach chart to prevent unauthorized five-way turns into the approach procedure without ATC clearance.",
+      "original_english_hash": "762728438175820aa685653888c022c7902fc880b4df6b5e96dd5080c720ceea",
+      "source_page_en": "1172",
+      "english_source_record_id": "曼谷素旺那普:en:762728438175820a",
+      "text_en": "The new Z approach procedure is the primary procedure, and the navigation database has also changed. Carefully review the Warning notes on the corresponding arrival chart. Do not turn onto final approach to join the approach procedure without ATC clearance.",
+      "reviewed_by": "CODEX_SOURCE_REVIEW_UNDER_USER_CHINESE_PRIMARY_POLICY",
+      "reviewed_date": "2026-10-28",
+      "review_note": "以已逐页核实的中文为依据修正动作/时序或五边术语误译；不改变数字、适用条件或新增操作建议。"
+    },
+    {
+      "manual_version": "20261019",
+      "icao": "VTBS",
+      "source_record_id": "曼谷素旺那普:core:15735735141c21a3",
+      "source_text_zh": "进场：执行 VTBS 20R RNP 进近需要注意。ATKIN 之后转 5 边的 航段， 管制可能会指令“maintain 5000ft，turn right HDG 165,intercept final course 20R,report established.”注意 管制是要求先建立20R RNP 的五边，而不是许可 RNP 进近,注意 证实指令，防止误待命APPR。随后会让下3500ft，可以 RNP20R，容易造成能量大，机组注意做好预案，防止不稳定。RNP 进近不 允许执行“高截获”程序。",
+      "source_text_hash": "15735735141c21a39992f049f85d08f61b07788c64ff37b28fbef0250b646661",
+      "source_page_zh": "316",
+      "original_text_en": "When executing a VTBS 20R RNP approach, note the following: After the ATKIN, the control may instruct to \"maintain 5000ft, turn right HDG 165, intercept final course 20R, report established.\" Note that the control requires establishing the 20R RNP five sides first, not granting permission for the RNP approach. Pay attention tothe confirmation instructions toavoid mistakenly awaiting the APPR. Subsequently, the control may descend 3500ft, allowing the RNP 20R approach, which could cause excessive energy. The crew should prepare contingency plans to prevent instability. The \"high intercept\" procedure is not permitted during RNP approaches.",
+      "original_english_hash": "b6c12b97473d3ea32693b9a64e071b0075147c179a27a0376ed2b2e7a8df4192",
+      "source_page_en": "1172-1173",
+      "english_source_record_id": "曼谷素旺那普:en:b6c12b97473d3ea3",
+      "text_en": "When flying the VTBS 20R RNP approach, pay particular attention after ATKIN on the turn to final. ATC may instruct: \"maintain 5000ft, turn right HDG 165, intercept final course 20R, report established.\" This requires first establishing on the 20R RNP final approach course; it is not clearance for the RNP approach. Confirm the instruction to avoid inadvertently arming APPR. ATC will subsequently clear descent to 3500ft and clear the RNP20R approach. This can result in high energy; plan ahead to prevent an unstable approach. The \"high intercept\" procedure is not permitted during RNP approaches.",
+      "reviewed_by": "CODEX_SOURCE_REVIEW_UNDER_USER_CHINESE_PRIMARY_POLICY",
+      "reviewed_date": "2026-10-28",
+      "review_note": "逐句保留先建立五边而非进近许可、证实指令、APPR、随后下降许可与能量风险。高截获保留原英文引号术语，不推断新程序。"
+    },
+    {
+      "manual_version": "20261019",
+      "icao": "ZGGG",
+      "source_record_id": "广州白云:core:d83d6048c5cb340d",
+      "source_text_zh": "离场：离地后自动脱波联系进近，具体频率由放行给出。",
+      "source_text_hash": "d83d6048c5cb340dd12c503edfaac63275f52a13377ad453a08e9164f9270b4d",
+      "source_page_zh": "990",
+      "original_text_en": "The aircraft automatically disengages from the wave contact after leaving the ground and approaches, with the specific frequency provided by the air traffic control.",
+      "original_english_hash": "86382f3678c876725455a2c7656face487412f74f993111870af78586228fca9",
+      "source_page_en": "1582",
+      "english_source_record_id": "广州白云:en:86382f3678c87672",
+      "text_en": "After becoming airborne, change to Approach on the frequency provided by Clearance Delivery.",
+      "reviewed_by": "CODEX_SOURCE_REVIEW_UNDER_USER_CHINESE_PRIMARY_POLICY",
+      "reviewed_date": "2026-10-28",
+      "review_note": "中文明确离地后联系进近、频率由放行给出；按该条件直接表述为换频指令，不宣称航空器有自动换频系统。"
+    }
+  ]
+}
+
