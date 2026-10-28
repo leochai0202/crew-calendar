@@ -20,6 +20,7 @@ SPEC.loader.exec_module(guard)
 
 class WorkflowGuardTests(unittest.TestCase):
     def setUp(self):
+        self.revision = "964cd5ddafd25c1987a982f7846becd8223bbc65"
         self.env = {"GITHUB_EVENT_NAME": "workflow_dispatch", "GITHUB_RUN_ATTEMPT": "1",
                     "GITHUB_REPOSITORY": "leochai0202/crew-calendar",
                     "GITHUB_REF": "refs/heads/main", "GITHUB_RUN_ID": "123"}
@@ -27,11 +28,100 @@ class WorkflowGuardTests(unittest.TestCase):
     def get(self, path):
         if path.startswith("/contents/"):
             name = path.split("/")[-1].split("?")[0]
-            return {"sha": guard.EXPECTED_WORKFLOWS[name]}
+            if name in guard.EXPECTED_WORKFLOWS:
+                return {"sha": guard.EXPECTED_WORKFLOWS[name]}
+            for file, sha in guard.NON_AUTH_WORKFLOWS.values():
+                if path == f"/contents/{file}?ref={self.revision}":
+                    return {"sha": sha}
+            raise AssertionError("Unexpected workflow version lookup")
         return {"total_count": 1, "workflow_runs": [{"id": 123}]}
 
     def test_only_current_run_is_allowed(self):
-        self.assertEqual(guard.check_activity(self.get, self.env), "NO_OTHER_ACTIVE_WORKFLOWS")
+        self.assertEqual(guard.check_activity(self.get, self.env), "NO_AUTH_RESOURCE_CONFLICTS")
+
+    def run_getter(self, runs, state="in_progress"):
+        def get(path):
+            if f"status={state}&" in path:
+                return {"total_count": len(runs), "workflow_runs": runs}
+            return self.get(path)
+        return get
+
+    def unrelated_run(self, workflow_id=319247569, run_id=456):
+        return {"id": run_id, "workflow_id": workflow_id,
+                "path": guard.NON_AUTH_WORKFLOWS[workflow_id][0], "head_sha": self.revision}
+
+    def test_reviewed_unrelated_workflows_pass_in_all_active_states(self):
+        runs = [self.unrelated_run(workflow_id) for workflow_id in guard.NON_AUTH_WORKFLOWS]
+        runs.append({"id": 789, "workflow_id": guard.PAGES_WORKFLOW[0],
+                     "path": guard.PAGES_WORKFLOW[1]})
+        for state in guard.ACTIVE_STATES:
+            for run in runs:
+                with self.subTest(state=state, workflow=run["workflow_id"]):
+                    self.assertEqual(guard.check_activity(self.run_getter([run], state), self.env),
+                                     "NO_AUTH_RESOURCE_CONFLICTS")
+
+    def test_fourth_run_overlap_with_push_and_pr_code_tests_passes(self):
+        runs = [dict(self.unrelated_run(run_id=40645317349), event="push"),
+                dict(self.unrelated_run(run_id=40645326390), event="pull_request"), {"id": 123}]
+        get = Mock(side_effect=self.run_getter(runs))
+        self.assertEqual(guard.check_activity(get, self.env), "NO_AUTH_RESOURCE_CONFLICTS")
+        version_path = f"/contents/.github/workflows/auth-session-check.yml?ref={self.revision}"
+        self.assertEqual(get.call_args_list.count(call(version_path)), 1)
+
+    def test_unknown_or_mismatched_workflow_identity_blocks(self):
+        valid = self.unrelated_run()
+        cases = [{"id": 456}, {"id": 456, "name": "代码测试"},
+                 {**valid, "workflow_id": None}, {**valid, "workflow_id": True},
+                 {**valid, "workflow_id": "319247569"}, {**valid, "workflow_id": 999},
+                 {**valid, "path": None}, {**valid, "path": ".github/workflows/unknown.yml"},
+                 {**valid, "head_sha": None}, {**valid, "head_sha": "main"},
+                 {**valid, "head_sha": "private&ref=main"},
+                 {**valid, "workflow_id": guard.PAGES_WORKFLOW[0]},
+                 {**valid, "path": guard.PAGES_WORKFLOW[1]},
+                 {"id": 456, "workflow_id": 356934925, "path": ".github/workflows/email-otp-real-smoke.yml"},
+                 {"id": 456, "workflow_id": 398186231, "path": ".github/workflows/training-login-check.yml"}]
+        for run in cases:
+            with self.subTest(run=run):
+                with self.assertRaisesRegex(guard.GuardError, "ACTIVE_WORKFLOW_IDENTITY_UNCONFIRMED") as caught:
+                    guard.check_activity(self.run_getter([run]), self.env)
+                self.assertEqual(caught.exception.check, "ACTIVE_RUNS_IN_PROGRESS")
+
+    def test_changed_or_unavailable_unrelated_workflow_version_blocks(self):
+        for response in ({"sha": "changed"}, {}, {"sha": None}, URLError(TimeoutError("private"))):
+            def get(path):
+                if path.startswith("/contents/.github/workflows/auth-session-check.yml?"):
+                    if isinstance(response, Exception):
+                        raise response
+                    return response
+                return self.run_getter([self.unrelated_run()])(path)
+            with self.subTest(response=type(response).__name__):
+                with self.assertRaises(guard.GuardError) as caught:
+                    guard.check_activity(get, self.env)
+                self.assertEqual(caught.exception.check, "ACTIVE_RUNS_IN_PROGRESS")
+                self.assertNotIn("private", str(caught.exception))
+
+    def test_second_check_revalidates_unrelated_workflow_version(self):
+        version_results = iter([{"sha": guard.NON_AUTH_WORKFLOWS[319247569][1]}, {"sha": "changed"}])
+        def get(path):
+            if path.startswith("/contents/.github/workflows/auth-session-check.yml?"):
+                return next(version_results)
+            return self.run_getter([self.unrelated_run()])(path)
+        self.assertEqual(guard.check_activity(get, self.env), "NO_AUTH_RESOURCE_CONFLICTS")
+        with self.assertRaisesRegex(guard.GuardError, "ACTIVE_WORKFLOW_IDENTITY_UNCONFIRMED"):
+            guard.check_activity(get, self.env)
+
+    def test_unrelated_run_does_not_hide_production_or_unknown_run(self):
+        for other in ({"id": 789}, {"id": 789, "workflow_id": 243398606,
+                                    "path": ".github/workflows/schedule.yml"}):
+            with self.assertRaises(guard.GuardError):
+                guard.check_activity(self.run_getter([self.unrelated_run(), other]), self.env)
+
+    def test_production_path_or_id_alone_is_never_allowlisted(self):
+        for workflow_id, path in guard.AUTH_RESOURCE_WORKFLOWS.items():
+            for run in ({**self.unrelated_run(), "workflow_id": workflow_id},
+                        {**self.unrelated_run(), "path": path}):
+                with self.assertRaisesRegex(guard.GuardError, "OTHER_WORKFLOW_ACTIVE"):
+                    guard.check_activity(self.run_getter([run]), self.env)
 
     def test_direct_transport_never_reads_environment_or_system_proxy(self):
         real_builder = guard.build_opener
@@ -107,15 +197,14 @@ class WorkflowGuardTests(unittest.TestCase):
             self.assertTrue(guard.transient_network_error(error))
         self.assertFalse(guard.transient_network_error(OSError(errno.EINVAL, "synthetic")))
 
-    def test_active_and_queued_other_runs_block(self):
+    def test_active_and_queued_production_runs_block(self):
         for state in guard.ACTIVE_STATES:
-            with self.subTest(state=state):
-                def get(path):
-                    if f"status={state}&" in path:
-                        return {"total_count": 1, "workflow_runs": [{"id": 456}]}
-                    return self.get(path)
-                with self.assertRaisesRegex(guard.GuardError, "OTHER_WORKFLOW_ACTIVE"):
-                    guard.check_activity(get, self.env)
+            for workflow_id, path in guard.AUTH_RESOURCE_WORKFLOWS.items():
+                with self.subTest(state=state, workflow=workflow_id):
+                    run = {"id": 456, "workflow_id": workflow_id, "path": path}
+                    with self.assertRaisesRegex(guard.GuardError, "OTHER_WORKFLOW_ACTIVE") as caught:
+                        guard.check_activity(self.run_getter([run], state), self.env)
+                    self.assertEqual(caught.exception.check, "ACTIVE_RUNS_" + state.upper())
 
     def test_incomplete_api_response_blocks(self):
         def get(path):

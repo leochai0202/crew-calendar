@@ -5,6 +5,7 @@ import json
 import errno
 import http.client
 import os
+import re
 import socket
 import ssl
 import time
@@ -16,6 +17,23 @@ EXPECTED_WORKFLOWS = {
     "schedule.yml": "fefc765b7845f1ce011662b6deb84206d2149452",
     "sync-airport-manual.yml": "69e45ec40f06e2479ed6ec3912ccf879f73af9bc",
 }
+# Repository-specific identities, not display names. These two workflows share
+# production authentication resources and must never be admitted concurrently.
+AUTH_RESOURCE_WORKFLOWS = {
+    243398606: ".github/workflows/schedule.yml",
+    329061943: ".github/workflows/sync-airport-manual.yml",
+}
+# Reviewed Ubuntu-hosted workflows inject no production authentication Secrets
+# or profile. Verify their YAML at each active run's commit, not today's main:
+# a branch/old version with the same workflow ID could use different resources.
+NON_AUTH_WORKFLOWS = {
+    319247569: (".github/workflows/auth-session-check.yml",
+                "debab6e4abf97b81354ee5c89d270c373e01d2ae"),
+    296939538: (".github/workflows/flight-prep-free-v5-20260616.yml",
+                "246ed541f556369e332f06df003a49e829d96aa0"),
+}
+# GitHub's generated Pages workflow has no repository YAML to version-check.
+PAGES_WORKFLOW = (283177213, "dynamic/pages/pages-build-deployment")
 ACTIVE_STATES = ("in_progress", "queued", "pending", "waiting", "requested")
 FAILURE_CODES = frozenset({
     "CONCURRENCY_TOKEN_MISSING", "CONCURRENCY_API_TIMEOUT", "CONCURRENCY_API_TLS_ERROR",
@@ -24,6 +42,7 @@ FAILURE_CODES = frozenset({
     "CONCURRENCY_API_HTTP_5XX", "CONCURRENCY_API_HTTP_OTHER",
     "MANUAL_FIRST_ATTEMPT_REQUIRED", "PRODUCTION_WORKFLOW_CHANGED_REVIEW_REQUIRED",
     "CONCURRENCY_RESULT_INCOMPLETE", "OTHER_WORKFLOW_ACTIVE",
+    "ACTIVE_WORKFLOW_IDENTITY_UNCONFIRMED",
     "CONCURRENCY_UNEXPECTED_ERROR", "CONCURRENCY_GUARD_IMPORT_FAILED",
 })
 CHECK_CODES = frozenset({"ENVIRONMENT", "PRODUCTION_WORKFLOW_CONFIG", "GUARD_IMPORT", "UNKNOWN",
@@ -120,6 +139,28 @@ def checked_get(get, path: str, check: str) -> dict:
         raise GuardError(reason, check) from None
 
 
+def check_other_run(get, run: dict, check: str, verified: set) -> None:
+    workflow_id, path = run.get("workflow_id"), run.get("path")
+    if ((type(workflow_id) is int and workflow_id in AUTH_RESOURCE_WORKFLOWS)
+            or (isinstance(path, str) and path in AUTH_RESOURCE_WORKFLOWS.values())):
+        raise GuardError("OTHER_WORKFLOW_ACTIVE", check)
+    if type(workflow_id) is not int or not isinstance(path, str):
+        raise GuardError("ACTIVE_WORKFLOW_IDENTITY_UNCONFIRMED", check)
+    if (workflow_id, path) == PAGES_WORKFLOW:
+        return
+    reviewed = NON_AUTH_WORKFLOWS.get(workflow_id)
+    revision = run.get("head_sha")
+    if (reviewed is None or path != reviewed[0] or not isinstance(revision, str)
+            or re.fullmatch(r"[0-9a-f]{40}", revision) is None):
+        raise GuardError("ACTIVE_WORKFLOW_IDENTITY_UNCONFIRMED", check)
+    identity = (workflow_id, revision)
+    if identity not in verified:
+        item = checked_get(get, f"/contents/{path}?ref={revision}", check)
+        if item.get("sha") != reviewed[1]:
+            raise GuardError("ACTIVE_WORKFLOW_IDENTITY_UNCONFIRMED", check)
+        verified.add(identity)
+
+
 def check_activity(get=github_get, environ=None) -> str:
     env = os.environ if environ is None else environ
     if (env.get("GITHUB_EVENT_NAME") != "workflow_dispatch"
@@ -134,6 +175,7 @@ def check_activity(get=github_get, environ=None) -> str:
         item = checked_get(get, f"/contents/.github/workflows/{name}?ref=main", "PRODUCTION_WORKFLOW_CONFIG")
         if item.get("sha") != sha:
             raise GuardError("PRODUCTION_WORKFLOW_CHANGED_REVIEW_REQUIRED", "PRODUCTION_WORKFLOW_CONFIG")
+    verified = set()  # Per check only: the second safety check revalidates too.
     for state in ACTIVE_STATES:
         check = "ACTIVE_RUNS_" + state.upper()
         result = checked_get(get, f"/actions/runs?status={state}&per_page=100", check)
@@ -142,11 +184,12 @@ def check_activity(get=github_get, environ=None) -> str:
         if (not isinstance(runs, list) or type(count) is not int or count != len(runs)
                 or any(not isinstance(run, dict) or type(run.get("id")) is not int for run in runs)):
             raise GuardError("CONCURRENCY_RESULT_INCOMPLETE", check)
-        # Conservative: any other active workflow blocks, including queued jobs.
-        # The shared server-side mutex closes the race with future calendar runs.
-        if any(run.get("id") != current_id for run in runs):
-            raise GuardError("OTHER_WORKFLOW_ACTIVE", check)
-    return "NO_OTHER_ACTIVE_WORKFLOWS"
+        # Admit only confirmed unrelated workflows. Unknown identities fail
+        # closed; the shared mutex still covers future production arrivals.
+        for run in runs:
+            if run["id"] != current_id:
+                check_other_run(get, run, check, verified)
+    return "NO_AUTH_RESOURCE_CONFLICTS"
 
 
 def main() -> int:
