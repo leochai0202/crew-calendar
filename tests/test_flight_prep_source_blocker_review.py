@@ -81,7 +81,7 @@ def test_real_source_blockers_remain_blocking_and_last_good_is_preserved(target:
             reproduced.extend(prefix + "英文版：" + error
                               for error in agent.validate_english_source_facts(airport, [fact for fact in en if fact.airport == airport]))
     assert reproduced == report["offline"]["errors"]
-    assert len(reproduced) == {"20261026": 4, "20261028": 3}[target]  # source-data regression, not selection logic
+    assert len(reproduced) == {"20261026": 3, "20261028": 2}[target]  # source-data regression, not selection logic
     assert report["offline"]["status"] == "FAILED_SAFE"
     assert not report["offline"]["success_marker"]
     assert report["offline"]["last_good_preserved_on_failure"]

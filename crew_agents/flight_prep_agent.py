@@ -4898,6 +4898,25 @@ def source_text_hash(value: str) -> str:
     return hashlib.sha256(normalize_text(value).encode("utf-8")).hexdigest()
 
 
+def translation_authority_source(review: dict) -> str:
+    """Validate a reviewed, dated state-AIP clarification; never guess missing data."""
+    evidence = review.get("authority_evidence")
+    if evidence is None:
+        return ""
+    required = ("publisher", "document", "icao", "section", "url", "summary_zh",
+                "effective_from", "effective_until_exclusive", "verified_on", "supported_text_hash")
+    if (not isinstance(evidence, dict) or any(not str(evidence.get(key) or "").strip() for key in required)
+            or evidence.get("source_type") != "state_aip" or evidence["icao"] != review.get("icao")
+            or not re.fullmatch(r"https://[^/?#@\s]+/[^\s]*", evidence["url"])
+            or evidence["supported_text_hash"] != source_text_hash(str(review.get("text_en") or ""))):
+        raise ValueError("权威补证来源或已核实正文无效")
+    start, end, verified = (date.fromisoformat(evidence[key]) for key in
+                            ("effective_from", "effective_until_exclusive", "verified_on"))
+    if not start <= verified < end:
+        raise ValueError("权威补证有效期无效")
+    return evidence["summary_zh"]
+
+
 def load_chinese_translation_reviews(repo: Path) -> list[dict]:
     """Reviewed translations are data bound to both immutable source texts.
 
@@ -4923,6 +4942,7 @@ def load_chinese_translation_reviews(repo: Path) -> list[dict]:
                        for key in ("source_page_zh", "source_page_en"))):
             raise ValueError("中文权威翻译来源身份无效")
         date.fromisoformat(entry["reviewed_date"])
+        translation_authority_source(entry)
         identity = (str(entry["manual_version"]), entry["icao"], entry["english_source_record_id"])
         if identity in seen:
             raise ValueError("中文权威翻译身份重复")
@@ -11779,6 +11799,12 @@ def english_briefing_fact_sets(
                 english_source_page=str(record["source_page"]), airport_name_en=str(record["english_airport_name"]),
                 route_scope=english_source_route_scope(record))
             review = record.get("chinese_translation_review")
+            evidence = (review or {}).get("authority_evidence")
+            if evidence and not (date.fromisoformat(evidence["effective_from"]) <= target
+                                 < date.fromisoformat(evidence["effective_until_exclusive"])):
+                fact = replace(fact, english_source="unavailable", translation_provenance=dict(review),
+                               english_source_note="权威补证不在目标日期有效期内，须重新核查")
+                review = None  # Retain the raw paragraph for diagnostics, but fail its publication gate.
             if review:
                 matches = [chinese for chinese in chinese_facts or []
                            if chinese.airport == airport and review["source_record_id"] in chinese.source_record_ids
@@ -11800,7 +11826,8 @@ def english_briefing_fact_sets(
                         route_scope=chinese.route_scope, operational_phase=chinese.operational_phase,
                         condition_scope=chinese.condition_scope, season_scope=chinese.season_scope,
                         flight_scope=chinese.flight_scope,
-                        english_source_authority="latest_airport_manual_chinese",
+                        english_source_authority=("latest_airport_manual_chinese+state_aip"
+                            if review.get("authority_evidence") else "latest_airport_manual_chinese"),
                         english_source_note=str(review["review_note"]),
                         english_source="translated_from_chinese", translation_provenance=dict(review))
                     text, phase, scope = fact.en, fact.operational_phase, fact.role_scope
@@ -11873,7 +11900,12 @@ def validate_chinese_translation(fact: BilingualFact) -> list[str]:
                       "papi_runway_value_association", "departure_direction_conflict")
     errors = [f"中文重译仍有未确认运行数据：{fact.fact_id}：{error}" for error in source_conflicts
               if any(kind in error for kind in hard_conflicts)]
-    errors.extend(validate_bilingual_facts([replace(fact, manual_english_counterpart=True)]))
+    try:
+        authority_source = translation_authority_source(review)
+    except (TypeError, ValueError):
+        return [*errors, f"中文重译权威补证校验失败：{fact.fact_id}"]
+    compared = replace(fact, text_zh=fact.zh + (" " + authority_source if authority_source else ""))
+    errors.extend(validate_bilingual_facts([replace(compared, manual_english_counterpart=True)]))
     controls = (
         (r"如果|若[^干]|当[^。；]{1,60}时", r"\b(?:IF|WHEN|UNLESS|IN CASE)\b"),
         (r"收到[^。；]{0,35}后", r"\b(?:AFTER|UPON)\b"),
@@ -11882,8 +11914,10 @@ def validate_chinese_translation(fact: BilingualFact) -> list[str]:
         (r"不得|不允许|禁止", r"\b(?:DO NOT|MUST NOT|SHALL NOT|NOT PERMITTED|PROHIBITED|FORBIDDEN)\b"),
         (r"必须|务必|应当", r"\b(?:MUST|SHALL|REQUIRED)\b"),
         (r"未经[^。；]{0,15}许可", r"\bWITHOUT[^.!?;]{0,50}CLEARANCE\b"),
+        (r"另有[^。；]{0,12}指令|除外", r"\b(?:UNLESS|EXCEPT|OTHERWISE)\b"),
+        (r"之前", r"\bBEFORE\b"),
     )
-    chinese = re.sub(r"\s+", "", fact.zh)
+    chinese = re.sub(r"\s+", "", compared.zh)
     if any(re.search(zh, chinese) and not re.search(en, fact.en, re.I) for zh, en in controls):
         errors.append(f"中文重译条件/要求/时序未完整保留：{fact.fact_id}")
     return errors

@@ -11,7 +11,7 @@ SHA256: `e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8`
 | Airport | ICAO | Chinese core selected | Independent English core | Acceptance | Blocking errors |
 |---|---|---:|---:|---|---:|
 | 广州白云 | ZGGG | 36 | 32 | FAILED_SAFE | 3 |
-| 曼谷素旺那普 | VTBS | 35 | 37 | FAILED_SAFE | 1 |
+| 曼谷素旺那普 | VTBS | 35 | 37 | SUCCESS | 0 |
 | 上海浦东 | ZSPD | 14 | 16 | FAILED_SAFE | 1 |
 | 南京禄口 | ZSNJ | 30 | 30 | SUCCESS | 0 |
 | 厦门高崎 | ZSAM | 23 | 33 | SUCCESS | 0 |
@@ -457,7 +457,7 @@ Common procedures: RNAV
 
 To reduce runway occupancy time, ensure that the takeoff roll can begin immediately after receipt of takeoff clearance.
 
-Automatic wave separation from the ground 119.25.
+Immediately after take-off, contact Suvarnabhumi Departure on 119.25 MHz before transfer to the relevant approach sector, unless instructed otherwise by ATC.
 
 When using the 20L runway for takeoff, there is a high risk of taxiing errors due to the proximity of E1 and E2 runways, and the E taxiway's extension to the cargo apron. It is mandatory to exercise caution.
 
@@ -515,7 +515,6 @@ The SVBVOR station will cease operations by 2025. Please note any program change
 
 ### Every acceptance error
 
-- 英文关键运行表达无法可靠确认：曼谷素旺那普:en:730e7517374f441e；源页1171
 
 ### departure: source-only role selection preview
 
@@ -575,7 +574,7 @@ Common procedures: RNAV
 
 To reduce runway occupancy time, ensure that the takeoff roll can begin immediately after receipt of takeoff clearance.
 
-Automatic wave separation from the ground 119.25.
+Immediately after take-off, contact Suvarnabhumi Departure on 119.25 MHz before transfer to the relevant approach sector, unless instructed otherwise by ATC.
 
 When using the 20L runway for takeoff, there is a high risk of taxiing errors due to the proximity of E1 and E2 runways, and the E taxiway's extension to the cargo apron. It is mandatory to exercise caution.
 
@@ -2208,7 +2207,6 @@ Groups: [['9C7419'], ['9C7290']]
 
 - 9C7419：中英文权威来源关键运行冲突：广州白云_core_record_22：['procedure_or_waypoint_conflict', 'runway_requirement_conflict']；中文页987；英文页1581
 - 9C7290：中英文权威来源关键运行冲突：上海浦东_core_record_5：['papi_runway_value_association']；中文页586；英文页1367
-- 9C7290英文版：英文关键运行表达无法可靠确认：曼谷素旺那普:en:730e7517374f441e；源页1171
 
 ### Actual isolated rendered group: 9C7419
 
@@ -2603,7 +2601,7 @@ Common procedures: RNAV.
 
 To reduce runway occupancy time, ensure that the takeoff roll can begin immediately after receipt of takeoff clearance.
 
-Automatic wave separation from the ground 119.25.
+Immediately after take-off, contact Suvarnabhumi Departure on 119.25 MHz before transfer to the relevant approach sector, unless instructed otherwise by ATC.
 
 When using the 20L runway for takeoff, there is a high risk of taxiing errors due to the proximity of E1 and E2 runways, and the E taxiway's extension to the cargo apron. It is mandatory to exercise caution.
 

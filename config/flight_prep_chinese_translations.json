@@ -81,6 +81,36 @@
       "reviewed_by": "CODEX_SOURCE_REVIEW_UNDER_USER_CHINESE_PRIMARY_POLICY",
       "reviewed_date": "2026-10-28",
       "review_note": "中文明确离地后联系进近、频率由放行给出；按该条件直接表述为换频指令，不宣称航空器有自动换频系统。"
+    },
+    {
+      "manual_version": "20261019",
+      "icao": "VTBS",
+      "source_record_id": "曼谷素旺那普:core:596e8457291a2df8",
+      "source_text_zh": "离场：离地自动脱波119.25。",
+      "source_text_hash": "596e8457291a2df8fc0942f475c65837bc5dd139dffc393a5dd2087651b8fb43",
+      "source_page_zh": "315",
+      "original_text_en": "Automatic wave separation from the ground 119.25.",
+      "original_english_hash": "730e7517374f441e347a28572d1f52e74047aaa0bf668e9a1d024adf004cb2cf",
+      "source_page_en": "1171",
+      "english_source_record_id": "曼谷素旺那普:en:730e7517374f441e",
+      "text_en": "Immediately after take-off, contact Suvarnabhumi Departure on 119.25 MHz before transfer to the relevant approach sector, unless instructed otherwise by ATC.",
+      "reviewed_by": "CODEX_SOURCE_REVIEW_UNDER_USER_CHINESE_PRIMARY_POLICY",
+      "reviewed_date": "2026-10-28",
+      "review_note": "CAAT当前有效2026-10-01期VTBS AD 2.22第6.1条补足公司中文缩写：离地立即联系Departure、119.25MHz、转交进近扇区之前及ATC例外。非航空器自动换频功能。保留公司中英文原文，2026-10-29起须重新核查有效权威依据。",
+      "authority_evidence": {
+        "source_type": "state_aip",
+        "publisher": "CAAT",
+        "document": "Thailand eAIP AIRAC AIP AMDT 10/26",
+        "icao": "VTBS",
+        "section": "VTBS AD 2.22 section 6.1",
+        "url": "https://aip.caat.or.th/2026-10-01-AIRAC/html/eAIP/VT-AD-2.VTBS-en-GB.html",
+        "effective_index_url": "https://aip.caat.or.th/",
+        "effective_from": "2026-10-01",
+        "effective_until_exclusive": "2026-10-29",
+        "verified_on": "2026-10-28",
+        "summary_zh": "所有离港航空器离地后立即联系Suvarnabhumi Departure，频率119.25MHz；移交相关进近扇区之前完成，ATC另有指令时除外。",
+        "supported_text_hash": "8f12a9d55f3624b955dc4363c46605cbf3cb8dcf81895a65acbec558d3f310ae"
+      }
     }
   ]
 }
