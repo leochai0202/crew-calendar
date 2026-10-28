@@ -1,4 +1,4 @@
-"""One-shot login/SSO probe. No calendar entry point, downloads, or auth backup IO."""
+"""One-shot authenticated training PDF download. No calendar or auth backup IO."""
 from __future__ import annotations
 
 import argparse
@@ -471,6 +471,10 @@ def run_probe(*, headed: bool = False) -> dict:
     phase = "SOURCE_IMPORT_ERROR"
     try:
         with quiet_auth():
+            phase = "DOWNLOAD_DELIVERY_ENVIRONMENT_NOT_READY"
+            from pdf_download import prepare_download, download_target_pdf
+            prepare_download()
+            phase = "SOURCE_IMPORT_ERROR"
             auth = importlib.import_module("password_email_auth")
             otp = importlib.import_module("springair_email_otp")
             from playwright.sync_api import sync_playwright
@@ -482,7 +486,7 @@ def run_probe(*, headed: bool = False) -> dict:
             with sync_playwright() as playwright:
                 context = playwright.chromium.launch_persistent_context(
                     str(profile), channel="msedge", headless=not headed,
-                    accept_downloads=False, viewport={"width": 1400, "height": 1000},
+                    accept_downloads=True, viewport={"width": 1400, "height": 1000},
                 )
                 try:
                     page = context.pages[0] if context.pages else context.new_page()
@@ -519,12 +523,13 @@ def run_probe(*, headed: bool = False) -> dict:
                     elif seen["login_required"]:
                         report.update(status="ENTERPRISE_SESSION_NOT_ESTABLISHED", course_access="NOT_CONFIRMED")
                     elif seen["course_content_visible"]:
-                        report.update(status="PDF_VIEWER_UNCONFIRMED",
+                        report.update(status="DOWNLOAD_NOT_COMPLETED",
                                       course_access="TARGET_LIST_VISIBLE")
-                        phase = "COURSE_VIEWER_INSPECTION_ERROR"
-                        report.update(inspect_course_and_viewer(page, context))
-                        if report["target_pdf_name_confirmed"] and report["pdf_29_pages_confirmed"]:
-                            report["status"] = "PDF_VIEWER_CONFIRMED"
+                        phase = "PDF_DOWNLOAD_ERROR"
+                        report.update(download_target_pdf(page, context, run_dir / "download", TARGET))
+                        if report["status"] == "PDF_DOWNLOADED_ENCRYPTED" and os.environ.get("GITHUB_OUTPUT"):
+                            with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+                                output.write("encrypted_package=" + str(run_dir / "download/training-pdf.enc") + "\n")
                     else:
                         report.update(status=("TARGET_COURSE_NOT_CONFIRMED" if seen["enterprise_session_established"]
                             else "ENTERPRISE_SESSION_NOT_ESTABLISHED"), course_access="NOT_CONFIRMED")
@@ -557,7 +562,7 @@ def main() -> int:
     except Exception:
         report = {"status": "PREFLIGHT_ERROR", "login_attempted": False}
     print(json.dumps(report, ensure_ascii=False, indent=2))
-    return 0 if report["status"] in {"READY", "PDF_VIEWER_CONFIRMED"} else 2
+    return 0 if report["status"] in {"READY", "PDF_DOWNLOADED_ENCRYPTED"} else 2
 
 
 if __name__ == "__main__":

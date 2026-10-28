@@ -282,7 +282,11 @@ class WorkflowGuardTests(unittest.TestCase):
         self.assertEqual(re.findall(r"^  (\w+):", triggers, re.M), ["workflow_dispatch"])
         self.assertIn("  group: crew-calendar\n  cancel-in-progress: false\n  queue: max", text)
         self.assertIn("  contents: read\n  actions: read", text)
-        self.assertNotIn("uses:", text)  # No checkout/cache/upload or third-party actions.
+        self.assertEqual(re.findall(r"uses: (.+)", text),
+                         ["actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4"])
+        self.assertIn("path: ${{ steps.pdf_attempt.outputs.encrypted_package }}", text)
+        self.assertIn("retention-days: 7", text)
+        self.assertNotIn("recipient-private.pem", text)
         self.assertNotIn("contents: write", text)
         self.assertNotIn("actions: write", text)
         self.assertNotIn("CREW_STORAGE_STATE_B64", text)

@@ -1,2 +1,5 @@
 .runtime/
 __pycache__/
+*-private.pem
+*.pdf
+*.enc

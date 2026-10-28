@@ -23,6 +23,22 @@ class PresenceOnly(dict):
 
 
 class LoginProbeSafetyTests(unittest.TestCase):
+    def test_download_delivery_failure_stops_before_auth_or_browser(self):
+        downloader = types.ModuleType("pdf_download")
+        downloader.prepare_download = Mock(side_effect=RuntimeError("synthetic-private"))
+        downloader.download_target_pdf = Mock()
+        with patch.object(probe, "preflight", return_value={"status": "READY", "login_attempted": False}), \
+                patch.dict(probe.sys.modules, {"pdf_download": downloader}), \
+                patch.object(probe.importlib, "import_module") as importer, \
+                patch.object(probe.sys, "path", list(probe.sys.path)), \
+                patch.object(probe.sys, "dont_write_bytecode", True):
+            result = probe.run_probe()
+        self.assertEqual(result["status"], "DOWNLOAD_DELIVERY_ENVIRONMENT_NOT_READY")
+        self.assertFalse(result["login_attempted"])
+        importer.assert_not_called()
+        downloader.download_target_pdf.assert_not_called()
+        self.assertNotIn("synthetic-private", str(result))
+
     def test_preflight_checks_names_without_reading_values(self):
         env = PresenceOnly({name: None for name in probe.REQUIRED_ENV})
         with tempfile.TemporaryDirectory() as directory:
@@ -321,7 +337,7 @@ class SsoStateTests(unittest.TestCase):
             probe.follow_learning_plan(page, Mock(pages=[page]), [page], probe.SsoDiagnostics(), state)
             node.nth.return_value.click.assert_not_called()
 
-    def test_direct_enterprise_probe_confirms_only_target_29_page_reader(self):
+    def test_direct_enterprise_probe_downloads_without_pdfjs_precondition(self):
         for page_count in (29, 28, None):
             with self.subTest(page_count=page_count), tempfile.TemporaryDirectory(
                     dir=Path(probe.__file__).resolve().parent, prefix=".sso-offline-") as directory:
@@ -345,31 +361,44 @@ class SsoStateTests(unittest.TestCase):
                 auth.AuthStatus.AUTHENTICATED = "AUTHENTICATED"
                 auth.attempt_password_email_login.return_value.status = "AUTHENTICATED"
                 modules = {"password_email_auth": auth, "springair_email_otp": otp}
+                downloader = types.ModuleType("pdf_download")
+                downloader.prepare_download = Mock()
+                def save(selected, selected_context, destination, filename):
+                    self.assertIs(selected, page)
+                    self.assertIs(selected_context, context)
+                    self.assertEqual(filename, probe.TARGET)
+                    target.nth.return_value.click(timeout=10_000)
+                    return {"status": "PDF_DOWNLOADED_ENCRYPTED", "target_pdf_name_confirmed": True,
+                            "pdf_29_pages_confirmed": True, "delivery_completed": False}
+                downloader.download_target_pdf = Mock(side_effect=save)
                 with patch.object(probe, "preflight", return_value={"status": "READY", "login_attempted": False}), \
                         patch.object(probe, "RUNTIME", Path(directory)), \
                         patch.object(probe.importlib, "import_module", side_effect=modules.__getitem__), \
-                        patch.dict(probe.sys.modules, {"playwright.sync_api": sync_api}), \
+                        patch.dict(probe.sys.modules, {"playwright.sync_api": sync_api, "pdf_download": downloader}), \
                         patch.object(probe.sys, "path", list(probe.sys.path)), \
                         patch.object(probe.sys, "dont_write_bytecode", True), \
                         patch.dict(probe.os.environ, {}, clear=True):
                     result = probe.run_probe()
-                self.assertEqual(result["status"], "PDF_VIEWER_CONFIRMED" if page_count == 29 else "PDF_VIEWER_UNCONFIRMED")
+                self.assertEqual(result["status"], "PDF_DOWNLOADED_ENCRYPTED")
                 self.assertTrue(result["cp_authenticated"])
                 self.assertTrue(result["enterprise_session_established"])
                 self.assertTrue(result["target_pdf_name_confirmed"])
-                self.assertEqual(result["pdf_29_pages_confirmed"], page_count == 29)
+                self.assertTrue(result["pdf_29_pages_confirmed"])
+                frame.evaluate.assert_not_called()
+                downloader.prepare_download.assert_called_once()
+                downloader.download_target_pdf.assert_called_once()
                 self.assertEqual([call.args[0] for call in page.goto.call_args_list], ["https://cp.9cair.com", probe.COURSE])
                 target.nth.return_value.click.assert_called_once_with(timeout=10_000)
                 auth.attempt_password_email_login.assert_called_once()
                 playwright.chromium.launch_persistent_context.assert_called_once()
-                self.assertFalse(playwright.chromium.launch_persistent_context.call_args.kwargs["accept_downloads"])
+                self.assertTrue(playwright.chromium.launch_persistent_context.call_args.kwargs["accept_downloads"])
                 context.close.assert_called_once()
                 self.assertNotIn("synthetic-new", str(result))
                 self.assertNotIn("https://", str(result))
 
-    def test_cli_success_requires_pdf_viewer_confirmed(self):
-        for status, expected in (("PDF_VIEWER_CONFIRMED", 0), ("ENTERPRISE_SESSION_NOT_ESTABLISHED", 2),
-                                 ("PDF_VIEWER_UNCONFIRMED", 2)):
+    def test_cli_success_requires_downloaded_encrypted_file(self):
+        for status, expected in (("PDF_DOWNLOADED_ENCRYPTED", 0), ("ENTERPRISE_SESSION_NOT_ESTABLISHED", 2),
+                                 ("PDF_VIEWER_CONFIRMED", 2), ("SITE_DOWNLOAD_PROHIBITED", 2)):
             with patch.object(probe.sys, "argv", ["login_probe.py", "--run"]), \
                     patch.object(probe, "run_probe", return_value={"status": status}), \
                     contextlib.redirect_stdout(io.StringIO()):

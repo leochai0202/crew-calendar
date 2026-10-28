@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirm_single_email:
-        description: '确认仅执行一次独立登录，最多申请一次邮箱验证码'
+        description: '确认仅执行一次登录并尝试授权下载目标 PDF，最多申请一次邮箱验证码'
         type: boolean
         required: true
         default: false
@@ -61,6 +61,9 @@ jobs:
               'authenticate_crew_session.py', 'crew_auth_session.py', 'imap_otp.py',
               'training_downloader/login_probe.py', 'training_downloader/workflow_guard.py',
               'training_downloader/test_login_probe.py', 'training_downloader/test_workflow_guard.py',
+              'training_downloader/pdf_download.py', 'training_downloader/pdf_validation.py',
+              'training_downloader/private_delivery.py', 'training_downloader/recipient_public.pem',
+              'training_downloader/test_pdf_download.py', 'training_downloader/download-requirements.txt',
               '.github/workflows/training-login-check.yml'
             )
             $handler = [Net.Http.HttpClientHandler]::new()
@@ -98,6 +101,18 @@ jobs:
             exit 2
           }
 
+      - name: Install isolated PDF validation and encryption dependencies
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $sourceRoot = Join-Path $env:TRAINING_RUN_ROOT 'source'
+          Set-Location -LiteralPath $sourceRoot
+          $env:TEMP = Join-Path $env:TRAINING_RUN_ROOT 'temp'
+          $env:TMP = $env:TEMP
+          $deps = Join-Path $env:TRAINING_RUN_ROOT 'pdf-dependencies'
+          python -m pip install --disable-pip-version-check --no-cache-dir --target $deps -r training_downloader/download-requirements.txt
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          "PYTHONPATH=$deps" | Out-File -LiteralPath $env:GITHUB_ENV -Append -Encoding utf8
+
       - name: Run offline safety checks without login Secrets
         run: |
           $ErrorActionPreference = 'Stop'
@@ -118,7 +133,8 @@ jobs:
           python -B training_downloader/workflow_guard.py
           exit $LASTEXITCODE
 
-      - name: Perform one isolated email login and read-only course inspection
+      - name: Download the target PDF through the authenticated site and encrypt it
+        id: pdf_attempt
         timeout-minutes: 6
         env:
           CREW_USERNAME: ${{ secrets.CREW_USERNAME }}
@@ -136,6 +152,24 @@ jobs:
           $env:PYTHONDONTWRITEBYTECODE = '1'
           python -B training_downloader/login_probe.py --run
           exit $LASTEXITCODE
+
+      - name: Deliver only the encrypted PDF package
+        if: ${{ success() && steps.pdf_attempt.outputs.encrypted_package != '' }}
+        id: private_package
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: training-pdf-encrypted-${{ github.run_id }}
+          path: ${{ steps.pdf_attempt.outputs.encrypted_package }}
+          if-no-files-found: error
+          include-hidden-files: true # Exact ciphertext file under .runtime only.
+          retention-days: 7
+          compression-level: 0
+
+      - name: Report encrypted package availability
+        if: ${{ success() && steps.private_package.outputs.artifact-id != '' }}
+        run: |
+          'ENCRYPTED_ARTIFACT_AVAILABLE; LOCAL_DECRYPTION_REQUIRED' | Out-File -LiteralPath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+          'Only ciphertext was uploaded. Use the local recipient private key and training_downloader/private_delivery.py to obtain and validate the PDF.' | Out-File -LiteralPath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
 
       - name: Remove this run's isolated browser state and source copy
         if: ${{ always() && env.TRAINING_RUN_ROOT != '' }}
