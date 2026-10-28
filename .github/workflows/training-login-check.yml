@@ -44,7 +44,9 @@ jobs:
             $tempBase = [IO.Path]::GetFullPath($env:RUNNER_TEMP).TrimEnd('\')
             $runName = 'training-login-' + $env:GITHUB_RUN_ID + '-' + [Guid]::NewGuid().ToString('N')
             $runRoot = Join-Path $tempBase $runName
+            $cleanupHelper = Join-Path $tempBase ($runName + '-cleanup.ps1')
             if (Test-Path -LiteralPath $runRoot) { throw 'DIRECTORY_ALREADY_EXISTS' }
+            if (Test-Path -LiteralPath $cleanupHelper) { throw 'CLEANUP_HELPER_ALREADY_EXISTS' }
             New-Item -ItemType Directory -Path $runRoot | Out-Null
             "TRAINING_RUN_ROOT=$runRoot" | Out-File -LiteralPath $env:GITHUB_ENV -Append -Encoding utf8
             $owner = @{kind='training-login-test-v1'; run_id=$env:GITHUB_RUN_ID; root_name=$runName} | ConvertTo-Json -Compress
@@ -63,6 +65,7 @@ jobs:
             )
             $handler = [Net.Http.HttpClientHandler]::new()
             $handler.AllowAutoRedirect = $false
+            $handler.UseProxy = $false
             $client = [Net.Http.HttpClient]::new($handler)
             $client.Timeout = [TimeSpan]::FromSeconds(30)
             $client.DefaultRequestHeaders.UserAgent.ParseAdd('training-login-check')
@@ -79,6 +82,10 @@ jobs:
                   $destination = Join-Path $sourceRoot $file
                   New-Item -ItemType Directory -Path (Split-Path -Parent $destination) -Force | Out-Null
                   [IO.File]::WriteAllBytes($destination, [Convert]::FromBase64String($item.content))
+                  if ($file -eq 'training_downloader/cleanup_training.ps1') {
+                    Copy-Item -LiteralPath $destination -Destination $cleanupHelper
+                    "TRAINING_CLEANUP_HELPER=$cleanupHelper" | Out-File -LiteralPath $env:GITHUB_ENV -Append -Encoding utf8
+                  }
                 }
                 finally { $response.Dispose() }
               }
@@ -144,14 +151,38 @@ jobs:
               Write-Host 'TRAINING_TEMP_CLEANUP_REASON=CLEANUP_PATH_INVALID'
               exit 2
             }
-            $helper = Join-Path $env:TRAINING_RUN_ROOT 'source/training_downloader/cleanup_training.ps1'
+            $expectedHelper = Join-Path $tempBase ((Split-Path -Leaf $runRoot) + '-cleanup.ps1')
+            if ([string]::IsNullOrWhiteSpace($env:TRAINING_CLEANUP_HELPER) -or
+                [IO.Path]::GetFullPath($env:TRAINING_CLEANUP_HELPER) -ne $expectedHelper) {
+              Write-Host 'TRAINING_TEMP_CLEANUP=FAILED_REQUIRES_LOCAL_REVIEW'
+              Write-Host 'TRAINING_TEMP_CLEANUP_REASON=CLEANUP_HELPER_PATH_INVALID'
+              exit 2
+            }
+            $helper = $expectedHelper
             if (-not (Test-Path -LiteralPath $helper -PathType Leaf)) {
               Write-Host 'TRAINING_TEMP_CLEANUP=FAILED_REQUIRES_LOCAL_REVIEW'
               Write-Host 'TRAINING_TEMP_CLEANUP_REASON=CLEANUP_HELPER_MISSING'
               exit 2
             }
+            if ((Get-Item -LiteralPath $helper -Force).Attributes -band [IO.FileAttributes]::ReparsePoint) {
+              Write-Host 'TRAINING_TEMP_CLEANUP=FAILED_REQUIRES_LOCAL_REVIEW'
+              Write-Host 'TRAINING_TEMP_CLEANUP_REASON=CLEANUP_REPARSE_POINT_REFUSED'
+              exit 2
+            }
+            # The Python step has exited; its finally/context manager normally
+            # closes Edge. The external helper additionally refuses live test
+            # processes or locked files, including after cancellation/failure.
+            Set-Location -LiteralPath $tempBase
+            [Environment]::CurrentDirectory = $tempBase
+            $env:TEMP = $tempBase
+            $env:TMP = $tempBase
             & $helper
-            exit $LASTEXITCODE
+            $cleanupExit = $LASTEXITCODE
+            if ($cleanupExit -eq 0) {
+              # This exact script has returned and lies outside the deleted tree.
+              Remove-Item -LiteralPath $helper -ErrorAction Stop
+            }
+            exit $cleanupExit
           }
           catch {
             Write-Host 'TRAINING_TEMP_CLEANUP=FAILED_REQUIRES_LOCAL_REVIEW'

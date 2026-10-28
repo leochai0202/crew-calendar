@@ -2,11 +2,14 @@
 from __future__ import annotations
 
 import json
+import errno
+import http.client
 import os
 import socket
 import ssl
+import time
 from urllib.error import HTTPError, URLError
-from urllib.request import HTTPRedirectHandler, Request, build_opener
+from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
 
 API = "https://api.github.com/repos/leochai0202/crew-calendar"
 EXPECTED_WORKFLOWS = {
@@ -55,7 +58,7 @@ def transport_failure(exc: Exception) -> str:
         return "CONCURRENCY_API_TLS_ERROR"
     if isinstance(exc, (json.JSONDecodeError, UnicodeError)):
         return "CONCURRENCY_API_INVALID_JSON"
-    if isinstance(exc, (URLError, OSError)):
+    if isinstance(exc, (URLError, OSError, http.client.IncompleteRead)):
         return "CONCURRENCY_API_NETWORK_ERROR"
     return "CONCURRENCY_UNEXPECTED_ERROR"
 
@@ -63,6 +66,23 @@ def transport_failure(exc: Exception) -> str:
 class NoRedirect(HTTPRedirectHandler):
     def redirect_request(self, *args, **kwargs):
         return None
+
+
+def transient_network_error(exc: Exception) -> bool:
+    # Retry transport loss only, not HTTP/auth/rate-limit/TLS/schema errors.
+    if isinstance(exc, HTTPError):
+        return False
+    cause = exc.reason if isinstance(exc, URLError) else exc
+    if isinstance(cause, (ssl.SSLError, PermissionError)):
+        return False
+    if isinstance(cause, socket.gaierror):
+        return cause.errno == socket.EAI_AGAIN
+    if isinstance(cause, (TimeoutError, ConnectionError, http.client.IncompleteRead)):
+        return True
+    return isinstance(cause, OSError) and (
+        cause.errno in {errno.ECONNRESET, errno.ECONNABORTED, errno.ETIMEDOUT,
+                        errno.ECONNREFUSED, errno.ENETUNREACH, errno.EHOSTUNREACH, errno.EPIPE}
+        or getattr(cause, "winerror", None) in {10053, 10054, 10060, 10061, 10051, 10065})
 
 
 def github_get(path: str) -> dict:
@@ -76,11 +96,17 @@ def github_get(path: str) -> dict:
         "User-Agent": "training-login-guard",
         "X-GitHub-Api-Version": "2022-11-28",
     })
-    try:
-        with build_opener(NoRedirect()).open(request, timeout=20) as response:
-            return json.load(response)
-    except Exception as exc:
-        raise GuardError(transport_failure(exc)) from None
+    # An explicit empty ProxyHandler prevents both environment and Windows
+    # default proxy inheritance. This applies only to this read-only client.
+    opener = build_opener(ProxyHandler({}), NoRedirect())
+    for attempt in range(3):
+        try:
+            with opener.open(request, timeout=20) as response:
+                return json.load(response)
+        except Exception as exc:
+            if attempt == 2 or not transient_network_error(exc):
+                raise GuardError(transport_failure(exc)) from None
+            time.sleep(attempt + 1)
 
 
 def checked_get(get, path: str, check: str) -> dict:

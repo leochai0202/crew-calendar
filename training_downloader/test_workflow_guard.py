@@ -6,8 +6,11 @@ import io
 import contextlib
 import json
 import ssl
+import socket
+import errno
+import http.client
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, Mock, call
 from urllib.error import HTTPError, URLError
 
 SPEC = importlib.util.spec_from_file_location("training_guard", Path(__file__).with_name("workflow_guard.py"))
@@ -29,6 +32,80 @@ class WorkflowGuardTests(unittest.TestCase):
 
     def test_only_current_run_is_allowed(self):
         self.assertEqual(guard.check_activity(self.get, self.env), "NO_OTHER_ACTIVE_WORKFLOWS")
+
+    def test_direct_transport_never_reads_environment_or_system_proxy(self):
+        real_builder = guard.build_opener
+        openers = []
+        def build(*handlers):
+            self.assertIsInstance(handlers[0], guard.ProxyHandler)
+            self.assertEqual(handlers[0].proxies, {})
+            self.assertIsInstance(handlers[1], guard.NoRedirect)
+            opener = real_builder(*handlers)
+            opener.open = Mock(return_value=io.BytesIO(b'{"ok": true}'))
+            openers.append(opener)
+            return opener
+        with patch.dict(guard.os.environ, {"TRAINING_API_TOKEN": "synthetic-only",
+                "HTTP_PROXY": "http://invalid.test", "HTTPS_PROXY": "http://invalid.test",
+                "ALL_PROXY": "http://invalid.test"}), \
+                patch("urllib.request.getproxies", side_effect=AssertionError("proxy lookup forbidden")), \
+                patch.object(guard, "build_opener", side_effect=build):
+            self.assertEqual(guard.github_get("/test"), {"ok": True})
+        self.assertEqual(openers[0].open.call_count, 1)
+
+    def test_transient_transport_retries_then_succeeds(self):
+        opener = Mock()
+        opener.open.side_effect = [URLError(ConnectionResetError("synthetic-private")),
+                                  TimeoutError("synthetic-private"), io.BytesIO(b'{"ok": true}')]
+        with patch.dict(guard.os.environ, {"TRAINING_API_TOKEN": "synthetic-only"}), \
+                patch.object(guard, "build_opener", return_value=opener), \
+                patch.object(guard.time, "sleep") as sleep:
+            self.assertEqual(guard.github_get("/test"), {"ok": True})
+        self.assertEqual(opener.open.call_count, 3)
+        self.assertEqual(sleep.call_args_list, [call(1), call(2)])
+        self.assertTrue(all(item.kwargs == {"timeout": 20} for item in opener.open.call_args_list))
+
+    def test_pending_transport_failure_stops_after_three_attempts(self):
+        opener = Mock()
+        opener.open.side_effect = URLError(ConnectionResetError("synthetic-private"))
+        def get(path):
+            if "status=pending&" in path:
+                return guard.github_get(path)
+            return self.get(path)
+        with patch.dict(guard.os.environ, {"TRAINING_API_TOKEN": "synthetic-only"}), \
+                patch.object(guard, "build_opener", return_value=opener), \
+                patch.object(guard.time, "sleep") as sleep:
+            with self.assertRaises(guard.GuardError) as caught:
+                guard.check_activity(get, self.env)
+        self.assertEqual(opener.open.call_count, 3)
+        self.assertEqual(sleep.call_args_list, [call(1), call(2)])
+        self.assertEqual(guard.safe_failure(caught.exception), {
+            "concurrency_failure_reason": "CONCURRENCY_API_NETWORK_ERROR",
+            "concurrency_check": "ACTIVE_RUNS_PENDING"})
+        self.assertNotIn("synthetic-private", str(caught.exception))
+
+    def test_nontransient_errors_are_never_retried(self):
+        errors = [ssl.SSLError("synthetic"), URLError("unknown cause"),
+                  socket.gaierror(socket.EAI_NONAME, "synthetic"), PermissionError("synthetic"),
+                  json.JSONDecodeError("synthetic", "", 0)]
+        errors.extend(HTTPError("https://invalid.test", status, "synthetic", {}, None)
+                      for status in (401, 403, 429, 503, 302))
+        for error in errors:
+            with self.subTest(error=type(error).__name__):
+                opener = Mock()
+                opener.open.side_effect = error
+                with patch.dict(guard.os.environ, {"TRAINING_API_TOKEN": "synthetic-only"}), \
+                        patch.object(guard, "build_opener", return_value=opener), \
+                        patch.object(guard.time, "sleep") as sleep:
+                    with self.assertRaises(guard.GuardError):
+                        guard.github_get("/test")
+                self.assertEqual(opener.open.call_count, 1)
+                sleep.assert_not_called()
+
+    def test_transient_classifier_is_bounded_to_transport_failures(self):
+        for error in (socket.gaierror(socket.EAI_AGAIN, "synthetic"),
+                      OSError(errno.ENETUNREACH, "synthetic"), http.client.IncompleteRead(b"")):
+            self.assertTrue(guard.transient_network_error(error))
+        self.assertFalse(guard.transient_network_error(OSError(errno.EINVAL, "synthetic")))
 
     def test_active_and_queued_other_runs_block(self):
         for state in guard.ACTIVE_STATES:
@@ -133,6 +210,19 @@ class WorkflowGuardTests(unittest.TestCase):
         self.assertIn("CLEANUP_OWNER_INVALID", cleanup)
         self.assertIn("Get-TrainingCleanupPlan -Root $Root -TempBase $TempBase -Id $Id", cleanup)
         self.assertIn("test_cleanup_training.ps1", text)
+
+    def test_cleanup_executes_outside_target_after_browser_step(self):
+        text = (Path(__file__).resolve().parent.parent / ".github/workflows/training-login-check.yml").read_text(encoding="utf-8")
+        self.assertIn("$cleanupHelper = Join-Path $tempBase ($runName + '-cleanup.ps1')", text)
+        self.assertIn("$handler.UseProxy = $false", text)
+        cleanup_step = text.split("      - name: Remove this run's", 1)[1]
+        self.assertNotIn("source/training_downloader/cleanup_training.ps1", cleanup_step)
+        self.assertLess(cleanup_step.index("[Environment]::CurrentDirectory = $tempBase"), cleanup_step.index("& $helper"))
+        self.assertLess(text.index("login_probe.py --run"), text.index("      - name: Remove this run's"))
+        probe = Path(__file__).with_name("login_probe.py").read_text(encoding="utf-8")
+        self.assertIn("context.close()", probe)
+        self.assertIn("workflow_guard.py", text)
+        self.assertIn("check_activity", probe)  # The second guard remains inside the probe.
 
 
 if __name__ == "__main__":

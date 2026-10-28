@@ -4,7 +4,17 @@ $ErrorActionPreference = 'Stop'
 $fixtureBase = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot ('.runtime/cleanup-tests/' + [Guid]::NewGuid().ToString('N'))))
 New-Item -ItemType Directory -Path $fixtureBase -Force | Out-Null
 $originalLocation = (Get-Location).ProviderPath
+$originalNativeLocation = [Environment]::CurrentDirectory
 $testsPassed = 0
+$fixtureProcessState = @{ Processes=@(); Fail=$false }
+
+# Offline process inventory: never enumerate actual browser command lines.
+function Get-CimInstance {
+    [CmdletBinding()]
+    param([string]$ClassName, [string]$Filter)
+    if ($fixtureProcessState.Fail) { throw 'synthetic process inventory failure' }
+    return $fixtureProcessState.Processes
+}
 
 function Assert-Check([bool]$Condition, [string]$Code) {
     if (-not $Condition) { throw ('OFFLINE_CLEANUP_ASSERTION_' + $Code) }
@@ -80,6 +90,8 @@ try {
     $null = Invoke-TrainingCleanup -Root $ancestorRoot -TempBase $fixtureBase -Id '999'
 
     $lockedRoot = New-Fixture
+    $unlockedSentinel = Join-Path $lockedRoot 'a-preserved.txt'
+    [IO.File]::WriteAllText($unlockedSentinel, 'must not partially delete before lock check')
     $lockedFile = Join-Path $lockedRoot 'locked-synthetic.txt'
     $handle = [IO.File]::Open($lockedFile, [IO.FileMode]::Create, [IO.FileAccess]::ReadWrite, [IO.FileShare]::None)
     try {
@@ -87,6 +99,7 @@ try {
         Assert-Check ($result.Status -eq 'FAILED_REQUIRES_LOCAL_REVIEW' -and
                       $result.Reason -in @('CLEANUP_FILE_IN_USE','CLEANUP_ACCESS_DENIED') -and
                       $result.Attempts -eq 3 -and
+                      (Test-Path -LiteralPath $unlockedSentinel) -and
                       (Test-Path -LiteralPath (Join-Path $lockedRoot '.training-run-owner.json'))) 'LOCKED_FILE_BOUNDED_RETRIES'
         $testsPassed++
     }
@@ -97,19 +110,51 @@ try {
 
     $cwdRoot = New-Fixture
     Set-Location -LiteralPath $cwdRoot
+    [Environment]::CurrentDirectory = $cwdRoot
     $result = Invoke-TrainingCleanup -Root $cwdRoot -TempBase $fixtureBase -Id '999'
-    Assert-Check ($result.Status -eq 'COMPLETE' -and (Get-Location).ProviderPath -eq $fixtureBase) 'WORKING_DIRECTORY_INSIDE_ROOT'
+    Assert-Check ($result.Status -eq 'COMPLETE' -and (Get-Location).ProviderPath -eq $fixtureBase -and
+                  [Environment]::CurrentDirectory -eq $fixtureBase) 'WORKING_DIRECTORY_INSIDE_ROOT'
     $testsPassed++
 
     $selfRoot = New-Fixture
     $selfScript = Join-Path $selfRoot 'cleanup_training.ps1'
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'cleanup_training.ps1') -Destination $selfScript
     $selfOutput = @(& $selfScript -RunRoot $selfRoot -RunnerTemp $fixtureBase -RunId '999')
-    Assert-Check ($LASTEXITCODE -eq 0 -and $selfOutput -contains 'TRAINING_TEMP_CLEANUP=COMPLETE' -and
-                  -not (Test-Path -LiteralPath $selfRoot)) 'SCRIPT_INSIDE_TARGET_ROOT'
+    Assert-Check ($LASTEXITCODE -eq 2 -and $selfOutput -contains 'TRAINING_TEMP_CLEANUP_REASON=CLEANUP_SCRIPT_INSIDE_ROOT' -and
+                  (Test-Path -LiteralPath $selfScript)) 'SCRIPT_INSIDE_TARGET_REFUSED'
+    $testsPassed++
+    $externalScript = Join-Path $fixtureBase ((Split-Path -Leaf $selfRoot) + '-cleanup.ps1')
+    Copy-Item -LiteralPath $selfScript -Destination $externalScript
+    $externalOutput = @(& $externalScript -RunRoot $selfRoot -RunnerTemp $fixtureBase -RunId '999')
+    if ($LASTEXITCODE -ne 0) { $externalOutput | Write-Output }
+    Assert-Check ($LASTEXITCODE -eq 0 -and $externalOutput -contains 'TRAINING_TEMP_CLEANUP=COMPLETE' -and
+                  -not (Test-Path -LiteralPath $selfRoot) -and (Test-Path -LiteralPath $externalScript)) 'EXTERNAL_SCRIPT_CLEANUP'
+    Remove-Item -LiteralPath $externalScript
+    $testsPassed++
+
+    $activeRoot = New-Fixture
+    $fixtureProcessState.Processes = @([pscustomobject]@{ProcessId=($PID + 1)})
+    $result = Invoke-TrainingCleanup -Root $activeRoot -TempBase $fixtureBase -Id '999'
+    Assert-Check ($result.Reason -eq 'CLEANUP_TEST_PROCESS_ACTIVE' -and $result.Attempts -eq 1 -and
+                  (Test-Path -LiteralPath (Join-Path $activeRoot '.training-run-owner.json'))) 'ACTIVE_PROCESS_REFUSED'
+    $testsPassed++
+    $fixtureProcessState.Processes = @()
+    $fixtureProcessState.Fail = $true
+    $result = Invoke-TrainingCleanup -Root $activeRoot -TempBase $fixtureBase -Id '999'
+    Assert-Check ($result.Reason -eq 'CLEANUP_PROCESS_CHECK_UNAVAILABLE' -and
+                  (Test-Path -LiteralPath $activeRoot)) 'UNKNOWN_PROCESS_STATE_REFUSED'
+    $testsPassed++
+    $fixtureProcessState.Fail = $false
+    $fixtureProcessState.Processes = @([pscustomobject]@{ProcessId=$PID})
+    $result = Invoke-TrainingCleanup -Root $activeRoot -TempBase $fixtureBase -Id '999'
+    Assert-Check ($result.Status -eq 'COMPLETE') 'OWN_CLEANUP_PROCESS_ALLOWED'
+    $fixtureProcessState.Processes = @()
     $testsPassed++
 }
-finally { Set-Location -LiteralPath $originalLocation }
+finally {
+    Set-Location -LiteralPath $originalLocation
+    [Environment]::CurrentDirectory = $originalNativeLocation
+}
 
 # Nonrecursive deletion of this now-empty synthetic parent only.
 [IO.Directory]::Delete($fixtureBase)
