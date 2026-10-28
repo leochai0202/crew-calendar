@@ -12,7 +12,7 @@ import os
 from pathlib import Path
 import re
 import sys
-from urllib.parse import urljoin, urlsplit
+from urllib.parse import parse_qs, quote, urljoin, urlsplit
 import uuid
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -26,8 +26,11 @@ REVIEWED = {
     "crew_auth_session.py": "c402b10897c141e3367ff3bda5b9f2e6398d1d0c",
     "imap_otp.py": "a92114b7ce2517b141c688d1993c38774eadb991",
 }
-COURSE = ("https://m.yidianzhishi.com/#!/course/18952008429/view?"
-          "series_id=0&live_type=9&module_id=117523&module_type=1&qrcode=1&system_type=19")
+PROJECT = "2026-2027年冬春季定期复训模拟机学员指导手册训练版"
+# Exact user-confirmed learning-task address; never construct an SSO address.
+COURSE = ("https://spring.yidianzhishi.com/personal.html#!/task/player?"
+          "learning_id=117523&learning_type=1&task_id=18952008429&task_type=2&"
+          "is_classes=1&attend_id=0&project_name=" + quote(PROJECT, safe=""))
 TARGET = "2026-2027年冬春季定期复训模拟机学员指导手册训练版（0926）.pdf"
 LOGIN_ENTRY_NAME = re.compile(r"^(?:登录|去登录|立即登录|统一认证登录|春秋统一认证登录|企业登录|SSO登录)$")
 SSO_BUTTON_NAME = re.compile(r"^(?:统一认证登录|春秋统一认证登录|企业登录|SSO登录)$")
@@ -135,12 +138,21 @@ def course_observation(page) -> dict:
         page, re.compile(r"请先登录|请登录后|登录已过期|重新登录|^扫码登录$|^二维码登录$|^账号密码登录$|^请完成身份验证$"))
     login_required = login_form_visible or login_prompt_visible
     denied = visible_text(page, re.compile("无权访问|暂无权限|没有权限|未授权|无学习权限"))
-    on_course = (location.scheme == "https" and location.hostname == "m.yidianzhishi.com"
-                 and location.fragment.startswith("!/course/18952008429/view"))
-    target_visible = visible_text(page, TARGET) if on_course else False
+    route, _, query = location.fragment.partition("?")
+    params = parse_qs(query)
+    on_course = (category == "TRAINING_TENANT" and location.path == "/personal.html"
+                 and route == "!/task/player" and all(params.get(key) == [value] for key, value in {
+                     "learning_id": "117523", "learning_type": "1",
+                     "task_id": "18952008429", "task_type": "2"}.items()))
+    targets = page.get_by_text(TARGET, exact=True) if on_course else None
+    target_visible = targets is not None and any(targets.nth(i).is_visible() for i in range(targets.count()))
+    # CP success and a task URL are not evidence of an enterprise session.
+    session_established = category == "TRAINING_TENANT" and not (login_required or denied) and (
+        target_visible or visible_text(page, re.compile(r"^退出登录$")))
     return {"login_required": login_required, "login_page_visible": login_required,
             "login_form_visible": login_form_visible, "access_denied": denied,
             "on_target_course": on_course, "target_pdf_listed": target_visible,
+            "enterprise_session_established": session_established,
             "course_content_visible": on_course and target_visible and not (login_required or denied),
             "domain_category": category}
 
@@ -152,7 +164,9 @@ class SsoDiagnostics:
                         "TRAINING_NAVIGATION", "OTHER_NAVIGATION", "OBSERVING",
                         "OBSERVATION_UNAVAILABLE", "SITE_LOGIN_ENTRY_CLICK",
                         "COURSE_RETURN", "COURSE_CONTENT_VISIBLE", "LOGIN_UI_VISIBLE",
-                        "ACCESS_DENIED", "TRANSITION_TIMEOUT", "NAVIGATION_ERROR"})
+                        "ACCESS_DENIED", "TRANSITION_TIMEOUT", "NAVIGATION_ERROR",
+                        "LEARNING_CENTER", "LEARNING_PLAN", "PLAN_PAGE_2",
+                        "PLAN_DETAILS", "LEARNING_STAGE_1", "SITE_NAVIGATION_UNCONFIRMED"})
 
     def __init__(self):
         self.events = []
@@ -265,6 +279,51 @@ def visible_site_login_entry(page, *, sso_only=False):
     return matches[0] if len(matches) == 1 else None
 
 
+def follow_learning_plan(page, context, known_pages, diagnostics, state):
+    """Bounded fallback through the user's confirmed UI; no inferred URLs."""
+    def unique(controls):
+        visible = [controls.nth(i) for i in range(controls.count()) if controls.nth(i).is_visible()]
+        return visible[0] if len(visible) == 1 else None
+
+    stages = ("LEARNING_CENTER", "LEARNING_PLAN", "PLAN_PAGE_2", "PLAN_DETAILS", "LEARNING_STAGE_1")
+    # A direct task may simply have a collapsed first learning stage.
+    if state and state["on_target_course"] and unique(page.get_by_text("学习阶段1", exact=True)) is not None:
+        stages = ("LEARNING_STAGE_1",)
+    for stage in stages:
+        if (not state or state["course_content_visible"] or state["login_required"] or
+                state["access_denied"] or state["domain_category"] != "TRAINING_TENANT"):
+            break
+        if stage == "PLAN_PAGE_2":
+            if unique(page.get_by_text(PROJECT, exact=True)) is not None:
+                continue
+            controls = page.locator('[class*="pagination"], [aria-label*="分页"]').get_by_text("2", exact=True)
+        elif stage == "PLAN_DETAILS":
+            title = unique(page.get_by_text(PROJECT, exact=True))
+            if title is None:
+                diagnostics.record("SITE_NAVIGATION_UNCONFIRMED", "TRAINING_TENANT")
+                break
+            # Nearest real container with this title and its own details action.
+            controls = title.locator("xpath=ancestor::*[.//*[normalize-space(text())='查看详情']][1]").get_by_text("查看详情", exact=True)
+        else:
+            label = {"LEARNING_CENTER": "学习中心", "LEARNING_PLAN": "学习计划",
+                     "LEARNING_STAGE_1": "学习阶段1"}[stage]
+            controls = page.get_by_text(label, exact=True)
+        control = unique(controls)
+        if control is None or control.evaluate("element => !!element.closest('form')"):
+            diagnostics.record("SITE_NAVIGATION_UNCONFIRMED", "TRAINING_TENANT")
+            break
+        href = control.evaluate("element => element.closest('a')?.getAttribute('href') || ''")
+        if href and href not in {"#", "javascript:;", "javascript:void(0)", "javascript:void(0);"}:
+            resolved = urljoin(page.url, href)
+            if domain_category(resolved) != "TRAINING_TENANT" or "/logout" in urlsplit(resolved).path.lower():
+                diagnostics.record("SITE_NAVIGATION_UNCONFIRMED", "TRAINING_TENANT")
+                break
+        diagnostics.record(stage, "TRAINING_TENANT", login_visible=False)
+        control.click(timeout=10_000)
+        page, state = wait_for_course_state(page, context, known_pages, diagnostics)
+    return page, state
+
+
 def open_course_through_site(page, context, report):
     diagnostics = SsoDiagnostics()
     report.update(sso_handoff_attempted=False, sso_entry_source="COURSE_NATURAL_FLOW",
@@ -273,7 +332,7 @@ def open_course_through_site(page, context, report):
     diagnostics.watch(page)
     context.on("page", diagnostics.watch)
     try:
-        diagnostics.record("COURSE_OPEN", "TRAINING_MOBILE")
+        diagnostics.record("COURSE_OPEN", "TRAINING_TENANT")
         page.goto(COURSE, wait_until="domcontentloaded", timeout=60_000)
         active, state = wait_for_course_state(page, context, known_pages, diagnostics)
         if state and not (state["course_content_visible"] or state["access_denied"]):
@@ -293,9 +352,13 @@ def open_course_through_site(page, context, report):
             location = urlsplit(active.url)
             callback_pending = "/sso/" in location.path.lower() or "/login" in location.path.lower()
             if state["domain_category"] in {"TRAINING_MOBILE", "TRAINING_TENANT"} and not state["on_target_course"] and not callback_pending:
-                diagnostics.record("COURSE_RETURN", "TRAINING_MOBILE", login_visible=False)
+                diagnostics.record("COURSE_RETURN", "TRAINING_TENANT", login_visible=False)
                 page.goto(COURSE, wait_until="domcontentloaded", timeout=60_000)
                 active, state = wait_for_course_state(page, context, known_pages, diagnostics)
+        if state and not (state["course_content_visible"] or state["login_required"] or state["access_denied"]):
+            path = urlsplit(active.url).path.lower()
+            if state["domain_category"] == "TRAINING_TENANT" and "/sso/" not in path and "/login" not in path:
+                active, state = follow_learning_plan(active, context, known_pages, diagnostics, state)
         return active, state
     except Exception:
         diagnostics.record("NAVIGATION_ERROR", "OTHER")
@@ -328,7 +391,8 @@ def inspect_course_and_viewer(page, context) -> dict:
     """Only follow the one visible target resource; never save a download."""
     evidence = {"course_heading_visible": False, "course_catalog_visible": False,
                 "module_link_count": 0, "target_pdf_accessible": False,
-                "pdf_29_pages_confirmed": False, "browser_download_blocked": False}
+                "pdf_29_pages_confirmed": False, "target_pdf_name_confirmed": False,
+                "browser_download_blocked": False}
     headings = page.get_by_role("heading")
     evidence["course_heading_visible"] = any(
         headings.nth(i).is_visible() for i in range(headings.count()))
@@ -365,6 +429,7 @@ def inspect_course_and_viewer(page, context) -> dict:
                 baseline[frame] = None
     context.on("page", watch_page)
     visible[0].click(timeout=10_000)
+    evidence["target_pdf_name_confirmed"] = True
     page.wait_for_timeout(3_000)
     viewers = [candidate for candidate in context.pages if candidate not in previous_pages] or [page]
     for viewer in viewers:
@@ -391,7 +456,7 @@ def run_probe(*, headed: bool = False) -> dict:
     report = preflight()
     if report["status"] != "READY":
         return report
-    report.update(status="NOT_VERIFIED", cp_authenticated=False,
+    report.update(status="NOT_VERIFIED", cp_authenticated=False, enterprise_session_established=False,
                   course_access="NOT_TESTED", pdf_29_pages_confirmed=False,
                   course_title_confirmed=False, module_list_confirmed=False)
     # No reuse option: every invocation gets a newly created test-only profile.
@@ -443,27 +508,26 @@ def run_probe(*, headed: bool = False) -> dict:
                             if result.signals.additional_verification and not result.signals.password_captcha_form
                             else "AUTHENTICATION_NOT_CONFIRMED")
                         return report
-                    phase = "SSO_NAVIGATION_ERROR"
+                    phase = "ENTERPRISE_SESSION_NOT_ESTABLISHED"
                     page, seen = open_course_through_site(page, context, report)
                     if seen is None:
-                        report.update(status="SSO_STATE_UNCONFIRMED", course_access="NOT_CONFIRMED")
+                        report.update(status="ENTERPRISE_SESSION_NOT_ESTABLISHED", course_access="NOT_CONFIRMED")
                         return report
                     report.update(seen)
                     if seen["access_denied"]:
                         report.update(status="PERMISSION_DENIED", course_access="DENIED")
                     elif seen["login_required"]:
-                        report.update(status=("SSO_ENTRY_NOT_FOUND"
-                            if report.get("sso_entry_status") == "SSO_ENTRY_NOT_FOUND" else "SSO_REAUTH_REQUIRED"),
-                            course_access="NOT_CONFIRMED")
+                        report.update(status="ENTERPRISE_SESSION_NOT_ESTABLISHED", course_access="NOT_CONFIRMED")
                     elif seen["course_content_visible"]:
-                        report.update(status="COURSE_TARGET_VISIBLE_INSPECTION_REQUIRED",
+                        report.update(status="PDF_VIEWER_UNCONFIRMED",
                                       course_access="TARGET_LIST_VISIBLE")
                         phase = "COURSE_VIEWER_INSPECTION_ERROR"
                         report.update(inspect_course_and_viewer(page, context))
-                        if report["pdf_29_pages_confirmed"]:
-                            report["status"] = "TARGET_PDF_ACCESS_CONFIRMED"
+                        if report["target_pdf_name_confirmed"] and report["pdf_29_pages_confirmed"]:
+                            report["status"] = "PDF_VIEWER_CONFIRMED"
                     else:
-                        report.update(status="SSO_STATE_UNCONFIRMED", course_access="NOT_CONFIRMED")
+                        report.update(status=("TARGET_COURSE_NOT_CONFIRMED" if seen["enterprise_session_established"]
+                            else "ENTERPRISE_SESSION_NOT_ESTABLISHED"), course_access="NOT_CONFIRMED")
                     # A generic heading or catalog marker is not proof of the full
                     # course title/module list; those confirmation flags stay false.
                 finally:
@@ -493,7 +557,7 @@ def main() -> int:
     except Exception:
         report = {"status": "PREFLIGHT_ERROR", "login_attempted": False}
     print(json.dumps(report, ensure_ascii=False, indent=2))
-    return 0 if report["status"] in {"READY", "TARGET_PDF_ACCESS_CONFIRMED"} else 2
+    return 0 if report["status"] in {"READY", "PDF_VIEWER_CONFIRMED"} else 2
 
 
 if __name__ == "__main__":

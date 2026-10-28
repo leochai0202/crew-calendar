@@ -121,8 +121,16 @@ class LoginProbeSafetyTests(unittest.TestCase):
         evidence = probe.inspect_course_and_viewer(page, context)
         self.assertTrue(evidence["target_pdf_accessible"])
         self.assertTrue(evidence["pdf_29_pages_confirmed"])
+        self.assertTrue(evidence["target_pdf_name_confirmed"])
         self.assertNotIn("fingerprint", evidence)
         page.get_by_text.return_value.nth.return_value.click.assert_called_once()
+
+    def test_viewer_with_other_page_count_is_not_confirmed(self):
+        page, context = self.viewer_fixture(None, {"count": 28, "fingerprint": "synthetic-new"})
+        evidence = probe.inspect_course_and_viewer(page, context)
+        self.assertTrue(evidence["target_pdf_name_confirmed"])
+        self.assertFalse(evidence["pdf_29_pages_confirmed"])
+        self.assertEqual(evidence["pdf_page_count"], 28)
 
     def test_ambiguous_resource_is_not_opened(self):
         page, context = self.viewer_fixture(None, None)
@@ -198,6 +206,174 @@ class SsoStateTests(unittest.TestCase):
         state = probe.course_observation(self.page(probe.COURSE))
         self.assertTrue(state["on_target_course"])
         self.assertFalse(state["course_content_visible"])
+        self.assertFalse(state["enterprise_session_established"])
+
+    def test_enterprise_task_address_matches_user_confirmed_parameters(self):
+        location = probe.urlsplit(probe.COURSE)
+        self.assertEqual(location.scheme, "https")
+        self.assertEqual(location.hostname, "spring.yidianzhishi.com")
+        self.assertEqual(location.path, "/personal.html")
+        route, _, query = location.fragment.partition("?")
+        self.assertEqual(route, "!/task/player")
+        self.assertEqual(probe.parse_qs(query), {
+            "learning_id": ["117523"], "learning_type": ["1"],
+            "task_id": ["18952008429"], "task_type": ["2"],
+            "is_classes": ["1"], "attend_id": ["0"], "project_name": [probe.PROJECT]})
+
+    def test_old_mobile_or_wrong_task_cannot_prove_enterprise_access(self):
+        for url in ("https://m.yidianzhishi.com/#!/course/18952008429/view?module_id=117523",
+                    probe.COURSE.replace("task_id=18952008429", "task_id=123"),
+                    probe.COURSE.replace("learning_id=117523", "learning_id=123"),
+                    probe.COURSE + "&task_id=123"):
+            state = probe.course_observation(self.page(url, [probe.TARGET]))
+            self.assertFalse(state["on_target_course"])
+            self.assertFalse(state["enterprise_session_established"])
+
+    def test_direct_enterprise_content_needs_no_sso_or_list_navigation(self):
+        page = self.page(probe.COURSE, [probe.TARGET])
+        context, report = Mock(pages=[page]), {"cp_authenticated": True}
+        with patch.object(probe, "visible_site_login_entry") as entry, \
+                patch.object(probe, "follow_learning_plan") as fallback:
+            selected, seen = probe.open_course_through_site(page, context, report)
+        self.assertIs(selected, page)
+        self.assertTrue(seen["enterprise_session_established"])
+        self.assertTrue(seen["course_content_visible"])
+        self.assertFalse(report["sso_handoff_attempted"])
+        entry.assert_not_called()
+        fallback.assert_not_called()
+        page.goto.assert_called_once_with(probe.COURSE, wait_until="domcontentloaded", timeout=60_000)
+        self.assertEqual(report["sso_diagnostics"][0]["domain_category"], "TRAINING_TENANT")
+
+    def test_enterprise_content_requires_exact_pdf_name(self):
+        page = self.page(probe.COURSE, [probe.PROJECT, "旧版" + probe.TARGET])
+        seen = probe.course_observation(page)
+        self.assertFalse(seen["target_pdf_listed"])
+        self.assertFalse(seen["enterprise_session_established"])
+
+    def test_enterprise_learning_plan_fallback_uses_only_visible_navigation(self):
+        page = self.page("https://spring.yidianzhishi.com/personal.html")
+        context = Mock(pages=[page])
+        steps = ["学习中心", "学习计划", "2", "查看详情", "学习阶段1"]
+        position, clicked = [0], []
+        nodes = {}
+        for label in steps + [probe.PROJECT, probe.TARGET]:
+            node = MagicMock()
+            node.is_visible.return_value = True
+            node.evaluate.side_effect = lambda script: False if "closest('form')" in script else ""
+            def advance(label=label, **kwargs):
+                self.assertEqual(label, steps[position[0]])
+                clicked.append(label)
+                position[0] += 1
+                if label == "查看详情":
+                    page.url = probe.COURSE
+            node.click.side_effect = advance
+            nodes[label] = node
+
+        def matches(labels):
+            result = self.locator(len(labels))
+            result.nth.side_effect = lambda i: nodes[labels[i]]
+            return result
+
+        def lookup(pattern, exact=False):
+            labels = ([probe.TARGET] if position[0] == 5 else
+                      [probe.PROJECT] if position[0] == 3 else
+                      [] if position[0] == 2 else [steps[position[0]]])
+            return matches([label for label in labels if (
+                pattern.search(label) if hasattr(pattern, "search") else
+                label == pattern if exact else pattern in label)])
+        page.get_by_text.side_effect = lookup
+        pagination = Mock()
+        pagination.get_by_text.side_effect = lambda text, exact: matches(["2"] if position[0] == 2 else [])
+        page.locator.side_effect = lambda selector: pagination if "pagination" in selector else self.locator(0)
+        details = Mock()
+        details.get_by_text.side_effect = lambda text, exact: matches(["查看详情"] if position[0] == 3 else [])
+        nodes[probe.PROJECT].locator.return_value = details
+        report = {}
+        selected, seen = probe.open_course_through_site(page, context, report)
+        self.assertIs(selected, page)
+        self.assertEqual(clicked, steps)
+        self.assertTrue(seen["enterprise_session_established"])
+        self.assertTrue(seen["target_pdf_listed"])
+        self.assertTrue(all(call.args == (probe.COURSE,) for call in page.goto.call_args_list))
+        self.assertNotIn("https://", str(report))
+        self.assertNotIn(probe.PROJECT, str(report))
+
+    def test_direct_task_expands_first_stage_without_visiting_plan(self):
+        page = self.page(probe.COURSE, ["学习阶段1"])
+        original_lookup = page.get_by_text.side_effect
+        stage = self.locator(1)
+        stage.nth.return_value.evaluate.side_effect = lambda script: False if "closest('form')" in script else ""
+        stage.nth.return_value.click.side_effect = lambda **kwargs: page.test_content.append(probe.TARGET)
+        page.get_by_text.side_effect = lambda pattern, exact=False: stage if pattern == "学习阶段1" else original_lookup(pattern, exact)
+        _, seen = probe.open_course_through_site(page, Mock(pages=[page]), {})
+        self.assertTrue(seen["course_content_visible"])
+        stage.nth.return_value.click.assert_called_once_with(timeout=10_000)
+        page.goto.assert_called_once_with(probe.COURSE, wait_until="domcontentloaded", timeout=60_000)
+
+    def test_fallback_stops_for_login_denial_or_ambiguous_navigation(self):
+        for texts, form in ((["学习中心"], True), (["学习中心", "无权访问"], False),
+                            (["学习中心", "学习中心"], False)):
+            page = self.page("https://spring.yidianzhishi.com/personal.html", texts, form)
+            state = probe.course_observation(page)
+            node = self.locator(2 if len(texts) == 2 and texts[0] == texts[1] else 1)
+            page.get_by_text.side_effect = None
+            page.get_by_text.return_value = node
+            probe.follow_learning_plan(page, Mock(pages=[page]), [page], probe.SsoDiagnostics(), state)
+            node.nth.return_value.click.assert_not_called()
+
+    def test_direct_enterprise_probe_confirms_only_target_29_page_reader(self):
+        for page_count in (29, 28, None):
+            with self.subTest(page_count=page_count), tempfile.TemporaryDirectory(
+                    dir=Path(probe.__file__).resolve().parent, prefix=".sso-offline-") as directory:
+                page = self.page(probe.COURSE, [probe.TARGET])
+                frame = Mock()
+                frame.evaluate.side_effect = [None, None if page_count is None else
+                    {"count": page_count, "fingerprint": "synthetic-new"}]
+                page.frames = [frame]
+                # Preserve the actual exact-title control throughout the click.
+                target = self.locator(1)
+                original_lookup = page.get_by_text.side_effect
+                page.get_by_text.side_effect = lambda pattern, exact=False: (
+                    target if pattern == probe.TARGET and exact else original_lookup(pattern, exact))
+                context = Mock(pages=[page])
+                playwright = MagicMock()
+                playwright.chromium.launch_persistent_context.return_value = context
+                sync_api = types.ModuleType("playwright.sync_api")
+                sync_api.sync_playwright = MagicMock()
+                sync_api.sync_playwright.return_value.__enter__.return_value = playwright
+                auth, otp = MagicMock(), MagicMock()
+                auth.AuthStatus.AUTHENTICATED = "AUTHENTICATED"
+                auth.attempt_password_email_login.return_value.status = "AUTHENTICATED"
+                modules = {"password_email_auth": auth, "springair_email_otp": otp}
+                with patch.object(probe, "preflight", return_value={"status": "READY", "login_attempted": False}), \
+                        patch.object(probe, "RUNTIME", Path(directory)), \
+                        patch.object(probe.importlib, "import_module", side_effect=modules.__getitem__), \
+                        patch.dict(probe.sys.modules, {"playwright.sync_api": sync_api}), \
+                        patch.object(probe.sys, "path", list(probe.sys.path)), \
+                        patch.object(probe.sys, "dont_write_bytecode", True), \
+                        patch.dict(probe.os.environ, {}, clear=True):
+                    result = probe.run_probe()
+                self.assertEqual(result["status"], "PDF_VIEWER_CONFIRMED" if page_count == 29 else "PDF_VIEWER_UNCONFIRMED")
+                self.assertTrue(result["cp_authenticated"])
+                self.assertTrue(result["enterprise_session_established"])
+                self.assertTrue(result["target_pdf_name_confirmed"])
+                self.assertEqual(result["pdf_29_pages_confirmed"], page_count == 29)
+                self.assertEqual([call.args[0] for call in page.goto.call_args_list], ["https://cp.9cair.com", probe.COURSE])
+                target.nth.return_value.click.assert_called_once_with(timeout=10_000)
+                auth.attempt_password_email_login.assert_called_once()
+                playwright.chromium.launch_persistent_context.assert_called_once()
+                self.assertFalse(playwright.chromium.launch_persistent_context.call_args.kwargs["accept_downloads"])
+                context.close.assert_called_once()
+                self.assertNotIn("synthetic-new", str(result))
+                self.assertNotIn("https://", str(result))
+
+    def test_cli_success_requires_pdf_viewer_confirmed(self):
+        for status, expected in (("PDF_VIEWER_CONFIRMED", 0), ("ENTERPRISE_SESSION_NOT_ESTABLISHED", 2),
+                                 ("PDF_VIEWER_UNCONFIRMED", 2)):
+            with patch.object(probe.sys, "argv", ["login_probe.py", "--run"]), \
+                    patch.object(probe, "run_probe", return_value={"status": status}), \
+                    contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(probe.main(), expected)
 
     def test_content_with_login_in_query_is_still_content(self):
         page = self.page(probe.COURSE + "&return=/login", [probe.TARGET])
@@ -267,7 +443,7 @@ class SsoStateTests(unittest.TestCase):
     def test_fifth_run_visible_form_still_uses_unique_safe_sso_entry(self):
         for role in ("link", "button"):
             with self.subTest(role=role):
-                page = self.page("https://m.yidianzhishi.com/#!/login", form=True)
+                page = self.page("https://spring.yidianzhishi.com/personal.html#!/login", form=True)
                 control = self.sso_control(page, role=role)
                 def finish(**kwargs):
                     page.url = probe.COURSE
@@ -332,7 +508,10 @@ class SsoStateTests(unittest.TestCase):
                         patch.dict(probe.os.environ, {}, clear=True):
                     result = probe.run_probe()
                 self.assertTrue(result["cp_authenticated"], result)
-                self.assertEqual(result["status"], "SSO_REAUTH_REQUIRED" if has_entry else "SSO_ENTRY_NOT_FOUND")
+                self.assertEqual(result["status"], "ENTERPRISE_SESSION_NOT_ESTABLISHED")
+                self.assertFalse(result["enterprise_session_established"])
+                if not has_entry:
+                    self.assertEqual(result["sso_entry_status"], "SSO_ENTRY_NOT_FOUND")
                 self.assertEqual(result["course_access"], "NOT_CONFIRMED")
                 self.assertEqual(result["sso_handoff_attempted"], has_entry)
                 self.assertEqual(control.click.call_count, int(has_entry))
