@@ -11,11 +11,11 @@ SHA256: `e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8`
 | Airport | ICAO | Chinese core selected | Independent English core | Acceptance | Blocking errors |
 |---|---|---:|---:|---|---:|
 | 丽江三义 | ZPLJ | 33 | 0 | FAILED_SAFE | 1 |
-| 桂林两江 | ZGKL | 11 | 13 | SUCCESS | 0 |
+| 桂林两江 | ZGKL | 10 | 13 | SUCCESS | 0 |
 | 广州白云 | ZGGG | 36 | 32 | FAILED_SAFE | 4 |
-| 曼谷素旺那普 | VTBS | 36 | 38 | FAILED_SAFE | 5 |
-| 上海浦东 | ZSPD | 15 | 17 | FAILED_SAFE | 1 |
-| 沈阳桃仙 | ZYTX | 18 | 28 | SUCCESS | 0 |
+| 曼谷素旺那普 | VTBS | 35 | 37 | FAILED_SAFE | 5 |
+| 上海浦东 | ZSPD | 14 | 16 | FAILED_SAFE | 1 |
+| 沈阳桃仙 | ZYTX | 17 | 27 | SUCCESS | 0 |
 
 ## 丽江三义: Chinese core source preview
 
@@ -187,8 +187,6 @@ PAPI信息：02：跑道左侧入口内 287m，3°，MEHT 13.7m；20：跑道左
 
 现场/签派频率：桂林现场 131.95，有PDC。
 
-机场标高：570FT。
-
 ACARS确认，无需复诵PDC。
 
 桂林两江机场目视泊位引导系统与常见的不同，请提前参阅航图。
@@ -242,8 +240,6 @@ The blind landing procedure on Runway 19 is prone to interception, requiring car
 
 桂林现场 131.95，有PDC
 
-机场标高：570FT
-
 ACARS确认，无需复诵PDC
 
 离场以雷达引导为主，8100米进入广州区域。可以申请直飞OVTAN
@@ -273,8 +269,6 @@ The Shijiazhuang-Guilin and Guangzhou regions typically coordinate OBLIK-LKO
 01 号跑道有坡度，注意着陆时的下沉,标高570 英尺
 
 19号跑道盲降程序易双截获，做好能量管理
-
-机场标高：570FT
 
 桂林两江机场目视泊位引导系统与常见的不同，请提前参阅航图
 
@@ -406,7 +400,7 @@ The departure taxiway is marked as "YELLOW", and the arrival taxiway is marked a
 
 In case of discrepancy between the flight plan's re-flight altitude and the air traffic control command, the latter shall prevail.
 
-After landing at 01L, the taxiway from E J23 to J14 features a steep incline. We recommend performing a single-engine taxi after thissection.
+After landing at 01L, the taxiway from E J23 to J14 features a steep incline. We recommend performing a single-engine taxi after this section.
 
 On Yellow 11 between Q and T61, taxiways Q and M are close together with no ground markings. Please keep a sharp lookout while taxiing to avoid turning onto the wrong taxiway.
 
@@ -617,7 +611,7 @@ The departure taxiway is marked as "YELLOW", and the arrival taxiway is marked a
 
 In case of discrepancy between the flight plan's re-flight altitude and the air traffic control command, the latter shall prevail.
 
-After landing at 01L, the taxiway from E J23 to J14 features a steep incline. We recommend performing a single-engine taxi after thissection.
+After landing at 01L, the taxiway from E J23 to J14 features a steep incline. We recommend performing a single-engine taxi after this section.
 
 On Yellow 11 between Q and T61, taxiways Q and M are close together with no ground markings. Please keep a sharp lookout while taxiing to avoid turning onto the wrong taxiway.
 
@@ -652,8 +646,6 @@ Radio failure procedure: Refer to Section 2.22.5 of the airport regulations for 
 如预计经过沥青道面，不建议单发滑行。
 
 滑行道不平整如果 N1-50%时仍无法滑出，需要拖车。
-
-机场标高：8ft。
 
 现场/签派频率：BANGKOKBLUEPORT(BANG-KOKBLUEPORT)，频率129.050，如果我们的机组人员在素万那普机场有任何疑 问，例如需要TOBT/TSAT/停机位方面的信息，或者需要飞行计 划方面的协助，或需要提出特殊要求，请通过此频率联系他 们。
 
@@ -795,8 +787,6 @@ Radio Failure Procedure: Specific Implementation Methods in Airport Regulations 
 
 The SVBVOR station will cease operations by 2025. Please note any program changes.
 
-Airport elevation: 8 ft
-
 ### Every acceptance error
 
 - 中英文权威来源关键运行冲突：曼谷素旺那普_core_record_17：['system_activation_temporal_polarity']；中文页314；英文页1171
@@ -812,8 +802,6 @@ Airport elevation: 8 ft
 如预计经过沥青道面，不建议单发滑行
 
 滑行道不平整如果 N1-50%时仍无法滑出，需要拖车
-
-机场标高：8ft
 
 BANGKOKBLUEPORT(BANG-KOKBLUEPORT)，频率129.050，如果我们的机组人员在素万那普机场有任何疑问，例如需要TOBT/TSAT/停机位方面的信息，或者需要飞行计划方面的协助，或需要提出特殊要求，请通过此频率联系他们
 
@@ -897,8 +885,6 @@ Radio Failure Procedure: Specific Implementation Methods in Airport Regulations 
 
 The SVBVOR station will cease operations by 2025. Please note any program changes.
 
-Airport elevation: 8 ft
-
 ### arrival: source-only role selection preview
 
 RNAV进场
@@ -930,8 +916,6 @@ SVB 台因迁移长期不工作，已无 VOR 进近程序，盲降测距仪与�
 如预计经过沥青道面，不建议单发滑行
 
 滑行道不平整如果 N1-50%时仍无法滑出，需要拖车
-
-机场标高：8ft
 
 BANGKOKBLUEPORT(BANG-KOKBLUEPORT)，频率129.050，如果我们的机组人员在素万那普机场有任何疑问，例如需要TOBT/TSAT/停机位方面的信息，或者需要飞行计划方面的协助，或需要提出特殊要求，请通过此频率联系他们
 
@@ -1021,8 +1005,6 @@ Radio Failure Procedure: Specific Implementation Methods in Airport Regulations 
 
 The SVBVOR station will cease operations by 2025. Please note any program changes.
 
-Airport elevation: 8 ft
-
 ## 上海浦东: Chinese core source preview
 
 机坪有时给推出开车指令，有时候给推出到位报告指令，机组注意识别并 遵守指令。
@@ -1046,8 +1028,6 @@ Airport elevation: 8 ft
 浦东机场细则要求，AD2.20，3.2.4"进港航空器机组发现地面滑行引导车 后关闭滑行灯，跟随地面滑行引导车滑行"。
 
 机组在进入设置目视泊位引导系统的机位时，发现有疑问的引导指示，或 进入由人工引导入位的机位时发现地面接机人员未就位（尤其是着陆后临 时更换机位时常发生），应当立即停止滑行，及时通报 ATC，并应当保持发 动机运转，等待后续处置。
-
-机场标高：13ft。
 
 跑道信息：16L/34R（3800m×60m）；16R/34L（3800m×60m）；17L/35R（4000m× 60m）；17R/35L（3400m×60m）。
 
@@ -1083,8 +1063,6 @@ Per Pudong Aerodrome Instructions AD2.20, 3.2.4: “Upon sighting marshalling ve
 
 When taxiing towards stands equipped with Visual Docking Guidance System (VDGS): stop taxi immediately if receiving ambiguous guidance indications. When entering stands with manual marshalling, stop taxi if ground marshalling personnel are not on-site (frequently encountered after ad-hoc stand change post-landing). Notify ATC promptly, keep engines running and await further instructions.
 
-Airport elevation: 13 ft
-
 Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m)
 
 PAPI Information: RWY 16L: 454 m inside runway threshold on left side, glidepath angle 3°, MEHT 20.9 m - RWY 34R: 455 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.5 m - RWY 16R: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.9 m - RWY 34L: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 22.4 m - RWY 17L: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.7 m - RWY 35R: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 22.5 m - RWY 17R: 35L: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.4 m - RWY 35L: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.0 m
@@ -1105,8 +1083,6 @@ Bird-scare cannon blasts are loud at Pudong. It is required to avoid undesired s
 
 浦东机场离地后自动脱波，脱波频率按照 PDC 或放行许可
 
-机场标高：13ft
-
 跑道信息：16L/34R（3800m×60m）；16R/34L（3800m×60m）；17L/35R（4000m× 60m）；17R/35L（3400m×60m）
 
 浦东机场驱鸟炮声音较响，不要产生惊吓效应
@@ -1120,8 +1096,6 @@ Frequent frequency changes occur during surface movement. Frequency change point
 Departure procedure may be amended while taxiing. Upon departure-mode revision, execute SOP for departure change, update flight plan, conduct supplementary briefing and apply departure-change checklist to avoid track deviation.
 
 Automatic frequency hand-off upon lift-off at Pudong. Handoff frequency shall be in accordance with PDC or ATC departure clearance.
-
-Airport elevation: 13 ft
 
 Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m)
 
@@ -1144,8 +1118,6 @@ Bird-scare cannon blasts are loud at Pudong. It is required to avoid undesired s
 在进入设置目视泊位引导系统的机位时，发现有疑问的引导指示，或进入由人工引导入位的机位时发现地面接机人员未就位（尤其是着陆后临时更换机位时常发生），应当立即停止滑行，及时通报 ATC，并应当保持发动机运转，等待后续处置
 
 地面运行换频频繁，换频指令与滑行等待位置较近，注意，防止滑错/滑过线
-
-机场标高：13ft
 
 跑道信息：16L/34R（3800m×60m）；16R/34L（3800m×60m）；17L/35R（4000m× 60m）；17R/35L（3400m×60m）
 
@@ -1172,8 +1144,6 @@ Several recent incidents occurred at Stand 168: due to uphill gradient and singl
 Per Pudong Aerodrome Instructions AD2.20, 3.2.4: “Upon sighting marshalling vehicle, arriving crews shall switch off taxi lights and follow the marshalling vehicle”.
 
 When taxiing towards stands equipped with Visual Docking Guidance System (VDGS): stop taxi immediately if receiving ambiguous guidance indications. When entering stands with manual marshalling, stop taxi if ground marshalling personnel are not on-site (frequently encountered after ad-hoc stand change post-landing). Notify ATC promptly, keep engines running and await further instructions.
-
-Airport elevation: 13 ft
 
 Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m)
 
@@ -1215,8 +1185,6 @@ ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞�
 
 24号下午向阳落地，对着陆目视有影响。
 
-机场标高：198ft。
-
 PAPI 信息：06：跑道左侧入口内 357.8m，3°，MEHT 18.0m；24：跑道左侧入口 内 360.3m，3°，MEHT 17.7m。
 
 ## 沈阳桃仙: English core source preview
@@ -1252,8 +1220,6 @@ When conducting full-managed VOR approach for RWY 24, a right drift tendency exi
 Temporary change of approach mode to LOC or RNP may occur. When LOC approach is assigned ad-hoc, crews may overlook the NOTAM stating MDA/H discrepancies between chart and operational value when glideslope is out-of-service, which may result in erroneous MDA/H entry in MCDU.
 
 During night operations with apron congestion, Taxiway G is temporarily utilised as stand L05, which is not depicted on aerodrome charts. It is required to be aware of this condition.
-
-Airport elevation: 198 ft
 
 Runway Information: 06/24 (3200 m × 45 m)
 
@@ -1298,8 +1264,6 @@ ATC 在离场时可能较早指挥偏置，应在输入偏置后加强轨迹监�
 
 由于禁飞区启用，沈阳 omdus 方向离场，沈阳区域汇报点为 CHG，基本首次联系沈阳区调就可以汇报安保状况
 
-机场标高：198ft
-
 Normally, A2 departure intersection is used for RWY 06, and A8 for RWY 24. It is required to complete reduced-length take-off performance calculation via FLYSMART.
 
 Engines may be started at remote stands. ATC start-up clearance is issued upon available departure slot. Engine start-up on taxiways isprohibited without ATC approval.
@@ -1315,8 +1279,6 @@ Automatic frequency hand-off upon lift-off isimplemented at thisairport.
 For RWY 06 departures, early right-turn request ispermitted only after passing 1200 m from threshold.
 
 ATC may assign offset instructions at an early stage during departure. After entering the offset, the flight crew shall strengthen trajectory monitoring and take timely intervention when unexpected deviations occur.
-
-Airport elevation: 198 ft
 
 Runway Information: 06/24 (3200 m × 45 m)
 
@@ -1358,8 +1320,6 @@ ILS06/24 下滑道信号易受到干扰，尤其有飞机使用全跑道起飞�
 
 地面通常会指挥 A2/A8 前等待,然后换频塔台后再给跑道外等待指令
 
-机场标高：198ft
-
 PAPI 信息：06：跑道左侧入口内 357.8m，3°，MEHT 18.0m；24：跑道左侧入口内 360.3m，3°，MEHT 17.7m
 
 Ground Control commonly assigns hold prior to A2 / A8. After switching to Tower frequency, hold-short-of-runway clearance will be issued.
@@ -1379,8 +1339,6 @@ When conducting full-managed VOR approach for RWY 24, a right drift tendency exi
 Temporary change of approach mode to LOC or RNP may occur. When LOC approach is assigned ad-hoc, crews may overlook the NOTAM stating MDA/H discrepancies between chart and operational value when glideslope is out-of-service, which may result in erroneous MDA/H entry in MCDU.
 
 During night operations with apron congestion, Taxiway G is temporarily utilised as stand L05, which is not depicted on aerodrome charts. It is required to be aware of this condition.
-
-Airport elevation: 198 ft
 
 Runway Information: 06/24 (3200 m × 45 m)
 
@@ -1436,7 +1394,7 @@ FAILED_SAFE diagnostic text, not published.
 
 曼谷素旺那普机场：
 
-受地面温度影响+ 易发生进近剖面低+ 着陆距离远等事件+ 请机组注意。
+受地面温度影响，易发生进近剖面低，着陆距离远等事件，请机组注意。
 
 核心威胁：
 
@@ -1449,8 +1407,6 @@ FAILED_SAFE diagnostic text, not published.
 离场方式在滑行时也可能发生变更，在变更离场方式后，及时遵循 SOP 离场变更执行更改计划，并做好补充简令，执行离场变更检查单，避免飞错。
 
 浦东机场离地后自动脱波，脱波频率按照 PDC 或放行许可。
-
-机场标高：13ft。
 
 跑道信息：16L/34R（3800m×60m）；16R/34L（3800m×60m）；17L/35R（4000m× 60m）；17R/35L（3400m×60m）。
 
@@ -1487,8 +1443,6 @@ SVB 台因迁移长期不工作，已无 VOR 进近程序，盲降测距仪与�
 如预计经过沥青道面，不建议单发滑行。
 
 滑行道不平整如果 N1-50%时仍无法滑出，需要拖车。
-
-机场标高：8ft。
 
 BANGKOKBLUEPORT(BANG-KOKBLUEPORT)，频率129.050，如果我们的机组人员在素万那普机场有任何疑问，例如需要TOBT/TSAT/停机位方面的信息，或者需要飞行计划方面的协助，或需要提出特殊要求，请通过此频率联系他们。
 
@@ -1546,8 +1500,6 @@ Frequent frequency changes occur during surface movement. Frequency change point
 Departure procedure may be amended while taxiing. Upon departure-mode revision, execute SOP for departure change, update flight plan, conduct supplementary briefing and apply departure-change checklist to avoid track deviation.
 
 Automatic frequency hand-off upon lift-off at Pudong. Handoff frequency shall be in accordance with PDC or ATC departure clearance.
-
-Airport elevation: 13 ft.
 
 Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m).
 
@@ -1617,8 +1569,6 @@ Radio Failure Procedure: Specific Implementation Methods in Airport Regulations 
 
 The SVBVOR station will cease operations by 2025. Please note any program changes.
 
-Airport elevation: 8 ft.
-
 
 ### Actual isolated rendered group: 9C7420
 
@@ -1633,7 +1583,7 @@ FAILED_SAFE diagnostic text, not published.
 
 曼谷素旺那普机场：
 
-受地面温度影响+ 易发生进近剖面低+ 着陆距离远等事件+ 请机组注意。
+受地面温度影响，易发生进近剖面低，着陆距离远等事件，请机组注意。
 
 广州白云机场：
 
@@ -1648,8 +1598,6 @@ FAILED_SAFE diagnostic text, not published.
 如预计经过沥青道面，不建议单发滑行。
 
 滑行道不平整如果 N1-50%时仍无法滑出，需要拖车。
-
-机场标高：8ft。
 
 BANGKOKBLUEPORT(BANG-KOKBLUEPORT)，频率129.050，如果我们的机组人员在素万那普机场有任何疑问，例如需要TOBT/TSAT/停机位方面的信息，或者需要飞行计划方面的协助，或需要提出特殊要求，请通过此频率联系他们。
 
@@ -1802,8 +1750,6 @@ Radio Failure Procedure: Specific Implementation Methods in Airport Regulations 
 
 The SVBVOR station will cease operations by 2025. Please note any program changes.
 
-Airport elevation: 8 ft.
-
 GUANGZHOU BAIYUN Airport:
 
 The departure taxiway is designated as "YELLOW", while the arrival taxiway is "GREEN". Pilots must familiarize themselves with the specific taxiway number before each run, as it corresponds to the standard taxiway for both departure and arrival. During approach preparation, they should review the taxiway chart in advance. If the crew needs to deviate from the runway, they must promptly confirm the turn direction with air traffic control.
@@ -1828,11 +1774,11 @@ The departure taxiway is marked as "YELLOW", and the arrival taxiway is marked a
 
 In case of discrepancy between the flight plan's re-flight altitude and the air traffic control command, the latter shall prevail.
 
-After landing at 01L, the taxiway from E J23 to J14 features a steep incline. We recommend performing a single-engine taxi after thissection.
+After landing at 01L, the taxiway from E J23 to J14 features a steep incline. We recommend performing a single-engine taxi after this section.
 
 On Yellow 11 between Q and T61, taxiways Q and M are close together with no ground markings. Please keep a sharp lookout while taxiing to avoid turning onto the wrong taxiway.
 
-Taxiway T2 between C and D will be closed from 25 October to 23 December due to Fangbai Intercity Railway and Line 22 construction. Taxiway layout and taxi routes at this aerodrome will be significantly adjusted. When operating northbound, Taxiway T1 will be used east to west and Taxiway D south to north. When operating southbound, Taxiway E will be used north to south. Flight crews are reminded to:.
+Taxiway T2 between C and D will be closed from 25 October to 23 December due to Fangbai Intercity Railway and Line 22 construction. Taxiway layout and taxi routes at this aerodrome will be significantly adjusted. When operating northbound, Taxiway T1 will be used east to west and Taxiway D south to north. When operating southbound, Taxiway E will be used north to south. Flight crews are reminded to:
 
 Observe the revised taxiway directions, avoid relying on previous taxi habits, and strictly prevent wrong-way taxiing.
 

@@ -13,7 +13,26 @@ RUNNER_SETUP = ROOT / "scripts" / "setup_self_hosted_runner.ps1"
 MAINTENANCE_AGENT = ROOT / "crew_agents" / "maintenance_agent.py"
 
 
-def _assert_training_login_workflow_safety(workflow: str) -> None:
+def _assert_training_cleanup_safety(helper: str) -> None:
+    # These guards moved out of YAML; they must still protect every deletion.
+    for required in (
+        "function Get-TrainingCleanupPlan", "[IO.Path]::GetFullPath($TempBase)",
+        "[IO.Path]::GetFullPath($Root)", "(Split-Path -Parent $rootPath) -ne $tempPath",
+        "[Regex]::Escape($Id)", "(Split-Path -Leaf $rootPath) -notmatch $namePattern",
+        "CLEANUP_PATH_INVALID", "CLEANUP_ROOT_NAME_INVALID", "CLEANUP_REPARSE_POINT_REFUSED",
+        "[IO.FileAttributes]::ReparsePoint", "$ancestor = $ancestor.Parent",
+        "$pending.Pop()", "$pending.Push($item.FullName)",
+        ".training-run-owner.json", "$owner.run_id -ne $Id", "$owner.root_name",
+        "CLEANUP_OWNER_MISSING", "CLEANUP_OWNER_INVALID",
+        "$plan = Get-TrainingCleanupPlan -Root $Root -TempBase $TempBase -Id $Id",
+        "if ($Inspect)", "[switch]$InspectOnly", "FAILED_REQUIRES_LOCAL_REVIEW",
+        "$attempt -le 3", "Remove-Item -LiteralPath",
+    ):
+        assert required in helper
+    assert helper.index("$plan = Get-TrainingCleanupPlan") < helper.index("Remove-Item -LiteralPath")
+
+
+def _assert_training_login_workflow_safety(workflow: str, cleanup_helper: str | None = None) -> None:
     assert workflow.splitlines()[0] == "name: 一点知识独立登录检查"
     triggers = workflow.split("\non:\n", 1)[1].split("\npermissions:", 1)[0]
     assert re.findall(r"^  ([\w-]+):", triggers, re.M) == ["workflow_dispatch"]
@@ -44,10 +63,22 @@ def _assert_training_login_workflow_safety(workflow: str) -> None:
         "python -B -m unittest discover -s training_downloader -p 'test_*.py'",
         "TRAINING_REQUIRE_GUARD: '1'",
         "if: ${{ always() && env.TRAINING_RUN_ROOT != '' }}",
-        "UNSAFE_CLEANUP_PATH",
-        "CLEANUP_REPARSE_POINT_REFUSED",
     ):
         assert required in workflow
+    if "source/training_downloader/cleanup_training.ps1" in workflow:
+        assert cleanup_helper is not None
+        for required in (
+            "'training_downloader/cleanup_training.ps1'", "& $helper",
+            "CLEANUP_PATH_INVALID", "CLEANUP_HELPER_MISSING", "CLEANUP_HELPER_START_FAILED",
+            "(Split-Path -Parent $runRoot) -ne $tempBase",
+            "(Split-Path -Leaf $runRoot) -notmatch $namePattern",
+            "& ./training_downloader/test_cleanup_training.ps1",
+        ):
+            assert required in workflow
+        _assert_training_cleanup_safety(cleanup_helper)
+    else:
+        assert "UNSAFE_CLEANUP_PATH" in workflow
+        assert "CLEANUP_REPARSE_POINT_REFUSED" in workflow
     assert workflow.count("python -B training_downloader/workflow_guard.py") == 1
     assert workflow.count("python -B training_downloader/login_probe.py --run") == 1
     assert workflow.index("python -B -m unittest") < workflow.index(
@@ -80,7 +111,10 @@ def _assert_workflow_inventory(workflows: Path) -> None:
         assert workflow.splitlines()[0] == f"name: {display_name}"
         assert "workflow_run:" not in workflow
     if optional in actual:
-        _assert_training_login_workflow_safety((workflows / optional).read_text(encoding="utf-8"))
+        workflow = (workflows / optional).read_text(encoding="utf-8")
+        helper_path = ROOT / "training_downloader" / "cleanup_training.ps1"
+        helper = helper_path.read_text(encoding="utf-8") if helper_path.is_file() else None
+        _assert_training_login_workflow_safety(workflow, helper)
 
 
 def test_actions_has_only_required_and_approved_named_workflows() -> None:

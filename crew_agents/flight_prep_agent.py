@@ -2185,6 +2185,7 @@ def english_layout_text(value: str) -> str:
         ("latter", "shall"), ("to", "west"),
         ("flight", "crews"), ("crew", "members"), ("crews", "are"),
         ("are", "required"), ("are", "advised"), ("required", "to"),
+        ("this", "section"),
     )
     for left, right in pairs:
         # A whole-word join is required: never split island, airway names or
@@ -2689,6 +2690,42 @@ def manual_basic_field(text: str) -> str:
         if re.match(pattern, value, re.I):
             return field
     return ""
+
+
+def standalone_airport_elevation(text: str) -> bool:
+    """A bare catalogue value is not a terrain/performance limitation."""
+    value = SOURCE_HEADING_RE.sub("", normalize_text(text))
+    return bool(re.fullmatch(
+        r"(?:机场标高|(?:Airport|Aerodrome)\s*elevation)\s*[:：]?\s*"
+        r"\d+(?:\.\d+)?\s*(?:FT|FEET|英尺|米|M)"
+        r"(?:\s*[（(]\s*\d+(?:\.\d+)?\s*(?:FT|FEET|英尺|米|M)\s*[）)])?[。.]?",
+        value, re.I,
+    ))
+
+
+def has_sourced_highland_classification(records: list[dict], airport: str = "") -> bool:
+    """Use an explicit current-source classification, not an inferred height."""
+    positive = False
+    for record in records:
+        if airport and canonical_airport_name(str(record.get("airport") or "")) != canonical_airport_name(airport):
+            continue
+        if record.get("category") != "core" or record.get("pre_excluded_reason"):
+            continue
+        if (record.get("source_authority") or SOURCE_AUTHORITY.get(str(record.get("source") or ""))) != "latest_airport_manual":
+            continue
+        text = SOURCE_HEADING_RE.sub("", normalize_text(str(
+            record.get("text_en") if record.get("language") == "en" else record.get("text_zh") or ""
+        )))
+        if (re.fullmatch(r"(?:是否为高原机场\s+否|高原机场\s*[:：]\s*否|(?:该|本)机场不是高原机场)[。.]?", text)
+                or re.match(r"High[- ](?:elevation|altitude) airport\s+(?:NO|FALSE)\b", text, re.I)):
+            return False
+        if re.fullmatch(r"(?:(?:一般|高)?高原机场|(?:机场分类|高原机场)\s*[:：]\s*(?:一般|高)?高原机场)[。.]?", text):
+            positive = True
+        if re.fullmatch(r"(?:(?:该|本)机场(?:为|属于)(?:一般|高)?高原机场|是否为高原机场\s+是)[。.]?", text):
+            positive = True
+        if re.match(r"(?:High[- ](?:elevation|altitude) airport)\s+(?:YES|TRUE)\b", text, re.I):
+            positive = True
+    return positive
 
 
 def deduplicate_manual_items(items: list[str]) -> list[str]:
@@ -7606,6 +7643,13 @@ def source_record_facts(
         source_original_text = str(
             record.get("source_original_text") or source_clause
         ).strip()
+        if (category == "core" and standalone_airport_elevation(source_clause)
+                and not has_sourced_highland_classification(records, canonical)):
+            if exclusion_log is not None:
+                exclusion_log.append({"airport": canonical, "fact_id": str(record.get("fact_id") or ""),
+                    "source_page": str(record.get("source_page") or "N/A"), "clause": source_original_text,
+                    "reason": "独立标高字段仅用于有权威高原机场分类的机场"})
+            continue
         if not source_clause or record.get("pre_excluded_reason"):
             if exclusion_log is not None and source_original_text:
                 pre_excluded_reason = str(
@@ -11416,6 +11460,8 @@ def chinese_fact_output(fact: BilingualFact) -> str:
     if label_match and not source_label_has_operational_semantics(label_match.group("label")):
         text = label_match.group("value")
     text = re.sub(r"(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])", "", text)
+    # Printed table prose separators are not ECAM/system arithmetic or data.
+    text = re.sub(r"(?<=[\u4e00-\u9fff])\s*\+\s*(?=[\u4e00-\u9fff])", "，", text)
     return omit_operating_crew_subject(strip_terminal_punct(text), "zh", fact.category)
 
 
@@ -11512,7 +11558,7 @@ def render_english_briefing(
         if not items:
             continue
         paragraphs = "\n\n".join(
-            english_fact_output(fact).rstrip(".") + "." for fact in items
+            english_paragraph_output(fact) for fact in items
         )
         airport_name = english_airport_name_for_facts(
             airport,
@@ -11527,7 +11573,7 @@ def render_english_briefing(
     core_lines = ["Core threats:"]
     for airport in airports:
         paragraphs = "\n\n".join(
-            english_fact_output(fact).rstrip(".") + "."
+            english_paragraph_output(fact)
             for fact in core_facts[airport]
             if fact.en.strip()
         )
@@ -11538,6 +11584,13 @@ def render_english_briefing(
         core_lines.append(f"{airport_name} Airport:\n\n{paragraphs}")
     sections.append("\n\n".join(core_lines))
     return "\n\n".join(section.strip() for section in sections if section.strip()).strip() + "\n"
+
+
+def english_paragraph_output(fact: BilingualFact) -> str:
+    """Keep list introductions and source punctuation; never emit ``to:.``."""
+    text = english_fact_output(fact).rstrip()
+    text = re.sub(r"([:;])\s*\.$", r"\1", text)
+    return text if not text or text.endswith((".", "!", "?", ":", ";")) else text + "."
 
 
 def english_source_role_scope(text: str, phase: str) -> tuple[str, ...]:
@@ -11668,7 +11721,10 @@ def english_briefing_fact_sets(
                 english_source_page=str(record["source_page"]), airport_name_en=str(record["english_airport_name"]),
                 route_scope=english_source_route_scope(record))
             reason = ""
-            if category != "typical":
+            if (category == "core" and standalone_airport_elevation(text)
+                    and not has_sourced_highland_classification(source_records.get(airport, []), airport)):
+                reason = "Standalone elevation requires a sourced high-altitude airport classification"
+            if category != "typical" and not reason:
                 if not fact_matches_airport_role(fact, airport_role(event, airport)):
                     reason = "English source is only applicable to the opposite operating role"
                 elif fact.route_scope and not route_scope_matches_duty(fact.route_scope, routes):
