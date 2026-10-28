@@ -12,7 +12,7 @@ import os
 from pathlib import Path
 import re
 import sys
-from urllib.parse import urlsplit
+from urllib.parse import urljoin, urlsplit
 import uuid
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -28,9 +28,21 @@ REVIEWED = {
 }
 COURSE = ("https://m.yidianzhishi.com/#!/course/18952008429/view?"
           "series_id=0&live_type=9&module_id=117523&module_type=1&qrcode=1&system_type=19")
-SSO = ("https://cas.9cair.com/login?service="
-       "https%3A%2F%2Fspring.yidianzhishi.com%2Fapi%2Fv1%2Fsso%2Fch%2Flogin%2Fpc")
 TARGET = "2026-2027年冬春季定期复训模拟机学员指导手册训练版（0926）.pdf"
+LOGIN_ENTRY_NAME = re.compile(r"^(?:登录|去登录|立即登录|统一认证登录|春秋统一认证登录|企业登录|SSO登录)$")
+SSO_BUTTON_NAME = re.compile(r"^(?:统一认证登录|春秋统一认证登录|企业登录|SSO登录)$")
+
+
+def domain_category(url: str) -> str:
+    try:
+        location = urlsplit(url)
+        if location.scheme != "https":
+            return "OTHER"
+        return {"cas.9cair.com": "CAS", "cp.9cair.com": "CREW_PORTAL",
+                "m.yidianzhishi.com": "TRAINING_MOBILE",
+                "spring.yidianzhishi.com": "TRAINING_TENANT"}.get(location.hostname, "OTHER")
+    except ValueError:
+        return "OTHER"
 
 
 def preflight(root: Path = ROOT) -> dict:
@@ -113,19 +125,181 @@ def visible_text(page, pattern) -> bool:
 
 def course_observation(page) -> dict:
     location = urlsplit(page.url)
-    login_required = (location.hostname == "cas.9cair.com"
-                      or "/login" in location.path.lower()
-                      or "/login" in location.fragment.lower()
-                      or visible_text(page, re.compile("请先登录|请登录后|登录已过期|重新登录")))
-    passwords = page.locator("input[type='password']")
-    login_required = login_required or any(
-        passwords.nth(i).is_visible() for i in range(passwords.count()))
+    category = domain_category(page.url)
+    recognized = category in {"CAS", "TRAINING_MOBILE", "TRAINING_TENANT"}
+    # CAS and /login are routing hints only. A normal SSO callback contains /login.
+    inputs = page.locator("input[type='password'], input[autocomplete='one-time-code']")
+    login_form_visible = recognized and any(
+        inputs.nth(i).is_visible() for i in range(inputs.count()))
+    login_prompt_visible = recognized and visible_text(
+        page, re.compile(r"请先登录|请登录后|登录已过期|重新登录|^扫码登录$|^二维码登录$|^账号密码登录$|^请完成身份验证$"))
+    login_required = login_form_visible or login_prompt_visible
     denied = visible_text(page, re.compile("无权访问|暂无权限|没有权限|未授权|无学习权限"))
-    on_course = (location.hostname == "m.yidianzhishi.com"
+    on_course = (location.scheme == "https" and location.hostname == "m.yidianzhishi.com"
                  and location.fragment.startswith("!/course/18952008429/view"))
     target_visible = visible_text(page, TARGET) if on_course else False
-    return {"login_required": login_required, "access_denied": denied,
-            "on_target_course": on_course, "target_pdf_listed": target_visible}
+    return {"login_required": login_required, "login_page_visible": login_required,
+            "login_form_visible": login_form_visible, "access_denied": denied,
+            "on_target_course": on_course, "target_pdf_listed": target_visible,
+            "course_content_visible": on_course and target_visible and not (login_required or denied),
+            "domain_category": category}
+
+
+class SsoDiagnostics:
+    """Bounded navigation metadata only; never retain URLs, headers, or bodies."""
+
+    STAGES = frozenset({"COURSE_OPEN", "CAS_NAVIGATION", "TRAINING_CALLBACK",
+                        "TRAINING_NAVIGATION", "OTHER_NAVIGATION", "OBSERVING",
+                        "OBSERVATION_UNAVAILABLE", "SITE_LOGIN_ENTRY_CLICK",
+                        "COURSE_RETURN", "COURSE_CONTENT_VISIBLE", "LOGIN_UI_VISIBLE",
+                        "ACCESS_DENIED", "TRANSITION_TIMEOUT", "NAVIGATION_ERROR"})
+
+    def __init__(self):
+        self.events = []
+        self.handoff_seen = False
+        self.listeners = []
+
+    def record(self, stage, category, status=None, login_visible=None):
+        if stage not in self.STAGES:
+            return
+        if category not in {"CAS", "CREW_PORTAL", "TRAINING_MOBILE", "TRAINING_TENANT", "OTHER"}:
+            category = "OTHER"
+        event = {"stage": stage, "domain_category": category,
+                 "http_status": status if type(status) is int and 100 <= status <= 599 else None,
+                 "login_page_visible": login_visible if type(login_visible) is bool else None}
+        if self.events and self.events[-1] == event:
+            return
+        if len(self.events) < 40:
+            self.events.append(event)
+
+    def watch(self, page):
+        def on_response(response):
+            try:
+                request = response.request
+                if not request.is_navigation_request() or request.frame != page.main_frame:
+                    return
+                category = domain_category(response.url)
+                path = urlsplit(response.url).path.lower()  # Used transiently, not stored.
+                if category == "CAS":
+                    stage = "CAS_NAVIGATION"
+                elif category in {"TRAINING_MOBILE", "TRAINING_TENANT"}:
+                    stage = "TRAINING_CALLBACK" if "/sso/" in path else "TRAINING_NAVIGATION"
+                else:
+                    stage = "OTHER_NAVIGATION"
+                self.handoff_seen |= stage in {"CAS_NAVIGATION", "TRAINING_CALLBACK"}
+                self.record(stage, category, response.status)
+            except Exception:
+                pass  # Do not serialize event errors or Playwright objects.
+        page.on("response", on_response)
+        self.listeners.append((page, on_response))
+
+    def close(self):
+        for page, listener in self.listeners:
+            try:
+                page.remove_listener("response", listener)
+            except Exception:
+                pass
+
+
+def wait_for_course_state(page, context, known_pages, diagnostics, *, timeout_ms=20_000):
+    """Give automatic CAS/callback redirects time; a transient login UI is not final."""
+    observed = None
+    active = page
+    for poll in range(timeout_ms // 500 + 1):
+        candidates = [page] + [p for p in context.pages if p not in known_pages and p != page]
+        observations = []
+        for candidate in candidates:
+            try:
+                if candidate.is_closed():
+                    continue
+                state = course_observation(candidate)
+                diagnostics.record("OBSERVING", state["domain_category"], login_visible=state["login_page_visible"])
+                observations.append((candidate, state))
+                if state["course_content_visible"]:
+                    diagnostics.record("COURSE_CONTENT_VISIBLE", state["domain_category"], login_visible=False)
+                    return candidate, state
+            except Exception:
+                # A destroyed execution context during navigation is not failed authentication.
+                diagnostics.record("OBSERVATION_UNAVAILABLE", "OTHER")
+        if observations:
+            active, observed = observations[-1]
+        else:
+            observed = None
+        if poll < timeout_ms // 500:
+            active.wait_for_timeout(500)
+    if observed:
+        stage = ("ACCESS_DENIED" if observed["access_denied"] else
+                 "LOGIN_UI_VISIBLE" if observed["login_page_visible"] else "TRANSITION_TIMEOUT")
+        diagnostics.record(stage, observed["domain_category"], login_visible=observed["login_page_visible"])
+    return active, observed
+
+
+def visible_site_login_entry(page):
+    """Select one real site's login control. Never construct a service/callback URL."""
+    if domain_category(page.url) not in {"TRAINING_MOBILE", "TRAINING_TENANT"}:
+        return None
+    matches = []
+    for role in ("link", "button"):
+        # A generic "登录" submit button could start another credential/OTP flow.
+        controls = page.get_by_role(role, name=LOGIN_ENTRY_NAME if role == "link" else SSO_BUTTON_NAME)
+        for index in range(controls.count()):
+            control = controls.nth(index)
+            if not control.is_visible():
+                continue
+            if role == "button" and control.get_attribute("type") == "submit":
+                continue
+            if role == "link":
+                href = control.get_attribute("href") or ""
+                # A regular app link or JS click handler is used as rendered;
+                # external authentication providers require separate review.
+                if href and href not in {"#", "javascript:;", "javascript:void(0)", "javascript:void(0);"}:
+                    resolved = urljoin(page.url, href)
+                    if domain_category(resolved) not in {"CAS", "TRAINING_MOBILE", "TRAINING_TENANT"}:
+                        continue
+                    if "/logout" in urlsplit(resolved).path.lower():
+                        continue
+            matches.append(control)
+    return matches[0] if len(matches) == 1 else None
+
+
+def open_course_through_site(page, context, report):
+    diagnostics = SsoDiagnostics()
+    report.update(sso_handoff_attempted=False, sso_entry_source="COURSE_NATURAL_FLOW",
+                  sso_diagnostics=diagnostics.events)
+    known_pages = list(context.pages)
+    diagnostics.watch(page)
+    context.on("page", diagnostics.watch)
+    try:
+        diagnostics.record("COURSE_OPEN", "TRAINING_MOBILE")
+        page.goto(COURSE, wait_until="domcontentloaded", timeout=60_000)
+        active, state = wait_for_course_state(page, context, known_pages, diagnostics)
+        if state and not (state["course_content_visible"] or state["access_denied"] or state["login_form_visible"]):
+            entry = visible_site_login_entry(active)
+            if entry is not None:
+                diagnostics.record("SITE_LOGIN_ENTRY_CLICK", state["domain_category"], login_visible=state["login_page_visible"])
+                report.update(sso_handoff_attempted=True, sso_entry_source="VISIBLE_SITE_LOGIN_ENTRY")
+                entry.click(timeout=10_000)  # One site login action, never an OTP request.
+                active, state = wait_for_course_state(page, context, known_pages, diagnostics)
+        # A site callback may end at its home page. Return once only after it has
+        # settled on a training page without visible login UI or a callback path.
+        if state and not (state["course_content_visible"] or state["login_required"] or state["access_denied"]):
+            location = urlsplit(active.url)
+            callback_pending = "/sso/" in location.path.lower() or "/login" in location.path.lower()
+            if state["domain_category"] in {"TRAINING_MOBILE", "TRAINING_TENANT"} and not state["on_target_course"] and not callback_pending:
+                diagnostics.record("COURSE_RETURN", "TRAINING_MOBILE", login_visible=False)
+                page.goto(COURSE, wait_until="domcontentloaded", timeout=60_000)
+                active, state = wait_for_course_state(page, context, known_pages, diagnostics)
+        return active, state
+    except Exception:
+        diagnostics.record("NAVIGATION_ERROR", "OTHER")
+        raise RuntimeError("SSO_NAVIGATION_ERROR") from None
+    finally:
+        report["sso_handoff_attempted"] |= diagnostics.handoff_seen
+        try:
+            context.remove_listener("page", diagnostics.watch)
+        except Exception:
+            pass
+        diagnostics.close()
 
 
 def check_before_auth(report: dict) -> None:
@@ -262,29 +436,17 @@ def run_probe(*, headed: bool = False) -> dict:
                             if result.signals.additional_verification and not result.signals.password_captcha_form
                             else "AUTHENTICATION_NOT_CONFIRMED")
                         return report
-                    phase = "COURSE_NAVIGATION_ERROR"
-                    page.goto(COURSE, wait_until="domcontentloaded", timeout=60_000)
-                    page.wait_for_timeout(3_000)
-                    seen = course_observation(page)
-                    report["sso_handoff_attempted"] = False
-                    if seen["login_required"] and not seen["access_denied"]:
-                        # One normal CAS service handoff; never request another OTP.
-                        phase = "SSO_NAVIGATION_ERROR"
-                        report["sso_handoff_attempted"] = True
-                        page.goto(SSO, wait_until="domcontentloaded", timeout=60_000)
-                        page.wait_for_timeout(3_000)
-                        if course_observation(page)["login_required"]:
-                            report.update(status="SSO_REAUTH_REQUIRED", course_access="NOT_CONFIRMED")
-                            return report
-                        page.goto(COURSE, wait_until="domcontentloaded", timeout=60_000)
-                        page.wait_for_timeout(3_000)
-                        seen = course_observation(page)
+                    phase = "SSO_NAVIGATION_ERROR"
+                    page, seen = open_course_through_site(page, context, report)
+                    if seen is None:
+                        report.update(status="SSO_STATE_UNCONFIRMED", course_access="NOT_CONFIRMED")
+                        return report
                     report.update(seen)
                     if seen["access_denied"]:
                         report.update(status="PERMISSION_DENIED", course_access="DENIED")
                     elif seen["login_required"]:
                         report.update(status="SSO_REAUTH_REQUIRED", course_access="NOT_CONFIRMED")
-                    elif seen["on_target_course"] and seen["target_pdf_listed"]:
+                    elif seen["course_content_visible"]:
                         report.update(status="COURSE_TARGET_VISIBLE_INSPECTION_REQUIRED",
                                       course_access="TARGET_LIST_VISIBLE")
                         phase = "COURSE_VIEWER_INSPECTION_ERROR"
@@ -292,7 +454,7 @@ def run_probe(*, headed: bool = False) -> dict:
                         if report["pdf_29_pages_confirmed"]:
                             report["status"] = "TARGET_PDF_ACCESS_CONFIRMED"
                     else:
-                        report.update(status="COURSE_STATE_UNKNOWN", course_access="NOT_CONFIRMED")
+                        report.update(status="SSO_STATE_UNCONFIRMED", course_access="NOT_CONFIRMED")
                     # A generic heading or catalog marker is not proof of the full
                     # course title/module list; those confirmation flags stay false.
                 finally:

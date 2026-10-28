@@ -162,5 +162,173 @@ class LoginProbeSafetyTests(unittest.TestCase):
         original_reader.wait_for_new_otp.assert_not_called()
 
 
+class SsoStateTests(unittest.TestCase):
+    def locator(self, count):
+        value = MagicMock()
+        value.count.return_value = count
+        value.nth.return_value.is_visible.return_value = True
+        return value
+
+    def page(self, url, texts=(), form=False):
+        page = MagicMock()
+        page.url = url
+        page.is_closed.return_value = False
+        page.locator.return_value = self.locator(int(form))
+        page.get_by_role.return_value = self.locator(0)
+        content = list(texts)
+        def lookup(pattern, exact=False):
+            matches = [text for text in content if (
+                bool(pattern.search(text)) if hasattr(pattern, "search") else
+                text == pattern if exact else pattern in text)]
+            return self.locator(len(matches))
+        page.get_by_text.side_effect = lookup
+        page.test_content = content
+        return page
+
+    def test_login_callback_path_is_not_a_login_page(self):
+        for url in ("https://spring.yidianzhishi.com/api/v1/sso/ch/login/pc?ticket=synthetic-secret",
+                    "https://cas.9cair.com/login?service=synthetic-secret",
+                    "https://m.yidianzhishi.com/#!/login"):
+            with self.subTest(url=url.split('?')[0]):
+                state = probe.course_observation(self.page(url))
+                self.assertFalse(state["login_required"])
+                self.assertFalse(state["course_content_visible"])
+
+    def test_course_url_alone_does_not_prove_access(self):
+        state = probe.course_observation(self.page(probe.COURSE))
+        self.assertTrue(state["on_target_course"])
+        self.assertFalse(state["course_content_visible"])
+
+    def test_content_with_login_in_query_is_still_content(self):
+        page = self.page(probe.COURSE + "&return=/login", [probe.TARGET])
+        self.assertTrue(probe.course_observation(page)["course_content_visible"])
+
+    def test_visible_credentials_qr_or_prompt_requires_auth(self):
+        for form, text in ((True, ""), (False, "扫码登录"), (False, "请先登录")):
+            page = self.page("https://cas.9cair.com/login", [text], form)
+            state = probe.course_observation(page)
+            self.assertTrue(state["login_page_visible"])
+            self.assertFalse(state["course_content_visible"])
+
+    def test_content_behind_login_overlay_is_not_success(self):
+        state = probe.course_observation(self.page(probe.COURSE, [probe.TARGET, "请先登录"]))
+        self.assertFalse(state["course_content_visible"])
+
+    def test_wait_allows_callback_to_finish(self):
+        page = self.page("https://spring.yidianzhishi.com/api/v1/sso/ch/login/pc")
+        context = Mock(pages=[page])
+        def redirect(_):
+            page.url = probe.COURSE
+            page.test_content.append(probe.TARGET)
+        page.wait_for_timeout.side_effect = redirect
+        _, state = probe.wait_for_course_state(page, context, [page], probe.SsoDiagnostics(), timeout_ms=1000)
+        self.assertTrue(state["course_content_visible"])
+        page.goto.assert_not_called()
+
+    def test_wait_does_not_stop_at_transient_login_ui(self):
+        page = self.page("https://cas.9cair.com/login", ["扫码登录"])
+        def redirect(_):
+            page.url = probe.COURSE
+            page.test_content[:] = [probe.TARGET]
+        page.wait_for_timeout.side_effect = redirect
+        _, state = probe.wait_for_course_state(page, Mock(pages=[page]), [page], probe.SsoDiagnostics(), timeout_ms=1000)
+        self.assertTrue(state["course_content_visible"])
+
+    def test_pending_callback_stays_unconfirmed(self):
+        page = self.page("https://spring.yidianzhishi.com/api/v1/sso/ch/login/pc")
+        context = Mock(pages=[page])
+        report = {}
+        _, state = probe.open_course_through_site(page, context, report)
+        self.assertFalse(state["login_required"])
+        self.assertFalse(state["course_content_visible"])
+        page.goto.assert_called_once_with(probe.COURSE, wait_until="domcontentloaded", timeout=60_000)
+        self.assertIn("TRANSITION_TIMEOUT", [event["stage"] for event in report["sso_diagnostics"]])
+
+    def test_existing_cas_login_form_is_not_submitted(self):
+        page = self.page("https://cas.9cair.com/login", form=True)
+        report = {}
+        _, state = probe.open_course_through_site(page, Mock(pages=[page]), report)
+        self.assertTrue(state["login_required"])
+        page.get_by_role.assert_not_called()
+        page.locator.return_value.nth.return_value.fill.assert_not_called()
+
+    def test_unique_real_site_link_is_clicked_once_without_constructing_url(self):
+        page = self.page("https://m.yidianzhishi.com/#!/login", ["请先登录"])
+        link = self.locator(1)
+        link.nth.return_value.get_attribute.return_value = "https://cas.9cair.com/login?service=site-provided"
+        page.get_by_role.side_effect = lambda role, **kwargs: link if role == "link" else self.locator(0)
+        def finish(**kwargs):
+            page.url = probe.COURSE
+            page.test_content[:] = [probe.TARGET]
+        link.nth.return_value.click.side_effect = finish
+        report = {}
+        _, state = probe.open_course_through_site(page, Mock(pages=[page]), report)
+        self.assertTrue(state["course_content_visible"])
+        self.assertEqual(report["sso_entry_source"], "VISIBLE_SITE_LOGIN_ENTRY")
+        link.nth.return_value.click.assert_called_once_with(timeout=10_000)
+        page.goto.assert_called_once_with(probe.COURSE, wait_until="domcontentloaded", timeout=60_000)
+
+    def test_external_or_ambiguous_login_entries_are_not_used(self):
+        page = self.page("https://m.yidianzhishi.com/#!/login")
+        links = self.locator(1)
+        links.nth.return_value.get_attribute.return_value = "https://unrelated.invalid/login"
+        page.get_by_role.side_effect = lambda role, **kwargs: links if role == "link" else self.locator(0)
+        self.assertIsNone(probe.visible_site_login_entry(page))
+        links.count.return_value = 2
+        links.nth.return_value.get_attribute.return_value = "https://cas.9cair.com/login"
+        self.assertIsNone(probe.visible_site_login_entry(page))
+        links.nth.return_value.click.assert_not_called()
+
+    def test_generic_login_submit_cannot_start_another_otp_flow(self):
+        page = self.page("https://m.yidianzhishi.com/#!/login")
+        button = self.locator(1)
+        button.nth.return_value.get_attribute.return_value = "submit"
+        for label in ("登录", "统一认证登录", "获取验证码"):
+            with self.subTest(label=label):
+                page.get_by_role.side_effect = lambda role, name: button if role == "button" and name.fullmatch(label) else self.locator(0)
+                self.assertIsNone(probe.visible_site_login_entry(page))
+        button.nth.return_value.click.assert_not_called()
+
+    def test_popup_course_content_is_observed_in_same_context(self):
+        original = self.page("https://m.yidianzhishi.com/#!/login", ["请先登录"])
+        popup = self.page(probe.COURSE, [probe.TARGET])
+        selected, state = probe.wait_for_course_state(original, Mock(pages=[original, popup]), [original], probe.SsoDiagnostics(), timeout_ms=0)
+        self.assertIs(selected, popup)
+        self.assertTrue(state["course_content_visible"])
+
+    def test_navigation_diagnostics_are_bounded_and_never_contain_urls(self):
+        page = Mock()
+        diagnostics = probe.SsoDiagnostics()
+        diagnostics.watch(page)
+        listener = page.on.call_args.args[1]
+        request = Mock(frame=page.main_frame)
+        request.is_navigation_request.return_value = True
+        response = Mock(request=request, status=302,
+                        url="https://spring.yidianzhishi.com/api/v1/sso/ch/login/pc?ticket=synthetic-secret")
+        listener(response)
+        self.assertEqual(diagnostics.events, [{"stage": "TRAINING_CALLBACK",
+            "domain_category": "TRAINING_TENANT", "http_status": 302, "login_page_visible": None}])
+        self.assertTrue(diagnostics.handoff_seen)
+        self.assertNotIn("synthetic-secret", str(diagnostics.events))
+        self.assertNotIn("https://", str(diagnostics.events))
+        response.body.assert_not_called()
+        for i in range(100):
+            diagnostics.record("OBSERVING", "TRAINING_MOBILE", login_visible=bool(i % 2))
+        self.assertLessEqual(len(diagnostics.events), 40)
+
+    def test_xhr_and_subframes_are_not_logged(self):
+        page = Mock()
+        diagnostics = probe.SsoDiagnostics()
+        diagnostics.watch(page)
+        listener = page.on.call_args.args[1]
+        request = Mock(frame=page.main_frame)
+        request.is_navigation_request.return_value = False
+        listener(Mock(request=request))
+        request.is_navigation_request.return_value = True
+        request.frame = Mock()
+        listener(Mock(request=request))
+        self.assertEqual(diagnostics.events, [])
+
+
 if __name__ == "__main__":
     unittest.main()
