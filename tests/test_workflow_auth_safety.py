@@ -62,9 +62,12 @@ def _assert_training_login_workflow_safety(workflow: str, cleanup_helper: str | 
     assert workflow.splitlines()[0] == "name: 一点知识独立登录检查"
     triggers = workflow.split("\non:\n", 1)[1].split("\npermissions:", 1)[0]
     assert re.findall(r"^  ([\w-]+):", triggers, re.M) == ["workflow_dispatch"]
+    encrypted_delivery = "confirm_platform_allows_capture:" in triggers
+    description = ("确认仅执行一次登录并尝试授权下载目标 PDF，最多申请一次邮箱验证码"
+                   if encrypted_delivery else "确认仅执行一次独立登录，最多申请一次邮箱验证码")
     assert (
         "      confirm_single_email:\n"
-        "        description: '确认仅执行一次独立登录，最多申请一次邮箱验证码'\n"
+        f"        description: '{description}'\n"
         "        type: boolean\n"
         "        required: true\n"
         "        default: false" in triggers
@@ -77,11 +80,12 @@ def _assert_training_login_workflow_safety(workflow: str, cleanup_helper: str | 
     assert " ".join(condition.split()) == (
         "${{ github.event_name == 'workflow_dispatch' && "
         "github.repository == 'leochai0202/crew-calendar' && "
-        "github.ref == 'refs/heads/main' && inputs.confirm_single_email }}"
+        "github.ref == 'refs/heads/main' && inputs.confirm_single_email"
+        + (" && inputs.confirm_platform_allows_capture" if encrypted_delivery else "") + " }}"
     )
     for required in (
         "runs-on: [self-hosted, Windows, X64, crew-calendar]",
-        "timeout-minutes: 12",
+        "timeout-minutes: 40" if encrypted_delivery else "timeout-minutes: 12",
         "if ($env:GITHUB_RUN_ATTEMPT -ne '1') { throw 'RERUN_DISABLED' }",
         "[IO.Path]::GetFullPath($env:RUNNER_TEMP)",
         "[Guid]::NewGuid().ToString('N')",
@@ -101,12 +105,60 @@ def _assert_training_login_workflow_safety(workflow: str, cleanup_helper: str | 
         "CREW_PASSWORD", "CREW_USERNAME", "IMAP_AUTH_CODE", "IMAP_EMAIL"
     ]
     for forbidden in (
-        "uses:", "contents: write", "actions: write", "CREW_PHONE", "CREW_LOGIN_PHONE",
+        "contents: write", "actions: write", "CREW_PHONE", "CREW_LOGIN_PHONE",
         "CREW_STORAGE_STATE_B64", "CREW_PERSISTENT_PROFILE_DIR", "CREW_AUTH_BACKUP_PATH",
         "CREW_AUTH_CONTROL_PATH", "python crew_calendar", "clean_ics_people.py",
         "github_api_publish.py", "git push",
     ):
         assert forbidden not in workflow
+    if encrypted_delivery:
+        _assert_training_encrypted_delivery_safety(workflow)
+    else:
+        assert "uses:" not in workflow
+
+
+TRAINING_DELIVERY_GUARDS = (
+        "confirm_platform_allows_capture:\n"
+        "        description: '已确认平台允许将本课件截图保存；仅有查看权限不能勾选'\n"
+        "        type: boolean\n        required: true\n        default: false",
+        "preflight_only:\n"
+        "        description: '只验证隔离环境和会话目录，不登录、不读取登录 Secrets、不申请验证码'\n"
+        "        type: boolean\n        required: false\n        default: false",
+        "if: ${{ !inputs.preflight_only }}",
+        "TRAINING_CAPTURE_ALLOWED: ${{ inputs.confirm_platform_allows_capture && '1' || '0' }}",
+        "if: ${{ success() && steps.pdf_attempt.outputs.encrypted_package != '' }}",
+        "path: ${{ steps.pdf_attempt.outputs.encrypted_package }}",
+        "if-no-files-found: error", "ENCRYPTED_ARTIFACT_AVAILABLE; LOCAL_DECRYPTION_REQUIRED",
+)
+
+
+def _assert_training_encrypted_delivery_safety(workflow: str) -> None:
+    for required in TRAINING_DELIVERY_GUARDS:
+        assert required in workflow
+    assert re.findall(r"uses:\s*(\S+)", workflow) == [
+        "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02"]
+    # Credentials belong only to the explicit, non-preflight login step.
+    secret_block = workflow.split("if: ${{ !inputs.preflight_only }}", 1)[1].split("\n      - name:", 1)[0]
+    assert sorted(re.findall(r"secrets\.([A-Z_]+)", secret_block)) == [
+        "CREW_PASSWORD", "CREW_USERNAME", "IMAP_AUTH_CODE", "IMAP_EMAIL"]
+    assert "python -B training_downloader/login_probe.py --run" in secret_block
+
+
+@pytest.mark.parametrize("missing", [
+    "required: true", "default: false", "if: ${{ !inputs.preflight_only }}",
+    "TRAINING_CAPTURE_ALLOWED: ${{ inputs.confirm_platform_allows_capture && '1' || '0' }}",
+    "if: ${{ success() && steps.pdf_attempt.outputs.encrypted_package != '' }}",
+    "path: ${{ steps.pdf_attempt.outputs.encrypted_package }}",
+    "if-no-files-found: error", "LOCAL_DECRYPTION_REQUIRED",
+])
+def test_encrypted_training_delivery_rejects_removed_guard(missing: str) -> None:
+    # Build the complete asserted contract without copying a production workflow.
+    workflow = "\n".join(TRAINING_DELIVERY_GUARDS) + "\nuses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02\n"
+    workflow += "python -B training_downloader/login_probe.py --run\n" + "\n".join(
+        "secrets." + name for name in ("CREW_PASSWORD", "CREW_USERNAME", "IMAP_AUTH_CODE", "IMAP_EMAIL"))
+    _assert_training_encrypted_delivery_safety(workflow)
+    with pytest.raises(AssertionError):
+        _assert_training_encrypted_delivery_safety(workflow.replace(missing, "REMOVED"))
 
 
 def _assert_workflow_inventory(workflows: Path) -> None:

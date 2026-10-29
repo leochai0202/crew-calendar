@@ -1,0 +1,110 @@
+{
+  "input_sha": "915f7bafcde707d5f1f911dffff993a36d561239",
+  "dates": {
+    "2026-10-05": {
+      "preview_status": "PREVIEW",
+      "release_status": "FAILED_SAFE",
+      "release_exit_code": 2,
+      "errors": [
+        "9C7385/9C7386英文版：英文指定航线的适用性未核实：宁波栎社:en:bd662f47b89585b7；源页1352",
+        "9C7385/9C7386英文版：英文指定航线的适用性未核实：宁波栎社:en:5d2366547563467b；源页1352",
+        "9C7385/9C7386英文版：英文指定航线的适用性未核实：宁波栎社:en:4d9cb2292fd2f451；源页1352",
+        "9C7385/9C7386英文版：英文指定航线的适用性未核实：宁波栎社:en:5bb350f9ccd6830b；源页1352"
+      ],
+      "preview_preserves_formal_and_config": true,
+      "failed_release_preserves_last_good": true,
+      "all_selected_body_facts_present": true,
+      "complete_bilingual_groups": true,
+      "release_success_marker": false,
+      "groups": [
+        {
+          "flights": [
+            "9C7385",
+            "9C7386"
+          ],
+          "foreign_crew": true,
+          "chinese_fact_count": 45,
+          "english_fact_count": 49,
+          "chinese_preview": "PREVIEW_group_01_zh.txt",
+          "english_preview": "PREVIEW_group_01_en.txt"
+        }
+      ]
+    },
+    "2026-10-26": {
+      "preview_status": "PREVIEW",
+      "release_status": "FAILED_SAFE",
+      "release_exit_code": 2,
+      "errors": [
+        "9C7420：中英文权威来源关键运行冲突：广州白云_core_record_42：['operating_quantity_or_unit_conflict']；中文页991；英文页1583",
+        "9C7420：中英文权威来源关键运行冲突：广州白云_core_record_22：['procedure_or_waypoint_conflict', 'runway_requirement_conflict']；中文页987；英文页1581",
+        "9C7420：中英文权威来源关键运行冲突：广州白云_core_record_37：['procedure_or_waypoint_conflict']；中文页990；英文页1582"
+      ],
+      "preview_preserves_formal_and_config": true,
+      "failed_release_preserves_last_good": true,
+      "all_selected_body_facts_present": true,
+      "complete_bilingual_groups": true,
+      "release_success_marker": false,
+      "groups": [
+        {
+          "flights": [
+            "9C7289"
+          ],
+          "foreign_crew": true,
+          "chinese_fact_count": 37,
+          "english_fact_count": 41,
+          "chinese_preview": "PREVIEW_group_01_zh.txt",
+          "english_preview": "PREVIEW_group_01_en.txt"
+        },
+        {
+          "flights": [
+            "9C7420"
+          ],
+          "foreign_crew": true,
+          "chinese_fact_count": 46,
+          "english_fact_count": 51,
+          "chinese_preview": "PREVIEW_group_02_zh.txt",
+          "english_preview": "PREVIEW_group_02_en.txt"
+        }
+      ]
+    },
+    "2026-10-28": {
+      "preview_status": "PREVIEW",
+      "release_status": "FAILED_SAFE",
+      "release_exit_code": 2,
+      "errors": [
+        "9C7419：中英文权威来源关键运行冲突：广州白云_core_record_22：['procedure_or_waypoint_conflict', 'runway_requirement_conflict']；中文页987；英文页1581",
+        "9C7290：中英文权威来源关键运行冲突：上海浦东_core_record_5：['papi_runway_value_association']；中文页586；英文页1367"
+      ],
+      "preview_preserves_formal_and_config": true,
+      "failed_release_preserves_last_good": true,
+      "all_selected_body_facts_present": true,
+      "complete_bilingual_groups": true,
+      "release_success_marker": false,
+      "groups": [
+        {
+          "flights": [
+            "9C7419"
+          ],
+          "foreign_crew": true,
+          "chinese_fact_count": 56,
+          "english_fact_count": 58,
+          "chinese_preview": "PREVIEW_group_01_zh.txt",
+          "english_preview": "PREVIEW_group_01_en.txt"
+        },
+        {
+          "flights": [
+            "9C7290"
+          ],
+          "foreign_crew": true,
+          "chinese_fact_count": 34,
+          "english_fact_count": 40,
+          "chinese_preview": "PREVIEW_group_02_zh.txt",
+          "english_preview": "PREVIEW_group_02_en.txt"
+        }
+      ]
+    }
+  },
+  "manual": "AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+  "manual_sha256": "e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8",
+  "ics_sha256": "dced8ab1ec81f73c08a99d673a7676a7028327a8eaa186b729251e6afdac7cd4"
+}

@@ -974,6 +974,7 @@ ROLE_PHASE_PRIORITY = {
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Generate rule-based flight preparation text without API.")
     parser.add_argument("--repo", default=".")
+    parser.add_argument("--mode", choices=("release", "preview"), default="release")
     parser.add_argument("--target-date", default="")
     parser.add_argument("--days-ahead", type=int, default=1)
     parser.add_argument("--flight-number", default="")
@@ -2110,7 +2111,7 @@ def extract_pdf_layout_text(
 
 def _english_manual_heading(value: str) -> tuple[str, str]:
     compact = re.sub(r"[^A-Z0-9]+", "", value.upper())
-    title = re.split(r"[（(]\s*\d+\s*[）)]", value, maxsplit=1)[0]
+    title = re.split(r"[（(]\s*\d+\s*[）)]", strip_manual_ordinal_prefix(value), maxsplit=1)[0]
     title = strip_manual_ordinal_prefix(title)
     title = re.sub(r"^\s*[IVX]+\s*[.、:：]\s*", "", title, flags=re.I)
     event_title = re.sub(r"[^A-Z]+", "", title.upper())
@@ -2187,6 +2188,10 @@ def english_layout_text(value: str) -> str:
         ("flight", "crews"), ("crew", "members"), ("crews", "are"),
         ("are", "required"), ("are", "advised"), ("required", "to"),
         ("this", "section"),
+        ("first", "time"), ("strictly", "follow"), ("in", "front"),
+        ("it", "to"), ("it", "is"), ("is", "handed"), ("to", "reach"),
+        ("its", "five"), ("at", "gate"), ("at", "a"), ("visibility", "during"),
+        ("is", "equipped"), ("it's", "important"),
     )
     for left, right in pairs:
         # A whole-word join is required: never split island, airway names or
@@ -2218,6 +2223,8 @@ def english_route_aliases(chapters: list[dict]) -> dict[str, str]:
         # A prefix is usable only when it identifies one airport across the
         # entire manual. Shared city prefixes remain unresolved, not guessed.
         names.update(" ".join(words[:end]) for end in range(1, len(words)) if len(words[0]) >= 4)
+        names.update(word for word in words if len(word) >= 5 and word not in {
+            "AIRPORT", "INTERNATIONAL", "REGIONAL", "FIELD", "NORTH", "SOUTH", "CENTRAL"})
         for alias in names - {""}:
             candidates.setdefault(alias, set()).add(code)
     return {alias: next(iter(codes)) for alias, codes in candidates.items() if len(codes) == 1}
@@ -2411,6 +2418,8 @@ def extract_english_manual_facts(text: str) -> list[ManualEnglishFact]:
             current_parts = [sub_match.group("body")]
             continue
         main_match = main_item_re.match(line)
+        if re.match(r"^\d+\.\d+\s*(?:MHz|minutes?|seconds?|feet|meters?|metres?|knots?|ft|nm|kt)\b", line, re.I):
+            main_match = None  # a wrapped quantity is not a nested list item
         if main_match:
             flush()
             current_level = "main"
@@ -2510,6 +2519,10 @@ def manual_pairing_tokens(value: str) -> set[str]:
     """Critical bilingual anchors, preserving source case for waypoint names."""
     text, reference_tokens = callsign_reference_comparison(normalize_text(value))
     text, date_tokens = source_date_comparison(text)
+    whole_tens_of_thousands = dict(zip("一二两三四五六七八九十", (1, 2, 2, 3, 4, 5, 6, 7, 8, 9, 10)))
+    text = re.sub(r"([一二两三四五六七八九十])万(?:英)?尺",
+                  lambda match: str(whole_tens_of_thousands[match[1]] * 10000) + "ft", text)
+    text = re.sub(r"^(?:\d{1,2}\.)\s*(\d{2})(?=号跑道)", r"\1", SOURCE_HEADING_RE.sub("", text))
     # Thousands grouping is typography, not a different altitude. Normalize
     # only a complete grouped integer; decimal separators remain untouched.
     text = re.sub(r"(?<![\d.])\d{1,3}(?:,\d{3})+(?![\d.])", lambda match: match.group().replace(",", ""), text)
@@ -2644,7 +2657,7 @@ def manual_pairing_tokens(value: str) -> set[str]:
         if combined:
             tokens.discard(token)
             tokens.update(combined.groups())
-    for procedure, runway in re.findall(r"\b(RNP|ILS|RNAV)\s*(\d{2}[LRC]?)\b", upper):
+    for procedure, runway in re.findall(r"(?<![A-Z0-9])(RNP|ILS|RNAV)\s*(\d{2}[LRC]?)(?![A-Z0-9])", upper):
         if runway[-1] in "LRC" or re.search(r"进近|跑道|APPROACH|RUNWAY", upper):
             tokens.discard(procedure + runway)
             tokens.update((procedure, "RWY" + runway))
@@ -3937,6 +3950,9 @@ def source_operational_value_issue(value: str) -> str:
         return "standalone_frequency_metadata"
     if re.search(r"廊桥密码|登机桥密码|加油签名|\b(?:bridge.{0,30}password|password.{0,30}bridge|fuel\s+signature)\b", text, re.I):
         return "non_operational_administration"
+    if (re.search(r"海关.*(?:说明|法律后果)|廊桥.*(?:电话号码|远程开门)", text)
+            and not re.search(r"跑道|滑行|起飞|着陆|净距|碰撞|障碍|消防|\b(?:ATC|RUNWAY|TAXI|CLEARANCE)\b", text, re.I)):
+        return "non_operational_administration"
     if re.search(r"酒店|住宿|接送|班车|航站列车|机票|自动扶梯|医院|Toll\s+Road|员工通道|"
                  r"\b(?:hotel|accommodation|shuttle|ticket|escalator|hospital|staff\s+passage|terminal\s+train)\b", text, re.I) and not re.search(
                      r"飞机|航空器|跑道|滑行道|障碍|\b(?:aircraft|runway|taxiway|obstacle)\b", text, re.I):
@@ -4917,6 +4933,23 @@ def translation_authority_source(review: dict) -> str:
     return evidence["summary_zh"]
 
 
+def translation_chinese_text(review: dict) -> str:
+    """A reviewed paragraph may cite several separately identified CN items."""
+    additional = review.get("additional_chinese_sources", [])
+    if not isinstance(additional, list):
+        raise ValueError("补充中文来源结构无效")
+    seen = {review["source_record_id"]}
+    texts = [review["source_text_zh"]]
+    for item in additional:
+        if (not isinstance(item, dict) or any(not item.get(k) for k in ("source_record_id", "text", "hash", "page"))
+                or item["source_record_id"] in seen or source_text_hash(item["text"]) != item["hash"]
+                or not re.fullmatch(r"\d+(?:[-,]\d+)*", str(item["page"]))):
+            raise ValueError("补充中文来源身份无效")
+        seen.add(item["source_record_id"])
+        texts.append(item["text"])
+    return " ".join(SOURCE_HEADING_RE.sub("", text) for text in texts)
+
+
 def load_chinese_translation_reviews(repo: Path) -> list[dict]:
     """Reviewed translations are data bound to both immutable source texts.
 
@@ -4943,6 +4976,7 @@ def load_chinese_translation_reviews(repo: Path) -> list[dict]:
             raise ValueError("中文权威翻译来源身份无效")
         date.fromisoformat(entry["reviewed_date"])
         translation_authority_source(entry)
+        translation_chinese_text(entry)
         identity = (str(entry["manual_version"]), entry["icao"], entry["english_source_record_id"])
         if identity in seen:
             raise ValueError("中文权威翻译身份重复")
@@ -4967,7 +5001,14 @@ def bind_chinese_translation_reviews(records: list[dict], icao: str, reviews: li
                        and str(record.get("source_version")) == str(review["manual_version"])
                        and str(record.get("source_page")) == str(review["source_page_zh"])
                        and source_text_hash(str(record.get("source_original_text") or record.get("text_zh") or "")) == review["source_text_hash"]]
-            if len(matches) == 1:
+            additional_bound = all(len([record for record in records
+                if record.get("language") != "en" and record.get("source_record_id") == item["source_record_id"]
+                and record.get("airport") == english.get("airport")
+                and str(record.get("source_version")) == str(review["manual_version"])
+                and str(record.get("source_page")) == str(item["page"])
+                and source_text_hash(str(record.get("source_original_text") or record.get("text_zh") or "")) == item["hash"]]) == 1
+                for item in review.get("additional_chinese_sources", []))
+            if len(matches) == 1 and additional_bound:
                 english["chinese_translation_review"] = dict(review)
 
 
@@ -7175,7 +7216,7 @@ FLIGHT_SCOPE_RE = re.compile(
     re.IGNORECASE,
 )
 ROUTE_ENDPOINT_PATTERN = r"(?:[A-Z]{4}|[\u4e00-\u9fff]{2,16}?)"
-ROUTE_SEPARATOR_PATTERN = r"(?:→|至|到|往|[-—–])"
+ROUTE_SEPARATOR_PATTERN = r"(?:→|至|到|往|[-—–]+)"
 ROUTE_SCOPE_RE = re.compile(
     rf"(?:航线|航段|航路)\s*[:：]?\s*"
     rf"(?P<departure>{ROUTE_ENDPOINT_PATTERN})\s*{ROUTE_SEPARATOR_PATTERN}\s*"
@@ -7316,11 +7357,11 @@ def record_route_scope(
             ROUTE_PREFIX_SCOPE_RE,
             ROUTE_EXAMPLE_SCOPE_RE,
         ):
-            for match in pattern.finditer(text):
+            for match in pattern.finditer(SOURCE_HEADING_RE.sub("", text)):
                 routes.append(
                     (
-                        canonical_route_airport(match.group("departure"), registry),
-                        canonical_route_airport(match.group("arrival"), registry),
+                            aliases.get(match.group("departure").upper(), canonical_route_airport(match.group("departure"), registry)),
+                            aliases.get(match.group("arrival").upper(), canonical_route_airport(match.group("arrival"), registry)),
                     )
                 )
         for match in JOINED_ROUTE_SCOPE_RE.finditer(text):
@@ -7330,14 +7371,14 @@ def record_route_scope(
             if joined_route is not None:
                 routes.append(joined_route)
         if (
-            str(record.get("operational_phase") or "") == "navigation"
+            str(record.get("operational_phase") or "") in {"navigation", "enroute"}
             or "／航路" in str(record.get("source_section") or "")
         ):
-            for match in ROUTE_NAVIGATION_PREFIX_RE.finditer(text):
+            for match in ROUTE_NAVIGATION_PREFIX_RE.finditer(SOURCE_HEADING_RE.sub("", text)):
                 routes.append(
                     (
-                        canonical_route_airport(match.group("departure"), registry),
-                        canonical_route_airport(match.group("arrival"), registry),
+                        aliases.get(match.group("departure").upper(), canonical_route_airport(match.group("departure"), registry)),
+                        aliases.get(match.group("arrival").upper(), canonical_route_airport(match.group("arrival"), registry)),
                     )
                 )
     return tuple(
@@ -11194,7 +11235,7 @@ SEMANTIC_CONCEPT_PATTERNS: tuple[tuple[str, re.Pattern[str], re.Pattern[str]], .
     ("taxi_route", re.compile(r"滑错路线|滑行路线"), re.compile(r"\b(?:TAXI ROUTE|TAXI-ROUTE|TAXIING ROUTE|TAXIWAY)\b", re.I)),
     ("altitude_deviation", re.compile(r"偏离[^。；]{0,8}(?:指令)?高度"), re.compile(r"\b(?:ALTITUDE DEVIATION|DEVIATION FROM THE ATC-CLEARED ALTITUDE)\b", re.I)),
     ("landing_load", re.compile(r"着陆载荷"), re.compile(r"\bHIGH LANDING LOAD\b", re.I)),
-    ("terrain", re.compile(r"地形|山"), re.compile(r"\b(?:TERRAIN|HILL|MOUNTAIN)\b", re.I)),
+    ("terrain", re.compile(r"地形|山[地体区脉峰坡丘包]|[有为座群高绕避]山"), re.compile(r"\b(?:TERRAIN|HILL|MOUNTAIN)\b", re.I)),
     ("military_activity", re.compile(r"军航|军方|军事|部队活动"), re.compile(r"\bMILITARY\b", re.I)),
     ("PDC", re.compile(r"\bPDC\b", re.I), re.compile(r"\bPDC\b", re.I)),
     ("readback", re.compile(r"复诵"), re.compile(r"\bREAD\s*BACK|\bREADBACK\b", re.I)),
@@ -11530,6 +11571,9 @@ def chinese_fact_output(fact: BilingualFact) -> str:
     # whitespace, but must not enter the legacy Chinese prose editor.
     text = SOURCE_HEADING_RE.sub("", strip_source_metadata(fact.zh)).strip()
     text = re.sub(r"^现场/签派频率\s*[:：]\s*", "", text)
+    # The printed item number is not part of a two-digit runway identifier.
+    # Preserve the untouched source string and critical operating tokens.
+    text = re.sub(r"^\d{1,2}\.\s*(\d{2})(?=号跑道)", r"\1", text)
     # A parenthetical pointer to the source compilation is provenance, not an
     # operating instruction. Keep operational references (EFB, charts, SOP).
     text = strip_compilation_citations(text)
@@ -11559,6 +11603,8 @@ def render_chinese_briefing(
     del target, weather_sentence
 
     airports = unique([airport for airport in event.route if airport])
+    sections.append("本次航班整体风险：\n\n本次运行涉及" + " → ".join(airports) +
+                    "，适用的运行风险、限制及控制措施如下。")
     typical_sections: list[str] = []
     for airport in airports:
         items = [
@@ -11583,10 +11629,18 @@ def render_chinese_briefing(
         paragraphs = "\n\n".join(
             chinese_fact_output(fact) + "。"
             for fact in core_facts[airport]
-            if chinese_fact_output(fact)
+            if chinese_fact_output(fact) and fact.operational_phase not in {"enroute", "navigation", "route"}
         )
-        core_lines.append(f"{airport_with_suffix(airport)}：\n\n{paragraphs}")
+        if paragraphs:
+            core_lines.append(f"{airport_with_suffix(airport)}：\n\n{paragraphs}")
     sections.append("\n\n".join(core_lines))
+    route_lines = []
+    for airport in airports:
+        paragraphs = "\n\n".join(chinese_fact_output(fact) + "。" for fact in core_facts[airport]
+            if chinese_fact_output(fact) and fact.operational_phase in {"enroute", "navigation", "route"})
+        if paragraphs:
+            route_lines.append(f"{airport_with_suffix(airport)}：\n\n{paragraphs}")
+    sections.append("航路和通用风险：\n\n" + ("\n\n".join(route_lines) or "未检出另行适用的航路或通用运行条目。"))
     return "\n\n".join(section.strip() for section in sections if section.strip()).strip() + "\n"
 
 
@@ -11625,6 +11679,10 @@ def render_english_briefing(
     del target
 
     airports = unique([airport for airport in event.route if airport])
+    route_names = [english_airport_name_for_facts(a, [*typical_facts.get(a, []), *core_facts.get(a, [])])
+                   for a in airports]
+    sections.append("Overall flight risks:\n\nThis duty operates " + " → ".join(route_names) +
+                    ". Applicable operational risks, restrictions and controls are set out below.")
     typical_sections: list[str] = []
     for airport in airports:
         items = [
@@ -11652,14 +11710,24 @@ def render_english_briefing(
         paragraphs = "\n\n".join(
             english_paragraph_output(fact)
             for fact in core_facts[airport]
-            if fact.en.strip()
+            if fact.en.strip() and fact.operational_phase not in {"enroute", "navigation", "route"}
         )
         airport_name = english_airport_name_for_facts(
             airport,
             [*typical_facts.get(airport, []), *core_facts.get(airport, [])],
         )
-        core_lines.append(f"{airport_name} Airport:\n\n{paragraphs}")
+        if paragraphs:
+            core_lines.append(f"{airport_name} Airport:\n\n{paragraphs}")
     sections.append("\n\n".join(core_lines))
+    route_lines = []
+    for airport in airports:
+        paragraphs = "\n\n".join(english_paragraph_output(fact) for fact in core_facts[airport]
+            if fact.en.strip() and fact.operational_phase in {"enroute", "navigation", "route"})
+        if paragraphs:
+            name = english_airport_name_for_facts(airport, core_facts[airport])
+            route_lines.append(f"{name} Airport:\n\n{paragraphs}")
+    sections.append("En-route and general risks:\n\n" + ("\n\n".join(route_lines) or
+                    "No additional applicable en-route or general operating items were identified."))
     return "\n\n".join(section.strip() for section in sections if section.strip()).strip() + "\n"
 
 
@@ -11755,6 +11823,8 @@ def english_source_route_scope(record: dict, heading_aliases: dict[str, str] | N
     aliases = {code: name for name, code in default_airport_icao_names().items()}
     for entry in default_airport_name_registry().values():
         aliases[str(entry["english_name"]).upper()] = str(entry["canonical_zh"])
+    aliases.update(english_route_aliases([dict(icao=entry["icao"], name=entry["english_name"])
+                                          for entry in default_airport_name_registry().values()]))
     aliases.update(heading_aliases or {})
     # ICAO scope is explicit even for an airport not yet in the name registry.
     endpoint = r"[A-Z]{4}|" + "|".join(re.escape(name) for name in sorted(aliases, key=len, reverse=True))
@@ -11762,10 +11832,22 @@ def english_source_route_scope(record: dict, heading_aliases: dict[str, str] | N
     match = re.match(rf"\s*(?:FOR\s+)?(?:THE\s+)?(?:FLIGHTS?\s+)?FROM\s+({endpoint})\s+TO\s+({endpoint}){suffix}", text, re.I)
     if match and all(value.upper() in aliases or re.fullmatch(r"[A-Z]{4}", value) for value in match.groups()):
         routes.append(tuple(aliases.get(value.upper(), value.upper()) for value in match.groups()))
-    named = re.match(rf"\s*(?:THE\s+)?({endpoint})\s*[-—–→]\s*({endpoint})\s+(?:FLIGHTS?|ROUTES?|BORDER\s+CROSSING)\b", text, re.I)
+    named = re.match(rf"\s*(?:(?:FOR|AT|DURING)\s+)?(?:THE\s+)?({endpoint})\s*[-—–→]+\s*({endpoint})(?:\s*(?:FLIGHTS?|ROUTES?|SECTIONS?|SECTORS?|BORDER\s+CROSSING)\b|\s*:)", text, re.I)
     if named and all(value.upper() in aliases or re.fullmatch(r"[A-Z]{4}", value) for value in named.groups()):
         routes.append(tuple(aliases.get(value.upper(), value.upper()) for value in named.groups()))
-    return tuple(dict.fromkeys(routes))
+    example = re.search(rf"\b(?:INBOUND|OUTBOUND|ARRIVING|DEPARTING)\s+FLIGHTS?[^.;]{{0,40}}?"
+                        rf"\b(?:SUCH AS|INCLUDING)\s+({endpoint})\s*[-—–→]+\s*({endpoint})(?=\s|[,;.]|$)", text, re.I)
+    if example and all(value.upper() in aliases for value in example.groups()):
+        routes.append(tuple(aliases[value.upper()] for value in example.groups()))
+    scoped_code = re.search(r"(?i:\b(?:IN|ON|FOR)\s+(?:THE\s+)?)([A-Z]{4})[-—–]([A-Z]{4})(?i:\s+(?:SECTOR|ROUTE|SEGMENT)\b)", text)
+    if scoped_code:
+        routes.append(tuple(aliases.get(value, value) for value in scoped_code.groups()))
+    chain = re.search(r"\b([A-Z][a-z]+(?:[-—–][A-Z][a-z]+){2,})\s+(?:region|route)\b", text)
+    if chain:
+        names = re.split(r"[-—–]", chain[1])
+        if all(name.upper() in aliases for name in names):
+            routes.extend((aliases[left.upper()], aliases[right.upper()]) for left, right in zip(names, names[1:]))
+    return tuple(dict.fromkeys(route for route in routes if route[0] != route[1]))
 
 
 def english_briefing_fact_sets(
@@ -11818,11 +11900,13 @@ def english_briefing_fact_sets(
                                and source_text_hash(chinese.source_text_zh) == review["source_text_hash"]]
                 if len(matches) == 1 and normalize_text(matches[0].zh) == normalize_text(SOURCE_HEADING_RE.sub("", review["source_text_zh"])):
                     chinese = matches[0]
-                    fact = replace(fact, text_zh=chinese.zh, text_en=str(review["text_en"]),
+                    extra = review.get("additional_chinese_sources", [])
+                    fact = replace(fact, text_zh=translation_chinese_text(review), text_en=str(review["text_en"]),
                         source_text_zh=chinese.source_text_zh, source_page=chinese.source_page,
                         source_heading=chinese.source_heading, source_section=chinese.source_section,
-                        source_clauses=chinese.source_clauses, source_original_texts=chinese.source_original_texts,
-                        source_record_ids=chinese.source_record_ids,
+                        source_clauses=tuple([chinese.zh, *(item["text"] for item in extra)]),
+                        source_original_texts=tuple([review["source_text_zh"], *(item["text"] for item in extra)]),
+                        source_record_ids=tuple([*chinese.source_record_ids, *(item["source_record_id"] for item in extra)]),
                         route_scope=chinese.route_scope, operational_phase=chinese.operational_phase,
                         condition_scope=chinese.condition_scope, season_scope=chinese.season_scope,
                         flight_scope=chinese.flight_scope,
@@ -11891,8 +11975,16 @@ def validate_chinese_translation(fact: BilingualFact) -> list[str]:
             or source_text_hash(fact.source_text_en) != review.get("original_english_hash")
             or not review.get("review_note") or not review.get("reviewed_by")):
         return [f"中文重译追溯或内容校验失败：{fact.fact_id}"]
+    try:
+        chinese_text = translation_chinese_text(review)
+    except (KeyError, TypeError, ValueError):
+        return [f"中文重译补充来源校验失败：{fact.fact_id}"]
+    extra = review.get("additional_chinese_sources", [])
+    if extra and (tuple([review["source_text_zh"], *(item["text"] for item in extra)]) != fact.source_original_texts
+                  or not {item["source_record_id"] for item in extra} <= set(fact.source_record_ids)):
+        return [f"中文重译补充来源追溯失败：{fact.fact_id}"]
     # Translation permission is not permission to choose conflicting data.
-    original = replace(fact, text_en=fact.source_text_en, translation_provenance={},
+    original = replace(fact, text_zh=chinese_text, text_en=fact.source_text_en, translation_provenance={},
                        english_source="source_backed", language="en")
     source_conflicts = validate_cross_language_conflicts([original], [original])
     hard_conflicts = ("procedure_or_waypoint_conflict", "named_procedure_designator_conflict",
@@ -11904,7 +11996,7 @@ def validate_chinese_translation(fact: BilingualFact) -> list[str]:
         authority_source = translation_authority_source(review)
     except (TypeError, ValueError):
         return [*errors, f"中文重译权威补证校验失败：{fact.fact_id}"]
-    compared = replace(fact, text_zh=fact.zh + (" " + authority_source if authority_source else ""))
+    compared = replace(fact, text_zh=chinese_text + (" " + authority_source if authority_source else ""))
     errors.extend(validate_bilingual_facts([replace(compared, manual_english_counterpart=True)]))
     controls = (
         (r"如果|若[^干]|当[^。；]{1,60}时", r"\b(?:IF|WHEN|UNLESS|IN CASE)\b"),
@@ -11943,8 +12035,13 @@ def validate_english_source_facts(airport: str, facts: list[BilingualFact]) -> l
             errors.append(f"英文原文内容/条件/数字未完整保留：{fact.fact_id}")
         if fact.english_source != "source_backed" or not fact.en.strip():
             errors.append(f"英文不得使用无来源替代内容：{fact.fact_id}")
+        named_pair = re.search(r"\b[A-Z][a-z]{2,}(?:[-—–][A-Z][a-z]{2,})+\s*(?i:route|section|sector|airport)\b", fact.en)
+        from_to = re.search(r"\bFrom ([A-Z][a-z]{2,}) to ([A-Z][a-z]{2,})\b", fact.en)
+        if (fact.category == "core" and not fact.route_scope and (named_pair or from_to)):
+            errors.append(f"英文指定航线的适用性未核实：{fact.fact_id}；源页{fact.source_page}")
         if re.search(r"\bFIVE[- ]WAY TURNS?\b|\bRNP\s+FIVE SIDES\b|\bFIVE[- ]SIDED CHAOS\b|"
-                     r"\bRUNWAY\s+\d+\.\d+\b|\bAUTOMATIC WAVE SEPARATION\b|\bDISENGAGES FROM THE WAVE CONTACT\b", fact.en, re.I):
+                     r"\bRUNWAY\s+\d+\.\d+\b|\bAUTOMATIC WAVE SEPARATION\b|\bDISENGAGES FROM THE WAVE CONTACT\b|"
+                     r"\b\d+(?:ST|ND|RD|TH)\s+MOUNTAIN\b|RVSM\s*\(\s*REAL[- ]TIME VERTICAL MANAGEMENT SYSTEM", fact.en, re.I):
             errors.append(f"英文关键运行表达无法可靠确认：{fact.fact_id}；源页{fact.source_page}")
     return errors
 
@@ -11952,6 +12049,7 @@ def validate_english_source_facts(airport: str, facts: list[BilingualFact]) -> l
 def validate_cross_language_conflicts(
     chinese: list[BilingualFact], english: list[BilingualFact],
     source_records: dict[str, list[dict]] | None = None,
+    *, conflict_evidence: list[dict] | None = None,
 ) -> list[str]:
     """Only explicit conflicts in source-bound operating requirements block.
 
@@ -11986,6 +12084,7 @@ def validate_cross_language_conflicts(
         candidates = [candidate for candidate in english if candidate.airport == fact.airport and candidate.category == "core"]
         bound = [candidate for candidate in candidates
                  if candidate.english_source_record_id in fact.english_source_record_id.split("|")]
+        matched = bound
         en_text = fact.en if bound and fact.en else ""
         en_page = fact.english_source_page
         translated = [candidate for candidate in bound if candidate.english_source == "translated_from_chinese"
@@ -12020,6 +12119,7 @@ def validate_cross_language_conflicts(
             probes = [candidate for candidate in candidates if same_requirement(candidate)]
             if len(probes) == 1:
                 en_text, en_page = probes[0].en, probes[0].source_page
+                matched = probes
         if not en_text:
             continue  # absence/ambiguity remains a diagnostic, not a conflict
         left, right = manual_pairing_tokens(fact.zh), manual_pairing_tokens(en_text)
@@ -12072,8 +12172,19 @@ def validate_cross_language_conflicts(
                 and re.search(r"\bDEPARTING FROM\b", en_text, re.I)):
             explicit.append("departure_direction_conflict")
         if explicit:
-            errors.append(f"中英文权威来源关键运行冲突：{fact.fact_id}：{sorted(set(explicit))}；"
-                          f"中文页{fact.source_page}；英文页{en_page}")
+            reason = (f"中英文权威来源关键运行冲突：{fact.fact_id}：{sorted(set(explicit))}；"
+                      f"中文页{fact.source_page}；英文页{en_page}")
+            errors.append(reason)
+            if conflict_evidence is not None:
+                conflict_evidence.append(dict(
+                    reason=reason, airport=fact.airport, fact_id=fact.fact_id,
+                    source_record_ids=list(fact.source_record_ids),
+                    english_record_ids=[item.english_source_record_id for item in matched],
+                    source_file=fact.source_file, source_version=fact.source_version,
+                    chinese_page=fact.source_page, english_page=en_page,
+                    chinese_original=fact.source_text_zh or fact.zh,
+                    english_original="\n\n".join(item.source_text_en or item.en for item in matched) or en_text,
+                    english_compared=en_text))
     return errors
 
 
@@ -12477,10 +12588,13 @@ def main() -> int:
     args = parse_args()
     repo = Path(args.repo).resolve()
     target = determine_target_date(args.target_date, args.days_ahead)
-    output_dir = repo / "flight_preparation"
+    preview = getattr(args, "mode", "release") == "preview"
+    output_dir = (repo / "agent_output" / "flight_prep" / "previews" / target.isoformat()
+                  if preview else repo / "flight_preparation")
+    status_root = output_dir if preview else repo
     output_dir.mkdir(parents=True, exist_ok=True)
     success_marker = output_dir / ".success"
-    if success_marker.exists():
+    if not preview and success_marker.exists():
         success_marker.unlink()
 
     current_task_fingerprint = ""
@@ -12511,13 +12625,13 @@ def main() -> int:
                 "message": "目标日期未发现航班任务，未覆盖已有准备稿。",
                 "version": VERSION,
             }
-            write_status(repo, status)
+            write_status(status_root, status)
             atomic_write_json(
                 output_dir / f"{target.isoformat()}_meta.json",
                 status,
             )
             append_github_summary(f"## 免费航前准备\n\n**NO_TASK**：{target.isoformat()} 未发现航班任务。")
-            return 0
+            return 3 if preview else 0
 
         try:
             flights = select_continuous_flight_group(
@@ -12542,7 +12656,7 @@ def main() -> int:
                 "version": VERSION,
                 "note": "存在多组互不连续任务，需要人工指定；正式准备稿未覆盖。",
             }
-            write_status(repo, status)
+            write_status(status_root, status)
             atomic_write_json(output_dir / "latest_meta.json", status)
             atomic_write_json(
                 output_dir / f"{target.isoformat()}_meta.json",
@@ -12561,7 +12675,7 @@ def main() -> int:
         prep_flight_groups = split_flight_prep_groups_by_flight_number(flights)
         duty = DutyContext(tuple(flights))
         changes: list[str] = []
-        if settings.get("auto_update_airport_experience", True):
+        if not preview and settings.get("auto_update_airport_experience", True):
             experience, changes = update_airport_experience(
                 all_events,
                 experience,
@@ -12600,7 +12714,7 @@ def main() -> int:
             airport for airport in airports
             if not manual_source or not airport_threat_map.get(airport)
         ]
-        if missing_airports:
+        if missing_airports and (not preview or not manual_source):
             status = {
                 "status": "FAILED_SAFE",
                 "target_date": target.isoformat(),
@@ -12611,7 +12725,7 @@ def main() -> int:
                 "airport_information_type": manual_type,
                 "note": "任一涉及机场缺少核心运行事实，正式准备稿不覆盖。",
             }
-            write_status(repo, status)
+            write_status(status_root, status)
             append_github_summary(
                 "## 免费航前准备\n\n**FAILED_SAFE**：机场资料不完整，未覆盖正式准备稿。\n"
                 + "\n".join(f"- {airport}" for airport in missing_airports)
@@ -12619,8 +12733,8 @@ def main() -> int:
             return 2
 
         rendered_groups: list[dict[str, object]] = []
-        errors: list[str] = []
-        duty_english_required = english_generation_decision(duty, settings, args.generate_english)[0]
+        errors: list[str] = [f"最新机场特点未完整匹配：{airport}" for airport in missing_airports]
+        duty_english_required = preview or english_generation_decision(duty, settings, args.generate_english)[0]
         group_count = len(prep_flight_groups)
         for group_index, group_flights in enumerate(prep_flight_groups, start=1):
             group_duty = DutyContext(tuple(group_flights))
@@ -12711,7 +12825,9 @@ def main() -> int:
                 )
             if english_required:
                 bilingual_diagnostics = validate_bilingual_facts(all_facts)
-                cross_language_errors = validate_cross_language_conflicts(all_facts, en_facts, airport_source_records)
+                conflict_evidence: list[dict] = []
+                cross_language_errors = validate_cross_language_conflicts(
+                    all_facts, en_facts, airport_source_records, conflict_evidence=conflict_evidence)
                 errors.extend(
                     f"{group_label}：{item}"
                     for item in cross_language_errors
@@ -12770,6 +12886,7 @@ def main() -> int:
                     "language_fact_sets_independent": True,
                     "bilingual_pairing_diagnostics": bilingual_diagnostics if english_required else [],
                     "cross_language_conflicts": cross_language_errors if english_required else [],
+                    "conflict_evidence": conflict_evidence if english_required else [],
                     "english_fact_sources": {airport: [fact_source_metadata(fact)
                         for fact in [*en_typical.get(airport, []), *en_core.get(airport, [])]]
                         for airport in group_airports},
@@ -12882,6 +12999,14 @@ def main() -> int:
                     "_english_content": english_content,
                 }
             )
+        from crew_agents.flight_prep_preview import write_preview
+        review_dir = repo / "agent_output" / "flight_prep" / "previews" / target.isoformat()
+        write_preview(review_dir, target.isoformat(), rendered_groups, errors, manual_source, str(manual_ver))
+        if preview:
+            print(f"PREVIEW: {output_dir}")
+            # Deliberately non-release exit: an existing success()-gated job
+            # cannot publish previews, even if a stale formal marker exists.
+            return 3
         if errors:
             status = {
                 "status": "FAILED_SAFE",
@@ -12989,6 +13114,7 @@ def main() -> int:
         generated_at_beijing = now_beijing().isoformat()
         success_metadata = {
             "status": "SUCCESS",
+            "result_kind": "RELEASE",
             "target_date": target.isoformat(),
             "generated_at_beijing": generated_at_beijing,
             "generator": VERSION,
@@ -13082,7 +13208,7 @@ def main() -> int:
             "version": VERSION,
             "note": "正式准备稿未覆盖。",
         }
-        write_status(repo, status)
+        write_status(status_root, status)
         atomic_write_json(
             output_dir / f"{target.isoformat()}_meta.json",
             status,
