@@ -13,6 +13,11 @@ on:
         type: boolean
         required: true
         default: false
+      live_session:
+        description: '本机已准备的独立会话编号：同一登录会话内检查和操作网站正常保存方式'
+        type: string
+        required: false
+        default: ''
 
 permissions:
   contents: read
@@ -32,7 +37,7 @@ jobs:
           github.repository == 'leochai0202/crew-calendar' &&
           github.ref == 'refs/heads/main' && inputs.confirm_single_email && inputs.confirm_platform_allows_capture }}
     runs-on: [self-hosted, Windows, X64, crew-calendar]
-    timeout-minutes: 20
+    timeout-minutes: 40
     defaults:
       run:
         shell: pwsh
@@ -70,6 +75,7 @@ jobs:
               'training_downloader/private_delivery.py', 'training_downloader/recipient_public.pem',
               'training_downloader/test_pdf_download.py', 'training_downloader/download-requirements.txt',
               'training_downloader/page_capture.py', 'training_downloader/test_page_capture.py',
+              'training_downloader/live_save.py', 'training_downloader/test_live_save.py',
               '.github/workflows/training-login-check.yml'
             )
             $handler = [Net.Http.HttpClientHandler]::new()
@@ -141,7 +147,7 @@ jobs:
 
       - name: Capture all 29 permitted reader pages and encrypt the assembled PDF
         id: pdf_attempt
-        timeout-minutes: 12
+        timeout-minutes: 30
         env:
           CREW_USERNAME: ${{ secrets.CREW_USERNAME }}
           CREW_PASSWORD: ${{ secrets.CREW_PASSWORD }}
@@ -149,8 +155,10 @@ jobs:
           IMAP_AUTH_CODE: ${{ secrets.IMAP_AUTH_CODE }}
           TRAINING_API_TOKEN: ${{ github.token }}
           TRAINING_REQUIRE_GUARD: '1'
-          TRAINING_CAPTURE_MODE: '1'
+          TRAINING_CAPTURE_MODE: ${{ inputs.live_session != '' && '0' || '1' }}
           TRAINING_CAPTURE_ALLOWED: ${{ inputs.confirm_platform_allows_capture && '1' || '0' }}
+          TRAINING_LIVE_SAVE: ${{ inputs.live_session != '' && '1' || '0' }}
+          TRAINING_LIVE_SESSION: ${{ inputs.live_session }}
         run: |
           $ErrorActionPreference = 'Stop'
           Set-Location -LiteralPath (Join-Path $env:TRAINING_RUN_ROOT 'source')

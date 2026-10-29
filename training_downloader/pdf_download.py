@@ -15,6 +15,11 @@ def prepare_download():
     import pymupdf
     import pypdf
     recipient()
+    if os.environ.get('TRAINING_LIVE_SAVE') == '1':
+        from page_capture import require_permission
+        require_permission()
+        from live_save import control_directory
+        control_directory()
     if os.environ.get('TRAINING_CAPTURE_MODE') == '1':
         from page_capture import require_permission
         require_permission()
@@ -99,6 +104,9 @@ def download_target_pdf(page, context, output_dir, target):
         context.on("page", watch)
         visible[0].click(timeout=10_000)
         report["target_pdf_name_confirmed"] = True
+        if os.environ.get('TRAINING_LIVE_SAVE') == '1':
+            from live_save import run_live_save
+            return run_live_save(page, context, output_dir, downloads, key, report)
         if os.environ.get('TRAINING_CAPTURE_MODE') == '1':
             from page_capture import CaptureFailure, capture_reader_pdf, identify_reader, check_restrictions
             try:
