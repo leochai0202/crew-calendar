@@ -41,6 +41,14 @@ class LiveSaveTests(unittest.TestCase):
             page.goto.assert_not_called()
             page.pdf.assert_not_called()
 
+    def test_runner_write_denial_is_detected_before_login(self):
+        with tempfile.TemporaryDirectory() as root, patch.object(live_save, 'CONTROL_BASE', Path(root)), \
+                patch.dict(os.environ, {'TRAINING_LIVE_SESSION': 'a'*32}):
+            (Path(root)/('live-control-'+'a'*32)).mkdir()
+            with patch.object(Path, 'open', side_effect=PermissionError('private path')):
+                with self.assertRaisesRegex(RuntimeError, '^LIVE_CONTROL_WRITE_UNAVAILABLE$'):
+                    live_save.control_directory()
+
 
 if __name__ == '__main__':
     unittest.main()

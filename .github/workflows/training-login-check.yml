@@ -18,6 +18,11 @@ on:
         type: string
         required: false
         default: ''
+      preflight_only:
+        description: '只验证隔离环境和会话目录，不登录、不读取登录 Secrets、不申请验证码'
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
@@ -145,7 +150,17 @@ jobs:
           python -B training_downloader/workflow_guard.py
           exit $LASTEXITCODE
 
+      - name: Verify local session access before any authentication
+        if: ${{ inputs.live_session != '' }}
+        env:
+          TRAINING_LIVE_SESSION: ${{ inputs.live_session }}
+        run: |
+          Set-Location -LiteralPath (Join-Path $env:TRAINING_RUN_ROOT 'source/training_downloader')
+          python -B -c "from live_save import control_directory; control_directory(); print('LIVE_CONTROL_RUNNER_ACCESS=VERIFIED')"
+          exit $LASTEXITCODE
+
       - name: Capture all 29 permitted reader pages and encrypt the assembled PDF
+        if: ${{ !inputs.preflight_only }}
         id: pdf_attempt
         timeout-minutes: 30
         env:

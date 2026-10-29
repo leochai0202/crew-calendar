@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import re
 import time
+import uuid
 from urllib.parse import urlsplit
 
 from page_capture import PAGE_STATE, FRAME_VISIBLE, check_restrictions, image_evidence, duplicate, assemble_pdf, require_permission
@@ -44,6 +45,17 @@ def control_directory():
             raise RuntimeError('LIVE_CONTROL_PATH_INVALID')
     if not directory.is_dir():
         raise RuntimeError('LIVE_CONTROL_NOT_PREPARED')
+    # The Actions runner may use a different Windows identity. Verify the
+    # round trip before the original login is ever allowed to request an OTP.
+    probe = directory / ('access-probe-' + uuid.uuid4().hex)
+    try:
+        with probe.open('x', encoding='ascii') as stream:
+            stream.write('NON_AUTH_ACCESS_CHECK')
+        if probe.read_text(encoding='ascii') != 'NON_AUTH_ACCESS_CHECK':
+            raise OSError()
+        probe.unlink()
+    except OSError:
+        raise RuntimeError('LIVE_CONTROL_WRITE_UNAVAILABLE') from None
     return directory
 
 
