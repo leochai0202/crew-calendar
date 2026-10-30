@@ -1,0 +1,72 @@
+{
+  "status": "SUCCESS",
+  "target_date": "2026-11-01",
+  "generated_at_beijing": "2026-10-31T00:50:49.693330+08:00",
+  "task_fingerprint": "c74bb6ba7519bdedff00fc91cdde46b6a3bc3679d5cb24e71f3d4769a53b82cb",
+  "matched_flights": [
+    {
+      "uid": "806debdae5c3d260dace5218e949bc67@crew-calendar",
+      "summary": "✈️ 9C8511 上海浦东→清迈",
+      "start": "2026-11-01T16:15:00+08:00",
+      "end": "2026-11-01T21:15:00+08:00",
+      "description": "11月01日 周日\n类型：航班\n航班：9C8511\n航线：上海浦东 → 清迈\n地点：上海浦东\n签到：14:10｜上海浦东\n任务：16:15 - 21:15\n机型：A320｜注册号：B6932\n\n人员名单：\n• 辛建周(R)\n• 黄叶天(R)\n• 段洋硕\n• 钱程(B)\n\n版本：2026-10-30 22:13",
+      "location": "上海浦东",
+      "properties": {
+        "UID": "806debdae5c3d260dace5218e949bc67@crew-calendar",
+        "SUMMARY": "✈️ 9C8511 上海浦东→清迈",
+        "DTSTART": "20261101T161500",
+        "DTEND": "20261101T211500",
+        "DESCRIPTION": "11月01日 周日\\n类型：航班\\n航班：9C8511\\n航线：上海浦东 → 清迈\\n地点：上海浦东\\n签到：14:10｜上海浦东\\n任务：16:15 - 21:15\\n机型：A320｜注册号：B6932\\n\\n人员名单：\\n• 辛建周(R)\\n• 黄叶天(R)\\n• 段洋硕\\n• 钱程(B)\\n\\n版本：2026-10-30 22:13",
+        "X-CONTENT-SIGNATURE": "66ca2653d102cda4e6185db66c931d12",
+        "LOCATION": "上海浦东"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C8511",
+      "departure": "上海浦东",
+      "arrival": "清迈",
+      "aircraft_type": "A320",
+      "registration": "B6932",
+      "checkin": "14:10｜上海浦东",
+      "people": [
+        "辛建周(R)",
+        "黄叶天(R)",
+        "段洋硕",
+        "钱程(B)"
+      ],
+      "cross_day": false
+    },
+    {
+      "uid": "68c5e63d370f3fa1d6c7173eaf4e0bc2@crew-calendar",
+      "summary": "✈️ 9C8934 清迈→广州白云(+1)",
+      "start": "2026-11-01T22:15:00+08:00",
+      "end": "2026-11-02T00:55:00+08:00",
+      "description": "11月01日 周日\n类型：航班\n航班：9C8934\n航线：清迈 → 广州白云(+1)\n地点：清迈\n签到：20:40｜清迈\n任务：22:15 - 00:55\n机型：A320｜注册号：B6932\n\n人员名单：\n• 辛建周(R)\n• 黄叶天(R)\n• 段洋硕\n• 钱程(B)\n\n版本：2026-10-30 22:13",
+      "location": "清迈",
+      "properties": {
+        "UID": "68c5e63d370f3fa1d6c7173eaf4e0bc2@crew-calendar",
+        "SUMMARY": "✈️ 9C8934 清迈→广州白云(+1)",
+        "DTSTART": "20261101T221500",
+        "DTEND": "20261102T005500",
+        "DESCRIPTION": "11月01日 周日\\n类型：航班\\n航班：9C8934\\n航线：清迈 → 广州白云(+1)\\n地点：清迈\\n签到：20:40｜清迈\\n任务：22:15 - 00:55\\n机型：A320｜注册号：B6932\\n\\n人员名单：\\n• 辛建周(R)\\n• 黄叶天(R)\\n• 段洋硕\\n• 钱程(B)\\n\\n版本：2026-10-30 22:13",
+        "X-CONTENT-SIGNATURE": "0bea45f22abf17a80ba7d2ae98b36ef3",
+        "LOCATION": "清迈"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C8934",
+      "departure": "清迈",
+      "arrival": "广州白云",
+      "aircraft_type": "A320",
+      "registration": "B6932",
+      "checkin": "20:40｜清迈",
+      "people": [
+        "辛建周(R)",
+        "黄叶天(R)",
+        "段洋硕",
+        "钱程(B)"
+      ],
+      "cross_day": true
+    }
+  ],
+  "group_output": "2026-11-01_航前准备.txt",
+  "english_output": ""
+}
