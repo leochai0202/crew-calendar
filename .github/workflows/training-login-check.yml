@@ -1,0 +1,256 @@
+name: 一点知识独立登录检查
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_single_email:
+        description: '确认仅执行一次登录并尝试授权下载目标 PDF，最多申请一次邮箱验证码'
+        type: boolean
+        required: true
+        default: false
+      confirm_platform_allows_capture:
+        description: '已确认平台允许将本课件截图保存；仅有查看权限不能勾选'
+        type: boolean
+        required: true
+        default: false
+      live_session:
+        description: '本机已准备的独立会话编号：同一登录会话内检查和操作网站正常保存方式'
+        type: string
+        required: false
+        default: ''
+      preflight_only:
+        description: '只验证隔离环境和会话目录，不登录、不读取登录 Secrets、不申请验证码'
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: read
+  actions: read
+
+# Deliberately share the existing production mutex, without changing production.
+# queue:max avoids replacing an already pending production run on admission.
+concurrency:
+  group: crew-calendar
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  login-check:
+    if: >-
+      ${{ github.event_name == 'workflow_dispatch' &&
+          github.repository == 'leochai0202/crew-calendar' &&
+          github.ref == 'refs/heads/main' && inputs.confirm_single_email && inputs.confirm_platform_allows_capture }}
+    runs-on: [self-hosted, Windows, X64, crew-calendar]
+    timeout-minutes: 40
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+      - name: Stage only reviewed sources in a fresh temporary directory
+        env:
+          TRAINING_API_TOKEN: ${{ github.token }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          try {
+            if ($env:GITHUB_RUN_ATTEMPT -ne '1') { throw 'RERUN_DISABLED' }
+            if ($env:GITHUB_SHA -notmatch '^[0-9a-f]{40}$') { throw 'INVALID_REF' }
+            $tempBase = [IO.Path]::GetFullPath($env:RUNNER_TEMP).TrimEnd('\')
+            $runName = 'training-login-' + $env:GITHUB_RUN_ID + '-' + [Guid]::NewGuid().ToString('N')
+            $runRoot = Join-Path $tempBase $runName
+            $cleanupHelper = Join-Path $tempBase ($runName + '-cleanup.ps1')
+            if (Test-Path -LiteralPath $runRoot) { throw 'DIRECTORY_ALREADY_EXISTS' }
+            if (Test-Path -LiteralPath $cleanupHelper) { throw 'CLEANUP_HELPER_ALREADY_EXISTS' }
+            New-Item -ItemType Directory -Path $runRoot | Out-Null
+            "TRAINING_RUN_ROOT=$runRoot" | Out-File -LiteralPath $env:GITHUB_ENV -Append -Encoding utf8
+            $owner = @{kind='training-login-test-v1'; run_id=$env:GITHUB_RUN_ID; root_name=$runName} | ConvertTo-Json -Compress
+            [IO.File]::WriteAllText((Join-Path $runRoot '.training-run-owner.json'), $owner)
+            $sourceRoot = Join-Path $runRoot 'source'
+            New-Item -ItemType Directory -Path $sourceRoot | Out-Null
+            New-Item -ItemType Directory -Path (Join-Path $runRoot 'temp') | Out-Null
+            $files = @(
+              'training_downloader/cleanup_training.ps1',
+              'training_downloader/test_cleanup_training.ps1',
+              'password_email_auth.py', 'springair_email_otp.py',
+              'authenticate_crew_session.py', 'crew_auth_session.py', 'imap_otp.py',
+              'training_downloader/login_probe.py', 'training_downloader/workflow_guard.py',
+              'training_downloader/test_login_probe.py', 'training_downloader/test_workflow_guard.py',
+              'training_downloader/pdf_download.py', 'training_downloader/pdf_validation.py',
+              'training_downloader/private_delivery.py', 'training_downloader/recipient_public.pem',
+              'training_downloader/test_pdf_download.py', 'training_downloader/download-requirements.txt',
+              'training_downloader/page_capture.py', 'training_downloader/test_page_capture.py',
+              'training_downloader/live_save.py', 'training_downloader/test_live_save.py',
+              '.github/workflows/training-login-check.yml'
+            )
+            $handler = [Net.Http.HttpClientHandler]::new()
+            $handler.AllowAutoRedirect = $false
+            $handler.UseProxy = $false
+            $client = [Net.Http.HttpClient]::new($handler)
+            $client.Timeout = [TimeSpan]::FromSeconds(30)
+            $client.DefaultRequestHeaders.UserAgent.ParseAdd('training-login-check')
+            $client.DefaultRequestHeaders.Authorization = [Net.Http.Headers.AuthenticationHeaderValue]::new('Bearer', $env:TRAINING_API_TOKEN)
+            $client.DefaultRequestHeaders.Accept.ParseAdd('application/vnd.github+json')
+            try {
+              foreach ($file in $files) {
+                $uri = 'https://api.github.com/repos/leochai0202/crew-calendar/contents/' + $file + '?ref=' + $env:GITHUB_SHA
+                $response = $client.GetAsync($uri).GetAwaiter().GetResult()
+                try {
+                  if (-not $response.IsSuccessStatusCode) { throw 'SOURCE_FETCH_FAILED' }
+                  $item = $response.Content.ReadAsStringAsync().GetAwaiter().GetResult() | ConvertFrom-Json
+                  if ($item.type -ne 'file' -or $item.encoding -ne 'base64') { throw 'INVALID_SOURCE' }
+                  $destination = Join-Path $sourceRoot $file
+                  New-Item -ItemType Directory -Path (Split-Path -Parent $destination) -Force | Out-Null
+                  [IO.File]::WriteAllBytes($destination, [Convert]::FromBase64String($item.content))
+                  if ($file -eq 'training_downloader/cleanup_training.ps1') {
+                    Copy-Item -LiteralPath $destination -Destination $cleanupHelper
+                    "TRAINING_CLEANUP_HELPER=$cleanupHelper" | Out-File -LiteralPath $env:GITHUB_ENV -Append -Encoding utf8
+                  }
+                }
+                finally { $response.Dispose() }
+              }
+            }
+            finally { $client.Dispose() }
+            Write-Host 'TRAINING_SOURCE_STAGE=READY'
+          }
+          catch {
+            Write-Host 'TRAINING_SOURCE_STAGE=FAILED_SAFE'
+            exit 2
+          }
+
+      - name: Install isolated PDF validation and encryption dependencies
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $sourceRoot = Join-Path $env:TRAINING_RUN_ROOT 'source'
+          Set-Location -LiteralPath $sourceRoot
+          $env:TEMP = Join-Path $env:TRAINING_RUN_ROOT 'temp'
+          $env:TMP = $env:TEMP
+          $deps = Join-Path $env:TRAINING_RUN_ROOT 'pdf-dependencies'
+          python -m pip install --disable-pip-version-check --no-cache-dir --target $deps -r training_downloader/download-requirements.txt
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          "PYTHONPATH=$deps" | Out-File -LiteralPath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - name: Run offline safety checks without login Secrets
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Set-Location -LiteralPath (Join-Path $env:TRAINING_RUN_ROOT 'source')
+          $env:TEMP = Join-Path $env:TRAINING_RUN_ROOT 'temp'
+          $env:TMP = $env:TEMP
+          $env:PYTHONIOENCODING = 'utf-8'
+          python -B -m unittest discover -s training_downloader -p 'test_*.py'
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & ./training_downloader/test_cleanup_training.ps1
+          exit $LASTEXITCODE
+
+      - name: Refuse conflicting or unverifiable production activity
+        env:
+          TRAINING_API_TOKEN: ${{ github.token }}
+        run: |
+          Set-Location -LiteralPath (Join-Path $env:TRAINING_RUN_ROOT 'source')
+          python -B training_downloader/workflow_guard.py
+          exit $LASTEXITCODE
+
+      - name: Verify local session access before any authentication
+        if: ${{ inputs.live_session != '' }}
+        env:
+          TRAINING_LIVE_SESSION: ${{ inputs.live_session }}
+        run: |
+          Set-Location -LiteralPath (Join-Path $env:TRAINING_RUN_ROOT 'source/training_downloader')
+          python -B -c "from live_save import control_directory; control_directory(); print('LIVE_CONTROL_RUNNER_ACCESS=VERIFIED')"
+          exit $LASTEXITCODE
+
+      - name: Capture all 29 permitted reader pages and encrypt the assembled PDF
+        if: ${{ !inputs.preflight_only }}
+        id: pdf_attempt
+        timeout-minutes: 30
+        env:
+          CREW_USERNAME: ${{ secrets.CREW_USERNAME }}
+          CREW_PASSWORD: ${{ secrets.CREW_PASSWORD }}
+          IMAP_EMAIL: ${{ secrets.IMAP_EMAIL }}
+          IMAP_AUTH_CODE: ${{ secrets.IMAP_AUTH_CODE }}
+          TRAINING_API_TOKEN: ${{ github.token }}
+          TRAINING_REQUIRE_GUARD: '1'
+          TRAINING_CAPTURE_MODE: ${{ inputs.live_session != '' && '0' || '1' }}
+          TRAINING_CAPTURE_ALLOWED: ${{ inputs.confirm_platform_allows_capture && '1' || '0' }}
+          TRAINING_LIVE_SAVE: ${{ inputs.live_session != '' && '1' || '0' }}
+          TRAINING_LIVE_SESSION: ${{ inputs.live_session }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Set-Location -LiteralPath (Join-Path $env:TRAINING_RUN_ROOT 'source')
+          $env:TEMP = Join-Path $env:TRAINING_RUN_ROOT 'temp'
+          $env:TMP = $env:TEMP
+          $env:PYTHONIOENCODING = 'utf-8'
+          $env:PYTHONDONTWRITEBYTECODE = '1'
+          python -B training_downloader/login_probe.py --run
+          exit $LASTEXITCODE
+
+      - name: Deliver only the encrypted PDF package
+        if: ${{ success() && steps.pdf_attempt.outputs.encrypted_package != '' }}
+        id: private_package
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: training-pdf-encrypted-${{ github.run_id }}
+          path: ${{ steps.pdf_attempt.outputs.encrypted_package }}
+          if-no-files-found: error
+          include-hidden-files: true # Exact ciphertext file under .runtime only.
+          retention-days: 7
+          compression-level: 0
+
+      - name: Report encrypted package availability
+        if: ${{ success() && steps.private_package.outputs.artifact-id != '' }}
+        run: |
+          'ENCRYPTED_ARTIFACT_AVAILABLE; LOCAL_DECRYPTION_REQUIRED' | Out-File -LiteralPath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+          'Only ciphertext was uploaded. Use the local recipient private key and training_downloader/private_delivery.py to obtain and validate the PDF.' | Out-File -LiteralPath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+
+      - name: Remove this run's isolated browser state and source copy
+        if: ${{ always() && env.TRAINING_RUN_ROOT != '' }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          try {
+            $tempBase = [IO.Path]::GetFullPath($env:RUNNER_TEMP).TrimEnd('\')
+            $runRoot = [IO.Path]::GetFullPath($env:TRAINING_RUN_ROOT).TrimEnd('\')
+            $namePattern = '^training-login-' + [Regex]::Escape($env:GITHUB_RUN_ID) + '-[0-9a-f]{32}$'
+            if ((Split-Path -Parent $runRoot) -ne $tempBase -or
+                (Split-Path -Leaf $runRoot) -notmatch $namePattern) {
+              Write-Host 'TRAINING_TEMP_CLEANUP=FAILED_REQUIRES_LOCAL_REVIEW'
+              Write-Host 'TRAINING_TEMP_CLEANUP_REASON=CLEANUP_PATH_INVALID'
+              exit 2
+            }
+            $expectedHelper = Join-Path $tempBase ((Split-Path -Leaf $runRoot) + '-cleanup.ps1')
+            if ([string]::IsNullOrWhiteSpace($env:TRAINING_CLEANUP_HELPER) -or
+                [IO.Path]::GetFullPath($env:TRAINING_CLEANUP_HELPER) -ne $expectedHelper) {
+              Write-Host 'TRAINING_TEMP_CLEANUP=FAILED_REQUIRES_LOCAL_REVIEW'
+              Write-Host 'TRAINING_TEMP_CLEANUP_REASON=CLEANUP_HELPER_PATH_INVALID'
+              exit 2
+            }
+            $helper = $expectedHelper
+            if (-not (Test-Path -LiteralPath $helper -PathType Leaf)) {
+              Write-Host 'TRAINING_TEMP_CLEANUP=FAILED_REQUIRES_LOCAL_REVIEW'
+              Write-Host 'TRAINING_TEMP_CLEANUP_REASON=CLEANUP_HELPER_MISSING'
+              exit 2
+            }
+            if ((Get-Item -LiteralPath $helper -Force).Attributes -band [IO.FileAttributes]::ReparsePoint) {
+              Write-Host 'TRAINING_TEMP_CLEANUP=FAILED_REQUIRES_LOCAL_REVIEW'
+              Write-Host 'TRAINING_TEMP_CLEANUP_REASON=CLEANUP_REPARSE_POINT_REFUSED'
+              exit 2
+            }
+            # The Python step has exited; its finally/context manager normally
+            # closes Edge. The external helper additionally refuses live test
+            # processes or locked files, including after cancellation/failure.
+            Set-Location -LiteralPath $tempBase
+            [Environment]::CurrentDirectory = $tempBase
+            $env:TEMP = $tempBase
+            $env:TMP = $tempBase
+            & $helper
+            $cleanupExit = $LASTEXITCODE
+            if ($cleanupExit -eq 0) {
+              # This exact script has returned and lies outside the deleted tree.
+              Remove-Item -LiteralPath $helper -ErrorAction Stop
+            }
+            exit $cleanupExit
+          }
+          catch {
+            Write-Host 'TRAINING_TEMP_CLEANUP=FAILED_REQUIRES_LOCAL_REVIEW'
+            Write-Host 'TRAINING_TEMP_CLEANUP_REASON=CLEANUP_HELPER_START_FAILED'
+            exit 2
+          }
