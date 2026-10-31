@@ -1,0 +1,574 @@
+{
+  "baseline_head": "966e838f101efc9d42e15e03053db08a03780de1",
+  "reviewed_at_utc": "2026-10-27T21:49:51.730654+00:00",
+  "manual": "AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+  "manual_sha256": "e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8",
+  "manual_version": 20261019,
+  "review_method": "Rendered original PDF pages visually; compared text-layer extraction and selected source-bound facts. No production source or guard changed.",
+  "reviewed_pages": [
+    314,
+    315,
+    316,
+    586,
+    987,
+    990,
+    991,
+    1171,
+    1172,
+    1173,
+    1367,
+    1581,
+    1582,
+    1583
+  ],
+  "cases": [
+    {
+      "case": "tcas_timing",
+      "classification": "MANUAL_SOURCE_CONFLICT",
+      "resolved": false,
+      "airport": "曼谷素旺那普",
+      "icao": "VTBS",
+      "category": "core",
+      "operational_phase": "ground",
+      "fact_id": "曼谷素旺那普_core_record_17",
+      "source_record_ids": [
+        "曼谷素旺那普:core:6785143081757f96"
+      ],
+      "source_page_zh": "314",
+      "source_heading_zh": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
+      "source_section_zh": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
+      "source_text_zh": "地面：为防止可能的干扰，对离港飞机，直到收到进入或者对 正跑道指令才打开 TCAS；对于进港飞机，直到脱离跑道再关闭。",
+      "source_text_en": "To prevent potential interference, TCAS should remain activated for departing aircraft until receiving the go-to or go-around command, and deactivated for arriving aircraft until the aircraft has left the runway.",
+      "source_page_en": "1171",
+      "english_source_record_id": "曼谷素旺那普:en:43bfc156a3da1481",
+      "critical_tokens_zh": [
+        "TCAS"
+      ],
+      "critical_tokens_en": [
+        "TCAS"
+      ],
+      "authority_question": "Confirm departure activation and arrival deactivation gates separately; the printed English reverses the timing.",
+      "blocking_instances": [
+        {
+          "date": "2026-10-26",
+          "error": "9C7289：中英文权威来源关键运行冲突：曼谷素旺那普_core_record_17：['system_activation_temporal_polarity']；中文页314；英文页1171"
+        },
+        {
+          "date": "2026-10-28",
+          "error": "9C7419：中英文权威来源关键运行冲突：曼谷素旺那普_core_record_17：['system_activation_temporal_polarity']；中文页314；英文页1171"
+        }
+      ]
+    },
+    {
+      "case": "takeoff_roll",
+      "classification": "MANUAL_SOURCE_CONFLICT",
+      "resolved": false,
+      "airport": "曼谷素旺那普",
+      "icao": "VTBS",
+      "category": "core",
+      "operational_phase": "departure",
+      "fact_id": "曼谷素旺那普_core_record_23",
+      "source_record_ids": [
+        "曼谷素旺那普:core:098da864b419e70f"
+      ],
+      "source_page_zh": "315",
+      "source_heading_zh": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
+      "source_section_zh": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
+      "source_text_zh": "离场：为减少跑道占用时间，飞行员应确保在收到起飞 许可后能立即开始起飞滑跑。",
+      "source_text_en": "To minimize runway time, pilots must ensure they can begin taxiing immediately upon receiving the takeoff clearance.",
+      "source_page_en": "1171",
+      "english_source_record_id": "曼谷素旺那普:en:1f8781cb0a00f86e",
+      "critical_tokens_zh": [],
+      "critical_tokens_en": [],
+      "authority_question": "Confirm the takeoff-roll wording; taxiing cannot be substituted for takeoff roll.",
+      "blocking_instances": [
+        {
+          "date": "2026-10-26",
+          "error": "9C7420：中英文权威来源关键运行冲突：曼谷素旺那普_core_record_23：['takeoff_roll']；中文页315；英文页1171"
+        },
+        {
+          "date": "2026-10-28",
+          "error": "9C7290：中英文权威来源关键运行冲突：曼谷素旺那普_core_record_23：['takeoff_roll']；中文页315；英文页1171"
+        }
+      ]
+    },
+    {
+      "case": "runway_allocation",
+      "classification": "MANUAL_SOURCE_CONFLICT",
+      "resolved": false,
+      "airport": "广州白云",
+      "icao": "ZGGG",
+      "category": "core",
+      "operational_phase": "ground",
+      "fact_id": "广州白云_core_record_22",
+      "source_record_ids": [
+        "广州白云:core:ecc6ab7e4fca5257"
+      ],
+      "source_page_zh": "987",
+      "source_heading_zh": "广州/白云机场运行特点",
+      "source_section_zh": "广州/白云机场运行特点／核心威胁与运行特点",
+      "source_text_zh": "地面：跑道运行规则：向北运行：RWYO1L主要用于进场；RWYO1R 主要用于离场；RWYO2L主要用于离场；RWYO2R 主要 用于进场；RWY03进、离场混合运行。向南运行：RWY19R 主要用于进场；RWY19L 主要用于离场；RWY20R 主要用于离场；RWY20L 主要用于进场；RWY21 进、离场混合运行。",
+      "source_text_en": "Typically, aircraft take off from 01R/19L or 02L/20R, and land from 01L/20R or 02L/20R.",
+      "source_page_en": "1581",
+      "english_source_record_id": "广州白云:en:062c898a4587310b",
+      "critical_tokens_zh": [
+        "RWY03",
+        "RWY19L",
+        "RWY19R",
+        "RWY20L",
+        "RWY20R",
+        "RWY21",
+        "RWYO1L",
+        "RWYO1R",
+        "RWYO2L",
+        "RWYO2R"
+      ],
+      "critical_tokens_en": [
+        "RWY01L",
+        "RWY01R",
+        "RWY02L",
+        "RWY19L",
+        "RWY20R"
+      ],
+      "authority_question": "Provide direction-keyed runway arrival/departure assignments, including 03/21; letter O text-layer anomalies do not resolve the printed assignment differences.",
+      "blocking_instances": [
+        {
+          "date": "2026-10-26",
+          "error": "9C7420：中英文权威来源关键运行冲突：广州白云_core_record_22：['procedure_or_waypoint_conflict', 'runway_requirement_conflict']；中文页987；英文页1581"
+        },
+        {
+          "date": "2026-10-28",
+          "error": "9C7419：中英文权威来源关键运行冲突：广州白云_core_record_22：['procedure_or_waypoint_conflict', 'runway_requirement_conflict']；中文页987；英文页1581"
+        }
+      ]
+    },
+    {
+      "case": "w19_waypoint",
+      "classification": "MANUAL_SOURCE_CONFLICT",
+      "resolved": false,
+      "airport": "广州白云",
+      "icao": "ZGGG",
+      "category": "core",
+      "operational_phase": "navigation",
+      "fact_id": "广州白云_core_record_37",
+      "source_record_ids": [
+        "广州白云:core:c9f2ac8896ce0bac"
+      ],
+      "source_page_zh": "990",
+      "source_heading_zh": "广州/白云机场运行特点",
+      "source_section_zh": "广州/白云机场运行特点／核心威胁与运行特点",
+      "source_text_zh": "航路：将W19航线MASGU-MABAG-OGABI-NOMAR 航段调整为MASGU-UPMIP-ATKAV-OLPAB-NOMAR供华东方向落地广州航班及飞跃 珠三角航班使用。",
+      "source_text_en": "The W19 route segment MASGU-MABAG-OGABI- NOMAR will be adjusted to MASGU-UPMIP-ATKAV- OBLAP-NOMAR for flights landing in Guangzhou and those flying over the Pearl River Delta region bound for East China.",
+      "source_page_en": "1582",
+      "english_source_record_id": "广州白云:en:55953add87452ad1",
+      "critical_tokens_zh": [
+        "ATKAV",
+        "MABAG",
+        "MASGU",
+        "NOMAR",
+        "OGABI",
+        "OLPAB",
+        "UPMIP",
+        "W19"
+      ],
+      "critical_tokens_en": [
+        "ATKAV",
+        "MABAG",
+        "MASGU",
+        "NOMAR",
+        "OBLAP",
+        "OGABI",
+        "UPMIP",
+        "W19"
+      ],
+      "authority_question": "Provide the effective W19 route amendment and coordinates for the disputed waypoint; other-route occurrences cannot decide this record.",
+      "blocking_instances": [
+        {
+          "date": "2026-10-26",
+          "error": "9C7420：中英文权威来源关键运行冲突：广州白云_core_record_37：['procedure_or_waypoint_conflict']；中文页990；英文页1582"
+        }
+      ]
+    },
+    {
+      "case": "speed_distance",
+      "classification": "MANUAL_SOURCE_CONFLICT",
+      "resolved": false,
+      "airport": "广州白云",
+      "icao": "ZGGG",
+      "category": "core",
+      "operational_phase": "arrival",
+      "fact_id": "广州白云_core_record_42",
+      "source_record_ids": [
+        "广州白云:core:c86df9922ff0cc1f"
+      ],
+      "source_page_zh": "991",
+      "source_heading_zh": "广州/白云机场运行特点",
+      "source_section_zh": "广州/白云机场运行特点／核心威胁与运行特点",
+      "source_text_zh": "进场：会指挥速度180到8海里，尽量满足避免造成间隔不够。",
+      "source_text_en": "The vessel shall maintain a speed of 180 to 8 knots, ensuring sufficient spacing to avoid insufficient intervals.",
+      "source_page_en": "1583",
+      "english_source_record_id": "广州白云:en:35d3c6b7a4987a9b",
+      "critical_tokens_zh": [
+        "8NM",
+        "ATC"
+      ],
+      "critical_tokens_en": [
+        "8KT"
+      ],
+      "authority_question": "Confirm the commanded speed, the distance endpoint and each unit; do not interpret 8 nautical miles as 8 knots.",
+      "blocking_instances": [
+        {
+          "date": "2026-10-26",
+          "error": "9C7420：中英文权威来源关键运行冲突：广州白云_core_record_42：['operating_quantity_or_unit_conflict']；中文页991；英文页1583"
+        }
+      ],
+      "english_heading": "GUANGZHOU BAIYUN / ZGGG",
+      "english_section": "English / core / arrival",
+      "pairing_note": "The Chinese record has no ordinal counterpart; the independent selected English source item is matched by the validator's unique speed/numeric requirement probe, not inferred from missing pairing."
+    },
+    {
+      "case": "papi_association",
+      "classification": "MANUAL_SOURCE_AMBIGUITY",
+      "resolved": false,
+      "airport": "上海浦东",
+      "icao": "ZSPD",
+      "category": "core",
+      "operational_phase": "unspecified",
+      "fact_id": "上海浦东_core_record_5",
+      "source_record_ids": [
+        "上海浦东:core:b694bf006b9795c9"
+      ],
+      "source_page_zh": "586",
+      "source_heading_zh": "上海/浦东机场运行特点（ZSPD/PVG）",
+      "source_section_zh": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+      "source_text_zh": "PAPI信息：16L：跑道左侧入口内 454 米，3°，MEHT 20.9m；34R：跑道左 侧入口内 455 米，3°，MEHT 21.5m；16R：跑道左侧入口内 452 米，3°，MEHT 21.9m；34L：跑道左侧入口内 452 米，3°，MEHT 22.4m；17L：跑 道左侧入口内 464 米，3°，MEHT 21.7m；35R：跑道左侧入口内 464 米，3°，MEHT 22.5m；17R：跑道左侧入口内 452 米，3°，MEHT 21.4m；35L：跑道左侧入口内 452 米，3°，MEHT 21.0m。",
+      "source_text_en": "PAPI Information: RWY 16L: 454 m inside runway threshold on left side, glidepath angle 3°, MEHT 20.9 m - RWY 34R: 455 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.5 m - RWY 16R: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.9 m - RWY 34L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 22.4 m - RWY 17L: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.7 m - RWY 35R: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 22.5 m - RWY 17R: 35L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 21.4 m - RWY 35L: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.0 m",
+      "source_page_en": "1367",
+      "english_source_record_id": "上海浦东:en:25c1f75d2bee4b70",
+      "critical_tokens_zh": [
+        "20.9",
+        "20.9M",
+        "21.0",
+        "21.0M",
+        "21.4",
+        "21.4M",
+        "21.5",
+        "21.5M",
+        "21.7",
+        "21.7M",
+        "21.9",
+        "21.9M",
+        "22.4",
+        "22.4M",
+        "22.5",
+        "22.5M",
+        "452M",
+        "454M",
+        "455M",
+        "464M",
+        "MEHT",
+        "PAPI",
+        "RWY16L",
+        "RWY16R",
+        "RWY17L",
+        "RWY17R",
+        "RWY34L",
+        "RWY34R",
+        "RWY35L",
+        "RWY35R"
+      ],
+      "critical_tokens_en": [
+        "20.9",
+        "20.9M",
+        "21.0",
+        "21.0M",
+        "21.4",
+        "21.4M",
+        "21.5",
+        "21.5M",
+        "21.7",
+        "21.7M",
+        "21.9",
+        "21.9M",
+        "22.4",
+        "22.4M",
+        "22.5",
+        "22.5M",
+        "452M",
+        "454M",
+        "455M",
+        "464M",
+        "MEHT",
+        "PAPI",
+        "RWY16L",
+        "RWY16R",
+        "RWY17L",
+        "RWY17R",
+        "RWY34L",
+        "RWY34R",
+        "RWY35L",
+        "RWY35R"
+      ],
+      "authority_question": "Provide a runway-keyed PAPI table; the printed English has RWY 17R: 35L: before MEHT21.4 and another 35L before MEHT21.0.",
+      "blocking_instances": [
+        {
+          "date": "2026-10-28",
+          "error": "9C7290：中英文权威来源关键运行冲突：上海浦东_core_record_5：['papi_runway_value_association']；中文页586；英文页1367"
+        }
+      ]
+    },
+    {
+      "case": "approach_turn",
+      "classification": "UNCONFIRMED_PRINTED_TERMINOLOGY",
+      "resolved": false,
+      "airport": "曼谷素旺那普",
+      "icao": "VTBS",
+      "category": "core",
+      "operational_phase": "arrival",
+      "fact_id": "曼谷素旺那普_core_record_34",
+      "source_record_ids": [
+        "曼谷素旺那普:core:cb29f683c773c0a8"
+      ],
+      "source_page_zh": "316",
+      "source_heading_zh": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
+      "source_section_zh": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
+      "source_text_zh": "进场：航图新增Z 进近程序为主用程序，数据库也有变化，提 示机组注意阅读对应进场图中Warning 中的说明，避免未经 ATC 许可转向五边加入进近程序。",
+      "source_text_en": "The new Z approach procedure has been designated as the primary procedure in the air chart, with corresponding database updates. Crews are advised to carefully review the Warning section in the relevant approach chart to prevent unauthorized five-way turns into the approach procedure without ATC clearance.",
+      "source_page_en": "1172",
+      "english_source_record_id": "曼谷素旺那普:en:762728438175820a",
+      "critical_tokens_zh": [
+        "ATC"
+      ],
+      "critical_tokens_en": [
+        "ATC"
+      ],
+      "authority_question": "Confirm an exact sourced English approach/clearance requirement; generic terminology cannot authorize rewriting the printed sentence.",
+      "blocking_instances": [
+        {
+          "date": "2026-10-26",
+          "error": "9C7289英文版：英文关键运行表达无法可靠确认：曼谷素旺那普:en:762728438175820a；源页1172"
+        },
+        {
+          "date": "2026-10-28",
+          "error": "9C7419英文版：英文关键运行表达无法可靠确认：曼谷素旺那普:en:762728438175820a；源页1172"
+        }
+      ]
+    },
+    {
+      "case": "rnp_final",
+      "classification": "UNCONFIRMED_PRINTED_TERMINOLOGY",
+      "resolved": false,
+      "airport": "曼谷素旺那普",
+      "icao": "VTBS",
+      "category": "core",
+      "operational_phase": "arrival",
+      "fact_id": "曼谷素旺那普_core_record_35",
+      "source_record_ids": [
+        "曼谷素旺那普:core:15735735141c21a3"
+      ],
+      "source_page_zh": "316",
+      "source_heading_zh": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
+      "source_section_zh": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
+      "source_text_zh": "进场：执行 VTBS 20R RNP 进近需要注意。ATKIN 之后转 5 边的 航段， 管制可能会指令“maintain 5000ft，turn right HDG 165,intercept final course 20R,report established.”注意 管制是要求先建立20R RNP 的五边，而不是许可 RNP 进近,注意 证实指令，防止误待命APPR。随后会让下3500ft，可以 RNP20R，容易造成能量大，机组注意做好预案，防止不稳定。RNP 进近不 允许执行“高截获”程序。",
+      "source_text_en": "When executing a VTBS 20R RNP approach, note the following: After the ATKIN, the control may instruct to \"maintain 5000ft, turn right HDG 165, intercept final course 20R, report established.\" Note that the control requires establishing the 20R RNP five sides first, not granting permission for the RNP approach. Pay attention tothe confirmation instructions toavoid mistakenly awaiting the APPR. Subsequently, the control may descend 3500ft, allowing the RNP 20R approach, which could cause excessive energy. The crew should prepare contingency plans to prevent instability. The \"high intercept\" procedure is not permitted during RNP approaches.",
+      "source_page_en": "1172-1173",
+      "english_source_record_id": "曼谷素旺那普:en:b6c12b97473d3ea3",
+      "critical_tokens_zh": [
+        "3500FT",
+        "5000FT",
+        "APPR",
+        "ATC",
+        "ATKIN",
+        "HDG",
+        "RNP",
+        "RWY20R",
+        "VTBS"
+      ],
+      "critical_tokens_en": [
+        "3500FT",
+        "5000FT",
+        "APPR",
+        "ATC",
+        "ATKIN",
+        "HDG",
+        "RNP",
+        "RWY20R",
+        "VTBS"
+      ],
+      "authority_question": "Confirm the distinction between intercept/established instruction and approach clearance, including all original anchors and sequence.",
+      "blocking_instances": [
+        {
+          "date": "2026-10-26",
+          "error": "9C7289英文版：英文关键运行表达无法可靠确认：曼谷素旺那普:en:b6c12b97473d3ea3；源页1172-1173"
+        },
+        {
+          "date": "2026-10-28",
+          "error": "9C7419英文版：英文关键运行表达无法可靠确认：曼谷素旺那普:en:b6c12b97473d3ea3；源页1172-1173"
+        }
+      ]
+    },
+    {
+      "case": "departure_communication",
+      "classification": "UNCONFIRMED_PRINTED_TERMINOLOGY",
+      "resolved": false,
+      "airport": "曼谷素旺那普",
+      "icao": "VTBS",
+      "category": "core",
+      "operational_phase": "departure",
+      "fact_id": "曼谷素旺那普_core_record_24",
+      "source_record_ids": [
+        "曼谷素旺那普:core:596e8457291a2df8"
+      ],
+      "source_page_zh": "315",
+      "source_heading_zh": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)",
+      "source_section_zh": "曼谷素万那普机场运行特点 BANGKOK(BKK/VTBS)／核心威胁与运行特点",
+      "source_text_zh": "离场：离地自动脱波119.25。",
+      "source_text_en": "Automatic wave separation from the ground 119.25.",
+      "source_page_en": "1171",
+      "english_source_record_id": "曼谷素旺那普:en:730e7517374f441e",
+      "critical_tokens_zh": [
+        "119.25"
+      ],
+      "critical_tokens_en": [
+        "119.25"
+      ],
+      "authority_question": "Confirm the English radio transfer actor, airborne trigger, frequency and ATC exception in the company source.",
+      "blocking_instances": [
+        {
+          "date": "2026-10-26",
+          "error": "9C7420英文版：英文关键运行表达无法可靠确认：曼谷素旺那普:en:730e7517374f441e；源页1171"
+        },
+        {
+          "date": "2026-10-28",
+          "error": "9C7290英文版：英文关键运行表达无法可靠确认：曼谷素旺那普:en:730e7517374f441e；源页1171"
+        }
+      ]
+    },
+    {
+      "case": "radio_contact",
+      "classification": "UNCONFIRMED_PRINTED_TERMINOLOGY",
+      "resolved": false,
+      "airport": "广州白云",
+      "icao": "ZGGG",
+      "category": "core",
+      "operational_phase": "departure",
+      "fact_id": "广州白云_core_record_29",
+      "source_record_ids": [
+        "广州白云:core:d83d6048c5cb340d"
+      ],
+      "source_page_zh": "990",
+      "source_heading_zh": "广州/白云机场运行特点",
+      "source_section_zh": "广州/白云机场运行特点／核心威胁与运行特点",
+      "source_text_zh": "离场：离地后自动脱波联系进近，具体频率由放行给出。",
+      "source_text_en": "The aircraft automatically disengages from the wave contact after leaving the ground and approaches, with the specific frequency provided by the air traffic control.",
+      "source_page_en": "1582",
+      "english_source_record_id": "广州白云:en:86382f3678c87672",
+      "critical_tokens_zh": [],
+      "critical_tokens_en": [
+        "ATC"
+      ],
+      "authority_question": "Confirm the departure-to-approach frequency transfer wording and clearance-provided frequency; do not infer a generic automatic transfer instruction.",
+      "blocking_instances": [
+        {
+          "date": "2026-10-28",
+          "error": "9C7419英文版：英文关键运行表达无法可靠确认：广州白云:en:86382f3678c87672；源页1582"
+        }
+      ]
+    }
+  ],
+  "isolated_acceptance": [
+    {
+      "target_date": "2026-10-26",
+      "input_sha": "26e9391e6053c7223386346f0e90be2dbc5b6644",
+      "status": "FAILED_SAFE",
+      "error_count": 8,
+      "errors": [
+        "9C7289：中英文权威来源关键运行冲突：曼谷素旺那普_core_record_17：['system_activation_temporal_polarity']；中文页314；英文页1171",
+        "9C7289英文版：英文关键运行表达无法可靠确认：曼谷素旺那普:en:762728438175820a；源页1172",
+        "9C7289英文版：英文关键运行表达无法可靠确认：曼谷素旺那普:en:b6c12b97473d3ea3；源页1172-1173",
+        "9C7420：中英文权威来源关键运行冲突：曼谷素旺那普_core_record_23：['takeoff_roll']；中文页315；英文页1171",
+        "9C7420：中英文权威来源关键运行冲突：广州白云_core_record_42：['operating_quantity_or_unit_conflict']；中文页991；英文页1583",
+        "9C7420：中英文权威来源关键运行冲突：广州白云_core_record_22：['procedure_or_waypoint_conflict', 'runway_requirement_conflict']；中文页987；英文页1581",
+        "9C7420：中英文权威来源关键运行冲突：广州白云_core_record_37：['procedure_or_waypoint_conflict']；中文页990；英文页1582",
+        "9C7420英文版：英文关键运行表达无法可靠确认：曼谷素旺那普:en:730e7517374f441e；源页1171"
+      ],
+      "success_marker": false,
+      "last_good_preserved_on_failure": true,
+      "generated_files": [],
+      "unchanged_except_temporary_path": true,
+      "group_samples": [
+        {
+          "flights": [
+            "9C7289"
+          ],
+          "chinese_facts": 39,
+          "english_facts": 43,
+          "chinese_preview_sha256": "876ad2202883ce8dd634f0da05b69e1b7758e5ad1dfb51ecf4568ea458b06cc6",
+          "english_preview_sha256": "ce76fceb7a132e3d3811b40b61bf173da119eb301d11dd792f67f11abfb4f468"
+        },
+        {
+          "flights": [
+            "9C7420"
+          ],
+          "chinese_facts": 47,
+          "english_facts": 52,
+          "chinese_preview_sha256": "701b73f22515062520984f0a28cd04351dbf64059a8da969be142d6f21015380",
+          "english_preview_sha256": "eec4b68e39a9bc78972c6750d826a560b256bda914487c3561dc1e259a70ca7a"
+        }
+      ]
+    },
+    {
+      "target_date": "2026-10-28",
+      "input_sha": "26e9391e6053c7223386346f0e90be2dbc5b6644",
+      "status": "FAILED_SAFE",
+      "error_count": 8,
+      "errors": [
+        "9C7419：中英文权威来源关键运行冲突：广州白云_core_record_22：['procedure_or_waypoint_conflict', 'runway_requirement_conflict']；中文页987；英文页1581",
+        "9C7419：中英文权威来源关键运行冲突：曼谷素旺那普_core_record_17：['system_activation_temporal_polarity']；中文页314；英文页1171",
+        "9C7419英文版：英文关键运行表达无法可靠确认：广州白云:en:86382f3678c87672；源页1582",
+        "9C7419英文版：英文关键运行表达无法可靠确认：曼谷素旺那普:en:762728438175820a；源页1172",
+        "9C7419英文版：英文关键运行表达无法可靠确认：曼谷素旺那普:en:b6c12b97473d3ea3；源页1172-1173",
+        "9C7290：中英文权威来源关键运行冲突：曼谷素旺那普_core_record_23：['takeoff_roll']；中文页315；英文页1171",
+        "9C7290：中英文权威来源关键运行冲突：上海浦东_core_record_5：['papi_runway_value_association']；中文页586；英文页1367",
+        "9C7290英文版：英文关键运行表达无法可靠确认：曼谷素旺那普:en:730e7517374f441e；源页1171"
+      ],
+      "success_marker": false,
+      "last_good_preserved_on_failure": true,
+      "generated_files": [],
+      "unchanged_except_temporary_path": true,
+      "group_samples": [
+        {
+          "flights": [
+            "9C7419"
+          ],
+          "chinese_facts": 57,
+          "english_facts": 59,
+          "chinese_preview_sha256": "7062fe2ddd904e24d50225e4361798294c715149c5bbee6b481907009170d468",
+          "english_preview_sha256": "5b2bd9cc70ce53727528b8e9cd8817cfe5255a4b8515e9db0a17375a66526fff"
+        },
+        {
+          "flights": [
+            "9C7290"
+          ],
+          "chinese_facts": 36,
+          "english_facts": 42,
+          "chinese_preview_sha256": "77533c4c3dfb66139445f5d63209634208fc5be651e5b3fa17aac07631bc702a",
+          "english_preview_sha256": "dc840842a185f459a0d67fd3d6a33ade9565d75b2f3c59c53b1bc71f970b698c"
+        }
+      ]
+    }
+  ],
+  "same_manual_other_occurrences": {
+    "OLPAB": [
+      990
+    ],
+    "OBLAP": [
+      526,
+      621,
+      1307,
+      1391,
+      1582
+    ],
+    "conclusion": "Only pages990/1582 describe the disputed W19 source item. Other occurrences concern different routes and do not authorize spelling replacement."
+  }
+}

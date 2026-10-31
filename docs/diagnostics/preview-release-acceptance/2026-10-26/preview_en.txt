@@ -1,0 +1,261 @@
+PREVIEW / 审核预览 — NOT FOR RELEASE / 不得作为正式运行资料发布
+
+I am Duan Yangshuo, a First Officer in Flight Squadron 15. My current technical level is A2, and my promotion date is January 13. In this qualification stage, I have 93 hours and 21 takeoffs and landings. I have completed 8 landings in the last 90 days. I have operated at both Shanghai Pudong International and VTBS within the past three months. My most recent landing as PF was at Shanghai Pudong International Airport on October 1.
+
+Latest PF/PM feedback: as PF, the instructor noted that below 30 ft I should use slightly more aft-stick input and, after landing, decelerate below 30 kt before entering the rapid-exit taxiway; as PM, the captain noted that I should improve SOP proficiency and make standard callouts more audible.
+
+Overall flight risks:
+
+This duty operates Shanghai Pudong International → Suvarnabhumi. Applicable operational risks, restrictions and controls are set out below.
+
+Typical unsafe events:
+
+Shanghai Pudong International Airport:
+
+Low-altitude bird strike incidents have caused excessive radome damage.
+
+Flight-plan data-entry errors occurred following runway re-assignment.
+
+Suvarnabhumi Airport:
+
+Affected by ground temperature, prone to low approach profiles, long landing distances, etc. Crew attention required.
+
+Core threats:
+
+Shanghai Pudong International Airport:
+
+Apron control may issue push-back and start-up clearance, or instruction to report push-back complete. It is required to identify and comply with relevant clearances.
+
+Closure of Taxiway E and Taxiway T1 is NOT published in NOTAMs. Refer to construction area chart (2C-1-SUP).
+
+Frequent frequency changes occur during surface movement. Frequency change points are geographically close to taxi holding positions. Exercise vigilance to prevent taxi routing errors or overshooting holding lines.
+
+Departure procedure may be amended while taxiing. Upon departure-mode revision, execute SOP for departure change, update flight plan, conduct supplementary briefing and apply departure-change checklist to avoid track deviation.
+
+Automatic frequency hand-off upon lift-off at Pudong. Handoff frequency shall be in accordance with PDC or ATC departure clearance.
+
+Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m).
+
+Bird-scare cannon blasts are loud at Pudong. It is required to avoid undesired startle response.
+
+Suvarnabhumi Airport:
+
+On-site/Dispatch Frequency: BANGKOKBLUEPORT (BANG-KOKBLUEPORT), Frequency 129.050. Should our crew members have any inquiries at Suvarnabhumi Airport—such as requests for TOBT/TSAT/landing slot information, flight planning assistance, or special requests—please contact them via this frequency.
+
+During ground operations, ensure the Mode S transponder is operational and activated (e.g., not in STAND-BY or OFF position). Set the designated Mode A code (for departing aircraft, use the code from the received clearance; for arriving aircraft, maintain the original code until fully parked in the apron).
+
+To prevent possible interference, activate TCAS for departing aircraft only after receiving clearance to enter or line up on the runway. For arriving aircraft, do not deactivate TCAS until the aircraft has vacated the runway.
+
+Note that H6 and H3, as well as H5 and H2, are on the same taxiway.
+
+Suvarnabhumi Airport prohibits boarding during refueling. If boarding is necessary, notify the airport in advance to prepare fire trucks. For details, contact Spring Airlines Maintenance.
+
+Noise reduction procedures are in effect. The use of heavy reverse thrust is prohibited between 1900 and 2300 UTC unless it compromises flight safety.
+
+At Terminal S126 in Bangkok, the approach guidance system frequently exhibits abrupt switching: it may instantaneously shift from 2 meters to 0, then display "Stop"; after pressing "OK," the number may switch again, posing a risk of overshooting or failing to reach the correct position. Both flight crew and ground maintenance personnel have encountered this issue on multiple occasions.
+
+Common procedures: RNAV entry.
+
+The minimum horizontal spacing of radar is 5nm, and it may be reduced to 3nm in BKKTMA, BKKCTR, and Suvarnabhumi ATZ.
+
+Speed limits: Refer to the speed limits in Bangkok Terminal Area Chart 20-1P5. At 10,000 feet or below... maintain 250 knots unless ATC issues a 'No ATC speed restrictions' clearance. During intermediate approach, fly at 210 knots. In final approach, intercept or approach ILS course at 160-180 knots. When establishing ILS, maintain 160 knots.
+
+The new Z approach procedure is the primary procedure, and the navigation database has also changed. Carefully review the Warning notes on the corresponding arrival chart. Do not turn onto final approach to join the approach procedure without ATC clearance.
+
+When flying the VTBS 20R RNP approach, pay particular attention after ATKIN on the turn to final. ATC may instruct: "maintain 5000ft, turn right HDG 165, intercept final course 20R, report established." This requires first establishing on the 20R RNP final approach course; it is not clearance for the RNP approach. Confirm the instruction to avoid inadvertently arming APPR. ATC will subsequently clear descent to 3500ft and clear the RNP20R approach. This can result in high energy; plan ahead to prevent an unstable approach. The "high intercept" procedure is not permitted during RNP approaches.
+
+During 02L approach, the controller typically maintains a three-way approach while controlling the aircraft's distance from the front and rear. Subsequently, the controller directs the aircraft to fly directly to BATEM or ABVER. When initiating the 02LRNP approach plan, the MCDU will prompt the pilot to select VIA BATEM. If VIA is not selected, the BATEM point will not be visible on the plan.
+
+For aircraft landing on 02L, execute F/W runway approach and wait outside the runway. Use W to cross the runway and proceed straight ahead. D4: Switch to 121.95 frequency to directly approach the parking position and taxi route. For example, S123 D taxi G, proceed forward, wait, then taxi to T18 or T19 for position change. Airport regulations specify: After landing on 02L/20R, do not remain on the quick departure runway to await taxi instructions. If no instructions are given, 02L should proceed to F/W approach and wait outside the runway, while 20R should proceed to F/Z approach and wait outside the runway.
+
+Our aircraft is typically parked at Satellite-1 Hall-1. At Suvarnabhumi Airport, a PDC is available. Once the PDC is confirmed, there's no need for repetition — simply contact ground control to request the push-up command. The ground frequency corresponding to the parking position can be found on the AMM chart.
+
+ILS Z 01 BS690 mandatory 1600 RNP 02L BS670 mandatory 1600 ILS Z 19 BS790 mandatory 1600 RNP 20R BS770 mandatory 1600.
+
+During the deployment of some aircraft positions, the system may temporarily halt to issue an engine start command, after which it will resume aircraft traction. It is mandatory to carefully heed the instructions and avoid sudden braking, as this could risk shearing pin fracture.
+
+Single-engine taxiing is not recommended when the taxi route is expected to include asphalt pavement.
+
+In case of communication failure, follow the air chart or airport regulations.
+
+The airspace is abnormally busy with short intervals, and the waiting time may differ from standard waiting periods. Please verify this.
+
+Three runways will be operational: The original 01R/19L runway will be renamed 01/19, and the former 01L/19R runway will be renamed 02R/20L. The third runway, 02L/20R, will serve as a non-precision approach runway, allowing the use of the RNP approach procedure.
+
+South approach and departure: 19 for takeoff and landing, 20L for takeoff, 20R for landing. North approach and departure: 01 for takeoff and landing, 02R for takeoff, 02L for landing.
+
+If the skidway is uneven and the vehicle still cannot be moved out when the N1-50% threshold is reached, a tow truck is required.
+
+The SVB station has been inactive for an extended period due to relocation, resulting in the absence of VOR approach procedures. The blind landing range finder exhibits positional inaccuracies relative to the runway end, which may cause operational instability.
+
+Frequent military exercises often involve route changes. Please check against the flight plan.
+
+During RNP approach procedures at this airport, ATC instructions may differ from the procedure design logic. Compliance with company FOIB.
+
+Noise reduction procedure: See airport regulations.
+
+Pressure relief procedure: Refer to the release form.
+
+Radio Failure Procedure: Specific Implementation Methods in Airport Regulations and Jepperson Manual.
+
+The SVBVOR station will cease operations by 2025. Please note any program changes.
+
+En-route and general risks:
+
+Suvarnabhumi Airport:
+
+During a cruise in the Bangkok area, the aircraft recently experienced multiple failures including NAV ADS-B RPTG 1+2 FAULT and NAV BKUP SPD FAULT, followed by GPS PRIMARY LOST on both sides. It is recommended to be thoroughly familiar with the technical notice, maintain awareness of the minimum safe altitude throughout the flight, and follow the technical notice for handling.
+
+====================
+
+I am Duan Yangshuo, a First Officer in Flight Squadron 15. My current technical level is A2, and my promotion date is January 13. In this qualification stage, I have 93 hours and 21 takeoffs and landings. I have completed 8 landings in the last 90 days. Within the past three months, I have operated at VTBS. Within the past three months, I have not operated at ZGGG. My most recent landing as PF was at Shanghai Pudong International Airport on October 1.
+
+Latest PF/PM feedback: as PF, the instructor noted that below 30 ft I should use slightly more aft-stick input and, after landing, decelerate below 30 kt before entering the rapid-exit taxiway; as PM, the captain noted that I should improve SOP proficiency and make standard callouts more audible.
+
+Overall flight risks:
+
+This duty operates Suvarnabhumi → GUANGZHOU BAIYUN. Applicable operational risks, restrictions and controls are set out below.
+
+Typical unsafe events:
+
+Suvarnabhumi Airport:
+
+Affected by ground temperature, prone to low approach profiles, long landing distances, etc. Crew attention required.
+
+GUANGZHOU BAIYUN Airport:
+
+The airport has experienced incidents including bird strikes, wind shear, and wrong takeoff events. Crew members are advised to remain vigilant in identifying these risks.
+
+Core threats:
+
+Suvarnabhumi Airport:
+
+During ground operations, ensure the Mode S transponder is operational and activated (e.g., not in STAND-BY or OFF position). Set the designated Mode A code (for departing aircraft, use the code from the received clearance; for arriving aircraft, maintain the original code until fully parked in the apron).
+
+To prevent possible interference, activate TCAS for departing aircraft only after receiving clearance to enter or line up on the runway. For arriving aircraft, do not deactivate TCAS until the aircraft has vacated the runway.
+
+Note that H6 and H3, as well as H5 and H2, are on the same taxiway.
+
+Suvarnabhumi Airport prohibits boarding during refueling. If boarding is necessary, notify the airport in advance to prepare fire trucks. For details, contact Spring Airlines Maintenance.
+
+Noise reduction procedures are in effect. The use of heavy reverse thrust is prohibited between 1900 and 2300 UTC unless it compromises flight safety.
+
+At Terminal S126 in Bangkok, the approach guidance system frequently exhibits abrupt switching: it may instantaneously shift from 2 meters to 0, then display "Stop"; after pressing "OK," the number may switch again, posing a risk of overshooting or failing to reach the correct position. Both flight crew and ground maintenance personnel have encountered this issue on multiple occasions.
+
+Common procedures: RNAV.
+
+To reduce runway occupancy time, ensure that the takeoff roll can begin immediately after receipt of takeoff clearance.
+
+Immediately after take-off, contact Suvarnabhumi Departure on 119.25 MHz before transfer to the relevant approach sector, unless instructed otherwise by ATC.
+
+When using the 20L runway for takeoff, there is a high risk of taxiing errors due to the proximity of E1 and E2 runways, and the E taxiway's extension to the cargo apron. It is mandatory to exercise caution.
+
+Runway 01 will use B12 for departure.
+
+For departure on the 19th, the Selka1J is typically used. After takeoff, the air traffic controller may cancel the restricted direct flight to Selka and then direct a direct flight to SAV.
+
+During the deployment of some aircraft positions, the system may temporarily halt to issue an engine start command, after which it will resume aircraft traction. It is mandatory to carefully heed the instructions and avoid sudden braking, as this could risk shearing pin fracture.
+
+Single-engine taxiing is not recommended when the taxi route is expected to include asphalt pavement.
+
+In case of communication failure, follow the air chart or airport regulations.
+
+The airspace is abnormally busy with short intervals, and the waiting time may differ from standard waiting periods. Please verify this.
+
+South approach and departure: 19 for takeoff and landing, 20L for takeoff, 20R for landing. North approach and departure: 01 for takeoff and landing, 02R for takeoff, 02L for landing.
+
+If the skidway is uneven and the vehicle still cannot be moved out when the N1-50% threshold is reached, a tow truck is required.
+
+Frequent military exercises often involve route changes. Please check against the flight plan.
+
+Noise reduction procedure: See airport regulations.
+
+Pressure relief procedure: Refer to the release form.
+
+Radio Failure Procedure: Specific Implementation Methods in Airport Regulations and Jepperson Manual.
+
+The SVBVOR station will cease operations by 2025. Please note any program changes.
+
+GUANGZHOU BAIYUN Airport:
+
+The departure taxiway is designated as "YELLOW", while the arrival taxiway is "GREEN". Pilots must familiarize themselves with the specific taxiway number before each run, as it corresponds to the standard taxiway for both departure and arrival. During approach preparation, they should review the taxiway chart in advance. If the crew needs to deviate from the runway, they must promptly confirm the turn direction with air traffic control.
+
+Typically, aircraft take off from 01R/19L or 02L/20R, and land from 01L/20R or 02L/20R.
+
+[待核实 / UNVERIFIED: 广州白云_core_record_22 (ZH p.987; EN p.1581)]
+
+When the lead vehicle approaches, the ground commander acts as its driver. Upon reaching the target position, the commander must control the speed and guide the driver to disembark.
+
+The company requires single-engine taxiing for aircraft landing in Guangzhou, with particular attention to turning speed when approaching shorter and narrower aprons, such as those on the J3 apron.
+
+At Guangzhou O2 R, the M taxiway is operational while the T64 taxiway lacks signage, with only ground taxiway markers visible. The T64 sign is actually positioned behind the taxiway, which may cause confusion.
+
+After entering the field, radar guidance will be used to calculate the altitude-to-range ratio.
+
+The vessel shall maintain a speed of 180 to 8 knots, ensuring sufficient spacing to avoid insufficient intervals.
+
+[待核实 / UNVERIFIED: 广州白云_core_record_42 (ZH p.991; EN p.1583)]
+
+After the Guangzhou 01L aircraft landed, when directing the GREEN 1 aircraft, the E left-turn signal for T3 was absent on the left side, and no ground indicator showed the approach to T3. Only an approach to T4 was indicated, with a signal light at T4, which could easily cause confusion.
+
+The departure taxiway is marked as "YELLOW", and the arrival taxiway is marked as "GREEN".
+
+In case of discrepancy between the flight plan's re-flight altitude and the air traffic control command, the latter shall prevail.
+
+After landing at 01L, the taxiway from E J23 to J14 features a steep incline. We recommend performing a single-engine taxi after this section.
+
+On Yellow 11 between Q and T61, taxiways Q and M are close together with no ground markings. Please keep a sharp lookout while taxiing to avoid turning onto the wrong taxiway.
+
+Taxiway T2 between C and D will be closed from 25 October to 23 December due to Fangbai Intercity Railway and Line 22 construction. Taxiway layout and taxi routes at this aerodrome will be significantly adjusted. When operating northbound, Taxiway T1 will be used east to west and Taxiway D south to north. When operating southbound, Taxiway E will be used north to south. Flight crews are reminded to:
+
+Observe the revised taxiway directions, avoid relying on previous taxi habits, and strictly prevent wrong-way taxiing.
+
+Exercise increased vigilance in the high-conflict areas E/F/D/T3/T4, maintain enhanced visual lookout, and read back all ATC instructions promptly and correctly.
+
+When the direction of operations changes, carefully monitor ATIS for runway and taxiway status, and review the updated aerodrome taxi routes during flight preparation.
+
+During summer and autumn, typhoons exert influence, bringing widespread strong winds, heavy rainfall, and thunderstorms.
+
+The airport is highly busy with multiple adjacent airports, requiring strict compliance with air traffic control directives to prevent conflicts.
+
+Adjust the single-shot acceleration altitude according to the fly Smart modification.
+
+The new procedure involves adjustments to multiple programs and name changes, with height restrictions requiring modifications. Please refer to the air chart for MCDU data verification.
+
+New airport runways pose risks of misidentification, misdirection, or land to wrong way. It is mandatory to stay vigilant, enforce standardized announcements and cross-checking procedures, especially during low visibility, rain, or night operations, to prevent runway confusion.
+
+Noise reduction procedure: Refer to Rule 2.21.2.
+
+Pressure relief procedure: Refer to EFB for details.
+
+Radio failure procedure: Refer to Section 2.22.5 of the airport regulations for the general procedure for radio communication failure.
+
+En-route and general risks:
+
+Suvarnabhumi Airport:
+
+During a cruise in the Bangkok area, the aircraft recently experienced multiple failures including NAV ADS-B RPTG 1+2 FAULT and NAV BKUP SPD FAULT, followed by GPS PRIMARY LOST on both sides. It is recommended to be thoroughly familiar with the technical notice, maintain awareness of the minimum safe altitude throughout the flight, and follow the technical notice for handling.
+
+GUANGZHOU BAIYUN Airport:
+
+The W19 route segment MASGU-MABAG-OGABI- NOMAR will be adjusted to MASGU-UPMIP-ATKAV- OBLAP-NOMAR for flights landing in Guangzhou and those flying over the Pearl River Delta region bound for East China.
+
+[待核实 / UNVERIFIED: 广州白云_core_record_37 (ZH p.990; EN p.1582)]
+
+RELEASE REVIEW / 正式发布审核
+
+9C7420：中英文权威来源关键运行冲突：广州白云_core_record_42：['operating_quantity_or_unit_conflict']；中文页991；英文页1583
+9C7420：中英文权威来源关键运行冲突：广州白云_core_record_22：['procedure_or_waypoint_conflict', 'runway_requirement_conflict']；中文页987；英文页1581
+9C7420：中英文权威来源关键运行冲突：广州白云_core_record_37：['procedure_or_waypoint_conflict']；中文页990；英文页1582
+
+UNVERIFIED / 待核实: 广州白云_core_record_42
+ZH p.991: 进场：会指挥速度180到8海里，尽量满足避免造成间隔不够。
+EN p.1583: The vessel shall maintain a speed of 180 to 8 knots, ensuring sufficient spacing to avoid insufficient intervals.
+
+UNVERIFIED / 待核实: 广州白云_core_record_22
+ZH p.987: 地面：跑道运行规则：向北运行：RWYO1L主要用于进场；RWYO1R 主要用于离场；RWYO2L主要用于离场；RWYO2R 主要 用于进场；RWY03进、离场混合运行。向南运行：RWY19R 主要用于进场；RWY19L 主要用于离场；RWY20R 主要用于离场；RWY20L 主要用于进场；RWY21 进、离场混合运行。
+EN p.1581: Typically, aircraft take off from 01R/19L or 02L/20R, and land from 01L/20R or 02L/20R.
+
+UNVERIFIED / 待核实: 广州白云_core_record_37
+ZH p.990: 航路：将W19航线MASGU-MABAG-OGABI-NOMAR 航段调整为MASGU-UPMIP-ATKAV-OLPAB-NOMAR供华东方向落地广州航班及飞跃 珠三角航班使用。
+EN p.1582: The W19 route segment MASGU-MABAG-OGABI- NOMAR will be adjusted to MASGU-UPMIP-ATKAV- OBLAP-NOMAR for flights landing in Guangzhou and those flying over the Pearl River Delta region bound for East China.

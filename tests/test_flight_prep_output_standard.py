@@ -113,16 +113,18 @@ def test_chinese_output_uses_fixed_four_part_order_and_numbered_events() -> None
 
     headings = [
         "上一次飞行中机长/教员对我优缺点的评价（作为PF/PM各取最近一次）：",
-        "上海虹桥机场典型不安全事件：",
-        "贵阳龙洞堡机场典型不安全事件：",
+        "典型不安全事件：",
+        "上海虹桥机场：",
+        "贵阳龙洞堡机场：",
         "核心威胁：",
     ]
     assert content.startswith("我是来自飞行十五中队的副驾驶段洋硕")
     assert [content.index(heading) for heading in headings] == sorted(
         content.index(heading) for heading in headings
     )
-    assert "上海虹桥机场典型不安全事件：\n1. 上海虹桥真实事件。" in content
-    assert "贵阳龙洞堡机场典型不安全事件：\n1. 贵阳龙洞堡真实事件。" in content
+    assert "上海虹桥机场：\n\n上海虹桥真实事件。" in content
+    assert "贵阳龙洞堡机场：\n\n贵阳龙洞堡真实事件。" in content
+    assert not re.search(r"(?m)^\d+\.\s+", content)
     assert content.count("核心威胁：") == 1
     assert "个人对本次航班中识别的风险：" not in content
     assert "上海虹桥机场航班时段天气以航前最新TAF/METAR及放行资料为准。" not in content
@@ -202,7 +204,6 @@ def test_unprovable_single_fact_is_dropped_without_discarding_safe_fact() -> Non
     "value",
     [
         "版本：20260817 修订日期：2026.08.17 页码：512",
-        "机场标高：10ft",
         "是否存在短跑道：否",
         "离场前地面运行阶段",
         "目前数据库中无数据",
@@ -212,6 +213,11 @@ def test_unprovable_single_fact_is_dropped_without_discarding_safe_fact() -> Non
 def test_manual_structure_fields_are_not_operational_facts(value: str) -> None:
     assert agent.manual_source_quality_issue(value)
     assert agent.typical_source_quality_issue(value)
+
+
+def test_elevation_is_operational_core_not_a_typical_event() -> None:
+    assert not agent.manual_source_quality_issue("机场标高：10ft")
+    assert agent.typical_source_quality_issue("机场标高：10ft")
 
 
 def test_typical_event_quality_requires_event_semantics() -> None:
@@ -425,7 +431,6 @@ def test_real_august_twenty_eight_filters_pdf_structure_and_fragments(
         "版本：",
         "修订日期：",
         "页码：",
-        "机场标高：",
         "是否存在短跑道",
         "是否为多跑道",
         "离场前地面运行阶段",
@@ -435,15 +440,9 @@ def test_real_august_twenty_eight_filters_pdf_structure_and_fragments(
     )
     assert all(token not in content for token in forbidden)
     assert not re.search(r"(?m)^(?:面滑行路线与|意，在虹桥机场)", content)
-    assert all(
-        token not in content
-        for token in (
-            "跑道状态灯注意事项如下",
-            "比如SASAN9",
-            "否则要被管制纠正",
-            "飞飞MLJ",
-        )
-    )
+    # Colloquial wording/examples in the current manual may not be polished
+    # away. Their source identity, not a prose blacklist, is the safety gate.
+    assert all(item["source_verbatim"] for group in meta["prep_groups"] for values in group["airport_fact_sources"].values() for item in values)
     assert "近期注意点" not in content
     for group in meta["prep_groups"]:
         group_content = (output / group["output"]).read_text(encoding="utf-8")
@@ -455,7 +454,7 @@ def test_real_august_twenty_eight_filters_pdf_structure_and_fragments(
 
     hongqiao = (output / meta["prep_groups"][1]["output"]).read_text(
         encoding="utf-8"
-    ).split("上海虹桥机场：", 1)[1]
+    ).split("核心威胁：", 1)[1].split("上海虹桥机场：", 1)[1]
     for marker in (
         "五边间隔",
         "L10",
@@ -469,21 +468,13 @@ def test_real_august_twenty_eight_filters_pdf_structure_and_fragments(
         assert marker in hongqiao
     assert "08:00前通常使用36R/18L跑道离场" not in hongqiao
     assert "H7非全跑道离场" not in hongqiao
-    assert all(marker in hongqiao for marker in ("2000ft", "RA", "冲突趋势"))
     hongqiao_tcas = [
         paragraph
         for paragraph in meta["prep_groups"][1]["core_paragraphs"]["上海虹桥"]
         if paragraph["topic"] == "traffic_tcas"
     ]
-    assert len(hongqiao_tcas) == 1
-    assert hongqiao_tcas[0]["source"] == "USER_CONFIRMED"
-    assert hongqiao_tcas[0]["source_authority"] == "user_confirmed"
-    assert hongqiao_tcas[0]["role_scope"] == ["departure", "arrival"]
-    assert not any(
-        item.get("airport") == "上海虹桥"
-        and item.get("discarded_reason") == "required_topic_source_missing"
-        for item in meta["prep_groups"][1]["excluded_source_clauses"]
-    )
+    assert all(item["source"] == "PDF" for item in hongqiao_tcas)
+    assert "冲突趋势" not in hongqiao  # old USER_CONFIRMED template is not manual original
 
     for marker in (
         "丘陵",
@@ -583,7 +574,7 @@ def test_real_september_ten_uses_latest_manual_quality_engine(
     assert content.count("核心威胁：") == 1
     assert "本阶段经历时间93小时，起落21个，近90天起落8个" in content
 
-    bangkok = content.split("曼谷素旺那普机场：", 1)[1]
+    bangkok = content.split("核心威胁：", 1)[1].split("曼谷素旺那普机场：", 1)[1]
     for marker in (
         "空域异常繁忙",
         "军演频繁",
@@ -598,32 +589,27 @@ def test_real_september_ten_uses_latest_manual_quality_engine(
         "N1-50%",
         "需要拖车",
     ):
-        assert marker in bangkok
+        assert re.sub(r"\s+", "", marker) in re.sub(r"\s+", "", bangkok)
     assert "运行限制：。" not in bangkok
     assert "或者需要飞行计划方。" not in bangkok
     assert "10000或10000ft下" not in bangkok
-    assert "NAVADS-BRPTG 1+2 FAULT" in bangkok
+    assert re.sub(r"\s+", "", "NAV ADS-B RPTG 1+2 FAULT") in re.sub(r"\s+", "", bangkok)
 
-    bangkok_typical = content.split("曼谷素旺那普机场典型不安全事件：", 1)[1].split(
-        "\n\n", 1
-    )[0]
-    assert "+" not in bangkok_typical
+    bangkok_typical = content.split("典型不安全事件：", 1)[1].split("核心威胁：", 1)[0].split("曼谷素旺那普机场：", 1)[1]
+    assert "地面温度" in bangkok_typical  # retain source punctuation, not editorial replacement
 
     pudong = content.split("核心威胁：", 1)[1].split("上海浦东机场：", 1)[1].split(
         "曼谷素旺那普机场：", 1
     )[0]
     assert "离场方式" in pudong
-    assert all(marker in pudong for marker in ("2000ft", "RA", "冲突趋势"))
     assert "进近阶段曾多次触发TA/RA" not in pudong
     pudong_tcas = [
         paragraph for paragraph in meta["core_paragraphs"]["上海浦东"]
         if paragraph["topic"] == "traffic_tcas"
     ]
-    assert len(pudong_tcas) == 1
-    assert pudong_tcas[0]["source"] == "USER_CONFIRMED"
-    assert pudong_tcas[0]["source_authority"] == "user_confirmed"
-    assert pudong_tcas[0]["role_scope"] == ["departure", "arrival"]
-    assert all("进场" not in section for section in pudong_tcas[0]["source_sections"])
+    assert all(item["source"] == "PDF" for item in pudong_tcas)
+    assert "冲突趋势" not in pudong  # no USER_CONFIRMED template substitution
+    assert not pudong_tcas  # current manual TCAS event is arrival-only; this duty departs
     assert "驱鸟" in pudong
     assert any(
         item.get("airport") == "上海浦东"
@@ -645,7 +631,7 @@ def test_real_september_ten_uses_latest_manual_quality_engine(
             for fact in meta["airport_fact_sources"][airport]
         )
     assert any(
-        "旧人工精选不进入正式正文" in item.get("reason", "")
+        item.get("source") == "CURATED" and bool(item.get("reason"))
         for item in meta["excluded_source_clauses"]
         if item.get("airport") == "上海浦东"
     )
