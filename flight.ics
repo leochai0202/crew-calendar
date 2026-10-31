@@ -3074,7 +3074,7 @@ UID:806debdae5c3d260dace5218e949bc67@crew-calendar
 SUMMARY:✈️ 9C8511 上海浦东→清迈
 DTSTART;TZID=Asia/Shanghai:20261101T161500
 DTEND;TZID=Asia/Shanghai:20261101T211500
-DESCRIPTION:11月01日 周日\n类型：航班\n航班：9C8511\n航线：上海浦东 → 清迈\n地点：上海浦东\n签到：14:10｜上海浦东\n任务：16:15 - 21:15\n机型：A320｜注册号：B6932\n\n人员名单：\n• 辛建周(R)\n• 黄叶天(R)\n• 段洋硕\n• 钱程(B)\n\n版本：2026-10-31 02:42
+DESCRIPTION:11月01日 周日\n类型：航班\n航班：9C8511\n航线：上海浦东 → 清迈\n地点：上海浦东\n签到：14:10｜上海浦东\n任务：16:15 - 21:15\n机型：A320｜注册号：B6932\n\n人员名单：\n• 辛建周(R)\n• 黄叶天(R)\n• 段洋硕\n• 钱程(B)\n\n版本：2026-10-31 15:00
 X-CONTENT-SIGNATURE:66ca2653d102cda4e6185db66c931d12
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -3088,7 +3088,7 @@ UID:68c5e63d370f3fa1d6c7173eaf4e0bc2@crew-calendar
 SUMMARY:✈️ 9C8934 清迈→广州白云(+1)
 DTSTART;TZID=Asia/Shanghai:20261101T221500
 DTEND;TZID=Asia/Shanghai:20261102T005500
-DESCRIPTION:11月01日 周日\n类型：航班\n航班：9C8934\n航线：清迈 → 广州白云(+1)\n地点：清迈\n签到：20:40｜清迈\n任务：22:15 - 00:55\n机型：A320｜注册号：B6932\n\n人员名单：\n• 辛建周(R)\n• 黄叶天(R)\n• 段洋硕\n• 钱程(B)\n\n版本：2026-10-31 02:42
+DESCRIPTION:11月01日 周日\n类型：航班\n航班：9C8934\n航线：清迈 → 广州白云(+1)\n地点：清迈\n签到：20:40｜清迈\n任务：22:15 - 00:55\n机型：A320｜注册号：B6932\n\n人员名单：\n• 辛建周(R)\n• 黄叶天(R)\n• 段洋硕\n• 钱程(B)\n\n版本：2026-10-31 15:00
 X-CONTENT-SIGNATURE:0bea45f22abf17a80ba7d2ae98b36ef3
 LOCATION:清迈
 BEGIN:VALARM
@@ -3102,7 +3102,7 @@ UID:c87224b830dc666064398d191a47bdba@crew-calendar
 SUMMARY:✈️ 9C8933 广州白云→清迈
 DTSTART;TZID=Asia/Shanghai:20261103T055500
 DTEND;TZID=Asia/Shanghai:20261103T091500
-DESCRIPTION:11月03日 周二\n类型：航班\n航班：9C8933\n航线：广州白云 → 清迈\n地点：广州白云\n签到：03:50｜广州白云\n任务：05:55 - 09:15\n机型：A320｜注册号：B8700\n\n人员名单：\n• 辛建周(R)\n• 黄叶天(R)\n• 段洋硕\n• 许裕扬(B)\n\n版本：2026-10-31 02:42
+DESCRIPTION:11月03日 周二\n类型：航班\n航班：9C8933\n航线：广州白云 → 清迈\n地点：广州白云\n签到：03:50｜广州白云\n任务：05:55 - 09:15\n机型：A320｜注册号：B8700\n\n人员名单：\n• 辛建周(R)\n• 黄叶天(R)\n• 段洋硕\n• 许裕扬(B)\n\n版本：2026-10-31 15:00
 X-CONTENT-SIGNATURE:7eae2d1eb3e31a4396b6cbdc7900c291
 LOCATION:广州白云
 BEGIN:VALARM
@@ -3116,7 +3116,7 @@ UID:51be4886373f6854054e28905ae1688e@crew-calendar
 SUMMARY:✈️ 9C8512 清迈→上海浦东
 DTSTART;TZID=Asia/Shanghai:20261103T103000
 DTEND;TZID=Asia/Shanghai:20261103T144500
-DESCRIPTION:11月03日 周二\n类型：航班\n航班：9C8512\n航线：清迈 → 上海浦东\n地点：清迈\n签到：08:55｜清迈\n任务：10:30 - 14:45\n机型：A320｜注册号：B8700\n\n人员名单：\n• 辛建周(R)\n• 黄叶天(R)\n• 段洋硕\n• 许裕扬(B)\n\n版本：2026-10-31 02:42
+DESCRIPTION:11月03日 周二\n类型：航班\n航班：9C8512\n航线：清迈 → 上海浦东\n地点：清迈\n签到：08:55｜清迈\n任务：10:30 - 14:45\n机型：A320｜注册号：B8700\n\n人员名单：\n• 辛建周(R)\n• 黄叶天(R)\n• 段洋硕\n• 许裕扬(B)\n\n版本：2026-10-31 15:00
 X-CONTENT-SIGNATURE:61cecc40ba33f42b462264455417eb3b
 LOCATION:清迈
 BEGIN:VALARM
