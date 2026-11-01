@@ -1,0 +1,72 @@
+{
+  "status": "SUCCESS",
+  "target_date": "2026-11-03",
+  "generated_at_beijing": "2026-11-01T09:25:43.269827+08:00",
+  "task_fingerprint": "cb4439edfdcb90ef76908de49b7fb4be7295bebd85e4977026c43526dcec9c48",
+  "matched_flights": [
+    {
+      "uid": "c87224b830dc666064398d191a47bdba@crew-calendar",
+      "summary": "✈️ 9C8933 广州白云→清迈",
+      "start": "2026-11-03T05:55:00+08:00",
+      "end": "2026-11-03T09:15:00+08:00",
+      "description": "11月03日 周二\n类型：航班\n航班：9C8933\n航线：广州白云 → 清迈\n地点：广州白云\n签到：03:50｜广州白云\n任务：05:55 - 09:15\n机型：A320｜注册号：B8700\n\n人员名单：\n• 辛建周(R)\n• 黄叶天(R)\n• 段洋硕\n• 许裕扬(B)\n\n版本：2026-11-01 01:50",
+      "location": "广州白云",
+      "properties": {
+        "UID": "c87224b830dc666064398d191a47bdba@crew-calendar",
+        "SUMMARY": "✈️ 9C8933 广州白云→清迈",
+        "DTSTART": "20261103T055500",
+        "DTEND": "20261103T091500",
+        "DESCRIPTION": "11月03日 周二\\n类型：航班\\n航班：9C8933\\n航线：广州白云 → 清迈\\n地点：广州白云\\n签到：03:50｜广州白云\\n任务：05:55 - 09:15\\n机型：A320｜注册号：B8700\\n\\n人员名单：\\n• 辛建周(R)\\n• 黄叶天(R)\\n• 段洋硕\\n• 许裕扬(B)\\n\\n版本：2026-11-01 01:50",
+        "X-CONTENT-SIGNATURE": "7eae2d1eb3e31a4396b6cbdc7900c291",
+        "LOCATION": "广州白云"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C8933",
+      "departure": "广州白云",
+      "arrival": "清迈",
+      "aircraft_type": "A320",
+      "registration": "B8700",
+      "checkin": "03:50｜广州白云",
+      "people": [
+        "辛建周(R)",
+        "黄叶天(R)",
+        "段洋硕",
+        "许裕扬(B)"
+      ],
+      "cross_day": false
+    },
+    {
+      "uid": "51be4886373f6854054e28905ae1688e@crew-calendar",
+      "summary": "✈️ 9C8512 清迈→上海浦东",
+      "start": "2026-11-03T10:30:00+08:00",
+      "end": "2026-11-03T14:45:00+08:00",
+      "description": "11月03日 周二\n类型：航班\n航班：9C8512\n航线：清迈 → 上海浦东\n地点：清迈\n签到：08:55｜清迈\n任务：10:30 - 14:45\n机型：A320｜注册号：B8700\n\n人员名单：\n• 辛建周(R)\n• 黄叶天(R)\n• 段洋硕\n• 许裕扬(B)\n\n版本：2026-11-01 01:50",
+      "location": "清迈",
+      "properties": {
+        "UID": "51be4886373f6854054e28905ae1688e@crew-calendar",
+        "SUMMARY": "✈️ 9C8512 清迈→上海浦东",
+        "DTSTART": "20261103T103000",
+        "DTEND": "20261103T144500",
+        "DESCRIPTION": "11月03日 周二\\n类型：航班\\n航班：9C8512\\n航线：清迈 → 上海浦东\\n地点：清迈\\n签到：08:55｜清迈\\n任务：10:30 - 14:45\\n机型：A320｜注册号：B8700\\n\\n人员名单：\\n• 辛建周(R)\\n• 黄叶天(R)\\n• 段洋硕\\n• 许裕扬(B)\\n\\n版本：2026-11-01 01:50",
+        "X-CONTENT-SIGNATURE": "61cecc40ba33f42b462264455417eb3b",
+        "LOCATION": "清迈"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C8512",
+      "departure": "清迈",
+      "arrival": "上海浦东",
+      "aircraft_type": "A320",
+      "registration": "B8700",
+      "checkin": "08:55｜清迈",
+      "people": [
+        "辛建周(R)",
+        "黄叶天(R)",
+        "段洋硕",
+        "许裕扬(B)"
+      ],
+      "cross_day": false
+    }
+  ],
+  "group_output": "2026-11-03_航前准备.txt",
+  "english_output": ""
+}
