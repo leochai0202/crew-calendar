@@ -3597,12 +3597,40 @@ UID:1e666a071edb82b7c548640b42ea785a@crew-calendar
 SUMMARY:🎓 理论课-复训理论课(下半年)
 DTSTART;TZID=Asia/Shanghai:20261109T090000
 DTEND;TZID=Asia/Shanghai:20261109T174500
-DESCRIPTION:11月09日 周一\n类型：训练\n事项：理论课-复训理论课(下半年)\n地点：春秋飞培2号楼教室2\n任务：09:00 - 17:45\n\n人员名单：\n• 段洋硕\n• 陈露车宇史凤春\n• 蔡琪\n\n版本：2026-11-08 15:12
+DESCRIPTION:11月09日 周一\n类型：训练\n事项：理论课-复训理论课(下半年)\n地点：春秋飞培2号楼教室2\n任务：09:00 - 17:45\n\n人员名单：\n• 段洋硕\n• 陈露车宇史凤春\n• 蔡琪\n\n版本：2026-11-09 02:24
 X-CONTENT-SIGNATURE:4f71e14766b1e73e5cf4210ea5307ce1
 LOCATION:春秋飞培2号楼教室2
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:理论课-复训理论课(下半年) 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:7d1c7ba6220167b63dca249df82385e6@crew-calendar
+SUMMARY:✈️ 9C8801 上海浦东→三亚凤凰
+DTSTART;TZID=Asia/Shanghai:20261113T180500
+DTEND;TZID=Asia/Shanghai:20261113T215000
+DESCRIPTION:11月13日 周五\n类型：航班\n航班：9C8801\n航线：上海浦东 → 三亚凤凰\n地点：上海浦东\n签到：16:15｜上海浦东\n任务：18:05 - 21:50\n机型：A320｜注册号：B1671\n\n人员名单：\n• 刘桂林(T2\,R)\n• 谢青(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-11-09 02:24
+X-CONTENT-SIGNATURE:4a869871319f09bd01165ca859c6ec88
+LOCATION:上海浦东
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C8801 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:14b6f5fef054f3af21eaa2a2d21e6f10@crew-calendar
+SUMMARY:✈️ 9C8802 三亚凤凰→上海浦东(+1)
+DTSTART;TZID=Asia/Shanghai:20261113T225000
+DTEND;TZID=Asia/Shanghai:20261114T015000
+DESCRIPTION:11月13日 周五\n类型：航班\n航班：9C8802\n航线：三亚凤凰 → 上海浦东(+1)\n地点：三亚凤凰\n签到：21:15｜三亚凤凰\n任务：22:50 - 01:50\n机型：A320｜注册号：B1671\n\n人员名单：\n• 刘桂林(T2\,R)\n• 谢青(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-11-09 02:24
+X-CONTENT-SIGNATURE:adb5c3e2dffae8a0275403a863371971
+LOCATION:三亚凤凰
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C8802 签到提醒
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
