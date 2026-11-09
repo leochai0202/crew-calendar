@@ -250,8 +250,6 @@ def _copy_real_runtime_repo(destination: Path, *, include_pdf: bool) -> None:
 def _run_real_task(
     monkeypatch: pytest.MonkeyPatch,
     repo: Path,
-    *,
-    expected_exit: int = 0,
 ) -> tuple[str, dict]:
     monkeypatch.setattr(
         agent,
@@ -283,17 +281,12 @@ def _run_real_task(
     )
     agent.extract_pdf_text.cache_clear()
 
-    assert agent.main() == expected_exit
+    assert agent.main() == 0
 
     output = repo / "flight_preparation"
-    if expected_exit:
-        meta = json.loads((output / f"{REAL_TARGET_DATE}_meta.json").read_text(encoding="utf-8"))
-        assert meta["status"] == "FAILED_SAFE"
-        assert not (output / ".success").exists()
-        assert not (output / "latest.txt").exists()
-        return "", meta
-    group = (output / "latest.txt").read_text(encoding="utf-8")
     meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
+    assert (output / ".success").is_file()
+    group = (output / "latest.txt").read_text(encoding="utf-8") if (output / "latest.txt").is_file() else ""
     assert not (output / f"{REAL_TARGET_DATE}_航前准备_详细版.txt").exists()
     return group, meta
 
@@ -331,19 +324,23 @@ def test_real_flight_before_after_pdf_regression(
     baseline_group, baseline_meta = _run_real_task(
         monkeypatch,
         baseline_repo,
-        expected_exit=2,
     )
     upgraded_group, upgraded_meta = _run_real_task(
         monkeypatch,
         upgraded_repo,
     )
 
-    # The old flattened TXT contains numbered/concatenated records, not a
-    # publishable baseline. Keep the safety rejection instead of blessing it
-    # merely to compare headings against the newer authoritative PDF.
+    # Numbered/concatenated records in the old flattened TXT still block
+    # their group, but cannot suppress the independent, validated 9C7165.
+    assert baseline_meta["status"] == "PARTIAL_RELEASE"
     assert not baseline_group
-    assert any("数字编号" in error for error in baseline_meta["errors"])
-    assert not list((baseline_repo / "flight_preparation").glob("*.txt"))
+    passed, blocked = baseline_meta["prep_groups"]
+    assert passed["flight_numbers"] == [REAL_FLIGHT_NUMBER] and passed["release_eligible"]
+    assert blocked["flight_numbers"] == ["9C7258"] and blocked["status"] == "FAILED_SAFE"
+    assert not blocked["release_eligible"] and not blocked["output"] and not blocked["english_output"]
+    assert any("数字编号" in error for error in blocked["errors"])
+    assert {path.name for path in (baseline_repo / "flight_preparation").glob("*.txt")} == {passed["output"]}
+    assert upgraded_meta["status"] == "SUCCESS"
     assert upgraded_meta["airport_information_type"] == "PDF"
     assert upgraded_meta["airport_information_version"] == REAL_PDF_VERSION
 
