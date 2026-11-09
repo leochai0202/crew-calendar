@@ -1,5 +1,6 @@
 """Review-only output; never creates a release marker or writes formal paths."""
 from dataclasses import fields
+from html import escape
 from pathlib import Path
 
 from crew_agents.common import atomic_write_json, atomic_write_text
@@ -86,3 +87,38 @@ def write_preview(output: Path, target: str, groups: list[dict], errors: list[st
         review += ["", "# Complete " + language.upper() + " PREVIEW", "",
                    "\n\n====================\n\n".join(contents[language])]
     atomic_write_text(output / "review.md", "\n".join(review) + "\n")
+    write_copy_view(output, target, groups, set())
+
+
+def write_copy_view(output: Path, target: str, groups: list[dict], released: set[int]) -> None:
+    """Offline artifact viewer; labels and copy payloads never mix release/preview."""
+    cards = []
+    for group in groups:
+        index = int(group["group_index"])
+        is_release = index in released
+        if is_release and (not group.get("release_eligible") or group.get("errors")):
+            raise ValueError("Unvalidated group cannot be copied as RELEASE")
+        kind = "RELEASE" if is_release else "PREVIEW / NOT FOR RELEASE"
+        cards.append(f"<h2>{escape('/'.join(group.get('flight_numbers', [])))} — {kind}</h2>")
+        for language, key in (("zh", "_content"), ("en", "_english_content")):
+            if not group.get(key):
+                continue
+            body = str(group[key]) if is_release else (output / f"PREVIEW_group_{index:02d}_{language}.txt").read_text(encoding="utf-8")
+            identity = f"g{index}-{language}"
+            cards.append(f'<button type="button" data-copy="{identity}">复制 {kind} {language.upper()}</button>'
+                         f'<textarea id="{identity}" readonly rows="18">{escape(body)}</textarea>')
+    script = """document.querySelectorAll('button[data-copy]').forEach(button => {
+button.addEventListener('click', async () => {
+ const field = document.getElementById(button.dataset.copy);
+ try {
+  if (navigator.clipboard && navigator.clipboard.writeText) await navigator.clipboard.writeText(field.value);
+  else { field.focus(); field.select(); if (!document.execCommand('copy')) throw Error('copy'); }
+  document.getElementById('copy-status').textContent = '已复制 / Copied';
+ } catch (_) { document.getElementById('copy-status').textContent = '复制失败，请在文本框内手动复制 / Select text and copy'; }
+}); });"""
+    atomic_write_text(output / "copy.html", '<!doctype html><html lang="zh-CN"><meta charset="utf-8">'
+        f'<title>{escape(target)} 航前准备</title><style>body{{font:16px system-ui;max-width:1000px;margin:2rem auto;padding:1rem}}'
+        'textarea{display:block;width:100%;margin:1rem 0;white-space:pre-wrap}button{padding:.6rem 1rem;margin-top:1rem}</style>'
+        f'<h1>{escape(target)} 航前准备</h1><p>仅 RELEASE 可作正式稿。PREVIEW 含未核实资料，禁止作为正式运行资料。'
+        '部分分组通过时，整日合并稿及 latest 仍为 last-good，不代表本次全部任务。</p>'
+        '<p id="copy-status" role="status" aria-live="polite"></p>' + "\n".join(cards) + '<script>' + script + '</script></html>')

@@ -54,6 +54,38 @@
       "canonical_zh": "三亚凤凰",
       "aliases_zh": ["三亚", "凤凰"],
       "english_name": "Sanya Phoenix International"
+    },
+    {
+      "icao": "ZBOW",
+      "canonical_zh": "包头东河",
+      "aliases_zh": ["包头", "东河"],
+      "english_name": "Baotou Donghe",
+      "source_note": "20261019 公司手册502页 BAOTOUDONGHE(BAV/ZBOW)，现有 airport_iata.json 同码城市 Baotou；仅机场身份，不引入运行数据。"
+    },
+    {
+      "icao": "ZSFY",
+      "canonical_zh": "阜阳",
+      "aliases_zh": [],
+      "english_name": "Fuyang",
+      "source_note": "20261019 公司手册634页 FUYANG(FUG/ZSFY)；仅机场身份。"
+    },
+    {
+      "icao": "ZHSY",
+      "canonical_zh": "十堰武当山",
+      "aliases_zh": ["十堰", "武当山"],
+      "english_name": "Shiyan Wudangshan",
+      "source_note": "20261019 公司手册1021页十堰/武当山(WDS/ZHSY)；英文名称由当地地服经营者自身站点交叉核实，仅机场身份。",
+      "source_url": "https://www.universalaviation.aero/locations/china/shiyan-zhsy/",
+      "checked_on": "2026-10-30"
+    },
+    {
+      "icao": "RKPC",
+      "canonical_zh": "济州",
+      "aliases_zh": [],
+      "english_name": "Jeju",
+      "source_note": "20261019 公司手册661页济州(CJU/RKPC)，现有 airport_iata.json 同码 Jeju City；韩国航空气象机关机场身份 JEJU/RKPC 交叉核实，不读取天气作为航前资料。",
+      "source_url": "https://www.amo.go.kr/weather/airport.do?icaoCode=RKPC",
+      "checked_on": "2026-10-30"
     }
   ]
 }

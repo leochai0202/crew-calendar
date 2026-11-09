@@ -1,6 +1,6 @@
 """Review artifacts are complete, visibly unverified and cannot publish."""
 from dataclasses import replace
-from datetime import date
+from datetime import date, timedelta
 import json
 from pathlib import Path
 import sys
@@ -9,7 +9,7 @@ from types import SimpleNamespace
 import pytest
 
 from crew_agents import flight_prep_agent as agent
-from crew_agents.flight_prep_preview import write_preview, NOTICE
+from crew_agents.flight_prep_preview import write_preview, write_copy_view, NOTICE
 from test_flight_prep_independent_languages import flight
 
 
@@ -130,6 +130,57 @@ def test_render_keeps_every_route_fact_once_and_fixed_template(monkeypatch):
         assert ("航路和通用风险：" if language == "zh" else "En-route and general risks:") in body
 
 
+@pytest.mark.parametrize("invalid_language", ["zh", "en"])
+def test_one_bad_group_cannot_block_or_publish_with_a_good_bilingual_group(tmp_path, monkeypatch, invalid_language):
+    test_real_entry_gates_preview_and_preserves_formal_last_good(tmp_path, monkeypatch, "release", False)
+    first = replace(flight(), summary="9C0001 AAAA→BBBB")
+    second = replace(first, uid="second", summary="9C0009 AAAA→BBBB",
+                     start=first.start + timedelta(hours=4), end=first.end + timedelta(hours=4))
+    monkeypatch.setattr(agent, "parse_ics", lambda *a: [first, second])
+    monkeypatch.setattr(agent, "select_continuous_flight_group", lambda *a, **k: [first, second])
+    monkeypatch.setattr(agent, "render_chinese_briefing", lambda duty, *a, **k: "VALID_CN\n" if duty.events[0] == first else "BLOCKED_CN\n")
+    monkeypatch.setattr(agent, "render_english_briefing", lambda duty, *a, **k: "VALID_EN\n" if duty.events[0] == first else "BLOCKED_EN\n")
+    monkeypatch.setattr(agent, "validate_content", lambda content, duty, *a, language, **k:
+                        ["SOURCE_CONFLICT"] if duty.events[0] == second and language == invalid_language else [])
+    summary = []
+    monkeypatch.setattr(agent, "append_github_summary", summary.append)
+    formal = tmp_path / "flight_preparation"
+    aggregate = {name: (formal / name).read_bytes() for name in
+                 ("latest.txt", "latest_en.txt", "2026-10-26_航前准备.txt", "2026-10-26_航前准备_EN.txt")}
+    old_names = [agent.prep_group_output_name(date(2026, 10, 26), 2, 2, [second], english=english)
+                 for english in (False, True)]
+    for name in old_names:
+        (formal / name).write_text("BLOCKED_LAST_GOOD", encoding="utf-8")
+    assert agent.main() == 0
+    meta = json.loads((formal / "2026-10-26_meta.json").read_text(encoding="utf-8"))
+    assert meta["status"] == "PARTIAL_RELEASE" and not meta["aggregate_current"]
+    released, blocked = meta["prep_groups"]
+    assert released["status"] == "SUCCESS" and released["release_eligible"]
+    assert (formal / released["output"]).read_text(encoding="utf-8") == "VALID_CN\n"
+    assert (formal / released["english_output"]).read_text(encoding="utf-8") == "VALID_EN\n"
+    assert blocked["status"] == "FAILED_SAFE" and not blocked["release_eligible"]
+    assert not blocked["output"] and not blocked["english_output"]
+    assert all((formal / name).read_text(encoding="utf-8") == "BLOCKED_LAST_GOOD" for name in old_names)
+    assert all((formal / name).read_bytes() == value for name, value in aggregate.items())
+    assert (formal / ".success").is_file()
+    assert "VALID_CN" in summary[-1] and "VALID_EN" in summary[-1] and "FAILED_SAFE" in summary[-1]
+    assert "BLOCKED_CN" not in summary[-1] and "BLOCKED_EN" not in summary[-1]
+    html = (tmp_path / "agent_output/flight_prep/previews/2026-10-26/copy.html").read_text(encoding="utf-8")
+    assert html.count("复制 RELEASE") == 2 and html.count("复制 PREVIEW / NOT FOR RELEASE") == 2
+
+
+def test_copy_view_cannot_mislabel_unverified_data_or_inject_html(tmp_path):
+    data, errors = group()
+    data.update(flight_numbers=["TEST<script>"], release_eligible=False, errors=errors)
+    data["_content"] += "</textarea><script>alert('bad')</script>"
+    write_preview(tmp_path, "2026-01-01", [data], errors, "manual.pdf", "test")
+    html = (tmp_path / "copy.html").read_text(encoding="utf-8")
+    assert "TEST<script>" not in html and "<script>alert" not in html
+    assert "&lt;script&gt;" in html
+    with pytest.raises(ValueError):
+        write_copy_view(tmp_path, "2026-01-01", [data], {1})
+
+
 def test_reviewed_data_keeps_every_operating_guard():
     root = Path(__file__).resolve().parents[1]
     for review in agent.load_chinese_translation_reviews(root):
@@ -209,6 +260,8 @@ def test_named_english_route_prefixes_share_the_same_approved_aliases():
     assert agent.english_source_route_scope({"text_en": "Operations in the AAAA-BBBB sector require W19.", "category": "core"}, aliases) == (("AAAA", "BBBB"),)
     assert agent.english_source_route_scope({"text_en": "For northern inbound flights such as Alpha-Bravo, maintain 3000ft.",
         "category": "core"}, aliases) == (("AAAA", "BBBB"),)
+    assert agent.english_source_route_scope({"text_en": "After landing at Alpha-Bravo Airport, follow the marked taxi route.",
+        "category": "core"}, aliases) == (("AAAA", "BBBB"),)
 
 
 def test_parenthesized_event_heading_and_wrapped_frequency_are_not_lost():
@@ -245,3 +298,13 @@ def test_unresolved_named_route_remains_visible_but_cannot_release():
     assert not any("适用性未核实" in error for error in agent.validate_english_source_facts("AAAA", [scoped]))
     history = replace(fact, category="typical")
     assert not any("适用性未核实" in error for error in agent.validate_english_source_facts("AAAA", [history]))
+
+
+def test_ground_clearance_actor_and_negative_readback_remain_precise():
+    assert "ATC" in agent.manual_pairing_tokens("联系地面请求推开指令。")
+    assert "ATC" not in agent.manual_pairing_tokens("联系地面保障人员请求拖车。")
+    zh = "确认PDC之后无需复诵。"
+    assert "readback_requirement_polarity" not in agent.bilingual_semantic_mismatches(zh, "After confirming PDC, no readback is required.")
+    assert "readback_requirement_polarity" in agent.bilingual_semantic_mismatches(zh, "After confirming PDC, readback is required.")
+    assert agent.manual_pairing_tokens("盲降测距仪。") == agent.manual_pairing_tokens("ILS DME.")
+    assert agent.manual_pairing_tokens("盲降。") != agent.manual_pairing_tokens("ILS DME.")

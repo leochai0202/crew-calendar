@@ -72,15 +72,24 @@ def test_real_source_blockers_remain_blocking_and_last_good_is_preserved(target:
     report = json.loads((ROOT / "docs/diagnostics" / f"independent-language-{target}-audit.json").read_text(encoding="utf-8"))
     records = {airport: result["source_records"] for airport, result in report["airports"].items()}
     reproduced = []
+    quality_errors, expected_quality = [], []
+    # These immutable audit snapshots predate the newly reviewed translations.
+    # Their original bad English must now fail the stricter quality gate too;
+    # the four operating-data conflicts must still reproduce unchanged.
+    newly_rejected = {"曼谷素旺那普:en:d8fb6f3481937da0", "曼谷素旺那普:en:ac85b85c1fd7f5b3",
+                      "广州白云:en:4aea3060b35d921a"}
     for group in report["offline"]["groups"]:
         zh = [agent.BilingualFact(**fact) for fact in group["facts"]]
         en = [agent.BilingualFact(**fact) for fact in group["english_facts"]]
         prefix = "/".join(group["flights"])
         reproduced.extend(prefix + "：" + error for error in agent.validate_cross_language_conflicts(zh, en, records))
         for airport in group["routes"][0]:
-            reproduced.extend(prefix + "英文版：" + error
+            quality_errors.extend(prefix + "英文版：" + error
                               for error in agent.validate_english_source_facts(airport, [fact for fact in en if fact.airport == airport]))
+            expected_quality.extend(prefix + "英文版：英文关键运行表达无法可靠确认：" + fact.fact_id + "；源页" + fact.source_page
+                                    for fact in en if fact.airport == airport and fact.fact_id in newly_rejected)
     assert reproduced == report["offline"]["errors"]
+    assert quality_errors == expected_quality
     assert len(reproduced) == {"20261026": 3, "20261028": 2}[target]  # source-data regression, not selection logic
     assert report["offline"]["status"] == "FAILED_SAFE"
     assert not report["offline"]["success_marker"]

@@ -2568,6 +2568,8 @@ def manual_pairing_tokens(value: str) -> set[str]:
     actor_text = re.sub(r"地面指挥员|接机指挥员|机务指挥", "", text)
     if "指令高度" in text or "指挥" in actor_text or "放行许可" in text:
         tokens.add("ATC")
+    if re.search(r"联系地面(?:管制)?(?:请求|申请)(?:推开|推出|开车)", text):
+        tokens.add("ATC")  # ground clearance, not maintenance/marshalling personnel
     if re.search(r"\b(?:RECEIVED|DEPARTURE|ATC)\s+CLEARANCE\b", upper):
         tokens.add("ATC")
     for chinese_term, acronym in (("飞行操作通告", "FOIB"), ("目视泊位引导系统", "VDGS"), ("杰普逊", "JEPPESEN"), ("搜索救援", "SAR")):
@@ -2577,6 +2579,9 @@ def manual_pairing_tokens(value: str) -> set[str]:
         tokens.add("UTC")
     if "盲降" in text or re.search(r"\bILS\b|\bBLIND\s+LANDING\s+RANGE\s+FINDER\b", upper):
         tokens.add("ILS")
+    if re.search(r"测距仪|测距台|测距设备", text) or re.search(
+            r"\b(?:DISTANCE MEASURING EQUIPMENT|(?:ILS|BLIND LANDING) RANGE FINDER)\b", upper):
+        tokens.add("DME")
     identifier_text = re.sub(r"(?<![A-Za-z0-9])\d+(?:\.\d+)?\s*(?:NM|KM|FT|KT|KTS|MIN|S)\b", " ", text, flags=re.I)
     identifier_text = re.sub(r"\bstop\s+taxi(?:ing)?\b", "", identifier_text, flags=re.I)
     for token in re.findall(
@@ -11279,7 +11284,7 @@ def bilingual_semantic_mismatches(text_zh: str, text_en: str) -> list[str]:
         zh_negative = bool(re.search(r"(?:无需|不需(?:要)?|不必)[^。；]{0,5}复诵", text_zh))
         en_negative = bool(re.search(
             r"\b(?:NO NEED (?:FOR|TO)|NEED NOT|DO NOT|DOES NOT|WITHOUT)\s+(?:\w+\s+){0,3}(?:REPETITION|REPEAT|RECITE|READ\s*BACK)\b|"
-            r"\b(?:READ\s*BACK|READBACK)\b[^.!?]{0,25}\bNOT (?:REQUIRED|NECESSARY)\b|\bNO READBACK REQUIREMENT\b", text_en, re.I))
+            r"\b(?:READ\s*BACK|READBACK)\b[^.!?]{0,25}\bNOT (?:REQUIRED|NECESSARY)\b|\bNO READBACK (?:REQUIREMENT|(?:IS )?(?:REQUIRED|NECESSARY))\b", text_en, re.I))
         if zh_negative != en_negative:
             mismatches.append("readback_requirement_polarity")
     # "Only switch on after X" is not "remain on until X". Shared nouns and
@@ -11835,6 +11840,9 @@ def english_source_route_scope(record: dict, heading_aliases: dict[str, str] | N
     named = re.match(rf"\s*(?:(?:FOR|AT|DURING)\s+)?(?:THE\s+)?({endpoint})\s*[-—–→]+\s*({endpoint})(?:\s*(?:FLIGHTS?|ROUTES?|SECTIONS?|SECTORS?|BORDER\s+CROSSING)\b|\s*:)", text, re.I)
     if named and all(value.upper() in aliases or re.fullmatch(r"[A-Z]{4}", value) for value in named.groups()):
         routes.append(tuple(aliases.get(value.upper(), value.upper()) for value in named.groups()))
+    post_route = re.search(rf"\bAFTER LANDING AT\s+({endpoint})\s*[-—–→]+\s*({endpoint})\s+AIRPORT\b", text, re.I)
+    if post_route and all(value.upper() in aliases for value in post_route.groups()):
+        routes.append(tuple(aliases[value.upper()] for value in post_route.groups()))
     example = re.search(rf"\b(?:INBOUND|OUTBOUND|ARRIVING|DEPARTING)\s+FLIGHTS?[^.;]{{0,40}}?"
                         rf"\b(?:SUCH AS|INCLUDING)\s+({endpoint})\s*[-—–→]+\s*({endpoint})(?=\s|[,;.]|$)", text, re.I)
     if example and all(value.upper() in aliases for value in example.groups()):
@@ -12041,7 +12049,8 @@ def validate_english_source_facts(airport: str, facts: list[BilingualFact]) -> l
             errors.append(f"英文指定航线的适用性未核实：{fact.fact_id}；源页{fact.source_page}")
         if re.search(r"\bFIVE[- ]WAY TURNS?\b|\bRNP\s+FIVE SIDES\b|\bFIVE[- ]SIDED CHAOS\b|"
                      r"\bRUNWAY\s+\d+\.\d+\b|\bAUTOMATIC WAVE SEPARATION\b|\bDISENGAGES FROM THE WAVE CONTACT\b|"
-                     r"\b\d+(?:ST|ND|RD|TH)\s+MOUNTAIN\b|RVSM\s*\(\s*REAL[- ]TIME VERTICAL MANAGEMENT SYSTEM", fact.en, re.I):
+                     r"\b\d+(?:ST|ND|RD|TH)\s+MOUNTAIN\b|RVSM\s*\(\s*REAL[- ]TIME VERTICAL MANAGEMENT SYSTEM|"
+                     r"\bTHREE-WAY APPROACH\b|\bSKIDWAY\b|\bSINGLE-SHOT ACCELERATION", fact.en, re.I):
             errors.append(f"英文关键运行表达无法可靠确认：{fact.fact_id}；源页{fact.source_page}")
     return errors
 
@@ -12714,7 +12723,7 @@ def main() -> int:
             airport for airport in airports
             if not manual_source or not airport_threat_map.get(airport)
         ]
-        if missing_airports and (not preview or not manual_source):
+        if missing_airports and not manual_source:
             status = {
                 "status": "FAILED_SAFE",
                 "target_date": target.isoformat(),
@@ -12733,12 +12742,13 @@ def main() -> int:
             return 2
 
         rendered_groups: list[dict[str, object]] = []
-        errors: list[str] = [f"最新机场特点未完整匹配：{airport}" for airport in missing_airports]
+        errors: list[str] = []
         duty_english_required = preview or english_generation_decision(duty, settings, args.generate_english)[0]
         group_count = len(prep_flight_groups)
         for group_index, group_flights in enumerate(prep_flight_groups, start=1):
             group_duty = DutyContext(tuple(group_flights))
             group_airports = list(group_duty.route)
+            group_errors = [f"最新机场特点未完整匹配：{airport}" for airport in group_airports if airport in missing_airports]
             group_records = experience_records(experience, group_airports, target)
             fact_exclusions: list[dict[str, object]] = []
             typical_facts, core_facts, all_facts = briefing_fact_sets(
@@ -12776,7 +12786,7 @@ def main() -> int:
             english_exclusions: list[dict] = []
             en_typical, en_core, en_facts = english_briefing_fact_sets(
                 group_duty, target, airport_source_records, english_exclusions, chinese_facts=all_facts,
-            ) if english_required else ({}, {}, [])
+            )  # source conflicts remain blocking even when no English output is required
             group_content = render_chinese_briefing(
                 group_duty,
                 target,
@@ -12803,7 +12813,7 @@ def main() -> int:
             group_label = "/".join(
                 event.flight_number for event in group_flights
             )
-            errors.extend(
+            group_errors.extend(
                 f"{group_label}：{item}"
                 for item in validate_content(
                     group_content,
@@ -12817,27 +12827,24 @@ def main() -> int:
             )
             for airport in group_airports:
                 if not core_facts[airport]:
-                    errors.append(f"{group_label}：{airport}没有可追溯的核心运行事实")
+                    group_errors.append(f"{group_label}：{airport}没有可追溯的核心运行事实")
                 bound_facts = [*typical_facts[airport], *core_facts[airport]]
-                errors.extend(
+                group_errors.extend(
                     f"{group_label}：{item}"
                     for item in validate_airport_fact_bindings(airport, bound_facts)
                 )
+            conflict_evidence: list[dict] = []
+            cross_language_errors = validate_cross_language_conflicts(
+                all_facts, en_facts, airport_source_records, conflict_evidence=conflict_evidence)
+            group_errors.extend(f"{group_label}：{item}" for item in cross_language_errors)
             if english_required:
                 bilingual_diagnostics = validate_bilingual_facts(all_facts)
-                conflict_evidence: list[dict] = []
-                cross_language_errors = validate_cross_language_conflicts(
-                    all_facts, en_facts, airport_source_records, conflict_evidence=conflict_evidence)
-                errors.extend(
-                    f"{group_label}：{item}"
-                    for item in cross_language_errors
-                )
                 for airport in group_airports:
                     if not en_core[airport]:
-                        errors.append(f"{group_label}：{airport}缺少可靠英文核心运行资料")
-                    errors.extend(f"{group_label}英文版：{item}" for item in
+                        group_errors.append(f"{group_label}：{airport}缺少可靠英文核心运行资料")
+                    group_errors.extend(f"{group_label}英文版：{item}" for item in
                         validate_english_source_facts(airport, [*en_typical[airport], *en_core[airport]]))
-                errors.extend(
+                group_errors.extend(
                     f"{group_label}英文版：{item}"
                     for item in validate_content(
                         english_content,
@@ -12875,9 +12882,13 @@ def main() -> int:
                 )
                 + fact_exclusions
             )
+            errors.extend(group_errors)
             rendered_groups.append(
                 {
                     "group_index": group_index,
+                    "status": "FAILED_SAFE" if group_errors else "SUCCESS",
+                    "release_eligible": not group_errors,
+                    "errors": group_errors,
                     "flight_numbers": [event.flight_number for event in group_flights],
                     "airports": group_airports,
                     "output": output_name,
@@ -12885,8 +12896,8 @@ def main() -> int:
                     "english_generated": english_required,
                     "language_fact_sets_independent": True,
                     "bilingual_pairing_diagnostics": bilingual_diagnostics if english_required else [],
-                    "cross_language_conflicts": cross_language_errors if english_required else [],
-                    "conflict_evidence": conflict_evidence if english_required else [],
+                    "cross_language_conflicts": cross_language_errors,
+                    "conflict_evidence": conflict_evidence,
                     "english_fact_sources": {airport: [fact_source_metadata(fact)
                         for fact in [*en_typical.get(airport, []), *en_core.get(airport, [])]]
                         for airport in group_airports},
@@ -13002,18 +13013,24 @@ def main() -> int:
         from crew_agents.flight_prep_preview import write_preview
         review_dir = repo / "agent_output" / "flight_prep" / "previews" / target.isoformat()
         write_preview(review_dir, target.isoformat(), rendered_groups, errors, manual_source, str(manual_ver))
+        append_github_summary(f"## 审核预览入口\n\n下载本次 preparation artifact，打开 `agent_output/flight_prep/previews/{target.isoformat()}/copy.html`，可查看并一键复制中英文。PREVIEW 含未核实资料，不得作为正式运行资料；仅 RELEASE 是本次已验证正式稿。\n")
         if preview:
             print(f"PREVIEW: {output_dir}")
             # Deliberately non-release exit: an existing success()-gated job
             # cannot publish previews, even if a stale formal marker exists.
             return 3
-        if errors:
+        all_rendered_groups = rendered_groups
+        blocked_groups = [group for group in rendered_groups if not group["release_eligible"]]
+        rendered_groups = [group for group in rendered_groups if group["release_eligible"]]
+        if not rendered_groups:
             status = {
                 "status": "FAILED_SAFE",
                 "target_date": target.isoformat(),
                 "task_fingerprint": current_task_fingerprint,
                 "matched_flights": current_matched_flights,
                 "errors": errors,
+                "prep_groups": [{key: value for key, value in group.items() if not key.startswith("_")}
+                                for group in all_rendered_groups],
                 "version": VERSION,
                 "note": "正式准备稿未覆盖。",
             }
@@ -13025,9 +13042,11 @@ def main() -> int:
             append_github_summary("## 免费航前准备\n\n**FAILED_SAFE**：\n" + "\n".join(f"- {e}" for e in errors))
             return 2
 
-        group_contents = [str(group.pop("_content")) for group in rendered_groups]
+        partial_release = bool(blocked_groups)
+        result_status = "PARTIAL_RELEASE" if partial_release else "SUCCESS"
+        group_contents = [str(group["_content"]) for group in rendered_groups]
         english_group_contents = [
-            str(group.pop("_english_content"))
+            str(group["_english_content"])
             for group in rendered_groups
             if group.get("english_generated")
         ]
@@ -13041,10 +13060,10 @@ def main() -> int:
             if english_group_contents
             else ""
         )
-        dated_group_name = f"{target.isoformat()}_航前准备.txt"
+        dated_group_name = "" if partial_release else f"{target.isoformat()}_航前准备.txt"
         dated_english_name = (
             f"{target.isoformat()}_航前准备_EN.txt"
-            if aggregate_english
+            if aggregate_english and not partial_release
             else ""
         )
         desired_outputs = {
@@ -13056,8 +13075,9 @@ def main() -> int:
             desired_outputs.add(dated_english_name)
         for group, content in zip(rendered_groups, group_contents):
             atomic_write_text(output_dir / str(group["output"]), content)
-        atomic_write_text(output_dir / dated_group_name, aggregate_content)
-        atomic_write_text(output_dir / "latest.txt", aggregate_content)
+        if not partial_release:
+            atomic_write_text(output_dir / dated_group_name, aggregate_content)
+            atomic_write_text(output_dir / "latest.txt", aggregate_content)
         english_index = 0
         for group in rendered_groups:
             if not group["english_generated"]:
@@ -13067,12 +13087,12 @@ def main() -> int:
                 english_group_contents[english_index],
             )
             english_index += 1
-        if aggregate_english:
+        if aggregate_english and not partial_release:
             atomic_write_text(output_dir / dated_english_name, aggregate_english)
             atomic_write_text(output_dir / "latest_en.txt", aggregate_english)
-        else:
+        elif not partial_release:
             (output_dir / "latest_en.txt").unlink(missing_ok=True)
-        for stale in output_dir.glob(f"{target.isoformat()}_航前准备_*.txt"):
+        for stale in (() if partial_release else output_dir.glob(f"{target.isoformat()}_航前准备_*.txt")):
             if stale.name not in desired_outputs:
                 stale.unlink()
 
@@ -13112,8 +13132,15 @@ def main() -> int:
         )
 
         generated_at_beijing = now_beijing().isoformat()
+        previous_latest = (load_json(output_dir / "latest_meta.json", {}) or {}) if partial_release else {}
+        group_metadata = [{key: value for key, value in group.items() if not key.startswith("_")}
+                          for group in all_rendered_groups]
+        for group in group_metadata:
+            if not group["release_eligible"]:
+                group["candidate_output"], group["candidate_english_output"] = group["output"], group["english_output"]
+                group["output"], group["english_output"] = "", ""
         success_metadata = {
-            "status": "SUCCESS",
+            "status": result_status,
             "result_kind": "RELEASE",
             "target_date": target.isoformat(),
             "generated_at_beijing": generated_at_beijing,
@@ -13131,7 +13158,16 @@ def main() -> int:
             "matched_event_uids": [event.uid for event in flights],
             "matched_flights": [event.to_dict() for event in flights],
             "matched_people": duty.people,
-            "prep_groups": rendered_groups,
+            "prep_groups": group_metadata,
+            "errors": errors,
+            "released_group_count": len(rendered_groups),
+            "blocked_group_count": len(blocked_groups),
+            "aggregate_current": not partial_release,
+            "last_good_aggregate": (previous_latest.get("last_good_aggregate") or {
+                "target_date": previous_latest.get("target_date", ""),
+                "group_output": previous_latest.get("group_output", ""),
+                "english_output": previous_latest.get("english_output", ""),
+            }) if partial_release else None,
             "warnings": unique(warnings),
             "weather": weather_meta,
             "airport_experience_changes": changes,
@@ -13152,51 +13188,68 @@ def main() -> int:
         atomic_write_json(
             output_dir / f"{target.isoformat()}_meta.json",
             {
-                "status": "SUCCESS",
+                "status": result_status,
                 "target_date": target.isoformat(),
                 "generated_at_beijing": generated_at_beijing,
                 "task_fingerprint": current_task_fingerprint,
                 "matched_flights": current_matched_flights,
                 "group_output": dated_group_name,
                 "english_output": dated_english_name,
+                "aggregate_current": not partial_release,
+                "prep_groups": [{key: group[key] for key in ("group_index", "flight_numbers", "status",
+                    "release_eligible", "output", "english_output", "english_generated", "errors")} for group in group_metadata],
             },
         )
         atomic_write_text(success_marker, "SUCCESS\n")
         write_status(
             repo,
             {
-                "status": "SUCCESS",
+                "status": result_status,
                 "target_date": target.isoformat(),
-                "group_output": str(output_dir / dated_group_name),
+                "group_output": str(output_dir / dated_group_name) if dated_group_name else "",
                 "group_outputs": [
                     str(output_dir / str(group["output"]))
                     for group in rendered_groups
                 ],
-                "english_output": str(output_dir / dated_english_name) if english_required else "",
+                "english_output": str(output_dir / dated_english_name) if dated_english_name else "",
+                "blocked_groups": [{"flight_numbers": group["flight_numbers"], "status": "FAILED_SAFE",
+                                    "errors": group["errors"]} for group in blocked_groups],
                 "english_confirmation_required": english_confirmation_required,
                 "version": VERSION,
             },
         )
         summary = f"## {target.isoformat()} 航前准备\n"
+        if partial_release:
+            summary += "\n**PARTIAL_RELEASE**：以下仅为已通过全部校验的分组；其他分组仍为 FAILED_SAFE。整日合并稿及 latest 正文保留 last-good，不代表本次全部任务。\n"
         for group, content in zip(rendered_groups, group_contents):
             summary += (
                 f"\n### 第{group['group_index']}组 "
                 f"{'/'.join(group['flight_numbers'])}\n\n"
                 f"```text\n{content}```\n"
             )
-        if english_required:
+            if group.get("english_generated"):
+                summary += f"\n#### English RELEASE\n\n```text\n{group['_english_content']}```\n"
+        for group in blocked_groups:
+            summary += (f"\n### FAILED_SAFE — {'/'.join(group['flight_numbers'])}\n\n仅生成 PREVIEW，禁止作为正式运行资料。\n"
+                        + "\n".join(f"- {error}" for error in group["errors"]) + "\n")
+        if dated_english_name:
             summary += f"\n\n英文版：`flight_preparation/{dated_english_name}`"
         if warnings:
             summary += "\n\n### 系统提示\n" + "\n".join(f"- {w}" for w in unique(warnings))
         append_github_summary(summary)
-        print(f"SUCCESS: {output_dir / dated_group_name}")
+        from crew_agents.flight_prep_preview import write_copy_view
+        write_copy_view(review_dir, target.isoformat(), all_rendered_groups,
+                        {int(group["group_index"]) for group in rendered_groups})
+        print(f"{result_status}: {target.isoformat()}")
         for group in rendered_groups:
             print(f"GROUP: {output_dir / str(group['output'])}")
-        if english_required:
+        if dated_english_name:
             print(f"ENGLISH: {output_dir / dated_english_name}")
         return 0
 
     except Exception as exc:
+        if not preview:
+            success_marker.unlink(missing_ok=True)
         status = {
             "status": "FAILED_SAFE",
             "target_date": target.isoformat(),

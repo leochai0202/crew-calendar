@@ -362,23 +362,28 @@ def test_real_august_twenty_six_generates_with_local_guard_fallbacks(
 
     output = repo / "flight_preparation"
     meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
-    content = (output / "latest.txt").read_text(encoding="utf-8")
-    assert meta["status"] == "SUCCESS"
+    preview = repo / "agent_output/flight_prep/previews/2026-08-26"
+    content = (preview / "preview_zh.txt").read_text(encoding="utf-8").split("RELEASE REVIEW /", 1)[0]
+    assert meta["status"] == "PARTIAL_RELEASE"
+    assert meta["prep_groups"][0]["status"] == "FAILED_SAFE"
+    assert any("runway_requirement_conflict" in error for error in meta["prep_groups"][0]["errors"])
+    assert meta["prep_groups"][1]["status"] == "SUCCESS"
     assert meta["weather"] == {}
     assert meta["task_fingerprint"]
     assert meta["flight_numbers"] == ["9C8885", "9C8970"]
-    assert (output / "2026-08-26_航前准备.txt").exists()
+    assert not (output / "2026-08-26_航前准备.txt").exists()
     dated_meta = json.loads(
         (output / "2026-08-26_meta.json").read_text(encoding="utf-8")
     )
-    assert dated_meta["status"] == "SUCCESS"
+    assert dated_meta["status"] == "PARTIAL_RELEASE"
     assert dated_meta["task_fingerprint"] == meta["task_fingerprint"]
     assert "个人对本次航班中识别的风险：" not in content
     assert "天气及动态资料以航前最新资料为准。" not in content
     assert "近期注意点" not in content
     assert all(airport in content for airport in ("上海虹桥机场：", "贵阳龙洞堡机场：", "扬州泰州机场："))
     for group in meta["prep_groups"]:
-        group_content = (output / group["output"]).read_text(encoding="utf-8")
+        group_content = ((output / group["output"]) if group["release_eligible"] else
+                         (preview / f"PREVIEW_group_{group['group_index']:02d}_zh.txt")).read_text(encoding="utf-8")
         assert group_content.count("核心威胁：") == 1
         assert "个人对本次航班中识别的风险：" not in group_content
         assert "天气及动态资料以航前最新资料为准。" not in group_content
@@ -493,10 +498,14 @@ def test_real_august_twenty_eight_filters_pdf_structure_and_fragments(
         assert marker in content
 
 
-@pytest.mark.parametrize("target_date", ["2026-08-14", "2026-08-18"])
+@pytest.mark.parametrize("target_date,source_conflict", [
+    ("2026-08-14", "papi_runway_value_association"),
+    ("2026-08-18", None),
+])
 @pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含机场手册PDF")
 def test_existing_august_regressions_still_generate(
     target_date: str,
+    source_conflict: str | None,
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
 ) -> None:
@@ -523,16 +532,20 @@ def test_existing_august_regressions_still_generate(
     monkeypatch.delenv("GITHUB_STEP_SUMMARY", raising=False)
     agent.extract_pdf_text.cache_clear()
 
-    assert agent.main() == 0
-    meta = json.loads(
-        (repo / "flight_preparation" / "latest_meta.json").read_text(
-            encoding="utf-8"
-        )
-    )
-    assert meta["status"] == "SUCCESS"
-    assert "个人对本次航班中识别的风险：" not in (
-        repo / "flight_preparation" / "latest.txt"
-    ).read_text(encoding="utf-8")
+    output = repo / "flight_preparation"
+    if source_conflict:
+        assert agent.main() == 2
+        state = json.loads((output / f"{target_date}_meta.json").read_text(encoding="utf-8"))
+        assert state["status"] == "FAILED_SAFE"
+        assert any(source_conflict in error for error in state["errors"])
+        assert not (output / ".success").exists() and not (output / "latest.txt").exists()
+        briefing = repo / "agent_output" / "flight_prep" / "previews" / target_date / "preview_zh.txt"
+    else:
+        assert agent.main() == 0
+        meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
+        assert meta["status"] == "SUCCESS"
+        briefing = output / "latest.txt"
+    assert "个人对本次航班中识别的风险：" not in briefing.read_text(encoding="utf-8")
 
 
 @pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含机场手册PDF")
@@ -563,14 +576,18 @@ def test_real_september_ten_uses_latest_manual_quality_engine(
     monkeypatch.delenv("GITHUB_STEP_SUMMARY", raising=False)
     agent.extract_pdf_text.cache_clear()
 
-    assert agent.main() == 0
+    assert agent.main() == 2
 
     output = repo / "flight_preparation"
-    content = (output / "latest.txt").read_text(encoding="utf-8")
-    meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
-    assert meta["status"] == "SUCCESS"
+    state = json.loads((output / "2026-09-10_meta.json").read_text(encoding="utf-8"))
+    assert state["status"] == "FAILED_SAFE"
+    assert any("system_activation_temporal_polarity" in error for error in state["errors"])
+    assert not (output / ".success").exists() and not (output / "latest.txt").exists()
+    preview = repo / "agent_output" / "flight_prep" / "previews" / "2026-09-10"
+    content = (preview / "PREVIEW_group_01_zh.txt").read_text(encoding="utf-8")
+    meta = state["prep_groups"][0]
     assert meta["flight_numbers"] == ["9C8891"]
-    assert meta["airport_information_version"] == REAL_PDF_VERSION
+    assert int(json.loads((preview / "preview_meta.json").read_text(encoding="utf-8"))["manual_version"]) == REAL_PDF_VERSION
     assert content.count("核心威胁：") == 1
     assert "本阶段经历时间93小时，起落21个，近90天起落8个" in content
 

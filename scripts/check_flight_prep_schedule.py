@@ -150,6 +150,8 @@ def _invalidated_metadata(
             "invalidation_reason": "target_date_has_no_complete_flight_task",
         }
     )
+    for group in invalidated.get("prep_groups", []):
+        group.update(status="INVALIDATED_NO_TASK", release_eligible=False)
     if previous_fingerprint:
         invalidated["previous_task_fingerprint"] = previous_fingerprint
     if isinstance(previous_matched_flights, list) and previous_matched_flights:
@@ -201,7 +203,7 @@ def evaluate_preparation(
             "INVALIDATED_NO_TASK",
         }
         if not already_invalid and (
-            state.get("status") == "SUCCESS" or output.exists()
+            state.get("status") in {"SUCCESS", "PARTIAL_RELEASE"} or output.exists()
         ):
             state_files = _invalidate_no_task_preparation(
                 repo,
@@ -249,7 +251,7 @@ def evaluate_preparation(
             task_fingerprint=fingerprint,
             task_count=len(records),
         )
-    if state.get("status") != "SUCCESS":
+    if state.get("status") not in {"SUCCESS", "PARTIAL_RELEASE"}:
         return CheckResult(
             status="DISPATCH",
             target_date=target.isoformat(),
@@ -277,7 +279,17 @@ def evaluate_preparation(
             state_source=source,
         )
 
-    if not output.exists():
+    groups = state.get("prep_groups", [])
+    if state.get("status") == "PARTIAL_RELEASE":
+        released = [group for group in groups if group.get("status") == "SUCCESS" and group.get("release_eligible")]
+        complete_outputs = bool(released) and all(
+            group.get("output") and (output.parent / group["output"]).is_file()
+            and (not group.get("english_generated") or
+                 bool(group.get("english_output")) and (output.parent / group["english_output"]).is_file())
+            for group in released)
+    else:
+        complete_outputs = output.exists()
+    if not complete_outputs:
         return CheckResult(
             status="DISPATCH",
             target_date=target.isoformat(),
@@ -291,7 +303,8 @@ def evaluate_preparation(
         status="NO_ACTION",
         target_date=target.isoformat(),
         should_dispatch=False,
-        reason="successful_preparation_matches_current_tasks",
+        reason=("partial_release_matches_current_tasks" if state.get("status") == "PARTIAL_RELEASE"
+                else "successful_preparation_matches_current_tasks"),
         task_fingerprint=fingerprint,
         task_count=len(records),
         state_source=source,

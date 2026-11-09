@@ -184,7 +184,7 @@ def test_unit_spellings_and_thousands_grouping_are_not_source_conflicts():
     assert agent.validate_cross_language_conflicts([chinese], [english]) == []
 
 
-@pytest.mark.parametrize("foreign,missing_english,critical_conflict", [(False, True, False), (True, False, False), (True, True, False), (True, False, True)])
+@pytest.mark.parametrize("foreign,missing_english,critical_conflict", [(False, True, False), (True, False, False), (True, True, False), (True, False, True), (False, False, True)])
 def test_main_independent_publication_and_failure_rollback(monkeypatch, tmp_path, foreign, missing_english, critical_conflict):
     people = ["段洋硕", "TEST FOREIGN PILOT(R)"] if foreign else ["段洋硕", "测试机长(R)"]
     event = _event(uid="test", number="9C0001", departure="甲地机场", arrival="乙地机场", people=people)
@@ -215,7 +215,7 @@ def test_main_independent_publication_and_failure_rollback(monkeypatch, tmp_path
     monkeypatch.delenv("GITHUB_STEP_SUMMARY", raising=False)
     monkeypatch.setattr(sys, "argv", ["flight_prep_agent.py", "--repo", str(tmp_path), "--target-date", "2026-07-23"])
     result = agent.main()
-    failed = foreign and (missing_english or critical_conflict)
+    failed = critical_conflict or foreign and missing_english
     assert result == (2 if failed else 0)
     meta = json.loads((output / "2026-07-23_meta.json").read_text(encoding="utf-8"))
     assert meta["status"] == ("FAILED_SAFE" if failed else "SUCCESS")

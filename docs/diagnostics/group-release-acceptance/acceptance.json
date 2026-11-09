@@ -1,0 +1,266 @@
+{
+  "input_sha": "f007a995204352704a67026a0f653fc910ffd4ce",
+  "dates": {
+    "2026-10-05": {
+      "preview_status": "PREVIEW",
+      "release_status": "SUCCESS",
+      "release_exit_code": 0,
+      "errors": [],
+      "preview_preserves_formal_and_config": true,
+      "failed_release_preserves_last_good": null,
+      "all_selected_body_facts_present": true,
+      "complete_bilingual_groups": true,
+      "protected_last_good_preserved": true,
+      "copy_ui_buttons_verified": 2,
+      "preview_copy_buttons_verified": 2,
+      "scheduler_status": "NO_ACTION",
+      "release_success_marker": true,
+      "groups": [
+        {
+          "flights": [
+            "9C7385",
+            "9C7386"
+          ],
+          "foreign_crew": true,
+          "chinese_fact_count": 45,
+          "english_fact_count": 45,
+          "release_eligible": true,
+          "release_errors": [],
+          "chinese_preview": "PREVIEW_group_01_zh.txt",
+          "english_preview": "PREVIEW_group_01_en.txt"
+        }
+      ]
+    },
+    "2026-10-26": {
+      "preview_status": "PREVIEW",
+      "release_status": "PARTIAL_RELEASE",
+      "release_exit_code": 0,
+      "errors": [
+        "9C7420：中英文权威来源关键运行冲突：广州白云_core_record_42：['operating_quantity_or_unit_conflict']；中文页991；英文页1583",
+        "9C7420：中英文权威来源关键运行冲突：广州白云_core_record_22：['procedure_or_waypoint_conflict', 'runway_requirement_conflict']；中文页987；英文页1581",
+        "9C7420：中英文权威来源关键运行冲突：广州白云_core_record_37：['procedure_or_waypoint_conflict']；中文页990；英文页1582"
+      ],
+      "preview_preserves_formal_and_config": true,
+      "failed_release_preserves_last_good": null,
+      "all_selected_body_facts_present": true,
+      "complete_bilingual_groups": true,
+      "protected_last_good_preserved": true,
+      "copy_ui_buttons_verified": 4,
+      "preview_copy_buttons_verified": 4,
+      "scheduler_status": "NO_ACTION",
+      "release_success_marker": true,
+      "groups": [
+        {
+          "flights": [
+            "9C7289"
+          ],
+          "foreign_crew": true,
+          "chinese_fact_count": 37,
+          "english_fact_count": 41,
+          "release_eligible": true,
+          "release_errors": [],
+          "chinese_preview": "PREVIEW_group_01_zh.txt",
+          "english_preview": "PREVIEW_group_01_en.txt"
+        },
+        {
+          "flights": [
+            "9C7420"
+          ],
+          "foreign_crew": true,
+          "chinese_fact_count": 46,
+          "english_fact_count": 51,
+          "release_eligible": false,
+          "release_errors": [
+            "9C7420：中英文权威来源关键运行冲突：广州白云_core_record_42：['operating_quantity_or_unit_conflict']；中文页991；英文页1583",
+            "9C7420：中英文权威来源关键运行冲突：广州白云_core_record_22：['procedure_or_waypoint_conflict', 'runway_requirement_conflict']；中文页987；英文页1581",
+            "9C7420：中英文权威来源关键运行冲突：广州白云_core_record_37：['procedure_or_waypoint_conflict']；中文页990；英文页1582"
+          ],
+          "chinese_preview": "PREVIEW_group_02_zh.txt",
+          "english_preview": "PREVIEW_group_02_en.txt"
+        }
+      ]
+    },
+    "2026-10-28": {
+      "preview_status": "PREVIEW",
+      "release_status": "FAILED_SAFE",
+      "release_exit_code": 2,
+      "errors": [
+        "9C7419：中英文权威来源关键运行冲突：广州白云_core_record_22：['procedure_or_waypoint_conflict', 'runway_requirement_conflict']；中文页987；英文页1581",
+        "9C7290：中英文权威来源关键运行冲突：上海浦东_core_record_5：['papi_runway_value_association']；中文页586；英文页1367"
+      ],
+      "preview_preserves_formal_and_config": true,
+      "failed_release_preserves_last_good": true,
+      "all_selected_body_facts_present": true,
+      "complete_bilingual_groups": true,
+      "protected_last_good_preserved": true,
+      "copy_ui_buttons_verified": 4,
+      "preview_copy_buttons_verified": 4,
+      "scheduler_status": "DISPATCH",
+      "release_success_marker": false,
+      "groups": [
+        {
+          "flights": [
+            "9C7419"
+          ],
+          "foreign_crew": true,
+          "chinese_fact_count": 56,
+          "english_fact_count": 58,
+          "release_eligible": false,
+          "release_errors": [
+            "9C7419：中英文权威来源关键运行冲突：广州白云_core_record_22：['procedure_or_waypoint_conflict', 'runway_requirement_conflict']；中文页987；英文页1581"
+          ],
+          "chinese_preview": "PREVIEW_group_01_zh.txt",
+          "english_preview": "PREVIEW_group_01_en.txt"
+        },
+        {
+          "flights": [
+            "9C7290"
+          ],
+          "foreign_crew": true,
+          "chinese_fact_count": 34,
+          "english_fact_count": 40,
+          "release_eligible": false,
+          "release_errors": [
+            "9C7290：中英文权威来源关键运行冲突：上海浦东_core_record_5：['papi_runway_value_association']；中文页586；英文页1367"
+          ],
+          "chinese_preview": "PREVIEW_group_02_zh.txt",
+          "english_preview": "PREVIEW_group_02_en.txt"
+        }
+      ]
+    },
+    "2026-11-01": {
+      "preview_status": "PREVIEW",
+      "release_status": "PARTIAL_RELEASE",
+      "release_exit_code": 0,
+      "errors": [
+        "9C8934：中英文权威来源关键运行冲突：广州白云_core_record_42：['operating_quantity_or_unit_conflict']；中文页991；英文页1583",
+        "9C8934：中英文权威来源关键运行冲突：广州白云_core_record_22：['procedure_or_waypoint_conflict', 'runway_requirement_conflict']；中文页987；英文页1581",
+        "9C8934：中英文权威来源关键运行冲突：广州白云_core_record_37：['procedure_or_waypoint_conflict']；中文页990；英文页1582"
+      ],
+      "preview_preserves_formal_and_config": true,
+      "failed_release_preserves_last_good": null,
+      "all_selected_body_facts_present": true,
+      "complete_bilingual_groups": true,
+      "protected_last_good_preserved": true,
+      "copy_ui_buttons_verified": 2,
+      "preview_copy_buttons_verified": 4,
+      "scheduler_status": "NO_ACTION",
+      "release_success_marker": true,
+      "groups": [
+        {
+          "flights": [
+            "9C8511"
+          ],
+          "foreign_crew": false,
+          "chinese_fact_count": 36,
+          "english_fact_count": 39,
+          "release_eligible": true,
+          "release_errors": [],
+          "chinese_preview": "PREVIEW_group_01_zh.txt",
+          "english_preview": "PREVIEW_group_01_en.txt"
+        },
+        {
+          "flights": [
+            "9C8934"
+          ],
+          "foreign_crew": false,
+          "chinese_fact_count": 47,
+          "english_fact_count": 55,
+          "release_eligible": false,
+          "release_errors": [
+            "9C8934：中英文权威来源关键运行冲突：广州白云_core_record_42：['operating_quantity_or_unit_conflict']；中文页991；英文页1583",
+            "9C8934：中英文权威来源关键运行冲突：广州白云_core_record_22：['procedure_or_waypoint_conflict', 'runway_requirement_conflict']；中文页987；英文页1581",
+            "9C8934：中英文权威来源关键运行冲突：广州白云_core_record_37：['procedure_or_waypoint_conflict']；中文页990；英文页1582"
+          ],
+          "chinese_preview": "PREVIEW_group_02_zh.txt",
+          "english_preview": "PREVIEW_group_02_en.txt"
+        }
+      ]
+    },
+    "2026-11-03": {
+      "preview_status": "PREVIEW",
+      "release_status": "FAILED_SAFE",
+      "release_exit_code": 2,
+      "errors": [
+        "9C8933：中英文权威来源关键运行冲突：广州白云_core_record_22：['procedure_or_waypoint_conflict', 'runway_requirement_conflict']；中文页987；英文页1581",
+        "9C8512：中英文权威来源关键运行冲突：上海浦东_core_record_5：['papi_runway_value_association']；中文页586；英文页1367"
+      ],
+      "preview_preserves_formal_and_config": true,
+      "failed_release_preserves_last_good": true,
+      "all_selected_body_facts_present": true,
+      "complete_bilingual_groups": true,
+      "protected_last_good_preserved": true,
+      "copy_ui_buttons_verified": 2,
+      "preview_copy_buttons_verified": 4,
+      "scheduler_status": "DISPATCH",
+      "release_success_marker": false,
+      "groups": [
+        {
+          "flights": [
+            "9C8933"
+          ],
+          "foreign_crew": false,
+          "chinese_fact_count": 53,
+          "english_fact_count": 56,
+          "release_eligible": false,
+          "release_errors": [
+            "9C8933：中英文权威来源关键运行冲突：广州白云_core_record_22：['procedure_or_waypoint_conflict', 'runway_requirement_conflict']；中文页987；英文页1581"
+          ],
+          "chinese_preview": "PREVIEW_group_01_zh.txt",
+          "english_preview": "PREVIEW_group_01_en.txt"
+        },
+        {
+          "flights": [
+            "9C8512"
+          ],
+          "foreign_crew": false,
+          "chinese_fact_count": 33,
+          "english_fact_count": 44,
+          "release_eligible": false,
+          "release_errors": [
+            "9C8512：中英文权威来源关键运行冲突：上海浦东_core_record_5：['papi_runway_value_association']；中文页586；英文页1367"
+          ],
+          "chinese_preview": "PREVIEW_group_02_zh.txt",
+          "english_preview": "PREVIEW_group_02_en.txt"
+        }
+      ]
+    },
+    "2026-11-13": {
+      "preview_status": "PREVIEW",
+      "release_status": "FAILED_SAFE",
+      "release_exit_code": 2,
+      "errors": [
+        "9C8801/9C8802：中英文权威来源关键运行冲突：上海浦东_core_record_5：['papi_runway_value_association']；中文页586；英文页1367"
+      ],
+      "preview_preserves_formal_and_config": true,
+      "failed_release_preserves_last_good": true,
+      "all_selected_body_facts_present": true,
+      "complete_bilingual_groups": true,
+      "protected_last_good_preserved": true,
+      "copy_ui_buttons_verified": 1,
+      "preview_copy_buttons_verified": 2,
+      "scheduler_status": "DISPATCH",
+      "release_success_marker": false,
+      "groups": [
+        {
+          "flights": [
+            "9C8801",
+            "9C8802"
+          ],
+          "foreign_crew": false,
+          "chinese_fact_count": 33,
+          "english_fact_count": 34,
+          "release_eligible": false,
+          "release_errors": [
+            "9C8801/9C8802：中英文权威来源关键运行冲突：上海浦东_core_record_5：['papi_runway_value_association']；中文页586；英文页1367"
+          ],
+          "chinese_preview": "PREVIEW_group_01_zh.txt",
+          "english_preview": "PREVIEW_group_01_en.txt"
+        }
+      ]
+    }
+  },
+  "manual": "AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+  "manual_sha256": "e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8",
+  "ics_sha256": "956331ef3158d71525985e90fb18306a42d44aed2762fada42af19d7cad9f52f"
+}

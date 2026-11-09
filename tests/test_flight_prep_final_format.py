@@ -1809,11 +1809,19 @@ def test_real_august_four_final_confirmed_format(
     monkeypatch.delenv("GITHUB_STEP_SUMMARY", raising=False)
     agent.extract_pdf_text.cache_clear()
 
-    assert agent.main() == 0
+    # A known PAPI source conflict cannot be bypassed by a Chinese-only duty.
+    assert agent.main() == 2
 
     output = repo / "flight_preparation"
-    content = (output / "latest.txt").read_text(encoding="utf-8")
-    meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
+    state = json.loads((output / "2026-08-04_meta.json").read_text(encoding="utf-8"))
+    assert state["status"] == "FAILED_SAFE" and any("papi_runway_value_association" in x for x in state["errors"])
+    assert not (output / ".success").exists() and not (output / "latest.txt").exists()
+    preview = repo / "agent_output/flight_prep/previews/2026-08-04"
+    content = (preview / "PREVIEW_group_01_zh.txt").read_text(encoding="utf-8").split("\n\n", 1)[1]
+    content = re.sub(r"\n\n\[待核实 / UNVERIFIED: [^\n]+\]", "", content)
+    preview_meta = json.loads((preview / "preview_meta.json").read_text(encoding="utf-8"))
+    meta = {**state["prep_groups"][0], "airport_information_version": int(preview_meta["manual_version"]),
+            "airport_information_type": "PDF"}
     assert content.startswith("我是来自飞行十五中队的副驾驶段洋硕")
     intro = content.split("\n\n", 1)[0]
     assert "本阶段经历时间93小时" in intro
@@ -2311,12 +2319,15 @@ def test_real_august_twelve_generalizes_event_and_role_filters(
 
     output = repo / "flight_preparation"
     meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
-    assert meta["status"] == "SUCCESS"
+    assert meta["status"] == "PARTIAL_RELEASE"
     assert [group["flight_numbers"] for group in meta["prep_groups"]] == [
         ["9C6195", "9C6196"],
         ["9C7594"],
     ]
-    first = (output / meta["prep_groups"][0]["output"]).read_text(encoding="utf-8")
+    assert meta["prep_groups"][0]["status"] == "FAILED_SAFE"
+    assert any("procedure_or_waypoint_conflict" in error for error in meta["prep_groups"][0]["errors"])
+    assert not meta["prep_groups"][0]["output"]
+    first = (repo / "agent_output/flight_prep/previews/2026-08-12/PREVIEW_group_01_zh.txt").read_text(encoding="utf-8")
     second = (output / meta["prep_groups"][1]["output"]).read_text(encoding="utf-8")
 
     chongqing_typical = first.split("典型不安全事件：", 1)[1].split("核心威胁：", 1)[0].split("重庆江北机场：", 1)[1]

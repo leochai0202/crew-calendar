@@ -112,6 +112,45 @@ def test_d2_and_d1_target_dates_use_beijing_calendar_days() -> None:
     assert target_date_for_days_ahead(1, now=now) == date(2026, 10, 2)
 
 
+def test_partial_release_is_stable_until_tasks_change_or_released_file_is_missing(tmp_path):
+    repo = _repo_with_event(tmp_path)
+    fingerprint = _write_success_state(repo)
+    state_path = repo / "flight_preparation" / f"{TARGET.isoformat()}_meta.json"
+    state = json.loads(state_path.read_text(encoding="utf-8"))
+    state.update(status="PARTIAL_RELEASE", prep_groups=[
+        dict(status="SUCCESS", release_eligible=True, output="released.txt", english_output="released_en.txt", english_generated=True),
+        dict(status="FAILED_SAFE", release_eligible=False, output="", english_output="", errors=["SOURCE_CONFLICT"])])
+    state_path.write_text(json.dumps(state), encoding="utf-8")
+    for name in ("released.txt", "released_en.txt"):
+        (state_path.parent / name).write_text("VALIDATED", encoding="utf-8")
+    result = evaluate_preparation(repo, TARGET)
+    assert result.status == "NO_ACTION" and not result.should_dispatch
+    assert result.reason == "partial_release_matches_current_tasks" and result.task_fingerprint == fingerprint
+    (state_path.parent / "released_en.txt").unlink()
+    assert evaluate_preparation(repo, TARGET).should_dispatch
+    (state_path.parent / "released_en.txt").write_text("VALIDATED", encoding="utf-8")
+    _write_ics(repo / "flight.ics", [_event(flight_number="9C9999")])
+    assert evaluate_preparation(repo, TARGET).reason == "task_fingerprint_changed"
+
+
+def test_cancelled_partial_release_invalidates_each_previously_released_group_once(tmp_path):
+    repo = _repo_with_event(tmp_path)
+    _write_success_state(repo)
+    state_path = repo / "flight_preparation" / f"{TARGET.isoformat()}_meta.json"
+    state = json.loads(state_path.read_text(encoding="utf-8"))
+    state.update(status="PARTIAL_RELEASE", prep_groups=[dict(status="SUCCESS", release_eligible=True)])
+    state_path.write_text(json.dumps(state), encoding="utf-8")
+    _write_ics(repo / "flight.ics", [])
+    first = evaluate_preparation(repo, TARGET)
+    invalidated = json.loads(state_path.read_text(encoding="utf-8"))
+    assert first.status == "INVALIDATED_NO_TASK" and first.should_dispatch
+    assert invalidated["prep_groups"][0]["status"] == "INVALIDATED_NO_TASK"
+    assert not invalidated["prep_groups"][0]["release_eligible"]
+    assert not evaluate_preparation(repo, TARGET).should_dispatch
+    _write_ics(repo / "flight.ics", [_event()])
+    assert evaluate_preparation(repo, TARGET).should_dispatch
+
+
 def test_delayed_calendar_slot_uses_planned_beijing_date_across_midnight() -> None:
     actual = datetime(2026, 10, 2, 18, 15, tzinfo=timezone.utc)
 
