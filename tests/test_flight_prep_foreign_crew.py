@@ -479,10 +479,10 @@ def test_bilingual_render_hides_internal_flight_metadata() -> None:
     assert chinese.startswith("我是来自飞行十五中队的副驾驶段洋硕")
     assert english.startswith("I am Duan Yangshuo")
     assert "a First Officer in Flight Squadron 15" in english
-    assert (
-        "I have operated at both Singapore Changi and Shanghai Pudong International "
-        "within the past three months."
-    ) in english
+    intro = english.split("\n\n", 1)[0]
+    assert "Within the past three months, I have operated at Singapore Changi." in intro
+    assert "operated at Shanghai Pudong" not in intro
+    assert "My most recent landing as PF was at Shanghai Pudong International Airport on October 1." in intro
     assert "None of the airports on this flight lacks recent experience." not in english
     chinese_order = [
         chinese.index("上一次飞行中机长/教员对我优缺点的评价"),
