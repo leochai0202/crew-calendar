@@ -3607,12 +3607,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:307be7721628061dfe8482473335ca24@crew-calendar
+UID:f4d0da162dd42737ff3791987a98228f@crew-calendar
 SUMMARY:✈️ 9C8801 上海浦东→三亚凤凰
 DTSTART;TZID=Asia/Shanghai:20261113T180500
 DTEND;TZID=Asia/Shanghai:20261113T215000
-DESCRIPTION:11月13日 周五\n类型：航班\n航班：9C8801\n航线：上海浦东 → 三亚凤凰\n地点：上海浦东\n签到：16:15｜上海浦东\n任务：18:05 - 21:50\n机型：A320｜注册号：B6707\n\n人员名单：\n• 刘桂林(T2\,R)\n• 谢青(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-11-10 07:03
-X-CONTENT-SIGNATURE:c6dc6287f7f4eb4e1d54f299d78bd8a1
+DESCRIPTION:11月13日 周五\n类型：航班\n航班：9C8801\n航线：上海浦东 → 三亚凤凰\n地点：上海浦东\n签到：16:15｜上海浦东\n任务：18:05 - 21:50\n机型：A320｜注册号：B6821\n\n人员名单：\n• 刘桂林(T2\,R)\n• 谢青(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-11-10 16:22
+X-CONTENT-SIGNATURE:21056458694c3f64dc1cc5294e69a96b
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -3621,12 +3621,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:b9ef298febcb5fbe2116045b4ec498b1@crew-calendar
+UID:d1788f8bdbdfd6e68842aa847e77652e@crew-calendar
 SUMMARY:✈️ 9C8802 三亚凤凰→上海浦东(+1)
 DTSTART;TZID=Asia/Shanghai:20261113T225000
 DTEND;TZID=Asia/Shanghai:20261114T015000
-DESCRIPTION:11月13日 周五\n类型：航班\n航班：9C8802\n航线：三亚凤凰 → 上海浦东(+1)\n地点：三亚凤凰\n签到：21:15｜三亚凤凰\n任务：22:50 - 01:50\n机型：A320｜注册号：B6707\n\n人员名单：\n• 刘桂林(T2\,R)\n• 谢青(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-11-10 07:03
-X-CONTENT-SIGNATURE:0665a1dcea3fc0dd4ae724d7fd144791
+DESCRIPTION:11月13日 周五\n类型：航班\n航班：9C8802\n航线：三亚凤凰 → 上海浦东(+1)\n地点：三亚凤凰\n签到：21:15｜三亚凤凰\n任务：22:50 - 01:50\n机型：A320｜注册号：B6821\n\n人员名单：\n• 刘桂林(T2\,R)\n• 谢青(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-11-10 16:22
+X-CONTENT-SIGNATURE:44a7d4c88f4b88efdac43726102ca79c
 LOCATION:三亚凤凰
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -3635,12 +3635,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:2a62a5c48efcef6fa67e4e9e165166bf@crew-calendar
+UID:e567cf35ab1f1111f215b0d0b8857dcc@crew-calendar
 SUMMARY:✈️ 9C6687 上海浦东→东营胜利
 DTSTART;TZID=Asia/Shanghai:20261114T190500
 DTEND;TZID=Asia/Shanghai:20261114T211000
-DESCRIPTION:11月14日 周六\n类型：航班\n航班：9C6687\n航线：上海浦东 → 东营胜利\n地点：上海浦东\n签到：17:15｜上海浦东\n任务：19:05 - 21:10\n机型：A320｜注册号：B6862\n\n人员名单：\n• 李吉恒(T\,R)\n• 段洋硕\n• 杨策(*\,R)\n• 於海洋(B)\n\n版本：2026-11-10 07:03
-X-CONTENT-SIGNATURE:dc7259e9c02dd9139cd91ce8d5d23f70
+DESCRIPTION:11月14日 周六\n类型：航班\n航班：9C6687\n航线：上海浦东 → 东营胜利\n地点：上海浦东\n签到：17:15｜上海浦东\n任务：19:05 - 21:10\n机型：A320｜注册号：B8700\n\n人员名单：\n• 李吉恒(T\,R)\n• 段洋硕\n• 杨策(*\,R)\n• 於海洋(B)\n\n版本：2026-11-10 16:22
+X-CONTENT-SIGNATURE:d4624c3d69a37d281d6bb6eb9500d610
 LOCATION:上海浦东
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -3649,12 +3649,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:b09b2d532fea2f95ee5e542eda795186@crew-calendar
+UID:7bbbaf9037d6a2e75ac102080e54c40f@crew-calendar
 SUMMARY:✈️ 9C6688 东营胜利→上海浦东
 DTSTART;TZID=Asia/Shanghai:20261114T215500
 DTEND;TZID=Asia/Shanghai:20261114T235500
-DESCRIPTION:11月14日 周六\n类型：航班\n航班：9C6688\n航线：东营胜利 → 上海浦东\n地点：东营胜利\n签到：20:20｜东营胜利\n任务：21:55 - 23:55\n机型：A320｜注册号：B6862\n\n人员名单：\n• 李吉恒(T\,R)\n• 段洋硕\n• 杨策(*\,R)\n• 於海洋(B)\n\n版本：2026-11-10 07:03
-X-CONTENT-SIGNATURE:db9fd597f5f18f9c8244648d91883e5c
+DESCRIPTION:11月14日 周六\n类型：航班\n航班：9C6688\n航线：东营胜利 → 上海浦东\n地点：东营胜利\n签到：20:20｜东营胜利\n任务：21:55 - 23:55\n机型：A320｜注册号：B8700\n\n人员名单：\n• 李吉恒(T\,R)\n• 段洋硕\n• 杨策(*\,R)\n• 於海洋(B)\n\n版本：2026-11-10 16:22
+X-CONTENT-SIGNATURE:107e97a6fa72dcd6398590232fb47c83
 LOCATION:东营胜利
 BEGIN:VALARM
 TRIGGER:-PT90M
