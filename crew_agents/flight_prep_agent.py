@@ -4938,6 +4938,58 @@ def translation_authority_source(review: dict) -> str:
     return evidence["summary_zh"]
 
 
+def validate_translation_review_scope(review: dict) -> dict:
+    """Optional bounded approval, not a way to change a fact's applicability."""
+    scope = review.get("review_scope")
+    if scope is None:
+        return {}
+    keys = {"effective_from", "effective_until_exclusive", "roles", "routes", "runways"}
+    if not isinstance(scope, dict) or set(scope) != keys:
+        raise ValueError("审核适用范围字段不完整")
+    start, end = (date.fromisoformat(scope[key]) for key in
+                  ("effective_from", "effective_until_exclusive"))
+    if start >= end or not review.get("reviewed_by"):
+        raise ValueError("审核期限或审核人无效")
+    roles, routes, runways = (scope[key] for key in ("roles", "routes", "runways"))
+    if (not isinstance(roles, list) or not roles
+            or any(role not in {"departure", "arrival"} for role in roles)
+            or not isinstance(routes, list) or not isinstance(runways, list)
+            or any(not isinstance(route, list) or len(route) != 2
+                   or any(not isinstance(code, str) or not re.fullmatch(r"[A-Z]{4}", code) for code in route)
+                   or route[0] == route[1] for route in routes)
+            or any(not isinstance(rwy, str) or not re.fullmatch(r"(?:0[1-9]|[12]\d|3[0-6])[LRC]?", rwy)
+                   for rwy in runways)):
+        raise ValueError("审核角色、航路或跑道范围无效")
+    return scope
+
+
+def translation_review_unavailable_reason(review: dict, fact: BilingualFact,
+                                          event: CalendarEvent | DutyContext, target: date) -> str:
+    """Recheck each new duty; retain unapproved raw facts for FAILED_SAFE review."""
+    scope = validate_translation_review_scope(review)
+    for window in (scope, review.get("authority_evidence") or {}):
+        if window and not (date.fromisoformat(window["effective_from"]) <= target
+                           < date.fromisoformat(window["effective_until_exclusive"])):
+            return "REVIEW_OUTSIDE_VALIDITY"
+    if not scope:
+        return ""
+    roles = set(airport_roles(event, fact.airport)) & set(fact.role_scope or ("departure", "arrival"))
+    if not roles <= set(scope["roles"]):
+        return "REVIEW_ROLE_NOT_COVERED"
+    if scope["routes"]:
+        segments = event.events if isinstance(event, DutyContext) else (event,)
+        routes = {tuple(route_airport_identity(a) for a in segment.route) for segment in segments
+                  if canonical_airport_name(fact.airport) in tuple(canonical_airport_name(a) for a in segment.route)}
+        if not routes or not routes <= {tuple(route) for route in scope["routes"]}:
+            return "REVIEW_ROUTE_NOT_COVERED"
+    if scope["runways"]:
+        runways = {token[3:] for token in manual_pairing_tokens(review["source_text_zh"])
+                   if token.startswith("RWY")}
+        if not runways or not runways <= set(scope["runways"]):
+            return "REVIEW_RUNWAY_NOT_COVERED"
+    return ""
+
+
 def translation_chinese_text(review: dict) -> str:
     """A reviewed paragraph may cite several separately identified CN items."""
     additional = review.get("additional_chinese_sources", [])
@@ -4981,6 +5033,7 @@ def load_chinese_translation_reviews(repo: Path) -> list[dict]:
             raise ValueError("中文权威翻译来源身份无效")
         date.fromisoformat(entry["reviewed_date"])
         translation_authority_source(entry)
+        validate_translation_review_scope(entry)
         translation_chinese_text(entry)
         identity = (str(entry["manual_version"]), entry["icao"], entry["english_source_record_id"])
         if identity in seen:
@@ -4995,6 +5048,8 @@ def bind_chinese_translation_reviews(records: list[dict], icao: str, reviews: li
     for english in records:
         if english.get("language") != "en":
             continue
+        # A reused extraction object must never retain an old source approval.
+        english.pop("chinese_translation_review", None)
         for review in reviews:
             if (review["icao"] != icao or str(review["manual_version"]) != str(english.get("source_version"))
                     or review["english_source_record_id"] != english.get("source_record_id")
@@ -11878,11 +11933,10 @@ def english_briefing_fact_sets(
                 english_source_page=str(record["source_page"]), airport_name_en=str(record["english_airport_name"]),
                 route_scope=english_source_route_scope(record))
             review = record.get("chinese_translation_review")
-            evidence = (review or {}).get("authority_evidence")
-            if evidence and not (date.fromisoformat(evidence["effective_from"]) <= target
-                                 < date.fromisoformat(evidence["effective_until_exclusive"])):
+            review_issue = translation_review_unavailable_reason(review, fact, event, target) if review else ""
+            if review_issue:
                 fact = replace(fact, english_source="unavailable", translation_provenance=dict(review),
-                               english_source_note="权威补证不在目标日期有效期内，须重新核查")
+                               english_source_note=review_issue + "：审核不适用于本次任务，保留原文待核查")
                 review = None  # Retain the raw paragraph for diagnostics, but fail its publication gate.
             if review:
                 matches = [chinese for chinese in chinese_facts or []

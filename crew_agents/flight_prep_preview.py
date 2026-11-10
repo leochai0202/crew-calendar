@@ -9,6 +9,41 @@ from crew_agents.common import atomic_write_json, atomic_write_text
 NOTICE = "PREVIEW / 审核预览 — NOT FOR RELEASE / 不得作为正式运行资料发布"
 
 
+def source_review_queue(groups: list[dict], evidence: list[dict], version: str) -> list[dict]:
+    """Stable review keys across duties; diagnostic only, never a release allowlist."""
+    from crew_agents import flight_prep_agent as agent
+
+    pending = {}
+
+    def add(airport, source_ids, originals, kind, reason, group, pages):
+        icao = agent.route_airport_identity(airport)
+        ids = sorted(set(source_ids))
+        hashes = sorted({agent.source_text_hash(text) for text in originals if text})
+        identity = "|".join([icao, version, kind, *ids, *hashes])
+        key = agent.source_text_hash(identity)
+        item = pending.setdefault(key, dict(review_id=key, status="PENDING_AUTHORITY_REVIEW",
+            icao=icao, airport=airport, manual_version=version, source_record_ids=ids,
+            source_text_hashes=hashes, issue_type=kind, reasons=[], groups=[], source_pages=[]))
+        for field, values in (("reasons", [reason]), ("groups", [group]), ("source_pages", pages)):
+            item[field] = sorted(set(item[field]) | set(values))
+
+    for issue in evidence:
+        add(issue["airport"], issue.get("source_record_ids") or [issue["fact_id"]],
+            [issue.get("chinese_original", ""), issue.get("english_original", "")],
+            "SOURCE_FACT_REVIEW", issue["reason"], issue["group"],
+            ["ZH:" + str(issue["chinese_page"]), "EN:" + str(issue["english_page"])])
+    for group in groups:
+        for airport, records in group.get("airport_fact_sources", {}).items():
+            english = group.get("english_fact_sources", {}).get(airport, [])
+            if records and not english:
+                # This is a missing language chapter, not a demand to translate
+                # every selected CN fact. Different duties share its review ID.
+                add(airport, ["ENGLISH_CHAPTER_MATERIAL"], [],
+                    "MISSING_RELIABLE_ENGLISH", "未定位可靠英文机场资料；须核查原件或取得审核译文，不自动翻译",
+                    group["group_index"], ["ZH:" + str(raw.get("source_page", "")) for raw in records])
+    return [pending[key] for key in sorted(pending)]
+
+
 def write_preview(output: Path, target: str, groups: list[dict], errors: list[str],
                   manual: str, version: str) -> None:
     from crew_agents import flight_prep_agent as agent
@@ -74,6 +109,11 @@ def write_preview(output: Path, target: str, groups: list[dict], errors: list[st
                 release_eligible=not errors, release_status="FAILED_SAFE" if errors else "VALIDATED_NOT_RELEASED",
                 target_date=target, manual=manual, manual_version=version,
                 errors=errors, conflicts=evidence, groups=manifest)
+    queue = source_review_queue(groups, evidence, version)
+    meta["source_review_ids"] = [item["review_id"] for item in queue]
+    atomic_write_json(output / "source_review_queue.json", dict(
+        schema_version=1, target_date=target, pending=queue,
+        notice="Diagnostic only; review IDs are reusable across duties, never release authorization."))
     atomic_write_json(output / "preview_meta.json", meta)
     review = ["# " + NOTICE, "", f"Target: {target}",
               f"Release status: {meta['release_status']}", "",
