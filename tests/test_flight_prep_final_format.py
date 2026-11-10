@@ -1829,7 +1829,7 @@ def test_real_august_four_final_confirmed_format(
     assert "近90天起落8个" in intro
     assert "10月1日上海浦东机场" in intro
     assert "A320" not in intro
-    assert "近一个月起落" not in intro
+    assert "近30天起落8个" in intro
     assert "（含模拟机）" not in intro
     assert "近期机场经历" not in content
     assert "近期注意点" not in content
@@ -2042,7 +2042,7 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
         assert "起落21个" in intro
         assert "近90天起落8个" in intro
         assert "上一次实际操纵落地为10月1日上海浦东机场" in intro
-        assert "近一个月起落" not in intro
+        assert "近30天起落8个" in intro
         assert "（含模拟机）" not in intro
         assert "个人对本次航班中识别的风险：" not in content
         assert "天气及动态资料以航前最新资料为准。" not in content

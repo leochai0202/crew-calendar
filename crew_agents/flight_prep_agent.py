@@ -5892,6 +5892,12 @@ def route_duty_text(flights: list[CalendarEvent]) -> str:
     return "、".join(segments[:-1]) + "，再由" + last_text
 
 
+def nonbase_airport_experience(records: list[dict]) -> list[dict]:
+    """Omit base-airport recency commentary, not the separate last PF landing."""
+    return [record for record in records
+            if route_airport_identity(record.get("airport", "")) not in {"ZSPD", "ZSSS"}]
+
+
 def group_personal_intro(profile: dict, records: list[dict]) -> str:
     name = profile.get("name", "")
     unit = profile.get("unit", "")
@@ -5913,10 +5919,12 @@ def group_personal_intro(profile: dict, records: list[dict]) -> str:
         parts.append(f"起落{profile['stage_landings']}个")
     if profile.get("landings_90_days") is not None:
         parts.append(f"近90天起落{profile['landings_90_days']}个")
+    if profile.get("landings_30_days") is not None:
+        parts.append(f"近30天起落{profile['landings_30_days']}个")
     if profile.get("duty_day"):
         parts.append(f"明日为本人本次值勤期第{profile['duty_day']}天")
 
-    for record in records:
+    for record in nonbase_airport_experience(records):
         airport = airport_with_suffix(record.get("airport", ""))
         if airport:
             status = "已运行过" if record.get("within") else "未运行过"
@@ -6064,14 +6072,17 @@ def english_personal_intro(profile: dict, records: list[dict]) -> str:
         recent.append(
             f"{profile['landings_90_days']} landings in the last 90 days"
         )
+    if profile.get("landings_30_days") is not None:
+        recent.append(f"{profile['landings_30_days']} landings in the last 30 days")
     if recent:
         recent_text = "I have completed " + " and ".join(recent)
         sentences.append(recent_text + ".")
     if profile.get("duty_day"):
         sentences.append(f"This is day {profile['duty_day']} of my current duty period.")
 
-    operated = [english_airport_name(record["airport"]) for record in records if record.get("within")]
-    pending = [english_airport_name(record["airport"]) for record in records if not record.get("within")]
+    nonbase_records = nonbase_airport_experience(records)
+    operated = [english_airport_name(record["airport"]) for record in nonbase_records if record.get("within")]
+    pending = [english_airport_name(record["airport"]) for record in nonbase_records if not record.get("within")]
     if operated:
         if len(operated) == 2:
             sentences.append(
@@ -11608,8 +11619,6 @@ def render_chinese_briefing(
     del target, weather_sentence
 
     airports = unique([airport for airport in event.route if airport])
-    sections.append("本次航班整体风险：\n\n本次运行涉及" + " → ".join(airports) +
-                    "，适用的运行风险、限制及控制措施如下。")
     typical_sections: list[str] = []
     for airport in airports:
         items = [
@@ -11634,18 +11643,11 @@ def render_chinese_briefing(
         paragraphs = "\n\n".join(
             chinese_fact_output(fact) + "。"
             for fact in core_facts[airport]
-            if chinese_fact_output(fact) and fact.operational_phase not in {"enroute", "navigation", "route"}
+            if chinese_fact_output(fact)
         )
         if paragraphs:
             core_lines.append(f"{airport_with_suffix(airport)}：\n\n{paragraphs}")
     sections.append("\n\n".join(core_lines))
-    route_lines = []
-    for airport in airports:
-        paragraphs = "\n\n".join(chinese_fact_output(fact) + "。" for fact in core_facts[airport]
-            if chinese_fact_output(fact) and fact.operational_phase in {"enroute", "navigation", "route"})
-        if paragraphs:
-            route_lines.append(f"{airport_with_suffix(airport)}：\n\n{paragraphs}")
-    sections.append("航路和通用风险：\n\n" + ("\n\n".join(route_lines) or "未检出另行适用的航路或通用运行条目。"))
     return "\n\n".join(section.strip() for section in sections if section.strip()).strip() + "\n"
 
 
@@ -11684,10 +11686,6 @@ def render_english_briefing(
     del target
 
     airports = unique([airport for airport in event.route if airport])
-    route_names = [english_airport_name_for_facts(a, [*typical_facts.get(a, []), *core_facts.get(a, [])])
-                   for a in airports]
-    sections.append("Overall flight risks:\n\nThis duty operates " + " → ".join(route_names) +
-                    ". Applicable operational risks, restrictions and controls are set out below.")
     typical_sections: list[str] = []
     for airport in airports:
         items = [
@@ -11715,7 +11713,7 @@ def render_english_briefing(
         paragraphs = "\n\n".join(
             english_paragraph_output(fact)
             for fact in core_facts[airport]
-            if fact.en.strip() and fact.operational_phase not in {"enroute", "navigation", "route"}
+            if fact.en.strip()
         )
         airport_name = english_airport_name_for_facts(
             airport,
@@ -11724,15 +11722,6 @@ def render_english_briefing(
         if paragraphs:
             core_lines.append(f"{airport_name} Airport:\n\n{paragraphs}")
     sections.append("\n\n".join(core_lines))
-    route_lines = []
-    for airport in airports:
-        paragraphs = "\n\n".join(english_paragraph_output(fact) for fact in core_facts[airport]
-            if fact.en.strip() and fact.operational_phase in {"enroute", "navigation", "route"})
-        if paragraphs:
-            name = english_airport_name_for_facts(airport, core_facts[airport])
-            route_lines.append(f"{name} Airport:\n\n{paragraphs}")
-    sections.append("En-route and general risks:\n\n" + ("\n\n".join(route_lines) or
-                    "No additional applicable en-route or general operating items were identified."))
     return "\n\n".join(section.strip() for section in sections if section.strip()).strip() + "\n"
 
 

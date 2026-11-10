@@ -3,6 +3,7 @@ from dataclasses import replace
 from datetime import date, timedelta
 import json
 from pathlib import Path
+import re
 import sys
 from types import SimpleNamespace
 
@@ -113,21 +114,74 @@ def test_render_keeps_every_route_fact_once_and_fixed_template(monkeypatch):
     monkeypatch.setattr(agent, "feedback_text", lambda *a: "PF/PM评价")
     monkeypatch.setattr(agent, "feedback_text_en", lambda *a: "Latest PF/PM feedback:")
     zh, en = facts()
-    typical = {x: [] for x in flight().route}
-    cn = {x: [replace(zh, airport=x, text_zh=x + "原始地面要求。"),
-               replace(zh, airport=x, text_zh=x + "原始航路要求。", operational_phase="enroute")]
+    dep, arr = flight().route
+    cn_typical = {dep: [replace(zh, airport=dep, category="typical", text_zh="历史事件正文。")], arr: []}
+    en_typical = {dep: [replace(en, airport=dep, category="typical", text_en="Historical event text.")], arr: []}
+    cn = {x: [replace(zh, airport=x, text_zh=x + "原始地面要求。"), *(
+        replace(zh, airport=x, text_zh=f"{x}原始航路要求{phase}。", operational_phase=phase)
+        for phase in ("enroute", "navigation", "route"))]
           for x in flight().route}
-    eng = {x: [replace(en, airport=x, text_en=x + " ground restriction."),
-                replace(en, airport=x, text_en=x + " route restriction.", operational_phase="enroute")]
+    eng = {x: [replace(en, airport=x, text_en=x + " ground restriction."), *(
+        replace(en, airport=x, text_en=f"{x} {phase} restriction.", operational_phase=phase)
+        for phase in ("enroute", "navigation", "route"))]
            for x in flight().route}
-    for renderer, core, language in ((agent.render_chinese_briefing, cn, "zh"), (agent.render_english_briefing, eng, "en")):
+    for renderer, typical, core, language in (
+        (agent.render_chinese_briefing, cn_typical, cn, "zh"),
+        (agent.render_english_briefing, en_typical, eng, "en"),
+    ):
         body = renderer(flight(), date(2026, 10, 26), {}, [], typical, core)
-        for items in core.values():
-            for fact in items:
-                text = agent.chinese_fact_output(fact) if language == "zh" else agent.english_fact_output(fact)
-                assert body.count(text) == 1
-        assert ("本次航班整体风险：" if language == "zh" else "Overall flight risks:") in body
-        assert ("航路和通用风险：" if language == "zh" else "En-route and general risks:") in body
+        assert not any(phrase in body for phrase in (
+            "本次航班整体风险", "本次运行涉及", "航路和通用风险", "未检出另行适用",
+            "Overall flight risks", "This duty operates", "En-route and general risks",
+            "No additional applicable en-route",
+        ))
+        assert not re.search(r"(?m)^\s*(?:\d+[.、]\s+|[•●▪])", body)
+        if language == "zh":
+            paragraphs = ["我是测试。", "PF/PM评价", "典型不安全事件：", f"{dep}机场：", "历史事件正文。", "核心威胁："]
+            for airport, items in core.items():
+                paragraphs += [f"{airport}机场：", *(agent.chinese_fact_output(fact) + "。" for fact in items)]
+        else:
+            paragraphs = ["I am Test.", "Latest PF/PM feedback:", "Typical unsafe events:", f"{dep} Airport:", "Historical event text.", "Core threats:"]
+            for airport, items in core.items():
+                paragraphs += [f"{airport} Airport:", *(agent.english_paragraph_output(fact) for fact in items)]
+        assert body == "\n\n".join(paragraphs) + "\n"
+
+
+@pytest.mark.parametrize("last_airport", ["上海浦东机场", "上海虹桥机场"])
+@pytest.mark.parametrize("recent_landings", [0, 7, None])
+def test_personal_intro_keeps_landing_counts_and_last_pf_landing_without_base_recency(last_airport, recent_landings):
+    profile = {
+        "name": "段洋硕", "unit": "飞行十五中队", "role": "副驾驶", "technical_level": "A2",
+        "promotion_date": "1月13日", "stage_hours": 93, "stage_landings": 21,
+        "landings_90_days": 8, "landings_30_days": recent_landings,
+        "last_operated_landing": {"airport": last_airport, "date": "2026-10-01"},
+    }
+    records = [
+        {"airport": "上海浦东机场", "within": True},
+        {"airport": "虹桥", "within": False},
+        {"airport": "ZSPD", "within": False},
+        {"airport": "ZSSS", "within": True},
+        {"airport": "广州白云", "within": True},
+        {"airport": "三亚凤凰", "within": False},
+    ]
+    zh = agent.group_personal_intro(profile, records)
+    en = agent.english_personal_intro(profile, records)
+    assert all(value in zh for value in ("段洋硕", "A2", "1月13日", "93小时", "21个", "近90天起落8个"))
+    assert all(value in en for value in ("A2", "January 13", "93 hours", "21 takeoffs and landings", "8 landings in the last 90 days"))
+    if recent_landings is None:
+        assert "近30天起落" not in zh and "in the last 30 days" not in en
+    else:
+        assert f"近30天起落{recent_landings}个" in zh
+        assert f"{recent_landings} landings in the last 30 days" in en
+    assert "近3个月已运行过广州白云机场" in zh and "近3个月未运行过三亚凤凰机场" in zh
+    assert f"operated at {agent.english_airport_name('广州白云')}" in en
+    assert f"not operated at {agent.english_airport_name('三亚凤凰')}" in en
+    zh_recency, zh_last = zh.split("上一次实际操纵落地为", 1)
+    en_recency, en_last = en.split("My most recent landing as PF was at ", 1)
+    assert not any(base in zh_recency for base in ("浦东", "虹桥", "ZSPD", "ZSSS"))
+    assert not any(base in en_recency for base in ("Pudong", "Hongqiao", "ZSPD", "ZSSS"))
+    assert zh_last == f"10月1日{last_airport}。"
+    assert en_last == f"{agent.english_airport_name(last_airport)} Airport on October 1."
 
 
 @pytest.mark.parametrize("invalid_language", ["zh", "en"])
