@@ -413,8 +413,8 @@ def test_structurally_complete_briefing_has_no_length_floor() -> None:
     )
     content = (
         "我是来自飞行十五中队的副驾驶段洋硕。\n\n"
-        "上一次飞行中机长/教员对我优缺点的评价（作为PF/PM各取最近一次）：\n"
-        "上一次作为PF教员评价：评价；作为PM机长评价：评价。\n\n"
+        "上一次飞行中机长/教员对我优缺点的评价（作为PF/PM各取最近一次）：\n\n"
+        "上一次作为PF教员评价：评价。\n\n作为PM机长评价：评价。\n\n"
         "典型不安全事件：\n\n上海浦东机场：\n\n事件。\n\n"
         "恩施许家坪机场：\n\n事件。\n\n"
         "核心威胁：\n\n"
@@ -443,8 +443,8 @@ def test_chinese_briefing_rejects_removed_personal_risk_section() -> None:
     )
     content = (
         "我是来自飞行十五中队的副驾驶段洋硕。\n\n"
-        "上一次飞行中机长/教员对我优缺点的评价（作为PF/PM各取最近一次）：\n"
-        "上一次作为PF教员评价：评价；作为PM机长评价：评价。\n\n"
+        "上一次飞行中机长/教员对我优缺点的评价（作为PF/PM各取最近一次）：\n\n"
+        "上一次作为PF教员评价：评价。\n\n作为PM机长评价：评价。\n\n"
         "个人对本次航班中识别的风险：\n天气及动态资料以航前最新资料为准。\n\n"
         "核心威胁：\n\n"
         "上海浦东机场：\n来源事实。\n\n"
@@ -1817,7 +1817,7 @@ def test_real_august_four_final_confirmed_format(
     assert state["status"] == "FAILED_SAFE" and any("papi_runway_value_association" in x for x in state["errors"])
     assert not (output / ".success").exists() and not (output / "latest.txt").exists()
     preview = repo / "agent_output/flight_prep/previews/2026-08-04"
-    content = (preview / "PREVIEW_group_01_zh.txt").read_text(encoding="utf-8").split("\n\n", 1)[1]
+    content = (preview / "PREVIEW_group_01_zh.txt").read_text(encoding="utf-8")
     content = re.sub(r"\n\n\[待核实 / UNVERIFIED: [^\n]+\]", "", content)
     preview_meta = json.loads((preview / "preview_meta.json").read_text(encoding="utf-8"))
     meta = {**state["prep_groups"][0], "airport_information_version": int(preview_meta["manual_version"]),
@@ -1839,7 +1839,7 @@ def test_real_august_four_final_confirmed_format(
     assert "None" not in content and "null" not in content
     assert (
         "上一次作为PF教员评价：30尺以下带杆量欠一点；"
-        "着陆后快速脱离道口前及时减速至30节以下；作为PM机长评价：增加SOP熟练度，"
+        "着陆后快速脱离道口前及时减速至30节以下。\n\n作为PM机长评价：增加SOP熟练度，"
         "标准喊话声音大一些。"
     ) in content
     assert not re.search(r"(?m)^\d+\.\s+\S", content)

@@ -192,3 +192,35 @@ def test_inline_number_guard_does_not_reject_operating_data(language, text):
     body = renderer(duty, date(2026, 11, 13), {}, [], {}, rows)
     assert not any("数字编号" in error for error in a.validate_content(
         body, duty, {}, list(duty.route), language=language, typical_facts={}, core_facts=rows))
+
+
+@pytest.mark.parametrize("language", ["zh", "en"])
+def test_locked_feedback_heading_and_each_role_are_separate_complete_paragraphs(language):
+    profile = {"recent_feedback": {"PF": "Maintain the cleared altitude", "PM": "Read back the clearance"}}
+    feedback = a.feedback_text(profile) if language == "zh" else a.feedback_text_en(profile)
+    heading, pf, pm = feedback.split("\n\n")
+    assert heading == ("上一次飞行中机长/教员对我优缺点的评价（作为PF/PM各取最近一次）："
+                       if language == "zh" else "Latest PF/PM feedback:")
+    assert "PF" in pf and "PM" not in pf and "Maintain the cleared altitude" in pf
+    assert "PM" in pm and "PF" not in pm and "Read back the clearance" in pm
+    duty = CalendarEvent(uid="test", summary="9C0001 甲机场→乙机场", start=datetime(2026, 11, 13, 10),
+        end=datetime(2026, 11, 13, 12), description="", location="", properties={})
+    prefix = "我是测试。" if language == "zh" else "I am Test."
+    headings = ("典型不安全事件：", "核心威胁：") if language == "zh" else ("Typical unsafe events:", "Core threats:")
+    body = "\n\n".join([prefix, feedback, *headings])
+    assert not any("讲评" in error for error in a.validate_content(body, duty, profile, [], language=language))
+    combined = body.replace(pf + "\n\n" + pm, pf + " " + pm)
+    assert "PF和PM讲评必须分别独立成段并空行" in a.validate_content(combined, duty, profile, [], language=language)
+    no_blank = body.replace(heading + "\n\n", heading + "\n")
+    assert "PF/PM讲评标题必须独立成段并空行" in a.validate_content(no_blank, duty, profile, [], language=language)
+
+
+@pytest.mark.parametrize("language", ["zh", "en"])
+@pytest.mark.parametrize("role", ["PF", "PM"])
+def test_feedback_format_does_not_invent_an_unavailable_role(language, role):
+    profile = {"recent_feedback": {role: "Keep the cleared altitude"}}
+    feedback = a.feedback_text(profile) if language == "zh" else a.feedback_text_en(profile)
+    assert len(feedback.split("\n\n")) == 2
+    paragraph = feedback.split("\n\n")[1]
+    assert role in paragraph and ("PM" if role == "PF" else "PF") not in paragraph
+    assert "Keep the cleared altitude" in paragraph

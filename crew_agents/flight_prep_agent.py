@@ -1122,7 +1122,7 @@ def feedback_text(profile: dict) -> str:
     if pm:
         parts.append(f"作为PM机长评价：{pm}")
     heading = "上一次飞行中机长/教员对我优缺点的评价（作为PF/PM各取最近一次）："
-    return heading + "\n" + "；".join(parts).rstrip("；") + "。"
+    return "\n\n".join([heading, *(part + "。" for part in parts)])
 
 
 
@@ -6207,14 +6207,13 @@ def feedback_text_en(profile: dict) -> str:
     pf = feedback.get("PF")
     if pf:
         parts.append(
-            f"as PF, the instructor noted that {english_feedback_item(pf)}"
+            f"As PF, the instructor noted that {english_feedback_item(pf)}"
         )
     if feedback.get("PM"):
         parts.append(
-            f"as PM, the captain noted that {english_feedback_item(feedback['PM'])}"
+            f"As PM, the captain noted that {english_feedback_item(feedback['PM'])}"
         )
-    text = "Latest PF/PM feedback: " + "; ".join(parts)
-    return text.rstrip("; ") + "." if parts else ""
+    return "\n\n".join(["Latest PF/PM feedback:", *(part.rstrip(". ") + "." for part in parts)]) if parts else ""
 
 
 
@@ -12499,6 +12498,18 @@ def validate_content(
     )
     if feedback_heading not in content:
         errors.append("正文缺少PF/PM评价栏目")
+    else:
+        paragraphs = [part.strip() for part in re.split(r"\n\s*\n", content) if part.strip()]
+        if feedback_heading not in paragraphs:
+            errors.append("PF/PM讲评标题必须独立成段并空行")
+        labels = (("上一次作为PF教员评价：", "作为PM机长评价：") if language == "zh"
+                  else ("As PF,", "As PM,"))
+        for label in labels:
+            matching = [part for part in paragraphs if label.casefold() in part.casefold()]
+            if matching and (len(matching) != 1 or not matching[0].casefold().startswith(label.casefold())
+                             or all(other.casefold() in matching[0].casefold() for other in labels)):
+                errors.append("PF和PM讲评必须分别独立成段并空行")
+                break
     if risk_heading in content:
         errors.append(
             "中文正文不应显示个人风险识别栏目"

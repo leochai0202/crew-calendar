@@ -21,6 +21,21 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def verify_locked_format(body: str, language: str):
+    paragraphs = [part.strip() for part in body.split("\n\n") if part.strip()]
+    assert body.startswith("我是来自飞行十五中队的副驾驶" if language == "zh" else "I am ")
+    heading = ("上一次飞行中机长/教员对我优缺点的评价（作为PF/PM各取最近一次）："
+               if language == "zh" else "Latest PF/PM feedback:")
+    assert paragraphs[1] == heading
+    assert paragraphs[2].startswith("上一次作为PF教员评价：" if language == "zh" else "As PF,")
+    assert paragraphs[3].startswith("作为PM机长评价：" if language == "zh" else "As PM,")
+    assert paragraphs[4] == ("典型不安全事件：" if language == "zh" else "Typical unsafe events:")
+    assert ("核心威胁：" if language == "zh" else "Core threats:") in paragraphs
+    assert not re.search(r"(?m)^\s*(?:\d+[、)]|\d+\.(?!\d)|[•●▪])\s*\S", body)
+    assert not any(title in body for title in ("本次航班整体风险", "航路及通用风险", "个人对本次航班中识别的风险",
+                                             "Overall flight risk", "Enroute and general risks"))
+
+
 def verify_copy_buttons(path: Path) -> int:
     from playwright.sync_api import sync_playwright
     # Disposable, non-persistent browser; no production profile/session, no site
@@ -39,7 +54,11 @@ def verify_copy_buttons(path: Path) -> int:
                 page.evaluate("window.testCopy = null")
                 button.click()
                 page.wait_for_function("window.testCopy !== null")
-                assert page.evaluate("window.testCopy") == expected
+                copied = page.evaluate("window.testCopy")
+                assert copied == expected
+                verify_locked_format(copied, button.get_attribute("data-copy").rsplit("-", 1)[1])
+                if "PREVIEW" in button.inner_text():
+                    assert copied.rstrip().endswith("PREVIEW / 审核预览 — NOT FOR RELEASE / 不得作为正式运行资料发布")
                 assert page.locator("#copy-status").inner_text() == "已复制 / Copied"
             return buttons.count()
         finally:
@@ -88,7 +107,11 @@ def accept(repo: Path, output: Path, dates: list[str], input_ref: str, verify_co
             for group in meta["groups"]:
                 for language, key in (("zh", "airport_fact_sources"), ("en", "english_fact_sources")):
                     body = (preview / group["preview_files"][language]).read_text(encoding="utf-8")
-                    assert body.startswith("PREVIEW /")
+                    verify_locked_format(body, language)
+                    assert body.rstrip().endswith("PREVIEW / 审核预览 — NOT FOR RELEASE / 不得作为正式运行资料发布")
+                    feedback = agent.feedback_text if language == "zh" else agent.feedback_text_en
+                    profile = json.loads((isolated / "config/pilot_profile.json").read_text(encoding="utf-8"))
+                    assert "\n\n" + feedback(profile) + "\n\n" in body
                     assert not re.search(r"(?m)^\s*(?:\d+[、)]|\d+\.(?!\d)|[•●▪])\s*\S", body)
                     assert not any(title in body for title in ("本次航班整体风险", "航路及通用风险", "个人对本次航班中识别的风险"))
                     heading = "核心威胁：" if language == "zh" else "Core threats:"

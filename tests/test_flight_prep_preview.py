@@ -44,6 +44,9 @@ def test_preview_preserves_complete_both_languages_and_source_conflict(tmp_path)
     for name, text in (("zh", "沿W19经MASGU、ATKAV和OLPAB。"), ("en", "Follow W19 via MASGU, ATKAV and OBLAP.")):
         body = (tmp_path / f"preview_{name}.txt").read_text(encoding="utf-8")
         assert body.startswith(NOTICE) and text in body and "UNVERIFIED" in body
+        copied = (tmp_path / f"PREVIEW_group_01_{name}.txt").read_text(encoding="utf-8")
+        assert copied.startswith("我是测试。" if name == "zh" else "I am Test.")
+        assert copied.rstrip().endswith(NOTICE) and text in copied and "UNVERIFIED" in copied
     review = (tmp_path / "review.md").read_text(encoding="utf-8")
     assert "p.10" in review and "p.20" in review and "OLPAB" in review and "OBLAP" in review
     assert not (tmp_path / ".success").exists()

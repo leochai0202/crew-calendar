@@ -1371,7 +1371,7 @@ def test_real_9c8552_exact_event_keeps_source_grounded_chinese_when_english_supp
     assert state["status"] == "FAILED_SAFE" and any("papi_runway_value_association" in x for x in state["errors"])
     assert not (output / ".success").exists() and not (output / "latest.txt").exists()
     preview = repo / "agent_output/flight_prep/previews/2026-07-23"
-    chinese = (preview / "PREVIEW_group_01_zh.txt").read_text(encoding="utf-8").split("\n\n", 1)[1]
+    chinese = (preview / "PREVIEW_group_01_zh.txt").read_text(encoding="utf-8")
     chinese = re.sub(r"\n\n\[待核实 / UNVERIFIED: [^\n]+\]", "", chinese)
     preview_meta = json.loads((preview / "preview_meta.json").read_text(encoding="utf-8"))
     meta = {**state["prep_groups"][0], "airport_information_version": int(preview_meta["manual_version"]),

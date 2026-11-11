@@ -100,7 +100,10 @@ def write_preview(output: Path, target: str, groups: list[dict], errors: list[st
                     body = body.replace(text, text + "\n\n[" + label + "]", 1)
             name = f"PREVIEW_group_{group['group_index']:02d}_{language}.txt"
             files[language] = name
-            atomic_write_text(output / name, NOTICE + "\n\n" + body)
+            # Body follows the locked template immediately. Keep the safety
+            # notice in the copied text as well as the viewer/button labels;
+            # moving it to a footer must never produce an unmarked PREVIEW.
+            atomic_write_text(output / name, body.rstrip() + "\n\n" + NOTICE + "\n")
             contents[language].append(body.rstrip())
         private_matching = {"matched_people", "matched_flights", "matched_event_uids", "foreign_crew_names"}
         manifest.append({**{k: v for k, v in group.items() if not k.startswith("_") and k not in private_matching},
