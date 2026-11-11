@@ -1,0 +1,72 @@
+{
+  "status": "SUCCESS",
+  "target_date": "2026-11-13",
+  "generated_at_beijing": "2026-11-11T10:15:06.614535+08:00",
+  "task_fingerprint": "7ecc5fa60703b4f314d996b68d7c5b1e6d5c839d19b0aa977988c943690df7f1",
+  "matched_flights": [
+    {
+      "uid": "f4d0da162dd42737ff3791987a98228f@crew-calendar",
+      "summary": "✈️ 9C8801 上海浦东→三亚凤凰",
+      "start": "2026-11-13T18:05:00+08:00",
+      "end": "2026-11-13T21:50:00+08:00",
+      "description": "11月13日 周五\n类型：航班\n航班：9C8801\n航线：上海浦东 → 三亚凤凰\n地点：上海浦东\n签到：16:15｜上海浦东\n任务：18:05 - 21:50\n机型：A320｜注册号：B6821\n\n人员名单：\n• 刘桂林(T2,R)\n• 谢青(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-11-11 04:35",
+      "location": "上海浦东",
+      "properties": {
+        "UID": "f4d0da162dd42737ff3791987a98228f@crew-calendar",
+        "SUMMARY": "✈️ 9C8801 上海浦东→三亚凤凰",
+        "DTSTART": "20261113T180500",
+        "DTEND": "20261113T215000",
+        "DESCRIPTION": "11月13日 周五\\n类型：航班\\n航班：9C8801\\n航线：上海浦东 → 三亚凤凰\\n地点：上海浦东\\n签到：16:15｜上海浦东\\n任务：18:05 - 21:50\\n机型：A320｜注册号：B6821\\n\\n人员名单：\\n• 刘桂林(T2\\,R)\\n• 谢青(R)\\n• 段洋硕\\n• 罗一敏(B)\\n\\n版本：2026-11-11 04:35",
+        "X-CONTENT-SIGNATURE": "21056458694c3f64dc1cc5294e69a96b",
+        "LOCATION": "上海浦东"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C8801",
+      "departure": "上海浦东",
+      "arrival": "三亚凤凰",
+      "aircraft_type": "A320",
+      "registration": "B6821",
+      "checkin": "16:15｜上海浦东",
+      "people": [
+        "刘桂林(T2,R)",
+        "谢青(R)",
+        "段洋硕",
+        "罗一敏(B)"
+      ],
+      "cross_day": false
+    },
+    {
+      "uid": "d1788f8bdbdfd6e68842aa847e77652e@crew-calendar",
+      "summary": "✈️ 9C8802 三亚凤凰→上海浦东(+1)",
+      "start": "2026-11-13T22:50:00+08:00",
+      "end": "2026-11-14T01:50:00+08:00",
+      "description": "11月13日 周五\n类型：航班\n航班：9C8802\n航线：三亚凤凰 → 上海浦东(+1)\n地点：三亚凤凰\n签到：21:15｜三亚凤凰\n任务：22:50 - 01:50\n机型：A320｜注册号：B6821\n\n人员名单：\n• 刘桂林(T2,R)\n• 谢青(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-11-11 04:35",
+      "location": "三亚凤凰",
+      "properties": {
+        "UID": "d1788f8bdbdfd6e68842aa847e77652e@crew-calendar",
+        "SUMMARY": "✈️ 9C8802 三亚凤凰→上海浦东(+1)",
+        "DTSTART": "20261113T225000",
+        "DTEND": "20261114T015000",
+        "DESCRIPTION": "11月13日 周五\\n类型：航班\\n航班：9C8802\\n航线：三亚凤凰 → 上海浦东(+1)\\n地点：三亚凤凰\\n签到：21:15｜三亚凤凰\\n任务：22:50 - 01:50\\n机型：A320｜注册号：B6821\\n\\n人员名单：\\n• 刘桂林(T2\\,R)\\n• 谢青(R)\\n• 段洋硕\\n• 罗一敏(B)\\n\\n版本：2026-11-11 04:35",
+        "X-CONTENT-SIGNATURE": "44a7d4c88f4b88efdac43726102ca79c",
+        "LOCATION": "三亚凤凰"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C8802",
+      "departure": "三亚凤凰",
+      "arrival": "上海浦东",
+      "aircraft_type": "A320",
+      "registration": "B6821",
+      "checkin": "21:15｜三亚凤凰",
+      "people": [
+        "刘桂林(T2,R)",
+        "谢青(R)",
+        "段洋硕",
+        "罗一敏(B)"
+      ],
+      "cross_day": true
+    }
+  ],
+  "group_output": "2026-11-13_航前准备.txt",
+  "english_output": ""
+}
