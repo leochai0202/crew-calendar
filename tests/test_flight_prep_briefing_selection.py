@@ -84,6 +84,7 @@ def test_literal_duplicate_keeps_provenance_but_shared_topic_never_drops_unique_
     ["Maintain 3000ft.", "Do not maintain 3000ft."],
     ["Maintain 3000ft.", "When cleared, maintain 3000ft."],
     ["保持3000ft。", "未经许可不得保持3000ft。"],
+    ["13: PAPI 3 degrees, MEHT 20m.", "31: PAPI 3 degrees, MEHT 20m."],
 ])
 def test_deduplication_never_erases_decimal_negation_or_condition(texts):
     rows = [fact(str(i), text, language="en" if text[0].isascii() else "zh") for i, text in enumerate(texts)]

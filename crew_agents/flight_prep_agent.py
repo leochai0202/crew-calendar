@@ -10201,9 +10201,9 @@ def select_source_briefing_content(
             exclusion_log.append(entry)
 
     def key(value: str) -> str:
-        value = strip_manual_ordinal_prefix(value)
-        value = re.sub(r"(?<!\d)\.|\.(?!\d)", "", value)
-        return re.sub(r"[\s。!！?？;；]+", "", value).casefold()
+        # Do not use the parser's numbering heuristics for equivalence: a
+        # leading "13:" may be a runway association, not list item thirteen.
+        return re.sub(r"\s+", "", value).strip("。.!！?？;；").casefold()
 
     eligible: list[BilingualFact] = []
     for fact in facts:

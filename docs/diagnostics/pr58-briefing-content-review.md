@@ -47,11 +47,15 @@ a mocked clipboard; each copied exactly its displayed textarea. No production
 profile, authentication or actual user clipboard was used.
 
 New isolated outputs are under the local temporary directory
-`crew-pr58-content-acceptance-final/{date}/`: `copy.html`, complete
+`crew-pr58-content-acceptance-latest/{date}/`: `copy.html`, complete
 `PREVIEW_group_01_zh.txt`, `PREVIEW_group_01_en.txt`, `preview_meta.json`,
 `review.md` and `source_review_queue.json`. The original samples are preserved.
 
-Input snapshot: `2cded5f669e845efb498f5f4551a72de9a8f90df`.
+Initial input snapshot: `2cded5f669e845efb498f5f4551a72de9a8f90df`.
+Repeated against newly observed main `aef8fac484c23df4cca3f114473475f5f99af6dc`:
+both requested duty groups and the 1 / 3 blocking results remained unchanged.
+That main update includes an automatic calendar/briefing result; it was not
+triggered by this task and its production `SUCCESS` is not content approval.
 Manual: `AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf`.
 SHA256: `e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8`.
 
@@ -104,7 +108,7 @@ release attempts retain dated/latest last-good text byte-for-byte and create no
 
 ## Validation evidence
 
-The focused content/source/format/preview tests passed (175 tests). They check
+The focused content/source/format/preview tests passed (176 tests). They check
 actual preserved instructions/values, decimal/negation/condition counterexamples,
 source exclusion reasons, no ordinal leakage, protected constraints, distinct
 event selection, missing English warnings and copying/rollback behavior.
