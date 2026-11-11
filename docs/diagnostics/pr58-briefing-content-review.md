@@ -35,6 +35,11 @@ selection entirely. Independent English selection had the same all-records behav
 - Renderer removes list decoration without modifying decimal values, procedure
   references or action order; whole English word-boundary repair `itflies` →
   `it flies` changes whitespace only. Original source fields are untouched.
+- Residual skipped/restarted item numbers inside flattened source paragraphs
+  still fail validation. The first full run exposed that leading-number removal
+  could conceal these errors; the fix strengthens the inline guard rather than
+  accepting the malformed TXT output. Its two affected groups now both remain
+  FAILED_SAFE; the same historical task using the actual PDF is checked separately.
 - An incomplete English airport section is explicitly marked in the copy payload.
   The acceptance report no longer labels file existence as bilingual completeness.
 
@@ -108,7 +113,7 @@ release attempts retain dated/latest last-good text byte-for-byte and create no
 
 ## Validation evidence
 
-The focused content/source/format/preview tests passed (176 tests). They check
+The focused content/source/format/preview tests passed (180 tests). They check
 actual preserved instructions/values, decimal/negation/condition counterexamples,
 source exclusion reasons, no ordinal leakage, protected constraints, distinct
 event selection, missing English warnings and copying/rollback behavior.

@@ -12556,7 +12556,11 @@ def validate_content(
     if typical_heading in content:
         if content.count(typical_heading) != 1 or not (content.find(feedback_heading) < content.find(typical_heading) < content.find(core_heading)):
             errors.append("正式正文典型事件栏目顺序不符合标准")
-    if re.search(r"(?m)^\s*(?:\d+[.、]|[•●▪])\s+\S", typical_body + "\n" + core_body):
+    # A renderer can safely remove a proven consecutive list, but flattening
+    # may leave skipped/restarted item numbers inside a paragraph. Removing the
+    # first ordinal must not turn that unresolved source structure into RELEASE.
+    # Decimal operating values and dotted procedure references are not ordinals.
+    if re.search(r"(?m)(?:^\s*(?:\d+[.、]|[•●▪])\s+|[。；;：:]\s*\d{1,2}(?:[、)]|\.(?!\d))\s*)\S", typical_body + "\n" + core_body):
         errors.append("典型事件和核心威胁不得使用数字编号或项目符号")
 
     source_artifacts = (

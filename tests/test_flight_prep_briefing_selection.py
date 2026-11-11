@@ -161,3 +161,34 @@ def test_english_spacing_repair_changes_only_whitespace_not_identifiers_or_value
     fixed = a.english_layout_text(raw)
     assert "it flies" in fixed
     assert re.sub(r"\s", "", raw) == re.sub(r"\s", "", fixed)
+
+
+@pytest.mark.parametrize("language,raw", [
+    ("zh", "保持航向；2. 获得许可后转弯；4. 核实3000ft。"),
+    ("en", "Maintain heading; 2. Turn when cleared; 4. Verify 3000ft."),
+])
+def test_unresolved_inline_item_structure_still_blocks_after_rendering(language, raw):
+    duty = CalendarEvent(uid="test", summary="9C0001 甲机场→乙机场", start=datetime(2026, 11, 13, 10),
+        end=datetime(2026, 11, 13, 12), description="", location="", properties={})
+    renderer = a.render_chinese_briefing if language == "zh" else a.render_english_briefing
+    rows = {airport: [replace(fact("unresolved", raw, language=language), airport=airport)]
+            for airport in duty.route}
+    body = renderer(duty, date(2026, 11, 13), {}, [], {}, rows)
+    assert "3000ft" in body and "2." in body and "4." in body
+    assert "典型事件和核心威胁不得使用数字编号或项目符号" in a.validate_content(
+        body, duty, {}, list(duty.route), language=language, typical_facts={}, core_facts=rows)
+
+
+@pytest.mark.parametrize("language,text", [
+    ("zh", "跑道坡度：0.59%；按AD2.20 3.2.4执行。"),
+    ("en", "Runway slope: 0.59%; follow AD2.20 3.2.4."),
+])
+def test_inline_number_guard_does_not_reject_operating_data(language, text):
+    duty = CalendarEvent(uid="test", summary="9C0001 甲机场→乙机场", start=datetime(2026, 11, 13, 10),
+        end=datetime(2026, 11, 13, 12), description="", location="", properties={})
+    renderer = a.render_chinese_briefing if language == "zh" else a.render_english_briefing
+    rows = {airport: [replace(fact("data", text, language=language), airport=airport)]
+            for airport in duty.route}
+    body = renderer(duty, date(2026, 11, 13), {}, [], {}, rows)
+    assert not any("数字编号" in error for error in a.validate_content(
+        body, duty, {}, list(duty.route), language=language, typical_facts={}, core_facts=rows))
