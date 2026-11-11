@@ -75,6 +75,14 @@ def write_preview(output: Path, target: str, groups: list[dict], errors: list[st
             body = str(group.get(key) or "")
             if not body:
                 body = "NO RELIABLE LANGUAGE MATERIAL / 无可靠对应语言资料，禁止补造。\n"
+            if language == "en":
+                missing = [airport for airport, records in group.get("airport_fact_sources", {}).items()
+                           if records and not any(raw.get("category") == "core"
+                               for raw in group.get("english_fact_sources", {}).get(airport, []))]
+                if missing:
+                    body += ("\n\nINCOMPLETE ENGLISH PREVIEW / 英文审核稿不完整："
+                             + ", ".join(agent.route_airport_identity(airport) for airport in missing)
+                             + " — NO RELIABLE ENGLISH CORE MATERIAL / 缺少可靠英文核心资料，禁止正式发布。\n")
             for records in group.get(sources, {}).values():
                 for raw in records:
                     ids = {str(raw["fact_id"]), *raw.get("source_record_ids", []),

@@ -2187,7 +2187,7 @@ def english_layout_text(value: str) -> str:
         ("latter", "shall"), ("to", "west"),
         ("flight", "crews"), ("crew", "members"), ("crews", "are"),
         ("are", "required"), ("are", "advised"), ("required", "to"),
-        ("this", "section"),
+        ("this", "section"), ("it", "flies"),
         ("first", "time"), ("strictly", "follow"), ("in", "front"),
         ("it", "to"), ("it", "is"), ("is", "handed"), ("to", "reach"),
         ("its", "five"), ("at", "gate"), ("at", "a"), ("visibility", "during"),
@@ -8568,7 +8568,10 @@ def bilingual_typical_facts(
     if real_facts:
         return [
             fact if fact.source_verbatim else replace(fact, text_zh=naturalize_typical_incident(fact.text_zh))
-            for fact in (real_facts if any(fact.source_verbatim for fact in real_facts) else real_facts[:max_items])
+            for fact in select_source_briefing_content(
+                real_facts, airport_role(event, airport) if event is not None else "transit",
+                category="typical", exclusion_log=exclusion_log,
+            )
         ]
     if placeholders and exclusion_log is not None:
         exclusion_log.extend(
@@ -10175,6 +10178,124 @@ def organize_core_fact_paragraphs(
     )
 
 
+def select_source_briefing_content(
+    facts: list[BilingualFact], role: str, *, category: str,
+    exclusion_log: list[dict[str, object]] | None = None,
+) -> list[BilingualFact]:
+    """Source fidelity is not automatic selection of an entire chapter.
+
+    Do not rewrite facts or budget core restrictions by count/length. Omit
+    only evidenced non-operating material and literal redundancy. Typical
+    incidents are representative sourced examples (normally up to three),
+    chosen for the duty role and different event mechanisms, not first N rows.
+    Uncertain material and distinct controls remain for safety validation.
+    """
+    def text(fact: BilingualFact) -> str:
+        return fact.en if fact.language == "en" else fact.zh
+
+    def log(fact: BilingualFact, reason: str) -> None:
+        if exclusion_log is not None:
+            entry = exclusion_log_entry(fact, text(fact), reason)
+            entry.update(language=fact.language, original_text=(
+                fact.source_text_en if fact.language == "en" else fact.source_text_zh) or text(fact))
+            exclusion_log.append(entry)
+
+    def key(value: str) -> str:
+        value = strip_manual_ordinal_prefix(value)
+        value = re.sub(r"(?<!\d)\.|\.(?!\d)", "", value)
+        return re.sub(r"[\s。!！?？;；]+", "", value).casefold()
+
+    eligible: list[BilingualFact] = []
+    for fact in facts:
+        value = text(fact)
+        reason = source_operational_value_issue(value)
+        if not reason and category == "core":
+            # A bare runway-size catalogue contains no operating restriction.
+            # Slope, displaced thresholds, reduced distances, performance and
+            # runway allocations are not catalogues and must remain. Likewise
+            # do not hide a proven source conflict by dropping its table.
+            field = manual_basic_field(value)
+            if field == "runways" and re.fullmatch(
+                r"(?:跑道信息|Runway\s+Information)\s*[:：]\s*"
+                r"[\d\sLRClrcl/()（）mM米×xX*.,，;；。−–-]+", value, re.I,
+            ) and (fact.language == "en" or fact.en) and not (fact.zh and fact.en and (
+                manual_pairing_tokens(fact.zh) != manual_pairing_tokens(fact.en)
+                or bilingual_keyed_table_mismatches(fact.zh, fact.en))):
+                reason = "routine_runway_dimensions_without_operational_constraint"
+            if re.fullmatch(
+                r"(?:[\w /-]+(?:procedure|procedures)|[\u4e00-\u9fff]{2,12}程序)\s*[:：]\s*"
+                r"(?:参阅|详见|参见|Refer to|See)\s*"
+                r"(?:EFB|QRH|SOP|(?:细则|Section|Rule)\s*[\d.]+)"
+                r"(?:\s*(?:for details|详述))?[。.]?", value, re.I,
+            ) and not re.search(r"EOSID|单发|ENGINE[ -]OUT|SINGLE[ -]ENGINE", value, re.I):
+                reason = "reference_only_no_operating_fact_or_control"
+        if not reason:
+            duplicate = next((other for other in eligible if key(value) == key(text(other))), None)
+            if duplicate:
+                reason = "exact_duplicate_of:" + duplicate.fact_id
+        if reason:
+            log(fact, reason)
+        else:
+            eligible.append(fact)
+
+    # Only a complete unchanged sentence is safe to subsume. Substring matching
+    # would wrongly treat "Maintain 3000ft" as present in "Do not maintain
+    # 3000ft", or drop the condition from "When cleared, maintain 3000ft".
+    retained = []
+    for fact in eligible:
+        value = key(text(fact))
+        container = next((other for other in eligible if other is not fact
+                          and len(key(text(other))) > len(value)
+                          and value in {key(sentence) for sentence in re.split(
+                              r"(?<=[。！？])|(?<=[.!?])\s+(?=[A-Z])", text(other)) if sentence.strip()}
+                          and fact.role_scope == other.role_scope
+                          and fact.condition_scope == other.condition_scope
+                          and fact.route_scope == other.route_scope), None)
+        if container:
+            log(fact, "complete_source_text_retained_in:" + container.fact_id)
+        else:
+            retained.append(fact)
+    if category != "typical" or len(retained) <= 3:
+        return retained
+
+    families = (
+        ("taxi", r"滑错|滑行|跑道侵入|TAXI|RUNWAY INCURSION"),
+        ("configuration", r"构型|形态|CONFIGURATION"),
+        ("vertical", r"高度|下滑|下降|ALTITUDE|GLIDESLOPE|DESCENT"),
+        ("birds", r"鸟击|BIRD.*STRIKE"),
+        ("navigation", r"飞错|飞行计划|FLIGHT.PLAN|NAVIGATION"),
+        ("wind", r"风切变|乱流|WINDSHEAR|TURBULENCE"),
+    )
+    def family(fact: BilingualFact) -> str:
+        return next((name for name, pattern in families if re.search(pattern, text(fact), re.I)), fact.fact_id)
+
+    def matches_role(fact: BilingualFact) -> bool:
+        scope = fact.role_scope or (english_source_role_scope(text(fact), "unspecified")
+            if fact.language == "en" else explicit_role_scope(text(fact), "unspecified"))
+        return role == "transit" or not scope or role in scope
+
+    ranked = sorted(retained, key=lambda fact: (
+        not matches_role(fact), -fact.importance, fact.source_sequence))
+    selected: list[BilingualFact] = []
+    represented: set[str] = set()
+    for fact in ranked:
+        if len(selected) < 3 and family(fact) not in represented:
+            selected.append(fact)
+            represented.add(family(fact))
+    for fact in ranked:
+        if len(selected) < 3 and fact not in selected:
+            selected.append(fact)
+    # "Usually 2–3" is not permission to discard a unique mandatory control
+    # embedded in an incident. Keep exceptional protected records intact.
+    for fact in ranked:
+        if fact not in selected and (fact.importance >= 100 or fact.restriction):
+            selected.append(fact)
+    for fact in retained:
+        if fact not in selected:
+            log(fact, "typical_representative_selection:role_and_distinct_event_mechanism")
+    return [fact for fact in retained if fact in selected]
+
+
 def prepare_operational_facts(
     event: CalendarEvent | DutyContext,
     airport: str,
@@ -10193,11 +10314,9 @@ def prepare_operational_facts(
         if filtered is not None:
             applicable.append(filtered)
     if any(fact.source_verbatim for fact in candidates):
-        # Source-only mode does not enter the paragraph editor or its budget.
-        # Source authority, exact duty applicability and duplicate removal are
-        # still mandatory; language availability never changes selection.
+        # Preserve source wording, but never bypass briefing-value selection.
+        # Core constraints are not subject to an arbitrary paragraph budget.
         selected: list[BilingualFact] = []
-        seen: set[str] = set()
         for fact in applicable:
             if not fact.source_verbatim:
                 continue
@@ -10208,18 +10327,9 @@ def prepare_operational_facts(
                         entry.update(required_topic=fact.topic, discarded_reason="required_topic_role_mismatch")
                     exclusion_log.append(entry)
                 continue
-            key = compact_key(fact.text_zh)
-            if key in seen:
-                continue
-            seen.add(key)
             selected.append(fact)
-        # A bare basic-information value need not repeat a complete operational
-        # paragraph that already contains that exact value. No other facts are
-        # summarized or dropped by this narrow redundancy check.
-        selected = [fact for fact in selected if not (
-            operational_attribute_text(fact.zh)
-            and any(fact is not other and compact_key(fact.zh) in compact_key(other.zh)
-                    and len(compact_key(other.zh)) > len(compact_key(fact.zh)) for other in selected))]
+        selected = select_source_briefing_content(
+            selected, role, category="core", exclusion_log=exclusion_log)
         return sorted(selected, key=lambda fact: (
             ROLE_PHASE_PRIORITY[role].get(fact.operational_phase, 10), fact.source_sequence))
     selected = select_airport_facts(
@@ -11574,10 +11684,13 @@ def omit_operating_crew_subject(text: str, language: str, category: str) -> str:
     if category in {"typical", "history", "typical_no_data"}:
         return text
     if language == "zh":
+        # Explicit requests following an event are instructions, not a change
+        # to the actor in the preceding historical narrative.
+        text = re.sub(r"(^|[。；;，,]\s*)请(?:飞行)?机组(?=(?:进近|下降|离场)准备时|注意|做好|严格)", r"\1请", text)
         if re.search(r"曾|事故|事件中|责任认定", text):
             return text
         return re.sub(
-            r"(^|[。！？；;，,：:]\s*)(请)?(?:飞行)?机组(?=应|必须|务必|不得|不要|严禁|禁止|不应|不能|不允许|可以|可(?=申请|使用|接受|选择)|需要|需(?=要|注意|确认|证实)|注意|提前|严格|做好|确认|证实|监控|遵守|合理|避免|防止|(?:在|当|如|如果)[^。！？]{1,250}?(?:应当|应|必须|不得|须|务必))",
+            r"(^|[。！？；;，,：:]\s*)(请)?(?:飞行)?机组(?=应|必须|务必|不得|不要|严禁|禁止|不应|不能|不允许|可以|可(?=申请|使用|接受|选择)|需要|须|需(?=要|注意|确认|证实)|注意|提前|严格|做好|确认|证实|监控|遵守|合理|避免|防止|(?:在|当|如|如果)[^。！？]{1,250}?(?:应当|应|必须|不得|须|务必))",
             lambda match: match.group(1) + (match.group(2) or ""), text,
         )
     if language != "en":
@@ -11632,7 +11745,24 @@ def omit_operating_crew_subject(text: str, language: str, category: str) -> str:
 
 def english_fact_output(fact: BilingualFact) -> str:
     text = re.sub(r"^(?:Command characteristics|Pavement characteristics|Meteorological characteristics|Other threats|Navigation facilities|Precautions|Operational restrictions|Special complex procedures)\s*:\s*", "", english_layout_text(fact.en), flags=re.I)
-    return omit_operating_crew_subject(text, "en", fact.category)
+    return omit_operating_crew_subject(briefing_prose_without_ordinals(text), "en", fact.category)
+
+
+def briefing_prose_without_ordinals(text: str) -> str:
+    """Remove presentation ordinals, never decimals or procedure identifiers.
+
+    Inline numbers are removed only as a consecutive list starting at one.
+    Keep the introduction and order; each source item becomes a paragraph.
+    """
+    text = re.sub(r"(?m)^\s*(?:[•●▪■]|[-*]\s+)\s*", "", text)
+    markers = list(re.finditer(r"(?:^|(?<=[：:。.;；]))\s*(\d{1,2})(?:[、)]|\.(?!\d))\s*", text))
+    if len(markers) >= 2 and [int(m[1]) for m in markers] == list(range(1, len(markers) + 1)):
+        for match in reversed(markers):
+            text = text[:match.start()].rstrip() + "\n\n" + text[match.end():]
+    # Use the conservative numeric-prefix rules without the parser's optional
+    # lost-separator OCR repair (a renderer must not guess a missing digit).
+    text = re.sub(r"(?m)^\s*(?:[（(]\d+[）)]|\d+(?:\.\d+)+[.、)](?!\d)|\d+[、)]|\d+\.(?!\d)|[一二三四五六七八九十]+、)\s*", "", text)
+    return text.strip()
 
 
 def chinese_fact_output(fact: BilingualFact) -> str:
@@ -11654,7 +11784,7 @@ def chinese_fact_output(fact: BilingualFact) -> str:
     text = re.sub(r"(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])", "", text)
     # Printed table prose separators are not ECAM/system arithmetic or data.
     text = re.sub(r"(?<=[\u4e00-\u9fff])\s*\+\s*(?=[\u4e00-\u9fff])", "，", text)
-    return omit_operating_crew_subject(strip_terminal_punct(text), "zh", fact.category)
+    return omit_operating_crew_subject(briefing_prose_without_ordinals(strip_terminal_punct(text)), "zh", fact.category)
 
 
 def render_chinese_briefing(
@@ -11997,17 +12127,26 @@ def english_briefing_fact_sets(
                 reason = "detached_operational_fragment"
             if reason:
                 if exclusion_log is not None:
-                    exclusion_log.append({"airport": airport, "language": "en", "fact_id": identity,
-                        "source_page": fact.source_page, "clause": text, "reason": reason})
+                    entry = exclusion_log_entry(fact, text, reason)
+                    entry.update(language="en", original_text=fact.source_text_en)
+                    exclusion_log.append(entry)
                 continue
             key = (category, english_layout_text(fact.en).casefold())
             if key not in seen:
                 categories[category].append(fact)
                 seen.add(key)
+            elif exclusion_log is not None:
+                entry = exclusion_log_entry(fact, fact.en, "exact_duplicate_english_source")
+                entry.update(language="en", original_text=fact.source_text_en)
+                exclusion_log.append(entry)
         # Source phase and order, not a fixed paragraph count or Chinese rank.
         phase_order = {"ground": 0, "departure": 1, "navigation": 2, "arrival": 3, "landing_ground": 4}
-        typical[airport] = categories["typical"]
-        core[airport] = sorted(categories["core"], key=lambda f: (phase_order.get(f.operational_phase, 5), f.source_sequence))
+        role = airport_role(event, airport)
+        typical[airport] = select_source_briefing_content(
+            categories["typical"], role, category="typical", exclusion_log=exclusion_log)
+        core[airport] = sorted(select_source_briefing_content(
+            categories["core"], role, category="core", exclusion_log=exclusion_log),
+            key=lambda f: (phase_order.get(f.operational_phase, 5), f.source_sequence))
     return typical, core, [fact for airport in event.route for fact in [*typical[airport], *core[airport]]]
 
 

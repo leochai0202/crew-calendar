@@ -49,6 +49,18 @@ def test_preview_preserves_complete_both_languages_and_source_conflict(tmp_path)
     assert not (tmp_path / ".success").exists()
 
 
+def test_copy_payload_explicitly_marks_missing_airport_english_not_a_complete_draft(tmp_path):
+    data, errors = group()
+    data["english_fact_sources"] = {}
+    write_preview(tmp_path, "2026-01-01", [data], errors + ["Missing reliable English core"], "manual.pdf", "test")
+    body = (tmp_path / "PREVIEW_group_01_en.txt").read_text(encoding="utf-8")
+    html = (tmp_path / "copy.html").read_text(encoding="utf-8")
+    assert "INCOMPLETE ENGLISH PREVIEW" in body and "AAAA" in body
+    assert "NO RELIABLE ENGLISH CORE MATERIAL" in html
+    assert "Follow W19 via MASGU, ATKAV and OBLAP." in body  # no fabricated replacement
+    assert not (tmp_path / ".success").exists()
+
+
 @pytest.mark.parametrize("mode", ["preview", "release"])
 @pytest.mark.parametrize("blocked", [False, True])
 def test_real_entry_gates_preview_and_preserves_formal_last_good(tmp_path, monkeypatch, mode, blocked):

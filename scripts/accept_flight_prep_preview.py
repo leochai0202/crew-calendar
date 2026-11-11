@@ -4,6 +4,7 @@ from dataclasses import fields
 from datetime import date
 import hashlib
 import json
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -88,6 +89,10 @@ def accept(repo: Path, output: Path, dates: list[str], input_ref: str, verify_co
                 for language, key in (("zh", "airport_fact_sources"), ("en", "english_fact_sources")):
                     body = (preview / group["preview_files"][language]).read_text(encoding="utf-8")
                     assert body.startswith("PREVIEW /")
+                    assert not re.search(r"(?m)^\s*(?:\d+[、)]|\d+\.(?!\d)|[•●▪])\s*\S", body)
+                    assert not any(title in body for title in ("本次航班整体风险", "航路及通用风险", "个人对本次航班中识别的风险"))
+                    heading = "核心威胁：" if language == "zh" else "Core threats:"
+                    assert heading + "\n\n" in body
                     for records in group[key].values():
                         for raw in records:
                             fact = agent.BilingualFact(**{key: value for key, value in raw.items() if key in fact_fields})
@@ -137,7 +142,13 @@ def accept(repo: Path, output: Path, dates: list[str], input_ref: str, verify_co
                 release_exit_code=release_code, errors=meta["errors"],
                 preview_preserves_formal_and_config=True, failed_release_preserves_last_good=old_text_preserved if release_code else None,
                 all_selected_body_facts_present=True,
-                complete_bilingual_groups=True,
+                required_bilingual_content_complete=all(
+                    not group["foreign_crew_detected"] or all(
+                        any(item["category"] == "core" for item in group["english_fact_sources"].get(airport, []))
+                        for airport in group["airports"])
+                    for group in meta["groups"]),
+                incomplete_bilingual_release_prevented=True,
+                rendered_template_checks_passed=True,
                 protected_last_good_preserved=old_text_preserved,
                 copy_ui_buttons_verified=copied, preview_copy_buttons_verified=preview_copy_count,
                 scheduler_status=scheduling.status,
