@@ -12499,7 +12499,9 @@ def validate_content(
     if feedback_heading not in content:
         errors.append("正文缺少PF/PM评价栏目")
     else:
-        paragraphs = [part.strip() for part in re.split(r"\n\s*\n", content) if part.strip()]
+        feedback_region = content.split("典型不安全事件：" if language == "zh" else "Typical unsafe events:", 1)[0]
+        feedback_region = feedback_region.split(core_heading, 1)[0]
+        paragraphs = [part.strip() for part in re.split(r"\n\s*\n", feedback_region) if part.strip()]
         if feedback_heading not in paragraphs:
             errors.append("PF/PM讲评标题必须独立成段并空行")
         labels = (("上一次作为PF教员评价：", "作为PM机长评价：") if language == "zh"

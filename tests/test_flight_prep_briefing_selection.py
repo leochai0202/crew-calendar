@@ -209,6 +209,10 @@ def test_locked_feedback_heading_and_each_role_are_separate_complete_paragraphs(
     headings = ("典型不安全事件：", "核心威胁：") if language == "zh" else ("Typical unsafe events:", "Core threats:")
     body = "\n\n".join([prefix, feedback, *headings])
     assert not any("讲评" in error for error in a.validate_content(body, duty, profile, [], language=language))
+    # An operational source paragraph can mention a pilot role; it is not a
+    # second personal-feedback paragraph and must not fail this format check.
+    with_source_role = body + "\n\n" + pf
+    assert not any("讲评" in error for error in a.validate_content(with_source_role, duty, profile, [], language=language))
     combined = body.replace(pf + "\n\n" + pm, pf + " " + pm)
     assert "PF和PM讲评必须分别独立成段并空行" in a.validate_content(combined, duty, profile, [], language=language)
     no_blank = body.replace(heading + "\n\n", heading + "\n")
