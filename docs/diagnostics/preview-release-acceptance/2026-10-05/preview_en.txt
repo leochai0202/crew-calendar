@@ -1,0 +1,154 @@
+PREVIEW / 审核预览 — NOT FOR RELEASE / 不得作为正式运行资料发布
+
+I am Duan Yangshuo, a First Officer in Flight Squadron 15. My current technical level is A2, and my promotion date is January 13. In this qualification stage, I have 93 hours and 21 takeoffs and landings. I have completed 8 landings in the last 90 days. I have operated at both Ningbo Lishe International and Sanya Phoenix International within the past three months. My most recent landing as PF was at Shanghai Pudong International Airport on October 1.
+
+Latest PF/PM feedback: as PF, the instructor noted that below 30 ft I should use slightly more aft-stick input and, after landing, decelerate below 30 kt before entering the rapid-exit taxiway; as PM, the captain noted that I should improve SOP proficiency and make standard callouts more audible.
+
+Overall flight risks:
+
+This duty operates Ningbo Lishe International → Sanya Phoenix International. Applicable operational risks, restrictions and controls are set out below.
+
+Typical unsafe events:
+
+Ningbo Lishe International Airport:
+
+Low-altitude turbulence can result in large bank angles at low altitude.
+
+A displaced threshold and turbulence can result in an excessive descent rate before touchdown.
+
+An event has occurred in which the radar was not switched off after landing.
+
+An altitude deviation from the ATC-cleared altitude has occurred.
+
+A high landing load event has occurred.
+
+Sanya Phoenix International Airport:
+
+An event has occurred in which landing configuration was not established at 1000ft (AAL).
+
+Wrong-taxi-route events have occurred.
+
+A deviation from the commanded altitude has occurred.
+
+Core threats:
+
+Ningbo Lishe International Airport:
+
+The B9 sign is on the runway side. After landing on Runway 13, ATC usually instructs a wait before B10, followed by a left turn at B9 to follow the guide vehicle. Note that B9 is immediately next to B10, whose sign is on the apron side, and can easily be missed.
+
+When contacting for the first time, the aircraft registration number must be proactively reported.
+
+Ningbo Airport requires that all personnel are strictly prohibited from passing under the aircraft belly except for necessary inspections.
+
+No need to repeat PDC.
+
+The ground markings at the L1 and B8 turnouts are unclear and may be mistaken for the L1 taxiway west of B8. It is advised to exercise caution.
+
+After landing at Ningbo 31 and completely separating from K2, maintain control of taxiing speed. Keep in mind that tower instructions may be delayed, and excessive speed could pose risks during left turns (A) on wet runways.
+
+Near Ningbo B12, there's a steep slope where the plane will experience noticeable vertical movement. Keep your taxiing speed under control.
+
+Common procedures: RNAV exit.
+
+Ningbo departs for the northeast region, and after IDNIK, it will direct the HSH—ODULO flight to join the procedure.
+
+The Jeppson chart does not include single-engine departure procedures; foreign pilots should refer to the EFB chart.
+
+Runway 13 has a PBN engine-out departure procedure (EOSID); Runway 31 has both a PBN EOSID and a conventional EOSID. Enter the all-engines-operating thrust-reduction and acceleration altitudes, and the engine-out acceleration altitude, in accordance with the corresponding engine-out procedure descriptions in the EFB.
+
+Common procedures: RNAV.
+
+After landing at Jeju-Ningbo Airport, the aircraft is parked at the international gate. As it will be connected to domestic flights later, the crew will close the aircraft doors and tow it to a remote gate for further procedures.
+
+[待核实 / UNVERIFIED: 宁波栎社:en:5bb350f9ccd6830b (ZH p.NOT_BOUND; EN p.1352)]
+
+Terrain lies west and southwest of the aerodrome, with a low isolated hill on final approach to Runway 13. In poor weather, aircraft approaching from the west must observe the sector minimum safe altitude and en-route safe-altitude restrictions. When the Lishe NDB and Ningbo VOR are unserviceable, the Runway 31 EOSID is unavailable. The final approach track for the Runway 13 VOR/DME approach is offset by 4 degrees from the runway. The Runway 13 VOR descent gradient is 5.7%, equivalent to FPA 3.26.
+
+The airspace for military aviation activities within Ningbo's control zone is highly complex. Do not select ATC-based approach procedures without prior air traffic control clearance. The QNH horizontal boundary between Ningbo Airport and Shanghai Terminal Area overlaps, and altimeter corrections must strictly follow ATC instructions.
+
+The Runway 13 approach descends close to terrain and may cause visual illusions. Due to wind and terrain, tailwinds and turbulent airflow are common on final. The Runway 13 threshold is displaced by 150m.
+
+On an approach from the Zhoushan direction, after passing 10,000ft, the RADIONAV page automatically tunes the Ningbo ILS frequency, but the lower left corner of the PFD may display the Pudong IPR ILS signal. Normal indications return nearer Ningbo. Check the indications carefully and do not fly the wrong ILS frequency.
+
+The final approach altitudes for 13 and 31 must maintain a 100-meter margin above the shadow zone, and the minimum safe altitude must not be exceeded.
+
+On the Runway 13 approach, tailwinds are frequent on final. Together with terrain on final, this may trigger GPWS warnings. If a tailwind is encountered, configuration 2 and a speed of 160 knots are recommended.
+
+Airport Classification: Category I Complex Airport (Procedure Category) (Refer to Section 3-(6)/EFB Airport Characteristics Summary-Corporate Complex Airport Classification and Operating Authority Rules).
+
+PBN single-engine departure procedures for Runways 31 and 13, and the traditional single-engine departure procedure for Runway 31.
+
+Operational characteristics: Frequent trigger of TA incidents, with high-altitude conflicts likely to occur between inbound/outbound aircraft and those heading to or from Hangzhou and Shanghai.
+
+The terrain is complex, and the Runway 13 ILS approach has a steep descent gradient, GP3.2.
+
+The VOR procedure exhibits steep descent gradients and track deviation.
+
+The Runway 13 threshold is displaced by 150m; note the visual effect.
+
+When the Runway 13 ILS is unserviceable, use the RNP13 approach; the published procedure provides LNAV only.
+
+Radio failure procedure: Refer to Airport Rules 2.22.5 for details.
+
+Sanya Phoenix International Airport:
+
+A guide vehicle is sometimes used when taxiing out. Without a guide vehicle, particularly at night, carefully observe taxiway signs and aircraft on the apron; Taxiway A3 is difficult to identify at night.
+
+PORAP-1N is commonly used for Runway 08. Departure clearance usually requires crossing PORAP at 7200m, and performance is generally sufficient. When military activity is present, a conventional departure may be used; observe the PORAP speed restriction. After transfer to Sanya Area Control, ATC instructs a climb to an RVSM level and requires that level to be reached before NUMKU.
+
+When arrival traffic for Runway 26 is heavy, ATC may issue descent clearance late. Reduce speed in good time to manage aircraft energy.
+
+There are two ILS procedures, Y and Z. Listen to the broadcast in advance to confirm which procedure is in use. The Z procedure is normally used, but ATC generally does not specify which one; take care to avoid flying the wrong procedure.
+
+Approach to Runway 08 (VOR08). The approach path may be at a higher altitude, so monitor the altitude-to-range ratio. During the procedure turn, air traffic control will direct a 900- meter downward slope, whereas the procedure specifies a 700- meter downward slope. You may request to execute the procedure down slope with the control's approval.
+
+The taxiing route is complex. There is no center line light between the A3 and A4 taxiways and the runway. It is recommended to observe the runway surface carefully when leaving the runway, especially at night when it is raining, to prevent deviation from the runway.
+
+Turbulence on final approach.
+
+At Sanya's apron 301 during ground taxiing, ground controller A1 should wait in front of B. As B has no signage only ground markings, drivers must carefully identify and control taxiing speed—especially at night with shorter taxiing distances—and strictly adhere to the slow-moving vehicle time limit.
+
+Noise reduction procedure: Refer to Section 2.21.2 for details.
+
+Pressure relief procedure: Refer to EFB for details.
+
+Radio failure procedure: Refer to Rule 2.22.5.
+
+En-route and general risks:
+
+Ningbo Lishe International Airport:
+
+For the Ningbo-Baotou route, it is advised to maintain PIKAS's turning radius and avoid southward deviation, as the southern side has restricted areas.
+
+[待核实 / UNVERIFIED: 宁波栎社:en:bd662f47b89585b7 (ZH p.NOT_BOUND; EN p.1352)]
+
+Ningbo-Fuyang section: After NOBEM, the flight will proceed to MAGLI, which is not part of the scheduled route.
+
+[待核实 / UNVERIFIED: 宁波栎社:en:5d2366547563467b (ZH p.NOT_BOUND; EN p.1352)]
+
+From Ningbo to Shiyan, the military operation will divert to fly around XSH and then follow the W80 route. At 20 nautical miles from UPGUR, the command will fly the 355 route to Wuhan (133.75), then proceed straight to JO. Fuel levels should be monitored.
+
+[待核实 / UNVERIFIED: 宁波栎社:en:4d9cb2292fd2f451 (ZH p.NOT_BOUND; EN p.1352)]
+
+RELEASE REVIEW / 正式发布审核
+
+9C7385/9C7386英文版：英文指定航线的适用性未核实：宁波栎社:en:bd662f47b89585b7；源页1352
+9C7385/9C7386英文版：英文指定航线的适用性未核实：宁波栎社:en:5d2366547563467b；源页1352
+9C7385/9C7386英文版：英文指定航线的适用性未核实：宁波栎社:en:4d9cb2292fd2f451；源页1352
+9C7385/9C7386英文版：英文指定航线的适用性未核实：宁波栎社:en:5bb350f9ccd6830b；源页1352
+
+UNVERIFIED / 待核实: 宁波栎社:en:bd662f47b89585b7
+ZH p.NOT_BOUND: 未建立逐条中文绑定；英文原文独立保留。
+EN p.1352: For the Ningbo-Baotou route, the crew is advised to maintain PIKAS's turning radius and avoid southward deviation, as the southern side has restricted areas.
+
+UNVERIFIED / 待核实: 宁波栎社:en:5d2366547563467b
+ZH p.NOT_BOUND: 未建立逐条中文绑定；英文原文独立保留。
+EN p.1352: Ningbo-Fuyang section: After NOBEM, the flight will proceed to MAGLI, which is not part of the scheduled route.
+
+UNVERIFIED / 待核实: 宁波栎社:en:4d9cb2292fd2f451
+ZH p.NOT_BOUND: 未建立逐条中文绑定；英文原文独立保留。
+EN p.1352: From Ningbo to Shiyan, the military operation will divert to fly around XSH and then follow the W80 route. At 20 nautical miles from UPGUR, the command will fly the 355 route to Wuhan (133.75), then proceed straight to JO. Fuel levels should be monitored.
+
+UNVERIFIED / 待核实: 宁波栎社:en:5bb350f9ccd6830b
+ZH p.NOT_BOUND: 未建立逐条中文绑定；英文原文独立保留。
+EN p.1352: After landing at Jeju-Ningbo Airport, the aircraft is parked at the international gate. As it will be connected to domestic flights later, the crew will close the aircraft doors and tow itto a remote gate for further procedures.

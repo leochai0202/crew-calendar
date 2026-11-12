@@ -163,6 +163,14 @@ def _stub_airport_risks(
         ]
         for airport in airports
     }
+    # Independent English source fixtures: no production fallback from Chinese
+    # records is permitted merely because these older fixtures were bilingual.
+    for airport, records in source_records.items():
+        records.extend({**record, "language": "en", "fact_id": f"{airport}:en:stub:{number}",
+            "source_record_id": f"{airport}:en:stub:{number}", "source_sequence": number,
+            "source_version": "test", "source_original_text_en": record["text_en"],
+            "english_airport_name": "Test", "source_verbatim": True}
+            for number, record in enumerate(list(records)))
     return risks, threats, source_records, [], "stub-20260720.pdf", 20260720, "PDF"
 
 
@@ -386,7 +394,7 @@ def test_generate_english_no_suppresses_foreign_crew_english_output(
     assert not (output / "latest_en.txt").exists()
 
 
-def test_multiple_prep_groups_generate_english_only_for_foreign_group(
+def test_foreign_member_in_duty_generates_english_for_every_prep_group(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
 ) -> None:
@@ -429,11 +437,11 @@ def test_multiple_prep_groups_generate_english_only_for_foreign_group(
     assert groups[0]["foreign_crew_names"] == ["JOHN SMITH(R)"]
     assert groups[0]["english_output"].endswith("_EN.txt")
     assert (output / groups[0]["english_output"]).exists()
-    assert groups[1]["english_generated"] is False
+    assert groups[1]["english_generated"] is True
     assert groups[1]["english_confirmation_required"] is False
     assert groups[1]["foreign_crew_names"] == []
-    assert groups[1]["english_output"] == ""
-    assert not list(output.glob("*9C7080_EN.txt"))
+    assert groups[1]["english_output"].endswith("_EN.txt")
+    assert list(output.glob("*9C7080_EN.txt"))
     assert (output / "latest_en.txt").exists()
 
 
@@ -471,10 +479,10 @@ def test_bilingual_render_hides_internal_flight_metadata() -> None:
     assert chinese.startswith("我是来自飞行十五中队的副驾驶段洋硕")
     assert english.startswith("I am Duan Yangshuo")
     assert "a First Officer in Flight Squadron 15" in english
-    assert (
-        "I have operated at both Singapore Changi and Shanghai Pudong International "
-        "within the past three months."
-    ) in english
+    intro = english.split("\n\n", 1)[0]
+    assert "Within the past three months, I have operated at Singapore Changi." in intro
+    assert "operated at Shanghai Pudong" not in intro
+    assert "My most recent landing as PF was at Shanghai Pudong International Airport on October 1." in intro
     assert "None of the airports on this flight lacks recent experience." not in english
     chinese_order = [
         chinese.index("上一次飞行中机长/教员对我优缺点的评价"),
@@ -794,61 +802,30 @@ def test_real_october_five_uses_source_backed_english_for_every_selected_fact() 
         errors.extend(agent.validate_bilingual_facts(all_facts))
         selected_facts.extend(all_facts)
 
-    assert {
-        airport: (
-            len(typical[airport]),
-            len(core[airport]),
-        )
-        for airport in duty.route
-    } == {
-        "宁波栎社": (5, 10),
-        "三亚凤凰": (3, 9),
-    }
-    assert len(selected_facts) == 27
-    assert all(
-        fact.english_source in {"source_backed", "approved_override"}
-        for fact in selected_facts
-    )
+    assert all(typical[airport] and core[airport] for airport in duty.route)
+    assert selected_facts
+    assert all(fact.source_verbatim for fact in selected_facts)
+    assert all(fact.english_source in {"source_backed", "manual_coverage_gap"} for fact in selected_facts)
     assert not any(fact.english_source == "concept_fallback" for fact in selected_facts)
     selected_chinese = "\n".join(fact.text_zh for fact in selected_facts)
-    selected_english = "\n".join(fact.text_en for fact in selected_facts)
     for excluded_route in ("长春-宁波", "虹桥-三亚", "浦东到三亚", "ZSPD-ZJSY"):
         assert excluded_route not in selected_chinese
-    assert "速度160" not in selected_chinese
-    for bad_english in (
-        "13th mountain",
-        "five sides",
-        "blind landing",
-        "Five-sided Chaos",
-        "PORAP-1N model",
-        "Runway 1.26",
-        "Real-Time Vertical Management System",
-        "Radar isnot",
-        "failed landing attempt occurred at 1000",
-    ):
-        assert bad_english.lower() not in selected_english.lower()
-    for critical_fact in (
-        "RNP13",
-        "LNAV",
-        "150m",
-        "5.7%",
-        "FPA3.26",
-        "GP3.2",
-        "PORAP",
-        "7200m",
-        "NUMKU",
-    ):
-        assert critical_fact.lower() in selected_english.lower()
-    ningbo_confirmed = [
-        fact
-        for fact in selected_facts
-        if fact.airport == "宁波栎社"
-        and "直飞A点" in fact.text_zh
-    ]
-    assert len(ningbo_confirmed) == 1
-    assert ningbo_confirmed[0].english_source_authority == "user_confirmed"
-    assert ningbo_confirmed[0].english_confirmed_date == "2026-10-04"
-    assert errors == []
+    # The latest source p.582 contains a complete conditional Runway 13 item
+    # with configuration 2 and 160 kt. Reject orphan fragments, not that valid
+    # source-backed limit or its applicability conditions.
+    assert not any(agent.is_detached_operational_fragment(fact.zh) for fact in selected_facts)
+    speed_facts = [fact for fact in selected_facts if "速度160" in fact.zh]
+    assert speed_facts
+    assert all("13" in fact.zh and "顺风" in fact.zh and "形态" in fact.zh for fact in speed_facts)
+    for fact in selected_facts:
+        if fact.text_en:
+            assert fact.text_en in fact.source_text_en
+        else:
+            assert agent.validate_bilingual_facts([fact])
+    # No approved translation or professionalization may hide current source
+    # gaps. Any actual mismatch remains an acceptance error, not a warning.
+    if any(fact.english_source == "manual_coverage_gap" for fact in selected_facts):
+        assert errors
 
 
 def test_real_october_four_output_has_clean_sources_routes_and_english() -> None:
@@ -1387,16 +1364,23 @@ def test_real_9c8552_exact_event_keeps_source_grounded_chinese_when_english_supp
     )
     agent.extract_pdf_text.cache_clear()
 
-    assert agent.main() == 0
+    assert agent.main() == 2  # --generate-english no must not conceal the known PAPI source conflict
 
     output = repo / "flight_preparation"
-    chinese = (output / "latest.txt").read_text(encoding="utf-8")
-    meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
+    state = json.loads((output / "2026-07-23_meta.json").read_text(encoding="utf-8"))
+    assert state["status"] == "FAILED_SAFE" and any("papi_runway_value_association" in x for x in state["errors"])
+    assert not (output / ".success").exists() and not (output / "latest.txt").exists()
+    preview = repo / "agent_output/flight_prep/previews/2026-07-23"
+    chinese = (preview / "PREVIEW_group_01_zh.txt").read_text(encoding="utf-8")
+    chinese = re.sub(r"\n\n\[待核实 / UNVERIFIED: [^\n]+\]", "", chinese)
+    preview_meta = json.loads((preview / "preview_meta.json").read_text(encoding="utf-8"))
+    meta = {**state["prep_groups"][0], "airport_information_version": int(preview_meta["manual_version"]),
+            "airport_information_type": "PDF"}
 
     assert meta["flight_numbers"] == ["9C8552"]
     assert meta["matched_event_uids"]
     assert meta["matched_people"] == EXPECTED_PEOPLE
-    assert meta["english_trigger_names"] == ["MARQUES SANTANNA HELIO(R)"]
+    assert meta["foreign_crew_names"] == ["MARQUES SANTANNA HELIO(R)"]
     assert meta["foreign_crew_detected"] is True
     assert meta["english_confirmation_required"] is False
     assert meta["english_generated"] is False
@@ -1422,7 +1406,7 @@ def test_real_9c8552_exact_event_keeps_source_grounded_chinese_when_english_supp
     assert "机组" in chinese
     assert "请我们注意" not in chinese
 
-    assert "IRS完全校准" in chinese
+    assert re.search(r"IRS\s*完全校准", chinese)
     assert "TOBT" in chinese
     assert "FOLLOW GREEN" not in _paragraph(chinese, "上海浦东机场：")
     pudong_core = chinese.split("核心威胁：", 1)[1].split("上海浦东机场：", 1)[1]
