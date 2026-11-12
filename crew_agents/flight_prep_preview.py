@@ -70,6 +70,16 @@ def write_preview(output: Path, target: str, groups: list[dict], errors: list[st
                         english_original=raw.get("source_text_en") or raw["text_en"]))
         evidence.extend({"group": group["group_index"], **issue} for issue in issues)
         files = {}
+        copy_files = {}
+        for language in ("zh", "en"):
+            original_body = str(group.get("_source_copy_" + language) or "")
+            name = f"SOURCE_COPY_group_{group['group_index']:02d}_{language}.txt"
+            if original_body:
+                atomic_write_text(output / name, original_body.rstrip() + "\n")
+                copy_files[language] = name
+            else:
+                # Only this generated review file; never a formal last-good.
+                (output / name).unlink(missing_ok=True)
         for language, key, sources in (("zh", "_content", "airport_fact_sources"),
                                        ("en", "_english_content", "english_fact_sources")):
             body = str(group.get(key) or "")
@@ -107,7 +117,8 @@ def write_preview(output: Path, target: str, groups: list[dict], errors: list[st
             contents[language].append(body.rstrip())
         private_matching = {"matched_people", "matched_flights", "matched_event_uids", "foreign_crew_names"}
         manifest.append({**{k: v for k, v in group.items() if not k.startswith("_") and k not in private_matching},
-                         "preview_files": files})
+                         "preview_files": files, "source_copy_files": copy_files,
+                         "source_copy_kind": "MANUAL_ORIGINAL_NOT_RELEASE"})
     appendix = ["", "RELEASE REVIEW / 正式发布审核", "", *errors]
     for issue in evidence:
         appendix += ["", "UNVERIFIED / 待核实: " + issue["fact_id"],
@@ -149,12 +160,20 @@ def write_copy_view(output: Path, target: str, groups: list[dict], released: set
         is_release = index in released
         if is_release and (not group.get("release_eligible") or group.get("errors")):
             raise ValueError("Unvalidated group cannot be copied as RELEASE")
-        kind = "RELEASE" if is_release else "PREVIEW / NOT FOR RELEASE"
+        kind = "原文复制稿 / SOURCE COPY — NOT FOR RELEASE"
         cards.append(f"<h2>{escape('/'.join(group.get('flight_numbers', [])))} — {kind}</h2>")
+        missing = group.get("source_copy_missing_english_airports", [])
+        if missing:
+            cards.append('<p>NO RELIABLE ENGLISH CORE MATERIAL / 无可靠英文核心资料：'
+                         + escape(", ".join(missing)) + '。已有中文原文仍可复制；不补造英文。</p>')
+        cards.append('<p>原文按各语言独立提供，手册差异及错误尚待审核；复制稿不代表公司正式运行批准。'
+                     '来源、页码和阻断详情见 preview_meta.json 与 review.md。</p>')
         for language, key in (("zh", "_content"), ("en", "_english_content")):
-            if not group.get(key):
+            # Even a validated formal group may contain reviewed translations.
+            # This viewer always copies the independent manual originals.
+            body = str(group.get("_source_copy_" + language) or "")
+            if not body:
                 continue
-            body = str(group[key]) if is_release else (output / f"PREVIEW_group_{index:02d}_{language}.txt").read_text(encoding="utf-8")
             identity = f"g{index}-{language}"
             cards.append(f'<button type="button" data-copy="{identity}">复制 {kind} {language.upper()}</button>'
                          f'<textarea id="{identity}" readonly rows="18">{escape(body)}</textarea>')

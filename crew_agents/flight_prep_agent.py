@@ -12035,6 +12035,7 @@ def english_briefing_fact_sets(
     event: CalendarEvent | DutyContext, target: date, source_records: dict[str, list[dict]],
     exclusion_log: list[dict] | None = None,
     chinese_facts: list[BilingualFact] | None = None,
+    *, allow_reviewed_translation: bool = True,
 ) -> tuple[dict[str, list[BilingualFact]], dict[str, list[BilingualFact]], list[BilingualFact]]:
     """Select English records directly, never from the selected Chinese IDs."""
     typical, core = {}, {}
@@ -12061,7 +12062,7 @@ def english_briefing_fact_sets(
                 source_sequence=int(record["source_sequence"]), english_source_record_id=identity,
                 english_source_page=str(record["source_page"]), airport_name_en=str(record["english_airport_name"]),
                 route_scope=english_source_route_scope(record))
-            review = record.get("chinese_translation_review")
+            review = record.get("chinese_translation_review") if allow_reviewed_translation else None
             review_issue = translation_review_unavailable_reason(review, fact, event, target) if review else ""
             if review_issue:
                 fact = replace(fact, english_source="unavailable", translation_provenance=dict(review),
@@ -13009,6 +13010,27 @@ def main() -> int:
                 if english_required
                 else ""
             )
+            # Original-language copy drafts are not RELEASE candidates. Select
+            # English from its own source records, before reviewed translations
+            # can change text, scope or phase. Never restore an entire parent
+            # paragraph over a deliberately selected applicable source clause.
+            copy_en_exclusions: list[dict] = []
+            copy_en_typical, copy_en_core, copy_en_facts = english_briefing_fact_sets(
+                group_duty, target, airport_source_records, copy_en_exclusions,
+                allow_reviewed_translation=False,
+            )
+            copy_zh_typical = {airport: [fact for fact in typical_facts[airport]
+                if fact.source_verbatim] for airport in group_airports}
+            copy_zh_core = {airport: [fact for fact in core_facts[airport]
+                if fact.source_verbatim] for airport in group_airports}
+            copy_zh_facts = [fact for airport in group_airports
+                for fact in [*copy_zh_typical[airport], *copy_zh_core[airport]]]
+            source_copy_content = render_chinese_briefing(
+                group_duty, target, profile, group_records, copy_zh_typical, copy_zh_core,
+            ) if copy_zh_facts else ""
+            source_copy_english = render_english_briefing(
+                group_duty, target, profile, group_records, copy_en_typical, copy_en_core,
+            ) if copy_en_facts else ""
             group_label = "/".join(
                 event.flight_number for event in group_flights
             )
@@ -13207,6 +13229,15 @@ def main() -> int:
                     ).hexdigest(),
                     "_content": group_content,
                     "_english_content": english_content,
+                    "_source_copy_zh": source_copy_content,
+                    "_source_copy_en": source_copy_english,
+                    "source_copy_fact_sources": {
+                        "zh": [fact_source_metadata(fact) for fact in copy_zh_facts],
+                        "en": [fact_source_metadata(fact) for fact in copy_en_facts],
+                    },
+                    "source_copy_english_exclusions": copy_en_exclusions,
+                    "source_copy_missing_english_airports": [airport for airport in group_airports
+                        if not copy_en_core.get(airport)],
                 }
             )
         from crew_agents.flight_prep_preview import write_preview

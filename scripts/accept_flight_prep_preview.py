@@ -57,8 +57,8 @@ def verify_copy_buttons(path: Path) -> int:
                 copied = page.evaluate("window.testCopy")
                 assert copied == expected
                 verify_locked_format(copied, button.get_attribute("data-copy").rsplit("-", 1)[1])
-                if "PREVIEW" in button.inner_text():
-                    assert copied.rstrip().endswith("PREVIEW / 审核预览 — NOT FOR RELEASE / 不得作为正式运行资料发布")
+                assert not any(label in copied for label in (
+                    "PREVIEW", "FAILED_SAFE", "UNVERIFIED", "NOT FOR RELEASE", "INCOMPLETE ENGLISH"))
                 assert page.locator("#copy-status").inner_text() == "已复制 / Copied"
             return buttons.count()
         finally:
@@ -105,6 +105,17 @@ def accept(repo: Path, output: Path, dates: list[str], input_ref: str, verify_co
             assert not (preview / ".success").exists()
             fact_fields = {item.name for item in fields(agent.BilingualFact)}
             for group in meta["groups"]:
+                for language, filename in group["source_copy_files"].items():
+                    copied = (preview / filename).read_text(encoding="utf-8")
+                    verify_locked_format(copied, language)
+                    assert not any(label in copied for label in (
+                        "PREVIEW", "FAILED_SAFE", "UNVERIFIED", "NOT FOR RELEASE", "INCOMPLETE ENGLISH"))
+                    for raw in group["source_copy_fact_sources"][language]:
+                        fact = agent.BilingualFact(**{key: value for key, value in raw.items() if key in fact_fields})
+                        paragraph = agent.chinese_fact_output(fact) if language == "zh" else agent.english_paragraph_output(fact)
+                        assert paragraph and paragraph in copied, (day, language, fact.fact_id)
+                        if language == "en":
+                            assert not fact.translation_provenance and fact.english_source == "source_backed"
                 for language, key in (("zh", "airport_fact_sources"), ("en", "english_fact_sources")):
                     body = (preview / group["preview_files"][language]).read_text(encoding="utf-8")
                     verify_locked_format(body, language)

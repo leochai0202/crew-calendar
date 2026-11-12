@@ -31,6 +31,8 @@ def group():
     assert errors
     return dict(group_index=1, airport_fact_sources={"AAAA": [agent.fact_source_metadata(zh)]},
         english_fact_sources={"AAAA": [agent.fact_source_metadata(en)]}, conflict_evidence=evidence,
+        _source_copy_zh="我是测试。\n\n" + agent.chinese_fact_output(zh) + "。\n",
+        _source_copy_en="I am Test.\n\n" + agent.english_paragraph_output(en) + "\n",
         _content="我是测试。\n\n" + agent.chinese_fact_output(zh) + "。\n",
         _english_content="I am Test.\n\n" + agent.english_paragraph_output(en) + "\n"), errors
 
@@ -52,9 +54,61 @@ def test_preview_preserves_complete_both_languages_and_source_conflict(tmp_path)
     assert not (tmp_path / ".success").exists()
 
 
-def test_copy_payload_explicitly_marks_missing_airport_english_not_a_complete_draft(tmp_path):
+def test_source_copy_keeps_conflicting_originals_without_audit_labels(tmp_path):
+    from html import unescape
+    data, errors = group()
+    write_preview(tmp_path, "2026-01-01", [data], errors, "manual.pdf", "test")
+    html = (tmp_path / "copy.html").read_text(encoding="utf-8")
+    payloads = [unescape(body) for body in re.findall(r"<textarea[^>]*>(.*?)</textarea>", html, re.S)]
+    assert payloads == [data["_source_copy_zh"], data["_source_copy_en"]]
+    assert "OLPAB" in payloads[0] and "OBLAP" in payloads[1]
+    assert all(not any(label in body for label in ("PREVIEW", "FAILED_SAFE", "UNVERIFIED", "NOT FOR RELEASE", "zh:test"))
+               for body in payloads)
+    assert "NOT FOR RELEASE" in html and "preview_meta.json" in html
+    meta = json.loads((tmp_path / "preview_meta.json").read_text(encoding="utf-8"))
+    assert not meta["publishable"] and meta["conflicts"] and meta["errors"]
+
+
+def test_chinese_source_copy_remains_available_without_any_english(tmp_path):
+    data, errors = group()
+    write_preview(tmp_path, "2026-01-01", [data], errors, "manual.pdf", "test")
+    assert (tmp_path / "SOURCE_COPY_group_01_en.txt").exists()
+    data["_source_copy_en"] = ""
+    data["source_copy_missing_english_airports"] = ["AAAA"]
+    write_preview(tmp_path, "2026-01-01", [data], errors, "manual.pdf", "test")
+    html = (tmp_path / "copy.html").read_text(encoding="utf-8")
+    assert 'id="g1-zh"' in html and 'id="g1-en"' not in html
+    assert not (tmp_path / "SOURCE_COPY_group_01_en.txt").exists()
+    assert (tmp_path / "SOURCE_COPY_group_01_zh.txt").read_text(encoding="utf-8") == data["_source_copy_zh"]
+
+
+def test_release_status_does_not_replace_original_copy_with_reviewed_translation(tmp_path):
+    data, _ = group()
+    data.update(release_eligible=True, errors=[], _english_content="Reviewed translated English.")
+    write_copy_view(tmp_path, "2026-01-01", [data], {1})
+    html = (tmp_path / "copy.html").read_text(encoding="utf-8")
+    assert "Reviewed translated English" not in html
+    assert "Follow W19 via MASGU, ATKAV and OBLAP." in html
+    assert "SOURCE COPY — NOT FOR RELEASE" in html
+
+
+def test_original_english_selection_never_uses_translation_or_its_scope(monkeypatch):
+    from test_flight_prep_independent_languages import record
+    raw = record("When cleared by ATC, maintain 3000ft.")
+    raw["chinese_translation_review"] = {"text_en": "Translated 5000ft.", "role_scope": ["arrival"]}
+    monkeypatch.setattr(agent, "translation_review_unavailable_reason",
+                        lambda *a: pytest.fail("Source copy must not enter the translation path"))
+    _, core, facts = agent.english_briefing_fact_sets(flight(), date(2026, 10, 26),
+        {"AAAA": [raw], "BBBB": []}, allow_reviewed_translation=False)
+    assert core["AAAA"] and len(facts) == 1
+    assert facts[0].en == raw["text_en"] and facts[0].source_text_en == raw["source_original_text_en"]
+    assert not facts[0].translation_provenance and facts[0].source_page == "20"
+
+
+def test_missing_english_is_marked_outside_clean_source_copy_payload(tmp_path):
     data, errors = group()
     data["english_fact_sources"] = {}
+    data["source_copy_missing_english_airports"] = ["AAAA"]
     write_preview(tmp_path, "2026-01-01", [data], errors + ["Missing reliable English core"], "manual.pdf", "test")
     body = (tmp_path / "PREVIEW_group_01_en.txt").read_text(encoding="utf-8")
     html = (tmp_path / "copy.html").read_text(encoding="utf-8")
@@ -62,6 +116,9 @@ def test_copy_payload_explicitly_marks_missing_airport_english_not_a_complete_dr
     assert "NO RELIABLE ENGLISH CORE MATERIAL" in html
     assert "Follow W19 via MASGU, ATKAV and OBLAP." in body  # no fabricated replacement
     assert not (tmp_path / ".success").exists()
+    copied = (tmp_path / "SOURCE_COPY_group_01_en.txt").read_text(encoding="utf-8")
+    assert copied == data["_source_copy_en"]
+    assert "INCOMPLETE" not in copied and "UNVERIFIED" not in copied
 
 
 @pytest.mark.parametrize("mode", ["preview", "release"])
@@ -235,7 +292,7 @@ def test_one_bad_group_cannot_block_or_publish_with_a_good_bilingual_group(tmp_p
     assert "VALID_CN" in summary[-1] and "VALID_EN" in summary[-1] and "FAILED_SAFE" in summary[-1]
     assert "BLOCKED_CN" not in summary[-1] and "BLOCKED_EN" not in summary[-1]
     html = (tmp_path / "agent_output/flight_prep/previews/2026-10-26/copy.html").read_text(encoding="utf-8")
-    assert html.count("复制 RELEASE") == 2 and html.count("复制 PREVIEW / NOT FOR RELEASE") == 2
+    assert "复制 RELEASE" not in html and html.count("复制 原文复制稿 / SOURCE COPY") == 4
 
 
 def test_copy_view_cannot_mislabel_unverified_data_or_inject_html(tmp_path):
