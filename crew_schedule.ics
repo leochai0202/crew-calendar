@@ -3611,7 +3611,7 @@ UID:f4d0da162dd42737ff3791987a98228f@crew-calendar
 SUMMARY:✈️ 9C8801 上海浦东→三亚凤凰
 DTSTART;TZID=Asia/Shanghai:20261113T180500
 DTEND;TZID=Asia/Shanghai:20261113T215000
-DESCRIPTION:11月13日 周五\n类型：航班\n航班：9C8801\n航线：上海浦东 → 三亚凤凰\n地点：上海浦东\n签到：16:15｜上海浦东\n任务：18:05 - 21:50\n机型：A320｜注册号：B6821\n\n人员名单：\n• 刘桂林(T2\,R)\n• 谢青(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-11-13 15:48
+DESCRIPTION:11月13日 周五\n类型：航班\n航班：9C8801\n航线：上海浦东 → 三亚凤凰\n地点：上海浦东\n签到：16:15｜上海浦东\n任务：18:05 - 21:50\n机型：A320｜注册号：B6821\n\n人员名单：\n• 刘桂林(T2\,R)\n• 谢青(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-11-13 23:28
 X-CONTENT-SIGNATURE:21056458694c3f64dc1cc5294e69a96b
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -3625,7 +3625,7 @@ UID:d1788f8bdbdfd6e68842aa847e77652e@crew-calendar
 SUMMARY:✈️ 9C8802 三亚凤凰→上海浦东(+1)
 DTSTART;TZID=Asia/Shanghai:20261113T225000
 DTEND;TZID=Asia/Shanghai:20261114T015000
-DESCRIPTION:11月13日 周五\n类型：航班\n航班：9C8802\n航线：三亚凤凰 → 上海浦东(+1)\n地点：三亚凤凰\n签到：21:15｜三亚凤凰\n任务：22:50 - 01:50\n机型：A320｜注册号：B6821\n\n人员名单：\n• 刘桂林(T2\,R)\n• 谢青(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-11-13 15:48
+DESCRIPTION:11月13日 周五\n类型：航班\n航班：9C8802\n航线：三亚凤凰 → 上海浦东(+1)\n地点：三亚凤凰\n签到：21:15｜三亚凤凰\n任务：22:50 - 01:50\n机型：A320｜注册号：B6821\n\n人员名单：\n• 刘桂林(T2\,R)\n• 谢青(R)\n• 段洋硕\n• 罗一敏(B)\n\n版本：2026-11-13 23:28
 X-CONTENT-SIGNATURE:44a7d4c88f4b88efdac43726102ca79c
 LOCATION:三亚凤凰
 BEGIN:VALARM
@@ -3639,7 +3639,7 @@ UID:d9968c9340e71230b0b78234020f71c5@crew-calendar
 SUMMARY:✈️ 9C6687 上海浦东→东营胜利
 DTSTART;TZID=Asia/Shanghai:20261114T190500
 DTEND;TZID=Asia/Shanghai:20261114T211000
-DESCRIPTION:11月14日 周六\n类型：航班\n航班：9C6687\n航线：上海浦东 → 东营胜利\n地点：上海浦东\n签到：17:15｜上海浦东\n任务：19:05 - 21:10\n机型：A320｜注册号：B32MX\n\n人员名单：\n• 李吉恒(T\,R)\n• 段洋硕\n• 杨策(*\,R)\n• 於海洋(B)\n\n版本：2026-11-13 15:48
+DESCRIPTION:11月14日 周六\n类型：航班\n航班：9C6687\n航线：上海浦东 → 东营胜利\n地点：上海浦东\n签到：17:15｜上海浦东\n任务：19:05 - 21:10\n机型：A320｜注册号：B32MX\n\n人员名单：\n• 李吉恒(T\,R)\n• 段洋硕\n• 杨策(*\,R)\n• 於海洋(B)\n\n版本：2026-11-13 23:28
 X-CONTENT-SIGNATURE:5e8292548f1d06ee7381097a9a0af88a
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -3653,7 +3653,7 @@ UID:89f24834d7c9c27072049d3d579b8d30@crew-calendar
 SUMMARY:✈️ 9C6688 东营胜利→上海浦东
 DTSTART;TZID=Asia/Shanghai:20261114T215500
 DTEND;TZID=Asia/Shanghai:20261114T235500
-DESCRIPTION:11月14日 周六\n类型：航班\n航班：9C6688\n航线：东营胜利 → 上海浦东\n地点：东营胜利\n签到：20:20｜东营胜利\n任务：21:55 - 23:55\n机型：A320｜注册号：B32MX\n\n人员名单：\n• 李吉恒(T\,R)\n• 段洋硕\n• 杨策(*\,R)\n• 於海洋(B)\n\n版本：2026-11-13 15:48
+DESCRIPTION:11月14日 周六\n类型：航班\n航班：9C6688\n航线：东营胜利 → 上海浦东\n地点：东营胜利\n签到：20:20｜东营胜利\n任务：21:55 - 23:55\n机型：A320｜注册号：B32MX\n\n人员名单：\n• 李吉恒(T\,R)\n• 段洋硕\n• 杨策(*\,R)\n• 於海洋(B)\n\n版本：2026-11-13 23:28
 X-CONTENT-SIGNATURE:c355230721947c43522fda2dc8a6771e
 LOCATION:东营胜利
 BEGIN:VALARM
@@ -3667,7 +3667,7 @@ UID:7801e1a4645ba82f94dbfa0d33070de1@crew-calendar
 SUMMARY:✈️ 9C6617 上海浦东→丽江三义
 DTSTART;TZID=Asia/Shanghai:20261115T151000
 DTEND;TZID=Asia/Shanghai:20261115T193000
-DESCRIPTION:11月15日 周日\n类型：航班\n航班：9C6617\n航线：上海浦东 → 丽江三义\n地点：上海浦东\n签到：13:20｜上海浦东\n任务：15:10 - 19:30\n机型：A320｜注册号：B320L\n\n人员名单：\n• 邵珂毓(T2\,R)\n• 刘东升\n• 段洋硕\n• 孙翀(B)\n\n版本：2026-11-13 15:48
+DESCRIPTION:11月15日 周日\n类型：航班\n航班：9C6617\n航线：上海浦东 → 丽江三义\n地点：上海浦东\n签到：13:20｜上海浦东\n任务：15:10 - 19:30\n机型：A320｜注册号：B320L\n\n人员名单：\n• 邵珂毓(T2\,R)\n• 刘东升\n• 段洋硕\n• 孙翀(B)\n\n版本：2026-11-13 23:28
 X-CONTENT-SIGNATURE:edf7bab9184fce1179350e07ba87f6b6
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -3681,12 +3681,40 @@ UID:78396361993c1694034651f3feda712a@crew-calendar
 SUMMARY:✈️ 9C6618 丽江三义→上海浦东
 DTSTART;TZID=Asia/Shanghai:20261115T201500
 DTEND;TZID=Asia/Shanghai:20261115T234000
-DESCRIPTION:11月15日 周日\n类型：航班\n航班：9C6618\n航线：丽江三义 → 上海浦东\n地点：丽江三义\n签到：18:40｜丽江三义\n任务：20:15 - 23:40\n机型：A320｜注册号：B320L\n\n人员名单：\n• 邵珂毓(T2\,R)\n• 刘东升\n• 段洋硕\n• 孙翀(B)\n\n版本：2026-11-13 15:48
+DESCRIPTION:11月15日 周日\n类型：航班\n航班：9C6618\n航线：丽江三义 → 上海浦东\n地点：丽江三义\n签到：18:40｜丽江三义\n任务：20:15 - 23:40\n机型：A320｜注册号：B320L\n\n人员名单：\n• 邵珂毓(T2\,R)\n• 刘东升\n• 段洋硕\n• 孙翀(B)\n\n版本：2026-11-13 23:28
 X-CONTENT-SIGNATURE:035a7ee095c666aec0f6575478be5e92
 LOCATION:丽江三义
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C6618 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:d1de6200ec3e5c05aa83633e279af2da@crew-calendar
+SUMMARY:✈️ 9C6569 上海虹桥→揭阳潮汕
+DTSTART;TZID=Asia/Shanghai:20261118T095500
+DTEND;TZID=Asia/Shanghai:20261118T120000
+DESCRIPTION:11月18日 周三\n类型：航班\n航班：9C6569\n航线：上海虹桥 → 揭阳潮汕\n地点：上海虹桥\n签到：08:10｜上海虹桥\n任务：09:55 - 12:00\n机型：A320｜注册号：B300X\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 朱金亮(P\,B)\n\n版本：2026-11-13 23:28
+X-CONTENT-SIGNATURE:1e4e6a4c957b0bcadf6ee092b1327e00
+LOCATION:上海虹桥
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C6569 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:32df4f681c50a02e0680994f982bf83a@crew-calendar
+SUMMARY:✈️ 9C8833X 揭阳潮汕→扬州泰州
+DTSTART;TZID=Asia/Shanghai:20261118T125000
+DTEND;TZID=Asia/Shanghai:20261118T145500
+DESCRIPTION:11月18日 周三\n类型：航班\n航班：9C8833X\n航线：揭阳潮汕 → 扬州泰州\n地点：揭阳潮汕\n签到：11:00｜揭阳潮汕\n任务：12:50 - 14:55\n机型：A320｜注册号：B9965\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 高颂佳(B)\n\n版本：2026-11-13 23:28
+X-CONTENT-SIGNATURE:4a810787fdbe8ecebd7fc975e4fe4b7d
+LOCATION:揭阳潮汕
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C8833X 签到提醒
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
