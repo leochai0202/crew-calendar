@@ -2,11 +2,50 @@
 from dataclasses import fields
 from html import escape
 from pathlib import Path
+import re
 
 from crew_agents.common import atomic_write_json, atomic_write_text
 
 
 NOTICE = "PREVIEW / 审核预览 — NOT FOR RELEASE / 不得作为正式运行资料发布"
+
+
+def source_copy_errors(output: Path, groups: list[dict]) -> list[str]:
+    """Validate the copy artifact, independently of RELEASE/language parity."""
+    from crew_agents import flight_prep_agent as agent
+    errors = []
+    html = (output / "copy.html").read_text(encoding="utf-8")
+    known = {item.name for item in fields(agent.BilingualFact)}
+    for group in groups:
+        index = group["group_index"]
+        for language in ("zh", "en"):
+            body = str(group.get("_source_copy_" + language) or "")
+            facts = group.get("source_copy_fact_sources", {}).get(language, [])
+            if language == "en" and not body and not facts:
+                continue  # Missing English cannot invalidate existing Chinese.
+            prefix = "我是来自飞行十五中队的副驾驶" if language == "zh" else "I am "
+            headings = (["上一次飞行中机长/教员对我优缺点的评价（作为PF/PM各取最近一次）：", "典型不安全事件：", "核心威胁："]
+                        if language == "zh" else ["Latest PF/PM feedback:", "Typical unsafe events:", "Core threats:"])
+            paragraphs = body.strip().split("\n\n")
+            valid = bool(body.startswith(prefix) and facts and all(h in paragraphs for h in headings))
+            if valid:
+                valid = [paragraphs.index(h) for h in headings] == sorted(paragraphs.index(h) for h in headings)
+                pf, pm = (("上一次作为PF教员评价：", "作为PM机长评价：") if language == "zh" else ("As PF,", "As PM,"))
+                valid = len(paragraphs) > 4 and paragraphs[1] == headings[0] and paragraphs[2].startswith(pf) and paragraphs[3].startswith(pm)
+            valid = valid and not re.search(r"(?m)^\s*(?:\d+[、)]|\d+\.(?!\d)|[•●▪]|[-*]\s)\s*\S", body)
+            valid = valid and not any(label in body for label in ("PREVIEW", "FAILED_SAFE", "UNVERIFIED", "NOT FOR RELEASE"))
+            path = output / f"SOURCE_COPY_group_{index:02d}_{language}.txt"
+            valid = valid and path.is_file() and path.read_text(encoding="utf-8") == body.rstrip() + "\n"
+            valid = valid and f'data-copy="g{index}-{language}"' in html and f'>{escape(body)}</textarea>' in html
+            for raw in facts:
+                fact = agent.BilingualFact(**{key: value for key, value in raw.items() if key in known})
+                paragraph = agent.chinese_fact_output(fact) if language == "zh" else agent.english_paragraph_output(fact)
+                valid = valid and bool(fact.source_file and fact.source_page not in ("", "N/A") and paragraph and paragraph in body)
+                if language == "en":
+                    valid = valid and fact.english_source == "source_backed" and not fact.translation_provenance
+            if not valid:
+                errors.append(f"group_{index}:{language}:SOURCE_COPY_INVALID")
+    return errors or ([] if groups else ["SOURCE_COPY_NO_GROUPS"])
 
 
 def source_review_queue(groups: list[dict], evidence: list[dict], version: str) -> list[dict]:

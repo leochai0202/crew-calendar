@@ -13253,8 +13253,13 @@ def main() -> int:
         blocked_groups = [group for group in rendered_groups if not group["release_eligible"]]
         rendered_groups = [group for group in rendered_groups if group["release_eligible"]]
         if not rendered_groups:
+            from crew_agents.flight_prep_preview import source_copy_errors
+            copy_errors = source_copy_errors(review_dir, all_rendered_groups)
             status = {
                 "status": "FAILED_SAFE",
+                "release_status": "FAILED_SAFE",
+                "source_copy_status": "SOURCE_COPY_FAILED" if copy_errors else "SOURCE_COPY_READY",
+                "source_copy_errors": copy_errors,
                 "target_date": target.isoformat(),
                 "task_fingerprint": current_task_fingerprint,
                 "matched_flights": current_matched_flights,
@@ -13270,7 +13275,12 @@ def main() -> int:
                 status,
             )
             append_github_summary("## 免费航前准备\n\n**FAILED_SAFE**：\n" + "\n".join(f"- {e}" for e in errors))
-            return 2
+            print(f"SOURCE_COPY_STATUS={status['source_copy_status']}")
+            print("RELEASE_STATUS=FAILED_SAFE")
+            append_github_summary(f"\n\n**{status['source_copy_status']}** — 原文复制结果；正式 RELEASE 仍为 FAILED_SAFE，未生成 .success、未覆盖正式正文。\n")
+            # A successful artifact is not a successful RELEASE. The existing
+            # workflow commit step independently requires a fresh .success.
+            return 2 if copy_errors else 0
 
         partial_release = bool(blocked_groups)
         result_status = "PARTIAL_RELEASE" if partial_release else "SUCCESS"
