@@ -534,8 +534,9 @@ def test_existing_august_regressions_still_generate(
 
     output = repo / "flight_preparation"
     if source_conflict:
-        assert agent.main() == 2
+        assert agent.main() == 0
         state = json.loads((output / f"{target_date}_meta.json").read_text(encoding="utf-8"))
+        assert state["source_copy_status"] == "SOURCE_COPY_READY"
         assert state["status"] == "FAILED_SAFE"
         assert any(source_conflict in error for error in state["errors"])
         assert not (output / ".success").exists() and not (output / "latest.txt").exists()
@@ -576,10 +577,11 @@ def test_real_september_ten_uses_latest_manual_quality_engine(
     monkeypatch.delenv("GITHUB_STEP_SUMMARY", raising=False)
     agent.extract_pdf_text.cache_clear()
 
-    assert agent.main() == 2
+    assert agent.main() == 0
 
     output = repo / "flight_preparation"
     state = json.loads((output / "2026-09-10_meta.json").read_text(encoding="utf-8"))
+    assert state["source_copy_status"] == "SOURCE_COPY_READY"
     assert state["status"] == "FAILED_SAFE"
     assert any("system_activation_temporal_polarity" in error for error in state["errors"])
     assert not (output / ".success").exists() and not (output / "latest.txt").exists()

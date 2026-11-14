@@ -155,8 +155,9 @@ def accept(repo: Path, output: Path, dates: list[str], input_ref: str, verify_co
             old_text_preserved = all(digest(formal / name) == value for name, value in before.items()
                                      if name.endswith(".txt") and name not in changed_allowed)
             assert old_text_preserved
-            if release_code:
+            if not released_groups:
                 assert not (formal / ".success").exists() and old_text_preserved
+                assert release_code == (0 if release_meta.get("source_copy_status") == "SOURCE_COPY_READY" else 2)
             else:
                 assert released_groups and (formal / ".success").is_file()
                 assert all((formal / name).is_file() and digest(formal / name) != before.get(name)
@@ -174,7 +175,8 @@ def accept(repo: Path, output: Path, dates: list[str], input_ref: str, verify_co
             copied = verify_copy_buttons(preview / "copy.html") if verify_copy_ui else None
             result["dates"][day] = dict(preview_status=meta["status"], release_status=release_meta["status"],
                 release_exit_code=release_code, errors=meta["errors"],
-                preview_preserves_formal_and_config=True, failed_release_preserves_last_good=old_text_preserved if release_code else None,
+                source_copy_status=release_meta.get("source_copy_status"),
+                preview_preserves_formal_and_config=True, failed_release_preserves_last_good=old_text_preserved if not released_groups else None,
                 all_selected_body_facts_present=True,
                 required_bilingual_content_complete=all(
                     not group["foreign_crew_detected"] or all(

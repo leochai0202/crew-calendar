@@ -1364,10 +1364,11 @@ def test_real_9c8552_exact_event_keeps_source_grounded_chinese_when_english_supp
     )
     agent.extract_pdf_text.cache_clear()
 
-    assert agent.main() == 2  # --generate-english no must not conceal the known PAPI source conflict
+    assert agent.main() == 0  # Copy success does not conceal the PAPI release conflict.
 
     output = repo / "flight_preparation"
     state = json.loads((output / "2026-07-23_meta.json").read_text(encoding="utf-8"))
+    assert state["source_copy_status"] == "SOURCE_COPY_READY"
     assert state["status"] == "FAILED_SAFE" and any("papi_runway_value_association" in x for x in state["errors"])
     assert not (output / ".success").exists() and not (output / "latest.txt").exists()
     preview = repo / "agent_output/flight_prep/previews/2026-07-23"

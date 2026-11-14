@@ -216,11 +216,13 @@ def test_main_independent_publication_and_failure_rollback(monkeypatch, tmp_path
     monkeypatch.setattr(sys, "argv", ["flight_prep_agent.py", "--repo", str(tmp_path), "--target-date", "2026-07-23"])
     result = agent.main()
     failed = critical_conflict or foreign and missing_english
-    assert result == (2 if failed else 0)
+    assert result == 0  # Independent original copies remain usable in every case.
     meta = json.loads((output / "2026-07-23_meta.json").read_text(encoding="utf-8"))
     assert meta["status"] == ("FAILED_SAFE" if failed else "SUCCESS")
     assert (output / ".success").exists() != failed
     if failed:
+        assert meta["source_copy_status"] == "SOURCE_COPY_READY"
+        assert meta["release_status"] == "FAILED_SAFE"
         assert all((output / name).read_text(encoding="utf-8") == "LAST_GOOD" for name in protected)
     elif foreign:
         assert "Core threats:" in (output / "latest_en.txt").read_text(encoding="utf-8")
