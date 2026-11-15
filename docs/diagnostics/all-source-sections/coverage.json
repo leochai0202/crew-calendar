@@ -1,0 +1,3300 @@
+{
+  "manual": "AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+  "manual_sha256": "e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8",
+  "dates": {
+    "2026-11-13": {
+      "groups": [
+        {
+          "flights": [
+            "9C8801",
+            "9C8802"
+          ],
+          "airports": [
+            "上海浦东",
+            "三亚凤凰"
+          ],
+          "missing_english": []
+        }
+      ],
+      "errors": [
+        "9C8801/9C8802：中英文权威来源关键运行冲突：上海浦东_core_record_5：['papi_runway_value_association']；中文页586；英文页1367"
+      ],
+      "rows": [
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "typical",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／典型不安全事件",
+          "phase": "incident",
+          "source_page": "589",
+          "source_record_id": "上海浦东:typical:cd96a8e3541106df",
+          "fact_id": null,
+          "original": "曾因低高度鸟击导致雷达罩处损伤超标。",
+          "parsed_text": "曾因低高度鸟击导致雷达罩处损伤超标。",
+          "actual_output": [
+            "曾因低高度鸟击导致雷达罩处损伤超标"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "typical",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／典型不安全事件",
+          "phase": "incident",
+          "source_page": "589",
+          "source_record_id": "上海浦东:typical:df9c4a14c46daa54",
+          "fact_id": null,
+          "original": "曾发生更改跑道后输错飞行计划事件。",
+          "parsed_text": "曾发生更改跑道后输错飞行计划事件。",
+          "actual_output": [
+            "曾发生更改跑道后输错飞行计划事件"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "586",
+          "source_record_id": "上海浦东:core:675b1577d10c2450",
+          "fact_id": null,
+          "original": "机场标高：13ft。",
+          "parsed_text": "机场标高：13ft。",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "独立标高字段仅用于有权威高原机场分类的机场"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "586",
+          "source_record_id": "上海浦东:core:b4466824b51e9e03",
+          "fact_id": null,
+          "original": "跑道信息：16L/34R（3800m×60m）；16R/34L（3800m×60m）；17L/35R（4000m× 60m）；17R/35L（3400m×60m）。",
+          "parsed_text": "跑道信息：16L/34R（3800m×60m）；16R/34L（3800m×60m）；17L/35R（4000m× 60m）；17R/35L（3400m×60m）。",
+          "actual_output": [
+            "跑道信息：16L/34R（3800m×60m）；16R/34L（3800m×60m）；17L/35R（4000m× 60m）；17R/35L（3400m×60m）"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "586",
+          "source_record_id": "上海浦东:core:b694bf006b9795c9",
+          "fact_id": null,
+          "original": "PAPI信息：16L：跑道左侧入口内 454 米，3°，MEHT 20.9m；34R：跑道左 侧入口内 455 米，3°，MEHT 21.5m；16R：跑道左侧入口内 452 米，3°，MEHT 21.9m；34L：跑道左侧入口内 452 米，3°，MEHT 22.4m；17L：跑 道左侧入口内 464 米，3°，MEHT 21.7m；35R：跑道左侧入口内 464 米，3°，MEHT 22.5m；17R：跑道左侧入口内 452 米，3°，MEHT 21.4m；35L：跑道左侧入口内 452 米，3°，MEHT 21.0m。",
+          "parsed_text": "PAPI信息：16L：跑道左侧入口内 454 米，3°，MEHT 20.9m；34R：跑道左 侧入口内 455 米，3°，MEHT 21.5m；16R：跑道左侧入口内 452 米，3°，MEHT 21.9m；34L：跑道左侧入口内 452 米，3°，MEHT 22.4m；17L：跑 道左侧入口内 464 米，3°，MEHT 21.7m；35R：跑道左侧入口内 464 米，3°，MEHT 22.5m；17R：跑道左侧入口内 452 米，3°，MEHT 21.4m；35L：跑道左侧入口内 452 米，3°，MEHT 21.0m。",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "papi_data_background_only"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "approach",
+          "source_page": "586",
+          "source_record_id": "上海浦东:core:e4d93b0d69f3ddd7",
+          "fact_id": null,
+          "original": "通 常 16R/34L 和 17L/35R 用 于起 飞，16L/34R 和 17R/35L 用于着陆（低能见度 运行除外）。",
+          "parsed_text": "通 常 16R/34L 和 17L/35R 用 于起 飞，16L/34R 和 17R/35L 用于着陆（低能见度 运行除外）。",
+          "actual_output": [
+            "通常 16R/34L 和 17L/35R 用于起飞，16L/34R 和 17R/35L 用于着陆（低能见度运行除外）"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "587",
+          "source_record_id": "上海浦东:core:8af4cc46c50701a3",
+          "fact_id": null,
+          "original": "低高度爬升相对飞机较多。",
+          "parsed_text": "低高度爬升相对飞机较多。",
+          "actual_output": [
+            "低高度爬升相对飞机较多"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "ground",
+          "source_page": "587",
+          "source_record_id": "上海浦东:core:2d9608ff38f1780d",
+          "fact_id": null,
+          "original": "地面：机坪有时给推出开车指令，有时候给推出到位报告指令，机组注意识别并 遵守指令。",
+          "parsed_text": "地面：机坪有时给推出开车指令，有时候给推出到位报告指令，机组注意识别并 遵守指令。",
+          "actual_output": [
+            "机坪有时给推出开车指令，有时候给推出到位报告指令，注意识别并遵守指令"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "ground",
+          "source_page": "587",
+          "source_record_id": "上海浦东:core:9eca505f5677c686",
+          "fact_id": null,
+          "original": "地面：请机组注意 E，T1 滑行道关闭未在航行通告上说明，机组请参考施工区域 图（2C-1-SUP）。",
+          "parsed_text": "地面：请机组注意 E，T1 滑行道关闭未在航行通告上说明，机组请参考施工区域 图（2C-1-SUP）。",
+          "actual_output": [
+            "请注意 E，T1 滑行道关闭未在航行通告上说明，机组请参考施工区域图（2C-1-SUP）"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "ground",
+          "source_page": "587",
+          "source_record_id": "上海浦东:core:797a67190c3cbc1b",
+          "fact_id": null,
+          "original": "地面：地面运行换频频繁，换频指令与滑行等待位置较近，机组注意，防止滑错/滑过线。",
+          "parsed_text": "地面：地面运行换频频繁，换频指令与滑行等待位置较近，机组注意，防止滑错/滑过线。",
+          "actual_output": [
+            "地面运行换频频繁，换频指令与滑行等待位置较近，注意，防止滑错/滑过线"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "ground",
+          "source_page": "587",
+          "source_record_id": "上海浦东:core:30c421af57ca3030",
+          "fact_id": null,
+          "original": "地面：离场方式在滑行时也可能发生变更，在变更离场方式后，及时遵循 SOP 离 场变更执行更改计划，并做好补充简令，执行离场变更检查单，避免飞错。",
+          "parsed_text": "地面：离场方式在滑行时也可能发生变更，在变更离场方式后，及时遵循 SOP 离 场变更执行更改计划，并做好补充简令，执行离场变更检查单，避免飞错。",
+          "actual_output": [
+            "离场方式在滑行时也可能发生变更，在变更离场方式后，及时遵循 SOP 离场变更执行更改计划，并做好补充简令，执行离场变更检查单，避免飞错"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "departure",
+          "source_page": "587",
+          "source_record_id": "上海浦东:core:b1e411c6bfe3fd4d",
+          "fact_id": null,
+          "original": "离场：浦东机场离地后自动脱波，脱波频率按照 PDC 或放行许可。",
+          "parsed_text": "离场：浦东机场离地后自动脱波，脱波频率按照 PDC 或放行许可。",
+          "actual_output": [
+            "浦东机场离地后自动脱波，脱波频率按照 PDC 或放行许可"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "587",
+          "source_record_id": "上海浦东:core:4fc82505866f5d88",
+          "fact_id": null,
+          "original": "进场：从BK 进场，若向北运行时，通常用西跑道 35L 号，若向南运行时，通常东 跑道 16L。",
+          "parsed_text": "进场：从BK 进场，若向北运行时，通常用西跑道 35L 号，若向南运行时，通常东 跑道 16L。",
+          "actual_output": [
+            "从BK 进场，若向北运行时，通常用西跑道 35L 号，若向南运行时，通常东跑道 16L"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "587",
+          "source_record_id": "上海浦东:core:3f0e1f64d11b58bb",
+          "fact_id": null,
+          "original": "进场：进场程序较多，有时会临时更改，在非繁忙时刻通常会有直飞，机组做好预 案。",
+          "parsed_text": "进场：进场程序较多，有时会临时更改，在非繁忙时刻通常会有直飞，机组做好预 案。",
+          "actual_output": [
+            "进场程序较多，有时会临时更改，在非繁忙时刻通常会有直飞，做好预案"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "587",
+          "source_record_id": "上海浦东:core:ba14d98da9bc2ca1",
+          "fact_id": null,
+          "original": "进场：浦东向南进近过程中曾多次触发 TA/RA 告警，请机组进近准备时做好相关 预案，按照手册记忆项目程序执行。",
+          "parsed_text": "进场：浦东向南进近过程中曾多次触发 TA/RA 告警，请机组进近准备时做好相关 预案，按照手册记忆项目程序执行。",
+          "actual_output": [
+            "浦东向南进近过程中曾多次触发 TA/RA 告警，请进近准备时做好相关预案，按照手册记忆项目程序执行"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "587-588",
+          "source_record_id": "上海浦东:core:368f05545407d85b",
+          "fact_id": null,
+          "original": "进场：浦东 17R/35L 跑道，ATC 可能指挥短切五边或较晚发布盲降许可，机组做好 预判并提前做好能量管理，积极沟通，按需接受 ATC 雷达引导的指令。当 需要实施\"从上方截获下滑道\"程序时，严格遵循 SOP 要求，如无法满足稳 定进近标准，果断复飞或中止进近。",
+          "parsed_text": "进场：浦东 17R/35L 跑道，ATC 可能指挥短切五边或较晚发布盲降许可，机组做好 预判并提前做好能量管理，积极沟通，按需接受 ATC 雷达引导的指令。当 需要实施\"从上方截获下滑道\"程序时，严格遵循 SOP 要求，如无法满足稳 定进近标准，果断复飞或中止进近。",
+          "actual_output": [
+            "浦东 17R/35L 跑道，ATC 可能指挥短切五边或较晚发布盲降许可，做好预判并提前做好能量管理，积极沟通，按需接受 ATC 雷达引导的指令。当需要实施\"从上方截获下滑道\"程序时，严格遵循 SOP 要求，如无法满足稳定进近标准，果断复飞或中止进近"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "588",
+          "source_record_id": "上海浦东:core:e450bf866b151018",
+          "fact_id": null,
+          "original": "进场：34R 进近，PD083 和 PD084 中间偏右有较高障碍物，下降或保持 600m 从上 方飞过可能触发 GPWS 警戒，机组参考 EFB 中“关于浦东 34R 跑道进近触发 GPWS 警戒的提示”操作通告执行。",
+          "parsed_text": "进场：34R 进近，PD083 和 PD084 中间偏右有较高障碍物，下降或保持 600m 从上 方飞过可能触发 GPWS 警戒，机组参考 EFB 中“关于浦东 34R 跑道进近触发 GPWS 警戒的提示”操作通告执行。",
+          "actual_output": [
+            "34R 进近，PD083 和 PD084 中间偏右有较高障碍物，下降或保持 600m 从上方飞过可能触发 GPWS 警戒，机组参考 EFB 中“关于浦东 34R 跑道进近触发 GPWS 警戒的提示”操作通告执行"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "landing_ground",
+          "source_page": "588",
+          "source_record_id": "上海浦东:core:3bfbd83ca010da05",
+          "fact_id": null,
+          "original": "着陆后地面：近期发生多次浦东机场 168 号停机位，因上坡和单发原因油门加至地面最 大可用推力仍不能移动飞机，而关车申请拖车。请注意在此类停机位的进 位速度。",
+          "parsed_text": "着陆后地面：近期发生多次浦东机场 168 号停机位，因上坡和单发原因油门加至地面最 大可用推力仍不能移动飞机，而关车申请拖车。请注意在此类停机位的进 位速度。",
+          "actual_output": [
+            "近期发生多次浦东机场 168 号停机位，因上坡和单发原因油门加至地面最大可用推力仍不能移动飞机，而关车申请拖车。请注意在此类停机位的进位速度"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "landing_ground",
+          "source_page": "588",
+          "source_record_id": "上海浦东:core:8f0a64006ccbd689",
+          "fact_id": null,
+          "original": "着陆后地面：浦东机场细则要求，AD2.20，3.2.4\"进港航空器机组发现地面滑行引导车 后关闭滑行灯，跟随地面滑行引导车滑行\"。",
+          "parsed_text": "着陆后地面：浦东机场细则要求，AD2.20，3.2.4\"进港航空器机组发现地面滑行引导车 后关闭滑行灯，跟随地面滑行引导车滑行\"。",
+          "actual_output": [
+            "浦东机场细则要求，AD2.20，3.2.4\"进港航空器机组发现地面滑行引导车后关闭滑行灯，跟随地面滑行引导车滑行\""
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "landing_ground",
+          "source_page": "588",
+          "source_record_id": "上海浦东:core:5104194daed96f49",
+          "fact_id": null,
+          "original": "着陆后地面：机组在进入设置目视泊位引导系统的机位时，发现有疑问的引导指示，或 进入由人工引导入位的机位时发现地面接机人员未就位（尤其是着陆后临 时更换机位时常发生），应当立即停止滑行，及时通报 ATC，并应当保持发 动机运转，等待后续处置。",
+          "parsed_text": "着陆后地面：机组在进入设置目视泊位引导系统的机位时，发现有疑问的引导指示，或 进入由人工引导入位的机位时发现地面接机人员未就位（尤其是着陆后临 时更换机位时常发生），应当立即停止滑行，及时通报 ATC，并应当保持发 动机运转，等待后续处置。",
+          "actual_output": [
+            "在进入设置目视泊位引导系统的机位时，发现有疑问的引导指示，或进入由人工引导入位的机位时发现地面接机人员未就位（尤其是着陆后临时更换机位时常发生），应当立即停止滑行，及时通报 ATC，并应当保持发动机运转，等待后续处置"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "588",
+          "source_record_id": "上海浦东:core:c10b17286a3c81f9",
+          "fact_id": null,
+          "original": "运行特点：冬季运行经常低能见、低云，请机组做好相关准备。",
+          "parsed_text": "运行特点：冬季运行经常低能见、低云，请机组做好相关准备。",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "目标月份为11月，不在资料明确季节适用月份1,2,12月内"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "588",
+          "source_record_id": "上海浦东:core:1bf1d4fbf04b7fad",
+          "fact_id": null,
+          "original": "运行特点：浦东机场驱鸟炮声音较响，机组不要产生惊吓效应。",
+          "parsed_text": "运行特点：浦东机场驱鸟炮声音较响，机组不要产生惊吓效应。",
+          "actual_output": [
+            "浦东机场驱鸟炮声音较响，不要产生惊吓效应"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／行政内容排除",
+          "phase": "unspecified",
+          "source_page": "586-589",
+          "source_record_id": "上海浦东:core:085a0b4d22fc240c",
+          "fact_id": null,
+          "original": "运行特点：现场/签派频率：现场频率 130.5 或 129.8；春秋签派频率 130.5。",
+          "parsed_text": "",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "standalone_frequency_metadata"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／行政内容排除",
+          "phase": "unspecified",
+          "source_page": "586-589",
+          "source_record_id": "上海浦东:core:6f3af8f424c85481",
+          "fact_id": null,
+          "original": "运行特点：如果回浦东后再飞一个国际航班，建议第一次边检走人工，自助系统默认 一天只能通过一次，容易第一次被困在自助通道，需要工作人员人工退回然后重新走人工。",
+          "parsed_text": "",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "passenger_or_staff_border_administration"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / core",
+          "phase": "core",
+          "source_page": "1367",
+          "source_record_id": "上海浦东:en:20055991bca5d294",
+          "fact_id": "上海浦东:en:20055991bca5d294",
+          "original": "Airportelevation:13 ft",
+          "parsed_text": "Airportelevation:13 ft",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "Standalone elevation requires a sourced high-altitude airport classification"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / core",
+          "phase": "core",
+          "source_page": "1367",
+          "source_record_id": "上海浦东:en:b52a9f8a6d490a13",
+          "fact_id": "上海浦东:en:b52a9f8a6d490a13",
+          "original": "Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m)",
+          "parsed_text": "Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m)",
+          "actual_output": [
+            "Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m)."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": [
+            "exact_duplicate_english_source"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / core",
+          "phase": "core",
+          "source_page": "1367",
+          "source_record_id": "上海浦东:en:25c1f75d2bee4b70",
+          "fact_id": "上海浦东:en:25c1f75d2bee4b70",
+          "original": "PAPI Information: RWY 16L: 454 m inside runway threshold on left side, glidepath angle 3°, MEHT 20.9 m - RWY 34R: 455 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.5 m - RWY 16R: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.9 m - RWY 34L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 22.4 m - RWY 17L: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.7 m - RWY 35R: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 22.5 m - RWY 17R: 35L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 21.4 m - RWY 35L: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.0 m",
+          "parsed_text": "PAPI Information: RWY 16L: 454 m inside runway threshold on left side, glidepath angle 3°, MEHT 20.9 m - RWY 34R: 455 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.5 m - RWY 16R: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.9 m - RWY 34L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 22.4 m - RWY 17L: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.7 m - RWY 35R: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 22.5 m - RWY 17R: 35L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 21.4 m - RWY 35L: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.0 m",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "exact_duplicate_english_source",
+            "papi_data_background_only"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / ground",
+          "phase": "ground",
+          "source_page": "1368",
+          "source_record_id": "上海浦东:en:b10f9832bd1f7de0",
+          "fact_id": "上海浦东:en:b10f9832bd1f7de0",
+          "original": "Apron control may issue push-back and start-up clearance, or instruction to report push-back complete. Flight crews shall identify and comply with relevant clearances.",
+          "parsed_text": "Apron control may issue push-back and start-up clearance, or instruction to report push-back complete. Flight crews shall identify and comply with relevant clearances.",
+          "actual_output": [
+            "Apron control may issue push-back and start-up clearance, or instruction to report push-back complete. It is required to identify and comply with relevant clearances."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / ground",
+          "phase": "ground",
+          "source_page": "1368",
+          "source_record_id": "上海浦东:en:e04513ef198b253e",
+          "fact_id": "上海浦东:en:e04513ef198b253e",
+          "original": "Closure of Taxiway E and Taxiway T1 isNOT published in NOTAMs. Refer to construction area chart (2C-1-SUP).",
+          "parsed_text": "Closure of Taxiway E and Taxiway T1 isNOT published in NOTAMs. Refer to construction area chart (2C-1-SUP).",
+          "actual_output": [
+            "Closure of Taxiway E and Taxiway T1 is NOT published in NOTAMs. Refer to construction area chart (2C-1-SUP)."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / ground",
+          "phase": "ground",
+          "source_page": "1368",
+          "source_record_id": "上海浦东:en:fb817e8771b3dd19",
+          "fact_id": "上海浦东:en:fb817e8771b3dd19",
+          "original": "Frequent frequency changes occur during surface movement. Frequency change points are geographically close to taxi holding positions. Exercise vigilance to prevent taxi routing errors or overshooting holding lines.",
+          "parsed_text": "Frequent frequency changes occur during surface movement. Frequency change points are geographically close to taxi holding positions. Exercise vigilance to prevent taxi routing errors or overshooting holding lines.",
+          "actual_output": [
+            "Frequent frequency changes occur during surface movement. Frequency change points are geographically close to taxi holding positions. Exercise vigilance to prevent taxi routing errors or overshooting holding lines."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / ground",
+          "phase": "ground",
+          "source_page": "1368-1369",
+          "source_record_id": "上海浦东:en:cdb0ad326ab4578c",
+          "fact_id": "上海浦东:en:cdb0ad326ab4578c",
+          "original": "Departure procedure may be amended while taxiing. Upon departure-mode revision, execute SOP for departure change, update flight plan, conduct supplementary briefing and apply departure-change checklist to avoid track deviation.",
+          "parsed_text": "Departure procedure may be amended while taxiing. Upon departure-mode revision, execute SOP for departure change, update flight plan, conduct supplementary briefing and apply departure-change checklist to avoid track deviation.",
+          "actual_output": [
+            "Departure procedure may be amended while taxiing. Upon departure-mode revision, execute SOP for departure change, update flight plan, conduct supplementary briefing and apply departure-change checklist to avoid track deviation."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / departure",
+          "phase": "departure",
+          "source_page": "1369",
+          "source_record_id": "上海浦东:en:a695d3b160a518f3",
+          "fact_id": "上海浦东:en:a695d3b160a518f3",
+          "original": "Automatic frequency hand-off upon lift-off atPudong. Handoff frequency shall be in accordance with PDC or ATC departure clearance.",
+          "parsed_text": "Automatic frequency hand-off upon lift-off atPudong. Handoff frequency shall be in accordance with PDC or ATC departure clearance.",
+          "actual_output": [
+            "Automatic frequency hand-off upon lift-off at Pudong. Handoff frequency shall be in accordance with PDC or ATC departure clearance."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / arrival",
+          "phase": "arrival",
+          "source_page": "1369",
+          "source_record_id": "上海浦东:en:f3cf076a68861c2d",
+          "fact_id": "上海浦东:en:f3cf076a68861c2d",
+          "original": "For BK arrival: during north-bound operations, RWY 35L (western runway) is normally assigned; during south-bound operations, RWY 16L (eastern runway) isnormally assigned.",
+          "parsed_text": "For BK arrival: during north-bound operations, RWY 35L (western runway) is normally assigned; during south-bound operations, RWY 16L (eastern runway) isnormally assigned.",
+          "actual_output": [
+            "For BK arrival: during north-bound operations, RWY 35L (western runway) is normally assigned; during south-bound operations, RWY 16L (eastern runway) is normally assigned."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / arrival",
+          "phase": "arrival",
+          "source_page": "1369",
+          "source_record_id": "上海浦东:en:dd6dd24dce9e9ca7",
+          "fact_id": "上海浦东:en:dd6dd24dce9e9ca7",
+          "original": "Multiple arrival procedures are in use, with ad-hoc amendments possible. Direct-to clearances are common during off-peak periods. Maintain contingency plans.",
+          "parsed_text": "Multiple arrival procedures are in use, with ad-hoc amendments possible. Direct-to clearances are common during off-peak periods. Maintain contingency plans.",
+          "actual_output": [
+            "Multiple arrival procedures are in use, with ad-hoc amendments possible. Direct-to clearances are common during off-peak periods. Maintain contingency plans."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / arrival",
+          "phase": "arrival",
+          "source_page": "1369",
+          "source_record_id": "上海浦东:en:5a917bc972952339",
+          "fact_id": "上海浦东:en:5a917bc972952339",
+          "original": "Multiple TA/RA alerts have been recorded during south-bound approaches into Pudong. Prepare contingency measures during approach preparation and execute memory-item procedures per aircraft manual.",
+          "parsed_text": "Multiple TA/RA alerts have been recorded during south-bound approaches into Pudong. Prepare contingency measures during approach preparation and execute memory-item procedures per aircraft manual.",
+          "actual_output": [
+            "Multiple TA/RA alerts have been recorded during south-bound approaches into Pudong. Prepare contingency measures during approach preparation and execute memory-item procedures per aircraft manual."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / arrival",
+          "phase": "arrival",
+          "source_page": "1369",
+          "source_record_id": "上海浦东:en:17279dca2a949b5b",
+          "fact_id": "上海浦东:en:17279dca2a949b5b",
+          "original": "For RWY 17R / 35L, ATC may assign short base-leg vectors or issue ILS clearance at a late stage. Anticipate such scenarios, conduct proactive energy management, maintain active communication and accept ATC radar vectors as required. When performing “glideslope capture from above” procedure, strictly comply with SOP. Ifstable-approach criteriacannot be satisfied,execute missed approach or discontinued approach without hesitation.",
+          "parsed_text": "For RWY 17R / 35L, ATC may assign short base-leg vectors or issue ILS clearance at a late stage. Anticipate such scenarios, conduct proactive energy management, maintain active communication and accept ATC radar vectors as required. When performing “glideslope capture from above” procedure, strictly comply with SOP. Ifstable-approach criteriacannot be satisfied,execute missed approach or discontinued approach without hesitation.",
+          "actual_output": [
+            "For RWY 17R / 35L, ATC may assign short base-leg vectors or issue ILS clearance at a late stage. Anticipate such scenarios, conduct proactive energy management, maintain active communication and accept ATC radar vectors as required. When performing “glideslope capture from above” procedure, strictly comply with SOP. If stable-approach criteria cannot be satisfied, execute missed approach or discontinued approach without hesitation."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / arrival",
+          "phase": "arrival",
+          "source_page": "1369",
+          "source_record_id": "上海浦东:en:3f54b9d6c5516c33",
+          "fact_id": "上海浦东:en:3f54b9d6c5516c33",
+          "original": "For RWY 34R approach, tallobstacles exist slightly right-of-track between waypoints PD083 and PD084. Over-flying at or maintaining 600 m may trigger GPWS caution alerts. Follow the operational advisory “Reminder on GPWS Caution Triggers for RWY 34R Approaches at Pudong” available in EFB.",
+          "parsed_text": "For RWY 34R approach, tallobstacles exist slightly right-of-track between waypoints PD083 and PD084. Over-flying at or maintaining 600 m may trigger GPWS caution alerts. Follow the operational advisory “Reminder on GPWS Caution Triggers for RWY 34R Approaches at Pudong” available in EFB.",
+          "actual_output": [
+            "For RWY 34R approach, tall obstacles exist slightly right-of-track between waypoints PD083 and PD084. Over-flying at or maintaining 600 m may trigger GPWS caution alerts. Follow the operational advisory “Reminder on GPWS Caution Triggers for RWY 34R Approaches at Pudong” available in EFB."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / landing_ground",
+          "phase": "landing_ground",
+          "source_page": "1370",
+          "source_record_id": "上海浦东:en:51fb204c9b9d4180",
+          "fact_id": "上海浦东:en:51fb204c9b9d4180",
+          "original": "Several recent incidents occurred at Stand 168: due to uphill gradient and single-engine taxi condition, aircraft could not move even with maximum available ground thrust, requiring engine shutdown and tow-in service. Control taxi speed when docking atstands with such gradients.",
+          "parsed_text": "Several recent incidents occurred at Stand 168: due to uphill gradient and single-engine taxi condition, aircraft could not move even with maximum available ground thrust, requiring engine shutdown and tow-in service. Control taxi speed when docking atstands with such gradients.",
+          "actual_output": [
+            "Several recent incidents occurred at Stand 168: due to uphill gradient and single-engine taxi condition, aircraft could not move even with maximum available ground thrust, requiring engine shutdown and tow-in service. Control taxi speed when docking at stands with such gradients."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / landing_ground",
+          "phase": "landing_ground",
+          "source_page": "1370",
+          "source_record_id": "上海浦东:en:054ac96e6f4adc4d",
+          "fact_id": "上海浦东:en:054ac96e6f4adc4d",
+          "original": "Per Pudong Aerodrome Instructions AD2.20, 3.2.4: “Upon sighting marshalling vehicle, arriving crews shall switch off taxi lights and follow the marshalling vehicle”.",
+          "parsed_text": "Per Pudong Aerodrome Instructions AD2.20, 3.2.4: “Upon sighting marshalling vehicle, arriving crews shall switch off taxi lights and follow the marshalling vehicle”.",
+          "actual_output": [
+            "Per Pudong Aerodrome Instructions AD2.20, 3.2.4: “Upon sighting marshalling vehicle, arriving crews shall switch off taxi lights and follow the marshalling vehicle”."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / landing_ground",
+          "phase": "landing_ground",
+          "source_page": "1370",
+          "source_record_id": "上海浦东:en:78f4ee3bfa513c8a",
+          "fact_id": "上海浦东:en:78f4ee3bfa513c8a",
+          "original": "When taxiing towards stands equipped with Visual Docking Guidance System (VDGS): stop taxi immediately if receiving ambiguous guidance indications. When entering stands with manual marshalling, stop taxi if ground marshalling personnel are not on-site (frequently encountered after ad-hoc stand change post-landing). Notify ATC promptly, keep engines running and await further instructions.",
+          "parsed_text": "When taxiing towards stands equipped with Visual Docking Guidance System (VDGS): stop taxi immediately if receiving ambiguous guidance indications. When entering stands with manual marshalling, stop taxi if ground marshalling personnel are not on-site (frequently encountered after ad-hoc stand change post-landing). Notify ATC promptly, keep engines running and await further instructions.",
+          "actual_output": [
+            "When taxiing towards stands equipped with Visual Docking Guidance System (VDGS): stop taxi immediately if receiving ambiguous guidance indications. When entering stands with manual marshalling, stop taxi if ground marshalling personnel are not on-site (frequently encountered after ad-hoc stand change post-landing). Notify ATC promptly, keep engines running and await further instructions."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / operations",
+          "phase": "operations",
+          "source_page": "1370",
+          "source_record_id": "上海浦东:en:08572f03e1c14a9f",
+          "fact_id": "上海浦东:en:08572f03e1c14a9f",
+          "original": "Low-visibility and low-ceiling conditions prevail frequently in winter. Make adequate preparations accordingly.",
+          "parsed_text": "Low-visibility and low-ceiling conditions prevail frequently in winter. Make adequate preparations accordingly.",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "English source season is not applicable"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / operations",
+          "phase": "operations",
+          "source_page": "1370",
+          "source_record_id": "上海浦东:en:2f32aa54976ed506",
+          "fact_id": "上海浦东:en:2f32aa54976ed506",
+          "original": "Bird-scare cannon blasts are loud atPudong. Crews shall avoid undesired startle response.",
+          "parsed_text": "Bird-scare cannon blasts are loud atPudong. Crews shall avoid undesired startle response.",
+          "actual_output": [
+            "Bird-scare cannon blasts are loud at Pudong. It is required to avoid undesired startle response."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "typical",
+          "source_section": "English / typical / incident",
+          "phase": "incident",
+          "source_page": "1371",
+          "source_record_id": "上海浦东:en:ad504c0d587679e6",
+          "fact_id": "上海浦东:en:ad504c0d587679e6",
+          "original": "Low-altitude bird strike incidents have caused excessive radome damage.",
+          "parsed_text": "Low-altitude bird strike incidents have caused excessive radome damage.",
+          "actual_output": [
+            "Low-altitude bird strike incidents have caused excessive radome damage."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "typical",
+          "source_section": "English / typical / incident",
+          "phase": "incident",
+          "source_page": "1371",
+          "source_record_id": "上海浦东:en:db1017e6adb94dc5",
+          "fact_id": "上海浦东:en:db1017e6adb94dc5",
+          "original": "Flight-plan data-entry errors occurred following runway re-assignment.",
+          "parsed_text": "Flight-plan data-entry errors occurred following runway re-assignment.",
+          "actual_output": [
+            "Flight-plan data-entry errors occurred following runway re-assignment."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / operations",
+          "phase": "operations",
+          "source_page": "1367",
+          "source_record_id": "上海浦东:en:b52a9f8a6d490a13",
+          "fact_id": "上海浦东:en:b52a9f8a6d490a13",
+          "original": "Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m)",
+          "parsed_text": "Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m)",
+          "actual_output": [
+            "Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m)."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": [
+            "exact_duplicate_english_source"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / operations",
+          "phase": "operations",
+          "source_page": "1367",
+          "source_record_id": "上海浦东:en:25c1f75d2bee4b70",
+          "fact_id": "上海浦东:en:25c1f75d2bee4b70",
+          "original": "PAPI Information: RWY 16L: 454 m inside runway threshold on left side, glidepath angle 3°, MEHT 20.9 m - RWY 34R: 455 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.5 m - RWY 16R: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.9 m - RWY 34L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 22.4 m - RWY 17L: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.7 m - RWY 35R: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 22.5 m - RWY 17R: 35L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 21.4 m - RWY 35L: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.0 m",
+          "parsed_text": "PAPI Information: RWY 16L: 454 m inside runway threshold on left side, glidepath angle 3°, MEHT 20.9 m - RWY 34R: 455 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.5 m - RWY 16R: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.9 m - RWY 34L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 22.4 m - RWY 17L: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.7 m - RWY 35R: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 22.5 m - RWY 17R: 35L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 21.4 m - RWY 35L: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.0 m",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "exact_duplicate_english_source",
+            "papi_data_background_only"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / operations",
+          "phase": "operations",
+          "source_page": "1367-1371",
+          "source_record_id": "上海浦东:en:87fbf032cacceab1",
+          "fact_id": "上海浦东:en:87fbf032cacceab1",
+          "original": "Normally RWY 16R/34L and 17L/35R for departures; RWY 16L/34R and 17R/35L for arrivals (except low-visibility operations)",
+          "parsed_text": "Normally RWY 16R/34L and 17L/35R for departures; RWY 16L/34R and 17R/35L for arrivals (except low-visibility operations)",
+          "actual_output": [
+            "Normally RWY 16R/34L and 17L/35R for departures; RWY 16L/34R and 17R/35L for arrivals (except low-visibility operations)."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / operations",
+          "phase": "operations",
+          "source_page": "1368",
+          "source_record_id": "上海浦东:en:3ac39041352eb0b8",
+          "fact_id": "上海浦东:en:3ac39041352eb0b8",
+          "original": "Heavy volume of aircraft climbing atlow altitudes",
+          "parsed_text": "Heavy volume of aircraft climbing atlow altitudes",
+          "actual_output": [
+            "Heavy volume of aircraft climbing atlow altitudes."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "typical",
+          "source_section": "三亚/凤凰机场运行特点／典型不安全事件",
+          "phase": "incident",
+          "source_page": "1007",
+          "source_record_id": "三亚凤凰:typical:7e689c6db3c41187",
+          "fact_id": null,
+          "original": "曾发生1000ft（AAL）未建立着陆形态。",
+          "parsed_text": "曾发生1000ft（AAL）未建立着陆形态。",
+          "actual_output": [
+            "曾发生1000ft（AAL）未建立着陆形态"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "typical",
+          "source_section": "三亚/凤凰机场运行特点／典型不安全事件",
+          "phase": "incident",
+          "source_page": "1007",
+          "source_record_id": "三亚凤凰:typical:65a1734b6045a183",
+          "fact_id": null,
+          "original": "曾发生滑错路线事件。",
+          "parsed_text": "曾发生滑错路线事件。",
+          "actual_output": [
+            "曾发生滑错路线事件"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "typical",
+          "source_section": "三亚/凤凰机场运行特点／典型不安全事件",
+          "phase": "incident",
+          "source_page": "1007",
+          "source_record_id": "三亚凤凰:typical:30cbced04c8308eb",
+          "fact_id": null,
+          "original": "曾发生偏离指令高度事件。",
+          "parsed_text": "曾发生偏离指令高度事件。",
+          "actual_output": [
+            "曾发生偏离指令高度事件"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "core",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点",
+          "phase": "ground",
+          "source_page": "1007",
+          "source_record_id": "三亚凤凰:core:cdb42ab968db8f0c",
+          "fact_id": null,
+          "original": "滑行路线较复杂，A3、A4滑行道在A滑与跑道中间无中线 灯，机组脱离跑道时注意观察道面，尤其夜间下雨，防止偏 出道面。",
+          "parsed_text": "滑行路线较复杂，A3、A4滑行道在A滑与跑道中间无中线 灯，机组脱离跑道时注意观察道面，尤其夜间下雨，防止偏 出道面。",
+          "actual_output": [
+            "滑行路线较复杂，A3、A4滑行道在A滑与跑道中间无中线灯，机组脱离跑道时注意观察道面，尤其夜间下雨，防止偏出道面"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "core",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点",
+          "phase": "approach",
+          "source_page": "1007",
+          "source_record_id": "三亚凤凰:core:5e0cadf3e0cb8190",
+          "fact_id": null,
+          "original": "其他威胁：五边乱流。",
+          "parsed_text": "其他威胁：五边乱流。",
+          "actual_output": [
+            "五边乱流"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "core",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "1007",
+          "source_record_id": "三亚凤凰:core:3847d80e1fb91d7e",
+          "fact_id": null,
+          "original": "运行特点：机场标高：94ft。",
+          "parsed_text": "运行特点：机场标高：94ft。",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "独立标高字段仅用于有权威高原机场分类的机场"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "core",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点",
+          "phase": "ground",
+          "source_page": "1007",
+          "source_record_id": "三亚凤凰:core:b40b55a1031edd60",
+          "fact_id": null,
+          "original": "运行特点：滑出有时跟引导车；若无引导车，尤其夜间需仔细观察 道口指示标识与机坪飞机，A3滑行道夜间辨识度较差。",
+          "parsed_text": "运行特点：滑出有时跟引导车；若无引导车，尤其夜间需仔细观察 道口指示标识与机坪飞机，A3滑行道夜间辨识度较差。",
+          "actual_output": [
+            "滑出有时跟引导车；若无引导车，尤其夜间需仔细观察道口指示标识与机坪飞机，A3滑行道夜间辨识度较差"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "core",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点",
+          "phase": "departure",
+          "source_page": "1007",
+          "source_record_id": "三亚凤凰:core:a76fb92eb7b04951",
+          "fact_id": null,
+          "original": "运行特点：三亚停机位301，离场地面滑行阶段，地面指挥A1在B 前等，B没有标志牌，只有地面标识，注意识别和控制滑行速度，尤其夜间滑行，且滑行距离较短，注意慢车时间限制。",
+          "parsed_text": "运行特点：三亚停机位301，离场地面滑行阶段，地面指挥A1在B 前等，B没有标志牌，只有地面标识，注意识别和控制滑行速度，尤其夜间滑行，且滑行距离较短，注意慢车时间限制。",
+          "actual_output": [
+            "三亚停机位301，离场地面滑行阶段，地面指挥A1在B 前等，B没有标志牌，只有地面标识，注意识别和控制滑行速度，尤其夜间滑行，且滑行距离较短，注意慢车时间限制"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "core",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "1008",
+          "source_record_id": "三亚凤凰:core:08fc51ff7703c068",
+          "fact_id": null,
+          "original": "运行特点：三亚26号跑道等待点，位置在跑道侧方，夜间等待点 灯光较暗，加强地面观察，避免滑过造成跑道入侵。",
+          "parsed_text": "运行特点：三亚26号跑道等待点，位置在跑道侧方，夜间等待点 灯光较暗，加强地面观察，避免滑过造成跑道入侵。",
+          "actual_output": [
+            "三亚26号跑道等待点，位置在跑道侧方，夜间等待点灯光较暗，加强地面观察，避免滑过造成跑道入侵"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "core",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点",
+          "phase": "departure",
+          "source_page": "1008",
+          "source_record_id": "三亚凤凰:core:e3c9c04c25c1b19f",
+          "fact_id": null,
+          "original": "离场：08号常用PORAP-1N，通常放行中会要求7200M过 PORAP，性能一般可以满足。",
+          "parsed_text": "离场：08号常用PORAP-1N，通常放行中会要求7200M过 PORAP，性能一般可以满足。",
+          "actual_output": [
+            "08号常用PORAP-1N，通常放行中会要求7200M过 PORAP，性能一般可以满足"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "core",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点",
+          "phase": "departure",
+          "source_page": "1008",
+          "source_record_id": "三亚凤凰:core:469256e72eb96843",
+          "fact_id": null,
+          "original": "离场：当部队活动时，可能会传统离场，且注意PORAP的速度 限制。",
+          "parsed_text": "离场：当部队活动时，可能会传统离场，且注意PORAP的速度 限制。",
+          "actual_output": [
+            "当部队活动时，可能会传统离场，且注意PORAP的速度限制"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "core",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点",
+          "phase": "departure",
+          "source_page": "1008",
+          "source_record_id": "三亚凤凰:core:ad33e3d2ec2acaed",
+          "fact_id": null,
+          "original": "离场：离港交给三亚区调会指挥上RVSM高度，并且指令NUMKU 之前到达。",
+          "parsed_text": "离场：离港交给三亚区调会指挥上RVSM高度，并且指令NUMKU 之前到达。",
+          "actual_output": [
+            "离港交给三亚区调会指挥上RVSM高度，并且指令NUMKU 之前到达"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "core",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点",
+          "phase": "navigation",
+          "source_page": "1008",
+          "source_record_id": "三亚凤凰:core:d42943a893966948",
+          "fact_id": null,
+          "original": "航路：虹桥-三亚航路与浦东到三亚的航路不一致，不经过 香港管制区，防止航路出错。",
+          "parsed_text": "航路：虹桥-三亚航路与浦东到三亚的航路不一致，不经过 香港管制区，防止航路出错。",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "与当前航班/航线不匹配"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "core",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点",
+          "phase": "navigation",
+          "source_page": "1008",
+          "source_record_id": "三亚凤凰:core:c33534baf93d0f7d",
+          "fact_id": null,
+          "original": "航路：浦东-三亚，交广州区域BEGMO后可能指挥飞DST LJG LJG后 加入A470到DOTMI，DOTMI附近可能开始联系香港120.3 要求保持航向后直飞ALLEY。",
+          "parsed_text": "航路：浦东-三亚，交广州区域BEGMO后可能指挥飞DST LJG LJG后 加入A470到DOTMI，DOTMI附近可能开始联系香港120.3 要求保持航向后直飞ALLEY。",
+          "actual_output": [
+            "浦东-三亚，交广州区域BEGMO后可能指挥飞DST LJG LJG后加入A470到DOTMI，DOTMI附近可能开始联系香港120.3 要求保持航向后直飞ALLEY"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "core",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "1008",
+          "source_record_id": "三亚凤凰:core:627bdc259ba45bf0",
+          "fact_id": null,
+          "original": "航路：ZJSY-ZBSJ段，当有空军活动时，常指挥BHY(南康）过 台转弯。ENKUS后可直飞ZHJ(芷江），EMVIL后可直飞LIMGI。",
+          "parsed_text": "",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "PDF断句或残片未形成完整运行事实"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "core",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点",
+          "phase": "navigation",
+          "source_page": "1009",
+          "source_record_id": "三亚凤凰:core:de0532842dd7727d",
+          "fact_id": null,
+          "original": "航路：ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
+          "parsed_text": "航路：ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35。",
+          "actual_output": [
+            "ZSPD-ZJSY：航路经M503过香港区域，DOTMI前换频HK RADAR121.3，指挥DOTMI之后直飞ALLEY，后续换频HK121.7，指挥直飞SIKOU，SIKOU前换频三亚133.35"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "core",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "1009",
+          "source_record_id": "三亚凤凰:core:1813338410306343",
+          "fact_id": null,
+          "original": "进场：1.26号跑道进近飞机较多时，指挥下高度偏晚，机组注 意及时减速控制飞机能量。",
+          "parsed_text": "进场：1.26号跑道进近飞机较多时，指挥下高度偏晚，机组注 意及时减速控制飞机能量。",
+          "actual_output": [
+            "26号跑道进近飞机较多时，指挥下高度偏晚，注意及时减速控制飞机能量"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "core",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "1009",
+          "source_record_id": "三亚凤凰:core:bccf258450a9d4ee",
+          "fact_id": null,
+          "original": "进场：三亚分别有盲降Y和Z两种程序，需提前收听通波确认，通常为Z程序，但是管制通常不会指明使用哪一种，请机组 注意，避免飞错。",
+          "parsed_text": "进场：三亚分别有盲降Y和Z两种程序，需提前收听通波确认，通常为Z程序，但是管制通常不会指明使用哪一种，请机组 注意，避免飞错。",
+          "actual_output": [
+            "三亚分别有盲降Y和Z两种程序，需提前收听通波确认，通常为Z程序，但是管制通常不会指明使用哪一种，请注意，避免飞错"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "core",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "1009",
+          "source_record_id": "三亚凤凰:core:b57af1b49c4d38ea",
+          "fact_id": null,
+          "original": "进场：VOR08号跑道进近，进场航路可能偏高，注意高距比。程序转弯时管制会指挥下900建立下滑，而程序是700m建立下 滑，可以和管制申请按程序下高度建立下滑。",
+          "parsed_text": "进场：VOR08号跑道进近，进场航路可能偏高，注意高距比。程序转弯时管制会指挥下900建立下滑，而程序是700m建立下 滑，可以和管制申请按程序下高度建立下滑。",
+          "actual_output": [
+            "VOR08号跑道进近，进场航路可能偏高，注意高距比。程序转弯时管制会指挥下900建立下滑，而程序是700m建立下滑，可以和管制申请按程序下高度建立下滑"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "core",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "1009",
+          "source_record_id": "三亚凤凰:core:054d9fd035bd43af",
+          "fact_id": null,
+          "original": "运行特点：减噪程序：详见细则2.21.2。",
+          "parsed_text": "运行特点：减噪程序：详见细则2.21.2。",
+          "actual_output": [
+            "减噪程序：详见细则2.21.2"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "core",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "1009",
+          "source_record_id": "三亚凤凰:core:b296e441fb6b0ab2",
+          "fact_id": null,
+          "original": "运行特点：释压程序：详见EFB。",
+          "parsed_text": "运行特点：释压程序：详见EFB。",
+          "actual_output": [
+            "释压程序：详见EFB"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "core",
+          "source_section": "三亚/凤凰机场运行特点／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "1009",
+          "source_record_id": "三亚凤凰:core:def7cf7af9de069e",
+          "fact_id": null,
+          "original": "运行特点：无线电失效程序：参阅细则2.22.5。",
+          "parsed_text": "运行特点：无线电失效程序：参阅细则2.22.5。",
+          "actual_output": [
+            "无线电失效程序：参阅细则2.22.5"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "zh",
+          "category": "core",
+          "source_section": "三亚/凤凰机场运行特点／行政内容排除",
+          "phase": "unspecified",
+          "source_page": "1007-1009",
+          "source_record_id": "三亚凤凰:core:4a26866e99a208dc",
+          "fact_id": null,
+          "original": "运行特点：现场/签派频率：132.0。",
+          "parsed_text": "",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "standalone_frequency_metadata"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "en",
+          "category": "typical",
+          "source_section": "English / typical / incident",
+          "phase": "incident",
+          "source_page": "1594",
+          "source_record_id": "三亚凤凰:en:b760390a66dc949b",
+          "fact_id": "三亚凤凰:en:b760390a66dc949b",
+          "original": "A failed landing attempt occurred at 1000 feet (AAL).",
+          "parsed_text": "A failed landing attempt occurred at 1000 feet (AAL).",
+          "actual_output": [
+            "A failed landing attempt occurred at 1000 feet (AAL)."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "en",
+          "category": "typical",
+          "source_section": "English / typical / incident",
+          "phase": "incident",
+          "source_page": "1594",
+          "source_record_id": "三亚凤凰:en:9d447863902d55cf",
+          "fact_id": "三亚凤凰:en:9d447863902d55cf",
+          "original": "History of route deviation incidents",
+          "parsed_text": "History of route deviation incidents",
+          "actual_output": [
+            "History of route deviation incidents."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "en",
+          "category": "typical",
+          "source_section": "English / typical / incident",
+          "phase": "incident",
+          "source_page": "1594",
+          "source_record_id": "三亚凤凰:en:7822add10cff1ac5",
+          "fact_id": "三亚凤凰:en:7822add10cff1ac5",
+          "original": "A deviation from the commanded altitude has occurred.",
+          "parsed_text": "A deviation from the commanded altitude has occurred.",
+          "actual_output": [
+            "A deviation from the commanded altitude has occurred."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / core",
+          "phase": "core",
+          "source_page": "1594",
+          "source_record_id": "三亚凤凰:en:df6ad554f73ecc03",
+          "fact_id": "三亚凤凰:en:df6ad554f73ecc03",
+          "original": "Pavement characteristics: The taxiing route is complex. There is no center line light between the A3 and A4 taxiways and the runway. The crew should observe the runway surface carefully when leaving the runway, especially at night when itis raining, to prevent deviation from the runway.",
+          "parsed_text": "Pavement characteristics: The taxiing route is complex. There is no center line light between the A3 and A4 taxiways and the runway. The crew should observe the runway surface carefully when leaving the runway, especially at night when itis raining, to prevent deviation from the runway.",
+          "actual_output": [
+            "The taxiing route is complex. There is no center line light between the A3 and A4 taxiways and the runway. It is recommended to observe the runway surface carefully when leaving the runway, especially at night when it is raining, to prevent deviation from the runway."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / core",
+          "phase": "core",
+          "source_page": "1594",
+          "source_record_id": "三亚凤凰:en:ec7d9e8ae9145eb7",
+          "fact_id": "三亚凤凰:en:ec7d9e8ae9145eb7",
+          "original": "Other Threats: Five-sided Chaos",
+          "parsed_text": "Other Threats: Five-sided Chaos",
+          "actual_output": [
+            "Five-sided Chaos."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / operations",
+          "phase": "operations",
+          "source_page": "1594",
+          "source_record_id": "三亚凤凰:en:e2a91e51600e37c5",
+          "fact_id": "三亚凤凰:en:e2a91e51600e37c5",
+          "original": "Roll-out operations may require a guide vehicle; in the absence of such guidance, particularly at night, close monitoring of approach path markings and aircraft on the apron is essential, as the A3 taxiway exhibits reduced visibilityduring nighttime operations.",
+          "parsed_text": "Roll-out operations may require a guide vehicle; in the absence of such guidance, particularly at night, close monitoring of approach path markings and aircraft on the apron is essential, as the A3 taxiway exhibits reduced visibilityduring nighttime operations.",
+          "actual_output": [
+            "Roll-out operations may require a guide vehicle; in the absence of such guidance, particularly at night, close monitoring of approach path markings and aircraft on the apron is essential, as the A3 taxiway exhibits reduced visibility during nighttime operations."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / operations",
+          "phase": "operations",
+          "source_page": "1594",
+          "source_record_id": "三亚凤凰:en:a49019a42070a2e7",
+          "fact_id": "三亚凤凰:en:a49019a42070a2e7",
+          "original": "At Sanya's apron 301 during ground taxiing, ground controller A1 should wait infront of B. As B has no signage only ground markings, drivers must carefully identify and control taxiing speed—especially at night with shorter taxiing distances—and strictly adhere to the slow-moving vehicle time limit.",
+          "parsed_text": "At Sanya's apron 301 during ground taxiing, ground controller A1 should wait infront of B. As B has no signage only ground markings, drivers must carefully identify and control taxiing speed—especially at night with shorter taxiing distances—and strictly adhere to the slow-moving vehicle time limit.",
+          "actual_output": [
+            "At Sanya's apron 301 during ground taxiing, ground controller A1 should wait in front of B. As B has no signage only ground markings, drivers must carefully identify and control taxiing speed—especially at night with shorter taxiing distances—and strictly adhere to the slow-moving vehicle time limit."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / departure",
+          "phase": "departure",
+          "source_page": "1594-1595",
+          "source_record_id": "三亚凤凰:en:bb3c6415d69380ec",
+          "fact_id": "三亚凤凰:en:bb3c6415d69380ec",
+          "original": "The commonly used PORAP-1N model (model 08) typically requires a 7200M PORAP during release procedures, and its performance generally meets the requirements. When troops are active, they may depart traditionally, and note the speed limit of PORAP. The aircraft ishanded over to the Sanya District Air Traffic Control Center for command, which sets the RVSM (Real-Time Vertical Management System) altitude and instructsthe aircraft toreach the designated position before NUMKU.",
+          "parsed_text": "The commonly used PORAP-1N model (model 08) typically requires a 7200M PORAP during release procedures, and its performance generally meets the requirements. When troops are active, they may depart traditionally, and note the speed limit of PORAP. The aircraft ishanded over to the Sanya District Air Traffic Control Center for command, which sets the RVSM (Real-Time Vertical Management System) altitude and instructsthe aircraft toreach the designated position before NUMKU.",
+          "actual_output": [
+            "The commonly used PORAP-1N model (model 08) typically requires a 7200M PORAP during release procedures, and its performance generally meets the requirements. When troops are active, they may depart traditionally, and note the speed limit of PORAP. The aircraft is handed over to the Sanya District Air Traffic Control Center for command, which sets the RVSM (Real-Time Vertical Management System) altitude and instructsthe aircraft to reach the designated position before NUMKU."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / navigation",
+          "phase": "navigation",
+          "source_page": "1595",
+          "source_record_id": "三亚凤凰:en:a1b4eb5d2a597ec0",
+          "fact_id": "三亚凤凰:en:a1b4eb5d2a597ec0",
+          "original": "The Hongqiao-Sanya route differsfrom the Pudong-Sanya route as it bypasses Hong Kong's controlled area to prevent route errors.",
+          "parsed_text": "The Hongqiao-Sanya route differsfrom the Pudong-Sanya route as it bypasses Hong Kong's controlled area to prevent route errors.",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "English source explicitly applies to a different route"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / navigation",
+          "phase": "navigation",
+          "source_page": "1595",
+          "source_record_id": "三亚凤凰:en:2e2bfd921ca04d39",
+          "fact_id": "三亚凤凰:en:2e2bfd921ca04d39",
+          "original": "From Pudong to Sanya, after connecting with the Guangzhou regional BEGMO, the flight may be directed to DST LJG LJG, then join A470 to DOTMI. Near DOTMI, contact may be initiated with Hong Kong 120.3 to request maintaining the current heading and proceeding directly to ALLEY.",
+          "parsed_text": "From Pudong to Sanya, after connecting with the Guangzhou regional BEGMO, the flight may be directed to DST LJG LJG, then join A470 to DOTMI. Near DOTMI, contact may be initiated with Hong Kong 120.3 to request maintaining the current heading and proceeding directly to ALLEY.",
+          "actual_output": [
+            "From Pudong to Sanya, after connecting with the Guangzhou regional BEGMO, the flight may be directed to DST LJG LJG, then join A470 to DOTMI. Near DOTMI, contact may be initiated with Hong Kong 120.3 to request maintaining the current heading and proceeding directly to ALLEY."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / navigation",
+          "phase": "navigation",
+          "source_page": "1595",
+          "source_record_id": "三亚凤凰:en:74a883dd9f29353e",
+          "fact_id": "三亚凤凰:en:74a883dd9f29353e",
+          "original": "During air operations in the ZJSY-ZBSJ sector, BHY (Nankang) isfrequently directed to execute a turn over the island. After ENKUS, it can proceed directly to ZHJ (Zhijiang), and after EMVIL, it can proceed directly to LIMGI.",
+          "parsed_text": "During air operations in the ZJSY-ZBSJ sector, BHY (Nankang) isfrequently directed to execute a turn over the island. After ENKUS, it can proceed directly to ZHJ (Zhijiang), and after EMVIL, it can proceed directly to LIMGI.",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "English source explicitly applies to a different route"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / navigation",
+          "phase": "navigation",
+          "source_page": "1595",
+          "source_record_id": "三亚凤凰:en:0d0e17a06a47fb12",
+          "fact_id": "三亚凤凰:en:0d0e17a06a47fb12",
+          "original": "ZSPD-ZJSY: The flight route passes through the Hong Kong area via M503, switching to HK RADAR 121.3 before DOTMI. After DOTMI, itflies directly to ALLEY, then switches to HK121.7 for direct flight to SIKOU, and finally switches to Sanya 133.35 before SIKOU.",
+          "parsed_text": "ZSPD-ZJSY: The flight route passes through the Hong Kong area via M503, switching to HK RADAR 121.3 before DOTMI. After DOTMI, itflies directly to ALLEY, then switches to HK121.7 for direct flight to SIKOU, and finally switches to Sanya 133.35 before SIKOU.",
+          "actual_output": [
+            "ZSPD-ZJSY: The flight route passes through the Hong Kong area via M503, switching to HK RADAR 121.3 before DOTMI. After DOTMI, it flies directly to ALLEY, then switches to HK121.7 for direct flight to SIKOU, and finally switches to Sanya 133.35 before SIKOU."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / arrival",
+          "phase": "arrival",
+          "source_page": "1595",
+          "source_record_id": "三亚凤凰:en:d9951ffb504c7cca",
+          "fact_id": "三亚凤凰:en:d9951ffb504c7cca",
+          "original": "When there are many aircraft approaching Runway 1.26, the command may delay the altitude control, and the crew should promptly reduce speed to control the aircraft's energy.",
+          "parsed_text": "When there are many aircraft approaching Runway 1.26, the command may delay the altitude control, and the crew should promptly reduce speed to control the aircraft's energy.",
+          "actual_output": [
+            "When there are many aircraft approaching Runway 1.26, the command may delay the altitude control, and the crew should promptly reduce speed to control the aircraft's energy."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / arrival",
+          "phase": "arrival",
+          "source_page": "1595",
+          "source_record_id": "三亚凤凰:en:941846880837e837",
+          "fact_id": "三亚凤凰:en:941846880837e837",
+          "original": "Sanya has two emergency landing procedures (Y and Z), both requiring prior radio confirmation. While Z procedure is typically used, air traffic control rarely specifies which one to follow. Crews should remain vigilant to avoid misapplication.",
+          "parsed_text": "Sanya has two emergency landing procedures (Y and Z), both requiring prior radio confirmation. While Z procedure is typically used, air traffic control rarely specifies which one to follow. Crews should remain vigilant to avoid misapplication.",
+          "actual_output": [
+            "Sanya has two emergency landing procedures (Y and Z), both requiring prior radio confirmation. While Z procedure is typically used, air traffic control rarely specifies which one to follow. It is recommended to remain vigilant to avoid misapplication."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / arrival",
+          "phase": "arrival",
+          "source_page": "1595",
+          "source_record_id": "三亚凤凰:en:f323c2d4f8e07679",
+          "fact_id": "三亚凤凰:en:f323c2d4f8e07679",
+          "original": "Approach to Runway 08 (VOR08). The approach path may be ata higher altitude, so monitor the altitude-to-range ratio. During the procedure turn, airtraffic control will direct a 900- meter downward slope, whereas the procedure specifies a 700- meter downward slope. You may request to execute the procedure down slope with the control's approval.",
+          "parsed_text": "Approach to Runway 08 (VOR08). The approach path may be ata higher altitude, so monitor the altitude-to-range ratio. During the procedure turn, airtraffic control will direct a 900- meter downward slope, whereas the procedure specifies a 700- meter downward slope. You may request to execute the procedure down slope with the control's approval.",
+          "actual_output": [
+            "Approach to Runway 08 (VOR08). The approach path may be at a higher altitude, so monitor the altitude-to-range ratio. During the procedure turn, air traffic control will direct a 900- meter downward slope, whereas the procedure specifies a 700- meter downward slope. You may request to execute the procedure down slope with the control's approval."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / operations",
+          "phase": "operations",
+          "source_page": "1595",
+          "source_record_id": "三亚凤凰:en:4e6871c9355d2331",
+          "fact_id": "三亚凤凰:en:4e6871c9355d2331",
+          "original": "Noise reduction procedure: Refer to Section 2.21.2 for details.",
+          "parsed_text": "Noise reduction procedure: Refer to Section 2.21.2 for details.",
+          "actual_output": [
+            "Noise reduction procedure: Refer to Section 2.21.2 for details."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / operations",
+          "phase": "operations",
+          "source_page": "1595",
+          "source_record_id": "三亚凤凰:en:235d4fd993088cf1",
+          "fact_id": "三亚凤凰:en:235d4fd993088cf1",
+          "original": "Pressure relief procedure: Refer toEFB for details.",
+          "parsed_text": "Pressure relief procedure: Refer toEFB for details.",
+          "actual_output": [
+            "Pressure relief procedure: Refer to EFB for details."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "三亚凤凰",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / operations",
+          "phase": "operations",
+          "source_page": "1595",
+          "source_record_id": "三亚凤凰:en:4082e7c5a46d8e96",
+          "fact_id": "三亚凤凰:en:4082e7c5a46d8e96",
+          "original": "Radio failure procedure: Refer to Rule 2.22.5.",
+          "parsed_text": "Radio failure procedure: Refer to Rule 2.22.5.",
+          "actual_output": [
+            "Radio failure procedure: Refer to Rule 2.22.5."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        }
+      ],
+      "counts": {
+        "OUTPUT": 74,
+        "EXCLUDED": 15
+      }
+    },
+    "2026-11-15": {
+      "groups": [
+        {
+          "flights": [
+            "9C6617",
+            "9C6618"
+          ],
+          "airports": [
+            "上海浦东",
+            "丽江三义"
+          ],
+          "missing_english": [
+            "丽江三义"
+          ]
+        }
+      ],
+      "errors": [
+        "9C6617/9C6618：中英文权威来源关键运行冲突：上海浦东_core_record_5：['papi_runway_value_association']；中文页586；英文页1367",
+        "9C6617/9C6618：丽江三义缺少可靠英文核心运行资料",
+        "9C6617/9C6618英文版：Lijiang Sanyi International Airport:缺少核心威胁内容"
+      ],
+      "rows": [
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "typical",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／典型不安全事件",
+          "phase": "incident",
+          "source_page": "589",
+          "source_record_id": "上海浦东:typical:cd96a8e3541106df",
+          "fact_id": null,
+          "original": "曾因低高度鸟击导致雷达罩处损伤超标。",
+          "parsed_text": "曾因低高度鸟击导致雷达罩处损伤超标。",
+          "actual_output": [
+            "曾因低高度鸟击导致雷达罩处损伤超标"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "typical",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／典型不安全事件",
+          "phase": "incident",
+          "source_page": "589",
+          "source_record_id": "上海浦东:typical:df9c4a14c46daa54",
+          "fact_id": null,
+          "original": "曾发生更改跑道后输错飞行计划事件。",
+          "parsed_text": "曾发生更改跑道后输错飞行计划事件。",
+          "actual_output": [
+            "曾发生更改跑道后输错飞行计划事件"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "586",
+          "source_record_id": "上海浦东:core:675b1577d10c2450",
+          "fact_id": null,
+          "original": "机场标高：13ft。",
+          "parsed_text": "机场标高：13ft。",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "独立标高字段仅用于有权威高原机场分类的机场"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "586",
+          "source_record_id": "上海浦东:core:b4466824b51e9e03",
+          "fact_id": null,
+          "original": "跑道信息：16L/34R（3800m×60m）；16R/34L（3800m×60m）；17L/35R（4000m× 60m）；17R/35L（3400m×60m）。",
+          "parsed_text": "跑道信息：16L/34R（3800m×60m）；16R/34L（3800m×60m）；17L/35R（4000m× 60m）；17R/35L（3400m×60m）。",
+          "actual_output": [
+            "跑道信息：16L/34R（3800m×60m）；16R/34L（3800m×60m）；17L/35R（4000m× 60m）；17R/35L（3400m×60m）"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "586",
+          "source_record_id": "上海浦东:core:b694bf006b9795c9",
+          "fact_id": null,
+          "original": "PAPI信息：16L：跑道左侧入口内 454 米，3°，MEHT 20.9m；34R：跑道左 侧入口内 455 米，3°，MEHT 21.5m；16R：跑道左侧入口内 452 米，3°，MEHT 21.9m；34L：跑道左侧入口内 452 米，3°，MEHT 22.4m；17L：跑 道左侧入口内 464 米，3°，MEHT 21.7m；35R：跑道左侧入口内 464 米，3°，MEHT 22.5m；17R：跑道左侧入口内 452 米，3°，MEHT 21.4m；35L：跑道左侧入口内 452 米，3°，MEHT 21.0m。",
+          "parsed_text": "PAPI信息：16L：跑道左侧入口内 454 米，3°，MEHT 20.9m；34R：跑道左 侧入口内 455 米，3°，MEHT 21.5m；16R：跑道左侧入口内 452 米，3°，MEHT 21.9m；34L：跑道左侧入口内 452 米，3°，MEHT 22.4m；17L：跑 道左侧入口内 464 米，3°，MEHT 21.7m；35R：跑道左侧入口内 464 米，3°，MEHT 22.5m；17R：跑道左侧入口内 452 米，3°，MEHT 21.4m；35L：跑道左侧入口内 452 米，3°，MEHT 21.0m。",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "papi_data_background_only"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "approach",
+          "source_page": "586",
+          "source_record_id": "上海浦东:core:e4d93b0d69f3ddd7",
+          "fact_id": null,
+          "original": "通 常 16R/34L 和 17L/35R 用 于起 飞，16L/34R 和 17R/35L 用于着陆（低能见度 运行除外）。",
+          "parsed_text": "通 常 16R/34L 和 17L/35R 用 于起 飞，16L/34R 和 17R/35L 用于着陆（低能见度 运行除外）。",
+          "actual_output": [
+            "通常 16R/34L 和 17L/35R 用于起飞，16L/34R 和 17R/35L 用于着陆（低能见度运行除外）"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "587",
+          "source_record_id": "上海浦东:core:8af4cc46c50701a3",
+          "fact_id": null,
+          "original": "低高度爬升相对飞机较多。",
+          "parsed_text": "低高度爬升相对飞机较多。",
+          "actual_output": [
+            "低高度爬升相对飞机较多"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "ground",
+          "source_page": "587",
+          "source_record_id": "上海浦东:core:2d9608ff38f1780d",
+          "fact_id": null,
+          "original": "地面：机坪有时给推出开车指令，有时候给推出到位报告指令，机组注意识别并 遵守指令。",
+          "parsed_text": "地面：机坪有时给推出开车指令，有时候给推出到位报告指令，机组注意识别并 遵守指令。",
+          "actual_output": [
+            "机坪有时给推出开车指令，有时候给推出到位报告指令，注意识别并遵守指令"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "ground",
+          "source_page": "587",
+          "source_record_id": "上海浦东:core:9eca505f5677c686",
+          "fact_id": null,
+          "original": "地面：请机组注意 E，T1 滑行道关闭未在航行通告上说明，机组请参考施工区域 图（2C-1-SUP）。",
+          "parsed_text": "地面：请机组注意 E，T1 滑行道关闭未在航行通告上说明，机组请参考施工区域 图（2C-1-SUP）。",
+          "actual_output": [
+            "请注意 E，T1 滑行道关闭未在航行通告上说明，机组请参考施工区域图（2C-1-SUP）"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "ground",
+          "source_page": "587",
+          "source_record_id": "上海浦东:core:797a67190c3cbc1b",
+          "fact_id": null,
+          "original": "地面：地面运行换频频繁，换频指令与滑行等待位置较近，机组注意，防止滑错/滑过线。",
+          "parsed_text": "地面：地面运行换频频繁，换频指令与滑行等待位置较近，机组注意，防止滑错/滑过线。",
+          "actual_output": [
+            "地面运行换频频繁，换频指令与滑行等待位置较近，注意，防止滑错/滑过线"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "ground",
+          "source_page": "587",
+          "source_record_id": "上海浦东:core:30c421af57ca3030",
+          "fact_id": null,
+          "original": "地面：离场方式在滑行时也可能发生变更，在变更离场方式后，及时遵循 SOP 离 场变更执行更改计划，并做好补充简令，执行离场变更检查单，避免飞错。",
+          "parsed_text": "地面：离场方式在滑行时也可能发生变更，在变更离场方式后，及时遵循 SOP 离 场变更执行更改计划，并做好补充简令，执行离场变更检查单，避免飞错。",
+          "actual_output": [
+            "离场方式在滑行时也可能发生变更，在变更离场方式后，及时遵循 SOP 离场变更执行更改计划，并做好补充简令，执行离场变更检查单，避免飞错"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "departure",
+          "source_page": "587",
+          "source_record_id": "上海浦东:core:b1e411c6bfe3fd4d",
+          "fact_id": null,
+          "original": "离场：浦东机场离地后自动脱波，脱波频率按照 PDC 或放行许可。",
+          "parsed_text": "离场：浦东机场离地后自动脱波，脱波频率按照 PDC 或放行许可。",
+          "actual_output": [
+            "浦东机场离地后自动脱波，脱波频率按照 PDC 或放行许可"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "587",
+          "source_record_id": "上海浦东:core:4fc82505866f5d88",
+          "fact_id": null,
+          "original": "进场：从BK 进场，若向北运行时，通常用西跑道 35L 号，若向南运行时，通常东 跑道 16L。",
+          "parsed_text": "进场：从BK 进场，若向北运行时，通常用西跑道 35L 号，若向南运行时，通常东 跑道 16L。",
+          "actual_output": [
+            "从BK 进场，若向北运行时，通常用西跑道 35L 号，若向南运行时，通常东跑道 16L"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "587",
+          "source_record_id": "上海浦东:core:3f0e1f64d11b58bb",
+          "fact_id": null,
+          "original": "进场：进场程序较多，有时会临时更改，在非繁忙时刻通常会有直飞，机组做好预 案。",
+          "parsed_text": "进场：进场程序较多，有时会临时更改，在非繁忙时刻通常会有直飞，机组做好预 案。",
+          "actual_output": [
+            "进场程序较多，有时会临时更改，在非繁忙时刻通常会有直飞，做好预案"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "587",
+          "source_record_id": "上海浦东:core:ba14d98da9bc2ca1",
+          "fact_id": null,
+          "original": "进场：浦东向南进近过程中曾多次触发 TA/RA 告警，请机组进近准备时做好相关 预案，按照手册记忆项目程序执行。",
+          "parsed_text": "进场：浦东向南进近过程中曾多次触发 TA/RA 告警，请机组进近准备时做好相关 预案，按照手册记忆项目程序执行。",
+          "actual_output": [
+            "浦东向南进近过程中曾多次触发 TA/RA 告警，请进近准备时做好相关预案，按照手册记忆项目程序执行"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "587-588",
+          "source_record_id": "上海浦东:core:368f05545407d85b",
+          "fact_id": null,
+          "original": "进场：浦东 17R/35L 跑道，ATC 可能指挥短切五边或较晚发布盲降许可，机组做好 预判并提前做好能量管理，积极沟通，按需接受 ATC 雷达引导的指令。当 需要实施\"从上方截获下滑道\"程序时，严格遵循 SOP 要求，如无法满足稳 定进近标准，果断复飞或中止进近。",
+          "parsed_text": "进场：浦东 17R/35L 跑道，ATC 可能指挥短切五边或较晚发布盲降许可，机组做好 预判并提前做好能量管理，积极沟通，按需接受 ATC 雷达引导的指令。当 需要实施\"从上方截获下滑道\"程序时，严格遵循 SOP 要求，如无法满足稳 定进近标准，果断复飞或中止进近。",
+          "actual_output": [
+            "浦东 17R/35L 跑道，ATC 可能指挥短切五边或较晚发布盲降许可，做好预判并提前做好能量管理，积极沟通，按需接受 ATC 雷达引导的指令。当需要实施\"从上方截获下滑道\"程序时，严格遵循 SOP 要求，如无法满足稳定进近标准，果断复飞或中止进近"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "588",
+          "source_record_id": "上海浦东:core:e450bf866b151018",
+          "fact_id": null,
+          "original": "进场：34R 进近，PD083 和 PD084 中间偏右有较高障碍物，下降或保持 600m 从上 方飞过可能触发 GPWS 警戒，机组参考 EFB 中“关于浦东 34R 跑道进近触发 GPWS 警戒的提示”操作通告执行。",
+          "parsed_text": "进场：34R 进近，PD083 和 PD084 中间偏右有较高障碍物，下降或保持 600m 从上 方飞过可能触发 GPWS 警戒，机组参考 EFB 中“关于浦东 34R 跑道进近触发 GPWS 警戒的提示”操作通告执行。",
+          "actual_output": [
+            "34R 进近，PD083 和 PD084 中间偏右有较高障碍物，下降或保持 600m 从上方飞过可能触发 GPWS 警戒，机组参考 EFB 中“关于浦东 34R 跑道进近触发 GPWS 警戒的提示”操作通告执行"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "landing_ground",
+          "source_page": "588",
+          "source_record_id": "上海浦东:core:3bfbd83ca010da05",
+          "fact_id": null,
+          "original": "着陆后地面：近期发生多次浦东机场 168 号停机位，因上坡和单发原因油门加至地面最 大可用推力仍不能移动飞机，而关车申请拖车。请注意在此类停机位的进 位速度。",
+          "parsed_text": "着陆后地面：近期发生多次浦东机场 168 号停机位，因上坡和单发原因油门加至地面最 大可用推力仍不能移动飞机，而关车申请拖车。请注意在此类停机位的进 位速度。",
+          "actual_output": [
+            "近期发生多次浦东机场 168 号停机位，因上坡和单发原因油门加至地面最大可用推力仍不能移动飞机，而关车申请拖车。请注意在此类停机位的进位速度"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "landing_ground",
+          "source_page": "588",
+          "source_record_id": "上海浦东:core:8f0a64006ccbd689",
+          "fact_id": null,
+          "original": "着陆后地面：浦东机场细则要求，AD2.20，3.2.4\"进港航空器机组发现地面滑行引导车 后关闭滑行灯，跟随地面滑行引导车滑行\"。",
+          "parsed_text": "着陆后地面：浦东机场细则要求，AD2.20，3.2.4\"进港航空器机组发现地面滑行引导车 后关闭滑行灯，跟随地面滑行引导车滑行\"。",
+          "actual_output": [
+            "浦东机场细则要求，AD2.20，3.2.4\"进港航空器机组发现地面滑行引导车后关闭滑行灯，跟随地面滑行引导车滑行\""
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "landing_ground",
+          "source_page": "588",
+          "source_record_id": "上海浦东:core:5104194daed96f49",
+          "fact_id": null,
+          "original": "着陆后地面：机组在进入设置目视泊位引导系统的机位时，发现有疑问的引导指示，或 进入由人工引导入位的机位时发现地面接机人员未就位（尤其是着陆后临 时更换机位时常发生），应当立即停止滑行，及时通报 ATC，并应当保持发 动机运转，等待后续处置。",
+          "parsed_text": "着陆后地面：机组在进入设置目视泊位引导系统的机位时，发现有疑问的引导指示，或 进入由人工引导入位的机位时发现地面接机人员未就位（尤其是着陆后临 时更换机位时常发生），应当立即停止滑行，及时通报 ATC，并应当保持发 动机运转，等待后续处置。",
+          "actual_output": [
+            "在进入设置目视泊位引导系统的机位时，发现有疑问的引导指示，或进入由人工引导入位的机位时发现地面接机人员未就位（尤其是着陆后临时更换机位时常发生），应当立即停止滑行，及时通报 ATC，并应当保持发动机运转，等待后续处置"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "588",
+          "source_record_id": "上海浦东:core:c10b17286a3c81f9",
+          "fact_id": null,
+          "original": "运行特点：冬季运行经常低能见、低云，请机组做好相关准备。",
+          "parsed_text": "运行特点：冬季运行经常低能见、低云，请机组做好相关准备。",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "目标月份为11月，不在资料明确季节适用月份1,2,12月内"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "588",
+          "source_record_id": "上海浦东:core:1bf1d4fbf04b7fad",
+          "fact_id": null,
+          "original": "运行特点：浦东机场驱鸟炮声音较响，机组不要产生惊吓效应。",
+          "parsed_text": "运行特点：浦东机场驱鸟炮声音较响，机组不要产生惊吓效应。",
+          "actual_output": [
+            "浦东机场驱鸟炮声音较响，不要产生惊吓效应"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／行政内容排除",
+          "phase": "unspecified",
+          "source_page": "586-589",
+          "source_record_id": "上海浦东:core:085a0b4d22fc240c",
+          "fact_id": null,
+          "original": "运行特点：现场/签派频率：现场频率 130.5 或 129.8；春秋签派频率 130.5。",
+          "parsed_text": "",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "standalone_frequency_metadata"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "zh",
+          "category": "core",
+          "source_section": "上海/浦东机场运行特点（ZSPD/PVG）／行政内容排除",
+          "phase": "unspecified",
+          "source_page": "586-589",
+          "source_record_id": "上海浦东:core:6f3af8f424c85481",
+          "fact_id": null,
+          "original": "运行特点：如果回浦东后再飞一个国际航班，建议第一次边检走人工，自助系统默认 一天只能通过一次，容易第一次被困在自助通道，需要工作人员人工退回然后重新走人工。",
+          "parsed_text": "",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "passenger_or_staff_border_administration"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / core",
+          "phase": "core",
+          "source_page": "1367",
+          "source_record_id": "上海浦东:en:20055991bca5d294",
+          "fact_id": "上海浦东:en:20055991bca5d294",
+          "original": "Airportelevation:13 ft",
+          "parsed_text": "Airportelevation:13 ft",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "Standalone elevation requires a sourced high-altitude airport classification"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / core",
+          "phase": "core",
+          "source_page": "1367",
+          "source_record_id": "上海浦东:en:b52a9f8a6d490a13",
+          "fact_id": "上海浦东:en:b52a9f8a6d490a13",
+          "original": "Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m)",
+          "parsed_text": "Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m)",
+          "actual_output": [
+            "Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m)."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": [
+            "exact_duplicate_english_source"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / core",
+          "phase": "core",
+          "source_page": "1367",
+          "source_record_id": "上海浦东:en:25c1f75d2bee4b70",
+          "fact_id": "上海浦东:en:25c1f75d2bee4b70",
+          "original": "PAPI Information: RWY 16L: 454 m inside runway threshold on left side, glidepath angle 3°, MEHT 20.9 m - RWY 34R: 455 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.5 m - RWY 16R: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.9 m - RWY 34L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 22.4 m - RWY 17L: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.7 m - RWY 35R: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 22.5 m - RWY 17R: 35L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 21.4 m - RWY 35L: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.0 m",
+          "parsed_text": "PAPI Information: RWY 16L: 454 m inside runway threshold on left side, glidepath angle 3°, MEHT 20.9 m - RWY 34R: 455 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.5 m - RWY 16R: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.9 m - RWY 34L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 22.4 m - RWY 17L: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.7 m - RWY 35R: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 22.5 m - RWY 17R: 35L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 21.4 m - RWY 35L: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.0 m",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "exact_duplicate_english_source",
+            "papi_data_background_only"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / ground",
+          "phase": "ground",
+          "source_page": "1368",
+          "source_record_id": "上海浦东:en:b10f9832bd1f7de0",
+          "fact_id": "上海浦东:en:b10f9832bd1f7de0",
+          "original": "Apron control may issue push-back and start-up clearance, or instruction to report push-back complete. Flight crews shall identify and comply with relevant clearances.",
+          "parsed_text": "Apron control may issue push-back and start-up clearance, or instruction to report push-back complete. Flight crews shall identify and comply with relevant clearances.",
+          "actual_output": [
+            "Apron control may issue push-back and start-up clearance, or instruction to report push-back complete. It is required to identify and comply with relevant clearances."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / ground",
+          "phase": "ground",
+          "source_page": "1368",
+          "source_record_id": "上海浦东:en:e04513ef198b253e",
+          "fact_id": "上海浦东:en:e04513ef198b253e",
+          "original": "Closure of Taxiway E and Taxiway T1 isNOT published in NOTAMs. Refer to construction area chart (2C-1-SUP).",
+          "parsed_text": "Closure of Taxiway E and Taxiway T1 isNOT published in NOTAMs. Refer to construction area chart (2C-1-SUP).",
+          "actual_output": [
+            "Closure of Taxiway E and Taxiway T1 is NOT published in NOTAMs. Refer to construction area chart (2C-1-SUP)."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / ground",
+          "phase": "ground",
+          "source_page": "1368",
+          "source_record_id": "上海浦东:en:fb817e8771b3dd19",
+          "fact_id": "上海浦东:en:fb817e8771b3dd19",
+          "original": "Frequent frequency changes occur during surface movement. Frequency change points are geographically close to taxi holding positions. Exercise vigilance to prevent taxi routing errors or overshooting holding lines.",
+          "parsed_text": "Frequent frequency changes occur during surface movement. Frequency change points are geographically close to taxi holding positions. Exercise vigilance to prevent taxi routing errors or overshooting holding lines.",
+          "actual_output": [
+            "Frequent frequency changes occur during surface movement. Frequency change points are geographically close to taxi holding positions. Exercise vigilance to prevent taxi routing errors or overshooting holding lines."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / ground",
+          "phase": "ground",
+          "source_page": "1368-1369",
+          "source_record_id": "上海浦东:en:cdb0ad326ab4578c",
+          "fact_id": "上海浦东:en:cdb0ad326ab4578c",
+          "original": "Departure procedure may be amended while taxiing. Upon departure-mode revision, execute SOP for departure change, update flight plan, conduct supplementary briefing and apply departure-change checklist to avoid track deviation.",
+          "parsed_text": "Departure procedure may be amended while taxiing. Upon departure-mode revision, execute SOP for departure change, update flight plan, conduct supplementary briefing and apply departure-change checklist to avoid track deviation.",
+          "actual_output": [
+            "Departure procedure may be amended while taxiing. Upon departure-mode revision, execute SOP for departure change, update flight plan, conduct supplementary briefing and apply departure-change checklist to avoid track deviation."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / departure",
+          "phase": "departure",
+          "source_page": "1369",
+          "source_record_id": "上海浦东:en:a695d3b160a518f3",
+          "fact_id": "上海浦东:en:a695d3b160a518f3",
+          "original": "Automatic frequency hand-off upon lift-off atPudong. Handoff frequency shall be in accordance with PDC or ATC departure clearance.",
+          "parsed_text": "Automatic frequency hand-off upon lift-off atPudong. Handoff frequency shall be in accordance with PDC or ATC departure clearance.",
+          "actual_output": [
+            "Automatic frequency hand-off upon lift-off at Pudong. Handoff frequency shall be in accordance with PDC or ATC departure clearance."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / arrival",
+          "phase": "arrival",
+          "source_page": "1369",
+          "source_record_id": "上海浦东:en:f3cf076a68861c2d",
+          "fact_id": "上海浦东:en:f3cf076a68861c2d",
+          "original": "For BK arrival: during north-bound operations, RWY 35L (western runway) is normally assigned; during south-bound operations, RWY 16L (eastern runway) isnormally assigned.",
+          "parsed_text": "For BK arrival: during north-bound operations, RWY 35L (western runway) is normally assigned; during south-bound operations, RWY 16L (eastern runway) isnormally assigned.",
+          "actual_output": [
+            "For BK arrival: during north-bound operations, RWY 35L (western runway) is normally assigned; during south-bound operations, RWY 16L (eastern runway) is normally assigned."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / arrival",
+          "phase": "arrival",
+          "source_page": "1369",
+          "source_record_id": "上海浦东:en:dd6dd24dce9e9ca7",
+          "fact_id": "上海浦东:en:dd6dd24dce9e9ca7",
+          "original": "Multiple arrival procedures are in use, with ad-hoc amendments possible. Direct-to clearances are common during off-peak periods. Maintain contingency plans.",
+          "parsed_text": "Multiple arrival procedures are in use, with ad-hoc amendments possible. Direct-to clearances are common during off-peak periods. Maintain contingency plans.",
+          "actual_output": [
+            "Multiple arrival procedures are in use, with ad-hoc amendments possible. Direct-to clearances are common during off-peak periods. Maintain contingency plans."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / arrival",
+          "phase": "arrival",
+          "source_page": "1369",
+          "source_record_id": "上海浦东:en:5a917bc972952339",
+          "fact_id": "上海浦东:en:5a917bc972952339",
+          "original": "Multiple TA/RA alerts have been recorded during south-bound approaches into Pudong. Prepare contingency measures during approach preparation and execute memory-item procedures per aircraft manual.",
+          "parsed_text": "Multiple TA/RA alerts have been recorded during south-bound approaches into Pudong. Prepare contingency measures during approach preparation and execute memory-item procedures per aircraft manual.",
+          "actual_output": [
+            "Multiple TA/RA alerts have been recorded during south-bound approaches into Pudong. Prepare contingency measures during approach preparation and execute memory-item procedures per aircraft manual."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / arrival",
+          "phase": "arrival",
+          "source_page": "1369",
+          "source_record_id": "上海浦东:en:17279dca2a949b5b",
+          "fact_id": "上海浦东:en:17279dca2a949b5b",
+          "original": "For RWY 17R / 35L, ATC may assign short base-leg vectors or issue ILS clearance at a late stage. Anticipate such scenarios, conduct proactive energy management, maintain active communication and accept ATC radar vectors as required. When performing “glideslope capture from above” procedure, strictly comply with SOP. Ifstable-approach criteriacannot be satisfied,execute missed approach or discontinued approach without hesitation.",
+          "parsed_text": "For RWY 17R / 35L, ATC may assign short base-leg vectors or issue ILS clearance at a late stage. Anticipate such scenarios, conduct proactive energy management, maintain active communication and accept ATC radar vectors as required. When performing “glideslope capture from above” procedure, strictly comply with SOP. Ifstable-approach criteriacannot be satisfied,execute missed approach or discontinued approach without hesitation.",
+          "actual_output": [
+            "For RWY 17R / 35L, ATC may assign short base-leg vectors or issue ILS clearance at a late stage. Anticipate such scenarios, conduct proactive energy management, maintain active communication and accept ATC radar vectors as required. When performing “glideslope capture from above” procedure, strictly comply with SOP. If stable-approach criteria cannot be satisfied, execute missed approach or discontinued approach without hesitation."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / arrival",
+          "phase": "arrival",
+          "source_page": "1369",
+          "source_record_id": "上海浦东:en:3f54b9d6c5516c33",
+          "fact_id": "上海浦东:en:3f54b9d6c5516c33",
+          "original": "For RWY 34R approach, tallobstacles exist slightly right-of-track between waypoints PD083 and PD084. Over-flying at or maintaining 600 m may trigger GPWS caution alerts. Follow the operational advisory “Reminder on GPWS Caution Triggers for RWY 34R Approaches at Pudong” available in EFB.",
+          "parsed_text": "For RWY 34R approach, tallobstacles exist slightly right-of-track between waypoints PD083 and PD084. Over-flying at or maintaining 600 m may trigger GPWS caution alerts. Follow the operational advisory “Reminder on GPWS Caution Triggers for RWY 34R Approaches at Pudong” available in EFB.",
+          "actual_output": [
+            "For RWY 34R approach, tall obstacles exist slightly right-of-track between waypoints PD083 and PD084. Over-flying at or maintaining 600 m may trigger GPWS caution alerts. Follow the operational advisory “Reminder on GPWS Caution Triggers for RWY 34R Approaches at Pudong” available in EFB."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / landing_ground",
+          "phase": "landing_ground",
+          "source_page": "1370",
+          "source_record_id": "上海浦东:en:51fb204c9b9d4180",
+          "fact_id": "上海浦东:en:51fb204c9b9d4180",
+          "original": "Several recent incidents occurred at Stand 168: due to uphill gradient and single-engine taxi condition, aircraft could not move even with maximum available ground thrust, requiring engine shutdown and tow-in service. Control taxi speed when docking atstands with such gradients.",
+          "parsed_text": "Several recent incidents occurred at Stand 168: due to uphill gradient and single-engine taxi condition, aircraft could not move even with maximum available ground thrust, requiring engine shutdown and tow-in service. Control taxi speed when docking atstands with such gradients.",
+          "actual_output": [
+            "Several recent incidents occurred at Stand 168: due to uphill gradient and single-engine taxi condition, aircraft could not move even with maximum available ground thrust, requiring engine shutdown and tow-in service. Control taxi speed when docking at stands with such gradients."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / landing_ground",
+          "phase": "landing_ground",
+          "source_page": "1370",
+          "source_record_id": "上海浦东:en:054ac96e6f4adc4d",
+          "fact_id": "上海浦东:en:054ac96e6f4adc4d",
+          "original": "Per Pudong Aerodrome Instructions AD2.20, 3.2.4: “Upon sighting marshalling vehicle, arriving crews shall switch off taxi lights and follow the marshalling vehicle”.",
+          "parsed_text": "Per Pudong Aerodrome Instructions AD2.20, 3.2.4: “Upon sighting marshalling vehicle, arriving crews shall switch off taxi lights and follow the marshalling vehicle”.",
+          "actual_output": [
+            "Per Pudong Aerodrome Instructions AD2.20, 3.2.4: “Upon sighting marshalling vehicle, arriving crews shall switch off taxi lights and follow the marshalling vehicle”."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / landing_ground",
+          "phase": "landing_ground",
+          "source_page": "1370",
+          "source_record_id": "上海浦东:en:78f4ee3bfa513c8a",
+          "fact_id": "上海浦东:en:78f4ee3bfa513c8a",
+          "original": "When taxiing towards stands equipped with Visual Docking Guidance System (VDGS): stop taxi immediately if receiving ambiguous guidance indications. When entering stands with manual marshalling, stop taxi if ground marshalling personnel are not on-site (frequently encountered after ad-hoc stand change post-landing). Notify ATC promptly, keep engines running and await further instructions.",
+          "parsed_text": "When taxiing towards stands equipped with Visual Docking Guidance System (VDGS): stop taxi immediately if receiving ambiguous guidance indications. When entering stands with manual marshalling, stop taxi if ground marshalling personnel are not on-site (frequently encountered after ad-hoc stand change post-landing). Notify ATC promptly, keep engines running and await further instructions.",
+          "actual_output": [
+            "When taxiing towards stands equipped with Visual Docking Guidance System (VDGS): stop taxi immediately if receiving ambiguous guidance indications. When entering stands with manual marshalling, stop taxi if ground marshalling personnel are not on-site (frequently encountered after ad-hoc stand change post-landing). Notify ATC promptly, keep engines running and await further instructions."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / operations",
+          "phase": "operations",
+          "source_page": "1370",
+          "source_record_id": "上海浦东:en:08572f03e1c14a9f",
+          "fact_id": "上海浦东:en:08572f03e1c14a9f",
+          "original": "Low-visibility and low-ceiling conditions prevail frequently in winter. Make adequate preparations accordingly.",
+          "parsed_text": "Low-visibility and low-ceiling conditions prevail frequently in winter. Make adequate preparations accordingly.",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "English source season is not applicable"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / operations",
+          "phase": "operations",
+          "source_page": "1370",
+          "source_record_id": "上海浦东:en:2f32aa54976ed506",
+          "fact_id": "上海浦东:en:2f32aa54976ed506",
+          "original": "Bird-scare cannon blasts are loud atPudong. Crews shall avoid undesired startle response.",
+          "parsed_text": "Bird-scare cannon blasts are loud atPudong. Crews shall avoid undesired startle response.",
+          "actual_output": [
+            "Bird-scare cannon blasts are loud at Pudong. It is required to avoid undesired startle response."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "typical",
+          "source_section": "English / typical / incident",
+          "phase": "incident",
+          "source_page": "1371",
+          "source_record_id": "上海浦东:en:ad504c0d587679e6",
+          "fact_id": "上海浦东:en:ad504c0d587679e6",
+          "original": "Low-altitude bird strike incidents have caused excessive radome damage.",
+          "parsed_text": "Low-altitude bird strike incidents have caused excessive radome damage.",
+          "actual_output": [
+            "Low-altitude bird strike incidents have caused excessive radome damage."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "typical",
+          "source_section": "English / typical / incident",
+          "phase": "incident",
+          "source_page": "1371",
+          "source_record_id": "上海浦东:en:db1017e6adb94dc5",
+          "fact_id": "上海浦东:en:db1017e6adb94dc5",
+          "original": "Flight-plan data-entry errors occurred following runway re-assignment.",
+          "parsed_text": "Flight-plan data-entry errors occurred following runway re-assignment.",
+          "actual_output": [
+            "Flight-plan data-entry errors occurred following runway re-assignment."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / operations",
+          "phase": "operations",
+          "source_page": "1367",
+          "source_record_id": "上海浦东:en:b52a9f8a6d490a13",
+          "fact_id": "上海浦东:en:b52a9f8a6d490a13",
+          "original": "Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m)",
+          "parsed_text": "Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m)",
+          "actual_output": [
+            "Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m)."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": [
+            "exact_duplicate_english_source"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / operations",
+          "phase": "operations",
+          "source_page": "1367",
+          "source_record_id": "上海浦东:en:25c1f75d2bee4b70",
+          "fact_id": "上海浦东:en:25c1f75d2bee4b70",
+          "original": "PAPI Information: RWY 16L: 454 m inside runway threshold on left side, glidepath angle 3°, MEHT 20.9 m - RWY 34R: 455 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.5 m - RWY 16R: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.9 m - RWY 34L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 22.4 m - RWY 17L: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.7 m - RWY 35R: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 22.5 m - RWY 17R: 35L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 21.4 m - RWY 35L: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.0 m",
+          "parsed_text": "PAPI Information: RWY 16L: 454 m inside runway threshold on left side, glidepath angle 3°, MEHT 20.9 m - RWY 34R: 455 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.5 m - RWY 16R: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.9 m - RWY 34L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 22.4 m - RWY 17L: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.7 m - RWY 35R: 464 m inside runway threshold on left side, glidepath angle 3°, MEHT 22.5 m - RWY 17R: 35L: 452 m inside runway threshold on leftside, glidepath angle 3°, MEHT 21.4 m - RWY 35L: 452 m inside runway threshold on left side, glidepath angle 3°, MEHT 21.0 m",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "exact_duplicate_english_source",
+            "papi_data_background_only"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / operations",
+          "phase": "operations",
+          "source_page": "1367-1371",
+          "source_record_id": "上海浦东:en:87fbf032cacceab1",
+          "fact_id": "上海浦东:en:87fbf032cacceab1",
+          "original": "Normally RWY 16R/34L and 17L/35R for departures; RWY 16L/34R and 17R/35L for arrivals (except low-visibility operations)",
+          "parsed_text": "Normally RWY 16R/34L and 17L/35R for departures; RWY 16L/34R and 17R/35L for arrivals (except low-visibility operations)",
+          "actual_output": [
+            "Normally RWY 16R/34L and 17L/35R for departures; RWY 16L/34R and 17R/35L for arrivals (except low-visibility operations)."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "上海浦东",
+          "language": "en",
+          "category": "core",
+          "source_section": "English / core / operations",
+          "phase": "operations",
+          "source_page": "1368",
+          "source_record_id": "上海浦东:en:3ac39041352eb0b8",
+          "fact_id": "上海浦东:en:3ac39041352eb0b8",
+          "original": "Heavy volume of aircraft climbing atlow altitudes",
+          "parsed_text": "Heavy volume of aircraft climbing atlow altitudes",
+          "actual_output": [
+            "Heavy volume of aircraft climbing atlow altitudes."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "typical",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／典型不安全事件",
+          "phase": "incident",
+          "source_page": "950",
+          "source_record_id": "丽江三义:typical:de8902d18fa5cf07",
+          "fact_id": null,
+          "original": "该机场曾发生 SINK RATE、风切变、重着陆、形态超高度限制等情况，请机组识别相 关风险。",
+          "parsed_text": "该机场曾发生 SINK RATE、风切变、重着陆、形态超高度限制等情况，请机组识别相 关风险。",
+          "actual_output": [
+            "该机场曾发生 SINK RATE、风切变、重着陆、形态超高度限制等情况，请机组识别相关风险"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "typical",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／典型不安全事件",
+          "phase": "incident",
+          "source_page": "951",
+          "source_record_id": "丽江三义:typical:357484a85a2628c4",
+          "fact_id": null,
+          "original": "2023年，上海浦东-丽江航班，丽江进近期间，在 18852 英尺建立形态一，后续管制 指挥上高度，机组保持形态一爬升，高度超过 20000 英尺，最大高度到 21120 英尺。",
+          "parsed_text": "2023年，上海浦东-丽江航班，丽江进近期间，在 18852 英尺建立形态一，后续管制 指挥上高度，机组保持形态一爬升，高度超过 20000 英尺，最大高度到 21120 英尺。",
+          "actual_output": [
+            "2023年，上海浦东-丽江航班，丽江进近期间，在 18852 英尺建立形态一，后续管制指挥上高度，机组保持形态一爬升，高度超过 20000 英尺，最大高度到 21120 英尺"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "946-951",
+          "source_record_id": "丽江三义:core:5459ac7531e715d9",
+          "fact_id": null,
+          "original": "机场标高：7358ft。",
+          "parsed_text": "机场标高：7358ft。",
+          "actual_output": [
+            "机场标高：7358ft"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "946",
+          "source_record_id": "丽江三义:core:83a0d7a679dc6d98",
+          "fact_id": null,
+          "original": "跑道信息：02/20（3000m×45m）。",
+          "parsed_text": "跑道信息：02/20（3000m×45m）。",
+          "actual_output": [
+            "跑道信息：02/20（3000m×45m）"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "946",
+          "source_record_id": "丽江三义:core:aebefd73cf889cd3",
+          "fact_id": null,
+          "original": "PAPI信息：02：跑道左侧入口内 287m，3°，MEHT 13.7m；20：跑道左侧入口内 278m，3.5°，MEHT 15.7m。",
+          "parsed_text": "PAPI信息：02：跑道左侧入口内 287m，3°，MEHT 13.7m；20：跑道左侧入口内 278m，3.5°，MEHT 15.7m。",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "papi_data_background_only"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "946-951",
+          "source_record_id": "丽江三义:core:16346d83169fd9f6",
+          "fact_id": null,
+          "original": "高原机场。",
+          "parsed_text": "高原机场。",
+          "actual_output": [
+            "高原机场"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "946",
+          "source_record_id": "丽江三义:core:23c1d092c432d9a0",
+          "fact_id": null,
+          "original": "三类综合类复杂机场。",
+          "parsed_text": "三类综合类复杂机场。",
+          "actual_output": [
+            "三类综合类复杂机场"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "departure",
+          "source_page": "946",
+          "source_record_id": "丽江三义:core:399d93bc1ec97277",
+          "fact_id": null,
+          "original": "02/20均存在 EOSID。",
+          "parsed_text": "02/20均存在 EOSID。",
+          "actual_output": [
+            "02/20均存在 EOSID"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "terrain",
+          "source_page": "947",
+          "source_record_id": "丽江三义:core:a28948ffbfaf1d5d",
+          "fact_id": null,
+          "original": "终端区 MSA最大超过 6000m。",
+          "parsed_text": "终端区 MSA最大超过 6000m。",
+          "actual_output": [
+            "终端区 MSA最大超过 6000m"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "ground",
+          "source_page": "947",
+          "source_record_id": "丽江三义:core:ea583a7882c593a8",
+          "fact_id": null,
+          "original": "地面：机场标高 7358ft，跑道坡度 02 号标高 2225.6m，20 号标高 2242.4m，跑道 坡度相差 16.8m，坡度较大。",
+          "parsed_text": "地面：机场标高 7358ft，跑道坡度 02 号标高 2225.6m，20 号标高 2242.4m，跑道 坡度相差 16.8m，坡度较大。",
+          "actual_output": [
+            "机场标高 7358ft，跑道坡度 02 号标高 2225.6m，20 号标高 2242.4m，跑道坡度相差 16.8m，坡度较大"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "departure",
+          "source_page": "947",
+          "source_record_id": "丽江三义:core:ae02887acfa6520b",
+          "fact_id": null,
+          "original": "离场：除安全原因外，起飞后不得长时间使用 TOGA 或 FLEX 或 MCT 推力减推力高 度以上及时设置 CLB 推力。",
+          "parsed_text": "离场：除安全原因外，起飞后不得长时间使用 TOGA 或 FLEX 或 MCT 推力减推力高 度以上及时设置 CLB 推力。",
+          "actual_output": [
+            "除安全原因外，起飞后不得长时间使用 TOGA 或 FLEX 或 MCT 推力减推力高度以上及时设置 CLB 推力"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "departure",
+          "source_page": "947",
+          "source_record_id": "丽江三义:core:d8e7f5709e7a0a56",
+          "fact_id": null,
+          "original": "离场：丽江离场通常使用 PAN-53 离场（对于跑道 20），在一边高度通过 4500m 后 可以申请左转飞攀枝花。",
+          "parsed_text": "离场：丽江离场通常使用 PAN-53 离场（对于跑道 20），在一边高度通过 4500m 后 可以申请左转飞攀枝花。",
+          "actual_output": [
+            "丽江离场通常使用 PAN-53 离场（对于跑道 20），在一边高度通过 4500m 后可以申请左转飞攀枝花"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "departure",
+          "source_page": "947",
+          "source_record_id": "丽江三义:core:f94011042e6ceca4",
+          "fact_id": null,
+          "original": "离场：机组应严格按程序进行起飞、着陆性能分析，注意遵守轮速限制，尤其本场 报不定风时机组应做好分工和提醒，监控好地速，防止超轮速，同时也要关 注擦机尾的风险。",
+          "parsed_text": "离场：机组应严格按程序进行起飞、着陆性能分析，注意遵守轮速限制，尤其本场 报不定风时机组应做好分工和提醒，监控好地速，防止超轮速，同时也要关 注擦机尾的风险。",
+          "actual_output": [
+            "应严格按程序进行起飞、着陆性能分析，注意遵守轮速限制，尤其本场报不定风时机组应做好分工和提醒，监控好地速，防止超轮速，同时也要关注擦机尾的风险"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "departure",
+          "source_page": "947",
+          "source_record_id": "丽江三义:core:2f2e5e9a020b7422",
+          "fact_id": null,
+          "original": "离场：机场有起飞一发失效应急程序，机组应加强飞行前准备，针对不同的离场 程序，机组应根据所用程序确定决策点，若出现发动机故障，严格按相应航 图要求执行应急程序。",
+          "parsed_text": "离场：机场有起飞一发失效应急程序，机组应加强飞行前准备，针对不同的离场 程序，机组应根据所用程序确定决策点，若出现发动机故障，严格按相应航 图要求执行应急程序。",
+          "actual_output": [
+            "机场有起飞一发失效应急程序，应加强飞行前准备，针对不同的离场程序，应根据所用程序确定决策点，若出现发动机故障，严格按相应航图要求执行应急程序"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "departure",
+          "source_page": "947",
+          "source_record_id": "丽江三义:core:677a1ca5874b56ee",
+          "fact_id": null,
+          "original": "离场：本机场有超轮速风险，请机组计算起飞性能后严格执行以下轮速表的查询 并按对应的要求操作（参考《机组标准操作程序》1.6.1 高原机场起飞防止 超轮速。）。",
+          "parsed_text": "离场：本机场有超轮速风险，请机组计算起飞性能后严格执行以下轮速表的查询 并按对应的要求操作（参考《机组标准操作程序》1.6.1 高原机场起飞防止 超轮速。）。",
+          "actual_output": [
+            "本机场有超轮速风险，请机组计算起飞性能后严格执行以下轮速表的查询并按对应的要求操作（参考《机组标准操作程序》1.6.1 高原机场起飞防止超轮速。）"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "948",
+          "source_record_id": "丽江三义:core:a8cb473b0a82ba2d",
+          "fact_id": null,
+          "original": "进场：程序管制，有进近频率，丽江机场提供 D-ATIS 服务，本场通信情况良好，但需注意提前和管制确认进场方式。",
+          "parsed_text": "进场：程序管制，有进近频率，丽江机场提供 D-ATIS 服务，本场通信情况良好，但需注意提前和管制确认进场方式。",
+          "actual_output": [
+            "程序管制，有进近频率，丽江机场提供 D-ATIS 服务，本场通信情况良好，但需注意提前和管制确认进场方式"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "948",
+          "source_record_id": "丽江三义:core:ebc13838c7232e14",
+          "fact_id": null,
+          "original": "进场：丽江进近区域内实施 ADS-B 管制，若飞行中 ADS-B 等机载设备发生故障时，机组应及时向 ATC 通报。",
+          "parsed_text": "进场：丽江进近区域内实施 ADS-B 管制，若飞行中 ADS-B 等机载设备发生故障时，机组应及时向 ATC 通报。",
+          "actual_output": [
+            "丽江进近区域内实施 ADS-B 管制，若飞行中 ADS-B 等机载设备发生故障时，应及时向 ATC 通报"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "948",
+          "source_record_id": "丽江三义:core:bd21ee6c51c3d70e",
+          "fact_id": null,
+          "original": "进场：由于机场所处位置及地形障碍物影响，GPS 存在工作不稳定的情况，请机组 注意交叉检查导航设备的工作情况。飞行机组在实施 PBN 进近程序时，需 确保导航精度符合要求；如果导航能力降级，飞行机组必须按程序要求脱 离PBN 程序，并按各机型相应程序进行处置。",
+          "parsed_text": "进场：由于机场所处位置及地形障碍物影响，GPS 存在工作不稳定的情况，请机组 注意交叉检查导航设备的工作情况。飞行机组在实施 PBN 进近程序时，需 确保导航精度符合要求；如果导航能力降级，飞行机组必须按程序要求脱 离PBN 程序，并按各机型相应程序进行处置。",
+          "actual_output": [
+            "由于机场所处位置及地形障碍物影响，GPS 存在工作不稳定的情况，请注意交叉检查导航设备的工作情况。在实施 PBN 进近程序时，需确保导航精度符合要求；如果导航能力降级，必须按程序要求脱离PBN 程序，并按各机型相应程序进行处置"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "948",
+          "source_record_id": "丽江三义:core:66b77606aa61a082",
+          "fact_id": null,
+          "original": "进场：丽江跑道长度虽然有 3000m，但由于其为高原机场，再有各类不利因素叠加 时，低档自动刹车计算的着陆停止裕度可能不足 300m，此时机组应注意按 照SOP 要求使用中档自动刹车。",
+          "parsed_text": "进场：丽江跑道长度虽然有 3000m，但由于其为高原机场，再有各类不利因素叠加 时，低档自动刹车计算的着陆停止裕度可能不足 300m，此时机组应注意按 照SOP 要求使用中档自动刹车。",
+          "actual_output": [
+            "丽江跑道长度虽然有 3000m，但由于其为高原机场，再有各类不利因素叠加时，低档自动刹车计算的着陆停止裕度可能不足 300m，此时机组应注意按照SOP 要求使用中档自动刹车"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "948",
+          "source_record_id": "丽江三义:core:d945ac51d108797b",
+          "fact_id": null,
+          "original": "进场：可能使用 20 号传统或 PBN 程序，若使用传统程序双发复飞时沿盲降复飞程 序加速高度为传统单发程序中要求的 10500ft，与通常使用的 PBN 程序 9600ft 不一致。",
+          "parsed_text": "进场：可能使用 20 号传统或 PBN 程序，若使用传统程序双发复飞时沿盲降复飞程 序加速高度为传统单发程序中要求的 10500ft，与通常使用的 PBN 程序 9600ft 不一致。",
+          "actual_output": [
+            "可能使用 20 号传统或 PBN 程序，若使用传统程序双发复飞时沿盲降复飞程序加速高度为传统单发程序中要求的 10500ft，与通常使用的 PBN 程序 9600ft 不一致"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "949",
+          "source_record_id": "丽江三义:core:869d848068013146",
+          "fact_id": null,
+          "original": "进场：严格按照航图中公布的进、离场程序和进近程序飞行；如果需要，在等待和 机动飞行中机组应关注安全高度的限制，避免可控飞行撞地风险。（如：机 组在进近中如遇恶劣天气需要偏航时，需要提前向 ATC 申请，且绕飞必须 遵守扇区安全高度或航路最低偏航高度的限制。）。",
+          "parsed_text": "进场：严格按照航图中公布的进、离场程序和进近程序飞行；如果需要，在等待和 机动飞行中机组应关注安全高度的限制，避免可控飞行撞地风险。（如：机 组在进近中如遇恶劣天气需要偏航时，需要提前向 ATC 申请，且绕飞必须 遵守扇区安全高度或航路最低偏航高度的限制。）。",
+          "actual_output": [
+            "严格按照航图中公布的进、离场程序和进近程序飞行；如果需要，在等待和机动飞行中机组应关注安全高度的限制，避免可控飞行撞地风险。（如：在进近中如遇恶劣天气需要偏航时，需要提前向 ATC 申请，且绕飞必须遵守扇区安全高度或航路最低偏航高度的限制。）"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "949",
+          "source_record_id": "丽江三义:core:ffa73b7110e37855",
+          "fact_id": null,
+          "original": "进场：20 号盲降不工作时，机组应实施 20 号 RNP 进近；02 号盲降不工作时应实 施 02 号 RNP 进近或 02 号 LOC 进近。并遵循公司操作通告 FSMD-TA-FOB-2023-029《关于丽江机场盲降设备不工作期间的进近操作指导》执行。",
+          "parsed_text": "进场：20 号盲降不工作时，机组应实施 20 号 RNP 进近；02 号盲降不工作时应实 施 02 号 RNP 进近或 02 号 LOC 进近。并遵循公司操作通告 FSMD-TA-FOB-2023-029《关于丽江机场盲降设备不工作期间的进近操作指导》执行。",
+          "actual_output": [
+            "20 号盲降不工作时，应实施 20 号 RNP 进近；02 号盲降不工作时应实施 02 号 RNP 进近或 02 号 LOC 进近。并遵循公司操作通告 FSMD-TA-FOB-2023-029《关于丽江机场盲降设备不工作期间的进近操作指导》执行"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "949",
+          "source_record_id": "丽江三义:core:9119a495c6ce6c49",
+          "fact_id": null,
+          "original": "进场：20号进近，IF 至 FAF 点间地形较高，注意控制地速和下降率。",
+          "parsed_text": "进场：20号进近，IF 至 FAF 点间地形较高，注意控制地速和下降率。",
+          "actual_output": [
+            "20号进近，IF 至 FAF 点间地形较高，注意控制地速和下降率"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "949",
+          "source_record_id": "丽江三义:core:5e57753acf488ff7",
+          "fact_id": null,
+          "original": "进场：机场标高较高，注意放形态前检查高度不超过襟缝翼最大操作高度 20000ft，并注意乱流的影响，留够速度裕度。",
+          "parsed_text": "进场：机场标高较高，注意放形态前检查高度不超过襟缝翼最大操作高度 20000ft，并注意乱流的影响，留够速度裕度。",
+          "actual_output": [
+            "机场标高较高，注意放形态前检查高度不超过襟缝翼最大操作高度 20000ft，并注意乱流的影响，留够速度裕度"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "949",
+          "source_record_id": "丽江三义:core:e43d7373877e64c1",
+          "fact_id": null,
+          "original": "进场：昆明可能会指挥过渡高度层以下飞标准气压，请机组注意。",
+          "parsed_text": "进场：昆明可能会指挥过渡高度层以下飞标准气压，请机组注意。",
+          "actual_output": [
+            "昆明可能会指挥过渡高度层以下飞标准气压，请注意"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "949",
+          "source_record_id": "丽江三义:core:2165c2c67059033b",
+          "fact_id": null,
+          "original": "进场：20 号进近最后下降角/梯度较大，机组应做好下降和减速计划并控制好 飞机的下降率，尽早建立着陆形态，防止不稳定进近。",
+          "parsed_text": "进场：20 号进近最后下降角/梯度较大，机组应做好下降和减速计划并控制好 飞机的下降率，尽早建立着陆形态，防止不稳定进近。",
+          "actual_output": [
+            "20 号进近最后下降角/梯度较大，应做好下降和减速计划并控制好飞机的下降率，尽早建立着陆形态，防止不稳定进近"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "949",
+          "source_record_id": "丽江三义:core:7ee02c7f2e659c9e",
+          "fact_id": null,
+          "original": "进场：02 号程序转弯角度过大，系统优化会提前转弯，注意提前减速，避免触 发警告。",
+          "parsed_text": "进场：02 号程序转弯角度过大，系统优化会提前转弯，注意提前减速，避免触 发警告。",
+          "actual_output": [
+            "02 号程序转弯角度过大，系统优化会提前转弯，注意提前减速，避免触发警告"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "949",
+          "source_record_id": "丽江三义:core:856afc9622552e3a",
+          "fact_id": null,
+          "original": "进场：空中常年刮西风，冬、春季节最大风速可达70-80 节，RWY20 进近时应控 制好转弯时的速度和坡度，防止五边偏东与本场东北的双贵峰山（机场中 心 038°/14 千米、海拔高 3209 米）造成冲突。修正角出航边正对玉龙雪 山（机场中心 353°/47 千米、海拔高 5596 米），应控制好出航边距离。",
+          "parsed_text": "进场：空中常年刮西风，冬、春季节最大风速可达70-80 节，RWY20 进近时应控 制好转弯时的速度和坡度，防止五边偏东与本场东北的双贵峰山（机场中 心 038°/14 千米、海拔高 3209 米）造成冲突。修正角出航边正对玉龙雪 山（机场中心 353°/47 千米、海拔高 5596 米），应控制好出航边距离。",
+          "actual_output": [
+            "修正角出航边正对玉龙雪山（机场中心 353°/47 千米、海拔高 5596 米），应控制好出航边距离"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": [
+            "目标月份为11月，不在资料明确季节适用月份3,4,5月内"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "949",
+          "source_record_id": "丽江三义:core:080847c416b93b2c",
+          "fact_id": null,
+          "original": "进场：20 号跑道转向五边时，注意速度和预位盲降的时机，避免穿越五边。",
+          "parsed_text": "进场：20 号跑道转向五边时，注意速度和预位盲降的时机，避免穿越五边。",
+          "actual_output": [
+            "20 号跑道转向五边时，注意速度和预位盲降的时机，避免穿越五边"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "949",
+          "source_record_id": "丽江三义:core:1f6f8e7d05c10070",
+          "fact_id": null,
+          "original": "进场：在飞盲降进近的时候，在 FAF 前可以直接待命盲降，然后按沿盲降信号 进行进近，没有触发地形的风险。其次，飞 RNP 进近的时候要考虑到实际 高度高于航图高度，剖面较高，下降剖面较大，应尽早减速，避免后面下降 率过大，影响稳定。",
+          "parsed_text": "进场：在飞盲降进近的时候，在 FAF 前可以直接待命盲降，然后按沿盲降信号 进行进近，没有触发地形的风险。其次，飞 RNP 进近的时候要考虑到实际 高度高于航图高度，剖面较高，下降剖面较大，应尽早减速，避免后面下降 率过大，影响稳定。",
+          "actual_output": [
+            "在飞盲降进近的时候，在 FAF 前可以直接待命盲降，然后按沿盲降信号进行进近，没有触发地形的风险。其次，飞 RNP 进近的时候要考虑到实际高度高于航图高度，剖面较高，下降剖面较大，应尽早减速，避免后面下降率过大，影响稳定"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "arrival",
+          "source_page": "949",
+          "source_record_id": "丽江三义:core:c00b204e0bd7e684",
+          "fact_id": null,
+          "original": "进场：跑道“南低北高”，02 号着陆上坡，20 号着陆下坡，跑道坡度 0.59%，注意对着陆目视的影响。湿滑跑道着陆时，机组需控制好飞机的接地点和 方向，飞机出现过大偏差时，严格标准早做决断，避免冲偏出跑道等不安全 事件发生。",
+          "parsed_text": "进场：跑道“南低北高”，02 号着陆上坡，20 号着陆下坡，跑道坡度 0.59%，注意对着陆目视的影响。湿滑跑道着陆时，机组需控制好飞机的接地点和 方向，飞机出现过大偏差时，严格标准早做决断，避免冲偏出跑道等不安全 事件发生。",
+          "actual_output": [
+            "跑道“南低北高”，02 号着陆上坡，20 号着陆下坡，跑道坡度 0.59%，注意对着陆目视的影响。湿滑跑道着陆时，机组需控制好飞机的接地点和方向，飞机出现过大偏差时，严格标准早做决断，避免冲偏出跑道等不安全事件发生"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "landing_ground",
+          "source_page": "950",
+          "source_record_id": "丽江三义:core:098805e04b73ce2d",
+          "fact_id": null,
+          "original": "着陆后地面：飞机接地后应及时地使用减速装置（刹车、反推、扰流板等）。",
+          "parsed_text": "着陆后地面：飞机接地后应及时地使用减速装置（刹车、反推、扰流板等）。",
+          "actual_output": [
+            "飞机接地后应及时地使用减速装置（刹车、反推、扰流板等）"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "landing_ground",
+          "source_page": "950",
+          "source_record_id": "丽江三义:core:ee822e88d92e17a2",
+          "fact_id": null,
+          "original": "着陆后地面：着陆后按需及时执行刹车冷却程序。",
+          "parsed_text": "着陆后地面：着陆后按需及时执行刹车冷却程序。",
+          "actual_output": [
+            "着陆后按需及时执行刹车冷却程序"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "landing_ground",
+          "source_page": "950",
+          "source_record_id": "丽江三义:core:4ab19139189b8fd2",
+          "fact_id": null,
+          "original": "着陆后地面：进位时间短，注意关车前慢车 3 分钟限制。",
+          "parsed_text": "着陆后地面：进位时间短，注意关车前慢车 3 分钟限制。",
+          "actual_output": [
+            "进位时间短，注意关车前慢车 3 分钟限制"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "terrain",
+          "source_page": "950",
+          "source_record_id": "丽江三义:core:77f6c1a5860dfb98",
+          "fact_id": null,
+          "original": "运行特点：地形复杂：机场东靠群山，西邻漾弓江，机场周围四面环山，地形较为复 杂。“V”字形南北走向的鹤庆坝子东西宽 3-7km，南北长 33km，东西两侧 被南北走向的山体包围，造成机场东西两侧净空不能满足飞行要求，而南 北纵向端净空较好。",
+          "parsed_text": "运行特点：地形复杂：机场东靠群山，西邻漾弓江，机场周围四面环山，地形较为复 杂。“V”字形南北走向的鹤庆坝子东西宽 3-7km，南北长 33km，东西两侧 被南北走向的山体包围，造成机场东西两侧净空不能满足飞行要求，而南 北纵向端净空较好。",
+          "actual_output": [
+            "地形复杂：机场东靠群山，西邻漾弓江，机场周围四面环山，地形较为复杂。“V”字形南北走向的鹤庆坝子东西宽 3-7km，南北长 33km，东西两侧被南北走向的山体包围，造成机场东西两侧净空不能满足飞行要求，而南北纵向端净空较好"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "weather",
+          "source_page": "950",
+          "source_record_id": "丽江三义:core:962e3930cff7f50c",
+          "fact_id": null,
+          "original": "运行特点：1-4 月份多西、西南大风，这四个月的大风日数达 12.4 天，占全年大风日 数的 88%,最大风速达 24m/s；5-6 月份，雨季开始，这两个月雷暴日数逐渐 增多，平均雷暴日数 15 天；7-9 月份，平均雷暴日数 39 天。经常有持续时 间较长的强对流天气，伴有强烈的雷电、降水、恶劣的能见度和很强的阵 风。强对流天气出现方位以西北面最多，西南面次之；10-12 月份，大风日 数为 0.7 天，雷暴日数为 4 天。",
+          "parsed_text": "运行特点：1-4 月份多西、西南大风，这四个月的大风日数达 12.4 天，占全年大风日 数的 88%,最大风速达 24m/s；5-6 月份，雨季开始，这两个月雷暴日数逐渐 增多，平均雷暴日数 15 天；7-9 月份，平均雷暴日数 39 天。经常有持续时 间较长的强对流天气，伴有强烈的雷电、降水、恶劣的能见度和很强的阵 风。强对流天气出现方位以西北面最多，西南面次之；10-12 月份，大风日 数为 0.7 天，雷暴日数为 4 天。",
+          "actual_output": [
+            "经常有持续时间较长的强对流天气，伴有强烈的雷电、降水、恶劣的能见度和很强的阵风。强对流天气出现方位以西北面最多，西南面次之；10-12 月份，大风日数为 0.7 天，雷暴日数为 4 天"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": [
+            "目标月份为11月，不在资料明确季节适用月份1,2,3,4月内",
+            "目标月份为11月，不在资料明确季节适用月份5,6月内",
+            "目标月份为11月，不在资料明确季节适用月份7,8,9月内"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "approach",
+          "source_page": "950",
+          "source_record_id": "丽江三义:core:1b3da29ef66cf89c",
+          "fact_id": null,
+          "original": "运行特点：风切变：丽江机场地形条件复杂，且特定季节发生不同原因风切变的概率 较高，起飞/进近前机组要关注机场的气象条件，提前做好预案和决策，必 要时果断推迟起飞/中止进近，按需考虑更合适的跑道、空中等待或返航备 降等；丽江机场风切变警告触发数量全民航机场排名第一。",
+          "parsed_text": "运行特点：风切变：丽江机场地形条件复杂，且特定季节发生不同原因风切变的概率 较高，起飞/进近前机组要关注机场的气象条件，提前做好预案和决策，必 要时果断推迟起飞/中止进近，按需考虑更合适的跑道、空中等待或返航备 降等；丽江机场风切变警告触发数量全民航机场排名第一。",
+          "actual_output": [
+            "风切变：丽江机场地形条件复杂，且特定季节发生不同原因风切变的概率较高，起飞/进近前机组要关注机场的气象条件，提前做好预案和决策，必要时果断推迟起飞/中止进近，按需考虑更合适的跑道、空中等待或返航备降等；丽江机场风切变警告触发数量全民航机场排名第一"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "950",
+          "source_record_id": "丽江三义:core:4662d3a9e9d92bf5",
+          "fact_id": null,
+          "original": "运行特点：现场/签派频率：121.675，无 PDC。",
+          "parsed_text": "运行特点：现场/签派频率：121.675，无 PDC。",
+          "actual_output": [
+            "121.675，无 PDC"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "946-951",
+          "source_record_id": "丽江三义:core:404a2b9a08a89d21",
+          "fact_id": null,
+          "original": "是否为高原机场 是",
+          "parsed_text": "运行特点：高原机场。",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "same_source_content_retained_in:丽江三义_core_record_15",
+            "same_source_content_retained_in:丽江三义_core_record_19",
+            "same_source_content_retained_in:丽江三义_core_record_6"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "unspecified",
+          "source_page": "946",
+          "source_record_id": "丽江三义:core:09e8a1460dd303a3",
+          "fact_id": null,
+          "original": "是否为复杂机场 是 三类综合类复杂机场",
+          "parsed_text": "运行特点：三类综合类复杂机场。",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "same_source_content_retained_in:丽江三义_core_record_7"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "departure",
+          "source_page": "946",
+          "source_record_id": "丽江三义:core:753ed3b13282a3df",
+          "fact_id": null,
+          "original": "是否存在 EOSID 是 02/20均存在 EOSID",
+          "parsed_text": "运行特点：02/20均存在 EOSID。",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "same_source_content_retained_in:丽江三义_core_record_8"
+          ]
+        },
+        {
+          "group": 1,
+          "airport": "丽江三义",
+          "language": "zh",
+          "category": "core",
+          "source_section": "丽江/三义机场运行特点 ZPLJ/LJG／核心威胁与运行特点",
+          "phase": "terrain",
+          "source_page": "947",
+          "source_record_id": "丽江三义:core:4fb9665c1b7d3b86",
+          "fact_id": null,
+          "original": "是否为终端区地形复杂机场 是 终端区 MSA最大超过 6000m",
+          "parsed_text": "运行特点：终端区 MSA最大超过 6000m。",
+          "actual_output": [],
+          "disposition": "EXCLUDED",
+          "reasons": [
+            "same_source_content_retained_in:丽江三义_core_record_9"
+          ]
+        }
+      ],
+      "counts": {
+        "OUTPUT": 76,
+        "EXCLUDED": 14
+      }
+    }
+  }
+}

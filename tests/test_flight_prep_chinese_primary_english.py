@@ -112,6 +112,11 @@ def test_numeric_source_conflict_cannot_be_cleared_by_translating_to_chinese_num
 def test_review_permission_cannot_resolve_waypoint_runway_or_table_data(zh, original, translated):
     records, chinese, _ = sources(zh, original, translated)
     event = replace(flight(), summary="9C0002 BBBB→AAAA") if agent.manual_basic_field(zh) == "papi" else None
+    if agent.manual_basic_field(zh) == "papi":
+        assert not translate(records, chinese, event)  # background only, no corrected table in body
+        assert agent.validate_cross_language_conflicts(
+            [chinese], [replace(chinese, text_en=original, language="en")], records)
+        return
     fact = translate(records, chinese, event)[0]
     assert any("未确认运行数据" in e for e in agent.validate_chinese_translation(fact))
     assert agent.validate_cross_language_conflicts([chinese], [fact], records)

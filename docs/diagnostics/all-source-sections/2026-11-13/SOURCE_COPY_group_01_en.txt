@@ -1,0 +1,89 @@
+I am Duan Yangshuo, a First Officer in Flight Squadron 15. My current technical level is A2, and my promotion date is January 13. In this qualification stage, I have 93 hours and 21 takeoffs and landings. I have completed 8 landings in the last 90 days and 8 landings in the last 30 days. Within the past three months, I have operated at Sanya Phoenix International. My most recent landing as PF was at Shanghai Pudong International Airport on October 1.
+
+Latest PF/PM feedback:
+
+As PF, the instructor noted that below 30 ft I should use slightly more aft-stick input and, after landing, decelerate below 30 kt before entering the rapid-exit taxiway.
+
+As PM, the captain noted that I should improve SOP proficiency and make standard callouts more audible.
+
+Typical unsafe events:
+
+Shanghai Pudong International Airport:
+
+Low-altitude bird strike incidents have caused excessive radome damage.
+
+Flight-plan data-entry errors occurred following runway re-assignment.
+
+Sanya Phoenix International Airport:
+
+A failed landing attempt occurred at 1000 feet (AAL).
+
+History of route deviation incidents.
+
+A deviation from the commanded altitude has occurred.
+
+Core threats:
+
+Shanghai Pudong International Airport:
+
+Apron control may issue push-back and start-up clearance, or instruction to report push-back complete. It is required to identify and comply with relevant clearances.
+
+Closure of Taxiway E and Taxiway T1 is NOT published in NOTAMs. Refer to construction area chart (2C-1-SUP).
+
+Frequent frequency changes occur during surface movement. Frequency change points are geographically close to taxi holding positions. Exercise vigilance to prevent taxi routing errors or overshooting holding lines.
+
+Departure procedure may be amended while taxiing. Upon departure-mode revision, execute SOP for departure change, update flight plan, conduct supplementary briefing and apply departure-change checklist to avoid track deviation.
+
+Automatic frequency hand-off upon lift-off at Pudong. Handoff frequency shall be in accordance with PDC or ATC departure clearance.
+
+For BK arrival: during north-bound operations, RWY 35L (western runway) is normally assigned; during south-bound operations, RWY 16L (eastern runway) is normally assigned.
+
+Multiple arrival procedures are in use, with ad-hoc amendments possible. Direct-to clearances are common during off-peak periods. Maintain contingency plans.
+
+Multiple TA/RA alerts have been recorded during south-bound approaches into Pudong. Prepare contingency measures during approach preparation and execute memory-item procedures per aircraft manual.
+
+For RWY 17R / 35L, ATC may assign short base-leg vectors or issue ILS clearance at a late stage. Anticipate such scenarios, conduct proactive energy management, maintain active communication and accept ATC radar vectors as required. When performing “glideslope capture from above” procedure, strictly comply with SOP. If stable-approach criteria cannot be satisfied, execute missed approach or discontinued approach without hesitation.
+
+For RWY 34R approach, tall obstacles exist slightly right-of-track between waypoints PD083 and PD084. Over-flying at or maintaining 600 m may trigger GPWS caution alerts. Follow the operational advisory “Reminder on GPWS Caution Triggers for RWY 34R Approaches at Pudong” available in EFB.
+
+Several recent incidents occurred at Stand 168: due to uphill gradient and single-engine taxi condition, aircraft could not move even with maximum available ground thrust, requiring engine shutdown and tow-in service. Control taxi speed when docking at stands with such gradients.
+
+Per Pudong Aerodrome Instructions AD2.20, 3.2.4: “Upon sighting marshalling vehicle, arriving crews shall switch off taxi lights and follow the marshalling vehicle”.
+
+When taxiing towards stands equipped with Visual Docking Guidance System (VDGS): stop taxi immediately if receiving ambiguous guidance indications. When entering stands with manual marshalling, stop taxi if ground marshalling personnel are not on-site (frequently encountered after ad-hoc stand change post-landing). Notify ATC promptly, keep engines running and await further instructions.
+
+Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m).
+
+Bird-scare cannon blasts are loud at Pudong. It is required to avoid undesired startle response.
+
+Normally RWY 16R/34L and 17L/35R for departures; RWY 16L/34R and 17R/35L for arrivals (except low-visibility operations).
+
+Heavy volume of aircraft climbing atlow altitudes.
+
+Sanya Phoenix International Airport:
+
+The commonly used PORAP-1N model (model 08) typically requires a 7200M PORAP during release procedures, and its performance generally meets the requirements. When troops are active, they may depart traditionally, and note the speed limit of PORAP. The aircraft is handed over to the Sanya District Air Traffic Control Center for command, which sets the RVSM (Real-Time Vertical Management System) altitude and instructsthe aircraft to reach the designated position before NUMKU.
+
+From Pudong to Sanya, after connecting with the Guangzhou regional BEGMO, the flight may be directed to DST LJG LJG, then join A470 to DOTMI. Near DOTMI, contact may be initiated with Hong Kong 120.3 to request maintaining the current heading and proceeding directly to ALLEY.
+
+ZSPD-ZJSY: The flight route passes through the Hong Kong area via M503, switching to HK RADAR 121.3 before DOTMI. After DOTMI, it flies directly to ALLEY, then switches to HK121.7 for direct flight to SIKOU, and finally switches to Sanya 133.35 before SIKOU.
+
+When there are many aircraft approaching Runway 1.26, the command may delay the altitude control, and the crew should promptly reduce speed to control the aircraft's energy.
+
+Sanya has two emergency landing procedures (Y and Z), both requiring prior radio confirmation. While Z procedure is typically used, air traffic control rarely specifies which one to follow. It is recommended to remain vigilant to avoid misapplication.
+
+Approach to Runway 08 (VOR08). The approach path may be at a higher altitude, so monitor the altitude-to-range ratio. During the procedure turn, air traffic control will direct a 900- meter downward slope, whereas the procedure specifies a 700- meter downward slope. You may request to execute the procedure down slope with the control's approval.
+
+The taxiing route is complex. There is no center line light between the A3 and A4 taxiways and the runway. It is recommended to observe the runway surface carefully when leaving the runway, especially at night when it is raining, to prevent deviation from the runway.
+
+Five-sided Chaos.
+
+Roll-out operations may require a guide vehicle; in the absence of such guidance, particularly at night, close monitoring of approach path markings and aircraft on the apron is essential, as the A3 taxiway exhibits reduced visibility during nighttime operations.
+
+At Sanya's apron 301 during ground taxiing, ground controller A1 should wait in front of B. As B has no signage only ground markings, drivers must carefully identify and control taxiing speed—especially at night with shorter taxiing distances—and strictly adhere to the slow-moving vehicle time limit.
+
+Noise reduction procedure: Refer to Section 2.21.2 for details.
+
+Pressure relief procedure: Refer to EFB for details.
+
+Radio failure procedure: Refer to Rule 2.22.5.

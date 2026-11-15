@@ -168,7 +168,9 @@ def test_papi_source_field_is_arrival_only_without_changing_its_runway_values():
     text = "PAPI Information: Runway 08, 3 degrees, MEHT 15m."
     assert not selected([record(text)])[2]
     arrival = replace(flight(), summary="9C0002 BBBB→AAAA")
-    assert selected([record(text)], arrival)[2][0].en == text
+    assert agent.english_source_role_scope(text, "operations") == ("arrival",)
+    assert not selected([record(text)], arrival)[2]  # data retained in audit, not body
+    assert record(text)["text_en"] == text
 
 
 def test_runway_dimensions_remain_applicable_to_departure_when_field_also_lists_approaches():
