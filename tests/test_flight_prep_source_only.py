@@ -239,8 +239,9 @@ def test_conditional_parent_survives_subitems_and_page_break_in_both_languages()
     assert agent.detected_season_scope(winter[0])
     fact = agent.source_record_facts("甲机场", [record(winter[0], "Winter: obtain clearance. Do not use the runway.")], category="core")[0]
     exclusions = []
-    assert agent.filter_fact_for_duty(fact, event(), date(2026, 8, 1), exclusions) is None
-    assert exclusions and "父条目" in exclusions[0]["reason"]
+    summer = agent.filter_fact_for_duty(fact, event(), date(2026, 8, 1), exclusions)
+    assert summer.zh == fact.zh and summer.en == fact.en
+    assert not exclusions
     kept = agent.filter_fact_for_duty(fact, event(), date(2026, 1, 1), [])
     assert kept.zh == fact.zh and kept.en == fact.en
     facts = agent.extract_english_manual_facts("""VI. Operational characteristics
@@ -354,15 +355,15 @@ IV. Other
     assert len(facts) == 1 and facts[0].phase == "operations"
 
 
-def test_raw_seasonal_exclusion_does_not_require_removed_controls_or_allow_new_ones():
+def test_raw_seasonal_copy_retains_all_controls_and_rejects_new_ones():
     from dataclasses import replace
     fact = agent.source_record_facts("甲机场", [record("冬季提前做好除冰。全年注意保持间隔。", "Winter deicing. Maintain separation all year.")], category="core")[0]
     kept = agent.filter_fact_for_duty(fact, event(), date(2026, 8, 1), [])
-    assert kept is not None and "冬季" not in kept.zh
-    assert kept.excluded_source_clauses
+    assert kept is not None and kept.zh == fact.zh and kept.en == fact.en
+    assert not kept.excluded_source_clauses
     assert not agent.validate_source_semantic_preservation(kept)
-    assert agent.validate_source_semantic_preservation(replace(kept, text_zh=kept.zh + "提前复飞。"))
-    assert agent.validate_bilingual_facts([kept])  # never publish a partially projected bilingual record
+    assert agent.validate_source_semantic_preservation(replace(kept, text_zh=kept.zh + "必须保持3000ft。"))
+    assert agent.validate_source_semantic_preservation(replace(kept, text_zh="全年注意保持间隔。"))
 
 
 def test_decimal_slope_is_not_list_numbering_but_actual_numbering_still_fails():

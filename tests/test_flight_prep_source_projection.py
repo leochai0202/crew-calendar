@@ -68,14 +68,14 @@ def test_source_instrument_range_finder_equivalence_is_not_generic_blind_landing
     assert agent.bilingual_semantic_mismatches("盲降测距仪。", "Emergency landing range finder.")
 
 
-def test_season_filter_projects_the_same_parent_english_without_translation():
+def test_source_copy_preserves_all_seasons_without_english_projection_or_translation():
     zh = "春季多雷暴，常伴风切变。夏秋季有台风及雷暴。"
     en = "Spring thunderstorms are often accompanied by wind shear. During summer and autumn, typhoons bring thunderstorms."
     fact = source_fact(zh, en)
     selected = agent.filter_fact_for_duty(fact, duty(), date(2026, 10, 26), [])
     assert selected is not None
-    assert selected.zh == "夏秋季有台风及雷暴。"
-    assert selected.en == "During summer and autumn, typhoons bring thunderstorms."
+    assert selected.zh == zh
+    assert selected.en == en
     assert selected.en in en
     assert selected.source_text_en == en
     assert "RNP" in agent.manual_pairing_concepts("按RNP26程序运行。")
@@ -85,13 +85,14 @@ def test_season_filter_projects_the_same_parent_english_without_translation():
     assert agent.validate_source_semantic_preservation(selected) == []
 
 
-def test_ambiguous_seasonal_projection_still_fails_safe():
+def test_source_copy_does_not_need_ambiguous_seasonal_projection():
     zh = "春季有风切变。夏秋季有台风。"
     en = "Spring wind shear occurs. During summer and autumn, typhoons occur. During summer and autumn, typhoons occur."
     selected = agent.filter_fact_for_duty(source_fact(zh, en), duty(), date(2026, 10, 26), [])
-    assert selected is not None and not selected.en
-    assert selected.english_source == "manual_coverage_gap"
-    assert agent.validate_bilingual_facts([selected])
+    assert selected is not None and selected.zh == zh and selected.en == en
+    assert selected.english_source == "source_backed"
+    assert not selected.excluded_source_clauses
+    # If projection is explicitly requested elsewhere, unsafe matches remain rejected.
     assert not agent.unique_source_english_span("夏季有台风。", "Summer has no typhoons. Spring has wind shear.")
     assert not agent.unique_source_english_span("夏季必须注意台风。", "Summer typhoons occur. Spring has wind shear.")
 

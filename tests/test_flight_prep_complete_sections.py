@@ -1,10 +1,13 @@
 """All-airport source completeness, without changing release safeguards."""
 from dataclasses import replace
+from datetime import date
 
 import pytest
 
 from crew_agents import flight_prep_agent as a
 from test_flight_prep_briefing_selection import fact, choose
+from test_flight_prep_independent_languages import flight, record
+from test_flight_prep_safe_output_cleanup import chinese_record
 
 
 @pytest.mark.parametrize('text', [
@@ -110,3 +113,60 @@ def test_papi_mention_is_not_a_license_to_remove_other_operating_instructions():
               english_source_record_id='en-data')
     en = replace(zh, text_en='PAPI Information: RWY 08: 3.2 degrees, MEHT21m; RWY 26: 3 degrees, MEHT20m.', language='en')
     assert a.validate_cross_language_conflicts([zh], [en])
+
+
+@pytest.mark.parametrize('month', range(1, 13))
+def test_all_months_retain_original_season_conditions_values_and_controls(month):
+    zh = '5至9月进场时注意雷雨；保持3000ft，未经ATC许可不得转弯。冬季运行：先取得除冰许可，再滑行。'
+    en = 'From May to September, watch for thunderstorms on arrival; maintain 3000ft and do not turn without ATC clearance. Winter operations: obtain deicing clearance before taxi.'
+    raw = chinese_record(zh, text_en=en)
+    source = a.source_record_facts('AAAA', [raw], category='core')[0]
+    logs = []
+    kept = a.filter_fact_for_duty(source, flight(), date(2026, month, 15), logs)
+    assert kept is not None and kept.zh == zh and kept.en == en
+    assert kept.source_text_zh == zh and kept.source_page == '10'
+    assert not logs and not kept.excluded_source_clauses
+    assert a.validate_source_semantic_preservation(kept) == []
+    english = a.english_briefing_fact_sets(
+        replace(flight(), summary='9C0002 BBBB→AAAA'), date(2026, month, 15),
+        {'AAAA': [record(en)], 'BBBB': []})[2]
+    assert len(english) == 1 and english[0].en == en
+    assert english[0].source_text_en == en and english[0].source_page == '20'
+    assert a.validate_english_source_facts('AAAA', english) == []
+
+
+def test_season_retention_does_not_override_other_route_or_explicit_expiry():
+    source = a.source_record_facts('AAAA', [chinese_record('冬季注意结冰。')], category='core')[0]
+    assert a.filter_fact_for_duty(replace(source, route_scope=(('CCCC', 'DDDD'),)), flight(), date(2026, 8, 1)) is None
+    expired = a.source_record_facts('AAAA', [chinese_record('冬季运行：2025年1月1日至2025年2月1日跑道关闭。')], category='core')[0]
+    assert a.filter_fact_for_duty(expired, flight(), date(2026, 8, 1)) is None
+
+
+def test_ordinary_elevation_is_copied_but_papi_and_administration_are_not():
+    records = [chinese_record('机场标高：13ft。', 'zh:height'),
+               chinese_record('PAPI信息：08：3°，MEHT20m。', 'zh:papi'),
+               chinese_record('廊桥密码：1234。', 'zh:admin')]
+    facts = a.source_record_facts('AAAA', records, category='core')
+    exclusions = []
+    output = a.select_source_briefing_content(facts, 'departure', category='core', exclusion_log=exclusions)
+    assert [f.fact_id for f in output] == ['zh:height']
+    assert a.chinese_fact_output(output[0]).rstrip('。') == '机场标高：13ft'
+    assert any(e['reason'] == 'papi_data_background_only' for e in exclusions)
+    english = a.english_briefing_fact_sets(flight(), date(2026, 11, 15), {'AAAA': [
+        record('Airport elevation: 13 ft.', identity='en:height'),
+        record('PAPI Information: RWY 08: 3 degrees, MEHT20m.', identity='en:papi'),
+        record('The jet bridge password is 1234.', identity='en:admin')], 'BBBB': []})[2]
+    assert [f.fact_id for f in english] == ['en:height']
+    assert a.english_paragraph_output(english[0]) == 'Airport elevation: 13 ft.'
+
+
+def test_retained_month_range_is_not_a_route_but_unknown_named_routes_still_block():
+    for text in ('From May to September, thunderstorms occur.', 'From November to February, icing occurs.'):
+        english = a.english_briefing_fact_sets(flight(), date(2026, 4, 15), {'AAAA': [record(text)], 'BBBB': []})[2]
+        assert len(english) == 1 and english[0].en == text
+        assert a.validate_english_source_facts('AAAA', english) == []
+    for text in ('From Rome to Oslo, maintain 3000ft.',
+                 'From May to Oslo, maintain 3000ft.',
+                 'From May to September, thunderstorms occur. From Rome to Oslo, maintain 3000ft.'):
+        english = a.english_briefing_fact_sets(flight(), date(2026, 4, 15), {'AAAA': [record(text)], 'BBBB': []})[2]
+        assert a.validate_english_source_facts('AAAA', english)

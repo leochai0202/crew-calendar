@@ -44,7 +44,11 @@ Per Pudong Aerodrome Instructions AD2.20, 3.2.4: “Upon sighting marshalling ve
 
 When taxiing towards stands equipped with Visual Docking Guidance System (VDGS): stop taxi immediately if receiving ambiguous guidance indications. When entering stands with manual marshalling, stop taxi if ground marshalling personnel are not on-site (frequently encountered after ad-hoc stand change post-landing). Notify ATC promptly, keep engines running and await further instructions.
 
+Airport elevation: 13 ft.
+
 Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m).
+
+Low-visibility and low-ceiling conditions prevail frequently in winter. Make adequate preparations accordingly.
 
 Bird-scare cannon blasts are loud at Pudong. It is required to avoid undesired startle response.
 

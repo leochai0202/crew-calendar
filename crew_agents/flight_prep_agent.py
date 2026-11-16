@@ -7756,17 +7756,12 @@ def filter_fact_for_duty(
             )
         return None
 
-    parent_title = re.match(r"^[^。；:：]{1,120}[:：]", display_text)
-    if fact.source_verbatim and parent_title and source_parent_has_condition(parent_title.group()):
-        parent_months = detected_season_scope(parent_title.group())
-        if parent_months and target.month not in parent_months:
-            if exclusion_log is not None:
-                exclusion_log.append(exclusion_log_entry(fact, fact.source_text_zh or fact.zh,
-                    f"目标月份为{target.month}月，不在资料父条目明确季节适用月份内"))
-            return None
-        # A conditional parent applies across sentence punctuation to all its
-        # subitems. Never strip just its first sentence and retain its children.
-        filtered, clauses, reasons, scope = display_text, (), (), fact.season_scope
+    if fact.source_verbatim:
+        # Original-source copies retain recurring seasonal requirements with
+        # their conditions, even outside that season. This does not override
+        # explicit operating validity windows or route/role restrictions.
+        filtered, clauses, reasons = display_text, (), ()
+        scope = fact.season_scope or detected_season_scope(display_text)
     else:
         filtered, clauses, reasons, scope = filter_seasonal_text(display_text, target.month)
     clauses = (*direction_clauses, *clauses)
@@ -7881,13 +7876,6 @@ def source_record_facts(
         source_original_text = str(
             record.get("source_original_text") or source_clause
         ).strip()
-        if (category == "core" and standalone_airport_elevation(source_clause)
-                and not has_sourced_highland_classification(records, canonical)):
-            if exclusion_log is not None:
-                exclusion_log.append({"airport": canonical, "fact_id": str(record.get("fact_id") or ""),
-                    "source_page": str(record.get("source_page") or "N/A"), "clause": source_original_text,
-                    "reason": "独立标高字段仅用于有权威高原机场分类的机场"})
-            continue
         if not source_clause or record.get("pre_excluded_reason"):
             if exclusion_log is not None and source_original_text:
                 pre_excluded_reason = str(
@@ -12094,9 +12082,6 @@ def english_briefing_fact_sets(
                     text, phase, scope = fact.en, fact.operational_phase, fact.role_scope
                 # A partial/ambiguous Chinese selection cannot authorize a full translation.
             reason = ""
-            if (category == "core" and standalone_airport_elevation(text)
-                    and not has_sourced_highland_classification(source_records.get(airport, []), airport)):
-                reason = "Standalone elevation requires a sourced high-altitude airport classification"
             if category != "typical" and not reason:
                 if not fact_matches_airport_role(fact, airport_role(event, airport)):
                     reason = "English source is only applicable to the opposite operating role"
@@ -12106,12 +12091,9 @@ def english_briefing_fact_sets(
                     reason = "English source explicitly applies to another flight"
                 elif not english_source_date_matches(text, target):
                     reason = "English source operating window has expired or has not started"
-                filtered, excluded = filter_english_source_seasons(text, target.month)
-                if not reason and not filtered:
-                    reason = "English source season is not applicable"
-                elif not reason and excluded:
-                    fact = replace(fact, text_en=filtered, excluded_source_clauses=excluded,
-                        exclusion_reasons=tuple("English source season is not applicable" for _ in excluded))
+                # Keep the complete recurring-season condition in the source
+                # copy; explicit validity windows above still apply.
+                fact = replace(fact, season_scope=fact.season_scope or english_season_scope(text))
                 daypart = "night" if re.match(r"\s*(?:AT NIGHT|NIGHTTIME)", text, re.I) else "day" if re.match(r"\s*(?:DAYTIME|DAYLIGHT ONLY)", text, re.I) else ""
                 if not reason and daypart:
                     condition_ok, condition_reason = condition_matches_duty(replace(fact, condition_scope=(("daypart", daypart),)), event)
@@ -12222,7 +12204,12 @@ def validate_english_source_facts(airport: str, facts: list[BilingualFact]) -> l
         if fact.english_source != "source_backed" or not fact.en.strip():
             errors.append(f"英文不得使用无来源替代内容：{fact.fact_id}")
         named_pair = re.search(r"\b[A-Z][a-z]{2,}(?:[-—–][A-Z][a-z]{2,})+\s*(?i:route|section|sector|airport)\b", fact.en)
-        from_to = re.search(r"\bFrom ([A-Z][a-z]{2,}) to ([A-Z][a-z]{2,})\b", fact.en)
+        from_to = [pair for pair in re.finditer(r"\bFrom ([A-Z][a-z]{2,}) to ([A-Z][a-z]{2,})\b", fact.en)
+            if not all(re.fullmatch(
+                r"Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?",
+                endpoint, re.I) for endpoint in pair.groups())]
+        # A printed month range is not an unverified route. Still check other
+        # From/To clauses in the same paragraph rather than hiding them.
         if (fact.category == "core" and not fact.route_scope and (named_pair or from_to)):
             errors.append(f"英文指定航线的适用性未核实：{fact.fact_id}；源页{fact.source_page}")
         if re.search(r"\bFIVE[- ]WAY TURNS?\b|\bRNP\s+FIVE SIDES\b|\bFIVE[- ]SIDED CHAOS\b|"

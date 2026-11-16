@@ -68,11 +68,11 @@
           "fact_id": null,
           "original": "机场标高：13ft。",
           "parsed_text": "机场标高：13ft。",
-          "actual_output": [],
-          "disposition": "EXCLUDED",
-          "reasons": [
-            "独立标高字段仅用于有权威高原机场分类的机场"
-          ]
+          "actual_output": [
+            "机场标高：13ft"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
         },
         {
           "group": 1,
@@ -392,11 +392,11 @@
           "fact_id": null,
           "original": "运行特点：冬季运行经常低能见、低云，请机组做好相关准备。",
           "parsed_text": "运行特点：冬季运行经常低能见、低云，请机组做好相关准备。",
-          "actual_output": [],
-          "disposition": "EXCLUDED",
-          "reasons": [
-            "目标月份为11月，不在资料明确季节适用月份1,2,12月内"
-          ]
+          "actual_output": [
+            "冬季运行经常低能见、低云，请做好相关准备"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
         },
         {
           "group": 1,
@@ -464,11 +464,11 @@
           "fact_id": "上海浦东:en:20055991bca5d294",
           "original": "Airportelevation:13 ft",
           "parsed_text": "Airportelevation:13 ft",
-          "actual_output": [],
-          "disposition": "EXCLUDED",
-          "reasons": [
-            "Standalone elevation requires a sourced high-altitude airport classification"
-          ]
+          "actual_output": [
+            "Airport elevation: 13 ft."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
         },
         {
           "group": 1,
@@ -755,11 +755,11 @@
           "fact_id": "上海浦东:en:08572f03e1c14a9f",
           "original": "Low-visibility and low-ceiling conditions prevail frequently in winter. Make adequate preparations accordingly.",
           "parsed_text": "Low-visibility and low-ceiling conditions prevail frequently in winter. Make adequate preparations accordingly.",
-          "actual_output": [],
-          "disposition": "EXCLUDED",
-          "reasons": [
-            "English source season is not applicable"
-          ]
+          "actual_output": [
+            "Low-visibility and low-ceiling conditions prevail frequently in winter. Make adequate preparations accordingly."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
         },
         {
           "group": 1,
@@ -992,11 +992,11 @@
           "fact_id": null,
           "original": "运行特点：机场标高：94ft。",
           "parsed_text": "运行特点：机场标高：94ft。",
-          "actual_output": [],
-          "disposition": "EXCLUDED",
-          "reasons": [
-            "独立标高字段仅用于有权威高原机场分类的机场"
-          ]
+          "actual_output": [
+            "机场标高：94ft"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
         },
         {
           "group": 1,
@@ -1630,8 +1630,8 @@
         }
       ],
       "counts": {
-        "OUTPUT": 74,
-        "EXCLUDED": 15
+        "OUTPUT": 79,
+        "EXCLUDED": 10
       }
     },
     "2026-11-15": {
@@ -1704,11 +1704,11 @@
           "fact_id": null,
           "original": "机场标高：13ft。",
           "parsed_text": "机场标高：13ft。",
-          "actual_output": [],
-          "disposition": "EXCLUDED",
-          "reasons": [
-            "独立标高字段仅用于有权威高原机场分类的机场"
-          ]
+          "actual_output": [
+            "机场标高：13ft"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
         },
         {
           "group": 1,
@@ -2028,11 +2028,11 @@
           "fact_id": null,
           "original": "运行特点：冬季运行经常低能见、低云，请机组做好相关准备。",
           "parsed_text": "运行特点：冬季运行经常低能见、低云，请机组做好相关准备。",
-          "actual_output": [],
-          "disposition": "EXCLUDED",
-          "reasons": [
-            "目标月份为11月，不在资料明确季节适用月份1,2,12月内"
-          ]
+          "actual_output": [
+            "冬季运行经常低能见、低云，请做好相关准备"
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
         },
         {
           "group": 1,
@@ -2100,11 +2100,11 @@
           "fact_id": "上海浦东:en:20055991bca5d294",
           "original": "Airportelevation:13 ft",
           "parsed_text": "Airportelevation:13 ft",
-          "actual_output": [],
-          "disposition": "EXCLUDED",
-          "reasons": [
-            "Standalone elevation requires a sourced high-altitude airport classification"
-          ]
+          "actual_output": [
+            "Airport elevation: 13 ft."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
         },
         {
           "group": 1,
@@ -2391,11 +2391,11 @@
           "fact_id": "上海浦东:en:08572f03e1c14a9f",
           "original": "Low-visibility and low-ceiling conditions prevail frequently in winter. Make adequate preparations accordingly.",
           "parsed_text": "Low-visibility and low-ceiling conditions prevail frequently in winter. Make adequate preparations accordingly.",
-          "actual_output": [],
-          "disposition": "EXCLUDED",
-          "reasons": [
-            "English source season is not applicable"
-          ]
+          "actual_output": [
+            "Low-visibility and low-ceiling conditions prevail frequently in winter. Make adequate preparations accordingly."
+          ],
+          "disposition": "OUTPUT",
+          "reasons": []
         },
         {
           "group": 1,
@@ -3025,12 +3025,10 @@
           "original": "进场：空中常年刮西风，冬、春季节最大风速可达70-80 节，RWY20 进近时应控 制好转弯时的速度和坡度，防止五边偏东与本场东北的双贵峰山（机场中 心 038°/14 千米、海拔高 3209 米）造成冲突。修正角出航边正对玉龙雪 山（机场中心 353°/47 千米、海拔高 5596 米），应控制好出航边距离。",
           "parsed_text": "进场：空中常年刮西风，冬、春季节最大风速可达70-80 节，RWY20 进近时应控 制好转弯时的速度和坡度，防止五边偏东与本场东北的双贵峰山（机场中 心 038°/14 千米、海拔高 3209 米）造成冲突。修正角出航边正对玉龙雪 山（机场中心 353°/47 千米、海拔高 5596 米），应控制好出航边距离。",
           "actual_output": [
-            "修正角出航边正对玉龙雪山（机场中心 353°/47 千米、海拔高 5596 米），应控制好出航边距离"
+            "空中常年刮西风，冬、春季节最大风速可达70-80 节，RWY20 进近时应控制好转弯时的速度和坡度，防止五边偏东与本场东北的双贵峰山（机场中心 038°/14 千米、海拔高 3209 米）造成冲突。修正角出航边正对玉龙雪山（机场中心 353°/47 千米、海拔高 5596 米），应控制好出航边距离"
           ],
           "disposition": "OUTPUT",
-          "reasons": [
-            "目标月份为11月，不在资料明确季节适用月份3,4,5月内"
-          ]
+          "reasons": []
         },
         {
           "group": 1,
@@ -3171,14 +3169,10 @@
           "original": "运行特点：1-4 月份多西、西南大风，这四个月的大风日数达 12.4 天，占全年大风日 数的 88%,最大风速达 24m/s；5-6 月份，雨季开始，这两个月雷暴日数逐渐 增多，平均雷暴日数 15 天；7-9 月份，平均雷暴日数 39 天。经常有持续时 间较长的强对流天气，伴有强烈的雷电、降水、恶劣的能见度和很强的阵 风。强对流天气出现方位以西北面最多，西南面次之；10-12 月份，大风日 数为 0.7 天，雷暴日数为 4 天。",
           "parsed_text": "运行特点：1-4 月份多西、西南大风，这四个月的大风日数达 12.4 天，占全年大风日 数的 88%,最大风速达 24m/s；5-6 月份，雨季开始，这两个月雷暴日数逐渐 增多，平均雷暴日数 15 天；7-9 月份，平均雷暴日数 39 天。经常有持续时 间较长的强对流天气，伴有强烈的雷电、降水、恶劣的能见度和很强的阵 风。强对流天气出现方位以西北面最多，西南面次之；10-12 月份，大风日 数为 0.7 天，雷暴日数为 4 天。",
           "actual_output": [
-            "经常有持续时间较长的强对流天气，伴有强烈的雷电、降水、恶劣的能见度和很强的阵风。强对流天气出现方位以西北面最多，西南面次之；10-12 月份，大风日数为 0.7 天，雷暴日数为 4 天"
+            "1-4 月份多西、西南大风，这四个月的大风日数达 12.4 天，占全年大风日数的 88%,最大风速达 24m/s；5-6 月份，雨季开始，这两个月雷暴日数逐渐增多，平均雷暴日数 15 天；7-9 月份，平均雷暴日数 39 天。经常有持续时间较长的强对流天气，伴有强烈的雷电、降水、恶劣的能见度和很强的阵风。强对流天气出现方位以西北面最多，西南面次之；10-12 月份，大风日数为 0.7 天，雷暴日数为 4 天"
           ],
           "disposition": "OUTPUT",
-          "reasons": [
-            "目标月份为11月，不在资料明确季节适用月份1,2,3,4月内",
-            "目标月份为11月，不在资料明确季节适用月份5,6月内",
-            "目标月份为11月，不在资料明确季节适用月份7,8,9月内"
-          ]
+          "reasons": []
         },
         {
           "group": 1,
@@ -3292,8 +3286,8 @@
         }
       ],
       "counts": {
-        "OUTPUT": 76,
-        "EXCLUDED": 14
+        "OUTPUT": 80,
+        "EXCLUDED": 10
       }
     }
   }

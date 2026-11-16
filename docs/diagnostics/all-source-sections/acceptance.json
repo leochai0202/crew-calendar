@@ -1,5 +1,5 @@
 {
-  "input_sha": "3e94303e1c81d12dbf87529b845e89c7206a231b",
+  "input_sha": "837fe8a8e1eefa985fff7156662a1554ac71296e",
   "dates": {
     "2026-11-13": {
       "preview_status": "PREVIEW",
@@ -27,8 +27,8 @@
             "9C8802"
           ],
           "foreign_crew": false,
-          "chinese_fact_count": 38,
-          "english_fact_count": 35,
+          "chinese_fact_count": 41,
+          "english_fact_count": 37,
           "release_eligible": false,
           "release_errors": [
             "9C8801/9C8802：中英文权威来源关键运行冲突：上海浦东_core_record_5：['papi_runway_value_association']；中文页586；英文页1367"
@@ -66,8 +66,8 @@
             "9C6618"
           ],
           "foreign_crew": false,
-          "chinese_fact_count": 56,
-          "english_fact_count": 19,
+          "chinese_fact_count": 58,
+          "english_fact_count": 21,
           "release_eligible": false,
           "release_errors": [
             "9C6617/9C6618：中英文权威来源关键运行冲突：上海浦东_core_record_5：['papi_runway_value_association']；中文页586；英文页1367",
@@ -82,5 +82,5 @@
   },
   "manual": "AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
   "manual_sha256": "e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8",
-  "ics_sha256": "31345092375df4addcbed73f5a55b3c3bd666e03e6e916d128e082fa86937f5e"
+  "ics_sha256": "b356e1a5b02109196ca9bd22e85096c101e1191077699d4d22c6f04dc85ad4d2"
 }
