@@ -1847,6 +1847,12 @@ def _find_manual_header_marker(value: str) -> tuple[int, str]:
         pos = key.find(compact_key(marker))
         if pos >= 0:
             found.append((pos, marker))
+    # A printed heading can lose the final Chinese character immediately
+    # before its Latin name. Require its explicit IATA/ICAO pair as boundary
+    # evidence; otherwise the next airport's elevation leaks into this one.
+    truncated = re.search(r"机场运行特(?=[A-Z])", key)
+    if not found and truncated and all(_extract_airport_codes(value)):
+        found.append((truncated.start(), "机场运行特"))
     return min(found, default=(-1, ""), key=lambda item: item[0])
 
 
@@ -2306,6 +2312,50 @@ def source_parent_has_condition(value: str) -> bool:
     )
 
 
+def english_attribute_remarks(text: str) -> list[str]:
+    """Read affirmative remarks from the PDF's aligned Yes/No table.
+
+    A multi-line cell may begin above the vertically centred YES label. Use
+    the printed columns, not airport names or inferred operating values.
+    Ambiguous/un-aligned tables remain subject to the existing source guard.
+    """
+    lines = text.splitlines()
+    result: list[str] = []
+    for start, raw in enumerate(lines):
+        header = re.search(r"Inherent\s*Attributes\s+(Yes/No)\s+(Remarks)", raw, re.I)
+        if not header:
+            continue
+        flag_col, remark_col = header.start(1), header.start(2)
+        stop = next((i for i in range(start + 1, len(lines))
+                     if re.match(r"^\s*\d+[.．]\s+\D", lines[i])), len(lines))
+        for index in range(start + 1, stop):
+            line = lines[index]
+            flag = re.search(r"\b(YES|NO)\b", line, re.I)
+            if not flag or flag[1].upper() != "YES" or abs(flag.start() - flag_col) > 3:
+                continue
+            def continuation(value: str) -> bool:
+                return (bool(value.strip()) and not value[:flag_col].strip()
+                        and not value[flag_col:remark_col].strip())
+            before, after = [], []
+            i = index - 1
+            while i > start and (not lines[i].strip() or continuation(lines[i])):
+                if lines[i].strip():
+                    before.insert(0, lines[i][remark_col:])
+                i -= 1
+            i = index + 1
+            while i < stop and (not lines[i].strip() or continuation(lines[i])):
+                if lines[i].strip():
+                    after.append(lines[i][remark_col:])
+                i += 1
+            parts = [*before, line[flag.end():], *after]
+            remark = _clean_english_manual_item(parts)
+            if not remark:
+                remark = _clean_english_manual_item([line[:flag.start()]])
+            if remark:
+                result.append(remark)
+    return unique(result)
+
+
 def extract_english_manual_facts(text: str) -> list[ManualEnglishFact]:
     """Recover English facts by chapter section, phase, and source order."""
     facts: list[ManualEnglishFact] = []
@@ -2448,6 +2498,8 @@ def extract_english_manual_facts(text: str) -> list[ManualEnglishFact]:
         value = re.sub(r"^\s*\(\d+\)\s*", "", raw.strip())
         if re.match(r"(?:High-elevation airport|Complex airport|EOSID(?: required)?)\s+YES\b", value, re.I):
             facts.append(ManualEnglishFact(_clean_english_manual_item([value]), "core", "operations", sum(f.phase == "operations" for f in facts)))
+    for value in english_attribute_remarks(text):
+        facts.append(ManualEnglishFact(value, "core", "operations", sum(f.phase == "operations" for f in facts)))
     return facts
 
 
@@ -3766,7 +3818,7 @@ def extract_structured_manual_items(
             current_parts.append(line)
 
     flush()
-    return unique(typical)[:max_items], unique(core)[:max_items]
+    return unique(typical), unique(core)
 
 
 TABLE_CATEGORIES = ("天气", "环境和地形", "机场", "飞行程序", "ATC")
@@ -3899,32 +3951,16 @@ def table_risk_items(records: list[dict], max_items: int) -> list[str]:
 
 
 def table_core_items(records: list[dict], max_items: int) -> list[str]:
-    # Combine departure/arrival records by category so a short group-ready
-    # version still covers both phases instead of listing only departure items.
-    grouped: dict[str, list[dict]] = {}
-    for record in records:
-        grouped.setdefault(record["category"], []).append(record)
-    priorities = ("天气", "机场", "飞行程序", "环境和地形", "ATC")
+    # A row's threat, controls and phase are one source unit. Combining rows
+    # by category would detach arrival controls from their applicability.
     result: list[str] = []
-    for category in priorities:
-        entries = grouped.get(category, [])
-        if not entries:
-            continue
-        fragments: list[str] = []
-        controls: list[str] = []
-        for entry in entries:
-            threat_text = entry["threat"]
-            phase = entry["phase"]
-            fragments.append(threat_text if threat_text.startswith(phase) else f"{phase}{threat_text}")
-            if entry.get("mitigation"):
-                controls.append(entry["mitigation"])
-        threat_text = "；".join(unique(fragments))
-        control_text = "；".join(unique(controls))
-        text = threat_text
-        if control_text:
-            text += f"。{control_text}"
-        result.append(clean_manual_item(text))
-    return unique(result)[:max_items]
+    for record in records:
+        text = record["threat"]
+        if record.get("mitigation"):
+            text += "。" + record["mitigation"]
+        phase = record["phase"]
+        result.append(clean_manual_item(f"{phase}：{text}"))
+    return unique(result)
 
 
 def source_operational_value_issue(value: str) -> str:
@@ -4048,6 +4084,20 @@ def scan_chapter_source_records(lines: list[str]) -> tuple[list[str], list[str]]
     for raw in source_lines:
         line = normalize_text(raw)
         if not line or is_repeated_pdf_line(line) or re.match(r"^(?:版本|修订日期|页码|更新日期|责任中队)", line):
+            continue
+        if re.fullmatch(r"固有属性\s*是/否\s*备注", line):
+            flush()
+            active = False
+            continue
+        attribute = re.match(r"^是否(?:为|存在|涉及)\s*(.*?)\s+(是|否)(?:\s+(.*))?$", line)
+        if attribute:
+            flush()
+            category, phase = "core", ""
+            active = attribute[2] == "是"
+            if active:
+                # Preserve the printed affirmative remark, including its
+                # continuation lines (e.g. runway allocation and exceptions).
+                parts = [attribute[3] or attribute[1]]
             continue
         if re.match(r"^(?:廊桥密码|登机桥密码|联系电话|电话|传真|邮箱)\s*[:：]?", re.sub(r"\s+", "", line)):
             # An independent administrative field at a page break must not
@@ -4347,7 +4397,7 @@ SOURCE_BROKEN_START_RE = re.compile(
 )
 SOURCE_BROKEN_FRAGMENT_RE = re.compile(
     r"(?:时地[。.]?$|如下[:：]?[。.]?$|关于《[^》]{0,18}$|"
-    r"低温运行进近方式速[。.]?$|^[^，；。]{2,30}[（(][^）)]{1,20}[）)][。.]$)"
+    r"低温运行进近方式速[。.]?$)"
 )
 SOURCE_OBVIOUS_OCR_ERROR_RE = re.compile(
     r"(?:飞飞(?=[A-Z]{2,})|预的选|(?<!\d)\d{3}年\d{1,2}月|"
@@ -4495,7 +4545,8 @@ def manual_source_quality_issue(value: str) -> str:
     if SOURCE_METADATA_FIELD_RE.search(raw) and not strip_source_metadata(raw):
         return "PDF版本、修订日期或页码元数据不进入正式正文"
     cleaned = strip_manual_ordinal_prefix(strip_source_metadata(raw))
-    cleaned, _ = strip_source_reference_clauses(cleaned)
+    # References can be operating controls (e.g. a published radio-failure
+    # procedure). Do not remove them before testing source completeness.
     cleaned = normalize_text(cleaned)
     if not cleaned:
         return "清洗后无实质运行内容"
@@ -5428,7 +5479,12 @@ def airport_risks(
                     scoped = split_source_record_clauses(cleaned_item, parent_record_id=source_record_id, source_sequence=item_index, preserve_condition_bundles=True)
                     roles = {clause.role_scope for clause in scoped if clause.role_scope}
                     conditional_title = re.match(r"^[^。；:：]{1,120}[:：]", SOURCE_HEADING_RE.sub("", cleaned_item))
-                    if len(roles) > 1 and not (conditional_title and source_parent_has_condition(conditional_title.group())):
+                    # A full sentence inside a parenthesis is still part of
+                    # its source item, not an independent fragment/role. Keep
+                    # the complete condition and control rather than losing
+                    # the closing bracket or discarding the example clause.
+                    parenthetical_sentence = re.search(r"[（(][^）)]*[。！？][^）)]*[）)]", cleaned_item)
+                    if len(roles) > 1 and not parenthetical_sentence and not (conditional_title and source_parent_has_condition(conditional_title.group())):
                         split_items = scoped
                 if not split_items:
                     records.append(
@@ -7706,17 +7762,12 @@ def filter_fact_for_duty(
             )
         return None
 
-    parent_title = re.match(r"^[^。；:：]{1,120}[:：]", display_text)
-    if fact.source_verbatim and parent_title and source_parent_has_condition(parent_title.group()):
-        parent_months = detected_season_scope(parent_title.group())
-        if parent_months and target.month not in parent_months:
-            if exclusion_log is not None:
-                exclusion_log.append(exclusion_log_entry(fact, fact.source_text_zh or fact.zh,
-                    f"目标月份为{target.month}月，不在资料父条目明确季节适用月份内"))
-            return None
-        # A conditional parent applies across sentence punctuation to all its
-        # subitems. Never strip just its first sentence and retain its children.
-        filtered, clauses, reasons, scope = display_text, (), (), fact.season_scope
+    if fact.source_verbatim:
+        # Original-source copies retain recurring seasonal requirements with
+        # their conditions, even outside that season. This does not override
+        # explicit operating validity windows or route/role restrictions.
+        filtered, clauses, reasons = display_text, (), ()
+        scope = fact.season_scope or detected_season_scope(display_text)
     else:
         filtered, clauses, reasons, scope = filter_seasonal_text(display_text, target.month)
     clauses = (*direction_clauses, *clauses)
@@ -7831,13 +7882,6 @@ def source_record_facts(
         source_original_text = str(
             record.get("source_original_text") or source_clause
         ).strip()
-        if (category == "core" and standalone_airport_elevation(source_clause)
-                and not has_sourced_highland_classification(records, canonical)):
-            if exclusion_log is not None:
-                exclusion_log.append({"airport": canonical, "fact_id": str(record.get("fact_id") or ""),
-                    "source_page": str(record.get("source_page") or "N/A"), "clause": source_original_text,
-                    "reason": "独立标高字段仅用于有权威高原机场分类的机场"})
-            continue
         if not source_clause or record.get("pre_excluded_reason"):
             if exclusion_log is not None and source_original_text:
                 pre_excluded_reason = str(
@@ -8458,7 +8502,10 @@ def deduplicate_typical_incidents(
     grouped: list[list[BilingualFact]] = []
     signatures: list[str] = []
     for fact in facts:
-        signature = typical_incident_signature(
+        # A shared incident type is not proof that the complete original facts
+        # are interchangeable. Source-only output must retain different dates,
+        # conditions and controls rather than choose the shortest example.
+        signature = ("verbatim:" + normalize_text(fact.text_zh) if fact.source_verbatim else typical_incident_signature(
             " ".join(
                 unique(
                     [
@@ -8468,7 +8515,7 @@ def deduplicate_typical_incidents(
                     ]
                 )
             )
-        )
+        ))
         if signature and signature in signatures:
             grouped[signatures.index(signature)].append(fact)
             continue
@@ -10181,13 +10228,11 @@ def select_source_briefing_content(
     facts: list[BilingualFact], role: str, *, category: str,
     exclusion_log: list[dict[str, object]] | None = None,
 ) -> list[BilingualFact]:
-    """Source fidelity is not automatic selection of an entire chapter.
+    """Keep all applicable source records, without representative quotas.
 
-    Do not rewrite facts or budget core restrictions by count/length. Omit
-    only evidenced non-operating material and literal redundancy. Typical
-    incidents are representative sourced examples (normally up to three),
-    chosen for the duty role and different event mechanisms, not first N rows.
-    Uncertain material and distinct controls remain for safety validation.
+    Applicability is checked by the caller. Only non-operating material,
+    literal redundancy and the explicitly excluded PAPI data field are omitted
+    here, with source evidence retained in the exclusion log.
     """
     def text(fact: BilingualFact) -> str:
         return fact.en if fact.language == "en" else fact.zh
@@ -10209,25 +10254,8 @@ def select_source_briefing_content(
         value = text(fact)
         reason = source_operational_value_issue(value)
         if not reason and category == "core":
-            # A bare runway-size catalogue contains no operating restriction.
-            # Slope, displaced thresholds, reduced distances, performance and
-            # runway allocations are not catalogues and must remain. Likewise
-            # do not hide a proven source conflict by dropping its table.
-            field = manual_basic_field(value)
-            if field == "runways" and re.fullmatch(
-                r"(?:跑道信息|Runway\s+Information)\s*[:：]\s*"
-                r"[\d\sLRClrcl/()（）mM米×xX*.,，;；。−–-]+", value, re.I,
-            ) and (fact.language == "en" or fact.en) and not (fact.zh and fact.en and (
-                manual_pairing_tokens(fact.zh) != manual_pairing_tokens(fact.en)
-                or bilingual_keyed_table_mismatches(fact.zh, fact.en))):
-                reason = "routine_runway_dimensions_without_operational_constraint"
-            if re.fullmatch(
-                r"(?:[\w /-]+(?:procedure|procedures)|[\u4e00-\u9fff]{2,12}程序)\s*[:：]\s*"
-                r"(?:参阅|详见|参见|Refer to|See)\s*"
-                r"(?:EFB|QRH|SOP|(?:细则|Section|Rule)\s*[\d.]+)"
-                r"(?:\s*(?:for details|详述))?[。.]?", value, re.I,
-            ) and not re.search(r"EOSID|单发|ENGINE[ -]OUT|SINGLE[ -]ENGINE", value, re.I):
-                reason = "reference_only_no_operating_fact_or_control"
+            if manual_basic_field(value) == "papi":
+                reason = "papi_data_background_only"
         if not reason:
             duplicate = next((other for other in eligible if key(value) == key(text(other))), None)
             if duplicate:
@@ -10254,45 +10282,7 @@ def select_source_briefing_content(
             log(fact, "complete_source_text_retained_in:" + container.fact_id)
         else:
             retained.append(fact)
-    if category != "typical" or len(retained) <= 3:
-        return retained
-
-    families = (
-        ("taxi", r"滑错|滑行|跑道侵入|TAXI|RUNWAY INCURSION"),
-        ("configuration", r"构型|形态|CONFIGURATION"),
-        ("vertical", r"高度|下滑|下降|ALTITUDE|GLIDESLOPE|DESCENT"),
-        ("birds", r"鸟击|BIRD.*STRIKE"),
-        ("navigation", r"飞错|飞行计划|FLIGHT.PLAN|NAVIGATION"),
-        ("wind", r"风切变|乱流|WINDSHEAR|TURBULENCE"),
-    )
-    def family(fact: BilingualFact) -> str:
-        return next((name for name, pattern in families if re.search(pattern, text(fact), re.I)), fact.fact_id)
-
-    def matches_role(fact: BilingualFact) -> bool:
-        scope = fact.role_scope or (english_source_role_scope(text(fact), "unspecified")
-            if fact.language == "en" else explicit_role_scope(text(fact), "unspecified"))
-        return role == "transit" or not scope or role in scope
-
-    ranked = sorted(retained, key=lambda fact: (
-        not matches_role(fact), -fact.importance, fact.source_sequence))
-    selected: list[BilingualFact] = []
-    represented: set[str] = set()
-    for fact in ranked:
-        if len(selected) < 3 and family(fact) not in represented:
-            selected.append(fact)
-            represented.add(family(fact))
-    for fact in ranked:
-        if len(selected) < 3 and fact not in selected:
-            selected.append(fact)
-    # "Usually 2–3" is not permission to discard a unique mandatory control
-    # embedded in an incident. Keep exceptional protected records intact.
-    for fact in ranked:
-        if fact not in selected and (fact.importance >= 100 or fact.restriction):
-            selected.append(fact)
-    for fact in retained:
-        if fact not in selected:
-            log(fact, "typical_representative_selection:role_and_distinct_event_mechanism")
-    return [fact for fact in retained if fact in selected]
+    return retained
 
 
 def prepare_operational_facts(
@@ -11819,8 +11809,7 @@ def render_chinese_briefing(
         typical_sections.append(
             f"{airport_with_suffix(airport)}：\n\n{typical_text}"
         )
-    if typical_sections:
-        sections.append("典型不安全事件：\n\n" + "\n\n".join(typical_sections))
+    sections.append("典型不安全事件：\n\n" + "\n\n".join(typical_sections))
 
     core_lines = ["核心威胁："]
     for airport in airports:
@@ -11889,8 +11878,7 @@ def render_english_briefing(
         typical_sections.append(
             f"{airport_name} Airport:\n\n{paragraphs}"
         )
-    if typical_sections:
-        sections.append("Typical unsafe events:\n\n" + "\n\n".join(typical_sections))
+    sections.append("Typical unsafe events:\n\n" + "\n\n".join(typical_sections))
 
     core_lines = ["Core threats:"]
     for airport in airports:
@@ -12098,9 +12086,6 @@ def english_briefing_fact_sets(
                     text, phase, scope = fact.en, fact.operational_phase, fact.role_scope
                 # A partial/ambiguous Chinese selection cannot authorize a full translation.
             reason = ""
-            if (category == "core" and standalone_airport_elevation(text)
-                    and not has_sourced_highland_classification(source_records.get(airport, []), airport)):
-                reason = "Standalone elevation requires a sourced high-altitude airport classification"
             if category != "typical" and not reason:
                 if not fact_matches_airport_role(fact, airport_role(event, airport)):
                     reason = "English source is only applicable to the opposite operating role"
@@ -12110,12 +12095,9 @@ def english_briefing_fact_sets(
                     reason = "English source explicitly applies to another flight"
                 elif not english_source_date_matches(text, target):
                     reason = "English source operating window has expired or has not started"
-                filtered, excluded = filter_english_source_seasons(text, target.month)
-                if not reason and not filtered:
-                    reason = "English source season is not applicable"
-                elif not reason and excluded:
-                    fact = replace(fact, text_en=filtered, excluded_source_clauses=excluded,
-                        exclusion_reasons=tuple("English source season is not applicable" for _ in excluded))
+                # Keep the complete recurring-season condition in the source
+                # copy; explicit validity windows above still apply.
+                fact = replace(fact, season_scope=fact.season_scope or english_season_scope(text))
                 daypart = "night" if re.match(r"\s*(?:AT NIGHT|NIGHTTIME)", text, re.I) else "day" if re.match(r"\s*(?:DAYTIME|DAYLIGHT ONLY)", text, re.I) else ""
                 if not reason and daypart:
                     condition_ok, condition_reason = condition_matches_duty(replace(fact, condition_scope=(("daypart", daypart),)), event)
@@ -12226,7 +12208,12 @@ def validate_english_source_facts(airport: str, facts: list[BilingualFact]) -> l
         if fact.english_source != "source_backed" or not fact.en.strip():
             errors.append(f"英文不得使用无来源替代内容：{fact.fact_id}")
         named_pair = re.search(r"\b[A-Z][a-z]{2,}(?:[-—–][A-Z][a-z]{2,})+\s*(?i:route|section|sector|airport)\b", fact.en)
-        from_to = re.search(r"\bFrom ([A-Z][a-z]{2,}) to ([A-Z][a-z]{2,})\b", fact.en)
+        from_to = [pair for pair in re.finditer(r"\bFrom ([A-Z][a-z]{2,}) to ([A-Z][a-z]{2,})\b", fact.en)
+            if not all(re.fullmatch(
+                r"Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?",
+                endpoint, re.I) for endpoint in pair.groups())]
+        # A printed month range is not an unverified route. Still check other
+        # From/To clauses in the same paragraph rather than hiding them.
         if (fact.category == "core" and not fact.route_scope and (named_pair or from_to)):
             errors.append(f"英文指定航线的适用性未核实：{fact.fact_id}；源页{fact.source_page}")
         if re.search(r"\bFIVE[- ]WAY TURNS?\b|\bRNP\s+FIVE SIDES\b|\bFIVE[- ]SIDED CHAOS\b|"
@@ -13055,8 +13042,17 @@ def main() -> int:
                     for item in validate_airport_fact_bindings(airport, bound_facts)
                 )
             conflict_evidence: list[dict] = []
+            # PAPI is background evidence, not briefing/copy content. Removing
+            # its display is not approval of a conflicting RELEASE: retain the
+            # existing source review gate independently of rendered paragraphs.
+            papi_review_facts = [
+                fact for airport in group_airports
+                for fact in source_record_facts(airport, airport_source_records.get(airport, []), category="core")
+                if manual_basic_field(fact.zh) == "papi"
+                and fact_matches_airport_role(fact, airport_role(group_duty, airport))
+            ]
             cross_language_errors = validate_cross_language_conflicts(
-                all_facts, en_facts, airport_source_records, conflict_evidence=conflict_evidence)
+                [*all_facts, *papi_review_facts], en_facts, airport_source_records, conflict_evidence=conflict_evidence)
             group_errors.extend(f"{group_label}：{item}" for item in cross_language_errors)
             if english_required:
                 bilingual_diagnostics = validate_bilingual_facts(all_facts)

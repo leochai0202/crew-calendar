@@ -25,7 +25,7 @@ def choose(facts, category="core", role="transit", log=None):
     ("zh", "跑道信息：08/26（3000m×45m）。", "使用08号跑道时，入口内移150m；湿跑道禁止顺风起飞。", "无线电失效程序：参阅细则2.22.5。"),
     ("en", "Runway Information: 08/26 (3000m x 45m).", "When using Runway 08, the threshold is displaced 150m; tailwind takeoff is prohibited on a wet runway.", "Radio failure procedure: Refer to Rule 2.22.5."),
 ])
-def test_source_verbatim_is_not_a_pass_for_catalogues_or_empty_references(language, inventory, restriction, reference):
+def test_all_operating_fields_and_procedure_references_are_retained(language, inventory, restriction, reference):
     sources = [fact("table", inventory, language=language), fact("limit", restriction, language=language),
                fact("pointer", reference, language=language)]
     if language == "zh":
@@ -33,11 +33,10 @@ def test_source_verbatim_is_not_a_pass_for_catalogues_or_empty_references(langua
     before = list(sources)
     log = []
     selected = choose(sources, log=log)
-    assert [item.fact_id for item in selected] == ["limit"]
-    assert (selected[0].en if language == "en" else selected[0].zh) == restriction
+    assert [item.fact_id for item in selected] == ["table", "limit", "pointer"]
+    assert (selected[1].en if language == "en" else selected[1].zh) == restriction
     assert sources == before
-    assert {entry["fact_id"] for entry in log} == {"table", "pointer"}
-    assert all(entry["original_text"] and entry["source_page"] == "12" and entry["reason"] for entry in log)
+    assert log == []
 
 
 def test_distinct_controls_are_not_evicted_to_meet_a_paragraph_count():
@@ -58,11 +57,15 @@ def test_unknown_runway_translation_cannot_hide_a_potential_source_conflict():
     assert choose([source]) == [source]
 
 
-def test_papi_conflict_and_special_runway_data_are_never_removed_as_catalogue():
+def test_papi_data_is_audited_not_rendered_but_other_runway_controls_remain():
     sources = [fact("papi", "PAPI信息：08：3°，MEHT 20m；26：3.2°，MEHT 21m。"),
                fact("slope", "跑道信息：08/26（3000m×45m），08号跑道坡度1.2%，注意起飞性能。"),
                fact("eosid", "单发离场程序：参阅EOSID图。")]
-    assert choose(sources) == sources
+    log = []
+    assert choose(sources, log=log) == sources[1:]
+    assert log[0]["reason"] == "papi_data_background_only"
+    assert log[0]["original_text"] == sources[0].zh
+    assert log[0]["source_page"] == "12"
     conflict = fact("dimensions", "跑道信息：08/26（3000m×45m）。")
     conflict = replace(conflict, text_en="Runway Information: 08/26 (3100m x 45m).", english_source_record_id="en-table")
     assert a.validate_cross_language_conflicts([conflict], [replace(conflict, language="en")])
@@ -110,13 +113,12 @@ def test_instruction_after_event_omits_request_subject_without_erasing_historica
     ("zh", ["曾发生滑行偏差。", "曾发生滑错路线。", "曾发生1000ft未建立着陆形态。", "曾发生偏离指令高度。"]),
     ("en", ["A taxi deviation occurred.", "A taxi routing error occurred.", "Landing configuration was not established at 1000ft.", "A deviation from assigned altitude occurred."]),
 ])
-def test_typical_selection_represents_different_events_not_first_three_rows(language, texts):
+def test_typical_selection_retains_all_sourced_events_without_representative_quota(language, texts):
     rows = [fact(str(i), text, language=language, category="typical", source_sequence=i) for i, text in enumerate(texts)]
     log = []
     selected = choose(rows, category="typical", log=log)
-    assert [x.fact_id for x in selected] == ["0", "2", "3"]
-    assert (selected[1].en if language == "en" else selected[1].zh) == texts[2]
-    assert log[0]["original_text"] == texts[1] and log[0]["reason"].startswith("typical_representative_selection")
+    assert selected == rows
+    assert log == []
 
 
 @pytest.mark.parametrize("text,expected", [

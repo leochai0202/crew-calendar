@@ -24,7 +24,7 @@ def chinese_record(text, identity="zh:one", **extra):
     ("Airport elevation: 13ft; runway gradient affects takeoff performance.", False),
     ("Terrain rises to 7358ft near the departure route.", False),
 ])
-def test_only_bare_elevation_catalogue_fields_are_filtered(text, bare):
+def test_bare_elevation_identification_does_not_confuse_terrain_or_performance(text, bare):
     assert agent.standalone_airport_elevation(text) == bare
 
 
@@ -45,22 +45,23 @@ def test_highland_is_an_explicit_source_classification_not_an_inferred_height(cl
     assert not agent.has_sourced_highland_classification([{**item, "source_authority": "unknown"}])
 
 
-def test_conflicting_classifications_do_not_authorize_a_bare_elevation_field():
+def test_conflicting_highland_classifications_are_not_resolved_by_guessing():
     records = [chinese_record("高原机场。"),
                {**chinese_record(""), "language": "en", "text_en": "High-elevation airport NO"}]
     assert not agent.has_sourced_highland_classification(records)
     assert not agent.has_sourced_highland_classification(list(reversed(records)))
 
 
-def test_another_airports_classification_cannot_authorize_elevation():
+def test_elevation_keeps_its_own_airport_without_borrowing_another_classification():
     records = [chinese_record("机场标高：13ft。"),
                chinese_record("高原机场。", "other:class", airport="BBBB")]
-    assert not agent.source_record_facts("AAAA", records, category="core")
+    facts = agent.source_record_facts("AAAA", records, category="core")
+    assert len(facts) == 1 and facts[0].zh == "机场标高：13ft。" and facts[0].airport == "AAAA"
     assert not agent.has_sourced_highland_classification(records, "AAAA")
 
 
 @pytest.mark.parametrize("highland", [False, True])
-def test_both_languages_filter_ordinary_elevation_without_losing_terrain_or_performance(highland):
+def test_both_languages_keep_sourced_elevation_terrain_and_performance_regardless_of_classification(highland):
     cn = [chinese_record("机场标高：7358ft。", "zh:height"),
           chinese_record("机场标高7358ft，跑道坡度16.8m，注意性能限制。", "zh:risk")]
     en = [record("Airport elevation: 7358ft.", identity="en:height"),
@@ -70,12 +71,11 @@ def test_both_languages_filter_ordinary_elevation_without_losing_terrain_or_perf
     exclusions = []
     zh = agent.source_record_facts("AAAA", records, category="core", exclusion_log=exclusions)
     english = selected(records)[2]
-    assert ("zh:height" in {f.fact_id for f in zh}) == highland
-    assert ("en:height" in {f.fact_id for f in english}) == highland
+    assert "zh:height" in {f.fact_id for f in zh}
+    assert "en:height" in {f.fact_id for f in english}
     assert "zh:risk" in {f.fact_id for f in zh} and "en:risk" in {f.fact_id for f in english}
     assert records == before
-    if not highland:
-        assert any("高原" in item["reason"] for item in exclusions)
+    assert not exclusions
 
 
 @pytest.mark.parametrize("text,expected", [

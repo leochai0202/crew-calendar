@@ -1,0 +1,57 @@
+I am Duan Yangshuo, a First Officer in Flight Squadron 15. My current technical level is A2, and my promotion date is January 13. In this qualification stage, I have 93 hours and 21 takeoffs and landings. I have completed 8 landings in the last 90 days and 8 landings in the last 30 days. Within the past three months, I have operated at Lijiang Sanyi International. My most recent landing as PF was at Shanghai Pudong International Airport on October 1.
+
+Latest PF/PM feedback:
+
+As PF, the instructor noted that below 30 ft I should use slightly more aft-stick input and, after landing, decelerate below 30 kt before entering the rapid-exit taxiway.
+
+As PM, the captain noted that I should improve SOP proficiency and make standard callouts more audible.
+
+Typical unsafe events:
+
+Shanghai Pudong International Airport:
+
+Low-altitude bird strike incidents have caused excessive radome damage.
+
+Flight-plan data-entry errors occurred following runway re-assignment.
+
+Core threats:
+
+Shanghai Pudong International Airport:
+
+Apron control may issue push-back and start-up clearance, or instruction to report push-back complete. It is required to identify and comply with relevant clearances.
+
+Closure of Taxiway E and Taxiway T1 is NOT published in NOTAMs. Refer to construction area chart (2C-1-SUP).
+
+Frequent frequency changes occur during surface movement. Frequency change points are geographically close to taxi holding positions. Exercise vigilance to prevent taxi routing errors or overshooting holding lines.
+
+Departure procedure may be amended while taxiing. Upon departure-mode revision, execute SOP for departure change, update flight plan, conduct supplementary briefing and apply departure-change checklist to avoid track deviation.
+
+Automatic frequency hand-off upon lift-off at Pudong. Handoff frequency shall be in accordance with PDC or ATC departure clearance.
+
+For BK arrival: during north-bound operations, RWY 35L (western runway) is normally assigned; during south-bound operations, RWY 16L (eastern runway) is normally assigned.
+
+Multiple arrival procedures are in use, with ad-hoc amendments possible. Direct-to clearances are common during off-peak periods. Maintain contingency plans.
+
+Multiple TA/RA alerts have been recorded during south-bound approaches into Pudong. Prepare contingency measures during approach preparation and execute memory-item procedures per aircraft manual.
+
+For RWY 17R / 35L, ATC may assign short base-leg vectors or issue ILS clearance at a late stage. Anticipate such scenarios, conduct proactive energy management, maintain active communication and accept ATC radar vectors as required. When performing “glideslope capture from above” procedure, strictly comply with SOP. If stable-approach criteria cannot be satisfied, execute missed approach or discontinued approach without hesitation.
+
+For RWY 34R approach, tall obstacles exist slightly right-of-track between waypoints PD083 and PD084. Over-flying at or maintaining 600 m may trigger GPWS caution alerts. Follow the operational advisory “Reminder on GPWS Caution Triggers for RWY 34R Approaches at Pudong” available in EFB.
+
+Several recent incidents occurred at Stand 168: due to uphill gradient and single-engine taxi condition, aircraft could not move even with maximum available ground thrust, requiring engine shutdown and tow-in service. Control taxi speed when docking at stands with such gradients.
+
+Per Pudong Aerodrome Instructions AD2.20, 3.2.4: “Upon sighting marshalling vehicle, arriving crews shall switch off taxi lights and follow the marshalling vehicle”.
+
+When taxiing towards stands equipped with Visual Docking Guidance System (VDGS): stop taxi immediately if receiving ambiguous guidance indications. When entering stands with manual marshalling, stop taxi if ground marshalling personnel are not on-site (frequently encountered after ad-hoc stand change post-landing). Notify ATC promptly, keep engines running and await further instructions.
+
+Airport elevation: 13 ft.
+
+Runway Information: 16L/34R (3800 m × 60 m); 16R/34L (3800 m × 60 m); 17L/35R (4000 m × 60 m); 17R/35L (3400 m × 60 m).
+
+Low-visibility and low-ceiling conditions prevail frequently in winter. Make adequate preparations accordingly.
+
+Bird-scare cannon blasts are loud at Pudong. It is required to avoid undesired startle response.
+
+Normally RWY 16R/34L and 17L/35R for departures; RWY 16L/34R and 17R/35L for arrivals (except low-visibility operations).
+
+Heavy volume of aircraft climbing atlow altitudes.

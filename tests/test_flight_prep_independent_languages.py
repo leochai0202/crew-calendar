@@ -44,7 +44,7 @@ def test_english_has_its_own_ids_counts_order_and_source_not_chinese_pairing():
     assert all(f.source_page == "20" and f.source_text_en for f in english)
 
 
-def test_english_filters_roles_route_season_expiry_and_keeps_unknown_runway_conditions():
+def test_english_keeps_seasons_but_filters_roles_routes_expiry_and_administration():
     records = [record("For Runway 08 departure, maintain 3000ft.", phase="departure", identity="dep"),
         record("STAR arrivals require advance planning.", phase="arrival", identity="arr"),
         record("From CCCC to DDDD: maintain 5000ft.", phase="navigation", identity="other-route"),
@@ -55,11 +55,11 @@ def test_english_filters_roles_route_season_expiry_and_keeps_unknown_runway_cond
         record("160KT", identity="fragment")]
     exclusions = []
     _, core, _ = agent.english_briefing_fact_sets(flight(), date(2026, 10, 26), {"AAAA": records, "BBBB": []}, exclusions)
-    assert [f.fact_id for f in core["AAAA"]] == ["dep"]
+    assert [f.fact_id for f in core["AAAA"]] == ["dep", "winter"]
     assert "For Runway 08" in core["AAAA"][0].en  # no guessed actual runway
     reverse = replace(flight(), summary="9C0002 BBBB→AAAA")
-    assert [f.fact_id for f in selected(records, reverse)[1]["AAAA"]] == ["arr"]
-    assert len(exclusions) == 7
+    assert [f.fact_id for f in selected(records, reverse)[1]["AAAA"]] == ["arr", "winter"]
+    assert len(exclusions) == 6
 
 
 def test_english_own_source_guard_detects_data_conditions_and_invented_text():
@@ -120,10 +120,11 @@ def test_extra_sourced_information_and_missing_effective_date_are_not_contradict
     assert agent.validate_cross_language_conflicts([zh], [en]) == []
 
 
-def test_season_projection_keeps_complete_english_sentences_and_source():
+def test_original_copy_keeps_all_complete_english_seasonal_sentences_and_source():
     text = "Spring thunderstorms bring wind shear. Summer and autumn typhoons bring heavy rain."
     _, core, _ = selected([record(text)])
-    assert core["AAAA"][0].en == "Summer and autumn typhoons bring heavy rain."
+    assert core["AAAA"][0].en == text
+    assert not core["AAAA"][0].excluded_source_clauses
     assert core["AAAA"][0].source_text_en == text
     assert agent.validate_english_source_facts("AAAA", core["AAAA"]) == []
     assert agent.english_season_scope("From November to February, icing may occur.") == (1, 2, 11, 12)
@@ -168,7 +169,9 @@ def test_papi_source_field_is_arrival_only_without_changing_its_runway_values():
     text = "PAPI Information: Runway 08, 3 degrees, MEHT 15m."
     assert not selected([record(text)])[2]
     arrival = replace(flight(), summary="9C0002 BBBB→AAAA")
-    assert selected([record(text)], arrival)[2][0].en == text
+    assert agent.english_source_role_scope(text, "operations") == ("arrival",)
+    assert not selected([record(text)], arrival)[2]  # data retained in audit, not body
+    assert record(text)["text_en"] == text
 
 
 def test_runway_dimensions_remain_applicable_to_departure_when_field_also_lists_approaches():

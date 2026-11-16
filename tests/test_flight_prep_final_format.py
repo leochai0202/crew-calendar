@@ -1887,7 +1887,7 @@ def test_real_august_four_final_confirmed_format(
 
 
 @pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含机场手册PDF")
-def test_real_august_eight_applies_season_task_and_topic_quality(
+def test_real_august_eight_retains_season_conditions_and_task_topic_quality(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
 ) -> None:
@@ -1924,15 +1924,11 @@ def test_real_august_eight_applies_season_task_and_topic_quality(
         "TOSID",
     ):
         assert required in shenyang
-    for forbidden in (
-        "冬春季",
-        "冬季甩冰",
-        "冬季运行保障方案",
-        "除防冰",
-        "防冰液",
-        "9C7635",
-        "9C6135",
-    ):
+    for required in ("冬春季大风乱流", "冬季运行保障方案", "除防冰", "冬季运行发动机甩冰程序"):
+        assert required in shenyang
+    assert "必须在获得管制员明确的" in shenyang
+    assert "指令必须分离" in shenyang
+    for forbidden in ("9C7635", "9C6135"):
         assert forbidden not in shenyang
 
     assert "嘉峪关酒泉机场典型不安全事件：" not in content
@@ -1941,12 +1937,14 @@ def test_real_august_eight_applies_season_task_and_topic_quality(
     assert "150°～320°" in jiayuguan
     assert "3300米" in jiayuguan and "6000米" in jiayuguan
     assert "2万英尺" in jiayuguan  # retain the manual's unit notation
-    assert "冬春季" not in jiayuguan
+    assert "冬春季节多大风" in jiayuguan
     for label in ("机场分类：", "高原机场：", "特殊复杂程序：", "地形："):
         assert label not in jiayuguan
 
     excluded = meta["excluded_source_clauses"]
-    assert any("冬春季" in item["clause"] and "目标月份为8月" in item["reason"] for item in excluded)
+    assert not any("季节" in item["reason"] and "目标月份" in item["reason"] for item in excluded)
+    assert any("冬春季" in item["source_text_zh"]
+               for item in meta["airport_fact_sources"]["嘉峪关酒泉"])
     assert all(ids and len(ids) == len(set(ids)) for ids in meta["core_paragraph_fact_ids"]["嘉峪关酒泉"])
     assert hashlib.sha256((REPO_ROOT / "flight.ics").read_bytes()).hexdigest() == original_hash
 
@@ -2010,7 +2008,9 @@ def test_real_august_eleven_writes_two_source_grounded_prep_reports(
     assert "24 号向阳落地" not in first_shenyang
     assert "ILS06/24" not in first_shenyang
     assert "自行转向五边" not in first_shenyang
-    assert "甩冰" not in first_shenyang
+    assert "冬季运行发动机甩冰程序" in first_shenyang
+    assert "严禁航空器在进入跑道后实施甩冰" in first_shenyang
+    assert "指令必须分离" in first_shenyang
     assert "跑道有坡度" in first_guilin
     assert "19号跑道盲降" in first_guilin
     assert "19号z盲降" in first_guilin  # original conditional procedure, not editorial generalization

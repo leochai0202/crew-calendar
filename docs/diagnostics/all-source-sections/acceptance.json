@@ -1,0 +1,86 @@
+{
+  "input_sha": "8181248e808a8f315a4142085288e275b3898075",
+  "dates": {
+    "2026-11-13": {
+      "preview_status": "PREVIEW",
+      "release_status": "FAILED_SAFE",
+      "release_exit_code": 0,
+      "errors": [
+        "9C8801/9C8802：中英文权威来源关键运行冲突：上海浦东_core_record_5：['papi_runway_value_association']；中文页586；英文页1367"
+      ],
+      "source_copy_status": "SOURCE_COPY_READY",
+      "preview_preserves_formal_and_config": true,
+      "failed_release_preserves_last_good": true,
+      "all_selected_body_facts_present": true,
+      "required_bilingual_content_complete": true,
+      "incomplete_bilingual_release_prevented": true,
+      "rendered_template_checks_passed": true,
+      "protected_last_good_preserved": true,
+      "copy_ui_buttons_verified": 2,
+      "preview_copy_buttons_verified": 2,
+      "scheduler_status": "DISPATCH",
+      "release_success_marker": false,
+      "groups": [
+        {
+          "flights": [
+            "9C8801",
+            "9C8802"
+          ],
+          "foreign_crew": false,
+          "chinese_fact_count": 41,
+          "english_fact_count": 37,
+          "release_eligible": false,
+          "release_errors": [
+            "9C8801/9C8802：中英文权威来源关键运行冲突：上海浦东_core_record_5：['papi_runway_value_association']；中文页586；英文页1367"
+          ],
+          "chinese_preview": "PREVIEW_group_01_zh.txt",
+          "english_preview": "PREVIEW_group_01_en.txt"
+        }
+      ]
+    },
+    "2026-11-15": {
+      "preview_status": "PREVIEW",
+      "release_status": "FAILED_SAFE",
+      "release_exit_code": 0,
+      "errors": [
+        "9C6617/9C6618：中英文权威来源关键运行冲突：上海浦东_core_record_5：['papi_runway_value_association']；中文页586；英文页1367",
+        "9C6617/9C6618：丽江三义缺少可靠英文核心运行资料",
+        "9C6617/9C6618英文版：Lijiang Sanyi International Airport:缺少核心威胁内容"
+      ],
+      "source_copy_status": "SOURCE_COPY_READY",
+      "preview_preserves_formal_and_config": true,
+      "failed_release_preserves_last_good": true,
+      "all_selected_body_facts_present": true,
+      "required_bilingual_content_complete": true,
+      "incomplete_bilingual_release_prevented": true,
+      "rendered_template_checks_passed": true,
+      "protected_last_good_preserved": true,
+      "copy_ui_buttons_verified": 2,
+      "preview_copy_buttons_verified": 2,
+      "scheduler_status": "DISPATCH",
+      "release_success_marker": false,
+      "groups": [
+        {
+          "flights": [
+            "9C6617",
+            "9C6618"
+          ],
+          "foreign_crew": false,
+          "chinese_fact_count": 58,
+          "english_fact_count": 21,
+          "release_eligible": false,
+          "release_errors": [
+            "9C6617/9C6618：中英文权威来源关键运行冲突：上海浦东_core_record_5：['papi_runway_value_association']；中文页586；英文页1367",
+            "9C6617/9C6618：丽江三义缺少可靠英文核心运行资料",
+            "9C6617/9C6618英文版：Lijiang Sanyi International Airport:缺少核心威胁内容"
+          ],
+          "chinese_preview": "PREVIEW_group_01_zh.txt",
+          "english_preview": "PREVIEW_group_01_en.txt"
+        }
+      ]
+    }
+  },
+  "manual": "AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+  "manual_sha256": "e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8",
+  "ics_sha256": "b356e1a5b02109196ca9bd22e85096c101e1191077699d4d22c6f04dc85ad4d2"
+}
