@@ -1847,6 +1847,12 @@ def _find_manual_header_marker(value: str) -> tuple[int, str]:
         pos = key.find(compact_key(marker))
         if pos >= 0:
             found.append((pos, marker))
+    # A printed heading can lose the final Chinese character immediately
+    # before its Latin name. Require its explicit IATA/ICAO pair as boundary
+    # evidence; otherwise the next airport's elevation leaks into this one.
+    truncated = re.search(r"机场运行特(?=[A-Z])", key)
+    if not found and truncated and all(_extract_airport_codes(value)):
+        found.append((truncated.start(), "机场运行特"))
     return min(found, default=(-1, ""), key=lambda item: item[0])
 
 
@@ -11803,8 +11809,7 @@ def render_chinese_briefing(
         typical_sections.append(
             f"{airport_with_suffix(airport)}：\n\n{typical_text}"
         )
-    if typical_sections:
-        sections.append("典型不安全事件：\n\n" + "\n\n".join(typical_sections))
+    sections.append("典型不安全事件：\n\n" + "\n\n".join(typical_sections))
 
     core_lines = ["核心威胁："]
     for airport in airports:
@@ -11873,8 +11878,7 @@ def render_english_briefing(
         typical_sections.append(
             f"{airport_name} Airport:\n\n{paragraphs}"
         )
-    if typical_sections:
-        sections.append("Typical unsafe events:\n\n" + "\n\n".join(typical_sections))
+    sections.append("Typical unsafe events:\n\n" + "\n\n".join(typical_sections))
 
     core_lines = ["Core threats:"]
     for airport in airports:

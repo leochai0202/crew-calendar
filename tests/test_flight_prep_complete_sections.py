@@ -170,3 +170,34 @@ def test_retained_month_range_is_not_a_route_but_unknown_named_routes_still_bloc
                  'From May to September, thunderstorms occur. From Rome to Oslo, maintain 3000ft.'):
         english = a.english_briefing_fact_sets(flight(), date(2026, 4, 15), {'AAAA': [record(text)], 'BBBB': []})[2]
         assert a.validate_english_source_facts('AAAA', english)
+
+
+def test_truncated_chapter_heading_with_codes_cannot_leak_the_next_airport_elevation():
+    text = '\n'.join([
+        '页码：10', '甲地机场运行特点 ALPHA(AAA/AAAA)', '一、运行特点', '机场标高：7000ft。',
+        '页码：11', '乙地机场运行特BRAVO(BBB/BBBB)', '一、运行特点', '机场标高：3000ft。',
+        '页码：12', '丙地机场运行特点 CHARLIE(CCC/CCCC)', '机场标高：13ft。',
+    ])
+    chapters = a.build_manual_index(text)
+    assert [chapter['icao'] for chapter in chapters] == ['AAAA', 'BBBB', 'CCCC']
+    assert [chapter['name_key'] for chapter in chapters] == ['甲地', '乙地', '丙地']
+    assert '3000ft' not in '\n'.join(chapters[0]['lines'])
+    assert '3000ft' in '\n'.join(chapters[1]['lines'])
+    assert '13ft' not in '\n'.join(chapters[1]['lines'])
+    assert not a.is_manual_airport_header('乙地机场运行特BRAVO')
+    assert not a.is_manual_airport_header('乙地机场运行特，参考BRAVO(BBB/BBBB)。')
+
+
+@pytest.mark.parametrize('language', ['zh', 'en'])
+def test_basic_source_without_incidents_still_has_fixed_empty_event_heading(language):
+    duty = flight()
+    empty = {airport: [] for airport in duty.route}
+    core = {airport: [a.BilingualFact('height-' + airport, '机场标高：13ft。',
+        'Airport elevation: 13 ft.', airport=airport, category='core', source_verbatim=True)]
+        for airport in duty.route}
+    render = a.render_chinese_briefing if language == 'zh' else a.render_english_briefing
+    body = render(duty, date(2026, 11, 15), {}, [], empty, core)
+    headings = ('典型不安全事件：', '核心威胁：') if language == 'zh' else ('Typical unsafe events:', 'Core threats:')
+    assert headings[0] + '\n\n' + headings[1] in body
+    assert body.count(headings[0]) == 1
+    assert '暂无' not in body and 'No incidents' not in body

@@ -1,6 +1,6 @@
 # Complete source-section regression (review only)
 
-Integrated main / real-ICS input: `837fe8a8e1eefa985fff7156662a1554ac71296e`.
+Integrated main: `837fe8a8e1eefa985fff7156662a1554ac71296e`. Latest-main real-ICS/experience input and merge-preview base: `8181248e808a8f315a4142085288e275b3898075` (additional upstream generated files are preserved, not edited).
 Manual: `AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf`.
 SHA256: `e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8`.
 
@@ -16,6 +16,8 @@ These are isolated **source-copy samples**, not RELEASE or company-approved oper
 - PAPI **data fields** are excluded from both bodies/copy payloads and retained in audit evidence. Operational instructions that merely mention PAPI are not deleted. Existing RELEASE conflict protection remains; removal from display is not authority to clear source review.
 - Recurring seasonal source requirements remain complete regardless of the test month, including the printed month/season, risk, values and controls. Explicit operating validity windows, route/role restrictions and administrative exclusions remain active. English month ranges are not mistaken for unverified routes; additional real route clauses in the same paragraph are still checked.
 - Reliable ordinary-airport elevation fields are retained without requiring highland classification. This does not infer a highland designation or change the source values.
+- Restoring elevations exposed a truncated Chinese chapter heading (`机场运行特` immediately followed by its Latin name and explicit IATA/ICAO pair). The generic boundary detector now recognises that evidenced heading, preventing the next airport's elevation from leaking into the preceding airport. It does not change source values or accept unanchored prose as a chapter.
+- A language with reliable core facts but no sourced typical events still retains the fixed empty typical-event heading, without an invented airport/event paragraph. This preserves the existing copy-format contract for newly restored basic fields.
 
 Original-page visual checks: Chinese pages 586 (attribute-table runway assignment and low-visibility exception), 588 (winter low visibility), 949 (parenthetical ATC/deviation restriction and winter/spring wind conditions), 950 (landing deceleration controls and complete recurring month ranges), 1009 (noise/depressurization/radio-failure references). English page 1370 confirms the winter-condition wording. The corresponding English runway-attribute remark is extracted independently from page 1368. No operating data was corrected or translated.
 
@@ -58,4 +60,4 @@ The three sample chapters contain no separately matched threat-identification ta
 - Other manual translations and data remain as printed. This change does not claim to resolve company-source discrepancies.
 - The non-continuous/continuous flight grouping implementation, source provenance checks, SOURCE_COPY_READY/RELEASE separation, last-good, and formal publication guard are unchanged. Their existing regression tests remain enabled.
 
-Targeted tests: 204 passed. Full regression and CI results are reported on the PR for the exact tested commit. The user authorized Ready/merge after the integration and test gates pass; this does not authorize a manual production dispatch or formal RELEASE of blocked source data.
+Targeted tests: 207 passed; the real PDF before/after regression also passed separately after checking the page-822 chapter boundary. Full regression and CI results are reported on the PR for the exact tested commit. Two former seasonal-exclusion assertions were updated to require the original winter conditions, prohibition, clearance and instruction sequence instead. No safety checks are skipped. The user authorized Ready/merge after the integration and test gates pass; this does not authorize a manual production dispatch or formal RELEASE of blocked source data.
