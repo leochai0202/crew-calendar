@@ -3691,12 +3691,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:f5d9a3cbe88f1767a6d8e79fd02ad6e5@crew-calendar
+UID:58e5d0bc8ae8798957615b90aa7357b1@crew-calendar
 SUMMARY:✈️ 9C6569 上海虹桥→揭阳潮汕
 DTSTART;TZID=Asia/Shanghai:20261118T095500
 DTEND;TZID=Asia/Shanghai:20261118T120000
-DESCRIPTION:11月18日 周三\n类型：航班\n航班：9C6569\n航线：上海虹桥 → 揭阳潮汕\n地点：上海虹桥\n签到：08:10｜上海虹桥\n任务：09:55 - 12:00\n机型：A320｜注册号：B6852\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 朱金亮(P\,B)\n\n版本：2026-11-16 03:25
-X-CONTENT-SIGNATURE:7865935df9d43034643cc27aa8288001
+DESCRIPTION:11月18日 周三\n类型：航班\n航班：9C6569\n航线：上海虹桥 → 揭阳潮汕\n地点：上海虹桥\n签到：08:10｜上海虹桥\n任务：09:55 - 12:00\n机型：A320｜注册号：B6645\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 朱金亮(P\,B)\n\n版本：2026-11-17 01:00
+X-CONTENT-SIGNATURE:b9c36c36857dba16b18dce66333ec83a
 LOCATION:上海虹桥
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -3705,12 +3705,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:df719b88acb9253fa23529106e32c09c@crew-calendar
+UID:c7bee332adc8510b0d013bcecb75a1bb@crew-calendar
 SUMMARY:✈️ 9C8833X 揭阳潮汕→扬州泰州
 DTSTART;TZID=Asia/Shanghai:20261118T125000
 DTEND;TZID=Asia/Shanghai:20261118T145500
-DESCRIPTION:11月18日 周三\n类型：航班\n航班：9C8833X\n航线：揭阳潮汕 → 扬州泰州\n地点：揭阳潮汕\n签到：11:00｜揭阳潮汕\n任务：12:50 - 14:55\n机型：A320｜注册号：B6852\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 高颂佳(B)\n\n版本：2026-11-16 03:25
-X-CONTENT-SIGNATURE:1c497ad01bb78223274f9b23b820fadc
+DESCRIPTION:11月18日 周三\n类型：航班\n航班：9C8833X\n航线：揭阳潮汕 → 扬州泰州\n地点：揭阳潮汕\n签到：11:00｜揭阳潮汕\n任务：12:50 - 14:55\n机型：A320｜注册号：B6645\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 高颂佳(B)\n\n版本：2026-11-17 01:00
+X-CONTENT-SIGNATURE:b8ce9860322c3ded838b65f5164ec849
 LOCATION:揭阳潮汕
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -3719,12 +3719,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:46d2415246caac803b01a999530abaa1@crew-calendar
+UID:0dd44db613581ad80a3e46ad76f46f72@crew-calendar
 SUMMARY:✈️ 9C7603Y 扬州泰州→长春龙嘉
 DTSTART;TZID=Asia/Shanghai:20261119T150000
 DTEND;TZID=Asia/Shanghai:20261119T173000
-DESCRIPTION:11月19日 周四\n类型：航班\n航班：9C7603Y\n航线：扬州泰州 → 长春龙嘉\n地点：扬州泰州\n签到：13:20｜扬州泰州\n任务：15:00 - 17:30\n机型：A320｜注册号：B1656\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 庄福建(B)\n\n版本：2026-11-16 03:25
-X-CONTENT-SIGNATURE:222a2a97b13ccb8c29aca68a288bae56
+DESCRIPTION:11月19日 周四\n类型：航班\n航班：9C7603Y\n航线：扬州泰州 → 长春龙嘉\n地点：扬州泰州\n签到：13:20｜扬州泰州\n任务：15:00 - 17:30\n机型：A320｜注册号：B8646\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 庄福建(B)\n\n版本：2026-11-17 01:00
+X-CONTENT-SIGNATURE:30c68953c098f7248f4f2f046c51b29b
 LOCATION:扬州泰州
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -3733,12 +3733,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:e121757fefba004f69546434aa4ffed2@crew-calendar
+UID:c7a1a6d7048abdc5da66ba3701b650f3@crew-calendar
 SUMMARY:✈️ 9C7604X 长春龙嘉→扬州泰州
 DTSTART;TZID=Asia/Shanghai:20261119T182000
 DTEND;TZID=Asia/Shanghai:20261119T210000
-DESCRIPTION:11月19日 周四\n类型：航班\n航班：9C7604X\n航线：长春龙嘉 → 扬州泰州\n地点：长春龙嘉\n签到：16:45｜长春龙嘉\n任务：18:20 - 21:00\n机型：A320｜注册号：B1656\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 庄福建(B)\n\n版本：2026-11-16 03:25
-X-CONTENT-SIGNATURE:4d50e83435e7d39fed4d00858bf577d8
+DESCRIPTION:11月19日 周四\n类型：航班\n航班：9C7604X\n航线：长春龙嘉 → 扬州泰州\n地点：长春龙嘉\n签到：16:45｜长春龙嘉\n任务：18:20 - 21:00\n机型：A320｜注册号：B8646\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 庄福建(B)\n\n版本：2026-11-17 01:00
+X-CONTENT-SIGNATURE:2c2d01d5f1c1c10fde8f9460de35731d
 LOCATION:长春龙嘉
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -3747,12 +3747,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:eb02a5be537ff41944084e9f2e629ced@crew-calendar
+UID:5f25cf8b8fcfd3fe07a96deb369b1c88@crew-calendar
 SUMMARY:✈️ 9C7604Y 扬州泰州→揭阳潮汕
 DTSTART;TZID=Asia/Shanghai:20261119T214500
 DTEND;TZID=Asia/Shanghai:20261119T235500
-DESCRIPTION:11月19日 周四\n类型：航班\n航班：9C7604Y\n航线：扬州泰州 → 揭阳潮汕\n地点：扬州泰州\n签到：20:05｜扬州泰州\n任务：21:45 - 23:55\n机型：A320｜注册号：B1656\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 庄福建(B)\n\n版本：2026-11-16 03:25
-X-CONTENT-SIGNATURE:15490015c39d6227c953f3c116011372
+DESCRIPTION:11月19日 周四\n类型：航班\n航班：9C7604Y\n航线：扬州泰州 → 揭阳潮汕\n地点：扬州泰州\n签到：20:05｜扬州泰州\n任务：21:45 - 23:55\n机型：A320｜注册号：B8646\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 庄福建(B)\n\n版本：2026-11-17 01:00
+X-CONTENT-SIGNATURE:94ff994503103f40771247e7be0e10ff
 LOCATION:扬州泰州
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -3761,12 +3761,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:3acce495b671129b413cae2a4bc55926@crew-calendar
+UID:6be436532a96c1429e70b2c96c7fc8c0@crew-calendar
 SUMMARY:✈️ 9C6353 揭阳潮汕→杭州萧山
 DTSTART;TZID=Asia/Shanghai:20261120T190500
 DTEND;TZID=Asia/Shanghai:20261120T211000
-DESCRIPTION:11月20日 周五\n类型：航班\n航班：9C6353\n航线：揭阳潮汕 → 杭州萧山\n地点：揭阳潮汕\n签到：17:15｜揭阳潮汕\n任务：19:05 - 21:10\n机型：A320｜注册号：B32D6\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 尤胜伟(B)\n\n版本：2026-11-16 03:25
-X-CONTENT-SIGNATURE:3198c0967ab0c2b0ba027d95ce331adf
+DESCRIPTION:11月20日 周五\n类型：航班\n航班：9C6353\n航线：揭阳潮汕 → 杭州萧山\n地点：揭阳潮汕\n签到：17:15｜揭阳潮汕\n任务：19:05 - 21:10\n机型：A320｜注册号：B327Z\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 尤胜伟(B)\n\n版本：2026-11-17 01:00
+X-CONTENT-SIGNATURE:a0930b53fe77ea17c4e645ae902ef992
 LOCATION:揭阳潮汕
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -3775,16 +3775,30 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:7a9a903ec0204e298f47bb5bbd039ffc@crew-calendar
+UID:7239c3a7e7f0645f019d46e80ea055e6@crew-calendar
 SUMMARY:✈️ 9C6354 杭州萧山→揭阳潮汕(+1)
 DTSTART;TZID=Asia/Shanghai:20261120T221500
 DTEND;TZID=Asia/Shanghai:20261121T002000
-DESCRIPTION:11月20日 周五\n类型：航班\n航班：9C6354\n航线：杭州萧山 → 揭阳潮汕(+1)\n地点：杭州萧山\n签到：20:40｜杭州萧山\n任务：22:15 - 00:20\n机型：A320｜注册号：B32D6\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 尤胜伟(B)\n\n版本：2026-11-16 03:25
-X-CONTENT-SIGNATURE:72ff7558302acfc767c4a1850ba51305
+DESCRIPTION:11月20日 周五\n类型：航班\n航班：9C6354\n航线：杭州萧山 → 揭阳潮汕(+1)\n地点：杭州萧山\n签到：20:40｜杭州萧山\n任务：22:15 - 00:20\n机型：A320｜注册号：B327Z\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 尤胜伟(B)\n\n版本：2026-11-17 01:00
+X-CONTENT-SIGNATURE:b9e05894ed90919287b87e2a2f2051c2
 LOCATION:杭州萧山
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C6354 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:a2aac6e71e4536098e040aa5d72a7010@crew-calendar
+SUMMARY:✈️ 9C6570 揭阳潮汕→上海虹桥
+DTSTART;TZID=Asia/Shanghai:20261121T193000
+DTEND;TZID=Asia/Shanghai:20261121T212500
+DESCRIPTION:11月21日 周六\n类型：航班\n航班：9C6570\n航线：揭阳潮汕 → 上海虹桥\n地点：揭阳潮汕\n签到：17:40｜揭阳潮汕\n任务：19:30 - 21:25\n机型：A320｜注册号：B1670\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 安琪1(B)\n\n版本：2026-11-17 01:00
+X-CONTENT-SIGNATURE:09f50eeee7fdbab4b27aff388d7534c0
+LOCATION:揭阳潮汕
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C6570 签到提醒
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
