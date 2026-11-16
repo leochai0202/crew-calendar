@@ -1,0 +1,101 @@
+{
+  "status": "PARTIAL_RELEASE",
+  "target_date": "2026-11-18",
+  "generated_at_beijing": "2026-11-16T10:23:49.963451+08:00",
+  "task_fingerprint": "02989e025b12d289e132b7c77eb4e786675e3cb62958a181204d396977769a09",
+  "matched_flights": [
+    {
+      "uid": "f5d9a3cbe88f1767a6d8e79fd02ad6e5@crew-calendar",
+      "summary": "✈️ 9C6569 上海虹桥→揭阳潮汕",
+      "start": "2026-11-18T09:55:00+08:00",
+      "end": "2026-11-18T12:00:00+08:00",
+      "description": "11月18日 周三\n类型：航班\n航班：9C6569\n航线：上海虹桥 → 揭阳潮汕\n地点：上海虹桥\n签到：08:10｜上海虹桥\n任务：09:55 - 12:00\n机型：A320｜注册号：B6852\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 朱金亮(P,B)\n\n版本：2026-11-16 03:25",
+      "location": "上海虹桥",
+      "properties": {
+        "UID": "f5d9a3cbe88f1767a6d8e79fd02ad6e5@crew-calendar",
+        "SUMMARY": "✈️ 9C6569 上海虹桥→揭阳潮汕",
+        "DTSTART": "20261118T095500",
+        "DTEND": "20261118T120000",
+        "DESCRIPTION": "11月18日 周三\\n类型：航班\\n航班：9C6569\\n航线：上海虹桥 → 揭阳潮汕\\n地点：上海虹桥\\n签到：08:10｜上海虹桥\\n任务：09:55 - 12:00\\n机型：A320｜注册号：B6852\\n\\n人员名单：\\n• 叶挺(R)\\n• 燕明君(R)\\n• 段洋硕\\n• 朱金亮(P\\,B)\\n\\n版本：2026-11-16 03:25",
+        "X-CONTENT-SIGNATURE": "7865935df9d43034643cc27aa8288001",
+        "LOCATION": "上海虹桥"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C6569",
+      "departure": "上海虹桥",
+      "arrival": "揭阳潮汕",
+      "aircraft_type": "A320",
+      "registration": "B6852",
+      "checkin": "08:10｜上海虹桥",
+      "people": [
+        "叶挺(R)",
+        "燕明君(R)",
+        "段洋硕",
+        "朱金亮(P,B)"
+      ],
+      "cross_day": false
+    },
+    {
+      "uid": "df719b88acb9253fa23529106e32c09c@crew-calendar",
+      "summary": "✈️ 9C8833X 揭阳潮汕→扬州泰州",
+      "start": "2026-11-18T12:50:00+08:00",
+      "end": "2026-11-18T14:55:00+08:00",
+      "description": "11月18日 周三\n类型：航班\n航班：9C8833X\n航线：揭阳潮汕 → 扬州泰州\n地点：揭阳潮汕\n签到：11:00｜揭阳潮汕\n任务：12:50 - 14:55\n机型：A320｜注册号：B6852\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 高颂佳(B)\n\n版本：2026-11-16 03:25",
+      "location": "揭阳潮汕",
+      "properties": {
+        "UID": "df719b88acb9253fa23529106e32c09c@crew-calendar",
+        "SUMMARY": "✈️ 9C8833X 揭阳潮汕→扬州泰州",
+        "DTSTART": "20261118T125000",
+        "DTEND": "20261118T145500",
+        "DESCRIPTION": "11月18日 周三\\n类型：航班\\n航班：9C8833X\\n航线：揭阳潮汕 → 扬州泰州\\n地点：揭阳潮汕\\n签到：11:00｜揭阳潮汕\\n任务：12:50 - 14:55\\n机型：A320｜注册号：B6852\\n\\n人员名单：\\n• 叶挺(R)\\n• 燕明君(R)\\n• 段洋硕\\n• 高颂佳(B)\\n\\n版本：2026-11-16 03:25",
+        "X-CONTENT-SIGNATURE": "1c497ad01bb78223274f9b23b820fadc",
+        "LOCATION": "揭阳潮汕"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C8833X",
+      "departure": "揭阳潮汕",
+      "arrival": "扬州泰州",
+      "aircraft_type": "A320",
+      "registration": "B6852",
+      "checkin": "11:00｜揭阳潮汕",
+      "people": [
+        "叶挺(R)",
+        "燕明君(R)",
+        "段洋硕",
+        "高颂佳(B)"
+      ],
+      "cross_day": false
+    }
+  ],
+  "group_output": "",
+  "english_output": "",
+  "aggregate_current": false,
+  "prep_groups": [
+    {
+      "group_index": 1,
+      "flight_numbers": [
+        "9C6569"
+      ],
+      "status": "FAILED_SAFE",
+      "release_eligible": false,
+      "output": "",
+      "english_output": "",
+      "english_generated": false,
+      "errors": [
+        "9C6569：中英文权威来源关键运行冲突：上海虹桥_core_record_19：['runway_requirement_conflict']；中文页545-551；英文页1361"
+      ]
+    },
+    {
+      "group_index": 2,
+      "flight_numbers": [
+        "9C8833X"
+      ],
+      "status": "SUCCESS",
+      "release_eligible": true,
+      "output": "2026-11-18_航前准备_02_9C8833X.txt",
+      "english_output": "",
+      "english_generated": false,
+      "errors": []
+    }
+  ]
+}
