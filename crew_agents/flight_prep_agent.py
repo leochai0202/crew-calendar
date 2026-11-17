@@ -12060,6 +12060,66 @@ def english_source_route_scope(record: dict, heading_aliases: dict[str, str] | N
     return tuple(dict.fromkeys(route for route in routes if route[0] != route[1]))
 
 
+def filter_english_route_fragments(
+    fact: BilingualFact, routes: set[tuple[str, str]],
+    exclusion_log: list[dict] | None = None,
+) -> BilingualFact:
+    """Project complete explicitly scoped blocks, retaining inherited controls.
+
+    Flattened source lists can contain several route headings in one record.
+    A heading governs its following sentences until the next explicit heading;
+    unknown headings are boundaries, not permission to discard their content.
+    Historical events and reviewed translations are never projected here.
+    """
+    if fact.category in {"typical", "history"} or fact.english_source == "translated_from_chinese":
+        return fact
+    text = fact.en
+    starts = []
+    for match in re.finditer(
+        r"(?:^|(?<=[.!?;])\s+)(?P<heading>(?:\d+[.)]\s*)?(?:(?i:for)\b|[A-Z]{4}\s*[-—–→]))", text):
+        heading = re.sub(r"^\d+[.)]\s*", "", text[match.start("heading"):])
+        if re.match(r"[A-Z]{4}\s*[-—–→]", heading) or re.match(
+            r"(?i:for)\s+(?:[^.!?;\n]*[:：]|the\s+flight\s+back\s+to\s+[A-Z]{4}\s*[,])", heading
+        ):
+            starts.append(match.start("heading"))
+    boundaries = sorted({0, *starts, len(text)})
+    if len(boundaries) <= 2:
+        return fact  # Existing whole-record applicability handles one scope.
+    kept, removed = [], []
+    for left, right in zip(boundaries, boundaries[1:]):
+        block = text[left:right]
+        heading = re.sub(r"^\s*\d+[.)]\s*", "", block)
+        scope = english_source_route_scope({"text_en": heading, "category": "core"})
+        reason = ""
+        if scope and not route_scope_matches_duty(scope, routes):
+            reason = "English source block explicitly applies to a different route"
+        # An exact ICAO arrival/departure label also gives an independently
+        # verifiable endpoint. Do not interpret waypoint or region names.
+        endpoint = re.match(r"(?i:for)\s+([A-Z]{4})(?:\s*\([^()]+\))?\s+(arrivals|departures)\s*:", heading)
+        returning = re.match(r"(?i:for)\s+the\s+flight\s+back\s+to\s+([A-Z]{4})\s*[:,]", heading)
+        if not reason and (endpoint or returning):
+            code = (endpoint or returning)[1]
+            direction = 0 if endpoint and endpoint[2] == "departures" else 1
+            airport = canonical_route_airport(code)
+            if not any(canonical_route_airport(route[direction]) == airport for route in routes):
+                reason = "English source block explicitly applies to another arrival/departure airport"
+        if reason:
+            removed.append((block, reason))
+            if exclusion_log is not None:
+                entry = exclusion_log_entry(fact, block, reason)
+                entry.update(language="en", original_text=fact.source_text_en)
+                exclusion_log.append(entry)
+        else:
+            kept.append(block)
+    if not removed:
+        return fact
+    retained = "".join(kept).strip()
+    return replace(fact, text_en=retained, route_scope=(),
+        role_scope=english_source_role_scope(retained, fact.operational_phase),
+        excluded_source_clauses=(*fact.excluded_source_clauses, *(block for block, _ in removed)),
+        exclusion_reasons=(*fact.exclusion_reasons, *(reason for _, reason in removed)))
+
+
 def english_briefing_fact_sets(
     event: CalendarEvent | DutyContext, target: date, source_records: dict[str, list[dict]],
     exclusion_log: list[dict] | None = None,
@@ -12126,6 +12186,10 @@ def english_briefing_fact_sets(
                         english_source="translated_from_chinese", translation_provenance=dict(review))
                     text, phase, scope = fact.en, fact.operational_phase, fact.role_scope
                 # A partial/ambiguous Chinese selection cannot authorize a full translation.
+            fact = filter_english_route_fragments(fact, routes, exclusion_log)
+            text = fact.en
+            if not text.strip():
+                continue
             reason = ""
             if category != "typical" and not reason:
                 if not fact_matches_airport_role(fact, airport_role(event, airport)):

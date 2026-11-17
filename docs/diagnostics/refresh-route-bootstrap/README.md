@@ -1,6 +1,7 @@
 # Refresh, route applicability and bounded archive recovery
 
-Base / real task input: `b90d1a9565c8e7588dc1cb653ba0301eba9af891`.
+Branch base: `b90d1a9565c8e7588dc1cb653ba0301eba9af891`.
+Latest real task input rechecked: `32a8bfe1bfb9b2f9b018f400db8a03180334ac9d` (only the normal Nov 19 generated files and airport-experience state changed on main).
 These are **isolated original-source copy samples**, not new production releases.
 No calendar, Flight Prep, login or OTP workflow was dispatched.
 
@@ -23,6 +24,8 @@ Visual checks of the unchanged 20261019 PDF pages **621 and 623** confirm three 
 | 扬州到兰州涉及释压程序… | p623, `扬州泰州_core_record_48` | Excluded: named route with explicit program applicability |
 
 The parser uses existing unambiguous airport aliases and explicit syntax, not airport-specific branches. Synthetic tests cover joined labels, destination lists, 到/至/飞往, direction mismatch, unknown aliases and historical narrative. When the same labelled source item explicitly states both directions' operating instructions, both directional scopes are retained; reverse applicability is never inferred from a heading alone. Historical typical incidents mentioning another route are retained; the real 珠海–扬州 approach event, its 1000/400 ft sequence, general airport risks and conditional approach controls remain in the complete copy body. No operating numbers or procedures were corrected. Each exclusion retains its source text, fact ID, section/page and reason in the audit.
+
+Full-body review also caught a flattened English source list on **p1578–1579**. Visual source-page inspection confirms separate headings for northbound DABER departures, return to ZGOW, ZGOW–ZGKL flights, ZSNJ arrivals and ZGHA–ZGOW. The generic projection retains the applicable northbound conditional text and excludes the four explicitly inapplicable blocks. Following control sentences remain with their parent heading: the semicolon continuation about QU-9WA is removed with ZGHA–ZGOW, never detached and presented as a general instruction. Unknown headings are retained rather than guessed; historical events are untouched. The original entire record and every excluded block/page remain in the audit, and the existing English source-content guard verifies the exact projection without translation.
 
 ## Actual Nov 18 samples
 
@@ -56,4 +59,4 @@ Production endpoints require HTTPS api.github.com and codeload.github.com, exact
 
 Targeted and full-suite counts plus branch/merge-preview CI links are recorded on the PR for its exact commit. No tests were disabled. Synthetic download tests do not access GitHub or production data.
 
-Unresolved Hongqiao source conflict and unavailable Yangzhou English remain visible and protected. Network recovery is bounded, not a promise of success when both paths are unavailable. This PR does not trigger production or authorize bypassing formal RELEASE review.
+Unresolved Hongqiao source conflict and unavailable Yangzhou English remain visible and protected. Full-body review also found pre-existing source/OCR quality issues (for example an empty English `ATC instructions：.` label, joined words and fragmented construction text). These are not silently corrected or certified as polished operational English by this focused transport/refresh/route PR. The source-copy samples are not an all-language RELEASE approval. Network recovery is bounded, not a promise of success when both paths are unavailable. This PR does not trigger production or authorize bypassing formal RELEASE review.

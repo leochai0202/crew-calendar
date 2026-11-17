@@ -47,3 +47,55 @@ def test_joined_label_keeps_explicit_reverse_controls_but_never_infers_symmetry(
     assert retained is not None and retained.zh == text
     one_way = agent.record_route_scope({'category': 'core'}, '甲地乙地航路：有活动时使用A123。', REGISTRY)
     assert one_way == (('甲地机场', '乙地机场'),)
+
+
+def test_english_flattened_routes_keep_parent_conditions_and_audit_removed_blocks():
+    from test_flight_prep_independent_languages import flight, record
+    text = ('Maintain 3000ft when cleared. For AAAA-CCCC flights: use FIXC after clearance. '
+            'Do not turn before 5000ft. For AAAA-BBBB flights: use FIXB after clearance. '
+            'Maintain 6000ft until instructed. 4. DDDD-AAAA Route: use FIXD; '
+            'for the approach, use the FIXD-1A arrival route.')
+    exclusions = []
+    facts = agent.english_briefing_fact_sets(flight(), date(2026, 11, 18),
+        {'AAAA': [record(text, phase='navigation')], 'BBBB': []}, exclusions)[2]
+    assert len(facts) == 1
+    fact = facts[0]
+    assert fact.en == ('Maintain 3000ft when cleared. For AAAA-BBBB flights: use FIXB after clearance. '
+                       'Maintain 6000ft until instructed.')
+    assert fact.source_text_en == text and fact.source_page == '20'
+    assert len(exclusions) == 2
+    assert 'Do not turn before 5000ft.' in exclusions[0]['clause']
+    assert 'for the approach, use the FIXD-1A arrival route.' in exclusions[1]['clause']
+    assert all(row['original_text'] == text and row['source_page'] == '20' for row in exclusions)
+    assert not agent.validate_english_source_facts('AAAA', facts)
+
+
+@pytest.mark.parametrize('category', ['typical', 'history'])
+def test_english_historical_route_blocks_are_not_filtered(category):
+    text = 'An incident occurred. For AAAA-CCCC flights: the clearance was misunderstood.'
+    fact = agent.BilingualFact('history', '', text, category=category, language='en')
+    assert agent.filter_english_route_fragments(fact, {('AAAA', 'BBBB')}) == fact
+
+
+def test_english_unknown_heading_stops_scope_inheritance_without_guessing():
+    text = ('Monitor terrain. For AAAA-CCCC flights: use FIXC. '
+            'For northern departures: retain 3000ft until cleared.')
+    fact = agent.BilingualFact('mixed', '', text, category='core', language='en')
+    selected = agent.filter_english_route_fragments(fact, {('AAAA', 'BBBB')})
+    assert selected.en == 'Monitor terrain. For northern departures: retain 3000ft until cleared.'
+
+
+def test_english_explicit_arrival_endpoint_and_return_direction_are_not_departure_scope():
+    text = ('Monitor terrain. For the flight back to AAAA, use FIXA. '
+            'For CCCC (Example) arrivals: use FIXC. For BBBB arrivals: use FIXB.')
+    fact = agent.BilingualFact('mixed', '', text, category='core', language='en')
+    selected = agent.filter_english_route_fragments(fact, {('AAAA', 'BBBB')})
+    assert selected.en == 'Monitor terrain. For BBBB arrivals: use FIXB.'
+    reverse = agent.filter_english_route_fragments(fact, {('BBBB', 'AAAA')})
+    assert reverse.en == 'Monitor terrain. For the flight back to AAAA, use FIXA.'
+
+
+def test_english_multiple_actual_segments_keep_either_matching_route_block():
+    text = 'Monitor terrain. For AAAA-BBBB flights: use FIXB. For BBBB-CCCC flights: use FIXC.'
+    fact = agent.BilingualFact('mixed', '', text, category='core', language='en')
+    assert agent.filter_english_route_fragments(fact, {('AAAA', 'BBBB'), ('BBBB', 'CCCC')}) == fact
