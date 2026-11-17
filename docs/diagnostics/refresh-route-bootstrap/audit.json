@@ -1,0 +1,118 @@
+{
+  "input_sha": "b90d1a9565c8e7588dc1cb653ba0301eba9af891",
+  "manual_sha256": "e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8",
+  "groups": [
+    {
+      "flight_numbers": [
+        "9C6569"
+      ],
+      "airports": [
+        "上海虹桥",
+        "揭阳潮汕"
+      ],
+      "source_copy_files": {
+        "zh": "SOURCE_COPY_group_01_zh.txt",
+        "en": "SOURCE_COPY_group_01_en.txt"
+      },
+      "foreign_crew_detected": false
+    },
+    {
+      "flight_numbers": [
+        "9C8833X"
+      ],
+      "airports": [
+        "揭阳潮汕",
+        "扬州泰州"
+      ],
+      "source_copy_files": {
+        "zh": "SOURCE_COPY_group_02_zh.txt",
+        "en": "SOURCE_COPY_group_02_en.txt"
+      },
+      "foreign_crew_detected": false
+    }
+  ],
+  "excluded_routes": [
+    {
+      "airport": "扬州泰州",
+      "fact_id": "扬州泰州_core_record_30",
+      "source_file": "knowledge\\pdf\\AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+      "source_page": "621",
+      "source_heading": "扬州/泰州机场运行特点",
+      "source_section": "扬州/泰州机场运行特点／核心威胁与运行特点",
+      "clause": "航路：扬州-南昌、珠海可以申请直飞MADUK—P468或者 VEMEX-P468。",
+      "reason": "与当前航班/航线不匹配",
+      "discarded_reason": "与当前航班/航线不匹配",
+      "recognized_routes": [
+        [
+          "扬州泰州",
+          "南昌昌北"
+        ],
+        [
+          "扬州泰州",
+          "珠海金湾"
+        ]
+      ]
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "扬州泰州_core_record_31",
+      "source_file": "knowledge\\pdf\\AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+      "source_page": "621",
+      "source_heading": "扬州/泰州机场运行特点",
+      "source_section": "扬州/泰州机场运行特点／核心威胁与运行特点",
+      "clause": "航路：扬州南宁航路：在情报区通告中有关于V107临时 航路使用的提示。如果有活动，R343航路的LLC-GOSMA 航段受限。按照通告，扬州飞南宁有活动时使用浠水-W80-IDGAG-W581-VIBUB-V107-LLC;南宁飞扬州有活动时 使用LLC-V107-VIBUB-A581-WHA。建议根据通告在二计 划提前做好。",
+      "reason": "与当前航班/航线不匹配",
+      "discarded_reason": "与当前航班/航线不匹配",
+      "recognized_routes": [
+        [
+          "扬州泰州",
+          "南宁吴圩"
+        ]
+      ]
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "扬州泰州_core_record_48",
+      "source_file": "knowledge\\pdf\\AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+      "source_page": "623",
+      "source_heading": "扬州/泰州机场运行特点",
+      "source_section": "扬州/泰州机场运行特点／核心威胁与运行特点",
+      "clause": "运行特点：释压程序：：扬州到兰州涉及释压程序，详见EFB。",
+      "reason": "与当前航班/航线不匹配",
+      "discarded_reason": "与当前航班/航线不匹配",
+      "recognized_routes": [
+        [
+          "扬州泰州",
+          "兰州中川"
+        ]
+      ]
+    }
+  ],
+  "before_after": [
+    {
+      "phrase": "扬州南宁航路",
+      "old_body_present": true,
+      "new_body_present": false
+    },
+    {
+      "phrase": "扬州-南昌、珠海",
+      "old_body_present": true,
+      "new_body_present": false
+    },
+    {
+      "phrase": "扬州到兰州",
+      "old_body_present": true,
+      "new_body_present": false
+    }
+  ],
+  "historical_route_incident_preserved": true,
+  "refresh": {
+    "old_status": "PARTIAL_RELEASE",
+    "first": "generation_inputs_changed",
+    "repeated": "generation_already_attempted_for_current_inputs",
+    "ordinary_ics_refresh_dispatch": false,
+    "formal_text_unchanged": true,
+    "input_sha256": "d47a37b408b950f5c41f5abc38c73311ba53aa395e9709025ba92c28a8e48784",
+    "dispatch_mocked_only": true
+  }
+}

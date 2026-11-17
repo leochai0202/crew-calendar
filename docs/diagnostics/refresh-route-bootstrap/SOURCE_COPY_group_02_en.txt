@@ -1,0 +1,43 @@
+I am Duan Yangshuo, a First Officer in Flight Squadron 15. My current technical level is A2, and my promotion date is January 13. In this qualification stage, I have 93 hours and 21 takeoffs and landings. I have completed 8 landings in the last 90 days and 8 landings in the last 30 days. I have operated at both ZGOW and ZSYZ within the past three months. My most recent landing as PF was at Shanghai Pudong International Airport on October 1.
+
+Latest PF/PM feedback:
+
+As PF, the instructor noted that below 30 ft I should use slightly more aft-stick input and, after landing, decelerate below 30 kt before entering the rapid-exit taxiway.
+
+As PM, the captain noted that I should improve SOP proficiency and make standard callouts more audible.
+
+Typical unsafe events:
+
+JIEYANG CHAOSHAN Airport:
+
+GPS loss triggers terrain warning.
+
+Unstable Go-around incident.
+
+Core threats:
+
+JIEYANG CHAOSHAN Airport:
+
+Ground control/dispatch frequency: 130.25.
+
+ATC instructions：.
+
+After pushback from Stand 127, taxi via T1 and M to A; for Stands 125 and 126, push back toN, then taxi via T3-M-A.
+
+Due to high ATC workload, ifflight crews need information such as takeoff time or boarding time afterboarding, please contact the Airport Command Center (130.25) directly to avoid communication issues. (II) Departure:
+
+Common procedures: RNAV; PDC sometimes assigns the SAPUT-8WD departure, with the route proceeding to TEBON after SAPUT.
+
+For departures from Runway 04 towards DABER, the tower may temporarily instruct the aircraftto maintain the runway heading after takeoff. Due to terrain constraints, the aircraft must climb above 2,100 meters as quickly as possible; subsequently, the tower will instruct a left turn direct to DABER.
+
+For Jieyang departures, Xiamen control frequently issues instructions to fly direct to PV (Liancheng VOR) and then to Qingzhou (QO). Controllers do not state the waypoint code. Since the code for Qingzhou was changed from DO to QO—and both codes exist in the navigation database—flight crews must distinguish between them carefully to avoid entering DO out of habit.
+
+air or sea route ： For departures from DABER heading north: after passing DABER, ATC may instruct the aircraft to fly direct to TEBON or XLN, and then to QO to join the airway. for the flight back to ZGOW, ATC may instruct the aircraft to flyfrom QO to XLN or TEBON, and then to DABER to join the arrival procedure. For ZGOW-ZGKL flights: after takeoff and upon crossing airway X63, ATC may instruct the aircraft to fly direct to SHL, followed by VEROK. For ZSNJ (Nanjing) arrivals: ATC will instruct the aircraft to flyvia EMRID to airway V143 and then to OLRIS. After OLRIS, the aircraft will proceed to SNQ (Shiqiu) or receive radar vectors to join the appropriate approach procedure. The final waypoint listed on the clearance isGOSRO (via W135). Upon passing KAKIS (the entry point to the arrival corridor), control is handled by Hangzhou Approach; the handover to Nanjing Approach often occurs late, creating a risk of flying the wrong arrival or departure route. It is recommended to confirm the arrival procedure in advance. 4. ZGHA-ZGOW Route: After passing BEMAG, follow ATC radar vectoring to aheading of 120°, then proceed direct to NUVGA to intercept Route H25 towards QU; for the approach, follow instructions to join the QU-9WA arrival route.
+
+For the taxi route Y2-T1-J, ATC does not state "T1" in the taxi clearance.
+
+180-degree turns on the runway or taxiways are prohibited.
+
+Prevailing wind is East-Southeast (ESE); approaches often involve tailwinds. Thunderstorms and tropical cyclones are frequent in summer. Be alert to the effects of turbulence.
+
+When new-energy tow tractors are used, ground crew will direct the flight crew to release the parking brake before the tow bar is attached for pushback; please note thisprocedural change. (2) Due to procedure design, "double capture" of the ILS signal for Runway 22 may occur; pay close attention to energy management. (3) Refer to FLY SMART data to adjust the engine-out acceleration altitude. III. Operational Characteristics (I) Ground Operations.

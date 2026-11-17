@@ -7,7 +7,7 @@ import re
 import sys
 import urllib.error
 import urllib.request
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Callable
@@ -22,6 +22,7 @@ from crew_agents.flight_prep_fingerprint import (
     task_fingerprint_from_metadata,
 )
 from crew_agents.ics_utils import parse_ics
+from crew_agents.flight_prep_inputs import generation_inputs
 
 
 BEIJING = ZoneInfo("Asia/Shanghai")
@@ -39,6 +40,7 @@ class CheckResult:
     state_source: str = ""
     state_changed: bool = False
     state_files: tuple[str, ...] = ()
+    generation_input_sha256: str = ""
 
 
 @dataclass(frozen=True)
@@ -138,6 +140,7 @@ def _invalidated_metadata(
     current_fingerprint: str,
 ) -> dict:
     invalidated = dict(existing)
+    invalidated.pop("generation_attempt", None)
     previous_matched_flights = invalidated.get("matched_flights")
     previous_fingerprint = str(invalidated.get("task_fingerprint", "")).strip()
     invalidated.update(
@@ -186,6 +189,56 @@ def _invalidate_no_task_preparation(
 
 
 def evaluate_preparation(
+    repo: Path,
+    target: date,
+    *,
+    existing_only: bool = False,
+) -> CheckResult:
+    inputs = generation_inputs(repo)
+    result = _evaluate_preparation(repo, target, existing_only=existing_only)
+    if not result.task_count:
+        return result
+    state, source = _preparation_state(repo, target)
+    attempted = state.get("generation_attempt", {})
+    # The scheduler persists a receipt through its existing metadata publisher
+    # after a successful dispatch, even if the generation later fails safely
+    # and therefore cannot commit its own metadata. Do not retry that pair.
+    same_attempt = (attempted.get("input_sha256") == inputs["sha256"]
+                    and attempted.get("task_fingerprint") == result.task_fingerprint)
+    stored = state.get("generation_inputs", {}).get("sha256", "")
+    same_failed = (state.get("status") == "FAILED_SAFE"
+                   and stored == inputs["sha256"]
+                   and state.get("task_fingerprint") == result.task_fingerprint)
+    if (same_attempt and state.get("status") not in {"NO_TASK", "INVALIDATED_NO_TASK"}) or same_failed:
+        return replace(result, status="NO_ACTION", should_dispatch=False,
+                       reason="generation_already_attempted_for_current_inputs",
+                       generation_input_sha256=inputs["sha256"])
+    if state and stored != inputs["sha256"] and result.reason not in {
+        "task_fingerprint_changed", "previous_status_not_success",
+    }:
+        result = replace(result, status="DISPATCH", should_dispatch=True,
+                         reason="generation_inputs_changed", state_source=source)
+    return replace(result, generation_input_sha256=inputs["sha256"])
+
+
+def record_dispatched_generation(repo: Path, target: date, result: CheckResult) -> CheckResult:
+    """Record only the accepted dispatch, never a successful formal release."""
+    if not result.task_count:  # keep existing one-off NO_TASK invalidation
+        return result
+    state, _ = _preparation_state(repo, target)
+    state = dict(state)
+    state.setdefault("target_date", target.isoformat())
+    state["generation_attempt"] = {
+        "input_sha256": result.generation_input_sha256,
+        "task_fingerprint": result.task_fingerprint,
+        "dispatched_at_beijing": datetime.now(BEIJING).isoformat(),
+    }
+    path = repo / "flight_preparation" / f"{target.isoformat()}_meta.json"
+    atomic_write_json(path, state)
+    return replace(result, state_changed=True, state_files=(path.relative_to(repo).as_posix(),))
+
+
+def _evaluate_preparation(
     repo: Path,
     target: date,
     *,
@@ -434,18 +487,24 @@ def main() -> int:
     print(f"FLIGHT_PREP_TARGET_DATE={result.target_date}")
     print(f"FLIGHT_PREP_CHECK_REASON={result.reason}")
     print(f"FLIGHT_PREP_TASK_COUNT={result.task_count}")
-    _write_github_output(args.github_output, result)
-
     if args.dispatch and result.should_dispatch:
-        dispatch_flight_preparation(
-            os.environ.get("GITHUB_REPOSITORY", ""),
-            os.environ.get("GITHUB_TOKEN", ""),
-            target,
-            args.days_ahead,
-        )
+        try:
+            dispatch_flight_preparation(
+                os.environ.get("GITHUB_REPOSITORY", ""),
+                os.environ.get("GITHUB_TOKEN", ""),
+                target,
+                args.days_ahead,
+            )
+        except Exception:
+            # A failed dispatch has no accepted receipt; existing NO_TASK
+            # invalidation must still be published through the current step.
+            _write_github_output(args.github_output, result)
+            raise
+        result = record_dispatched_generation(repo, target, result)
         print("FLIGHT_PREP_DISPATCH=REQUESTED")
     else:
         print(f"FLIGHT_PREP_DISPATCH={result.status}")
+    _write_github_output(args.github_output, result)
     return 0
 
 

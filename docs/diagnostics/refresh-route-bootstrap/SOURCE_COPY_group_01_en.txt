@@ -1,0 +1,99 @@
+I am Duan Yangshuo, a First Officer in Flight Squadron 15. My current technical level is A2, and my promotion date is January 13. In this qualification stage, I have 93 hours and 21 takeoffs and landings. I have completed 8 landings in the last 90 days and 8 landings in the last 30 days. Within the past three months, I have operated at ZGOW. My most recent landing as PF was at Shanghai Pudong International Airport on October 1.
+
+Latest PF/PM feedback:
+
+As PF, the instructor noted that below 30 ft I should use slightly more aft-stick input and, after landing, decelerate below 30 kt before entering the rapid-exit taxiway.
+
+As PM, the captain noted that I should improve SOP proficiency and make standard callouts more audible.
+
+Typical unsafe events:
+
+Shanghai Hongqiao International Airport:
+
+Due to unstable wind direction and speed, occurrences of steep maneuvers/excessive bank angle at low altitude have occurred; crews should identify the associated risks.
+
+Multiple occurrences of aircraft crossing the stop line during parking. Crews should strictly controltaxispeed during stand entry and proceed into thestand at a slow speed.
+
+JIEYANG CHAOSHAN Airport:
+
+GPS loss triggers terrain warning.
+
+Unstable Go-around incident.
+
+Core threats:
+
+Shanghai Hongqiao International Airport:
+
+Before 08:00 local time, Runway 36R/18L is normally used fordepartures. Ifthere isinbound trafficon approach, ATC may instruct aircraft to hold at the ILS holding point. The ILS holding point is located on Taxiway A; it is recommended to carefully identify the ground holding lineand signage. (The figure above shows theILS holding point location and markings, using Runway 18L as an example).
+
+Runway 36R departures normally use Taxiway H7 for intersection (non-full-length) takeoffs. Crews should compute takeoff performance for 36R using the H7 intersection.
+
+Aircraft normally taxi out via Taxiway L10; controllers may occasionally instruct aircraftto hold short of L01. There is no holding line marking on the ground—maintain sufficient distance to avoid conflicts due to limited space.
+
+Taxiway L20 isa narrow taxilane; exercise caution regarding wingtip clearance from aircraft on both sides during taxi.
+
+Runway 18L/36R is normally crossed via Taxiway H4.
+
+The lights have only two states: illuminated red or extinguished.
+
+The Runway Entrance Lights (RELs) must be extinguished AND the ATC clearance to enter the runway must be received before entering the runway.
+
+The Takeoff Hold Lights (THLs) must be extinguished AND a takeoff clearance must be received before commencing takeoff.
+
+In any case of inconsistency with the above, confirmation must be obtained from ATC.
+
+The H1 holding point for Runway 18R is not equipped with astop bar.
+
+Hongqiao Airport will implement the Taxiway A / K1 Junction Supplementary Pavement Renovation Project (scheduled to commence on 1 September 2026 and complete on 31 December 2026):
+
+Phase 1 (planned 1–30 September), construction in Areas A and B, operational impacts: a. Taxiways A1, K1, and T1 closed; Taxiway H1 between RWY 18L/36R and Taxiway A closed; Taxiway A between TaxiwayA2 and Taxiway H1 closed; Taxiways L01 and L08 north of Stand 315 closed. b. Stands 310, 311, 312, 313, 314 closed. c. Stand TP03 and De-icing Pad No. 8 withdrawn from service. d. Departures from Stand 315 are only permitted with nose-north pushback along the designated pushback line onto L01, then nose-west along L10 to holding point AP02 forengine start.
+
+Phase 2 (planned 1–31 October), construction in Areas A and B, operational impacts: a. Taxiways A1, K1, and T1 closed; Taxiway H1 between RWY 18L/36R and Taxiway A closed; Taxiway A between Taxiway A2 and Taxiway H1 closed; Taxiway L01 north of Stand 315 closed. b. Stands 313, 314 closed. c. Stand TP03 and De-icing Pad No. 8 withdrawn from service. d. Departures from Stand 315 are only permitted with nose-north pushback along the designated pushback line onto L01, then nose-west along L10 to holding point AP02 for engine start. e. A temporary Taxiway Category C taxi guideline will be established (relocating the original Taxiway L01 north of Stand 315 eastward by 20 m), available exclusively to aircraft with wingspan less than 36 m, with temporary edge lightsinstalled.
+
+Phase 3 (planned 1–30 November), construction in Area B, operational impacts: a. Taxiway K1 closed; Taxiway L01 north of Stand 315 closed. b. Stands 313, 314 closed. c. Stand TP03 and De-icing Pad No. 8 withdrawn from service. d. Departures from Stand 315 are only permitted with nose-north pushback along the designated pushback line onto L01, then nose-west along L10 to holding point AP02 for engine start. e. A temporary Taxiway Category C taxi guideline will be established (relocating the original Taxiway L01 north of Stand 315 eastward by 20 m), available exclusively to aircraft with wingspan less than 36 m, with temporary edge lights installed.
+
+Phases 4 and 5 (planned 1–31 December), operational impacts: a. Taxiway K1 closed.
+
+Any changes shallbe subject to the latestNOTAM. During the construction period, operational rules forthe East Area will undergo significant changes; allcrews should be aware of the operational risknotifications above.
+
+cancelled. Meanwhile, flights parked/serviced in the East Area that fail tovacate via Taxiway A2 in atimely manner will have to taxi back via Taxiways B3 and B2 along Taxiway B, crossing the east runway via H4; or via Taxiway B1 along H2 and Taxiway C, crossing the west runway via H4, then Taxiway B and the east runway toreturn.
+
+When there are activity restrictions on Runway 36L/36R, turns are required below 200 m AGL after liftoffto join the SID. Note that the departure chart also requires turning after passing the runway end. Airbus aircraft at non-heavy weights may proceed in NAV mode after liftoff.
+
+Noise abatement requirements apply to departures.
+
+For NXD departures, due to conflicts with the Hangzhou approach control area, aircraft should normally cross NXD at or above 6000 m.
+
+Airport Elevation: 10 ft.
+
+Runway Information: 18L/36R (3400 m × 45 m); 18R/36L (3300 m × 60 m).
+
+During night operations, Taxiways L10/L20 have no taxiway centerline lights and lighting conditions are poor, making taxi guidelines difficult to identify—particularly evident during precipitation.
+
+Unstable airflow/turbulence is frequently encountered on the short final for Runway 18L.
+
+Operations/Dispatch frequency: Spring Airlines Dispatch 131.5.
+
+Normally segregated paralleloperations: 18L/36R for landing, 18R/36L for departure.
+
+Relatively high volume of low-altitude climbing traffic.
+
+JIEYANG CHAOSHAN Airport:
+
+Ground control/dispatch frequency: 130.25.
+
+ATC instructions：.
+
+After landing on Runway 22, ATC may instruct the aircraft to hold short of A and L; note that there are no painted hold-short lines on the ground—exercise caution to avoid conflicts with aircraft taxiing out via Taxiway L.
+
+For the ILS approach to Runway 22: When arriving via IAF OW556, terrain effects may result in a higher-than-normal profile, potentially leading to a high intercept; it is recommended to be aware of this and are advised to extend flaps to Configuration 2 before turning final approach.and crew may also request descend 700 meters to avoid high interception.
+
+Jeppesen charts do not include arrival or departure procedures for the star from P319; please mention this when operating with foreign flight crews.
+
+For the taxi route Y2-T1-J, ATC does not state "T1" in the taxi clearance.
+
+Runway slope (elevation difference > 10m): Runway 04 threshold elevation is 15.6m; Runway 22 threshold elevation is 5.1m. A noticeable downslope exists, particularly when landing on Runway 04; it is recommended to exercise caution.
+
+180-degree turns on the runway or taxiways are prohibited.
+
+Prevailing wind is East-Southeast (ESE); approaches often involve tailwinds. Thunderstorms and tropical cyclones are frequent in summer. Be alert to the effects of turbulence.

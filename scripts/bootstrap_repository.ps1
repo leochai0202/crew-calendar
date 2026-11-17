@@ -28,11 +28,50 @@ if ([string]::IsNullOrWhiteSpace($env:GITHUB_TOKEN)) {
 if ($MaxAttempts -lt 1 -or $MaxAttempts -gt 3) {
     throw "MaxAttempts must be between 1 and 3"
 }
+if ($Repository -notmatch '^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$') {
+    throw "Invalid repository identity"
+}
+$apiBaseUri = [Uri]$ApiBase
+$localTestEndpoint = $apiBaseUri.IsLoopback -and $apiBaseUri.Scheme -eq 'http'
+if (-not $localTestEndpoint -and (
+    $apiBaseUri.Scheme -ne 'https' -or $apiBaseUri.Host -ne 'api.github.com' -or
+    -not $apiBaseUri.IsDefaultPort -or $apiBaseUri.UserInfo -or
+    $apiBaseUri.AbsolutePath -ne '/' -or $apiBaseUri.Query -or $apiBaseUri.Fragment -or
+    $AllowedArchiveHost -ne 'codeload.github.com'
+)) { throw "Untrusted GitHub API/archive endpoint" }
+$script:archiveDirectRetry = $false
+$script:downloadStage = 'API_REDIRECT'
+$script:downloadBytes = 0L
+
+function Assert-RepositoryArchive {
+    # Python is already required by both consuming production workflows.
+    # stdlib validation drains every entry (CRC included) before replacement.
+    $validator = @'
+import sys, zipfile
+from pathlib import PurePosixPath
+path, repo, sha = sys.argv[1:]
+with zipfile.ZipFile(path) as archive:
+    entries = archive.infolist()
+    assert entries
+    roots = set()
+    for item in entries:
+        p = PurePosixPath(item.filename)
+        assert not p.is_absolute() and '..' not in p.parts and '\\' not in item.filename
+        assert ':' not in item.filename and '.git' not in p.parts
+        assert (item.external_attr >> 16) & 0o170000 != 0o120000
+        roots.add(p.parts[0])
+    assert roots == {repo.replace('/', '-') + '-' + sha[:7]}
+    assert archive.testzip() is None
+'@
+    $validation = & python -B -c $validator $zipPath $Repository $TargetSha 2>&1
+    if ($LASTEXITCODE -ne 0) { throw "Archive integrity or fixed-SHA identity validation failed" }
+}
 
 function New-GitHubHttpClient {
-    param([Parameter(Mandatory = $true)][int]$TimeoutSeconds)
+    param([Parameter(Mandatory = $true)][int]$TimeoutSeconds, [switch]$Direct)
     $handler = [System.Net.Http.HttpClientHandler]::new()
     $handler.AllowAutoRedirect = $false
+    $handler.UseProxy = -not $Direct.IsPresent
     $client = [System.Net.Http.HttpClient]::new($handler)
     $client.Timeout = [TimeSpan]::FromSeconds($TimeoutSeconds)
     $client.DefaultRequestHeaders.UserAgent.ParseAdd(
@@ -55,6 +94,18 @@ function Invoke-WithLimitedRetry {
         }
         catch {
             $lastError = $_
+            $cause = $_.Exception
+            while ($cause.InnerException) { $cause = $cause.InnerException }
+            Write-Host "ARCHIVE_STAGE=$script:downloadStage"
+            Write-Host "ARCHIVE_ERROR_TYPE=$($cause.GetType().Name)"
+            Write-Host "ARCHIVE_PARTIAL_BYTES=$script:downloadBytes"
+            # Only transport failure on the trusted archive host enables the
+            # next bounded direct attempt. API requests always inherit proxy.
+            if ($script:downloadStage -in @('ARCHIVE_HEADERS', 'ARCHIVE_BODY') -and (
+                $cause -is [OperationCanceledException] -or $cause -is [TimeoutException] -or
+                $cause -is [IO.IOException] -or $cause -is [System.Net.Http.HttpRequestException] -or
+                $cause -is [System.Net.Sockets.SocketException]
+            )) { $script:archiveDirectRetry = $true }
             # Close streams in the action's finally blocks, then remove partial
             # bytes before backoff (including the final failed attempt).
             if (Test-Path -LiteralPath $zipPath) {
@@ -98,6 +149,8 @@ $stopwatch = [Diagnostics.Stopwatch]::StartNew()
 try {
     Write-Host "ARCHIVE_TIMEOUT_SECONDS=$ArchiveTimeoutSeconds"
     Invoke-WithLimitedRetry -Label "Archive download" -Action {
+        $script:downloadStage = 'API_REDIRECT'
+        $script:downloadBytes = 0L
         if (Test-Path -LiteralPath $zipPath) {
             Remove-Item -LiteralPath $zipPath -Force
         }
@@ -127,6 +180,7 @@ try {
             ).GetAwaiter().GetResult()
             try {
                 $status = [int]$apiResponse.StatusCode
+                Write-Host "ARCHIVE_API_HTTP_STATUS=$status"
                 if ($status -notin @(301, 302, 307, 308)) {
                     throw "Archive API returned HTTP $status instead of a redirect"
                 }
@@ -140,6 +194,11 @@ try {
                 if ($archiveUri.Host -ine $AllowedArchiveHost) {
                     throw "Archive redirect host was not the approved host"
                 }
+                if (-not $localTestEndpoint -and (
+                    $archiveUri.Scheme -ne 'https' -or -not $archiveUri.IsDefaultPort -or
+                    $archiveUri.UserInfo -or $archiveUri.Fragment -or
+                    $archiveUri.AbsolutePath -cne "/$Repository/legacy.zip/$TargetSha"
+                )) { throw "Archive redirect was not the trusted fixed-SHA HTTPS resource" }
             }
             finally {
                 $apiResponse.Dispose()
@@ -151,11 +210,13 @@ try {
             $apiTimeout.Dispose()
         }
 
-        $archiveClient = New-GitHubHttpClient -TimeoutSeconds $ArchiveTimeoutSeconds
+        $archiveClient = New-GitHubHttpClient -TimeoutSeconds $ArchiveTimeoutSeconds -Direct:$script:archiveDirectRetry
+        Write-Host ("ARCHIVE_NETWORK_PATH=" + $(if ($script:archiveDirectRetry) { 'DIRECT_RECOVERY' } else { 'ENVIRONMENT_DEFAULT' }))
         $archiveTimeout = [Threading.CancellationTokenSource]::new(
             [TimeSpan]::FromSeconds($ArchiveTimeoutSeconds)
         )
         try {
+            $script:downloadStage = 'ARCHIVE_HEADERS'
             $archiveResponse = $archiveClient.GetAsync(
                 $archiveUri,
                 [System.Net.Http.HttpCompletionOption]::ResponseHeadersRead,
@@ -163,8 +224,12 @@ try {
             ).GetAwaiter().GetResult()
             try {
                 if (-not $archiveResponse.IsSuccessStatusCode) {
+                    $script:downloadStage = 'ARCHIVE_HTTP_STATUS'
+                    Write-Host "ARCHIVE_HTTP_STATUS=$([int]$archiveResponse.StatusCode)"
                     throw "Archive host returned HTTP $([int]$archiveResponse.StatusCode)"
                 }
+                $script:downloadStage = 'ARCHIVE_BODY'
+                $expectedBytes = $archiveResponse.Content.Headers.ContentLength
                 $inputStream = $archiveResponse.Content.ReadAsStreamAsync(
                     $archiveTimeout.Token
                 ).GetAwaiter().GetResult()
@@ -176,6 +241,7 @@ try {
                         ).GetAwaiter().GetResult()
                     }
                     finally {
+                        $script:downloadBytes = $outputStream.Length
                         $outputStream.Dispose()
                     }
                 }
@@ -197,6 +263,11 @@ try {
         if ((Get-Item -LiteralPath $zipPath).Length -le 0) {
             throw "Archive file is empty"
         }
+        $script:downloadStage = 'ARCHIVE_VALIDATE'
+        if ($null -ne $expectedBytes -and (Get-Item -LiteralPath $zipPath).Length -ne $expectedBytes) {
+            throw "Archive response length mismatch"
+        }
+        Assert-RepositoryArchive
     } | Out-Null
 
     Add-Type -AssemblyName System.IO.Compression.FileSystem

@@ -29,6 +29,7 @@ from crew_agents.common import (
     now_beijing,
 )
 from crew_agents.flight_prep_fingerprint import task_fingerprint_from_events
+from crew_agents.flight_prep_inputs import generation_inputs
 from crew_agents.ics_utils import (
     AmbiguousFlightSelectionError,
     CalendarEvent,
@@ -7430,6 +7431,32 @@ def record_flight_scope(record: dict[str, object], text: str) -> tuple[str, ...]
     return tuple(unique(values))
 
 
+def explicit_known_route_scopes(text: str, aliases: dict[str, str]) -> list[tuple[str, str]]:
+    """Resolve route labels, not arbitrary co-occurrences of airport names.
+
+    A shared origin may govern a complete, explicitly enumerated destination
+    list. Every endpoint must be an unambiguous registered airport alias.
+    """
+    endpoint = "|".join(re.escape(alias) for alias in sorted(aliases, key=len, reverse=True))
+    if not endpoint:
+        return []
+    scope = []
+    for match in re.finditer(
+        rf"(?:^|[：:])\s*(?P<origin>{endpoint})\s*(?P<destination>{endpoint})\s*航[线路段]\s*[：:]",
+        text, re.I,
+    ):
+        scope.append((aliases[match['origin'].upper()], aliases[match['destination'].upper()]))
+    for match in re.finditer(
+        rf"(?:^|[：:])\s*(?P<origin>{endpoint})\s*(?:飞往|至|到|往|飞|→|[-—–])\s*"
+        rf"(?P<destinations>(?:{endpoint})(?:\s*[、及和/]\s*(?:{endpoint}))*)"
+        rf"(?=\s*(?:航[线路段班]|涉及|可以|可申请|需|应|禁止|不得|[，,：:]|$))",
+        text, re.I,
+    ):
+        for destination in re.split(r"\s*[、及和/]\s*", match['destinations']):
+            scope.append((aliases[match['origin'].upper()], aliases[destination.upper()]))
+    return scope
+
+
 def record_route_scope(
     record: dict[str, object],
     text: str,
@@ -7468,8 +7495,10 @@ def record_route_scope(
     # Historical incidents may mention a flight's route as narrative evidence.
     # That narrative is not an applicability restriction unless a structured
     # route_scope was configured explicitly.
-    if str(record.get("category") or "").lower() not in {"typical", "history"}:
+    if (str(record.get("category") or "").lower() not in {"typical", "history"}
+            and not re.match(r"\s*(?:历史上|曾有|曾经)", text)):
         aliases = known_route_airport_aliases(registry)
+        routes.extend(explicit_known_route_scopes(text, aliases))
         endpoint = "|".join(re.escape(alias) for alias in sorted(aliases, key=len, reverse=True))
         explicit_prefix = re.match(
             rf"^\s*(?P<departure>{endpoint})\s*(?:飞往|飞|至|到|往|→|[-—–])\s*(?P<arrival>{endpoint})(?=航班|航线|航段|飞机|方向|管制|段|[，,：:]|$)",
@@ -12794,9 +12823,11 @@ def main() -> int:
         success_marker.unlink()
 
     current_task_fingerprint = ""
+    current_generation_inputs: dict = {}
     current_matched_flights: list[dict[str, object]] = []
 
     try:
+        current_generation_inputs = generation_inputs(repo)
         settings = load_json(repo / "config" / "prep_settings.json", {}) or {}
         profile = load_json(repo / "config" / "pilot_profile.json", {}) or {}
         experience = load_json(repo / "config" / "airport_experience.json", {}) or {}
@@ -12815,6 +12846,7 @@ def main() -> int:
             )
             status = {
                 "status": "NO_TASK",
+                "generation_inputs": current_generation_inputs,
                 "target_date": target.isoformat(),
                 "task_fingerprint": current_task_fingerprint,
                 "matched_flights": [],
@@ -12845,6 +12877,7 @@ def main() -> int:
             current_matched_flights = [event.to_dict() for event in date_flights]
             status = {
                 "status": "NEEDS_SELECTION",
+                "generation_inputs": current_generation_inputs,
                 "target_date": target.isoformat(),
                 "task_fingerprint": current_task_fingerprint,
                 "matched_flights": current_matched_flights,
@@ -13254,6 +13287,7 @@ def main() -> int:
             status = {
                 "status": "FAILED_SAFE",
                 "release_status": "FAILED_SAFE",
+                "generation_inputs": current_generation_inputs,
                 "source_copy_status": "SOURCE_COPY_FAILED" if copy_errors else "SOURCE_COPY_READY",
                 "source_copy_errors": copy_errors,
                 "target_date": target.isoformat(),
@@ -13376,6 +13410,7 @@ def main() -> int:
                 group["candidate_output"], group["candidate_english_output"] = group["output"], group["english_output"]
                 group["output"], group["english_output"] = "", ""
         success_metadata = {
+            "generation_inputs": current_generation_inputs,
             "status": result_status,
             "result_kind": "RELEASE",
             "target_date": target.isoformat(),
@@ -13427,6 +13462,7 @@ def main() -> int:
                 "status": result_status,
                 "target_date": target.isoformat(),
                 "generated_at_beijing": generated_at_beijing,
+                "generation_inputs": current_generation_inputs,
                 "task_fingerprint": current_task_fingerprint,
                 "matched_flights": current_matched_flights,
                 "group_output": dated_group_name,
@@ -13488,6 +13524,7 @@ def main() -> int:
             success_marker.unlink(missing_ok=True)
         status = {
             "status": "FAILED_SAFE",
+            "generation_inputs": current_generation_inputs,
             "target_date": target.isoformat(),
             "task_fingerprint": current_task_fingerprint,
             "matched_flights": current_matched_flights,
