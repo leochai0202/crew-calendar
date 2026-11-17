@@ -17,9 +17,14 @@ def generation_inputs(repo: Path, *, code_root: Path | None = None) -> dict:
     def include(label: str, path: Path) -> None:
         if path.is_file():
             digest = hashlib.sha256()
-            with path.open("rb") as handle:
-                for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-                    digest.update(chunk)
+            if path.suffix.lower() in {".py", ".json", ".txt", ".yml", ".yaml"}:
+                # Windows checker and Linux generator must agree despite Git
+                # checkout newline conversion. Binary manuals stay byte-exact.
+                digest.update(path.read_bytes().replace(b"\r\n", b"\n"))
+            else:
+                with path.open("rb") as handle:
+                    for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                        digest.update(chunk)
             files[label] = digest.hexdigest()
         else:
             files[label] = "MISSING"

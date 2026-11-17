@@ -13,12 +13,15 @@ def test_input_identity_tracks_code_template_and_selected_manual_not_ics_or_git(
     (repo / "config").mkdir()
     (repo / "knowledge/pdf").mkdir(parents=True)
     code = repo / "crew_agents/flight_prep_agent.py"
-    code.write_text("original")
+    code.write_bytes(b"original\nline two\n")
     template = repo / "config/prep_settings.json"
     template.write_text('{}')
     manual = repo / "knowledge/pdf/AirDropManual-机场特点20261019.pdf"
     manual.write_bytes(b"source-one")
     original = generation_inputs(repo, code_root=repo)
+    code.write_bytes(b"original\r\nline two\r\n")
+    assert generation_inputs(repo, code_root=repo) == original
+    code.write_bytes(b"original\nline two\n")
     for name in ("flight.ics", "crew_schedule.ics", "config/airport_experience.json"):
         (repo / name).write_text("ordinary calendar refresh")
     assert generation_inputs(repo, code_root=repo) == original
