@@ -22,7 +22,7 @@ Visual checks of the unchanged 20261019 PDF pages **621 and 623** confirm three 
 | 扬州南宁航路：… | p621, `扬州泰州_core_record_31` | Excluded: unambiguous concatenated airport route label |
 | 扬州到兰州涉及释压程序… | p623, `扬州泰州_core_record_48` | Excluded: named route with explicit program applicability |
 
-The parser uses existing unambiguous airport aliases and explicit syntax, not airport-specific branches. Synthetic tests cover joined labels, destination lists, 到/至/飞往, direction mismatch, unknown aliases and historical narrative. Historical typical incidents mentioning another route are retained; the real 珠海–扬州 approach event, its 1000/400 ft sequence, general airport risks and conditional approach controls remain in the complete copy body. No operating numbers or procedures were corrected. Each exclusion retains its source text, fact ID, section/page and reason in the audit.
+The parser uses existing unambiguous airport aliases and explicit syntax, not airport-specific branches. Synthetic tests cover joined labels, destination lists, 到/至/飞往, direction mismatch, unknown aliases and historical narrative. When the same labelled source item explicitly states both directions' operating instructions, both directional scopes are retained; reverse applicability is never inferred from a heading alone. Historical typical incidents mentioning another route are retained; the real 珠海–扬州 approach event, its 1000/400 ft sequence, general airport risks and conditional approach controls remain in the complete copy body. No operating numbers or procedures were corrected. Each exclusion retains its source text, fact ID, section/page and reason in the audit.
 
 ## Actual Nov 18 samples
 

@@ -7446,6 +7446,18 @@ def explicit_known_route_scopes(text: str, aliases: dict[str, str]) -> list[tupl
         text, re.I,
     ):
         scope.append((aliases[match['origin'].upper()], aliases[match['destination'].upper()]))
+    labelled_pairs = {frozenset(route) for route in scope}
+    # A concatenated route heading may contain separately stated outbound and
+    # inbound instructions. Keep the reverse direction only when the source
+    # explicitly states it for that same airport pair, never infer symmetry.
+    if labelled_pairs:
+        for match in re.finditer(
+            rf"(?P<origin>{endpoint})\s*(?:飞往|飞|至|到)\s*(?P<destination>{endpoint})"
+            rf"(?=\s*(?:有活动时|无活动时|运行时))", text, re.I,
+        ):
+            route = (aliases[match['origin'].upper()], aliases[match['destination'].upper()])
+            if frozenset(route) in labelled_pairs:
+                scope.append(route)
     for match in re.finditer(
         rf"(?:^|[：:])\s*(?P<origin>{endpoint})\s*(?:飞往|至|到|往|飞|→|[-—–])\s*"
         rf"(?P<destinations>(?:{endpoint})(?:\s*[、及和/]\s*(?:{endpoint}))*)"

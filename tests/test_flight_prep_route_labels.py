@@ -36,3 +36,14 @@ def test_evidenced_route_labels_are_generic_and_directional(text, expected):
 ])
 def test_names_or_unresolved_lists_do_not_prove_route_scope(text):
     assert agent.record_route_scope({'category': 'core'}, text, REGISTRY) == ()
+
+
+def test_joined_label_keeps_explicit_reverse_controls_but_never_infers_symmetry():
+    text = '甲地乙地航路：甲地飞乙地有活动时使用A123；乙地飞甲地有活动时使用B456。'
+    scope = agent.record_route_scope({'category': 'core'}, text, REGISTRY)
+    assert set(scope) == {('甲地机场', '乙地机场'), ('乙地机场', '甲地机场')}
+    fact = agent.BilingualFact('both', text, '', category='core', source_verbatim=True, route_scope=scope)
+    retained = agent.filter_fact_for_duty(fact, _event('reverse', '乙地机场', '甲地机场'), date(2026, 11, 18))
+    assert retained is not None and retained.zh == text
+    one_way = agent.record_route_scope({'category': 'core'}, '甲地乙地航路：有活动时使用A123。', REGISTRY)
+    assert one_way == (('甲地机场', '乙地机场'),)

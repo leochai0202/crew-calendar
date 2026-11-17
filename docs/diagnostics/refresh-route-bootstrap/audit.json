@@ -67,6 +67,10 @@
         [
           "扬州泰州",
           "南宁吴圩"
+        ],
+        [
+          "南宁吴圩",
+          "扬州泰州"
         ]
       ]
     },
@@ -112,7 +116,7 @@
     "repeated": "generation_already_attempted_for_current_inputs",
     "ordinary_ics_refresh_dispatch": false,
     "formal_text_unchanged": true,
-    "input_sha256": "f83f73ff8c51bcdce43f34f4cad88d1696a43f70f1c27adec616d02fd4b9529e",
+    "input_sha256": "72fc24a427b6393f747898f1c25b2560fa324a482867726ceb649537e7c07882",
     "dispatch_mocked_only": true
   }
 }
