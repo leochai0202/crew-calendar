@@ -29,6 +29,7 @@ from crew_agents.common import (
     now_beijing,
 )
 from crew_agents.flight_prep_fingerprint import task_fingerprint_from_events
+from crew_agents.flight_prep_inputs import generation_inputs
 from crew_agents.ics_utils import (
     AmbiguousFlightSelectionError,
     CalendarEvent,
@@ -7430,6 +7431,44 @@ def record_flight_scope(record: dict[str, object], text: str) -> tuple[str, ...]
     return tuple(unique(values))
 
 
+def explicit_known_route_scopes(text: str, aliases: dict[str, str]) -> list[tuple[str, str]]:
+    """Resolve route labels, not arbitrary co-occurrences of airport names.
+
+    A shared origin may govern a complete, explicitly enumerated destination
+    list. Every endpoint must be an unambiguous registered airport alias.
+    """
+    endpoint = "|".join(re.escape(alias) for alias in sorted(aliases, key=len, reverse=True))
+    if not endpoint:
+        return []
+    scope = []
+    for match in re.finditer(
+        rf"(?:^|[：:])\s*(?P<origin>{endpoint})\s*(?P<destination>{endpoint})\s*航[线路段]\s*[：:]",
+        text, re.I,
+    ):
+        scope.append((aliases[match['origin'].upper()], aliases[match['destination'].upper()]))
+    labelled_pairs = {frozenset(route) for route in scope}
+    # A concatenated route heading may contain separately stated outbound and
+    # inbound instructions. Keep the reverse direction only when the source
+    # explicitly states it for that same airport pair, never infer symmetry.
+    if labelled_pairs:
+        for match in re.finditer(
+            rf"(?P<origin>{endpoint})\s*(?:飞往|飞|至|到)\s*(?P<destination>{endpoint})"
+            rf"(?=\s*(?:有活动时|无活动时|运行时))", text, re.I,
+        ):
+            route = (aliases[match['origin'].upper()], aliases[match['destination'].upper()])
+            if frozenset(route) in labelled_pairs:
+                scope.append(route)
+    for match in re.finditer(
+        rf"(?:^|[：:])\s*(?P<origin>{endpoint})\s*(?:飞往|至|到|往|飞|→|[-—–])\s*"
+        rf"(?P<destinations>(?:{endpoint})(?:\s*[、及和/]\s*(?:{endpoint}))*)"
+        rf"(?=\s*(?:航[线路段班]|涉及|可以|可申请|需|应|禁止|不得|[，,：:]|$))",
+        text, re.I,
+    ):
+        for destination in re.split(r"\s*[、及和/]\s*", match['destinations']):
+            scope.append((aliases[match['origin'].upper()], aliases[destination.upper()]))
+    return scope
+
+
 def record_route_scope(
     record: dict[str, object],
     text: str,
@@ -7468,8 +7507,10 @@ def record_route_scope(
     # Historical incidents may mention a flight's route as narrative evidence.
     # That narrative is not an applicability restriction unless a structured
     # route_scope was configured explicitly.
-    if str(record.get("category") or "").lower() not in {"typical", "history"}:
+    if (str(record.get("category") or "").lower() not in {"typical", "history"}
+            and not re.match(r"\s*(?:历史上|曾有|曾经)", text)):
         aliases = known_route_airport_aliases(registry)
+        routes.extend(explicit_known_route_scopes(text, aliases))
         endpoint = "|".join(re.escape(alias) for alias in sorted(aliases, key=len, reverse=True))
         explicit_prefix = re.match(
             rf"^\s*(?P<departure>{endpoint})\s*(?:飞往|飞|至|到|往|→|[-—–])\s*(?P<arrival>{endpoint})(?=航班|航线|航段|飞机|方向|管制|段|[，,：:]|$)",
@@ -12019,6 +12060,66 @@ def english_source_route_scope(record: dict, heading_aliases: dict[str, str] | N
     return tuple(dict.fromkeys(route for route in routes if route[0] != route[1]))
 
 
+def filter_english_route_fragments(
+    fact: BilingualFact, routes: set[tuple[str, str]],
+    exclusion_log: list[dict] | None = None,
+) -> BilingualFact:
+    """Project complete explicitly scoped blocks, retaining inherited controls.
+
+    Flattened source lists can contain several route headings in one record.
+    A heading governs its following sentences until the next explicit heading;
+    unknown headings are boundaries, not permission to discard their content.
+    Historical events and reviewed translations are never projected here.
+    """
+    if fact.category in {"typical", "history"} or fact.english_source == "translated_from_chinese":
+        return fact
+    text = fact.en
+    starts = []
+    for match in re.finditer(
+        r"(?:^|(?<=[.!?;])\s+)(?P<heading>(?:\d+[.)]\s*)?(?:(?i:for)\b|[A-Z]{4}\s*[-—–→]))", text):
+        heading = re.sub(r"^\d+[.)]\s*", "", text[match.start("heading"):])
+        if re.match(r"[A-Z]{4}\s*[-—–→]", heading) or re.match(
+            r"(?i:for)\s+(?:[^.!?;\n]*[:：]|the\s+flight\s+back\s+to\s+[A-Z]{4}\s*[,])", heading
+        ):
+            starts.append(match.start("heading"))
+    boundaries = sorted({0, *starts, len(text)})
+    if len(boundaries) <= 2:
+        return fact  # Existing whole-record applicability handles one scope.
+    kept, removed = [], []
+    for left, right in zip(boundaries, boundaries[1:]):
+        block = text[left:right]
+        heading = re.sub(r"^\s*\d+[.)]\s*", "", block)
+        scope = english_source_route_scope({"text_en": heading, "category": "core"})
+        reason = ""
+        if scope and not route_scope_matches_duty(scope, routes):
+            reason = "English source block explicitly applies to a different route"
+        # An exact ICAO arrival/departure label also gives an independently
+        # verifiable endpoint. Do not interpret waypoint or region names.
+        endpoint = re.match(r"(?i:for)\s+([A-Z]{4})(?:\s*\([^()]+\))?\s+(arrivals|departures)\s*:", heading)
+        returning = re.match(r"(?i:for)\s+the\s+flight\s+back\s+to\s+([A-Z]{4})\s*[:,]", heading)
+        if not reason and (endpoint or returning):
+            code = (endpoint or returning)[1]
+            direction = 0 if endpoint and endpoint[2] == "departures" else 1
+            airport = canonical_route_airport(code)
+            if not any(canonical_route_airport(route[direction]) == airport for route in routes):
+                reason = "English source block explicitly applies to another arrival/departure airport"
+        if reason:
+            removed.append((block, reason))
+            if exclusion_log is not None:
+                entry = exclusion_log_entry(fact, block, reason)
+                entry.update(language="en", original_text=fact.source_text_en)
+                exclusion_log.append(entry)
+        else:
+            kept.append(block)
+    if not removed:
+        return fact
+    retained = "".join(kept).strip()
+    return replace(fact, text_en=retained, route_scope=(),
+        role_scope=english_source_role_scope(retained, fact.operational_phase),
+        excluded_source_clauses=(*fact.excluded_source_clauses, *(block for block, _ in removed)),
+        exclusion_reasons=(*fact.exclusion_reasons, *(reason for _, reason in removed)))
+
+
 def english_briefing_fact_sets(
     event: CalendarEvent | DutyContext, target: date, source_records: dict[str, list[dict]],
     exclusion_log: list[dict] | None = None,
@@ -12085,6 +12186,10 @@ def english_briefing_fact_sets(
                         english_source="translated_from_chinese", translation_provenance=dict(review))
                     text, phase, scope = fact.en, fact.operational_phase, fact.role_scope
                 # A partial/ambiguous Chinese selection cannot authorize a full translation.
+            fact = filter_english_route_fragments(fact, routes, exclusion_log)
+            text = fact.en
+            if not text.strip():
+                continue
             reason = ""
             if category != "typical" and not reason:
                 if not fact_matches_airport_role(fact, airport_role(event, airport)):
@@ -12794,9 +12899,11 @@ def main() -> int:
         success_marker.unlink()
 
     current_task_fingerprint = ""
+    current_generation_inputs: dict = {}
     current_matched_flights: list[dict[str, object]] = []
 
     try:
+        current_generation_inputs = generation_inputs(repo)
         settings = load_json(repo / "config" / "prep_settings.json", {}) or {}
         profile = load_json(repo / "config" / "pilot_profile.json", {}) or {}
         experience = load_json(repo / "config" / "airport_experience.json", {}) or {}
@@ -12815,6 +12922,7 @@ def main() -> int:
             )
             status = {
                 "status": "NO_TASK",
+                "generation_inputs": current_generation_inputs,
                 "target_date": target.isoformat(),
                 "task_fingerprint": current_task_fingerprint,
                 "matched_flights": [],
@@ -12845,6 +12953,7 @@ def main() -> int:
             current_matched_flights = [event.to_dict() for event in date_flights]
             status = {
                 "status": "NEEDS_SELECTION",
+                "generation_inputs": current_generation_inputs,
                 "target_date": target.isoformat(),
                 "task_fingerprint": current_task_fingerprint,
                 "matched_flights": current_matched_flights,
@@ -13254,6 +13363,7 @@ def main() -> int:
             status = {
                 "status": "FAILED_SAFE",
                 "release_status": "FAILED_SAFE",
+                "generation_inputs": current_generation_inputs,
                 "source_copy_status": "SOURCE_COPY_FAILED" if copy_errors else "SOURCE_COPY_READY",
                 "source_copy_errors": copy_errors,
                 "target_date": target.isoformat(),
@@ -13376,6 +13486,7 @@ def main() -> int:
                 group["candidate_output"], group["candidate_english_output"] = group["output"], group["english_output"]
                 group["output"], group["english_output"] = "", ""
         success_metadata = {
+            "generation_inputs": current_generation_inputs,
             "status": result_status,
             "result_kind": "RELEASE",
             "target_date": target.isoformat(),
@@ -13427,6 +13538,7 @@ def main() -> int:
                 "status": result_status,
                 "target_date": target.isoformat(),
                 "generated_at_beijing": generated_at_beijing,
+                "generation_inputs": current_generation_inputs,
                 "task_fingerprint": current_task_fingerprint,
                 "matched_flights": current_matched_flights,
                 "group_output": dated_group_name,
@@ -13488,6 +13600,7 @@ def main() -> int:
             success_marker.unlink(missing_ok=True)
         status = {
             "status": "FAILED_SAFE",
+            "generation_inputs": current_generation_inputs,
             "target_date": target.isoformat(),
             "task_fingerprint": current_task_fingerprint,
             "matched_flights": current_matched_flights,

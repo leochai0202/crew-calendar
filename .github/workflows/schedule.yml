@@ -382,6 +382,7 @@ jobs:
             "--branch", "main",
             "--message", "Invalidate flight preparation with no current task",
             "--root", $env:GITHUB_WORKSPACE,
+            "--expected-main-sha", "${{ steps.ics_publish.outputs.commit_sha || steps.ics_publish.outputs.base_sha || steps.bootstrap.outputs.bootstrap_main_sha }}",
             "--status-prefix", "FLIGHT_PREP_STATE_API",
             "--files"
           ) + $stateFiles

@@ -32,6 +32,7 @@ class ArchiveServer:
     def __init__(
         self, body: bytes, *, failures_before_success: int = 0,
         body_delay: float = 0, archive_host: str = "127.0.0.1",
+        delayed_archive_requests: int = 99,
     ) -> None:
         self.body = body
         self.failures_before_success = failures_before_success
@@ -65,7 +66,7 @@ class ArchiveServer:
                     try:
                         self.wfile.write(owner.body[:8])
                         self.wfile.flush()
-                        time.sleep(owner.body_delay)
+                        time.sleep(owner.body_delay if owner.archive_requests <= delayed_archive_requests else 0)
                         self.wfile.write(owner.body[8:])
                     except (BrokenPipeError, ConnectionResetError):
                         pass  # Expected when the client's bounded timeout cancels.
@@ -150,8 +151,8 @@ def test_bootstrap_downloads_fixed_sha_and_cleans_then_copies_workspace(
 ) -> None:
     body = _zip_bytes(
         {
-            "owner-repo-sha/crew_calendar_main.py": b"print('safe')\n",
-            "owner-repo-sha/.github/workflows/schedule.yml": b"name: test\n",
+            "owner-repo-aaaaaaa/crew_calendar_main.py": b"print('safe')\n",
+            "owner-repo-aaaaaaa/.github/workflows/schedule.yml": b"name: test\n",
         }
     )
     workspace = tmp_path / "workspace"
@@ -199,7 +200,7 @@ def test_invalid_archive_fails_before_cleaning_workspace(
 def test_archive_network_action_retries_at_most_three_times(
     tmp_path: Path,
 ) -> None:
-    body = _zip_bytes({"owner-repo-sha/file.txt": b"ok"})
+    body = _zip_bytes({"owner-repo-aaaaaaa/file.txt": b"ok"})
     with ArchiveServer(body, failures_before_success=2) as server:
         result = _run_bootstrap(tmp_path, server)
 
@@ -215,7 +216,7 @@ def test_archive_network_action_stops_after_third_failure(tmp_path: Path) -> Non
     workspace.mkdir()
     sentinel = workspace / "last-good.txt"
     sentinel.write_text("preserve", encoding="utf-8")
-    body = _zip_bytes({"owner-repo-sha/file.txt": b"not reached"})
+    body = _zip_bytes({"owner-repo-aaaaaaa/file.txt": b"not reached"})
 
     with ArchiveServer(body, failures_before_success=3) as server:
         result = _run_bootstrap(tmp_path, server, workspace=workspace)
@@ -296,7 +297,7 @@ def test_both_workflows_use_fixed_sha_helper_before_production_steps() -> None:
 
 
 def test_archive_body_timeout_is_independent_of_api_timeout(tmp_path: Path) -> None:
-    body = _zip_bytes({"owner-repo-sha/file.txt": b"complete"})
+    body = _zip_bytes({"owner-repo-aaaaaaa/file.txt": b"complete"})
     with ArchiveServer(body, body_delay=2) as server:
         result = _run_bootstrap(
             tmp_path, server, timeout_seconds=1, archive_timeout_seconds=4
@@ -311,7 +312,7 @@ def test_body_download_times_out_retries_and_removes_partial_zip(tmp_path: Path)
     workspace.mkdir()
     sentinel = workspace / "last-good.txt"
     sentinel.write_bytes(b"preserve")
-    body = _zip_bytes({"owner-repo-sha/file.txt": b"complete"})
+    body = _zip_bytes({"owner-repo-aaaaaaa/file.txt": b"complete"})
     with ArchiveServer(body, body_delay=2) as server:
         result = _run_bootstrap(
             tmp_path,
@@ -330,16 +331,68 @@ def test_body_download_times_out_retries_and_removes_partial_zip(tmp_path: Path)
 
 
 def test_bootstrap_uses_environment_proxy_for_api_and_archive(tmp_path: Path) -> None:
-    # The .invalid hosts cannot resolve. A local forward proxy serves both
+    # Distinct loopback hosts use a local forward proxy for both
     # absolute-URI requests, proving HttpClient inherits the child environment.
-    body = _zip_bytes({"owner-repo-sha/file.txt": b"proxied"})
-    with ArchiveServer(body, archive_host="archive.bootstrap.invalid") as server:
+    body = _zip_bytes({"owner-repo-aaaaaaa/file.txt": b"proxied"})
+    with ArchiveServer(body, archive_host="127.0.0.3") as server:
         proxy = f"http://127.0.0.1:{server.port}"
         result = _run_bootstrap(
-            tmp_path, server, api_host="api.bootstrap.invalid",
-            archive_host="archive.bootstrap.invalid",
+            tmp_path, server, api_host="127.0.0.2",
+            archive_host="127.0.0.3",
             env_overrides={"HTTP_PROXY": proxy, "HTTPS_PROXY": proxy, "NO_PROXY": ""},
         )
     assert result.returncode == 0, result.stderr
     assert server.api_requests == server.archive_requests == 1
     assert (tmp_path / "workspace/file.txt").read_bytes() == b"proxied"
+
+
+def test_stalled_archive_recovers_once_direct_without_disabling_api_proxy(tmp_path):
+    body = _zip_bytes({'owner-repo-aaaaaaa/file.txt': b'complete'})
+    with ArchiveServer(body, body_delay=2, delayed_archive_requests=1) as server:
+        result = _run_bootstrap(tmp_path, server, archive_timeout_seconds=1)
+    assert result.returncode == 0, result.stderr
+    assert server.api_requests == server.archive_requests == 2
+    assert 'ARCHIVE_NETWORK_PATH=ENVIRONMENT_DEFAULT' in result.stdout
+    assert 'ARCHIVE_NETWORK_PATH=DIRECT_RECOVERY' in result.stdout
+    assert 'ARCHIVE_STAGE=ARCHIVE_BODY' in result.stdout
+    assert 'ARCHIVE_DOWNLOAD=SUCCESS' in result.stdout
+    assert 'test-token-not-logged' not in result.stdout + result.stderr
+
+
+@pytest.mark.parametrize('entries', [
+    {'owner-repo-bbbbbbb/file.txt': b'wrong SHA'},
+    {'owner-repo-aaaaaaa/../../escape.txt': b'escape'},
+    {'owner-repo-aaaaaaa/.git/config': b'unexpected'},
+])
+def test_archive_identity_and_paths_are_verified_before_replacement(tmp_path, entries):
+    workspace = tmp_path / 'workspace'
+    workspace.mkdir()
+    (workspace / 'last-good.txt').write_text('LAST_GOOD')
+    with ArchiveServer(_zip_bytes(entries)) as server:
+        result = _run_bootstrap(tmp_path, server, workspace=workspace)
+    assert result.returncode != 0
+    assert (workspace / 'last-good.txt').read_text() == 'LAST_GOOD'
+    assert not (tmp_path / 'escape.txt').exists()
+    assert not list((tmp_path / 'runner-temp').rglob('*.zip'))
+
+
+def test_zip_crc_failure_never_replaces_workspace(tmp_path):
+    body = bytearray(_zip_bytes({'owner-repo-aaaaaaa/file.txt': b'CRC protected contents'}))
+    # Corrupt the expected CRC in the central directory, leaving a valid ZIP
+    # directory and deflate stream that header-only validation would accept.
+    central = body.index(b'PK\x01\x02')
+    body[central + 16] ^= 1
+    workspace = tmp_path / 'workspace'
+    workspace.mkdir()
+    (workspace / 'last-good.txt').write_text('LAST_GOOD')
+    with ArchiveServer(bytes(body)) as server:
+        result = _run_bootstrap(tmp_path, server, workspace=workspace)
+    assert result.returncode != 0
+    assert (workspace / 'last-good.txt').read_text() == 'LAST_GOOD'
+    assert server.archive_requests == 3
+
+
+def test_redirect_to_other_host_is_not_downloaded(tmp_path):
+    with ArchiveServer(b'unused', archive_host='untrusted.example') as server:
+        result = _run_bootstrap(tmp_path, server)
+    assert result.returncode != 0 and server.archive_requests == 0

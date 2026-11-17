@@ -1,0 +1,61 @@
+{
+  "input_sha": "32a8bfe1bfb9b2f9b018f400db8a03180334ac9d",
+  "dates": {
+    "2026-11-18": {
+      "preview_status": "PREVIEW",
+      "release_status": "PARTIAL_RELEASE",
+      "release_exit_code": 0,
+      "errors": [
+        "9C6569：中英文权威来源关键运行冲突：上海虹桥_core_record_20：['runway_requirement_conflict']；中文页545-551；英文页1361",
+        "9C8833X：扬州泰州缺少可靠英文核心运行资料",
+        "9C8833X英文版：ZSYZ Airport:缺少核心威胁内容"
+      ],
+      "source_copy_status": null,
+      "preview_preserves_formal_and_config": true,
+      "failed_release_preserves_last_good": null,
+      "all_selected_body_facts_present": true,
+      "required_bilingual_content_complete": true,
+      "incomplete_bilingual_release_prevented": true,
+      "rendered_template_checks_passed": true,
+      "protected_last_good_preserved": true,
+      "copy_ui_buttons_verified": 4,
+      "preview_copy_buttons_verified": 4,
+      "scheduler_status": "NO_ACTION",
+      "release_success_marker": true,
+      "groups": [
+        {
+          "flights": [
+            "9C6569"
+          ],
+          "foreign_crew": false,
+          "chinese_fact_count": 39,
+          "english_fact_count": 40,
+          "release_eligible": false,
+          "release_errors": [
+            "9C6569：中英文权威来源关键运行冲突：上海虹桥_core_record_20：['runway_requirement_conflict']；中文页545-551；英文页1361"
+          ],
+          "chinese_preview": "PREVIEW_group_01_zh.txt",
+          "english_preview": "PREVIEW_group_01_en.txt"
+        },
+        {
+          "flights": [
+            "9C8833X"
+          ],
+          "foreign_crew": false,
+          "chinese_fact_count": 44,
+          "english_fact_count": 14,
+          "release_eligible": false,
+          "release_errors": [
+            "9C8833X：扬州泰州缺少可靠英文核心运行资料",
+            "9C8833X英文版：ZSYZ Airport:缺少核心威胁内容"
+          ],
+          "chinese_preview": "PREVIEW_group_02_zh.txt",
+          "english_preview": "PREVIEW_group_02_en.txt"
+        }
+      ]
+    }
+  },
+  "manual": "AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+  "manual_sha256": "e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8",
+  "ics_sha256": "a57cc2a5be4a59b4e96f32e7f6196e622750885d00b8d790b6f1b691dd63cca0"
+}

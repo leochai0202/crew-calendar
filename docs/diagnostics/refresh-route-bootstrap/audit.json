@@ -1,0 +1,177 @@
+{
+  "input_sha": "32a8bfe1bfb9b2f9b018f400db8a03180334ac9d",
+  "manual_sha256": "e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8",
+  "groups": [
+    {
+      "flight_numbers": [
+        "9C6569"
+      ],
+      "airports": [
+        "上海虹桥",
+        "揭阳潮汕"
+      ],
+      "source_copy_files": {
+        "zh": "SOURCE_COPY_group_01_zh.txt",
+        "en": "SOURCE_COPY_group_01_en.txt"
+      },
+      "foreign_crew_detected": false
+    },
+    {
+      "flight_numbers": [
+        "9C8833X"
+      ],
+      "airports": [
+        "揭阳潮汕",
+        "扬州泰州"
+      ],
+      "source_copy_files": {
+        "zh": "SOURCE_COPY_group_02_zh.txt",
+        "en": "SOURCE_COPY_group_02_en.txt"
+      },
+      "foreign_crew_detected": false
+    }
+  ],
+  "excluded_routes": [
+    {
+      "airport": "扬州泰州",
+      "fact_id": "扬州泰州_core_record_30",
+      "source_file": "knowledge\\pdf\\AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+      "source_page": "621",
+      "source_heading": "扬州/泰州机场运行特点",
+      "source_section": "扬州/泰州机场运行特点／核心威胁与运行特点",
+      "clause": "航路：扬州-南昌、珠海可以申请直飞MADUK—P468或者 VEMEX-P468。",
+      "reason": "与当前航班/航线不匹配",
+      "discarded_reason": "与当前航班/航线不匹配",
+      "recognized_routes": [
+        [
+          "扬州泰州",
+          "南昌昌北"
+        ],
+        [
+          "扬州泰州",
+          "珠海金湾"
+        ]
+      ]
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "扬州泰州_core_record_31",
+      "source_file": "knowledge\\pdf\\AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+      "source_page": "621",
+      "source_heading": "扬州/泰州机场运行特点",
+      "source_section": "扬州/泰州机场运行特点／核心威胁与运行特点",
+      "clause": "航路：扬州南宁航路：在情报区通告中有关于V107临时 航路使用的提示。如果有活动，R343航路的LLC-GOSMA 航段受限。按照通告，扬州飞南宁有活动时使用浠水-W80-IDGAG-W581-VIBUB-V107-LLC;南宁飞扬州有活动时 使用LLC-V107-VIBUB-A581-WHA。建议根据通告在二计 划提前做好。",
+      "reason": "与当前航班/航线不匹配",
+      "discarded_reason": "与当前航班/航线不匹配",
+      "recognized_routes": [
+        [
+          "扬州泰州",
+          "南宁吴圩"
+        ],
+        [
+          "南宁吴圩",
+          "扬州泰州"
+        ]
+      ]
+    },
+    {
+      "airport": "扬州泰州",
+      "fact_id": "扬州泰州_core_record_48",
+      "source_file": "knowledge\\pdf\\AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+      "source_page": "623",
+      "source_heading": "扬州/泰州机场运行特点",
+      "source_section": "扬州/泰州机场运行特点／核心威胁与运行特点",
+      "clause": "运行特点：释压程序：：扬州到兰州涉及释压程序，详见EFB。",
+      "reason": "与当前航班/航线不匹配",
+      "discarded_reason": "与当前航班/航线不匹配",
+      "recognized_routes": [
+        [
+          "扬州泰州",
+          "兰州中川"
+        ]
+      ]
+    }
+  ],
+  "english_mixed_route_blocks": [
+    {
+      "airport": "揭阳潮汕",
+      "fact_id": "揭阳潮汕:en:c8090c4c2a8b5f80",
+      "source_file": "knowledge\\pdf\\AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+      "source_page": "1578-1579",
+      "source_heading": "JIEYANG CHAOSHAN / ZGOW",
+      "source_section": "English / core / departure",
+      "clause": "for the flight back to ZGOW, ATC may instruct the aircraft to flyfrom QO to XLN or TEBON, and then to DABER to join the arrival procedure. ",
+      "reason": "English source block explicitly applies to another arrival/departure airport",
+      "discarded_reason": "English source block explicitly applies to another arrival/departure airport",
+      "language": "en",
+      "original_text": "air or sea route ： For departures from DABER heading north: after passing DABER, ATC may instruct the aircraft to fly direct to TEBON or XLN, and then to QO to join the airway. for the flight back to ZGOW, ATC may instruct the aircraft to flyfrom QO to XLN or TEBON, and then to DABER to join the arrival procedure. For ZGOW-ZGKL flights:after takeoff and upon crossing airway X63, ATC may instruct the aircraft to fly direct to SHL, followed by VEROK. For ZSNJ (Nanjing) arrivals: ATC will instruct the aircraft to flyvia EMRID to airway V143 and then to OLRIS. After OLRIS, the aircraft will proceed to SNQ (Shiqiu) or receive radar vectors to join the appropriate approach procedure. The final waypoint listed on the clearance isGOSRO (via W135). Upon passing KAKIS (the entry point to the arrival corridor), control is handled by Hangzhou Approach; the handover to Nanjing Approach often occurs late, creating a risk of flying the wrong arrival or departure route. Itis recommended to confirm the arrival procedure in advance. 4. ZGHA-ZGOW Route: After passing BEMAG, follow ATC radar vectoring to aheading of 120°, then proceed direct to NUVGA to intercept Route H25 towards QU; for the approach, follow instructions to join the QU-9WA arrival route."
+    },
+    {
+      "airport": "揭阳潮汕",
+      "fact_id": "揭阳潮汕:en:c8090c4c2a8b5f80",
+      "source_file": "knowledge\\pdf\\AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+      "source_page": "1578-1579",
+      "source_heading": "JIEYANG CHAOSHAN / ZGOW",
+      "source_section": "English / core / departure",
+      "clause": "For ZGOW-ZGKL flights:after takeoff and upon crossing airway X63, ATC may instruct the aircraft to fly direct to SHL, followed by VEROK. ",
+      "reason": "English source block explicitly applies to a different route",
+      "discarded_reason": "English source block explicitly applies to a different route",
+      "language": "en",
+      "original_text": "air or sea route ： For departures from DABER heading north: after passing DABER, ATC may instruct the aircraft to fly direct to TEBON or XLN, and then to QO to join the airway. for the flight back to ZGOW, ATC may instruct the aircraft to flyfrom QO to XLN or TEBON, and then to DABER to join the arrival procedure. For ZGOW-ZGKL flights:after takeoff and upon crossing airway X63, ATC may instruct the aircraft to fly direct to SHL, followed by VEROK. For ZSNJ (Nanjing) arrivals: ATC will instruct the aircraft to flyvia EMRID to airway V143 and then to OLRIS. After OLRIS, the aircraft will proceed to SNQ (Shiqiu) or receive radar vectors to join the appropriate approach procedure. The final waypoint listed on the clearance isGOSRO (via W135). Upon passing KAKIS (the entry point to the arrival corridor), control is handled by Hangzhou Approach; the handover to Nanjing Approach often occurs late, creating a risk of flying the wrong arrival or departure route. Itis recommended to confirm the arrival procedure in advance. 4. ZGHA-ZGOW Route: After passing BEMAG, follow ATC radar vectoring to aheading of 120°, then proceed direct to NUVGA to intercept Route H25 towards QU; for the approach, follow instructions to join the QU-9WA arrival route."
+    },
+    {
+      "airport": "揭阳潮汕",
+      "fact_id": "揭阳潮汕:en:c8090c4c2a8b5f80",
+      "source_file": "knowledge\\pdf\\AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+      "source_page": "1578-1579",
+      "source_heading": "JIEYANG CHAOSHAN / ZGOW",
+      "source_section": "English / core / departure",
+      "clause": "For ZSNJ (Nanjing) arrivals: ATC will instruct the aircraft to flyvia EMRID to airway V143 and then to OLRIS. After OLRIS, the aircraft will proceed to SNQ (Shiqiu) or receive radar vectors to join the appropriate approach procedure. The final waypoint listed on the clearance isGOSRO (via W135). Upon passing KAKIS (the entry point to the arrival corridor), control is handled by Hangzhou Approach; the handover to Nanjing Approach often occurs late, creating a risk of flying the wrong arrival or departure route. Itis recommended to confirm the arrival procedure in advance. ",
+      "reason": "English source block explicitly applies to another arrival/departure airport",
+      "discarded_reason": "English source block explicitly applies to another arrival/departure airport",
+      "language": "en",
+      "original_text": "air or sea route ： For departures from DABER heading north: after passing DABER, ATC may instruct the aircraft to fly direct to TEBON or XLN, and then to QO to join the airway. for the flight back to ZGOW, ATC may instruct the aircraft to flyfrom QO to XLN or TEBON, and then to DABER to join the arrival procedure. For ZGOW-ZGKL flights:after takeoff and upon crossing airway X63, ATC may instruct the aircraft to fly direct to SHL, followed by VEROK. For ZSNJ (Nanjing) arrivals: ATC will instruct the aircraft to flyvia EMRID to airway V143 and then to OLRIS. After OLRIS, the aircraft will proceed to SNQ (Shiqiu) or receive radar vectors to join the appropriate approach procedure. The final waypoint listed on the clearance isGOSRO (via W135). Upon passing KAKIS (the entry point to the arrival corridor), control is handled by Hangzhou Approach; the handover to Nanjing Approach often occurs late, creating a risk of flying the wrong arrival or departure route. Itis recommended to confirm the arrival procedure in advance. 4. ZGHA-ZGOW Route: After passing BEMAG, follow ATC radar vectoring to aheading of 120°, then proceed direct to NUVGA to intercept Route H25 towards QU; for the approach, follow instructions to join the QU-9WA arrival route."
+    },
+    {
+      "airport": "揭阳潮汕",
+      "fact_id": "揭阳潮汕:en:c8090c4c2a8b5f80",
+      "source_file": "knowledge\\pdf\\AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf",
+      "source_page": "1578-1579",
+      "source_heading": "JIEYANG CHAOSHAN / ZGOW",
+      "source_section": "English / core / departure",
+      "clause": "4. ZGHA-ZGOW Route: After passing BEMAG, follow ATC radar vectoring to aheading of 120°, then proceed direct to NUVGA to intercept Route H25 towards QU; for the approach, follow instructions to join the QU-9WA arrival route.",
+      "reason": "English source block explicitly applies to a different route",
+      "discarded_reason": "English source block explicitly applies to a different route",
+      "language": "en",
+      "original_text": "air or sea route ： For departures from DABER heading north: after passing DABER, ATC may instruct the aircraft to fly direct to TEBON or XLN, and then to QO to join the airway. for the flight back to ZGOW, ATC may instruct the aircraft to flyfrom QO to XLN or TEBON, and then to DABER to join the arrival procedure. For ZGOW-ZGKL flights:after takeoff and upon crossing airway X63, ATC may instruct the aircraft to fly direct to SHL, followed by VEROK. For ZSNJ (Nanjing) arrivals: ATC will instruct the aircraft to flyvia EMRID to airway V143 and then to OLRIS. After OLRIS, the aircraft will proceed to SNQ (Shiqiu) or receive radar vectors to join the appropriate approach procedure. The final waypoint listed on the clearance isGOSRO (via W135). Upon passing KAKIS (the entry point to the arrival corridor), control is handled by Hangzhou Approach; the handover to Nanjing Approach often occurs late, creating a risk of flying the wrong arrival or departure route. Itis recommended to confirm the arrival procedure in advance. 4. ZGHA-ZGOW Route: After passing BEMAG, follow ATC radar vectoring to aheading of 120°, then proceed direct to NUVGA to intercept Route H25 towards QU; for the approach, follow instructions to join the QU-9WA arrival route."
+    }
+  ],
+  "english_inherited_control_measures_preserved_with_parent_scope": true,
+  "before_after": [
+    {
+      "phrase": "扬州南宁航路",
+      "old_body_present": true,
+      "new_body_present": false
+    },
+    {
+      "phrase": "扬州-南昌、珠海",
+      "old_body_present": true,
+      "new_body_present": false
+    },
+    {
+      "phrase": "扬州到兰州",
+      "old_body_present": true,
+      "new_body_present": false
+    }
+  ],
+  "historical_route_incident_preserved": true,
+  "refresh": {
+    "old_status": "PARTIAL_RELEASE",
+    "first": "generation_inputs_changed",
+    "repeated": "generation_already_attempted_for_current_inputs",
+    "ordinary_ics_refresh_dispatch": false,
+    "formal_text_unchanged": true,
+    "input_sha256": "89e848368be67bf769af483e6c086f5405e11458040396848e3082f978014a92",
+    "dispatch_mocked_only": true
+  }
+}

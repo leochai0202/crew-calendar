@@ -90,6 +90,7 @@ def _write_success_state(repo: Path) -> str:
         "task_fingerprint": fingerprint,
         "matched_flights": [event.to_dict() for event in events],
         "generated_at_beijing": "2026-10-01T22:00:00+08:00",
+        "generation_inputs": checker.generation_inputs(repo),
     }
     (repo / "flight_preparation" / f"{TARGET.isoformat()}_meta.json").write_text(
         json.dumps(state, ensure_ascii=False),
@@ -421,6 +422,7 @@ def test_legacy_latest_meta_fingerprint_is_compatible(tmp_path: Path) -> None:
                 "status": "SUCCESS",
                 "target_date": TARGET.isoformat(),
                 "matched_flights": [event.to_dict() for event in events],
+                "generation_inputs": checker.generation_inputs(repo),
             },
             ensure_ascii=False,
         ),
