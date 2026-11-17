@@ -129,5 +129,10 @@
       "english_generated": false,
       "errors": []
     }
-  ]
+  ],
+  "generation_attempt": {
+    "input_sha256": "5741b0f6aa52406f4ac7fbe36702328febc6d7f68060b0e34c80c27f897b9461",
+    "task_fingerprint": "8531098c9208d837b121f20418d042930c007eb10ba0340032f5db6113b9d6a8",
+    "dispatched_at_beijing": "2026-11-18T00:53:45.802203+08:00"
+  }
 }
