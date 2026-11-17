@@ -1,23 +1,47 @@
 {
   "status": "PARTIAL_RELEASE",
   "target_date": "2026-11-19",
-  "generated_at_beijing": "2026-11-17T12:45:26.297224+08:00",
+  "generated_at_beijing": "2026-11-18T00:54:55.896680+08:00",
+  "generation_inputs": {
+    "sha256": "5741b0f6aa52406f4ac7fbe36702328febc6d7f68060b0e34c80c27f897b9461",
+    "schema": 1,
+    "files": {
+      "crew_agents/flight_prep_agent.py": "5e2327147344b212c4f9720766840e2d437ec25199d6bdc437461975c495394d",
+      "crew_agents/flight_prep_fingerprint.py": "f7866717d93cd052454dc2eef7aee030385ccc90ad31405c225c57767870a3a1",
+      "crew_agents/flight_prep_inputs.py": "0288f1e98072c0698fe83504d1d8191fa5b01a198397dd1643f7db5d860d54db",
+      "crew_agents/flight_prep_preview.py": "971ea23fe2fb7e4ed3d46cec09856dd5721c7e98a5a20c86edec226bf29a9132",
+      "crew_agents/common.py": "69857409b5238e722d2790db0c7b3eca0bed000904a25c25c699849c068e58f6",
+      "crew_agents/ics_utils.py": "aebf7885179c02cd7159a5b253fee0a6e08bf407ec0ee9a94619d502093ff5da",
+      "requirements-agent.txt": "d44be29c1c157a20d48687bfc69cee679b572f607657f839e0d49b29fde31f2d",
+      "config/prep_settings.json": "ff653ba38ebf3b5ee4f6a6a4b8af2b3d0ffa740f7b0c763b97abc799f9829159",
+      "config/pilot_profile.json": "5df9aebd1cdf23b5742a72aa6693d34f30c5a305a75758b1388f7aecdb94135f",
+      "config/operational_focus.json": "b4313ec2e137b5f96aa7c9ecfc9a09f971a32c87b47e709ac8f27b935ae6bdc3",
+      "config/airport_english_names.json": "523d454abe34d4ba31cccc9cb8a22c2677fc3af4257471a21b1e41844d1c4b53",
+      "config/airport_iata.json": "ddbd68262429bf36b49cc02c332052f142247e7db715e3e0acfd0ca50eebd20e",
+      "config/airport_supplements.json": "7a6f9c2d091d104483d88e8e15a399b62e60921fe83b2737b54a1ede2fb0958a",
+      "config/user_confirmed_airport_facts.json": "1085507a0245badcc4bcc784a5600f41d5cea7cc38c7af08d9fba4caf638f8c7",
+      "config/flight_prep_english_overrides.json": "266489a7b5157fe02e72ee0053266051d4a1fe861ee0f1703ef712e4ebeb7c73",
+      "config/flight_prep_chinese_translations.json": "a545cd4137d97f5ae577dde7257ebbdeff90e229577b07b6fcc81e9db5b4e337",
+      "airport_aliases.json": "fe2dfbe5b9f51af44efd11faab75f99db939880de3f1835d6645f95a64cf655a",
+      "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf": "e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8"
+    }
+  },
   "task_fingerprint": "8531098c9208d837b121f20418d042930c007eb10ba0340032f5db6113b9d6a8",
   "matched_flights": [
     {
-      "uid": "0dd44db613581ad80a3e46ad76f46f72@crew-calendar",
+      "uid": "2a48ea30e1ed490a2bf070624b1a6bb6@crew-calendar",
       "summary": "✈️ 9C7603Y 扬州泰州→长春龙嘉",
       "start": "2026-11-19T15:00:00+08:00",
       "end": "2026-11-19T17:30:00+08:00",
-      "description": "11月19日 周四\n类型：航班\n航班：9C7603Y\n航线：扬州泰州 → 长春龙嘉\n地点：扬州泰州\n签到：13:20｜扬州泰州\n任务：15:00 - 17:30\n机型：A320｜注册号：B8646\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 庄福建(B)\n\n版本：2026-11-17 01:00",
+      "description": "11月19日 周四\n类型：航班\n航班：9C7603Y\n航线：扬州泰州 → 长春龙嘉\n地点：扬州泰州\n签到：13:20｜扬州泰州\n任务：15:00 - 17:30\n机型：A320｜注册号：B8647\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 庄福建(B)\n\n版本：2026-11-18 00:53",
       "location": "扬州泰州",
       "properties": {
-        "UID": "0dd44db613581ad80a3e46ad76f46f72@crew-calendar",
+        "UID": "2a48ea30e1ed490a2bf070624b1a6bb6@crew-calendar",
         "SUMMARY": "✈️ 9C7603Y 扬州泰州→长春龙嘉",
         "DTSTART": "20261119T150000",
         "DTEND": "20261119T173000",
-        "DESCRIPTION": "11月19日 周四\\n类型：航班\\n航班：9C7603Y\\n航线：扬州泰州 → 长春龙嘉\\n地点：扬州泰州\\n签到：13:20｜扬州泰州\\n任务：15:00 - 17:30\\n机型：A320｜注册号：B8646\\n\\n人员名单：\\n• 叶挺(R)\\n• 燕明君(R)\\n• 段洋硕\\n• 庄福建(B)\\n\\n版本：2026-11-17 01:00",
-        "X-CONTENT-SIGNATURE": "30c68953c098f7248f4f2f046c51b29b",
+        "DESCRIPTION": "11月19日 周四\\n类型：航班\\n航班：9C7603Y\\n航线：扬州泰州 → 长春龙嘉\\n地点：扬州泰州\\n签到：13:20｜扬州泰州\\n任务：15:00 - 17:30\\n机型：A320｜注册号：B8647\\n\\n人员名单：\\n• 叶挺(R)\\n• 燕明君(R)\\n• 段洋硕\\n• 庄福建(B)\\n\\n版本：2026-11-18 00:53",
+        "X-CONTENT-SIGNATURE": "b04e4cb109780aabdaebcaf3d265ca84",
         "LOCATION": "扬州泰州"
       },
       "source_file": "flight.ics",
@@ -25,7 +49,7 @@
       "departure": "扬州泰州",
       "arrival": "长春龙嘉",
       "aircraft_type": "A320",
-      "registration": "B8646",
+      "registration": "B8647",
       "checkin": "13:20｜扬州泰州",
       "people": [
         "叶挺(R)",
@@ -36,19 +60,19 @@
       "cross_day": false
     },
     {
-      "uid": "c7a1a6d7048abdc5da66ba3701b650f3@crew-calendar",
+      "uid": "c54d760f96176cd4056cf2f05a2e5a8d@crew-calendar",
       "summary": "✈️ 9C7604X 长春龙嘉→扬州泰州",
       "start": "2026-11-19T18:20:00+08:00",
       "end": "2026-11-19T21:00:00+08:00",
-      "description": "11月19日 周四\n类型：航班\n航班：9C7604X\n航线：长春龙嘉 → 扬州泰州\n地点：长春龙嘉\n签到：16:45｜长春龙嘉\n任务：18:20 - 21:00\n机型：A320｜注册号：B8646\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 庄福建(B)\n\n版本：2026-11-17 01:00",
+      "description": "11月19日 周四\n类型：航班\n航班：9C7604X\n航线：长春龙嘉 → 扬州泰州\n地点：长春龙嘉\n签到：16:45｜长春龙嘉\n任务：18:20 - 21:00\n机型：A320｜注册号：B8647\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 庄福建(B)\n\n版本：2026-11-18 00:53",
       "location": "长春龙嘉",
       "properties": {
-        "UID": "c7a1a6d7048abdc5da66ba3701b650f3@crew-calendar",
+        "UID": "c54d760f96176cd4056cf2f05a2e5a8d@crew-calendar",
         "SUMMARY": "✈️ 9C7604X 长春龙嘉→扬州泰州",
         "DTSTART": "20261119T182000",
         "DTEND": "20261119T210000",
-        "DESCRIPTION": "11月19日 周四\\n类型：航班\\n航班：9C7604X\\n航线：长春龙嘉 → 扬州泰州\\n地点：长春龙嘉\\n签到：16:45｜长春龙嘉\\n任务：18:20 - 21:00\\n机型：A320｜注册号：B8646\\n\\n人员名单：\\n• 叶挺(R)\\n• 燕明君(R)\\n• 段洋硕\\n• 庄福建(B)\\n\\n版本：2026-11-17 01:00",
-        "X-CONTENT-SIGNATURE": "2c2d01d5f1c1c10fde8f9460de35731d",
+        "DESCRIPTION": "11月19日 周四\\n类型：航班\\n航班：9C7604X\\n航线：长春龙嘉 → 扬州泰州\\n地点：长春龙嘉\\n签到：16:45｜长春龙嘉\\n任务：18:20 - 21:00\\n机型：A320｜注册号：B8647\\n\\n人员名单：\\n• 叶挺(R)\\n• 燕明君(R)\\n• 段洋硕\\n• 庄福建(B)\\n\\n版本：2026-11-18 00:53",
+        "X-CONTENT-SIGNATURE": "0b4109b949d85dfbb7bfaf868b49436b",
         "LOCATION": "长春龙嘉"
       },
       "source_file": "flight.ics",
@@ -56,7 +80,7 @@
       "departure": "长春龙嘉",
       "arrival": "扬州泰州",
       "aircraft_type": "A320",
-      "registration": "B8646",
+      "registration": "B8647",
       "checkin": "16:45｜长春龙嘉",
       "people": [
         "叶挺(R)",
@@ -67,19 +91,19 @@
       "cross_day": false
     },
     {
-      "uid": "5f25cf8b8fcfd3fe07a96deb369b1c88@crew-calendar",
+      "uid": "357404f4372018f284c96bea658a6d27@crew-calendar",
       "summary": "✈️ 9C7604Y 扬州泰州→揭阳潮汕",
       "start": "2026-11-19T21:45:00+08:00",
       "end": "2026-11-19T23:55:00+08:00",
-      "description": "11月19日 周四\n类型：航班\n航班：9C7604Y\n航线：扬州泰州 → 揭阳潮汕\n地点：扬州泰州\n签到：20:05｜扬州泰州\n任务：21:45 - 23:55\n机型：A320｜注册号：B8646\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 庄福建(B)\n\n版本：2026-11-17 01:00",
+      "description": "11月19日 周四\n类型：航班\n航班：9C7604Y\n航线：扬州泰州 → 揭阳潮汕\n地点：扬州泰州\n签到：20:05｜扬州泰州\n任务：21:45 - 23:55\n机型：A320｜注册号：B8647\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 庄福建(B)\n\n版本：2026-11-18 00:53",
       "location": "扬州泰州",
       "properties": {
-        "UID": "5f25cf8b8fcfd3fe07a96deb369b1c88@crew-calendar",
+        "UID": "357404f4372018f284c96bea658a6d27@crew-calendar",
         "SUMMARY": "✈️ 9C7604Y 扬州泰州→揭阳潮汕",
         "DTSTART": "20261119T214500",
         "DTEND": "20261119T235500",
-        "DESCRIPTION": "11月19日 周四\\n类型：航班\\n航班：9C7604Y\\n航线：扬州泰州 → 揭阳潮汕\\n地点：扬州泰州\\n签到：20:05｜扬州泰州\\n任务：21:45 - 23:55\\n机型：A320｜注册号：B8646\\n\\n人员名单：\\n• 叶挺(R)\\n• 燕明君(R)\\n• 段洋硕\\n• 庄福建(B)\\n\\n版本：2026-11-17 01:00",
-        "X-CONTENT-SIGNATURE": "94ff994503103f40771247e7be0e10ff",
+        "DESCRIPTION": "11月19日 周四\\n类型：航班\\n航班：9C7604Y\\n航线：扬州泰州 → 揭阳潮汕\\n地点：扬州泰州\\n签到：20:05｜扬州泰州\\n任务：21:45 - 23:55\\n机型：A320｜注册号：B8647\\n\\n人员名单：\\n• 叶挺(R)\\n• 燕明君(R)\\n• 段洋硕\\n• 庄福建(B)\\n\\n版本：2026-11-18 00:53",
+        "X-CONTENT-SIGNATURE": "8eacb565db108bf626e9c48e18659a75",
         "LOCATION": "扬州泰州"
       },
       "source_file": "flight.ics",
@@ -87,7 +111,7 @@
       "departure": "扬州泰州",
       "arrival": "揭阳潮汕",
       "aircraft_type": "A320",
-      "registration": "B8646",
+      "registration": "B8647",
       "checkin": "20:05｜扬州泰州",
       "people": [
         "叶挺(R)",

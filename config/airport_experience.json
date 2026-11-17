@@ -1,6 +1,6 @@
 {
   "rolling_days": 90,
-  "as_of": "2026-11-17",
+  "as_of": "2026-11-18",
   "airports": {
     "西安咸阳": {
       "last_operated": "2026-10-12",
@@ -132,7 +132,7 @@
       "last_operated": "2026-08-19",
       "source": "completed_schedule_event",
       "flight_number": "9C7022",
-      "within_90_days": true
+      "within_90_days": false
     },
     "兰州中川": {
       "last_operated": "2026-07-03",
