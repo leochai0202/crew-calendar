@@ -1,8 +1,112 @@
 {
+  "status": "SUCCESS",
   "target_date": "2026-11-20",
-  "generation_attempt": {
-    "input_sha256": "5741b0f6aa52406f4ac7fbe36702328febc6d7f68060b0e34c80c27f897b9461",
-    "task_fingerprint": "e5dc932dcf842e7df5433ba65bd5906cae95a877c9eb3af8016307cb53134bca",
-    "dispatched_at_beijing": "2026-11-18T11:55:16.170558+08:00"
-  }
+  "generated_at_beijing": "2026-11-18T11:56:08.518603+08:00",
+  "generation_inputs": {
+    "sha256": "5741b0f6aa52406f4ac7fbe36702328febc6d7f68060b0e34c80c27f897b9461",
+    "schema": 1,
+    "files": {
+      "crew_agents/flight_prep_agent.py": "5e2327147344b212c4f9720766840e2d437ec25199d6bdc437461975c495394d",
+      "crew_agents/flight_prep_fingerprint.py": "f7866717d93cd052454dc2eef7aee030385ccc90ad31405c225c57767870a3a1",
+      "crew_agents/flight_prep_inputs.py": "0288f1e98072c0698fe83504d1d8191fa5b01a198397dd1643f7db5d860d54db",
+      "crew_agents/flight_prep_preview.py": "971ea23fe2fb7e4ed3d46cec09856dd5721c7e98a5a20c86edec226bf29a9132",
+      "crew_agents/common.py": "69857409b5238e722d2790db0c7b3eca0bed000904a25c25c699849c068e58f6",
+      "crew_agents/ics_utils.py": "aebf7885179c02cd7159a5b253fee0a6e08bf407ec0ee9a94619d502093ff5da",
+      "requirements-agent.txt": "d44be29c1c157a20d48687bfc69cee679b572f607657f839e0d49b29fde31f2d",
+      "config/prep_settings.json": "ff653ba38ebf3b5ee4f6a6a4b8af2b3d0ffa740f7b0c763b97abc799f9829159",
+      "config/pilot_profile.json": "5df9aebd1cdf23b5742a72aa6693d34f30c5a305a75758b1388f7aecdb94135f",
+      "config/operational_focus.json": "b4313ec2e137b5f96aa7c9ecfc9a09f971a32c87b47e709ac8f27b935ae6bdc3",
+      "config/airport_english_names.json": "523d454abe34d4ba31cccc9cb8a22c2677fc3af4257471a21b1e41844d1c4b53",
+      "config/airport_iata.json": "ddbd68262429bf36b49cc02c332052f142247e7db715e3e0acfd0ca50eebd20e",
+      "config/airport_supplements.json": "7a6f9c2d091d104483d88e8e15a399b62e60921fe83b2737b54a1ede2fb0958a",
+      "config/user_confirmed_airport_facts.json": "1085507a0245badcc4bcc784a5600f41d5cea7cc38c7af08d9fba4caf638f8c7",
+      "config/flight_prep_english_overrides.json": "266489a7b5157fe02e72ee0053266051d4a1fe861ee0f1703ef712e4ebeb7c73",
+      "config/flight_prep_chinese_translations.json": "a545cd4137d97f5ae577dde7257ebbdeff90e229577b07b6fcc81e9db5b4e337",
+      "airport_aliases.json": "fe2dfbe5b9f51af44efd11faab75f99db939880de3f1835d6645f95a64cf655a",
+      "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf": "e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8"
+    }
+  },
+  "task_fingerprint": "e5dc932dcf842e7df5433ba65bd5906cae95a877c9eb3af8016307cb53134bca",
+  "matched_flights": [
+    {
+      "uid": "afd49b379a087e18718dc9ec53837879@crew-calendar",
+      "summary": "✈️ 9C6353 揭阳潮汕→杭州萧山",
+      "start": "2026-11-20T19:05:00+08:00",
+      "end": "2026-11-20T21:10:00+08:00",
+      "description": "11月20日 周五\n类型：航班\n航班：9C6353\n航线：揭阳潮汕 → 杭州萧山\n地点：揭阳潮汕\n签到：17:15｜揭阳潮汕\n任务：19:05 - 21:10\n机型：A320｜注册号：B8873\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 尤胜伟(B)\n\n版本：2026-11-18 05:55",
+      "location": "揭阳潮汕",
+      "properties": {
+        "UID": "afd49b379a087e18718dc9ec53837879@crew-calendar",
+        "SUMMARY": "✈️ 9C6353 揭阳潮汕→杭州萧山",
+        "DTSTART": "20261120T190500",
+        "DTEND": "20261120T211000",
+        "DESCRIPTION": "11月20日 周五\\n类型：航班\\n航班：9C6353\\n航线：揭阳潮汕 → 杭州萧山\\n地点：揭阳潮汕\\n签到：17:15｜揭阳潮汕\\n任务：19:05 - 21:10\\n机型：A320｜注册号：B8873\\n\\n人员名单：\\n• 叶挺(R)\\n• 燕明君(R)\\n• 段洋硕\\n• 尤胜伟(B)\\n\\n版本：2026-11-18 05:55",
+        "X-CONTENT-SIGNATURE": "19b2c91f87f750941f1cb2f250ffae0c",
+        "LOCATION": "揭阳潮汕"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C6353",
+      "departure": "揭阳潮汕",
+      "arrival": "杭州萧山",
+      "aircraft_type": "A320",
+      "registration": "B8873",
+      "checkin": "17:15｜揭阳潮汕",
+      "people": [
+        "叶挺(R)",
+        "燕明君(R)",
+        "段洋硕",
+        "尤胜伟(B)"
+      ],
+      "cross_day": false
+    },
+    {
+      "uid": "f478c728bc43e2a213d1fa64c52cceb8@crew-calendar",
+      "summary": "✈️ 9C6354 杭州萧山→揭阳潮汕(+1)",
+      "start": "2026-11-20T22:15:00+08:00",
+      "end": "2026-11-21T00:20:00+08:00",
+      "description": "11月20日 周五\n类型：航班\n航班：9C6354\n航线：杭州萧山 → 揭阳潮汕(+1)\n地点：杭州萧山\n签到：20:40｜杭州萧山\n任务：22:15 - 00:20\n机型：A320｜注册号：B8873\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 尤胜伟(B)\n\n版本：2026-11-18 05:55",
+      "location": "杭州萧山",
+      "properties": {
+        "UID": "f478c728bc43e2a213d1fa64c52cceb8@crew-calendar",
+        "SUMMARY": "✈️ 9C6354 杭州萧山→揭阳潮汕(+1)",
+        "DTSTART": "20261120T221500",
+        "DTEND": "20261121T002000",
+        "DESCRIPTION": "11月20日 周五\\n类型：航班\\n航班：9C6354\\n航线：杭州萧山 → 揭阳潮汕(+1)\\n地点：杭州萧山\\n签到：20:40｜杭州萧山\\n任务：22:15 - 00:20\\n机型：A320｜注册号：B8873\\n\\n人员名单：\\n• 叶挺(R)\\n• 燕明君(R)\\n• 段洋硕\\n• 尤胜伟(B)\\n\\n版本：2026-11-18 05:55",
+        "X-CONTENT-SIGNATURE": "6b8d75e9f89ee2a17b3f00dc31601180",
+        "LOCATION": "杭州萧山"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C6354",
+      "departure": "杭州萧山",
+      "arrival": "揭阳潮汕",
+      "aircraft_type": "A320",
+      "registration": "B8873",
+      "checkin": "20:40｜杭州萧山",
+      "people": [
+        "叶挺(R)",
+        "燕明君(R)",
+        "段洋硕",
+        "尤胜伟(B)"
+      ],
+      "cross_day": true
+    }
+  ],
+  "group_output": "2026-11-20_航前准备.txt",
+  "english_output": "",
+  "aggregate_current": true,
+  "prep_groups": [
+    {
+      "group_index": 1,
+      "flight_numbers": [
+        "9C6353",
+        "9C6354"
+      ],
+      "status": "SUCCESS",
+      "release_eligible": true,
+      "output": "2026-11-20_航前准备.txt",
+      "english_output": "",
+      "english_generated": false,
+      "errors": []
+    }
+  ]
 }
