@@ -157,6 +157,8 @@
   "generation_attempt": {
     "input_sha256": "5741b0f6aa52406f4ac7fbe36702328febc6d7f68060b0e34c80c27f897b9461",
     "task_fingerprint": "c8d7a5d6fcab2e7c971a8ed098d8abf2f4c91c51e5a0de357d060c8cab9243ac",
-    "dispatched_at_beijing": "2026-11-18T16:28:02.059685+08:00"
+    "dispatched_at_beijing": "2026-11-19T00:28:22.438378+08:00",
+    "attempt_count": 2,
+    "state": "AWAITING_PUBLICATION"
   }
 }
