@@ -27,6 +27,8 @@ from crew_agents.flight_prep_inputs import generation_inputs
 
 BEIJING = ZoneInfo("Asia/Shanghai")
 WORKFLOW_FILE = "flight-prep-free-v5-20260616.yml"
+PUBLICATION_GRACE = timedelta(hours=2)
+MAX_GENERATION_ATTEMPTS = 3
 
 
 @dataclass(frozen=True)
@@ -209,10 +211,28 @@ def evaluate_preparation(
     same_failed = (state.get("status") == "FAILED_SAFE"
                    and stored == inputs["sha256"]
                    and state.get("task_fingerprint") == result.task_fingerprint)
-    if (same_attempt and state.get("status") not in {"NO_TASK", "INVALIDATED_NO_TASK"}) or same_failed:
+    if same_failed:
         return replace(result, status="NO_ACTION", should_dispatch=False,
                        reason="generation_already_attempted_for_current_inputs",
                        generation_input_sha256=inputs["sha256"])
+    if same_attempt and state.get('status') not in {'NO_TASK', 'INVALIDATED_NO_TASK'}:
+        # A receipt proves dispatch, not publication. Successful current outputs
+        # settle normally; unconfirmed publication gets a bounded recovery lease.
+        published = stored == inputs['sha256'] and not result.should_dispatch
+        try:
+            sent = datetime.fromisoformat(attempted['dispatched_at_beijing'])
+            age = datetime.now(BEIJING) - sent
+        except (KeyError, ValueError, TypeError):
+            age = timedelta(0)  # malformed timestamps never authorize a flood
+        count = int(attempted.get('attempt_count', 1))
+        if not published and age >= PUBLICATION_GRACE and count < MAX_GENERATION_ATTEMPTS:
+            return replace(result, status='RECOVERY_DISPATCH', should_dispatch=True,
+                           reason='publication_unconfirmed_after_grace', generation_input_sha256=inputs['sha256'])
+        return replace(result, status='NO_ACTION' if published else
+                       ('RECOVERY_EXHAUSTED' if count >= MAX_GENERATION_ATTEMPTS else 'AWAITING_PUBLICATION'),
+                       should_dispatch=False, reason='generation_already_attempted_for_current_inputs' if published else
+                       ('publication_recovery_limit_reached' if count >= MAX_GENERATION_ATTEMPTS else 'publication_grace_period'),
+                       generation_input_sha256=inputs['sha256'])
     if state and stored != inputs["sha256"] and result.reason not in {
         "task_fingerprint_changed", "previous_status_not_success",
     }:
@@ -228,10 +248,15 @@ def record_dispatched_generation(repo: Path, target: date, result: CheckResult) 
     state, _ = _preparation_state(repo, target)
     state = dict(state)
     state.setdefault("target_date", target.isoformat())
+    previous = state.get('generation_attempt', {})
+    same = (previous.get('input_sha256') == result.generation_input_sha256 and
+            previous.get('task_fingerprint') == result.task_fingerprint)
     state["generation_attempt"] = {
         "input_sha256": result.generation_input_sha256,
         "task_fingerprint": result.task_fingerprint,
         "dispatched_at_beijing": datetime.now(BEIJING).isoformat(),
+        "attempt_count": int(previous.get('attempt_count', 1)) + 1 if same else 1,
+        "state": "AWAITING_PUBLICATION",
     }
     path = repo / "flight_preparation" / f"{target.isoformat()}_meta.json"
     atomic_write_json(path, state)
