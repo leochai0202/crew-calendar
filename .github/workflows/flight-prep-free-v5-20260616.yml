@@ -17,8 +17,9 @@ on:
           - '1'
           - '2'
 concurrency:
-  group: flight-preparation-free-v5
-  cancel-in-progress: true
+  group: crew-calendar
+  cancel-in-progress: false
+  queue: max
 
 permissions:
   contents: write
@@ -79,44 +80,4 @@ jobs:
         if: ${{ success() }}
         shell: bash
         run: |
-          set -euo pipefail
-
-          if [[ ! -f flight_preparation/.success ]]; then
-            echo "No successful preparation to commit"
-            exit 0
-          fi
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          # .success 只是本次运行标记，不提交到仓库。
-          rm -f flight_preparation/.success
-
-          # 只提交正式准备稿、元数据和机场经历更新。
-          git add flight_preparation/*.txt flight_preparation/*.json config/airport_experience.json || true
-
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-            exit 0
-          fi
-
-          TARGET_DATE=$(python -c "import json; from pathlib import Path; print(json.loads(Path('flight_preparation/latest_meta.json').read_text(encoding='utf-8')).get('target_date', 'unknown'))")
-          git commit -m "Generate free flight preparation for ${TARGET_DATE}"
-
-          # 清理未提交的运行临时文件，避免 git rebase 因工作区不干净而失败。
-          git reset --hard HEAD
-          git clean -fd -- flight_preparation agent_output
-
-          # 一般第一次即可成功；若恰好有其他 workflow 同时推送，则同步后重试。
-          for attempt in 1 2 3; do
-            if git push origin "HEAD:${GITHUB_REF_NAME}"; then
-              exit 0
-            fi
-
-            echo "Push attempt ${attempt} failed; rebasing onto latest origin/${GITHUB_REF_NAME}"
-            git fetch origin "${GITHUB_REF_NAME}"
-            git rebase "origin/${GITHUB_REF_NAME}"
-          done
-
-          echo "Push failed after 3 attempts"
-          exit 1
+          python scripts/publish_flight_preparation.py --repo . --target-date "${{ steps.target.outputs.target }}"
