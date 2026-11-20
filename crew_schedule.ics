@@ -3789,12 +3789,12 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:858478e6bd362cfd4f6856882fa075ab@crew-calendar
+UID:8b7d57474711ffe5510ffef4c8fe4f88@crew-calendar
 SUMMARY:✈️ 9C6570 揭阳潮汕→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20261121T193000
 DTEND;TZID=Asia/Shanghai:20261121T212500
-DESCRIPTION:11月21日 周六\n类型：航班\n航班：9C6570\n航线：揭阳潮汕 → 上海虹桥\n地点：揭阳潮汕\n签到：17:40｜揭阳潮汕\n任务：19:30 - 21:25\n机型：A320｜注册号：B6562\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 朱元杰(B)\n\n版本：2026-11-20 05:45
-X-CONTENT-SIGNATURE:3a29c90561fe6e1607567b198a148ee4
+DESCRIPTION:11月21日 周六\n类型：航班\n航班：9C6570\n航线：揭阳潮汕 → 上海虹桥\n地点：揭阳潮汕\n签到：17:40｜揭阳潮汕\n任务：19:30 - 21:25\n机型：A320｜注册号：B6863\n\n人员名单：\n• 叶挺(R)\n• 燕明君(R)\n• 段洋硕\n• 朱元杰(B)\n\n版本：2026-11-21 00:12
+X-CONTENT-SIGNATURE:75dcab8f2e0f610961c921531dfc094d
 LOCATION:揭阳潮汕
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -3807,8 +3807,8 @@ UID:25d202eb5efc8dec333cbaa35826d83c@crew-calendar
 SUMMARY:✈️ 9C8543 上海虹桥→广州白云
 DTSTART;TZID=Asia/Shanghai:20261124T083000
 DTEND;TZID=Asia/Shanghai:20261124T111000
-DESCRIPTION:11月24日 周二\n类型：航班\n航班：9C8543\n航线：上海虹桥 → 广州白云\n地点：上海虹桥\n签到：06:45｜上海虹桥\n任务：08:30 - 11:10\n机型：A320｜注册号：B6820\n\n人员名单：\n• 孙维谦(R)\n• 段洋硕\n• 李德书(R)\n• 张晓磊(B)\n• O'SULLIVAN MORGAN ANDREW\n• 何宇李\n• 双星\n• 彭雄岳\n• 徐愈强\n• 符乃文\n\n版本：2026-11-20 05:45
-X-CONTENT-SIGNATURE:fc2a9383d376f1a714bbf74d1e090a5b
+DESCRIPTION:11月24日 周二\n类型：航班\n航班：9C8543\n航线：上海虹桥 → 广州白云\n地点：上海虹桥\n签到：06:45｜上海虹桥\n任务：08:30 - 11:10\n机型：A320｜注册号：B6820\n\n人员名单：\n• 孙维谦(R)\n• 段洋硕\n• 李德书(R)\n• 张晓磊(B)\n• 余健\n• O'SULLIVAN MORGAN ANDREW\n• 何宇\n• 徐愈强\n• 符乃文\n\n版本：2026-11-21 00:12
+X-CONTENT-SIGNATURE:b6997f937921e6d52adfe32101afe9f5
 LOCATION:上海虹桥
 BEGIN:VALARM
 TRIGGER:-PT90M
@@ -3821,7 +3821,7 @@ UID:b6ebb69d4bcc737a68a9a02473cd2269@crew-calendar
 SUMMARY:✈️ 9C8544 广州白云→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20261124T121500
 DTEND;TZID=Asia/Shanghai:20261124T143000
-DESCRIPTION:11月24日 周二\n类型：航班\n航班：9C8544\n航线：广州白云 → 上海虹桥\n地点：广州白云\n签到：10:25｜广州白云\n任务：12:15 - 14:30\n机型：A320｜注册号：B6820\n\n人员名单：\n• 孙维谦(R)\n• 李德书(R)\n• 段洋硕\n• 张晓磊(B)\n• 洪伟\n\n版本：2026-11-20 05:45
+DESCRIPTION:11月24日 周二\n类型：航班\n航班：9C8544\n航线：广州白云 → 上海虹桥\n地点：广州白云\n签到：10:25｜广州白云\n任务：12:15 - 14:30\n机型：A320｜注册号：B6820\n\n人员名单：\n• 孙维谦(R)\n• 李德书(R)\n• 段洋硕\n• 张晓磊(B)\n• 洪伟\n\n版本：2026-11-21 00:12
 X-CONTENT-SIGNATURE:c7a41d31899a62a8952ffcd3ca34ad6f
 LOCATION:广州白云
 BEGIN:VALARM
@@ -3831,16 +3831,58 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:67161f3d6318c503129df4a6b1d1cbb8@crew-calendar
+UID:54f97a4befa891b74c1a8ceaabe69522@crew-calendar
 SUMMARY:✈️ 9C8823 上海虹桥→厦门高崎
 DTSTART;TZID=Asia/Shanghai:20261124T210000
 DTEND;TZID=Asia/Shanghai:20261124T225500
-DESCRIPTION:11月24日 周二\n类型：航班\n航班：9C8823\n航线：上海虹桥 → 厦门高崎\n地点：上海虹桥\n签到：19:15｜上海虹桥\n任务：21:00 - 22:55\n机型：A320｜注册号：B32RV\n\n人员名单：\n• 孙维谦(R)\n• 李德书(R)\n• 段洋硕\n• 邓小莹(B)\n\n版本：2026-11-20 05:45
-X-CONTENT-SIGNATURE:575a13792dc67f95bc2efc147d4f05d3
+DESCRIPTION:11月24日 周二\n类型：航班\n航班：9C8823\n航线：上海虹桥 → 厦门高崎\n地点：上海虹桥\n签到：19:15｜上海虹桥\n任务：21:00 - 22:55\n机型：A320｜注册号：B320M\n\n人员名单：\n• 孙维谦(R)\n• 李德书(R)\n• 段洋硕\n• 邓小莹(B)\n\n版本：2026-11-21 00:12
+X-CONTENT-SIGNATURE:eb216c1e9b8cf4d24ff62f476fc81d37
 LOCATION:上海虹桥
 BEGIN:VALARM
 TRIGGER:-PT90M
 DESCRIPTION:9C8823 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:22aa2e7fbb87d85e7e81c31f8c6364d2@crew-calendar
+SUMMARY:✈️ 9C8838 厦门高崎→上海虹桥
+DTSTART;TZID=Asia/Shanghai:20261125T152000
+DTEND;TZID=Asia/Shanghai:20261125T171500
+DESCRIPTION:11月25日 周三\n类型：航班\n航班：9C8838\n航线：厦门高崎 → 上海虹桥\n地点：厦门高崎\n签到：13:35｜厦门高崎\n任务：15:20 - 17:15\n机型：A320｜注册号：B8872\n\n人员名单：\n• 孙维谦(R)\n• 李德书(R)\n• 段洋硕\n\n版本：2026-11-21 00:12
+X-CONTENT-SIGNATURE:9260be7b40761a76c53f9d73b5e23772
+LOCATION:厦门高崎
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C8838 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:a15bcd739c29e571a691dffc10153987@crew-calendar
+SUMMARY:✈️ 9C8803 上海虹桥→厦门高崎
+DTSTART;TZID=Asia/Shanghai:20261125T184500
+DTEND;TZID=Asia/Shanghai:20261125T210000
+DESCRIPTION:11月25日 周三\n类型：航班\n航班：9C8803\n航线：上海虹桥 → 厦门高崎\n地点：上海虹桥\n签到：17:00｜上海虹桥\n任务：18:45 - 21:00\n机型：A320｜注册号：B8872\n\n人员名单：\n• 孙维谦(R)\n• 李德书(R)\n• 段洋硕\n• 王明力(B)\n\n版本：2026-11-21 00:12
+X-CONTENT-SIGNATURE:ec054299416c2ff87554d000a2010b7d
+LOCATION:上海虹桥
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C8803 签到提醒
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:bd20c343ff8cb356851d6c9f457160a1@crew-calendar
+SUMMARY:✈️ 9C8804 厦门高崎→上海虹桥
+DTSTART;TZID=Asia/Shanghai:20261125T220000
+DTEND;TZID=Asia/Shanghai:20261125T234000
+DESCRIPTION:11月25日 周三\n类型：航班\n航班：9C8804\n航线：厦门高崎 → 上海虹桥\n地点：厦门高崎\n签到：20:25｜厦门高崎\n任务：22:00 - 23:40\n机型：A320｜注册号：B8872\n\n人员名单：\n• 孙维谦(R)\n• 李德书(R)\n• 段洋硕\n• 王明力(B)\n• 梁梓涛\n• 赵子曦\n• 赵洋\n\n版本：2026-11-21 00:12
+X-CONTENT-SIGNATURE:fbb8a679eb15f0db8197eb8e9c9a0c01
+LOCATION:厦门高崎
+BEGIN:VALARM
+TRIGGER:-PT90M
+DESCRIPTION:9C8804 签到提醒
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
