@@ -3326,7 +3326,7 @@ UID:25d202eb5efc8dec333cbaa35826d83c@crew-calendar
 SUMMARY:✈️ 9C8543 上海虹桥→广州白云
 DTSTART;TZID=Asia/Shanghai:20261124T083000
 DTEND;TZID=Asia/Shanghai:20261124T111000
-DESCRIPTION:11月24日 周二\n类型：航班\n航班：9C8543\n航线：上海虹桥 → 广州白云\n地点：上海虹桥\n签到：06:45｜上海虹桥\n任务：08:30 - 11:10\n机型：A320｜注册号：B6820\n\n人员名单：\n• 孙维谦(R)\n• 段洋硕\n• 李德书(R)\n• 张晓磊(B)\n• 余健\n• O'SULLIVAN MORGAN ANDREW\n• 何宇\n• 徐愈强\n• 符乃文\n\n版本：2026-11-22 23:19
+DESCRIPTION:11月24日 周二\n类型：航班\n航班：9C8543\n航线：上海虹桥 → 广州白云\n地点：上海虹桥\n签到：06:45｜上海虹桥\n任务：08:30 - 11:10\n机型：A320｜注册号：B6820\n\n人员名单：\n• 孙维谦(R)\n• 段洋硕\n• 李德书(R)\n• 张晓磊(B)\n• 余健\n• O'SULLIVAN MORGAN ANDREW\n• 何宇\n• 徐愈强\n• 符乃文\n\n版本：2026-11-23 04:29
 X-CONTENT-SIGNATURE:b6997f937921e6d52adfe32101afe9f5
 LOCATION:上海虹桥
 BEGIN:VALARM
@@ -3340,7 +3340,7 @@ UID:b6ebb69d4bcc737a68a9a02473cd2269@crew-calendar
 SUMMARY:✈️ 9C8544 广州白云→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20261124T121500
 DTEND;TZID=Asia/Shanghai:20261124T143000
-DESCRIPTION:11月24日 周二\n类型：航班\n航班：9C8544\n航线：广州白云 → 上海虹桥\n地点：广州白云\n签到：10:25｜广州白云\n任务：12:15 - 14:30\n机型：A320｜注册号：B6820\n\n人员名单：\n• 孙维谦(R)\n• 李德书(R)\n• 段洋硕\n• 张晓磊(B)\n• 洪伟\n\n版本：2026-11-22 23:19
+DESCRIPTION:11月24日 周二\n类型：航班\n航班：9C8544\n航线：广州白云 → 上海虹桥\n地点：广州白云\n签到：10:25｜广州白云\n任务：12:15 - 14:30\n机型：A320｜注册号：B6820\n\n人员名单：\n• 孙维谦(R)\n• 李德书(R)\n• 段洋硕\n• 张晓磊(B)\n• 洪伟\n\n版本：2026-11-23 04:29
 X-CONTENT-SIGNATURE:c7a41d31899a62a8952ffcd3ca34ad6f
 LOCATION:广州白云
 BEGIN:VALARM
@@ -3354,7 +3354,7 @@ UID:8817b738427463660973a7f16ac60463@crew-calendar
 SUMMARY:✈️ 9C8823 上海虹桥→厦门高崎
 DTSTART;TZID=Asia/Shanghai:20261124T210000
 DTEND;TZID=Asia/Shanghai:20261124T225500
-DESCRIPTION:11月24日 周二\n类型：航班\n航班：9C8823\n航线：上海虹桥 → 厦门高崎\n地点：上海虹桥\n签到：19:15｜上海虹桥\n任务：21:00 - 22:55\n机型：A320｜注册号：B32SK\n\n人员名单：\n• 孙维谦(R)\n• 李德书(R)\n• 段洋硕\n• 邓小莹(B)\n\n版本：2026-11-22 23:19
+DESCRIPTION:11月24日 周二\n类型：航班\n航班：9C8823\n航线：上海虹桥 → 厦门高崎\n地点：上海虹桥\n签到：19:15｜上海虹桥\n任务：21:00 - 22:55\n机型：A320｜注册号：B32SK\n\n人员名单：\n• 孙维谦(R)\n• 李德书(R)\n• 段洋硕\n• 邓小莹(B)\n\n版本：2026-11-23 04:29
 X-CONTENT-SIGNATURE:e4b89411b93c321a807a61b337c858b5
 LOCATION:上海虹桥
 BEGIN:VALARM
@@ -3368,7 +3368,7 @@ UID:82a176ba7ada77b0ddfabe673b8fcc17@crew-calendar
 SUMMARY:✈️ 9C8838 厦门高崎→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20261125T152000
 DTEND;TZID=Asia/Shanghai:20261125T171500
-DESCRIPTION:11月25日 周三\n类型：航班\n航班：9C8838\n航线：厦门高崎 → 上海虹桥\n地点：厦门高崎\n签到：13:35｜厦门高崎\n任务：15:20 - 17:15\n机型：A320｜注册号：B8427\n\n人员名单：\n• 孙维谦(R)\n• 李德书(R)\n• 段洋硕\n• 黄亚林(B)\n\n版本：2026-11-22 23:19
+DESCRIPTION:11月25日 周三\n类型：航班\n航班：9C8838\n航线：厦门高崎 → 上海虹桥\n地点：厦门高崎\n签到：13:35｜厦门高崎\n任务：15:20 - 17:15\n机型：A320｜注册号：B8427\n\n人员名单：\n• 孙维谦(R)\n• 李德书(R)\n• 段洋硕\n• 黄亚林(B)\n\n版本：2026-11-23 04:29
 X-CONTENT-SIGNATURE:ac21656930f11c58ddc3a7b243fab94e
 LOCATION:厦门高崎
 BEGIN:VALARM
@@ -3382,7 +3382,7 @@ UID:8437e71f5ddb52b19546d95991b79303@crew-calendar
 SUMMARY:✈️ 9C8803 上海虹桥→厦门高崎
 DTSTART;TZID=Asia/Shanghai:20261125T184500
 DTEND;TZID=Asia/Shanghai:20261125T210000
-DESCRIPTION:11月25日 周三\n类型：航班\n航班：9C8803\n航线：上海虹桥 → 厦门高崎\n地点：上海虹桥\n签到：17:00｜上海虹桥\n任务：18:45 - 21:00\n机型：A320｜注册号：B8427\n\n人员名单：\n• 孙维谦(R)\n• 李德书(R)\n• 段洋硕\n• 王明力(B)\n\n版本：2026-11-22 23:19
+DESCRIPTION:11月25日 周三\n类型：航班\n航班：9C8803\n航线：上海虹桥 → 厦门高崎\n地点：上海虹桥\n签到：17:00｜上海虹桥\n任务：18:45 - 21:00\n机型：A320｜注册号：B8427\n\n人员名单：\n• 孙维谦(R)\n• 李德书(R)\n• 段洋硕\n• 王明力(B)\n\n版本：2026-11-23 04:29
 X-CONTENT-SIGNATURE:7a5b8bd71b2033a7b46506b53c550feb
 LOCATION:上海虹桥
 BEGIN:VALARM
@@ -3396,7 +3396,7 @@ UID:444b1455a20c9068de43a4c4e6cb265a@crew-calendar
 SUMMARY:✈️ 9C8804 厦门高崎→上海虹桥
 DTSTART;TZID=Asia/Shanghai:20261125T220000
 DTEND;TZID=Asia/Shanghai:20261125T234000
-DESCRIPTION:11月25日 周三\n类型：航班\n航班：9C8804\n航线：厦门高崎 → 上海虹桥\n地点：厦门高崎\n签到：20:25｜厦门高崎\n任务：22:00 - 23:40\n机型：A320｜注册号：B8427\n\n人员名单：\n• 孙维谦(R)\n• 李德书(R)\n• 段洋硕\n• 王明力(B)\n• 梁梓涛\n• 赵子曦\n• 赵洋\n\n版本：2026-11-22 23:19
+DESCRIPTION:11月25日 周三\n类型：航班\n航班：9C8804\n航线：厦门高崎 → 上海虹桥\n地点：厦门高崎\n签到：20:25｜厦门高崎\n任务：22:00 - 23:40\n机型：A320｜注册号：B8427\n\n人员名单：\n• 孙维谦(R)\n• 李德书(R)\n• 段洋硕\n• 王明力(B)\n• 梁梓涛\n• 赵子曦\n• 赵洋\n\n版本：2026-11-23 04:29
 X-CONTENT-SIGNATURE:4a9182f24d60e54dc9d1afe3d465e911
 LOCATION:厦门高崎
 BEGIN:VALARM
@@ -3410,7 +3410,7 @@ UID:c757843bc04f9c4cb701227e5b8989cf@crew-calendar
 SUMMARY:✈️ 9C6445 上海浦东→广元盘龙
 DTSTART;TZID=Asia/Shanghai:20261126T172500
 DTEND;TZID=Asia/Shanghai:20261126T204500
-DESCRIPTION:11月26日 周四\n类型：航班\n航班：9C6445\n航线：上海浦东 → 广元盘龙\n地点：上海浦东\n签到：15:35｜上海浦东\n任务：17:25 - 20:45\n机型：A320｜注册号：B32G3\n\n人员名单：\n• 黄正洋(T2\,R)\n• A(R)\n• 张凯\n• 段洋硕\n• 葛金康(B)\n\n版本：2026-11-22 23:19
+DESCRIPTION:11月26日 周四\n类型：航班\n航班：9C6445\n航线：上海浦东 → 广元盘龙\n地点：上海浦东\n签到：15:35｜上海浦东\n任务：17:25 - 20:45\n机型：A320｜注册号：B32G3\n\n人员名单：\n• 黄正洋(T2\,R)\n• A(R)\n• 张凯\n• 段洋硕\n• 葛金康(B)\n\n版本：2026-11-23 04:29
 X-CONTENT-SIGNATURE:77fcf10301403aeeefe8128f21526d8c
 LOCATION:上海浦东
 BEGIN:VALARM
@@ -3424,7 +3424,7 @@ UID:d40c9643cfa9deadb23288692c98e699@crew-calendar
 SUMMARY:✈️ 9C6446 广元盘龙→上海浦东
 DTSTART;TZID=Asia/Shanghai:20261126T213000
 DTEND;TZID=Asia/Shanghai:20261126T235500
-DESCRIPTION:11月26日 周四\n类型：航班\n航班：9C6446\n航线：广元盘龙 → 上海浦东\n地点：广元盘龙\n签到：19:55｜广元盘龙\n任务：21:30 - 23:55\n机型：A320｜注册号：B32G3\n\n人员名单：\n• 黄正洋(T2\,R)\n• A(R)\n• 张凯\n• 段洋硕\n• 葛金康(B)\n\n版本：2026-11-22 23:19
+DESCRIPTION:11月26日 周四\n类型：航班\n航班：9C6446\n航线：广元盘龙 → 上海浦东\n地点：广元盘龙\n签到：19:55｜广元盘龙\n任务：21:30 - 23:55\n机型：A320｜注册号：B32G3\n\n人员名单：\n• 黄正洋(T2\,R)\n• A(R)\n• 张凯\n• 段洋硕\n• 葛金康(B)\n\n版本：2026-11-23 04:29
 X-CONTENT-SIGNATURE:ee4e71155471e79ff4edae84ac98f17e
 LOCATION:广元盘龙
 BEGIN:VALARM
