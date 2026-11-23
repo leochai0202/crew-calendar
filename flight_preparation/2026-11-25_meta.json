@@ -1,10 +1,160 @@
 {
+  "status": "PARTIAL_RELEASE",
   "target_date": "2026-11-25",
-  "generation_attempt": {
-    "input_sha256": "5741b0f6aa52406f4ac7fbe36702328febc6d7f68060b0e34c80c27f897b9461",
-    "task_fingerprint": "b94f2af0eb07020ee7ba0d677b02d92b8b693038f268bf0a13e9839d00e26136",
-    "dispatched_at_beijing": "2026-11-23T11:04:30.554907+08:00",
-    "attempt_count": 1,
-    "state": "AWAITING_PUBLICATION"
-  }
+  "generated_at_beijing": "2026-11-23T11:05:50.268460+08:00",
+  "generation_inputs": {
+    "sha256": "5741b0f6aa52406f4ac7fbe36702328febc6d7f68060b0e34c80c27f897b9461",
+    "schema": 1,
+    "files": {
+      "crew_agents/flight_prep_agent.py": "5e2327147344b212c4f9720766840e2d437ec25199d6bdc437461975c495394d",
+      "crew_agents/flight_prep_fingerprint.py": "f7866717d93cd052454dc2eef7aee030385ccc90ad31405c225c57767870a3a1",
+      "crew_agents/flight_prep_inputs.py": "0288f1e98072c0698fe83504d1d8191fa5b01a198397dd1643f7db5d860d54db",
+      "crew_agents/flight_prep_preview.py": "971ea23fe2fb7e4ed3d46cec09856dd5721c7e98a5a20c86edec226bf29a9132",
+      "crew_agents/common.py": "69857409b5238e722d2790db0c7b3eca0bed000904a25c25c699849c068e58f6",
+      "crew_agents/ics_utils.py": "aebf7885179c02cd7159a5b253fee0a6e08bf407ec0ee9a94619d502093ff5da",
+      "requirements-agent.txt": "d44be29c1c157a20d48687bfc69cee679b572f607657f839e0d49b29fde31f2d",
+      "config/prep_settings.json": "ff653ba38ebf3b5ee4f6a6a4b8af2b3d0ffa740f7b0c763b97abc799f9829159",
+      "config/pilot_profile.json": "5df9aebd1cdf23b5742a72aa6693d34f30c5a305a75758b1388f7aecdb94135f",
+      "config/operational_focus.json": "b4313ec2e137b5f96aa7c9ecfc9a09f971a32c87b47e709ac8f27b935ae6bdc3",
+      "config/airport_english_names.json": "523d454abe34d4ba31cccc9cb8a22c2677fc3af4257471a21b1e41844d1c4b53",
+      "config/airport_iata.json": "ddbd68262429bf36b49cc02c332052f142247e7db715e3e0acfd0ca50eebd20e",
+      "config/airport_supplements.json": "7a6f9c2d091d104483d88e8e15a399b62e60921fe83b2737b54a1ede2fb0958a",
+      "config/user_confirmed_airport_facts.json": "1085507a0245badcc4bcc784a5600f41d5cea7cc38c7af08d9fba4caf638f8c7",
+      "config/flight_prep_english_overrides.json": "266489a7b5157fe02e72ee0053266051d4a1fe861ee0f1703ef712e4ebeb7c73",
+      "config/flight_prep_chinese_translations.json": "a545cd4137d97f5ae577dde7257ebbdeff90e229577b07b6fcc81e9db5b4e337",
+      "airport_aliases.json": "fe2dfbe5b9f51af44efd11faab75f99db939880de3f1835d6645f95a64cf655a",
+      "knowledge/pdf/AirDropManual-机场特点汇总(Airport Information)20261019-Manual.pdf": "e231f10d01fe6379c2d0bfcef821a731033ccfecb1f2797ea66bd67848317cc8"
+    }
+  },
+  "task_fingerprint": "b94f2af0eb07020ee7ba0d677b02d92b8b693038f268bf0a13e9839d00e26136",
+  "matched_flights": [
+    {
+      "uid": "82a176ba7ada77b0ddfabe673b8fcc17@crew-calendar",
+      "summary": "✈️ 9C8838 厦门高崎→上海虹桥",
+      "start": "2026-11-25T15:20:00+08:00",
+      "end": "2026-11-25T17:15:00+08:00",
+      "description": "11月25日 周三\n类型：航班\n航班：9C8838\n航线：厦门高崎 → 上海虹桥\n地点：厦门高崎\n签到：13:35｜厦门高崎\n任务：15:20 - 17:15\n机型：A320｜注册号：B8427\n\n人员名单：\n• 孙维谦(R)\n• 李德书(R)\n• 段洋硕\n• 黄亚林(B)\n\n版本：2026-11-23 04:29",
+      "location": "厦门高崎",
+      "properties": {
+        "UID": "82a176ba7ada77b0ddfabe673b8fcc17@crew-calendar",
+        "SUMMARY": "✈️ 9C8838 厦门高崎→上海虹桥",
+        "DTSTART": "20261125T152000",
+        "DTEND": "20261125T171500",
+        "DESCRIPTION": "11月25日 周三\\n类型：航班\\n航班：9C8838\\n航线：厦门高崎 → 上海虹桥\\n地点：厦门高崎\\n签到：13:35｜厦门高崎\\n任务：15:20 - 17:15\\n机型：A320｜注册号：B8427\\n\\n人员名单：\\n• 孙维谦(R)\\n• 李德书(R)\\n• 段洋硕\\n• 黄亚林(B)\\n\\n版本：2026-11-23 04:29",
+        "X-CONTENT-SIGNATURE": "ac21656930f11c58ddc3a7b243fab94e",
+        "LOCATION": "厦门高崎"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C8838",
+      "departure": "厦门高崎",
+      "arrival": "上海虹桥",
+      "aircraft_type": "A320",
+      "registration": "B8427",
+      "checkin": "13:35｜厦门高崎",
+      "people": [
+        "孙维谦(R)",
+        "李德书(R)",
+        "段洋硕",
+        "黄亚林(B)"
+      ],
+      "cross_day": false
+    },
+    {
+      "uid": "8437e71f5ddb52b19546d95991b79303@crew-calendar",
+      "summary": "✈️ 9C8803 上海虹桥→厦门高崎",
+      "start": "2026-11-25T18:45:00+08:00",
+      "end": "2026-11-25T21:00:00+08:00",
+      "description": "11月25日 周三\n类型：航班\n航班：9C8803\n航线：上海虹桥 → 厦门高崎\n地点：上海虹桥\n签到：17:00｜上海虹桥\n任务：18:45 - 21:00\n机型：A320｜注册号：B8427\n\n人员名单：\n• 孙维谦(R)\n• 李德书(R)\n• 段洋硕\n• 王明力(B)\n\n版本：2026-11-23 04:29",
+      "location": "上海虹桥",
+      "properties": {
+        "UID": "8437e71f5ddb52b19546d95991b79303@crew-calendar",
+        "SUMMARY": "✈️ 9C8803 上海虹桥→厦门高崎",
+        "DTSTART": "20261125T184500",
+        "DTEND": "20261125T210000",
+        "DESCRIPTION": "11月25日 周三\\n类型：航班\\n航班：9C8803\\n航线：上海虹桥 → 厦门高崎\\n地点：上海虹桥\\n签到：17:00｜上海虹桥\\n任务：18:45 - 21:00\\n机型：A320｜注册号：B8427\\n\\n人员名单：\\n• 孙维谦(R)\\n• 李德书(R)\\n• 段洋硕\\n• 王明力(B)\\n\\n版本：2026-11-23 04:29",
+        "X-CONTENT-SIGNATURE": "7a5b8bd71b2033a7b46506b53c550feb",
+        "LOCATION": "上海虹桥"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C8803",
+      "departure": "上海虹桥",
+      "arrival": "厦门高崎",
+      "aircraft_type": "A320",
+      "registration": "B8427",
+      "checkin": "17:00｜上海虹桥",
+      "people": [
+        "孙维谦(R)",
+        "李德书(R)",
+        "段洋硕",
+        "王明力(B)"
+      ],
+      "cross_day": false
+    },
+    {
+      "uid": "444b1455a20c9068de43a4c4e6cb265a@crew-calendar",
+      "summary": "✈️ 9C8804 厦门高崎→上海虹桥",
+      "start": "2026-11-25T22:00:00+08:00",
+      "end": "2026-11-25T23:40:00+08:00",
+      "description": "11月25日 周三\n类型：航班\n航班：9C8804\n航线：厦门高崎 → 上海虹桥\n地点：厦门高崎\n签到：20:25｜厦门高崎\n任务：22:00 - 23:40\n机型：A320｜注册号：B8427\n\n人员名单：\n• 孙维谦(R)\n• 李德书(R)\n• 段洋硕\n• 王明力(B)\n• 梁梓涛\n• 赵子曦\n• 赵洋\n\n版本：2026-11-23 04:29",
+      "location": "厦门高崎",
+      "properties": {
+        "UID": "444b1455a20c9068de43a4c4e6cb265a@crew-calendar",
+        "SUMMARY": "✈️ 9C8804 厦门高崎→上海虹桥",
+        "DTSTART": "20261125T220000",
+        "DTEND": "20261125T234000",
+        "DESCRIPTION": "11月25日 周三\\n类型：航班\\n航班：9C8804\\n航线：厦门高崎 → 上海虹桥\\n地点：厦门高崎\\n签到：20:25｜厦门高崎\\n任务：22:00 - 23:40\\n机型：A320｜注册号：B8427\\n\\n人员名单：\\n• 孙维谦(R)\\n• 李德书(R)\\n• 段洋硕\\n• 王明力(B)\\n• 梁梓涛\\n• 赵子曦\\n• 赵洋\\n\\n版本：2026-11-23 04:29",
+        "X-CONTENT-SIGNATURE": "4a9182f24d60e54dc9d1afe3d465e911",
+        "LOCATION": "厦门高崎"
+      },
+      "source_file": "flight.ics",
+      "flight_number": "9C8804",
+      "departure": "厦门高崎",
+      "arrival": "上海虹桥",
+      "aircraft_type": "A320",
+      "registration": "B8427",
+      "checkin": "20:25｜厦门高崎",
+      "people": [
+        "孙维谦(R)",
+        "李德书(R)",
+        "段洋硕",
+        "王明力(B)",
+        "梁梓涛",
+        "赵子曦",
+        "赵洋"
+      ],
+      "cross_day": false
+    }
+  ],
+  "group_output": "",
+  "english_output": "",
+  "aggregate_current": false,
+  "prep_groups": [
+    {
+      "group_index": 1,
+      "flight_numbers": [
+        "9C8838"
+      ],
+      "status": "SUCCESS",
+      "release_eligible": true,
+      "output": "2026-11-25_航前准备_01_9C8838.txt",
+      "english_output": "",
+      "english_generated": false,
+      "errors": []
+    },
+    {
+      "group_index": 2,
+      "flight_numbers": [
+        "9C8803",
+        "9C8804"
+      ],
+      "status": "FAILED_SAFE",
+      "release_eligible": false,
+      "output": "",
+      "english_output": "",
+      "english_generated": false,
+      "errors": [
+        "9C8803/9C8804：中英文权威来源关键运行冲突：上海虹桥_core_record_20：['runway_requirement_conflict']；中文页545-551；英文页1361"
+      ]
+    }
+  ]
 }
