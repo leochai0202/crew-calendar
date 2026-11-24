@@ -10,7 +10,11 @@ from tests.test_flight_prep_schedule import _repo_with_event, _write_success_sta
 def test_only_static_catalogue_is_excluded(text):
     assert agent.static_airport_catalogue_only(text)
 
-@pytest.mark.parametrize('text', ['机场标高：7358ft，地形复杂，起飞性能受限制。','PAPI信息：偏差较大，必须使用仪表监控。','跑道信息：入口内移，注意着陆距离限制。'])
+@pytest.mark.parametrize('text', ['机场标高：7358ft，地形复杂，起飞性能受限制。','PAPI信息：偏差较大，必须使用仪表监控。','跑道信息：入口内移，注意着陆距离限制。',
+    'Runway Information: Runway 08 is closed until December.',
+    'PAPI Information: unserviceable after sunset.',
+    '跑道信息：08/26，夜间关闭。',
+    'Runway Information: use the special clearance procedure.'])
 def test_compound_operating_requirement_is_not_deleted_by_keyword(text):
     assert not agent.static_airport_catalogue_only(text)
 

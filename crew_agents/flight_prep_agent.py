@@ -2781,8 +2781,17 @@ def static_airport_catalogue_only(text: str) -> bool:
     if re.search(r"注意|风险|地形|障碍|限制|性能|坡度|不得|禁止|必须|应|需要|影响|偏差|警告|"
                  r"\b(?:risk|terrain|obstacle|limit|performance|gradient|must|shall|should|avoid|caution|warning|require|displaced|reduced|prohibited)\b", value, re.I):
         return False
-    return bool(standalone_airport_elevation(value) or manual_basic_field(value) in {'papi', 'runways'} or
-                re.match(r"^(?:经纬度|机场坐标|坐标|ARP|(?:Airport\s+)?coordinates|Aerodrome reference point)\s*[:：]", value, re.I))
+    if standalone_airport_elevation(value):
+        return True
+    heading = re.match(r"^(?:跑道信息|Runway\s*(?:Information|data)|PAPI\s*(?:信息|Information|data)|经纬度|机场坐标|坐标|ARP|(?:Airport\s+)?coordinates|Aerodrome reference point)\s*[:：]",value,re.I)
+    if not heading or re.search(r'[<>≤≥]',value):return False
+    # Positive catalogue grammar, not 'no known danger keyword => delete'.
+    # Unknown prose (including unfamiliar restrictions) is always retained.
+    remaining=value[heading.end():]
+    remaining=re.sub(r'\d+(?:\.\d+)?',' ',remaining)
+    remaining=re.sub(r'\b(?:RWY|RUNWAYS?|MEHT|PAPI|ILS approaches are available|ILS|long|wide|is|m|ft|feet|metres?|meters?|degrees?|N|E|S|W|R|L|C|x)\b',' ',remaining,flags=re.I)
+    remaining=re.sub(r'距跑道入口|跑道入口|跑道|角度|下滑角|入口距离|长度|宽度|长|宽|米|英尺|度|海拔','',remaining)
+    return not re.search(r'[A-Za-z\u4e00-\u9fff]',remaining)
 
 
 def has_sourced_highland_classification(records: list[dict], airport: str = "") -> bool:
