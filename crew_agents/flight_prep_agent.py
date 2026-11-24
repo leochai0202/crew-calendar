@@ -13547,6 +13547,7 @@ def main() -> int:
             output_dir / f"{target.isoformat()}_meta.json",
             {
                 "status": result_status,
+                "source_copy_status": success_metadata["source_copy_status"],
                 "target_date": target.isoformat(),
                 "generated_at_beijing": generated_at_beijing,
                 "generation_inputs": current_generation_inputs,

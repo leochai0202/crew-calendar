@@ -1375,8 +1375,7 @@ def test_real_9c8552_exact_event_keeps_source_grounded_chinese_when_english_supp
     chinese = (preview / "PREVIEW_group_01_zh.txt").read_text(encoding="utf-8")
     chinese = re.sub(r"\n\n\[待核实 / UNVERIFIED: [^\n]+\]", "", chinese)
     preview_meta = json.loads((preview / "preview_meta.json").read_text(encoding="utf-8"))
-    meta = {**state["prep_groups"][0], "airport_information_version": int(preview_meta["manual_version"]),
-            "airport_information_type": "PDF"}
+    meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
 
     assert meta["flight_numbers"] == ["9C8552"]
     assert meta["matched_event_uids"]
@@ -1412,7 +1411,7 @@ def test_real_9c8552_exact_event_keeps_source_grounded_chinese_when_english_supp
     assert "FOLLOW GREEN" not in _paragraph(chinese, "上海浦东机场：")
     pudong_core = chinese.split("核心威胁：", 1)[1].split("上海浦东机场：", 1)[1]
     assert "TA/RA" in pudong_core
-    assert "17R/35L" in pudong_core
+    assert "PAPI信息：" not in pudong_core  # Static catalogue values are no longer required content.
     assert set(meta["airport_fact_sources"]) == {"新加坡樟宜", "上海浦东"}
     for airport, facts in meta["airport_fact_sources"].items():
         assert all(item["airport"] == airport for item in facts)

@@ -1821,8 +1821,7 @@ def test_real_august_four_final_confirmed_format(
     content = (preview / "PREVIEW_group_01_zh.txt").read_text(encoding="utf-8")
     content = re.sub(r"\n\n\[待核实 / UNVERIFIED: [^\n]+\]", "", content)
     preview_meta = json.loads((preview / "preview_meta.json").read_text(encoding="utf-8"))
-    meta = {**state["prep_groups"][0], "airport_information_version": int(preview_meta["manual_version"]),
-            "airport_information_type": "PDF"}
+    meta = json.loads((output / "latest_meta.json").read_text(encoding="utf-8"))
     assert content.startswith("我是来自飞行十五中队的副驾驶段洋硕")
     intro = content.split("\n\n", 1)[0]
     assert "本阶段经历时间93小时" in intro
