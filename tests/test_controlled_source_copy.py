@@ -108,6 +108,15 @@ def test_public_payload_rejects_any_private_extra_field():
         with pytest.raises(ValueError,match='UNSAFE'):safe_public_payload({**state,**extra})
 
 
+def test_missing_chinese_airport_cannot_be_hidden_by_other_airport_facts(tmp_path):
+    from test_flight_prep_source_copy_status import ready_group
+    from crew_agents.flight_prep_preview import write_preview
+    from scripts.deliver_flight_prep_copy import validate_copy
+    group,errors=ready_group();group['airports']=['AAAA','MISSING']
+    write_preview(tmp_path,'2026-11-26',[group],errors,'manual.pdf','test')
+    with pytest.raises(ValueError,match='INTEGRITY'):validate_copy(tmp_path)
+
+
 def test_failed_release_business_state_publishes_without_success_marker(tmp_path,monkeypatch):
     from scripts import publish_flight_preparation as publisher
     state=public_state({'target_date':'2026-11-26','status':'FAILED_SAFE','task_fingerprint':'a'*64,

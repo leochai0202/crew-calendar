@@ -18,6 +18,9 @@ def source_copy_errors(output: Path, groups: list[dict]) -> list[str]:
     known = {item.name for item in fields(agent.BilingualFact)}
     for group in groups:
         index = group["group_index"]
+        chinese_airports={fact.get('airport') for fact in group.get('source_copy_fact_sources',{}).get('zh',[])}
+        if any(airport not in chinese_airports for airport in group.get('airports',[])):
+            errors.append(f"group_{index}:zh:SOURCE_AIRPORT_UNAVAILABLE")
         for language in ("zh", "en"):
             body = str(group.get("_source_copy_" + language) or "")
             facts = group.get("source_copy_fact_sources", {}).get(language, [])
