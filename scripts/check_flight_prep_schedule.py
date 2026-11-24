@@ -290,6 +290,7 @@ def _evaluate_preparation(
         }
         if not already_invalid and (
             state.get("status") in {"SUCCESS", "PARTIAL_RELEASE"} or output.exists()
+            or (state.get('schema') == 2 and state.get('source_copy_status') == 'SOURCE_COPY_READY')
         ):
             state_files = _invalidate_no_task_preparation(
                 repo,

@@ -71,3 +71,43 @@ def test_validated_mail_preserves_copy_bytes_and_requires_tls_and_fixed_recipien
     assert 'synthetic-secret' not in messages[0].as_string()
     (tmp_path/'SOURCE_COPY_group_01_zh.txt').write_text('DAMAGED')
     with pytest.raises(ValueError,match='INTEGRITY'):validate_copy(tmp_path)
+
+
+def test_cancelled_failed_release_invalidates_delivered_copy_once(tmp_path):
+    from tests.test_flight_prep_schedule import _write_ics
+    repo=_repo_with_event(tmp_path);_write_success_state(repo)
+    path=repo/f'flight_preparation/{TARGET}_meta.json'
+    state=json.loads(path.read_text(encoding='utf-8'))
+    state.update(schema=2,status='FAILED_SAFE',source_copy_status='SOURCE_COPY_READY',controlled_delivery={'status':'SMTP_ACCEPTED'})
+    path.write_text(json.dumps(state))
+    (path.parent/f'{TARGET}_航前准备.txt').unlink()
+    _write_ics(repo/'flight.ics',[])
+    assert checker.evaluate_preparation(repo,TARGET).status=='INVALIDATED_NO_TASK'
+    assert not checker.evaluate_preparation(repo,TARGET).should_dispatch
+    saved=json.loads(path.read_text(encoding='utf-8'))
+    assert 'controlled_delivery' not in saved and saved['status']!='SUCCESS'
+
+
+def test_public_payload_rejects_any_private_extra_field():
+    from scripts.deliver_flight_prep_copy import safe_public_payload
+    state=public_state({'target_date':'2026-11-26','status':'FAILED_SAFE','task_fingerprint':'a'*64,
+        'generation_inputs':{'sha256':'b'*64}},'SOURCE_COPY_READY',{'status':'SMTP_ACCEPTED'})
+    assert safe_public_payload(state)==state
+    for extra in ({'private_body':'secret'},{'controlled_delivery':{'status':'SMTP_ACCEPTED','recipient':'secret'}}):
+        with pytest.raises(ValueError,match='UNSAFE'):safe_public_payload({**state,**extra})
+
+
+def test_failed_release_business_state_publishes_without_success_marker(tmp_path,monkeypatch):
+    from scripts import publish_flight_preparation as publisher
+    state=public_state({'target_date':'2026-11-26','status':'FAILED_SAFE','task_fingerprint':'a'*64,
+        'generation_inputs':{'sha256':'b'*64}},'SOURCE_COPY_READY',{'status':'SMTP_ACCEPTED'})
+    folder=tmp_path/'agent_output/flight_prep';folder.mkdir(parents=True)
+    (folder/'public_delivery_state.json').write_text(json.dumps(state))
+    monkeypatch.setattr('sys.argv',['publish','--repo',str(tmp_path),'--target-date','2026-11-26'])
+    import subprocess
+    monkeypatch.setattr(publisher,'git',lambda *args,**kwargs:subprocess.CompletedProcess([],0,b'a'*40,b''))
+    saved=[]
+    monkeypatch.setattr(publisher,'publish',lambda root,base,files,target:saved.append(files) or 'c'*40)
+    publisher.main()
+    assert list(saved[0])==['flight_preparation/2026-11-26_meta.json']
+    assert not (tmp_path/'flight_preparation/.success').exists()

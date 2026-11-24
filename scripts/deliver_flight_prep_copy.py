@@ -112,6 +112,8 @@ def safe_public_payload(state):
         raise ValueError('UNSAFE_PUBLIC_STATE')
     if 'content_sha256' in delivery and not re.fullmatch('[0-9a-f]{64}',delivery['content_sha256']):raise ValueError('UNSAFE_PUBLIC_STATE')
     if 'accepted_at' in delivery:datetime.fromisoformat(delivery['accepted_at'])
+    if 'recipient_read_confirmed' in delivery and type(delivery['recipient_read_confirmed']) is not bool:
+        raise ValueError('UNSAFE_PUBLIC_STATE')
     attempt=state.get('generation_attempt',{})
     if set(attempt)-{'input_sha256','task_fingerprint','attempt_count','dispatched_at_beijing','state'}:
         raise ValueError('UNSAFE_PUBLIC_STATE')
