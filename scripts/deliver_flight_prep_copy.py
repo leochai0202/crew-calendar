@@ -157,7 +157,9 @@ def safe_public_payload(state):
         if not re.fullmatch('[0-9a-f]{64}',digest):raise ValueError('UNSAFE_PUBLIC_STATE')
     if set(state['generation_inputs'])!={'sha256'}:raise ValueError('UNSAFE_PUBLIC_STATE')
     delivery=state['controlled_delivery']
-    if set(delivery)-{'status','content_sha256','input_identity','accepted_at','recipient_read_confirmed','archive_verified'} or delivery['status'] not in {'SMTP_ACCEPTED','ARCHIVE_VERIFIED','NOT_SENT','DELIVERY_UNCONFIRMED'}:
+    if set(delivery)-{'status','content_sha256','input_identity','accepted_at','recipient_read_confirmed','archive_verified','error_type'} or delivery['status'] not in {'SMTP_ACCEPTED','ARCHIVE_VERIFIED','NOT_SENT','DELIVERY_UNCONFIRMED'}:
+        raise ValueError('UNSAFE_PUBLIC_STATE')
+    if 'error_type' in delivery and delivery['error_type'] not in {'SMTPAuthenticationError','SMTPRecipientsRefused','SMTPDataError','SMTPConnectError','SMTPServerDisconnected','SMTPException','TimeoutError','OSError','ValueError','FileNotFoundError','UnicodeDecodeError','JSONDecodeError','OTHER'}:
         raise ValueError('UNSAFE_PUBLIC_STATE')
     if 'content_sha256' in delivery and not re.fullmatch('[0-9a-f]{64}',delivery['content_sha256']):raise ValueError('UNSAFE_PUBLIC_STATE')
     if 'input_identity' in delivery and not re.fullmatch('[0-9a-f]{64}',delivery['input_identity']):raise ValueError('UNSAFE_PUBLIC_STATE')
@@ -210,8 +212,10 @@ def main():
             delivery=send(folder,day,formal_root=root/'flight_preparation',identity=identity)
             delivery['archive_verified']=mail_copy_exists(day,delivery) is True
             if delivery['archive_verified']:delivery['status']='ARCHIVE_VERIFIED'
-    except Exception:
+    except Exception as error:
         delivery={'status':'DELIVERY_UNCONFIRMED'}  # no exception content/SMTP credentials
+        kind=type(error).__name__
+        delivery['error_type']=kind if kind in {'SMTPAuthenticationError','SMTPRecipientsRefused','SMTPDataError','SMTPConnectError','SMTPServerDisconnected','SMTPException','TimeoutError','OSError','ValueError','FileNotFoundError','UnicodeDecodeError','JSONDecodeError'} else 'OTHER'
         if source_status=='SOURCE_COPY_READY':
             delivery['content_sha256']=hashlib.sha256((folder/'copy.html').read_bytes()).hexdigest()
             delivery['input_identity']=identity
@@ -228,6 +232,12 @@ def main():
     print('SOURCE_COPY_STATUS='+source_status)
     print('RELEASE_STATUS='+str(meta['status']))
     print('CONTROLLED_DELIVERY='+delivery['status'])
+    summary=os.environ.get('GITHUB_STEP_SUMMARY')
+    if summary:
+        link=f'https://mail.google.com/mail/u/0/#search/rfc822msgid%3Acrew-copy-{day}-{identity}%40crew-calendar.invalid'
+        with Path(summary).open('a',encoding='utf-8') as stream:
+            stream.write(f'## {day} 航前原文\n\n原文：{source_status}；正式审核：{meta["status"]}；交付：{delivery["status"]}。\n\n'
+                         f'[登录授权邮箱查看原文及复制附件]({link})\n\n该入口需要邮箱登录，不是公开分享链接。SMTP 接收不代表已阅读；请核对 archive_verified。\n')
     # State publication must still run after failed extraction/delivery.
     return 0
 
