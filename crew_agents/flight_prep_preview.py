@@ -217,7 +217,8 @@ def write_copy_view(output: Path, target: str, groups: list[dict], released: set
             identity = f"g{index}-{language}"
             cards.append(f'<button type="button" data-copy="{identity}">复制 {kind} {language.upper()}</button>'
                          f'<textarea id="{identity}" readonly rows="18">{escape(body)}</textarea>')
-        cards.append('<details><summary>审核状态与来源 / Review</summary>'+''.join(warnings)+'</details>')
+        issues=''.join('<p>'+escape(str(item))+'</p>' for item in group.get('errors',[]))
+        cards.append('<details><summary>审核状态与来源 / Review</summary>'+''.join(warnings)+issues+'</details>')
     script = """document.querySelectorAll('button[data-copy]').forEach(button => {
 button.addEventListener('click', async () => {
  const field = document.getElementById(button.dataset.copy);
