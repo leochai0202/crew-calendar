@@ -98,6 +98,17 @@ def main():
     parser.add_argument('--target-date', required=True)
     args = parser.parse_args()
     root = args.repo
+    delivery = root / 'agent_output/flight_prep/public_delivery_state.json'
+    if delivery.is_file():
+        from scripts.deliver_flight_prep_copy import safe_public_payload
+        state = safe_public_payload(json.loads(delivery.read_text(encoding='utf-8')))
+        if state.get('schema') != 2 or state.get('target_date') != args.target_date:
+            raise RuntimeError('INVALID_DELIVERY_STATE')
+        name = f'flight_preparation/{args.target_date}_meta.json'
+        base = git(root, 'rev-parse', 'HEAD').stdout.decode().strip()
+        sha = publish(root, base, {name: delivery.read_bytes()}, args.target_date)
+        print('FLIGHT_PREP_STATE=PUBLISHED');print('FLIGHT_PREP_COMMIT_SHA='+sha)
+        return
     if not (root / 'flight_preparation/.success').is_file():
         print('FLIGHT_PREP_PUBLISH=NO_RELEASE'); return
     base = git(root, 'rev-parse', 'HEAD').stdout.decode().strip()

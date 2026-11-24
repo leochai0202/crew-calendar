@@ -33,10 +33,10 @@ def test_all_operating_fields_and_procedure_references_are_retained(language, in
     before = list(sources)
     log = []
     selected = choose(sources, log=log)
-    assert [item.fact_id for item in selected] == ["table", "limit", "pointer"]
-    assert (selected[1].en if language == "en" else selected[1].zh) == restriction
+    assert [item.fact_id for item in selected] == ["limit", "pointer"]
+    assert (selected[0].en if language == "en" else selected[0].zh) == restriction
     assert sources == before
-    assert log == []
+    assert len(log) == 1 and log[0]['reason'] == 'static_airport_catalogue_background_only'
 
 
 def test_distinct_controls_are_not_evicted_to_meet_a_paragraph_count():
@@ -54,7 +54,7 @@ def test_reference_with_a_condition_or_limit_is_not_an_empty_pointer():
 
 def test_unknown_runway_translation_cannot_hide_a_potential_source_conflict():
     source = fact("unbound", "跑道信息：08/26（3000m×45m）。")
-    assert choose([source]) == [source]
+    assert choose([source]) == []  # Pure runway catalogue data is now background-only.
 
 
 def test_papi_data_is_audited_not_rendered_but_other_runway_controls_remain():
@@ -63,13 +63,13 @@ def test_papi_data_is_audited_not_rendered_but_other_runway_controls_remain():
                fact("eosid", "单发离场程序：参阅EOSID图。")]
     log = []
     assert choose(sources, log=log) == sources[1:]
-    assert log[0]["reason"] == "papi_data_background_only"
+    assert log[0]["reason"] == "static_airport_catalogue_background_only"
     assert log[0]["original_text"] == sources[0].zh
     assert log[0]["source_page"] == "12"
     conflict = fact("dimensions", "跑道信息：08/26（3000m×45m）。")
     conflict = replace(conflict, text_en="Runway Information: 08/26 (3100m x 45m).", english_source_record_id="en-table")
     assert a.validate_cross_language_conflicts([conflict], [replace(conflict, language="en")])
-    assert choose([conflict]) == [conflict]
+    assert choose([conflict]) == []  # Excluded static data is not required in delivery.
 
 
 def test_literal_duplicate_keeps_provenance_but_shared_topic_never_drops_unique_condition():

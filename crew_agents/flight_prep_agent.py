@@ -2775,6 +2775,16 @@ def standalone_airport_elevation(text: str) -> bool:
     ))
 
 
+def static_airport_catalogue_only(text: str) -> bool:
+    """Exclude catalogue fields, never a limitation merely mentioning a field."""
+    value = normalize_text(text)
+    if re.search(r"注意|风险|地形|障碍|限制|性能|坡度|不得|禁止|必须|应|需要|影响|偏差|警告|"
+                 r"\b(?:risk|terrain|obstacle|limit|performance|gradient|must|shall|should|avoid|caution|warning|require|displaced|reduced|prohibited)\b", value, re.I):
+        return False
+    return bool(standalone_airport_elevation(value) or manual_basic_field(value) in {'papi', 'runways'} or
+                re.match(r"^(?:经纬度|机场坐标|坐标|ARP|(?:Airport\s+)?coordinates|Aerodrome reference point)\s*[:：]", value, re.I))
+
+
 def has_sourced_highland_classification(records: list[dict], airport: str = "") -> bool:
     """Use an explicit current-source classification, not an inferred height."""
     positive = False
@@ -10295,8 +10305,8 @@ def select_source_briefing_content(
         value = text(fact)
         reason = source_operational_value_issue(value)
         if not reason and category == "core":
-            if manual_basic_field(value) == "papi":
-                reason = "papi_data_background_only"
+            if static_airport_catalogue_only(value):
+                reason = "static_airport_catalogue_background_only"
         if not reason:
             duplicate = next((other for other in eligible if key(value) == key(text(other))), None)
             if duplicate:
@@ -13157,7 +13167,7 @@ def main() -> int:
             papi_review_facts = [
                 fact for airport in group_airports
                 for fact in source_record_facts(airport, airport_source_records.get(airport, []), category="core")
-                if manual_basic_field(fact.zh) == "papi"
+                if manual_basic_field(fact.zh) == "papi" and not static_airport_catalogue_only(fact.zh)
                 and fact_matches_airport_role(fact, airport_role(group_duty, airport))
             ]
             cross_language_errors = validate_cross_language_conflicts(

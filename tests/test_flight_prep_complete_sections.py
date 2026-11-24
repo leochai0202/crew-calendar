@@ -142,22 +142,20 @@ def test_season_retention_does_not_override_other_route_or_explicit_expiry():
     assert a.filter_fact_for_duty(expired, flight(), date(2026, 8, 1)) is None
 
 
-def test_ordinary_elevation_is_copied_but_papi_and_administration_are_not():
+def test_static_elevation_papi_and_administration_are_background_only():
     records = [chinese_record('机场标高：13ft。', 'zh:height'),
                chinese_record('PAPI信息：08：3°，MEHT20m。', 'zh:papi'),
                chinese_record('廊桥密码：1234。', 'zh:admin')]
     facts = a.source_record_facts('AAAA', records, category='core')
     exclusions = []
     output = a.select_source_briefing_content(facts, 'departure', category='core', exclusion_log=exclusions)
-    assert [f.fact_id for f in output] == ['zh:height']
-    assert a.chinese_fact_output(output[0]).rstrip('。') == '机场标高：13ft'
-    assert any(e['reason'] == 'papi_data_background_only' for e in exclusions)
+    assert output == []
+    assert sum(e['reason'] == 'static_airport_catalogue_background_only' for e in exclusions) == 2
     english = a.english_briefing_fact_sets(flight(), date(2026, 11, 15), {'AAAA': [
         record('Airport elevation: 13 ft.', identity='en:height'),
         record('PAPI Information: RWY 08: 3 degrees, MEHT20m.', identity='en:papi'),
         record('The jet bridge password is 1234.', identity='en:admin')], 'BBBB': []})[2]
-    assert [f.fact_id for f in english] == ['en:height']
-    assert a.english_paragraph_output(english[0]) == 'Airport elevation: 13 ft.'
+    assert english == []
 
 
 def test_retained_month_range_is_not_a_route_but_unknown_named_routes_still_block():

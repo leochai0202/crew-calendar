@@ -143,6 +143,8 @@ def _invalidated_metadata(
 ) -> dict:
     invalidated = dict(existing)
     invalidated.pop("generation_attempt", None)
+    invalidated.pop("controlled_delivery", None)
+    invalidated.pop("source_copy_status", None)
     previous_matched_flights = invalidated.get("matched_flights")
     previous_fingerprint = str(invalidated.get("task_fingerprint", "")).strip()
     invalidated.update(
@@ -208,7 +210,13 @@ def evaluate_preparation(
     same_attempt = (attempted.get("input_sha256") == inputs["sha256"]
                     and attempted.get("task_fingerprint") == result.task_fingerprint)
     stored = state.get("generation_inputs", {}).get("sha256", "")
+    if (stored == inputs['sha256'] and state.get('task_fingerprint') == result.task_fingerprint
+            and state.get('schema') == 2 and state.get('source_copy_status') == 'SOURCE_COPY_READY'
+            and state.get('controlled_delivery', {}).get('status') == 'SMTP_ACCEPTED'):
+        return replace(result,status='NO_ACTION',should_dispatch=False,
+                       reason='source_copy_delivered_for_current_inputs',generation_input_sha256=inputs['sha256'])
     same_failed = (state.get("status") == "FAILED_SAFE"
+                   and state.get('schema') != 2
                    and stored == inputs["sha256"]
                    and state.get("task_fingerprint") == result.task_fingerprint)
     if same_failed:
