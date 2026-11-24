@@ -6,7 +6,9 @@ from scripts.deliver_flight_prep_copy import public_state, send
 from scripts import check_flight_prep_schedule as checker
 from tests.test_flight_prep_schedule import _repo_with_event, _write_success_state, TARGET
 
-@pytest.mark.parametrize('text', ['机场标高：706ft。','跑道信息：06/24（3200m×45m）。','PAPI信息：3.0°。','机场坐标：N31 E121。'])
+@pytest.mark.parametrize('text', ['机场标高：706ft。','跑道信息：06/24（3200m×45m）。','PAPI信息：3.0°。','机场坐标：N31 E121。',
+    'PAPI信息：09：跑道左侧内移入口内 300米，3°，MEHT 20m。',
+    'PAPI Information: 09: located on the leftside of therunway, 300 m inside the displaced threshold, 3 degrees, MEHT 20m.'])
 def test_only_static_catalogue_is_excluded(text):
     assert agent.static_airport_catalogue_only(text)
 
