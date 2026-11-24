@@ -300,6 +300,9 @@ jobs:
         id: flight_prep_check
         if: ${{ steps.schedule_mode.outputs.run_scraper == 'false' }}
         env:
+          FLIGHT_PREP_PRIVATE_MAIL_APPROVED: ${{ vars.FLIGHT_PREP_PRIVATE_MAIL_APPROVED }}
+          GMAIL_SMTP_USER: ${{ secrets.GMAIL_SMTP_USER }}
+          GMAIL_SMTP_APP_PASSWORD: ${{ secrets.GMAIL_SMTP_APP_PASSWORD }}
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
@@ -320,6 +323,9 @@ jobs:
               steps.scraper.outputs.auth_status == 'AUTHENTICATED' &&
               steps.ics_publish.outcome == 'success' }}
         env:
+          FLIGHT_PREP_PRIVATE_MAIL_APPROVED: ${{ vars.FLIGHT_PREP_PRIVATE_MAIL_APPROVED }}
+          GMAIL_SMTP_USER: ${{ secrets.GMAIL_SMTP_USER }}
+          GMAIL_SMTP_APP_PASSWORD: ${{ secrets.GMAIL_SMTP_APP_PASSWORD }}
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
@@ -341,6 +347,9 @@ jobs:
               steps.scraper.outputs.auth_status == 'AUTHENTICATED' &&
               steps.ics_publish.outcome == 'success' }}
         env:
+          FLIGHT_PREP_PRIVATE_MAIL_APPROVED: ${{ vars.FLIGHT_PREP_PRIVATE_MAIL_APPROVED }}
+          GMAIL_SMTP_USER: ${{ secrets.GMAIL_SMTP_USER }}
+          GMAIL_SMTP_APP_PASSWORD: ${{ secrets.GMAIL_SMTP_APP_PASSWORD }}
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |

@@ -499,7 +499,7 @@ def test_real_august_twenty_eight_filters_pdf_structure_and_fragments(
 
 
 @pytest.mark.parametrize("target_date,source_conflict", [
-    ("2026-08-14", "papi_runway_value_association"),
+    ("2026-08-14", None),  # Excluded static PAPI data is no longer a release prerequisite.
     ("2026-08-18", None),
 ])
 @pytest.mark.skipif(not REAL_PDF.exists(), reason="仓库未包含机场手册PDF")

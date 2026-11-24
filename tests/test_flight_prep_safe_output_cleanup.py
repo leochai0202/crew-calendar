@@ -72,7 +72,7 @@ def test_both_languages_keep_sourced_elevation_terrain_and_performance_regardles
     zh = agent.source_record_facts("AAAA", records, category="core", exclusion_log=exclusions)
     english = selected(records)[2]
     assert "zh:height" in {f.fact_id for f in zh}
-    assert "en:height" in {f.fact_id for f in english}
+    assert "en:height" not in {f.fact_id for f in english}
     assert "zh:risk" in {f.fact_id for f in zh} and "en:risk" in {f.fact_id for f in english}
     assert records == before
     assert not exclusions

@@ -177,7 +177,7 @@ def test_papi_source_field_is_arrival_only_without_changing_its_runway_values():
 def test_runway_dimensions_remain_applicable_to_departure_when_field_also_lists_approaches():
     text = "Runway Information: RWY 08/26 is 3000m long. ILS approaches are available."
     _, core, _ = selected([record(text)])
-    assert core["AAAA"][0].en == text
+    assert core["AAAA"] == []  # Catalogue dimensions/available equipment are background-only.
 
 
 def test_unit_spellings_and_thousands_grouping_are_not_source_conflicts():

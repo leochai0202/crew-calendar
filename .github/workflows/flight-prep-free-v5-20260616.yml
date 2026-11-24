@@ -58,21 +58,24 @@ jobs:
 
       - name: Generate free rule-based flight preparation
         shell: bash
+        env:
+          FLIGHT_PREP_PRIVATE_MAIL_APPROVED: ${{ vars.FLIGHT_PREP_PRIVATE_MAIL_APPROVED }}
+          GMAIL_SMTP_USER: ${{ secrets.GMAIL_SMTP_USER }}
+          GMAIL_SMTP_APP_PASSWORD: ${{ secrets.GMAIL_SMTP_APP_PASSWORD }}
+          CREW_NOTIFY_EMAIL: ${{ secrets.CREW_NOTIFY_EMAIL }}
         run: |
           ARGS=(--repo . --days-ahead "${{ steps.target.outputs.days }}")
           if [[ -n "${{ steps.target.outputs.target }}" ]]; then
             ARGS+=(--target-date "${{ steps.target.outputs.target }}")
           fi
-          python crew_agents/flight_prep_agent.py "${ARGS[@]}"
+          python scripts/deliver_flight_prep_copy.py --target-date "${{ steps.target.outputs.target }}" --days-ahead "${{ steps.target.outputs.days }}"
 
       - name: Upload preparation artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: flight-preparation-free-v5-${{ github.run_number }}
-          path: |
-            flight_preparation/
-            agent_output/flight_prep/
+          path: agent_output/flight_prep/public_delivery_state.json
           if-no-files-found: warn
           retention-days: 30
 

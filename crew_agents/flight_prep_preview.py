@@ -18,6 +18,9 @@ def source_copy_errors(output: Path, groups: list[dict]) -> list[str]:
     known = {item.name for item in fields(agent.BilingualFact)}
     for group in groups:
         index = group["group_index"]
+        chinese_airports={fact.get('airport') for fact in group.get('source_copy_fact_sources',{}).get('zh',[])}
+        if any(airport not in chinese_airports for airport in group.get('airports',[])):
+            errors.append(f"group_{index}:zh:SOURCE_AIRPORT_UNAVAILABLE")
         for language in ("zh", "en"):
             body = str(group.get("_source_copy_" + language) or "")
             facts = group.get("source_copy_fact_sources", {}).get(language, [])
@@ -202,10 +205,11 @@ def write_copy_view(output: Path, target: str, groups: list[dict], released: set
         kind = "原文复制稿 / SOURCE COPY — NOT FOR RELEASE"
         cards.append(f"<h2>{escape('/'.join(group.get('flight_numbers', [])))} — {kind}</h2>")
         missing = group.get("source_copy_missing_english_airports", [])
+        warnings = []
         if missing:
-            cards.append('<p>NO RELIABLE ENGLISH CORE MATERIAL / 无可靠英文核心资料：'
+            warnings.append('<p>NO RELIABLE ENGLISH CORE MATERIAL / 无可靠英文核心资料：'
                          + escape(", ".join(missing)) + '。已有中文原文仍可复制；不补造英文。</p>')
-        cards.append('<p>原文按各语言独立提供，手册差异及错误尚待审核；复制稿不代表公司正式运行批准。'
+        warnings.append('<p>原文按各语言独立提供，手册差异及错误尚待审核；复制稿不代表公司正式运行批准。'
                      '来源、页码和阻断详情见 preview_meta.json 与 review.md。</p>')
         for language, key in (("zh", "_content"), ("en", "_english_content")):
             # Even a validated formal group may contain reviewed translations.
@@ -216,6 +220,8 @@ def write_copy_view(output: Path, target: str, groups: list[dict], released: set
             identity = f"g{index}-{language}"
             cards.append(f'<button type="button" data-copy="{identity}">复制 {kind} {language.upper()}</button>'
                          f'<textarea id="{identity}" readonly rows="18">{escape(body)}</textarea>')
+        issues=''.join('<p>'+escape(str(item))+'</p>' for item in group.get('errors',[]))
+        cards.append('<details><summary>审核状态与来源 / Review</summary>'+''.join(warnings)+issues+'</details>')
     script = """document.querySelectorAll('button[data-copy]').forEach(button => {
 button.addEventListener('click', async () => {
  const field = document.getElementById(button.dataset.copy);
@@ -225,7 +231,7 @@ button.addEventListener('click', async () => {
   document.getElementById('copy-status').textContent = '已复制 / Copied';
  } catch (_) { document.getElementById('copy-status').textContent = '复制失败，请在文本框内手动复制 / Select text and copy'; }
 }); });"""
-    atomic_write_text(output / "copy.html", '<!doctype html><html lang="zh-CN"><meta charset="utf-8">'
+    atomic_write_text(output / "copy.html", '<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
         f'<title>{escape(target)} 航前准备</title><style>body{{font:16px system-ui;max-width:1000px;margin:2rem auto;padding:1rem}}'
         'textarea{display:block;width:100%;margin:1rem 0;white-space:pre-wrap}button{padding:.6rem 1rem;margin-top:1rem}</style>'
         f'<h1>{escape(target)} 航前准备</h1><p>仅 RELEASE 可作正式稿。PREVIEW 含未核实资料，禁止作为正式运行资料。'

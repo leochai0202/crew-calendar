@@ -2775,6 +2775,33 @@ def standalone_airport_elevation(text: str) -> bool:
     ))
 
 
+def static_airport_catalogue_only(text: str) -> bool:
+    """Exclude catalogue fields, never a limitation merely mentioning a field."""
+    value = normalize_text(text)
+    value = re.sub(r'(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])','',value)
+    if manual_basic_field(value)=='papi':
+        # Equipment-location measurements are catalogue data, even where the
+        # reference is a displaced threshold. Do not generalise that to a
+        # runway displacement/landing-distance instruction elsewhere.
+        value=re.sub(r'跑\s*道(?:左|右)侧(?:内移)?入口(?:向内|内)\s*\d+(?:\.\d+)?\s*(?:米|m)', '', value,flags=re.I)
+        value=re.sub(r'located\s+on\s+the\s+(?:left|right)\s*side\s*of\s*the\s*runway\s*,\s*\d+(?:\.\d+)?\s*m\s+inside\s*the\s+displaced\s+threshold', '', value,flags=re.I)
+        value=re.sub(r'inside\s+(?:the\s+)?(?:displaced\s+)?runway\s+threshold\s+on\s+(?:the\s+)?(?:left|right)\s*side|glide\s*path\s+angle','',value,flags=re.I)
+    if re.search(r"注意|风险|地形|障碍|限制|性能|坡度|不得|禁止|必须|应|需要|影响|偏差|警告|"
+                 r"\b(?:risk|terrain|obstacle|limit|performance|gradient|must|shall|should|avoid|caution|warning|require|displaced|reduced|prohibited)\b", value, re.I):
+        return False
+    if standalone_airport_elevation(value):
+        return True
+    heading = re.match(r"^(?:跑道信息|Runway\s*(?:Information|data)|PAPI\s*(?:信息|Information|data)|经纬度|机场坐标|坐标|ARP|(?:Airport\s+)?coordinates|Aerodrome reference point)\s*[:：]",value,re.I)
+    if not heading or re.search(r'[<>≤≥]',value):return False
+    # Positive catalogue grammar, not 'no known danger keyword => delete'.
+    # Unknown prose (including unfamiliar restrictions) is always retained.
+    remaining=value[heading.end():]
+    remaining=re.sub(r'\d+(?:\.\d+)?',' ',remaining)
+    remaining=re.sub(r'\b(?:RWY|RUNWAYS?|MEHT|PAPI|ILS approaches are available|ILS|long|wide|is|m|ft|feet|metres?|meters?|degrees?|N|E|S|W|R|L|C|x)\b',' ',remaining,flags=re.I)
+    remaining=re.sub(r'距跑道入口|跑道入口|跑道|角度|下滑角|入口距离|长度|宽度|长|宽|米|英尺|度|海拔','',remaining)
+    return not re.search(r'[A-Za-z\u4e00-\u9fff]',remaining)
+
+
 def has_sourced_highland_classification(records: list[dict], airport: str = "") -> bool:
     """Use an explicit current-source classification, not an inferred height."""
     positive = False
@@ -10295,8 +10322,8 @@ def select_source_briefing_content(
         value = text(fact)
         reason = source_operational_value_issue(value)
         if not reason and category == "core":
-            if manual_basic_field(value) == "papi":
-                reason = "papi_data_background_only"
+            if static_airport_catalogue_only(value):
+                reason = "static_airport_catalogue_background_only"
         if not reason:
             duplicate = next((other for other in eligible if key(value) == key(text(other))), None)
             if duplicate:
@@ -13157,7 +13184,7 @@ def main() -> int:
             papi_review_facts = [
                 fact for airport in group_airports
                 for fact in source_record_facts(airport, airport_source_records.get(airport, []), category="core")
-                if manual_basic_field(fact.zh) == "papi"
+                if manual_basic_field(fact.zh) == "papi" and not static_airport_catalogue_only(fact.zh)
                 and fact_matches_airport_role(fact, airport_role(group_duty, airport))
             ]
             cross_language_errors = validate_cross_language_conflicts(
@@ -13345,7 +13372,7 @@ def main() -> int:
                         if not copy_en_core.get(airport)],
                 }
             )
-        from crew_agents.flight_prep_preview import write_preview
+        from crew_agents.flight_prep_preview import write_preview, source_copy_errors
         review_dir = repo / "agent_output" / "flight_prep" / "previews" / target.isoformat()
         write_preview(review_dir, target.isoformat(), rendered_groups, errors, manual_source, str(manual_ver))
         append_github_summary(f"## 审核预览入口\n\n下载本次 preparation artifact，打开 `agent_output/flight_prep/previews/{target.isoformat()}/copy.html`，可查看并一键复制中英文。PREVIEW 含未核实资料，不得作为正式运行资料；仅 RELEASE 是本次已验证正式稿。\n")
@@ -13486,6 +13513,7 @@ def main() -> int:
                 group["candidate_output"], group["candidate_english_output"] = group["output"], group["english_output"]
                 group["output"], group["english_output"] = "", ""
         success_metadata = {
+            "source_copy_status": "SOURCE_COPY_FAILED" if source_copy_errors(review_dir, all_rendered_groups) else "SOURCE_COPY_READY",
             "generation_inputs": current_generation_inputs,
             "status": result_status,
             "result_kind": "RELEASE",
@@ -13536,6 +13564,7 @@ def main() -> int:
             output_dir / f"{target.isoformat()}_meta.json",
             {
                 "status": result_status,
+                "source_copy_status": success_metadata["source_copy_status"],
                 "target_date": target.isoformat(),
                 "generated_at_beijing": generated_at_beijing,
                 "generation_inputs": current_generation_inputs,
