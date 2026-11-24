@@ -16,6 +16,7 @@ import subprocess
 import sys
 from datetime import date
 from html.parser import HTMLParser
+from html import escape
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from crew_agents.flight_prep_fingerprint import task_fingerprint_from_events
@@ -108,7 +109,14 @@ def send(folder, day, *, smtp=smtplib.SMTP_SSL, formal_root=None, cancelled=Fals
     msg.set_content('当前已无有效正式航班任务；此前该日期的航前复制稿已失效，请勿作为当前准备稿使用。' if cancelled else
         '原文按各语言独立提供，不代表正式运行批准。请在下方或附件查看完整正文；冲突审计见附件。\n\n'+
         '\n\n'.join(path.read_text(encoding='utf-8') for path in sorted(folder.glob('SOURCE_COPY_group_*_zh.txt'))))
-    if not cancelled:msg.add_alternative((folder/'copy.html').read_text(encoding='utf-8'),subtype='html')
+    if not cancelled:
+        # Mail clients strip scripts, buttons and form controls. The inline
+        # message must remain fully readable; the unchanged HTML attachment
+        # supplies browser copy buttons after authenticated download.
+        readable='<html><meta name="viewport" content="width=device-width,initial-scale=1"><body><p>手册原文复制稿，不代表正式运行批准。copy.html 附件提供浏览器复制按钮。</p>'
+        for path in sorted(folder.glob('SOURCE_COPY_group_*.txt')):
+            readable+='<section><h2>'+escape(path.stem)+'</h2><pre style="white-space:pre-wrap;font:16px system-ui">'+escape(path.read_text(encoding='utf-8'))+'</pre></section>'
+        msg.add_alternative(readable+'</body></html>',subtype='html')
     for path in ([] if cancelled else sorted(folder.iterdir())):
         if path.name in {'copy.html','preview_meta.json','review.md'} or path.name.startswith('SOURCE_COPY_group_'):
             msg.add_attachment(path.read_bytes(),maintype='application',subtype='octet-stream',filename=path.name)
