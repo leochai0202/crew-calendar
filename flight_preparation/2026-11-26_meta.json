@@ -1,10 +1,26 @@
 {
+  "schema": 2,
   "target_date": "2026-11-26",
+  "status": "FAILED_SAFE",
+  "release_status": "FAILED_SAFE",
+  "task_fingerprint": "794a6f2f853cce28b1cf1f7a07d54834e9988663348e35b6a48e76c28ab3fadd",
+  "generation_inputs": {
+    "sha256": "2b2a1deedb14e9ebc0055ad01b19e29e1f1c5d09db739e2574cffa255a2fc596"
+  },
+  "source_copy_status": "SOURCE_COPY_READY",
+  "controlled_delivery": {
+    "status": "ARCHIVE_VERIFIED",
+    "content_sha256": "05020097b83b8a5a7d548d23a088509e842331df9fbab8615b468643947d5b50",
+    "input_identity": "7a140b82adb8cae2f74e400c47a0b30d66a19344bc09cd3c1d2495820dc7bbfd",
+    "accepted_at": "2026-11-24T12:49:05.683387+00:00",
+    "recipient_read_confirmed": false,
+    "archive_verified": true
+  },
   "generation_attempt": {
-    "input_sha256": "5741b0f6aa52406f4ac7fbe36702328febc6d7f68060b0e34c80c27f897b9461",
+    "input_sha256": "2b2a1deedb14e9ebc0055ad01b19e29e1f1c5d09db739e2574cffa255a2fc596",
     "task_fingerprint": "794a6f2f853cce28b1cf1f7a07d54834e9988663348e35b6a48e76c28ab3fadd",
-    "dispatched_at_beijing": "2026-11-24T14:20:18.686058+08:00",
     "attempt_count": 1,
-    "state": "AWAITING_PUBLICATION"
+    "dispatched_at_beijing": "2026-11-24T12:49:10.834876+00:00",
+    "state": "DELIVERED"
   }
 }
