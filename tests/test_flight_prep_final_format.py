@@ -1809,14 +1809,14 @@ def test_real_august_four_final_confirmed_format(
     monkeypatch.delenv("GITHUB_STEP_SUMMARY", raising=False)
     agent.extract_pdf_text.cache_clear()
 
-    # Copy readiness must not authorize release of the known PAPI conflict.
+    # Pure PAPI catalogue data no longer participates in release eligibility.
     assert agent.main() == 0
 
     output = repo / "flight_preparation"
     state = json.loads((output / "2026-08-04_meta.json").read_text(encoding="utf-8"))
     assert state["source_copy_status"] == "SOURCE_COPY_READY"
-    assert state["status"] == "FAILED_SAFE" and any("papi_runway_value_association" in x for x in state["errors"])
-    assert not (output / ".success").exists() and not (output / "latest.txt").exists()
+    assert state["status"] == "SUCCESS"
+    assert (output / ".success").exists() and (output / "latest.txt").exists()
     preview = repo / "agent_output/flight_prep/previews/2026-08-04"
     content = (preview / "PREVIEW_group_01_zh.txt").read_text(encoding="utf-8")
     content = re.sub(r"\n\n\[待核实 / UNVERIFIED: [^\n]+\]", "", content)

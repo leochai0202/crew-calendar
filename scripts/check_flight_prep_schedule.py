@@ -212,9 +212,19 @@ def evaluate_preparation(
     stored = state.get("generation_inputs", {}).get("sha256", "")
     if (stored == inputs['sha256'] and state.get('task_fingerprint') == result.task_fingerprint
             and state.get('schema') == 2 and state.get('source_copy_status') == 'SOURCE_COPY_READY'
-            and state.get('controlled_delivery', {}).get('status') == 'SMTP_ACCEPTED'):
-        return replace(result,status='NO_ACTION',should_dispatch=False,
-                       reason='source_copy_delivered_for_current_inputs',generation_input_sha256=inputs['sha256'])
+            and state.get('controlled_delivery', {}).get('status') in {'SMTP_ACCEPTED','ARCHIVE_VERIFIED','DELIVERY_UNCONFIRMED'}):
+        from scripts.deliver_flight_prep_copy import mail_copy_exists
+        available=mail_copy_exists(target.isoformat(),state['controlled_delivery'])
+        if available is not False:
+            files=()
+            if available and (not state['controlled_delivery'].get('archive_verified') or state['controlled_delivery']['status']!='ARCHIVE_VERIFIED'):
+                state['controlled_delivery'].update(status='ARCHIVE_VERIFIED',archive_verified=True)
+                if state.get('generation_attempt'):state['generation_attempt']['state']='DELIVERED'
+                path=repo/'flight_preparation'/f'{target.isoformat()}_meta.json'
+                atomic_write_json(path,state)
+                files=(path.relative_to(repo).as_posix(),)
+            return replace(result,status='NO_ACTION' if available else 'DELIVERY_CHECK_UNAVAILABLE',should_dispatch=False,
+                           reason='source_copy_delivered_for_current_inputs' if available else 'controlled_delivery_cannot_be_verified',generation_input_sha256=inputs['sha256'],state_changed=bool(files),state_files=files)
     same_failed = (state.get("status") == "FAILED_SAFE"
                    and state.get('schema') != 2
                    and stored == inputs["sha256"]
@@ -226,7 +236,7 @@ def evaluate_preparation(
     if same_attempt and state.get('status') not in {'NO_TASK', 'INVALIDATED_NO_TASK'}:
         # A receipt proves dispatch, not publication. Successful current outputs
         # settle normally; unconfirmed publication gets a bounded recovery lease.
-        published = stored == inputs['sha256'] and not result.should_dispatch
+        published = state.get('schema') != 2 and stored == inputs['sha256'] and not result.should_dispatch
         try:
             sent = datetime.fromisoformat(attempted['dispatched_at_beijing'])
             age = datetime.now(BEIJING) - sent

@@ -22,7 +22,8 @@ def test_public_state_has_no_private_source_or_personal_values():
     assert 'PRIVATE' not in json.dumps(state)
     assert state['status']=='FAILED_SAFE' and state['source_copy_status']=='SOURCE_COPY_READY'
 
-def test_delivered_copy_suppresses_regeneration_without_releasing_failed_group(tmp_path):
+def test_delivered_copy_suppresses_regeneration_without_releasing_failed_group(tmp_path,monkeypatch):
+    monkeypatch.setattr('scripts.deliver_flight_prep_copy.mail_copy_exists',lambda *args:True)
     repo=_repo_with_event(tmp_path);_write_success_state(repo)
     path=repo/f'flight_preparation/{TARGET}_meta.json'
     state=json.loads(path.read_text(encoding='utf-8'))
@@ -113,3 +114,44 @@ def test_failed_release_business_state_publishes_without_success_marker(tmp_path
     publisher.main()
     assert list(saved[0])==['flight_preparation/2026-11-26_meta.json']
     assert not (tmp_path/'flight_preparation/.success').exists()
+
+
+@pytest.mark.parametrize('present,damaged,expected',[(True,False,True),(True,True,False),(False,False,False)])
+def test_archive_readback_only_fetches_exact_delivery_without_marking_read(monkeypatch,present,damaged,expected):
+    from scripts.deliver_flight_prep_copy import mail_copy_exists
+    from email.message import EmailMessage
+    import hashlib
+    for key,value in {'FLIGHT_PREP_PRIVATE_MAIL_APPROVED':'true','GMAIL_SMTP_USER':'sender@example.invalid','GMAIL_SMTP_APP_PASSWORD':'test'}.items():
+        monkeypatch.setenv(key,value)
+    content=b'<html>source copy</html>';digest=hashlib.sha256(content).hexdigest()
+    message=EmailMessage();message['Message-ID']=f'<crew-copy-2026-11-26-{digest}@crew-calendar.invalid>'
+    message.set_content('private')
+    message.add_attachment(b'corrupt' if damaged else content,maintype='application',subtype='octet-stream',filename='copy.html')
+    class IMAP:
+        def __init__(self,host,port,**kwargs):assert host=='imap.gmail.com' and port==993 and kwargs['ssl_context'].check_hostname
+        def login(self,*args):pass
+        def list(self):return 'OK',[b'(\\HasNoChildren \\Sent) "/" "[Gmail]/Sent Mail"']
+        def select(self,folder,readonly):assert readonly;return 'OK',[b'1']
+        def uid(self,command,*args):
+            if command=='search':
+                assert args== (None,'HEADER','Message-ID','"'+str(message['Message-ID'])+'"')
+                return 'OK',[b'42' if present else b'']
+            assert command=='fetch' and args==(b'42','(BODY.PEEK[])')
+            return 'OK',[(b'42',message.as_bytes())]
+        def logout(self):pass
+    assert mail_copy_exists('2026-11-26',{'content_sha256':digest},imap_factory=IMAP) is expected
+
+
+def test_missing_archive_recovery_is_bounded_even_with_old_formal_body(tmp_path,monkeypatch):
+    from datetime import datetime,timedelta
+    monkeypatch.setattr('scripts.deliver_flight_prep_copy.mail_copy_exists',lambda *args:False)
+    repo=_repo_with_event(tmp_path);_write_success_state(repo)
+    path=repo/f'flight_preparation/{TARGET}_meta.json';state=json.loads(path.read_text(encoding='utf-8'))
+    state.update(schema=2,source_copy_status='SOURCE_COPY_READY',controlled_delivery={'status':'SMTP_ACCEPTED'})
+    state['generation_attempt']={'input_sha256':state['generation_inputs']['sha256'],
+       'task_fingerprint':state['task_fingerprint'],'attempt_count':1,
+       'dispatched_at_beijing':(datetime.now(checker.BEIJING)-timedelta(hours=3)).isoformat()}
+    path.write_text(json.dumps(state))
+    assert checker.evaluate_preparation(repo,TARGET).should_dispatch
+    state['generation_attempt']['attempt_count']=3;path.write_text(json.dumps(state))
+    assert checker.evaluate_preparation(repo,TARGET).status=='RECOVERY_EXHAUSTED'

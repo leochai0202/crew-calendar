@@ -13355,7 +13355,7 @@ def main() -> int:
                         if not copy_en_core.get(airport)],
                 }
             )
-        from crew_agents.flight_prep_preview import write_preview
+        from crew_agents.flight_prep_preview import write_preview, source_copy_errors
         review_dir = repo / "agent_output" / "flight_prep" / "previews" / target.isoformat()
         write_preview(review_dir, target.isoformat(), rendered_groups, errors, manual_source, str(manual_ver))
         append_github_summary(f"## 审核预览入口\n\n下载本次 preparation artifact，打开 `agent_output/flight_prep/previews/{target.isoformat()}/copy.html`，可查看并一键复制中英文。PREVIEW 含未核实资料，不得作为正式运行资料；仅 RELEASE 是本次已验证正式稿。\n")
@@ -13496,6 +13496,7 @@ def main() -> int:
                 group["candidate_output"], group["candidate_english_output"] = group["output"], group["english_output"]
                 group["output"], group["english_output"] = "", ""
         success_metadata = {
+            "source_copy_status": "SOURCE_COPY_FAILED" if source_copy_errors(review_dir, all_rendered_groups) else "SOURCE_COPY_READY",
             "generation_inputs": current_generation_inputs,
             "status": result_status,
             "result_kind": "RELEASE",

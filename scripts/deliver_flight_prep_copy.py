@@ -5,6 +5,9 @@ from email.message import EmailMessage
 import hashlib
 import json
 import re
+import imaplib
+from email import policy
+from email.parser import BytesParser
 import os
 from pathlib import Path
 import smtplib
@@ -47,7 +50,50 @@ def validate_copy(folder):
     return meta
 
 
-def send(folder, day, *, smtp=smtplib.SMTP_SSL, formal_root=None, cancelled=False):
+def mail_copy_exists(day, delivery, *, imap_factory=imaplib.IMAP4_SSL):
+    """Read only our exact delivery message in the sender's authenticated archive.
+
+    None means availability could not be determined, never confirmed missing.
+    No OTP folder/message is fetched and no flags are changed.
+    """
+    digest=delivery.get('content_sha256','')
+    if not re.fullmatch('[0-9a-f]{64}',digest) or os.environ.get('FLIGHT_PREP_PRIVATE_MAIL_APPROVED')!='true':return None
+    sender,password=(os.environ.get(key,'') for key in ('GMAIL_SMTP_USER','GMAIL_SMTP_APP_PASSWORD'))
+    if not sender or not password:return None
+    client=None
+    try:
+        client=imap_factory('imap.gmail.com',993,ssl_context=ssl.create_default_context(),timeout=20)
+        client.login(sender,password)
+        status,folders=client.list()
+        if status!='OK':return None
+        sent=next((re.search(rb'\)\s+"[^"]*"\s+(.+)$',row).group(1).decode('ascii')
+                   for row in folders if row and b'\\Sent' in row),None)
+        if not sent or client.select(sent,readonly=True)[0]!='OK':return None
+        message_id=f"<crew-copy-{day}-{delivery.get('input_identity',digest)}@crew-calendar.invalid>"
+        status,rows=client.uid('search',None,'HEADER','Message-ID','"'+message_id+'"')
+        if status!='OK':return None
+        ids=rows[0].split() if rows and rows[0] else []
+        if not ids:return False
+        for uid in ids[-3:]:
+            status,rows=client.uid('fetch',uid,'(BODY.PEEK[])')
+            if status!='OK':return None
+            raw=next((row[1] for row in rows if isinstance(row,tuple)),b'')
+            if len(raw)>25*1024*1024:return None
+            message=BytesParser(policy=policy.default).parsebytes(raw)
+            if message.get('Message-ID')!=message_id:continue
+            for part in message.iter_attachments():
+                if part.get_filename()=='copy.html' and hashlib.sha256(part.get_payload(decode=True)).hexdigest()==digest:
+                    return True
+        return False
+    except Exception:
+        return None
+    finally:
+        if client:
+            try:client.logout()
+            except Exception:pass
+
+
+def send(folder, day, *, smtp=smtplib.SMTP_SSL, formal_root=None, cancelled=False, identity=None):
     if os.environ.get('FLIGHT_PREP_PRIVATE_MAIL_APPROVED') != 'true':
         raise ValueError('CONTROLLED_DELIVERY_NOT_AUTHORIZED')
     # Only the existing configured recipient, no CLI recipient overrides.
@@ -58,7 +104,7 @@ def send(folder, day, *, smtp=smtplib.SMTP_SSL, formal_root=None, cancelled=Fals
     msg = EmailMessage()
     msg['From'],msg['To'],msg['Subject'] = sender,recipient,f'航前原文复制稿 {day} — '+('已失效：当前无任务' if cancelled else '非正式运行批准')
     digest=hashlib.sha256(b'NO_TASK' if cancelled else (folder/'copy.html').read_bytes()).hexdigest()
-    msg['Message-ID']=f'<crew-copy-{day}-{digest}@crew-calendar.invalid>'
+    msg['Message-ID']=f'<crew-copy-{day}-{identity or digest}@crew-calendar.invalid>'
     msg.set_content('当前已无有效正式航班任务；此前该日期的航前复制稿已失效，请勿作为当前准备稿使用。' if cancelled else
         '原文按各语言独立提供，不代表正式运行批准。请在下方或附件查看完整正文；冲突审计见附件。\n\n'+
         '\n\n'.join(path.read_text(encoding='utf-8') for path in sorted(folder.glob('SOURCE_COPY_group_*_zh.txt'))))
@@ -81,6 +127,7 @@ def send(folder, day, *, smtp=smtplib.SMTP_SSL, formal_root=None, cancelled=Fals
         if refused:
             raise RuntimeError('CONTROLLED_DELIVERY_REJECTED')
     return {'status':'SMTP_ACCEPTED','content_sha256':digest,
+            'input_identity':identity or digest,
             'accepted_at':datetime.now(timezone.utc).isoformat(),
             'recipient_read_confirmed':False}
 
@@ -110,12 +157,14 @@ def safe_public_payload(state):
         if not re.fullmatch('[0-9a-f]{64}',digest):raise ValueError('UNSAFE_PUBLIC_STATE')
     if set(state['generation_inputs'])!={'sha256'}:raise ValueError('UNSAFE_PUBLIC_STATE')
     delivery=state['controlled_delivery']
-    if set(delivery)-{'status','content_sha256','accepted_at','recipient_read_confirmed'} or delivery['status'] not in {'SMTP_ACCEPTED','NOT_SENT','DELIVERY_UNCONFIRMED'}:
+    if set(delivery)-{'status','content_sha256','input_identity','accepted_at','recipient_read_confirmed','archive_verified'} or delivery['status'] not in {'SMTP_ACCEPTED','ARCHIVE_VERIFIED','NOT_SENT','DELIVERY_UNCONFIRMED'}:
         raise ValueError('UNSAFE_PUBLIC_STATE')
     if 'content_sha256' in delivery and not re.fullmatch('[0-9a-f]{64}',delivery['content_sha256']):raise ValueError('UNSAFE_PUBLIC_STATE')
+    if 'input_identity' in delivery and not re.fullmatch('[0-9a-f]{64}',delivery['input_identity']):raise ValueError('UNSAFE_PUBLIC_STATE')
     if 'accepted_at' in delivery:datetime.fromisoformat(delivery['accepted_at'])
     if 'recipient_read_confirmed' in delivery and type(delivery['recipient_read_confirmed']) is not bool:
         raise ValueError('UNSAFE_PUBLIC_STATE')
+    if 'archive_verified' in delivery and type(delivery['archive_verified']) is not bool:raise ValueError('UNSAFE_PUBLIC_STATE')
     attempt=state.get('generation_attempt',{})
     if set(attempt)-{'input_sha256','task_fingerprint','attempt_count','dispatched_at_beijing','state'}:
         raise ValueError('UNSAFE_PUBLIC_STATE')
@@ -140,7 +189,8 @@ def main():
     result=subprocess.run([sys.executable,'-B','crew_agents/flight_prep_agent.py','--repo','.',
         '--target-date',day,'--days-ahead',args.days_ahead],env=env,capture_output=True)
     path=root/'flight_preparation'/f'{day}_meta.json'
-    meta=json.loads(path.read_text(encoding='utf-8'))
+    try:meta=json.loads(path.read_text(encoding='utf-8'))
+    except (OSError,ValueError):meta={}
     current,_=task_fingerprint_from_events(parse_ics(root/'flight.ics'),date.fromisoformat(day))
     inputs=generation_inputs(root)
     if meta.get('target_date')!=day or meta.get('task_fingerprint')!=current or meta.get('generation_inputs')!=inputs:
@@ -148,17 +198,23 @@ def main():
         stale=True
     else:stale=False
     folder=root/'agent_output/flight_prep/previews'/day
+    identity=hashlib.sha256((day+current+inputs['sha256']).encode()).hexdigest()
     source_status='SOURCE_COPY_FAILED';delivery={'status':'NOT_SENT'}
     try:
         if stale:
             raise ValueError('STALE_GENERATION')
         if meta['status']=='NO_TASK':
-            delivery=send(folder,day,cancelled=True)
+            delivery=send(folder,day,cancelled=True,identity=identity)
         else:
             validate_copy(folder);source_status='SOURCE_COPY_READY'
-            delivery=send(folder,day,formal_root=root/'flight_preparation')
+            delivery=send(folder,day,formal_root=root/'flight_preparation',identity=identity)
+            delivery['archive_verified']=mail_copy_exists(day,delivery) is True
+            if delivery['archive_verified']:delivery['status']='ARCHIVE_VERIFIED'
     except Exception:
         delivery={'status':'DELIVERY_UNCONFIRMED'}  # no exception content/SMTP credentials
+        if source_status=='SOURCE_COPY_READY':
+            delivery['content_sha256']=hashlib.sha256((folder/'copy.html').read_bytes()).hexdigest()
+            delivery['input_identity']=identity
     state=public_state(meta,source_status,delivery)
     attempt=old.get('generation_attempt',{})
     same=(attempt.get('input_sha256')==state['generation_inputs']['sha256'] and
@@ -167,7 +223,7 @@ def main():
         'task_fingerprint':state['task_fingerprint'],'attempt_count':1,
         'dispatched_at_beijing':datetime.now(timezone.utc).isoformat(),'state':'DELIVERY_UNCONFIRMED'}
     state['generation_attempt'].setdefault('attempt_count',1)
-    state['generation_attempt']['state']='DELIVERED' if delivery['status']=='SMTP_ACCEPTED' else 'DELIVERY_UNCONFIRMED'
+    state['generation_attempt']['state']='DELIVERED' if delivery['status'] in {'SMTP_ACCEPTED','ARCHIVE_VERIFIED'} else 'DELIVERY_UNCONFIRMED'
     atomic_write_json(root/'agent_output/flight_prep/public_delivery_state.json',state)
     print('SOURCE_COPY_STATUS='+source_status)
     print('RELEASE_STATUS='+str(meta['status']))
