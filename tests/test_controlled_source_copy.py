@@ -8,6 +8,8 @@ from tests.test_flight_prep_schedule import _repo_with_event, _write_success_sta
 
 @pytest.mark.parametrize('text', ['机场标高：706ft。','跑道信息：06/24（3200m×45m）。','PAPI信息：3.0°。','机场坐标：N31 E121。',
     'PAPI信息：09：跑道左侧内移入口内 300米，3°，MEHT 20m。',
+    'PAPI信息：09：跑 道左 侧入口内 300 米，3°，MEHT 20m。',
+    'PAPI Information: RWY 09: 300 m inside runway threshold on leftside, glidepath angle 3 degrees, MEHT 20m.',
     'PAPI Information: 09: located on the leftside of therunway, 300 m inside the displaced threshold, 3 degrees, MEHT 20m.'])
 def test_only_static_catalogue_is_excluded(text):
     assert agent.static_airport_catalogue_only(text)

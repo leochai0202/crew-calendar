@@ -2778,12 +2778,14 @@ def standalone_airport_elevation(text: str) -> bool:
 def static_airport_catalogue_only(text: str) -> bool:
     """Exclude catalogue fields, never a limitation merely mentioning a field."""
     value = normalize_text(text)
+    value = re.sub(r'(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])','',value)
     if manual_basic_field(value)=='papi':
         # Equipment-location measurements are catalogue data, even where the
         # reference is a displaced threshold. Do not generalise that to a
         # runway displacement/landing-distance instruction elsewhere.
         value=re.sub(r'跑\s*道(?:左|右)侧(?:内移)?入口(?:向内|内)\s*\d+(?:\.\d+)?\s*(?:米|m)', '', value,flags=re.I)
         value=re.sub(r'located\s+on\s+the\s+(?:left|right)\s*side\s*of\s*the\s*runway\s*,\s*\d+(?:\.\d+)?\s*m\s+inside\s*the\s+displaced\s+threshold', '', value,flags=re.I)
+        value=re.sub(r'inside\s+(?:the\s+)?(?:displaced\s+)?runway\s+threshold\s+on\s+(?:the\s+)?(?:left|right)\s*side|glide\s*path\s+angle','',value,flags=re.I)
     if re.search(r"注意|风险|地形|障碍|限制|性能|坡度|不得|禁止|必须|应|需要|影响|偏差|警告|"
                  r"\b(?:risk|terrain|obstacle|limit|performance|gradient|must|shall|should|avoid|caution|warning|require|displaced|reduced|prohibited)\b", value, re.I):
         return False
