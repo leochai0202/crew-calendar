@@ -59,6 +59,7 @@ jobs:
       - name: Generate free rule-based flight preparation
         shell: bash
         env:
+          FLIGHT_PREP_PRIVATE_MAIL_APPROVED: ${{ vars.FLIGHT_PREP_PRIVATE_MAIL_APPROVED }}
           GMAIL_SMTP_USER: ${{ secrets.GMAIL_SMTP_USER }}
           GMAIL_SMTP_APP_PASSWORD: ${{ secrets.GMAIL_SMTP_APP_PASSWORD }}
           CREW_NOTIFY_EMAIL: ${{ secrets.CREW_NOTIFY_EMAIL }}

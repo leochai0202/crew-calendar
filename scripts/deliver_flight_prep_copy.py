@@ -48,6 +48,8 @@ def validate_copy(folder):
 
 
 def send(folder, day, *, smtp=smtplib.SMTP_SSL, formal_root=None, cancelled=False):
+    if os.environ.get('FLIGHT_PREP_PRIVATE_MAIL_APPROVED') != 'true':
+        raise ValueError('CONTROLLED_DELIVERY_NOT_AUTHORIZED')
     # Only the existing configured recipient, no CLI recipient overrides.
     sender, password, recipient = (os.environ.get(key, '') for key in
         ('GMAIL_SMTP_USER','GMAIL_SMTP_APP_PASSWORD','CREW_NOTIFY_EMAIL'))

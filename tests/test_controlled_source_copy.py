@@ -35,6 +35,7 @@ def test_delivered_copy_suppresses_regeneration_without_releasing_failed_group(t
     assert checker.evaluate_preparation(repo,TARGET).should_dispatch
 
 def test_mail_fails_closed_without_existing_recipient(monkeypatch,tmp_path):
+    monkeypatch.setenv('FLIGHT_PREP_PRIVATE_MAIL_APPROVED','true')
     monkeypatch.delenv('CREW_NOTIFY_EMAIL',raising=False)
     with pytest.raises(ValueError,match='UNCONFIGURED'):send(tmp_path,'2026-11-26')
 
@@ -48,6 +49,7 @@ def test_workflow_uploads_only_nonsensitive_state_and_does_not_generate_public_s
 
 
 def test_validated_mail_preserves_copy_bytes_and_requires_tls_and_fixed_recipient(tmp_path,monkeypatch):
+    monkeypatch.setenv('FLIGHT_PREP_PRIVATE_MAIL_APPROVED','true')
     from test_flight_prep_source_copy_status import ready_group
     from crew_agents.flight_prep_preview import write_preview
     from scripts.deliver_flight_prep_copy import validate_copy
