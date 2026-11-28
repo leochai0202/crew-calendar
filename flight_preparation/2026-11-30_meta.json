@@ -1,0 +1,10 @@
+{
+  "target_date": "2026-11-30",
+  "generation_attempt": {
+    "input_sha256": "2b2a1deedb14e9ebc0055ad01b19e29e1f1c5d09db739e2574cffa255a2fc596",
+    "task_fingerprint": "c8f6c30d03345de9ddfbc682fcfebd5f6bd63c4681813025529ec4c831ea8d27",
+    "dispatched_at_beijing": "2026-11-28T12:10:15.302227+08:00",
+    "attempt_count": 1,
+    "state": "AWAITING_PUBLICATION"
+  }
+}
