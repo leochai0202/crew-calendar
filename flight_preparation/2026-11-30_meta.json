@@ -1,10 +1,26 @@
 {
+  "schema": 2,
   "target_date": "2026-11-30",
+  "status": "SUCCESS",
+  "release_status": "SUCCESS",
+  "task_fingerprint": "c8f6c30d03345de9ddfbc682fcfebd5f6bd63c4681813025529ec4c831ea8d27",
+  "generation_inputs": {
+    "sha256": "2b2a1deedb14e9ebc0055ad01b19e29e1f1c5d09db739e2574cffa255a2fc596"
+  },
+  "source_copy_status": "SOURCE_COPY_READY",
+  "controlled_delivery": {
+    "status": "ARCHIVE_VERIFIED",
+    "content_sha256": "2b401c0227287a22d9e13eedba9469999e744644aa0133a37ff97fb62102c3e1",
+    "input_identity": "e9820854a4eaee7ecc7860ea64fdec4d929212dd99bdf15a85576c56695f02c5",
+    "accepted_at": "2026-11-28T04:12:05.586808+00:00",
+    "recipient_read_confirmed": false,
+    "archive_verified": true
+  },
   "generation_attempt": {
     "input_sha256": "2b2a1deedb14e9ebc0055ad01b19e29e1f1c5d09db739e2574cffa255a2fc596",
     "task_fingerprint": "c8f6c30d03345de9ddfbc682fcfebd5f6bd63c4681813025529ec4c831ea8d27",
-    "dispatched_at_beijing": "2026-11-28T12:10:15.302227+08:00",
     "attempt_count": 1,
-    "state": "AWAITING_PUBLICATION"
+    "dispatched_at_beijing": "2026-11-28T04:12:09.557404+00:00",
+    "state": "DELIVERED"
   }
 }
